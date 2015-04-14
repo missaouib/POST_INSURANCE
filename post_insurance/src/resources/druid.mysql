@@ -1,0 +1,12 @@
+druid.alias=spring-druid
+druid.driver-class=com.mysql.jdbc.Driver
+druid.user=pico
+druid.password=PLfey6nkI9mW9R+9YjvSdsJMGaiXUMUi1pkl+WXAW2BMZ9Ypyoz4vG8FrrjnMe39Z5LtPzgX2F3BCzuuqUqC5Q==
+druid.minEvictableIdleTimeMillis=300000
+druid.maxWait=60000
+druid.timeBetweenEvictionRunsMillis=60000
+druid.maxActive=100
+druid.minIdle=20
+druid.initialSize=20
+druid.testWhileIdle=true
+druid.validationQuery=select 1

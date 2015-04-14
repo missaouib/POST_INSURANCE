@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="clean" basedir=".">
+	<!--主要的系统环境属性-->
+	<property environment="env" />
+	<!--取window,unix...的环境变量-->
+	<property name="java.home" value="${env.JAVA_HOME}" />
+	<property name="ant.home" value="${env.ANT_HOME}" />
+	<!--主要的app环境属性-->
+	<!--app用到的lib-->
+	<property name="lib.dir" value="WebRoot/WEB-INF/lib" />
+
+	<path id="classpath">
+		<fileset dir="${java.home}/lib" />
+		<fileset dir="${servlet.path}">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="${lib.dir}">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+	<echo message="请先修改generatePwd。bat文件中要加密的密码!" />
+	<target name="clean" description="请先修改generatePwd。bat文件中要加密的密码">
+		<exec executable="generatePwd.bat" />
+	</target>	
+</project>
