@@ -1,7 +1,7 @@
 /*==============================================================*/
 /* Database name:  picodb                                       */
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2015/4/23 星期四 下午 22:07:00                    */
+/* Created on:     2015/4/26 星期日 下午 23:11:59                    */
 /*==============================================================*/
 
 
@@ -33,7 +33,8 @@ create table t_prd
    prd_perm             int,
    duration             int,
    primary key (id)
-);
+)
+engine=innodb auto_increment=1 default charset=utf8;
 
 /*==============================================================*/
 /* Table: t_conservation_error                                  */
@@ -44,7 +45,8 @@ create table t_conservation_error
    error_code           varchar(8),
    error_desc           varchar(256),
    primary key (id)
-);
+)
+engine=innodb auto_increment=1 default charset=utf8;
 
 /*==============================================================*/
 /* Table: t_area                                                */
@@ -77,7 +79,7 @@ engine=innodb auto_increment=1 default charset=utf8;
 /*==============================================================*/
 create table t_policy
 (
-   id                   bigint not null,
+   id                   bigint not null auto_increment,
    org_id               bigint(20),
    city_name            varchar(12),
    area_name            varchar(12),
@@ -85,35 +87,36 @@ create table t_policy
    prod_name            varchar(128),
    bank_id              bigint,
    bank_name            varchar(128),
-   sales_name           varchar(32),
-   sales_id             varchar(18),
+   sales_name           varchar(256),
+   sales_id             varchar(256),
    status               int,
    perm                 int,
    policy_fee           double,
    copies               int,
    insured_amount       double,
-   holder               varchar(32),
-   holder_addr          varchar(256),
-   holder_phone         varchar(20),
-   holder_mobile        varchar(20),
+   holder               varchar(256),
+   holder_addr          varchar(512),
+   holder_phone         varchar(256),
+   holder_mobile        varchar(256),
    holder_card_type     int,
-   holder_card_num      varchar(32),
+   holder_card_num      varchar(256),
    relation             int comment '0-本人
             1-配偶
             2-父母
             3-子女
             4-其他',
-   insured              varchar(32),
+   insured              varchar(256),
    insured_card_type    int,
-   insured_card_num     varchar(32),
-   insured_mobile       varchar(20),
-   insured_phone        varchar(20),
-   insured_addr         varchar(256),
+   insured_card_num     varchar(256),
+   insured_mobile       varchar(256),
+   insured_phone        varchar(256),
+   insured_addr         varchar(512),
    policy_date          date,
    renewal_sucess_flag  int,
    reset_valid_flag     int,
    primary key (id)
-);
+)
+engine=innodb auto_increment=1 default charset=utf8;
 
 /*==============================================================*/
 /* Table: t_province                                            */
@@ -132,7 +135,7 @@ engine=innodb auto_increment=1 default charset=utf8;
 /*==============================================================*/
 create table t_renewal_dtl
 (
-   id                   bigint not null,
+   id                   bigint not null auto_increment,
    type_id              bigint comment '0：电话
             1：现场',
    policy_id            bigint,
@@ -143,7 +146,8 @@ create table t_renewal_dtl
    renewal_man          varchar(32),
    is_success           boolean,
    primary key (id)
-);
+)
+engine=innodb auto_increment=1 default charset=utf8;
 
 /*==============================================================*/
 /* Table: t_renewal_type                                        */
@@ -154,7 +158,8 @@ create table t_renewal_type
    type_name            varchar(32),
    type_desc            varchar(255),
    primary key (id)
-);
+)
+engine=innodb auto_increment=1 default charset=utf8;
 
 /*==============================================================*/
 /* Table: t_bank_code                                           */
@@ -167,7 +172,8 @@ create table t_bank_code
    name                 varchar(60),
    status               int default 1 comment '状态',
    primary key (id)
-);
+)
+engine=innodb auto_increment=1 default charset=utf8;
 
 /*==============================================================*/
 /* Table: t_call_deal_type                                      */
@@ -178,14 +184,15 @@ create table t_call_deal_type
    type_name            varchar(32),
    type_desc            varchar(255),
    primary key (id)
-);
+)
+engine=innodb auto_increment=1 default charset=utf8;
 
 /*==============================================================*/
 /* Table: t_call_fail                                           */
 /*==============================================================*/
 create table t_call_fail
 (
-   id                   bigint not null,
+   id                   bigint not null auto_increment,
    policy_id            bigint,
    fail_type_id         bigint,
    status               int,
@@ -196,14 +203,15 @@ create table t_call_fail
    success_date         date,
    letter_flag          int,
    primary key (id)
-);
+)
+engine=innodb auto_increment=1 default charset=utf8;
 
 /*==============================================================*/
 /* Table: t_call_feedback                                       */
 /*==============================================================*/
 create table t_call_feedback
 (
-   id                   bigint not null,
+   id                   bigint not null auto_increment,
    call_fail_id         bigint,
    feedback             varchar(255),
    type                 int,
@@ -212,7 +220,8 @@ create table t_call_feedback
    feedback_time        datetime,
    is_success           boolean,
    primary key (id)
-);
+)
+engine=innodb auto_increment=1 default charset=utf8;
 
 /*==============================================================*/
 /* Table: t_category_org                                        */
@@ -231,7 +240,7 @@ create table t_category_org
 /*==============================================================*/
 create table t_check_record_dtl
 (
-   id                   bigint not null,
+   id                   bigint not null auto_increment,
    checker              varchar(32),
    check_date           date,
    need_fix             boolean,
@@ -294,14 +303,15 @@ create table t_check_record_dtl
    bank_else_info       boolean,
    auto_bank_account_transfer boolean,
    primary key (id)
-);
+)
+engine=innodb auto_increment=1 default charset=utf8;
 
 /*==============================================================*/
 /* Table: t_check_write_dtl                                     */
 /*==============================================================*/
 create table t_check_write_dtl
 (
-   id                   bigint not null,
+   id                   bigint not null auto_increment,
    checker              varchar(32),
    check_date           date,
    need_fix             boolean,
@@ -364,7 +374,8 @@ create table t_check_write_dtl
    bank_else_info       boolean,
    auto_bank_account_transfer boolean,
    primary key (id)
-);
+)
+engine=innodb auto_increment=1 default charset=utf8;
 
 /*==============================================================*/
 /* Table: t_component_resource                                  */
@@ -403,14 +414,15 @@ create table t_conservation_dtl
    cancel_date          datetime,
    remark               varchar(256),
    primary key (id)
-);
+)
+engine=innodb auto_increment=1 default charset=utf8;
 
 /*==============================================================*/
 /* Table: t_convicted_info                                      */
 /*==============================================================*/
 create table t_convicted_info
 (
-   id                   bigint not null,
+   id                   bigint not null auto_increment,
    call_fail_id         bigint,
    type                 int,
    convicted_info       varchar(255),
@@ -418,7 +430,8 @@ create table t_convicted_info
    is_signed            boolean,
    sign_date            date,
    primary key (id)
-);
+)
+engine=innodb auto_increment=1 default charset=utf8;
 
 /*==============================================================*/
 /* Table: t_data_control                                        */
@@ -439,7 +452,7 @@ engine=innodb auto_increment=2 default charset=utf8;
 /*==============================================================*/
 create table t_issue
 (
-   id                   bigint not null,
+   id                   bigint not null auto_increment,
    type_id              bigint,
    policy_id            bigint,
    issue_time           date,
@@ -449,7 +462,8 @@ create table t_issue
    deal_time            date,
    reopen_reason        varchar(256),
    primary key (id)
-);
+)
+engine=innodb auto_increment=1 default charset=utf8;
 
 /*==============================================================*/
 /* Table: t_issue_type                                          */
@@ -460,7 +474,8 @@ create table t_issue_type
    type_name            varchar(32),
    type_desc            varchar(255) comment '处理描述',
    primary key (id)
-);
+)
+engine=innodb auto_increment=1 default charset=utf8;
 
 /*==============================================================*/
 /* Table: t_log_info                                            */
@@ -549,12 +564,13 @@ engine=innodb auto_increment=66 default charset=utf8;
 /*==============================================================*/
 create table t_renewal_fee_dtl
 (
-   id                   bigint not null,
+   id                   bigint not null auto_increment,
    policy_id            bigint,
    fee_dtl              varchar(64),
    fee_date             date,
    primary key (id)
-);
+)
+engine=innodb auto_increment=1 default charset=utf8;
 
 /*==============================================================*/
 /* Table: t_role                                                */
