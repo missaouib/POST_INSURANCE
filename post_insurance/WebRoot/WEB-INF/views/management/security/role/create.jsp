@@ -1,5 +1,5 @@
-<%@page import="com.sendtend.web.entity.main.Permission"%>
-<%@page import="com.sendtend.web.entity.main.Module"%>
+<%@page import="com.gdpost.web.entity.main.Permission"%>
+<%@page import="com.gdpost.web.entity.main.Module"%>
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>

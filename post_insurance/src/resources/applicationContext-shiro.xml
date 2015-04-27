@@ -14,7 +14,7 @@
 	</bean>
 
 	<!-- 項目自定义的Realm -->
-	<bean id="shiroDbRealm" class="com.sendtend.web.shiro.ShiroDbRealm" depends-on="userDAO, userRoleDAO, organizationRoleDAO, roleDAO, MUserDAO, MUserRoleDAO, MRoleDAO">
+	<bean id="shiroDbRealm" class="com.gdpost.web.shiro.ShiroDbRealm" depends-on="userDAO, userRoleDAO, organizationRoleDAO, roleDAO, MUserDAO, MUserRoleDAO, MRoleDAO">
 		<property name="userService" ref="userServiceImpl"/>
 		<property name="userRoleService" ref="userRoleServiceImpl"/>
 		<property name="roleService" ref="roleServiceImpl"/>
@@ -66,12 +66,12 @@
 		<property name="cacheManagerConfigFile" value="classpath:ehcache/ehcache-shiro.xml"/>
 	</bean>
 	
-	<bean id="captchaFormAuthenticationFilter" class="com.sendtend.web.shiro.CaptchaFormAuthenticationFilter">
+	<bean id="captchaFormAuthenticationFilter" class="com.gdpost.web.shiro.CaptchaFormAuthenticationFilter">
 		<property name="defaultSuccessUrl" value="${shiro.default.success.url}"/>
         <property name="adminDefaultSuccessUrl" value="${shiro.admin.default.success.url}"/>
         <property name="webDefaultSuccessUrl" value="${shiro.web.default.success.url}"/>
 	</bean>
-	<bean id="dWZUserFilter" class="com.sendtend.web.shiro.DWZUserFilter"/>
+	<bean id="dWZUserFilter" class="com.gdpost.web.shiro.DWZUserFilter"/>
 	
 	<!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
 	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>

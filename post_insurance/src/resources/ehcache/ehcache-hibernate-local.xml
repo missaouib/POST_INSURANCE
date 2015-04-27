@@ -15,211 +15,211 @@
 		memoryStoreEvictionPolicy="LFU"/>
 		
 	<!-- security entity-->
-	<cache name="com.sendtend.web.entity.main.User" 
+	<cache name="com.gdpost.web.entity.main.User" 
 		maxEntriesLocalHeap="1000" 
 		eternal="false" 
 		overflowToDisk="true" 
 		maxEntriesLocalDisk="10000" />	
 	<cache 
-		name="com.sendtend.web.entity.main.UserRole"
+		name="com.gdpost.web.entity.main.UserRole"
 		maxEntriesLocalHeap="1000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="10000" />		
 	<cache 
-		name="com.sendtend.web.entity.main.RolePermission"
+		name="com.gdpost.web.entity.main.RolePermission"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="1000000" />
 	<cache 
-		name="com.sendtend.web.entity.main.Role"
+		name="com.gdpost.web.entity.main.Role"
 		maxEntriesLocalHeap="1000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="10000" />
 	<cache 
-		name="com.sendtend.web.entity.main.Permission"
+		name="com.gdpost.web.entity.main.Permission"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.sendtend.web.entity.main.OrganizationRole"
+		name="com.gdpost.web.entity.main.OrganizationRole"
 		maxEntriesLocalHeap="1000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="10000" />
 	<cache 
-		name="com.sendtend.web.entity.main.Organization"
+		name="com.gdpost.web.entity.main.Organization"
 		maxEntriesLocalHeap="1000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="10000" />	
 	<cache 
-		name="com.sendtend.web.entity.main.Module"
+		name="com.gdpost.web.entity.main.Module"
 		maxEntriesLocalHeap="1000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="10000" />
 	<cache 
-		name="com.sendtend.web.entity.main.DataControl"
+		name="com.gdpost.web.entity.main.DataControl"
 		maxEntriesLocalHeap="1000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="10000" />	
 	<cache 
-		name="com.sendtend.web.entity.main.RolePermissionDataControl"
+		name="com.gdpost.web.entity.main.RolePermissionDataControl"
 		maxEntriesLocalHeap="1000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="10000" />	
 	<cache 
-		name="com.sendtend.web.entity.main.Dictionary"
+		name="com.gdpost.web.entity.main.Dictionary"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.sendtend.web.entity.member.Province"
+		name="com.gdpost.web.entity.member.Province"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.sendtend.web.entity.member.Area"
+		name="com.gdpost.web.entity.member.Area"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.sendtend.web.entity.member.City"
+		name="com.gdpost.web.entity.member.City"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.sendtend.web.entity.member.TblCategoryOrg"
+		name="com.gdpost.web.entity.member.TblCategoryOrg"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.sendtend.web.entity.member.TblMember"
+		name="com.gdpost.web.entity.member.TblMember"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.sendtend.web.entity.member.TblMemberCategory"
+		name="com.gdpost.web.entity.member.TblMemberCategory"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.sendtend.web.entity.member.TblMemberData"
+		name="com.gdpost.web.entity.member.TblMemberData"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.sendtend.web.entity.member.TblMemberDataControl"
+		name="com.gdpost.web.entity.member.TblMemberDataControl"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.sendtend.web.entity.member.TblMemberDataStatus"
+		name="com.gdpost.web.entity.member.TblMemberDataStatus"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.sendtend.web.entity.member.TblMemberDataTemplate"
+		name="com.gdpost.web.entity.member.TblMemberDataTemplate"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.sendtend.web.entity.member.TblMemberDataTemplateField"
+		name="com.gdpost.web.entity.member.TblMemberDataTemplateField"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.sendtend.web.entity.member.TblMemberDataTemplateFieldRule"
+		name="com.gdpost.web.entity.member.TblMemberDataTemplateFieldRule"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.sendtend.web.entity.member.TblMemberMessage"
+		name="com.gdpost.web.entity.member.TblMemberMessage"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.sendtend.web.entity.member.TblMemberMessageAssign"
+		name="com.gdpost.web.entity.member.TblMemberMessageAssign"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.sendtend.web.entity.member.TblMemberMessageCategory"
+		name="com.gdpost.web.entity.member.TblMemberMessageCategory"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.sendtend.web.entity.member.TblMemberModule"
+		name="com.gdpost.web.entity.member.TblMemberModule"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.sendtend.web.entity.member.TblMemberPermission"
+		name="com.gdpost.web.entity.member.TblMemberPermission"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.sendtend.web.entity.member.TblMemberResource"
+		name="com.gdpost.web.entity.member.TblMemberResource"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.sendtend.web.entity.member.TblMemberRole"
+		name="com.gdpost.web.entity.member.TblMemberRole"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.sendtend.web.entity.member.TblMemberRolePermission"
+		name="com.gdpost.web.entity.member.TblMemberRolePermission"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.sendtend.web.entity.member.TblMemberRolePermissionDataControl"
+		name="com.gdpost.web.entity.member.TblMemberRolePermissionDataControl"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.sendtend.web.entity.member.TblMemberShop"
+		name="com.gdpost.web.entity.member.TblMemberShop"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.sendtend.web.entity.member.TblMemberUser"
+		name="com.gdpost.web.entity.member.TblMemberUser"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.sendtend.web.entity.member.TblMemberUserRole"
+		name="com.gdpost.web.entity.member.TblMemberUserRole"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"

@@ -15,12 +15,12 @@
 	</context:component-scan>
 	
 	<!-- 系统日志跟踪功能 -->
-	<bean id="log4JDBCImpl" class="com.sendtend.web.log.impl.Log4JDBCImpl" >
+	<bean id="log4JDBCImpl" class="com.gdpost.web.log.impl.Log4JDBCImpl" >
 		<property name="logInfoService" ref="logInfoServiceImpl"/>
 		<property name="rootLogLevel" value="ERROR"/>
 		<property name="customLogLevel">
            <map>
-              <entry key="com.sendtend.web" value="TRACE" />
+              <entry key="com.gdpost.web" value="TRACE" />
               <entry key="com.sendtend" value="TRACE" />
            </map>
        </property>
@@ -40,14 +40,14 @@
 			<mvc:mapping path="/login/timeout/success"/>
 			<mvc:mapping path="/members/**" />
 			<mvc:mapping path="/uploaddatamanage/**" />			
-			<bean class="com.sendtend.web.log.spring.LogInterceptor" >
+			<bean class="com.com.gdpost.web.log.springInterceptor" >
 				<property name="logAPI" ref="log4JDBCImpl"/>
 			</bean>
 		</mvc:interceptor>
 		<!-- 数据权限验证 -->
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
-			<bean class="com.sendtend.web.spring.DataControlInterceptor" />
+			<bean class="com.secom.gdpost.web.springontrolInterceptor" />
 		</mvc:interceptor>	
 	</mvc:interceptors>
 	

@@ -1,4 +1,4 @@
-<%@ page import="com.sendtend.web.entity.member.TblMember"%>
+<%@ page import="com.gdpost.web.entity.member.TblMember"%>
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 <%!

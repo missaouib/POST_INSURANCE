@@ -1,25 +1,4 @@
 /*==============================================================*/
-/* Database name:  picodb                                       */
-/* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2015/4/26 ÐÇÆÚÈÕ ÏÂÎç 23:11:59                    */
-/*==============================================================*/
-
-
-drop database if exists picodb;
-
-/*==============================================================*/
-/* Database: picodb                                             */
-/*==============================================================*/
-create database picodb;
-
-use picodb;
-
-/*==============================================================*/
-/* User: pico@                                                  */
-/*==============================================================*/
-create user pico@;
-
-/*==============================================================*/
 /* Table: t_prd                                                 */
 /*==============================================================*/
 create table t_prd
@@ -91,9 +70,9 @@ create table t_policy
    sales_id             varchar(256),
    status               int,
    perm                 int,
-   policy_fee           double,
-   copies               int,
-   insured_amount       double,
+   policy_fee           varchar(256),
+   copies               varchar(256),
+   insured_amount       varchar(256),
    holder               varchar(256),
    holder_addr          varchar(512),
    holder_phone         varchar(256),

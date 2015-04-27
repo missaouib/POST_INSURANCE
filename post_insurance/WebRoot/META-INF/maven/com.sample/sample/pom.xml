@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.sendtend</groupId>
+		<groupId>com.gdpost</groupId>
 		<artifactId>pico</artifactId>
 		<version>3.2</version>
 	</parent>
@@ -13,7 +13,7 @@
 	<!-- 依赖项定义 -->
 	<dependencies>
 		<dependency>
-			<groupId>com.sendtend</groupId>
+			<groupId>com.gdpost</groupId>
 			<artifactId>pico-generate</artifactId>
 			<scope>test</scope>
 			<version>3.2</version>
@@ -21,20 +21,20 @@
 		</dependency>
 	
 		<dependency>
-			<groupId>com.sendtend</groupId>
+			<groupId>com.gdpost</groupId>
 			<artifactId>pico-resources</artifactId>
 			<version>3.2</version>
 			<type>war</type>
 		</dependency>
 
 		<dependency>
-			<groupId>com.sendtend</groupId>
+			<groupId>com.gdpost</groupId>
 			<artifactId>pico-main</artifactId>
 			<version>3.2</version>
 		</dependency>
 		
 		<dependency>
-			<groupId>com.sendtend</groupId>
+			<groupId>com.gdpost</groupId>
 			<artifactId>pico-component</artifactId>
 			<version>3.2</version>
 			<type>war</type>

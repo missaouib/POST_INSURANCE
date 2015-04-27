@@ -84,7 +84,7 @@
 	<!-- 验证码 -->
 	<servlet>
 		<servlet-name>Captcha</servlet-name>
-		<servlet-class>com.sendtend.web.shiro.PatchcaServlet</servlet-class>		
+		<servlet-class>com.gdpost.web.shiro.PatchcaServlet</servlet-class>		
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Captcha</servlet-name>

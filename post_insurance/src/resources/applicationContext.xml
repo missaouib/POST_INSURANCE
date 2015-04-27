@@ -16,19 +16,19 @@
 	<context:property-placeholder location="classpath:/jdbc.properties,classpath:/shiro.properties,classpath:/druid.mysql" />
 
 	<!-- 使用annotation 自动注册bean, 并保证@Required、@Autowired的属性被注入 -->
-	<context:component-scan base-package="com.sendtend">
+	<context:component-scan base-package="com.gdpost">
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 		<context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
 	</context:component-scan>
 	
 	<!-- Spring Data Jpa配置 , 扫描base-package下所有继承于Repository<T,ID>的接口-->
- 	<jpa:repositories base-package="com.sendtend"  transaction-manager-ref="transactionManager" entity-manager-factory-ref="entityManagerFactory"/>
+ 	<jpa:repositories base-package="com.gdpost"  transaction-manager-ref="transactionManager" entity-manager-factory-ref="entityManagerFactory"/>
 
 	<!-- Jpa Entity Manager 配置 -->
 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" depends-on="dataSource"> 
 		<property name="dataSource" ref="dataSource"/>
 		<property name="jpaVendorAdapter" ref="hibernateJpaVendorAdapter"/>
-		<property name="packagesToScan" value="com.sendtend"/>
+		<property name="packagesToScan" value="com.gdpost"/>
 		<property name="jpaProperties">
 			<props>
 				<prop key="hibernate.current_session_context_class">thread</prop>
