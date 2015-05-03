@@ -22,7 +22,7 @@ public class CategoryOrgServiceImpl implements CategoryOrgService {
 	
 	//private static final Logger LOG = LoggerFactory.getLogger(MemberServiceImpl.class);
 	
-	@Autowired
+	@Autowired(required=false)
 	private CategoryOrgDAO categoryOrgDAO;
 	
 	@Override

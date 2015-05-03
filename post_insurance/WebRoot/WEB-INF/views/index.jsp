@@ -68,9 +68,9 @@ $(document).ready(function () {
 	<div class="daon">
 		<ul>
         	<li class="daob"><a href="#">首页</a><span class="daobian"></span></li>
-        	<li><a href="/uploaddatamanage/uploaddata/index">数据服务</a><span class="daobian"></span></li>
-            <li><a href="/uploaddatamanage/document/index">行业报告</a><span class="daobian"></span></li>
-        	<li><a href="#">新闻动态</a><span class="daobian"></span></li>
+        	<li><a href="/uploaddatamanage/uploaddata/index">代办任务</a><span class="daobian"></span></li>
+            <li><a href="/uploaddatamanage/document/index">上线产品</a><span class="daobian"></span></li>
+        	<li><a href="#">常见问题</a><span class="daobian"></span></li>
             <shiro:guest>
             <li><a href="/web/tologin">登录</a><span class="daobian"></span></li>
             </shiro:guest>
