@@ -11,7 +11,7 @@
     <tag>
 		<description>带分页信息的隐藏form</description>
         <name>paginationForm</name>
-		<tag-class>com.sendtend.web.tag.dwz.PaginationFormTag</tag-class>
+		<tag-class>com.gdpost.web.tag.dwz.PaginationFormTag</tag-class>
 		<body-content>scriptless</body-content>
  		<attribute>
 			<name>page</name>
@@ -32,7 +32,7 @@
     <tag>
 		<description>分页标签</description>
         <name>pagination</name>
-		<tag-class>com.sendtend.web.tag.dwz.PaginationTag</tag-class>
+		<tag-class>com.gdpost.web.tag.dwz.PaginationTag</tag-class>
 		<body-content>empty</body-content>
 		<attribute>
 			<name>page</name>
@@ -72,7 +72,7 @@
     <tag>
 		<description>menuAccordion左侧菜单</description>
         <name>menuAccordion</name>
-		<tag-class>com.sendtend.web.tag.dwz.MenuAccordionTag</tag-class>
+		<tag-class>com.gdpost.web.tag.dwz.MenuAccordionTag</tag-class>
 		<body-content>empty</body-content>
  		<attribute>
 			<name>child</name>
@@ -99,7 +99,7 @@
     <tag>
 		<description>数据字典标签</description>
         <name>dic</name>
-		<tag-class>com.sendtend.web.tag.dwz.DictionaryTag</tag-class>
+		<tag-class>com.gdpost.web.tag.dwz.DictionaryTag</tag-class>
 		<body-content>scriptless</body-content>
  		<attribute>
 			<name>themeName</name>

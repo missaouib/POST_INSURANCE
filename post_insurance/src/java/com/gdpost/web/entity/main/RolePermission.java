@@ -41,7 +41,7 @@ import com.gdpost.web.entity.Idable;
  * @since   2013-4-16 下午1:47:51 
  */
 @Entity
-@Table(name="tbl_role_permission")
+@Table(name="t_role_permission")
 @Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="com.gdpost.web.entity.main.RolePermission")
 public class RolePermission implements Idable<Long> {
 	@Id

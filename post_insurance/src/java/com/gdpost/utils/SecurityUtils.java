@@ -5,7 +5,6 @@ package com.gdpost.utils;
 
 import org.apache.shiro.subject.Subject;
 
-import com.gdpost.web.entity.member.TblMemberUser;
 import com.gdpost.web.shiro.ShiroUser;
 
 /**
@@ -16,14 +15,15 @@ public abstract class SecurityUtils {
 	public static Object getLoginUser() {
 		if(getShiroUser().getUserType().equals("admin")) {
 			return getShiroUser().getUser();
-		} else {
-			return getShiroUser().getMemberUser();
-		}
+		} //else {
+			//return getShiroUser().getMemberUser();
+		//}
+		return null;
 	}
 	
-	public static TblMemberUser getLoginTblMemberUser() {
-		return getShiroUser().getMemberUser();
-	}
+//	public static TblMemberUser getLoginTblMemberUser() {
+//		return getShiroUser().getMemberUser();
+//	}
 	
 	public static ShiroUser getShiroUser() {
 		Subject subject = getSubject();

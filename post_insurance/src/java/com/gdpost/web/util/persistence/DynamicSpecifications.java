@@ -25,10 +25,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.gdpost.utils.Exceptions;
-import com.gdpost.utils.SecurityUtils;
 import com.gdpost.utils.ServletUtils;
 import com.gdpost.web.SecurityConstants;
-import com.gdpost.web.entity.member.TblMemberDataControl;
 
 public class DynamicSpecifications {
 	private static final Logger logger = LoggerFactory.getLogger(DynamicSpecifications.class);
@@ -65,25 +63,25 @@ public class DynamicSpecifications {
 		 * =======================
 		 */
 		Collection<SearchFilter> idfilters = new HashSet<SearchFilter>();
-		String[] dc = null;
+		//String[] dc = null;
 		/*
 		 * =======================
 		 * 从登录用户中获取到授权的数据权限
 		 * =======================
 		 */
-		Map<String, TblMemberDataControl> mdcs = SecurityUtils.getShiroUser().getHasTblMemberDataControls();
+//		Map<String, TblMemberDataControl> mdcs = SecurityUtils.getShiroUser().getHasTblMemberDataControls();
 		/*
 		 * ======================================
 		 * 实际上只有连锁用户（会员）才需要这个数据权限的过滤
 		 * ======================================
 		 */
-		if(SecurityUtils.getLoginTblMemberUser() != null) {
-			if(mdcs != null && !mdcs.isEmpty()) {
-				Collection<TblMemberDataControl> set = mdcs.values();
-				String fv = null;
-				SearchFilter sf = null;
-				for(TblMemberDataControl tmdc:set) {
-					fv = tmdc.getControl();
+//		if(SecurityUtils.getLoginTblMemberUser() != null) {
+//			if(mdcs != null && !mdcs.isEmpty()) {
+//				Collection<TblMemberDataControl> set = mdcs.values();
+//				String fv = null;
+//				SearchFilter sf = null;
+//				for(TblMemberDataControl tmdc:set) {
+//					fv = tmdc.getControl();
 					/*
 					 * ============================================================
 					 * Member:id:EQ:1,2,3 —— 共四个参数必须配置，看以下注释
@@ -93,32 +91,32 @@ public class DynamicSpecifications {
 					 * 参数4：值列表，可以为多个，以英文逗号分隔
 					 * =============================================================
 					 */
-					dc = fv.split(":");
+//					dc = fv.split(":");
 					/*
 					 * ==============================================
 					 * 配置的Member必须和下面这一行的member判断是否一致
 					 * ==============================================
 					 */
-					if(dc[0] != null && dc[0].equalsIgnoreCase("Member")) {
+//					if(dc[0] != null && dc[0].equalsIgnoreCase("Member")) {
 						/*
 						 * ==========================================
 						 * 如果含有都好，一边拿情况下应该是in的操作
 						 * ==========================================
 						 */
-						if(dc[1].equalsIgnoreCase("id")) {
-							if(dc[3].indexOf(",") != -1) { //一般情况下有“,”，应为in的操作
-								sf = SearchFilter.getSearchFilter(dc[1], dc[2], dc[3].split(","));
-							} else {
-								sf = SearchFilter.getSearchFilter(dc[1], dc[2], dc[3]);
-							}
-							if(sf != null) {
-								idfilters.add(sf);
-							}
-						}
-					}
-				}
-			}
-		}
+//						if(dc[1].equalsIgnoreCase("id")) {
+//							if(dc[3].indexOf(",") != -1) { //一般情况下有“,”，应为in的操作
+//								sf = SearchFilter.getSearchFilter(dc[1], dc[2], dc[3].split(","));
+//							} else {
+//								sf = SearchFilter.getSearchFilter(dc[1], dc[2], dc[3]);
+//							}
+//							if(sf != null) {
+//								idfilters.add(sf);
+//							}
+//						}
+//					}
+//				}
+//			}
+//		}
 		/*
 		 * =====================================
 		 * 如果数据权限过滤不为空，则最终以数据权限作为过滤条件
@@ -143,25 +141,25 @@ public class DynamicSpecifications {
 		 * =======================
 		 */
 		Collection<SearchFilter> idfilters = new HashSet<SearchFilter>();
-		String[] dc = null;
+		//String[] dc = null;
 		/*
 		 * =======================
 		 * 从登录用户中获取到授权的数据权限
 		 * =======================
 		 */
-		Map<String, TblMemberDataControl> mdcs = SecurityUtils.getShiroUser().getHasTblMemberDataControls();
+//		Map<String, TblMemberDataControl> mdcs = SecurityUtils.getShiroUser().getHasTblMemberDataControls();
 		/*
 		 * ======================================
 		 * 实际上只有连锁用户（会员）才需要这个数据权限的过滤
 		 * ======================================
 		 */
-		if(SecurityUtils.getLoginTblMemberUser() != null) {
-			if(mdcs != null && !mdcs.isEmpty()) {
-				Collection<TblMemberDataControl> set = mdcs.values();
-				String fv = null;
-				SearchFilter sf = null;
-				for(TblMemberDataControl tmdc:set) {
-					fv = tmdc.getControl();
+//		if(SecurityUtils.getLoginTblMemberUser() != null) {
+//			if(mdcs != null && !mdcs.isEmpty()) {
+//				Collection<TblMemberDataControl> set = mdcs.values();
+//				String fv = null;
+//				SearchFilter sf = null;
+//				for(TblMemberDataControl tmdc:set) {
+//					fv = tmdc.getControl();
 					/*
 					 * ============================================================
 					 * Member:id:EQ:1,2,3 —— 共四个参数必须配置，看以下注释
@@ -171,32 +169,32 @@ public class DynamicSpecifications {
 					 * 参数4：值列表，可以为多个，以英文逗号分隔
 					 * =============================================================
 					 */
-					dc = fv.split(":");
+//					dc = fv.split(":");
 					/*
 					 * ==============================================
 					 * 配置的Member必须和下面这一行的member判断是否一致
 					 * ==============================================
 					 */
-					if(dc[0] != null && dc[0].equalsIgnoreCase("Member")) {
+//					if(dc[0] != null && dc[0].equalsIgnoreCase("Member")) {
 						/*
 						 * ==========================================
 						 * 如果含有都好，一边拿情况下应该是in的操作
 						 * ==========================================
 						 */
-						if(dc[1].equalsIgnoreCase("id")) {
-							if(dc[3].indexOf(",") != -1) { //一般情况下有“,”，应为in的操作
-								sf = SearchFilter.getSearchFilter(dc[1], dc[2], dc[3].split(","));
-							} else {
-								sf = SearchFilter.getSearchFilter(dc[1], dc[2], dc[3]);
-							}
-							if(sf != null) {
-								idfilters.add(sf);
-							}
-						}
-					}
-				}
-			}
-		}
+//						if(dc[1].equalsIgnoreCase("id")) {
+//							if(dc[3].indexOf(",") != -1) { //一般情况下有“,”，应为in的操作
+//								sf = SearchFilter.getSearchFilter(dc[1], dc[2], dc[3].split(","));
+//							} else {
+//								sf = SearchFilter.getSearchFilter(dc[1], dc[2], dc[3]);
+//							}
+//							if(sf != null) {
+//								idfilters.add(sf);
+//							}
+//						}
+//					}
+//				}
+//			}
+//		}
 		/*
 		 * =====================================
 		 * 如果数据权限过滤不为空，则最终以数据权限作为过滤条件
@@ -215,25 +213,25 @@ public class DynamicSpecifications {
 		 * =======================
 		 */
 		Collection<SearchFilter> idfilters = new HashSet<SearchFilter>();
-		String[] dc = null;
+		//String[] dc = null;
 		/*
 		 * =======================
 		 * 从登录用户中获取到授权的数据权限
 		 * =======================
 		 */
-		Map<String, TblMemberDataControl> mdcs = SecurityUtils.getShiroUser().getHasTblMemberDataControls();
+//		Map<String, TblMemberDataControl> mdcs = SecurityUtils.getShiroUser().getHasTblMemberDataControls();
 		/*
 		 * ======================================
 		 * 实际上只有连锁用户（会员）才需要这个数据权限的过滤
 		 * ======================================
 		 */
-		if(SecurityUtils.getLoginTblMemberUser() != null) {
-			if(mdcs != null && !mdcs.isEmpty()) {
-				Collection<TblMemberDataControl> set = mdcs.values();
-				String fv = null;
-				SearchFilter sf = null;
-				for(TblMemberDataControl tmdc:set) {
-					fv = tmdc.getControl();
+//		if(SecurityUtils.getLoginTblMemberUser() != null) {
+//			if(mdcs != null && !mdcs.isEmpty()) {
+//				Collection<TblMemberDataControl> set = mdcs.values();
+//				String fv = null;
+//				SearchFilter sf = null;
+//				for(TblMemberDataControl tmdc:set) {
+//					fv = tmdc.getControl();
 					/*
 					 * ============================================================
 					 * Member:id:EQ:1,2,3 —— 共四个参数必须配置，看以下注释
@@ -243,32 +241,32 @@ public class DynamicSpecifications {
 					 * 参数4：值列表，可以为多个，以英文逗号分隔
 					 * =============================================================
 					 */
-					dc = fv.split(":");
+//					dc = fv.split(":");
 					/*
 					 * ==============================================
 					 * 配置的Member必须和下面这一行的member判断是否一致
 					 * ==============================================
 					 */
-					if(dc[0] != null && dc[0].equalsIgnoreCase("Member")) {
+//					if(dc[0] != null && dc[0].equalsIgnoreCase("Member")) {
 						/*
 						 * ==========================================
 						 * 如果含有都好，一边拿情况下应该是in的操作
 						 * ==========================================
 						 */
-						if(dc[1].equalsIgnoreCase("id")) {
-							if(dc[3].indexOf(",") != -1) { //一般情况下有“,”，应为in的操作
-								sf = SearchFilter.getSearchFilter(dc[1], dc[2], dc[3].split(","));
-							} else {
-								sf = SearchFilter.getSearchFilter(dc[1], dc[2], dc[3]);
-							}
-							if(sf != null) {
-								idfilters.add(sf);
-							}
-						}
-					}
-				}
-			}
-		}
+//						if(dc[1].equalsIgnoreCase("id")) {
+//							if(dc[3].indexOf(",") != -1) { //一般情况下有“,”，应为in的操作
+//								sf = SearchFilter.getSearchFilter(dc[1], dc[2], dc[3].split(","));
+//							} else {
+//								sf = SearchFilter.getSearchFilter(dc[1], dc[2], dc[3]);
+//							}
+//							if(sf != null) {
+//								idfilters.add(sf);
+//							}
+//						}
+//					}
+//				}
+//			}
+//		}
 		/*
 		 * =====================================
 		 * 如果数据权限过滤不为空，则最终以数据权限作为过滤条件
@@ -301,25 +299,25 @@ public class DynamicSpecifications {
 		 * =======================
 		 */
 		Collection<SearchFilter> idfilters = new HashSet<SearchFilter>();
-		String[] dc = null;
+		//String[] dc = null;
 		/*
 		 * =======================
 		 * 从登录用户中获取到授权的数据权限
 		 * =======================
 		 */
-		Map<String, TblMemberDataControl> mdcs = SecurityUtils.getShiroUser().getHasTblMemberDataControls();
+//		Map<String, TblMemberDataControl> mdcs = SecurityUtils.getShiroUser().getHasTblMemberDataControls();
 		/*
 		 * ======================================
 		 * 实际上只有连锁用户（会员）才需要这个数据权限的过滤
 		 * ======================================
 		 */
-		if(SecurityUtils.getLoginTblMemberUser() != null) {
-			if(mdcs != null && !mdcs.isEmpty()) {
-				Collection<TblMemberDataControl> set = mdcs.values();
-				String fv = null;
-				SearchFilter sf = null;
-				for(TblMemberDataControl tmdc:set) {
-					fv = tmdc.getControl();
+//		if(SecurityUtils.getLoginTblMemberUser() != null) {
+//			if(mdcs != null && !mdcs.isEmpty()) {
+//				Collection<TblMemberDataControl> set = mdcs.values();
+//				String fv = null;
+//				SearchFilter sf = null;
+//				for(TblMemberDataControl tmdc:set) {
+//					fv = tmdc.getControl();
 					/*
 					 * ============================================================
 					 * Member:id:EQ:1,2,3 —— 共四个参数必须配置，看以下注释
@@ -329,32 +327,32 @@ public class DynamicSpecifications {
 					 * 参数4：值列表，可以为多个，以英文逗号分隔
 					 * =============================================================
 					 */
-					dc = fv.split(":");
+//					dc = fv.split(":");
 					/*
 					 * ==============================================
 					 * 配置的Member必须和下面这一行的member判断是否一致
 					 * ==============================================
 					 */
-					if(dc[0] != null && dc[0].equalsIgnoreCase("Member")) {
+//					if(dc[0] != null && dc[0].equalsIgnoreCase("Member")) {
 						/*
 						 * ==========================================
 						 * 如果含有都好，一边拿情况下应该是in的操作
 						 * ==========================================
 						 */
-						if(dc[1].equalsIgnoreCase("id")) {
-							if(dc[3].indexOf(",") != -1) { //一般情况下有“,”，应为in的操作
-								sf = SearchFilter.getSearchFilter(dc[1], dc[2], dc[3].split(","));
-							} else {
-								sf = SearchFilter.getSearchFilter(dc[1], dc[2], dc[3]);
-							}
-							if(sf != null) {
-								idfilters.add(sf);
-							}
-						}
-					}
-				}
-			}
-		}
+//						if(dc[1].equalsIgnoreCase("id")) {
+//							if(dc[3].indexOf(",") != -1) { //一般情况下有“,”，应为in的操作
+//								sf = SearchFilter.getSearchFilter(dc[1], dc[2], dc[3].split(","));
+//							} else {
+//								sf = SearchFilter.getSearchFilter(dc[1], dc[2], dc[3]);
+//							}
+//							if(sf != null) {
+//								idfilters.add(sf);
+//							}
+//						}
+//					}
+//				}
+//			}
+//		}
 		/*
 		 * =====================================
 		 * 如果数据权限过滤不为空，则最终以数据权限作为过滤条件

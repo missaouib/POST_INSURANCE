@@ -24,7 +24,7 @@ import com.gdpost.web.entity.Idable;
  * @since   2013-5-6 下午2:29:52
  */
 @Entity
-@Table(name="tbl_user_role")
+@Table(name="t_user_role")
 @Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="com.gdpost.web.entity.main.UserRole")
 public class UserRole implements Idable<Long> {
 	@Id

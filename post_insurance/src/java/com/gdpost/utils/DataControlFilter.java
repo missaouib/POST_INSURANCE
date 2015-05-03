@@ -2,61 +2,56 @@ package com.gdpost.utils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.poi.ss.formula.functions.T;
-
-import com.gdpost.web.entity.member.TblMemberDataControl;
-import com.gdpost.web.entity.member.TblMemberUser;
 
 public class DataControlFilter {
 	
-	@SuppressWarnings("hiding")
+	@Deprecated
 	public static <T> List<T> filterBeanList(List<T> list, String filterEntityName) {
 		if(filterEntityName == null || filterEntityName.trim().length()<=0) {
 			return list;
 		}
-		Map<String, TblMemberDataControl> mdcs = SecurityUtils.getShiroUser().getHasTblMemberDataControls();
+		//Map<String, TblMemberDataControl> mdcs = SecurityUtils.getShiroUser().getHasTblMemberDataControls();
 		/*
 		 * =======================================
 		 * 查询完对列进行列数据过滤
 		 * mdcs为之前获取到的当前用户的数据权限
 		 * =======================================
 		 */
-		String[] dc = null;
-		if(mdcs != null && !mdcs.isEmpty()) {
-			Collection<TblMemberDataControl> set = mdcs.values();
-			String fv = null;
-			for(TblMemberDataControl tmdc:set) {
-				fv = tmdc.getControl();
+//		String[] dc = null;
+//		if(mdcs != null && !mdcs.isEmpty()) {
+//			Collection<TblMemberDataControl> set = mdcs.values();
+//			String fv = null;
+//			for(TblMemberDataControl tmdc:set) {
+//				fv = tmdc.getControl();
 				/*
 				 * =======================
 				 * Member:column:EQ:1,2,3
 				 * 一样的配置，只是id改为column了
 				 * =======================
 				 */
-				dc = fv.split(":");
-				if(dc[0] != null && dc[0].equalsIgnoreCase(filterEntityName)) {
+//				dc = fv.split(":");
+//				if(dc[0] != null && dc[0].equalsIgnoreCase(filterEntityName)) {
 					/*
 					 * 如果含有都好，一边拿情况下应该是in的操作
 					 */
-					if(dc[1].equalsIgnoreCase("column")) {
+//					if(dc[1].equalsIgnoreCase("column")) {
 						/*
 						 * =========================================
 						 * 以下方法针对bean的属性过滤，也可以通过过滤生成json的数据
 						 * 具体可以看看DataControlFilter所具有的方法
 						 * =========================================
 						 */
-						list = DataControlFilter.toColumnsFilterBeanList(list, dc[2], dc[3].split(","));
-					}
-				}
-			}
-		}
+//						list = DataControlFilter.toColumnsFilterBeanList(list, dc[2], dc[3].split(","));
+//					}
+//				}
+//			}
+//		}
 		return list;
 	}
 
@@ -66,7 +61,6 @@ public class DataControlFilter {
 	 * @param filter
 	 * @return
 	 */
-	@SuppressWarnings("hiding")
 	public static <T> List<?> mapListWithFilter(List<Map<String, Object>> list, Map<?, ?> filter) {
     	if(filter == null || filter.isEmpty()) {
     		return list;
@@ -101,7 +95,6 @@ public class DataControlFilter {
 	 * @param columns
 	 * @return
 	 */
-	@SuppressWarnings("hiding")
 	public static <T> List<?> mapListWithFilter(List<Map<String, Object>> list, String[] columns) {
 		if(list == null || list.isEmpty() || columns == null || columns.length<=0) {
     		return list;
@@ -132,7 +125,6 @@ public class DataControlFilter {
 	 * @param filter
 	 * @return
 	 */
-	@SuppressWarnings("hiding")
 	public static <T> List<?> mapListWithoutFilter(List<Map<String, Object>> list, Map<?, ?> filter) {
     	if(filter == null || filter.isEmpty()) {
     		return list;
@@ -167,7 +159,6 @@ public class DataControlFilter {
 	 * @param columns
 	 * @return
 	 */
-	@SuppressWarnings("hiding")
 	public static <T> List<?> mapListWithoutFilter(List<Map<String, Object>> list, String[] columns) {
     	if(list == null || list.isEmpty() || columns == null || columns.length<=0) {
     		return list;
@@ -198,7 +189,6 @@ public class DataControlFilter {
 	 * @param columns
 	 * @return
 	 */
-	@SuppressWarnings("hiding")
 	public static <T> List<T> beanListWithoutFilter(List<T> list, String[] columns) {
 		if(list == null || list.isEmpty() || columns == null || columns.length<=0) {
 			return list;
@@ -228,7 +218,6 @@ public class DataControlFilter {
 	 * @param columns
 	 * @return
 	 */
-	@SuppressWarnings("hiding")
 	public static <T> List<T> beanListWithFilter(List<T> list, String[] columns) {
 		if(list == null || list.isEmpty() || columns == null || columns.length<=0) {
 			return list;
@@ -270,7 +259,6 @@ public class DataControlFilter {
 	 * @param columns
 	 * @return
 	 */
-	@SuppressWarnings("hiding")
 	public static <T> List<T> toColumnsFilterBeanList(List<T> list, String operater, String[] columns) {
 		if(list == null || list.isEmpty() || operater == null || operater.length() < 2 || columns == null || columns.length <= 0) {
 			return list;
@@ -288,16 +276,7 @@ public class DataControlFilter {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		
-		TblMemberUser m = new TblMemberUser();
-		m.setId(new Long(1));
-		m.setUserName("----test111-----");
-		List<TblMemberUser> list = new ArrayList<TblMemberUser>();
-		list.add(m);
-		System.out.println(list);
-		String[] c = new String[]{"semail","realName"};
-		list = DataControlFilter.beanListWithFilter(list, c);
-		System.out.println(list);
+		//
 		
 	}
 }

@@ -30,14 +30,9 @@ import com.gdpost.utils.FileHandler.DbfFileHandler;
 import com.gdpost.utils.FileHandler.IFileHandler;
 import com.gdpost.utils.FileHandler.MdbFileHandler;
 import com.gdpost.utils.FileHandler.TextFileHandler;
-import com.gdpost.utils.FileHandler.XlsFileHandler;
-import com.gdpost.utils.FileHandler.XlsFileHandler_Converter;
 import com.gdpost.utils.FileHandler.XlsFileHandler_NoHeader;
-import com.gdpost.utils.FileHandler.XlsxFileHandler;
-import com.gdpost.utils.FileHandler.XlsxFileHandler_NoHeader;
 import com.gdpost.utils.FileHandler.XlsxFileHandler_NoHeader_Stream;
 import com.gdpost.utils.TemplateHelper.ColumnItem;
-import com.gdpost.utils.TemplateHelper.StandardColumn;
 import com.gdpost.web.shiro.ShiroUser;
 
 public class UploadDataUtils {
@@ -50,7 +45,8 @@ public class UploadDataUtils {
 		java.util.Calendar.getInstance();
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		//long lID = shiroUser.getMemberUser() != null ? shiroUser.getMemberUser().getId() : shiroUser.getUser().getId();
-		String strID = shiroUser.getMemberUser() != null ? shiroUser.getMemberUser().getTblMember().getMemberName() : shiroUser.getUser().getId().toString();
+		//String strID = shiroUser.getMemberUser() != null ? shiroUser.getMemberUser().getTblMember().getMemberName() : shiroUser.getUser().getId().toString();
+		String strID = shiroUser.getUser().getId().toString();
 		String strPath = request.getSession().getServletContext().getRealPath("/");
 		if(strPath.endsWith(File.separator)) {
 			strPath = strPath.substring(0, strPath.length() - 1);
@@ -89,7 +85,8 @@ public class UploadDataUtils {
 		int iMonth = calendar.get(Calendar.MONTH) + 1;
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		//long lID = shiroUser.getMemberUser() != null ? shiroUser.getMemberUser().getId() : shiroUser.getUser().getId();
-		String strID = shiroUser.getMemberUser() != null ? shiroUser.getMemberUser().getTblMember().getMemberName() : shiroUser.getUser().getId().toString();
+		//String strID = shiroUser.getMemberUser() != null ? shiroUser.getMemberUser().getTblMember().getMemberName() : shiroUser.getUser().getId().toString();
+		String strID = shiroUser.getUser().getId().toString();
 		String strPath = request.getSession().getServletContext().getRealPath("/");
 		if(strPath.endsWith(File.separator)) {
 			strPath = strPath.substring(0, strPath.length() - 1);
@@ -135,7 +132,8 @@ public class UploadDataUtils {
 		}
 		
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
-		long lID = shiroUser.getMemberUser() != null ? shiroUser.getMemberUser().getId() : shiroUser.getUser().getId();
+		//long lID = shiroUser.getMemberUser() != null ? shiroUser.getMemberUser().getId() : shiroUser.getUser().getId();
+		long lID = shiroUser.getUser().getId();
 
 		strPath = strPath + File.separator + lID;
 		

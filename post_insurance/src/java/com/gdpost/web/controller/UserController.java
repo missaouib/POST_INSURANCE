@@ -12,7 +12,6 @@ import java.util.Map;
 import javax.servlet.ServletRequest;
 import javax.validation.Valid;
 
-import org.apache.catalina.connector.Request;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -30,7 +29,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.serializer.JSONSerializer;
 import com.alibaba.fastjson.serializer.PropertyFilter;
 import com.alibaba.fastjson.serializer.SerializeWriter;
-import com.caigen.b.o;
 import com.gdpost.utils.StringUtil;
 import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.Role;
@@ -47,7 +45,6 @@ import com.gdpost.web.service.UserRoleService;
 import com.gdpost.web.service.UserService;
 import com.gdpost.web.util.dwz.AjaxObject;
 import com.gdpost.web.util.dwz.Page;
-import com.gdpost.web.util.dwz.PageUtils;
 import com.gdpost.web.util.persistence.DynamicSpecifications;
 
 @Controller

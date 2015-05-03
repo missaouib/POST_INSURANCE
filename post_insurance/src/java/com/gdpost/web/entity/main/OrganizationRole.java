@@ -37,7 +37,7 @@ import com.gdpost.web.entity.Idable;
  * @since   2013-4-15 下午4:01:34 
  */
 @Entity
-@Table(name="tbl_organization_role")
+@Table(name="t_organization_role")
 @Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="com.gdpost.web.entity.main.OrganizationRole")
 public class OrganizationRole implements Idable<Long> {
 	@Id

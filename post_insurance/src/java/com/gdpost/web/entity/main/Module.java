@@ -46,7 +46,7 @@ import com.gdpost.web.entity.Idable;
  * @since   2012-8-2 下午5:36:39 
  */
 @Entity
-@Table(name="tbl_module")
+@Table(name="t_module")
 @Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="com.gdpost.web.entity.main.Module")
 public class Module implements Comparable<Module>, Idable<Long> {
 	@Id

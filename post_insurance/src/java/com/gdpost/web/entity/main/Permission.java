@@ -44,7 +44,7 @@ import com.gdpost.web.entity.Idable;
  * @since   2013-4-16 下午1:34:54 
  */
 @Entity
-@Table(name="tbl_permission")
+@Table(name="t_permission")
 @Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="com.gdpost.web.entity.main.Permission")
 public class Permission implements Idable<Long> {
 	/**

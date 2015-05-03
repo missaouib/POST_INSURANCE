@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.QueryHints;
 import org.springframework.data.repository.query.Param;
 
-import com.gdpost.web.entity.member.Area;
+import com.gdpost.web.entity.basedata.Area;
 
 /**
  * A data access object (DAO) providing persistence and search support for Area
@@ -18,7 +18,7 @@ import com.gdpost.web.entity.member.Area;
  * must be handled externally by senders of these methods or must be manually
  * added to each of these methods for data to be persisted to the JPA datastore.
  * 
- * @see com.gdpost.web.entity.member.Area
+ * @see com.gdpost.web.entity.basedata.Area
  * @author MyEclipse Persistence Tools
  */
 public interface AreaDAO extends JpaRepository<Area, Long>, JpaSpecificationExecutor<Area> {

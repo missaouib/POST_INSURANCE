@@ -49,7 +49,7 @@ import com.gdpost.web.entity.Idable;
  * @since   2012-8-2 下午2:44:58 
  */
 @Entity
-@Table(name="tbl_user")
+@Table(name="t_user")
 @Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="com.gdpost.web.entity.main.User")
 public class User implements Idable<Long> {
 	
@@ -87,6 +87,9 @@ public class User implements Idable<Long> {
 	@Length(max=128)
 	@Column(length=128)
 	private String email;
+	
+	@Column(name = "pwd_time", length = 19)
+	private Date pwdTime;
 	
 	/**
 	 * 使用状态disabled，enabled
@@ -279,6 +282,14 @@ public class User implements Idable<Long> {
 		this.phone = phone;
 	}
 	
+	public Date getPwdTime() {
+		return pwdTime;
+	}
+
+	public void setPwdTime(Date pwdTime) {
+		this.pwdTime = pwdTime;
+	}
+
 	/**  
 	 * 返回 organization 的值   
 	 * @return organization  
