@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>411pt</title>
+<title>中邮保险广东分公司-运营管理平台</title>
 <link href="${contextPath}/styles/dwz/themes/default/style.css" rel="stylesheet" type="text/css" />
 <link href="${contextPath}/styles/dwz/themes/css/core.css" rel="stylesheet" type="text/css" />
 <link href="${contextPath}/styles/dwz/themes/css/login.css" rel="stylesheet" type="text/css" />

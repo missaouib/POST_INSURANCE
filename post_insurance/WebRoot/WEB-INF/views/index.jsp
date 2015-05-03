@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>411pt</title>
+<title>中邮保险广东分公司-运营管理平台</title>
 
 <script src="${contextPath}/styles/jquery/jquery-1.7.2.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="${contextPath}/js/jquery.event.drag-1.5.min.js"></script>

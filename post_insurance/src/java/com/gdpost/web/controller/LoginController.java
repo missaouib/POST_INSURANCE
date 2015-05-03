@@ -50,7 +50,8 @@ public class LoginController {
 	
 	private static final String LOGIN_PAGE = "login";
 	private static final String WEBINDEX = "index";
-	private static final String WEB_LOGIN_PAGE = "weblogin";
+	//private static final String WEB_LOGIN_PAGE = "weblogin";
+	private static final String WEB_LOGIN_PAGE = "login";
 	private static final String LOGIN_DIALOG = "management/index/loginDialog";
 
 	@RequestMapping(method = RequestMethod.GET)
@@ -100,7 +101,8 @@ public class LoginController {
 			return WEB_LOGIN_PAGE;
 		}
 		request.setAttribute("userType", userType);
-		return WEBINDEX;
+		//return WEBINDEX;
+		return LOGIN_PAGE;
 	}
 	
 	@RequestMapping(method = {RequestMethod.GET}, params="ajax=true")
