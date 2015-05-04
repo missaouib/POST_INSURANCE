@@ -12,9 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gdpost.web.dao.member.AreaDAO;
 import com.gdpost.web.dao.member.CityDAO;
 import com.gdpost.web.dao.member.ProvinceDAO;
-import com.gdpost.web.entity.member.Area;
-import com.gdpost.web.entity.member.City;
-import com.gdpost.web.entity.member.Province;
+import com.gdpost.web.entity.basedata.Area;
+import com.gdpost.web.entity.basedata.City;
+import com.gdpost.web.entity.basedata.Province;
 import com.gdpost.web.service.member.AddrService;
 
 @Service

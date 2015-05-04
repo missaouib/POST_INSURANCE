@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.gdpost.web.entity.member.Area;
-import com.gdpost.web.entity.member.City;
+import com.gdpost.web.entity.basedata.Area;
+import com.gdpost.web.entity.basedata.City;
 import com.gdpost.web.service.member.AddrService;
 
 @Controller

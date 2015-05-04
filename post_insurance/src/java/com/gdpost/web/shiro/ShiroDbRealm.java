@@ -48,12 +48,6 @@ import com.gdpost.web.entity.main.RolePermission;
 import com.gdpost.web.entity.main.RolePermissionDataControl;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.entity.main.UserRole;
-import com.gdpost.web.entity.member.TblMemberDataControl;
-import com.gdpost.web.entity.member.TblMemberPermission;
-import com.gdpost.web.entity.member.TblMemberRolePermission;
-import com.gdpost.web.entity.member.TblMemberRolePermissionDataControl;
-import com.gdpost.web.entity.member.TblMemberUser;
-import com.gdpost.web.entity.member.TblMemberUserRole;
 import com.gdpost.web.service.OrganizationRoleService;
 import com.gdpost.web.service.RoleService;
 import com.gdpost.web.service.UserRoleService;
@@ -144,26 +138,26 @@ public class ShiroDbRealm extends AuthorizingRealm {
 			} else {
 				return null;
 			}
-		} else {
-			TblMemberUser user = mUserService.getByUsername(token.getUsername());
-			if (user != null) {
-				if (user.getStatus().equals(User.STATUS_DISABLED)) {
-					throw new DisabledAccountException();
-				}
-				
-				byte[] salt = Encodes.decodeHex(user.getSalt());
-				
-				ShiroUser shiroUser = new ShiroUser(user.getId(), user.getUserName());
-				shiroUser.setMemberUser(user);
-				shiroUser.setUserType(userType);
-				// 这里可以缓存认证
-				return new SimpleAuthenticationInfo(shiroUser, user.getPassword(),
-						ByteSource.Util.bytes(salt), getName());
-			} else {
-				return null;
-			}
-		}
-		
+		} //else {
+//			TblMemberUser user = mUserService.getByUsername(token.getUsername());
+//			if (user != null) {
+//				if (user.getStatus().equals(User.STATUS_DISABLED)) {
+//					throw new DisabledAccountException();
+//				}
+//				
+//				byte[] salt = Encodes.decodeHex(user.getSalt());
+//				
+//				ShiroUser shiroUser = new ShiroUser(user.getId(), user.getUserName());
+//				shiroUser.setMemberUser(user);
+//				shiroUser.setUserType(userType);
+//				// 这里可以缓存认证
+//				return new SimpleAuthenticationInfo(shiroUser, user.getPassword(),
+//						ByteSource.Util.bytes(salt), getName());
+//			} else {
+//				return null;
+//			}
+		//}
+		return null;
 	}
 
 	/**
@@ -181,7 +175,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		if(shiroUser.getUserType().equals("admin")) {
 			shiroUser.setUser(userService.get(shiroUser.getId()));
 		} else {
-			shiroUser.setMemberUser(mUserService.get(shiroUser.getId()));
+			//shiroUser.setMemberUser(mUserService.get(shiroUser.getId()));
 		}
 		return newAuthorizationInfo(shiroUser);
 	}
@@ -221,10 +215,10 @@ public class ShiroDbRealm extends AuthorizingRealm {
 				hasPermissions = makePermissions(roles, shiroUser);
 			}
 		} else {
-			List<TblMemberUserRole> userRoles = mUserRoleService.findByUserId(shiroUser.getId());
-			Collection<TblMemberUserRole> roles = getMemberUserRoles(userRoles);
-			hasRoles = makeMemberRoles(roles, shiroUser);
-			hasPermissions = makeMemberPermissions(roles, shiroUser);
+//			List<TblMemberUserRole> userRoles = mUserRoleService.findByUserId(shiroUser.getId());
+//			Collection<TblMemberUserRole> roles = getMemberUserRoles(userRoles);
+//			hasRoles = makeMemberRoles(roles, shiroUser);
+//			hasPermissions = makeMemberPermissions(roles, shiroUser);
 		}
 		
 		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
@@ -247,14 +241,14 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		return roles;
 	}
 	
-	private Collection<TblMemberUserRole> getMemberUserRoles(List<TblMemberUserRole> userRoles) {
-		Set<TblMemberUserRole> roles = new HashSet<TblMemberUserRole>();
-		for (TblMemberUserRole userRole : userRoles) {
-			roles.add(userRole);
-		}
-		
-		return roles;
-	}
+//	private Collection<TblMemberUserRole> getMemberUserRoles(List<TblMemberUserRole> userRoles) {
+//		Set<TblMemberUserRole> roles = new HashSet<TblMemberUserRole>();
+//		for (TblMemberUserRole userRole : userRoles) {
+//			roles.add(userRole);
+//		}
+//		
+//		return roles;
+//	}
 	
 	/**
 	 * 组装角色权限
@@ -280,17 +274,17 @@ public class ShiroDbRealm extends AuthorizingRealm {
 	 * @param shiroUser
 	 * @return
 	 */
-	private Collection<String> makeMemberRoles(Collection<TblMemberUserRole> roles, ShiroUser shiroUser) {
-		Collection<String> hasRoles = new HashSet<String>();
-		for (TblMemberUserRole role : roles) {
-			hasRoles.add(role.getTblMemberRole().getName());
-		}
-
-		if (log.isInfoEnabled()) {
-			log.info(shiroUser.getLoginName() + "拥有的角色:" + hasRoles);
-		}
-		return hasRoles;
-	}
+//	private Collection<String> makeMemberRoles(Collection<TblMemberUserRole> roles, ShiroUser shiroUser) {
+//		Collection<String> hasRoles = new HashSet<String>();
+//		for (TblMemberUserRole role : roles) {
+//			hasRoles.add(role.getTblMemberRole().getName());
+//		}
+//
+//		if (log.isInfoEnabled()) {
+//			log.info(shiroUser.getLoginName() + "拥有的角色:" + hasRoles);
+//		}
+//		return hasRoles;
+//	}
 	
 	/**
 	 * 组装资源操作权限
@@ -339,7 +333,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		}
 		return stringPermissions;
 	}
-	
+	/*
 	private Collection<String> makeMemberPermissions(Collection<TblMemberUserRole> roles, ShiroUser shiroUser) {
 		// 清空shiroUser中map
 		shiroUser.getHasDataControls().clear();
@@ -361,25 +355,25 @@ public class ShiroDbRealm extends AuthorizingRealm {
 				/*
 				 * 关闭连锁模块的datacontrol的权限要求，但是存放在shiroUser中的datacontrol的数据保留。
 				 * 涉及这个dcBuilder
-				 */
+				 *
 				//StringBuilder dcBuilder = new StringBuilder();
 				for (TblMemberRolePermissionDataControl rpdc : rolePermission.getTblMemberRolePermissionDataControls()) {
 					TblMemberDataControl dataControl = rpdc.getTblMemberDataControl();
-					/*
+					*
 					 * 关闭连锁模块的datacontrol的权限要求，但是存放在shiroUser中的datacontrol的数据保留。
-					 */
+					 *
 					//dcBuilder.append(dataControl.getName() + ",");
 					
 					shiroUser.getHasTblMemberDataControls().put(dataControl.getName(), dataControl);
 				}
-				/*
+				*
 				 * 关闭连锁模块的datacontrol的权限要求，但是存放在shiroUser中的datacontrol的数据保留。
-				 */
-				/*
+				 *
+				*
 				if (dcBuilder.length() > 0) {
 					builder.append(":" + dcBuilder.substring(0, dcBuilder.length() - 1));
 				}
-				*/
+				*
 				
 				stringPermissions.add(builder.toString());
 			}
@@ -390,7 +384,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		}
 		return stringPermissions;
 	}
-	
+	*/
 	public static class HashPassword {
 		public String salt;
 		public String password;

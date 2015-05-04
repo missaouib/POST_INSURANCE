@@ -5,9 +5,9 @@ package com.gdpost.web.service.member;
 
 import java.util.List;
 
-import com.gdpost.web.entity.member.Area;
-import com.gdpost.web.entity.member.City;
-import com.gdpost.web.entity.member.Province;
+import com.gdpost.web.entity.basedata.Area;
+import com.gdpost.web.entity.basedata.City;
+import com.gdpost.web.entity.basedata.Province;
 
 public interface AddrService {
 	Province getProvince(String code);

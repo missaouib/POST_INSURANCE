@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
-import com.gdpost.web.entity.member.TblMemberDataTemplate;
 import com.gdpost.web.entity.member.TblMemberDataTemplateField;
 import com.gdpost.web.util.dwz.Page;
 

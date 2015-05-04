@@ -1,7 +1,7 @@
 druid.alias=spring-druid
 druid.driver-class=com.mysql.jdbc.Driver
-druid.user=pico
-druid.password=PLfey6nkI9mW9R+9YjvSdsJMGaiXUMUi1pkl+WXAW2BMZ9Ypyoz4vG8FrrjnMe39Z5LtPzgX2F3BCzuuqUqC5Q==
+druid.user=yunying
+druid.password=Biyu5YzU+6sxDRbmWEa3B2uUcImzDo0BuXjTlL505+/pTb+/0Oqd3ou1R6J8+9Fy3CYrM18nBDqf6wAaPgUGOg==
 druid.minEvictableIdleTimeMillis=300000
 druid.maxWait=60000
 druid.timeBetweenEvictionRunsMillis=60000

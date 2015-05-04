@@ -10,9 +10,6 @@ import java.util.Map;
 import com.gdpost.web.entity.main.DataControl;
 import com.gdpost.web.entity.main.Module;
 import com.gdpost.web.entity.main.User;
-import com.gdpost.web.entity.member.TblMemberDataControl;
-import com.gdpost.web.entity.member.TblMemberModule;
-import com.gdpost.web.entity.member.TblMemberUser;
 
 /**
  * 自定义Authentication对象，使得Subject除了携带用户的登录名外还可以携带更多信息.
@@ -24,14 +21,14 @@ public class ShiroUser implements Serializable {
 	private String loginName;
 	private String ipAddress;
 	private User user;
-	private TblMemberUser memberUser;
+	//private TblMemberUser memberUser;
 	private String userType = "admin";
 	private String flag = "";
 	
 	private Map<String, DataControl> hasDataControls = new HashMap<String, DataControl>();
-	private Map<String, TblMemberDataControl> hasTblMemberDataControls = new HashMap<String, TblMemberDataControl>();
+	//private Map<String, TblMemberDataControl> hasTblMemberDataControls = new HashMap<String, TblMemberDataControl>();
 	private Map<String, Module> hasModules = new HashMap<String, Module>();
-	private Map<String, TblMemberModule> hasTblMemberModules = new HashMap<String, TblMemberModule>();
+	//private Map<String, TblMemberModule> hasTblMemberModules = new HashMap<String, TblMemberModule>();
 	
 	/**
 	 * 加入更多的自定义参数
@@ -107,13 +104,13 @@ public class ShiroUser implements Serializable {
 		this.user = user;
 	}
 	
-	public TblMemberUser getMemberUser() {
-		return memberUser;
-	}
-
-	public void setMemberUser(TblMemberUser memberUser) {
-		this.memberUser = memberUser;
-	}
+//	public TblMemberUser getMemberUser() {
+//		return memberUser;
+//	}
+//
+//	public void setMemberUser(TblMemberUser memberUser) {
+//		this.memberUser = memberUser;
+//	}
 
 	/**
 	 * @return the hasDataControls
@@ -129,13 +126,13 @@ public class ShiroUser implements Serializable {
 		this.hasDataControls = hasDataControls;
 	}
 
-	public Map<String, TblMemberDataControl> getHasTblMemberDataControls() {
-		return hasTblMemberDataControls;
-	}
-
-	public void setHasTblMemberDataControls(Map<String, TblMemberDataControl> hasTblMemberDataControls) {
-		this.hasTblMemberDataControls = hasTblMemberDataControls;
-	}
+//	public Map<String, TblMemberDataControl> getHasTblMemberDataControls() {
+//		return hasTblMemberDataControls;
+//	}
+//
+//	public void setHasTblMemberDataControls(Map<String, TblMemberDataControl> hasTblMemberDataControls) {
+//		this.hasTblMemberDataControls = hasTblMemberDataControls;
+//	}
 
 	/**
 	 * @return the hasModules
@@ -151,13 +148,13 @@ public class ShiroUser implements Serializable {
 		this.hasModules = hasModules;
 	}
 	
-	public Map<String, TblMemberModule> getHasTblMemberModules() {
-		return hasTblMemberModules;
-	}
-
-	public void setHasTblMemberModules(Map<String, TblMemberModule> hasTblMemberModules) {
-		this.hasTblMemberModules = hasTblMemberModules;
-	}
+//	public Map<String, TblMemberModule> getHasTblMemberModules() {
+//		return hasTblMemberModules;
+//	}
+//
+//	public void setHasTblMemberModules(Map<String, TblMemberModule> hasTblMemberModules) {
+//		this.hasTblMemberModules = hasTblMemberModules;
+//	}
 
 	public void setAttribute(String name, Object value) {
 		attribute.put(name, value);
@@ -205,8 +202,7 @@ public class ShiroUser implements Serializable {
 	}
 	
 	public String toMyString () {
-		return "ShiroUser [id=" + id + ", loginName=" + loginName + ", ipAddress=" + ipAddress + ", user=" + user + ", memberUser=" + memberUser
-				+ ", userType=" + userType + ", hasDataControls=" + hasDataControls + ", hasTblMemberDataControls=" + hasTblMemberDataControls
-				+ ", hasModules=" + hasModules + ", hasTblMemberModules=" + hasTblMemberModules + ", attribute=" + attribute + "]";
+		return "ShiroUser [id=" + id + ", loginName=" + loginName + ", ipAddress=" + ipAddress + ", user=" + user 
+				+ ", userType=" + userType + ", hasDataControls=" + hasDataControls + ", hasModules=" + hasModules + ", attribute=" + attribute + "]";
 	}
 }

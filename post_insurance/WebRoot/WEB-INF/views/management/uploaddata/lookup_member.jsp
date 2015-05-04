@@ -1,4 +1,4 @@
-<%@ page import="com.gdpost.web.entity.member.TblMember"%>
+<%@ page import="com.gdpost.web.entity.basedata.TblMember"%>
 <%@ page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" trimDirectiveWhitespaces="true" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%> 

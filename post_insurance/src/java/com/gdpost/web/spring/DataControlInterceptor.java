@@ -45,7 +45,6 @@ import com.gdpost.web.SecurityConstants;
 import com.gdpost.web.entity.main.DataControl;
 import com.gdpost.web.entity.main.Module;
 import com.gdpost.web.entity.main.User;
-import com.gdpost.web.entity.member.TblMemberUser;
 import com.gdpost.web.spring.DataControlXML.Condition;
 import com.gdpost.web.util.persistence.DynamicSpecifications;
 import com.gdpost.web.util.persistence.SearchFilter;
@@ -323,12 +322,12 @@ public class DataControlInterceptor extends HandlerInterceptorAdapter {
 			}
 			
 			// 替换登录用户的属性值
-			if (value.startsWith("tblMemberUser.")) {
-				value = value.substring(13);
+			//if (value.startsWith("tblMemberUser.")) {
+				//value = value.substring(13);
 				
-				TblMemberUser user = (TblMemberUser) SecurityUtils.getLoginUser();
-				return PropertyUtils.getProperty(user, value).toString();
-			} 
+				//TblMemberUser user = (TblMemberUser) SecurityUtils.getLoginUser();
+				//return PropertyUtils.getProperty(user, value).toString();
+			//} 
 			
 			return request.getParameter(value);
 		} 

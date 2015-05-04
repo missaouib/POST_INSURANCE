@@ -1,1 +1,1 @@
-java -cp WebRoot/WEB-INF/lib/druid-1.0.9.jar com.alibaba.druid.filter.config.ConfigTools db@pico.com
+java -cp WebRoot/WEB-INF/lib/druid-1.0.13.jar com.alibaba.druid.filter.config.ConfigTools 123456

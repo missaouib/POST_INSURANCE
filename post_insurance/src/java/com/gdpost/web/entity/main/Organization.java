@@ -46,7 +46,7 @@ import com.gdpost.web.entity.Idable;
  * @since   2012-8-27 下午3:25:15 
  */
 @Entity
-@Table(name = "tbl_organization")
+@Table(name = "t_organization")
 @Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="com.gdpost.web.entity.main.Organization")
 public class Organization implements Comparable<Organization>, Idable<Long> {
 	@Id
@@ -84,6 +84,16 @@ public class Organization implements Comparable<Organization>, Idable<Long> {
 	@OneToMany(mappedBy="organization", cascade={CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval=true)
 	@OrderBy("priority ASC")
 	private List<OrganizationRole> organizationRoles = new ArrayList<OrganizationRole>();
+	
+	@Column(name = "org_code", nullable = false, length = 12)
+	private String orgCode;
+	
+	@Column(name = "level", nullable = false)
+	private Integer level;
+	
+	@OneToMany(mappedBy="organization", cascade={CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval=true)
+	@OrderBy("policyNo ASC")
+	private List<Policy> policies = new ArrayList<Policy>(0);
 	
 	public Long getId() {
 		return id;
@@ -195,6 +205,30 @@ public class Organization implements Comparable<Organization>, Idable<Long> {
 		this.organizationRoles = organizationRoles;
 	}
 	
+	public String getOrgCode() {
+		return orgCode;
+	}
+
+	public void setOrgCode(String orgCode) {
+		this.orgCode = orgCode;
+	}
+
+	public Integer getLevel() {
+		return level;
+	}
+
+	public void setLevel(Integer level) {
+		this.level = level;
+	}
+
+	public List<Policy> getPolicies() {
+		return policies;
+	}
+
+	public void setPolicies(List<Policy> policies) {
+		this.policies = policies;
+	}
+
 	/*
 	 * 
 	 */

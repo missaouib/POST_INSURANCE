@@ -36,7 +36,7 @@ import com.gdpost.web.log.LogLevel;
  * @since   2013-5-3 下午4:43:44 
  */
 @Entity
-@Table(name="tbl_log_info")
+@Table(name="t_log_info")
 public class LogInfo implements Idable<Long> {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

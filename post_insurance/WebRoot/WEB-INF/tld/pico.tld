@@ -13,7 +13,7 @@
       getUtfStr
     </description>
     <name>getUtfStr</name>
-    <function-class>com.sendtend.utils.StringUtil</function-class>
+    <function-class>com.gdpost.utils.StringUtil</function-class>
     <function-signature>java.lang.String getUtfStr(byte[])</function-signature>
   </function>
 </taglib>

@@ -1,4 +1,19 @@
 /*==============================================================*/
+/* Database name:  picodb                                       */
+/* DBMS name:      MySQL 5.0                                    */
+/* Created on:     2015/5/2 16:30:07                            */
+/*==============================================================*/
+
+
+CREATE DATABASE postinsurance DEFAULT CHARACTER SET UTF8 COLLATE utf8_general_ci;
+FLUSH PRIVILEGES;
+CREATE user yunying@'localhost' identified by '123456';
+CREATE user yunying@'%' identified by '123456';
+grant all privileges on postinsurance.* to yunying;
+FLUSH PRIVILEGES;
+use postinsurance;
+
+/*==============================================================*/
 /* Table: t_prd                                                 */
 /*==============================================================*/
 create table t_prd
@@ -60,6 +75,8 @@ create table t_policy
 (
    id                   bigint not null auto_increment,
    org_id               bigint(20),
+   policy_no            varchar(12),
+   form_no              varchar(25),
    city_name            varchar(12),
    area_name            varchar(12),
    prod_id              bigint,

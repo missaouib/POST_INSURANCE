@@ -3,11 +3,11 @@
  */
 package com.gdpost.web.service.member;
 
+import java.util.Dictionary;
 import java.util.List;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.gdpost.web.entity.main.Dictionary;
 import com.gdpost.web.util.dwz.Page;
 
 public interface MDictionaryService {

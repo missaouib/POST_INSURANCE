@@ -28,7 +28,7 @@ import com.gdpost.web.entity.Idable;
  *
  */
 @Entity
-@Table(name="tbl_data_control")
+@Table(name="t_data_control")
 @Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="com.gdpost.web.entity.main.DataControl")
 public class DataControl implements Idable<Long> {
 	@Id

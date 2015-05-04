@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.QueryHints;
 import org.springframework.data.repository.query.Param;
 
-import com.gdpost.web.entity.member.City;
+import com.gdpost.web.entity.basedata.City;
 
 /**
  * A data access object (DAO) providing persistence and search support for City
@@ -18,7 +18,7 @@ import com.gdpost.web.entity.member.City;
  * must be handled externally by senders of these methods or must be manually
  * added to each of these methods for data to be persisted to the JPA datastore.
  * 
- * @see com.gdpost.web.entity.member.City
+ * @see com.gdpost.web.entity.basedata.City
  * @author MyEclipse Persistence Tools
  */
 public interface CityDAO extends JpaRepository<City, Long>, JpaSpecificationExecutor<City> {

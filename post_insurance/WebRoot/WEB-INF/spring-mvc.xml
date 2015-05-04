@@ -40,14 +40,14 @@
 			<mvc:mapping path="/login/timeout/success"/>
 			<mvc:mapping path="/members/**" />
 			<mvc:mapping path="/uploaddatamanage/**" />			
-			<bean class="com.com.gdpost.web.log.springInterceptor" >
+			<bean class="com.gdpost.web.log.spring.LogInterceptor" >
 				<property name="logAPI" ref="log4JDBCImpl"/>
 			</bean>
 		</mvc:interceptor>
 		<!-- 数据权限验证 -->
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
-			<bean class="com.secom.gdpost.web.springontrolInterceptor" />
+			<bean class="com.gdpost.web.spring.DataControlInterceptor" />
 		</mvc:interceptor>	
 	</mvc:interceptors>
 	

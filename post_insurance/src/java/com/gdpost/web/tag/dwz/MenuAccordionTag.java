@@ -6,7 +6,6 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import com.gdpost.web.entity.main.Module;
-import com.gdpost.web.entity.member.TblMemberModule;
 
 /** 
  * @author 	sendtend
@@ -15,7 +14,7 @@ import com.gdpost.web.entity.member.TblMemberModule;
 public class MenuAccordionTag extends SimpleTagSupport {
 
 	private Module child;
-	private TblMemberModule memberModuleChild;
+	//private TblMemberModule memberModuleChild;
 	private String urlPrefix;
 	private String menuType;
 	
@@ -25,8 +24,8 @@ public class MenuAccordionTag extends SimpleTagSupport {
 	@Override
 	public void doTag() throws JspException, IOException {
 		if(this.getMenuType() != null && this.getMenuType().equals("membersModule")) {
-			getJspContext().getOut().write(link(memberModuleChild));
-			loop(memberModuleChild);
+			//getJspContext().getOut().write(link(memberModuleChild));
+			//loop(memberModuleChild);
 		} else {
 			getJspContext().getOut().write(link(child));
 			loop(child);
@@ -70,6 +69,7 @@ public class MenuAccordionTag extends SimpleTagSupport {
 		return builder.toString();
 	}
 	
+	/*
 	private void loop(TblMemberModule module) throws IOException, JspException {
 		if (module.getChildren() != null && module.getChildren().size() > 0) {
 			getJspContext().getOut().write("<ul>\n");
@@ -106,7 +106,7 @@ public class MenuAccordionTag extends SimpleTagSupport {
 		
 		return builder.toString();
 	}
-
+*/
 	/**
 	 * @param child the child to set
 	 */
@@ -130,7 +130,7 @@ public class MenuAccordionTag extends SimpleTagSupport {
 	public void setMenuType(String menuType) {
 		this.menuType = menuType;
 	}
-
+/*
 	public TblMemberModule getMemberModuleChild() {
 		return memberModuleChild;
 	}
@@ -138,5 +138,5 @@ public class MenuAccordionTag extends SimpleTagSupport {
 	public void setMemberModuleChild(TblMemberModule memberModuleChild) {
 		this.memberModuleChild = memberModuleChild;
 	}
-	
+	*/
 }

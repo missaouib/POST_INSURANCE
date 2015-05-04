@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.serializer.JSONSerializer;
 import com.alibaba.fastjson.serializer.PropertyFilter;
 import com.alibaba.fastjson.serializer.SerializeWriter;
-import com.gdpost.utils.StringUtil;
 import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.OrganizationRole;
 import com.gdpost.web.entity.main.Role;

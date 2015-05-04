@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.QueryHints;
 import org.springframework.data.repository.query.Param;
 
-import com.gdpost.web.entity.member.Province;
+import com.gdpost.web.entity.basedata.Province;
 
 /**
  * A data access object (DAO) providing persistence and search support for
@@ -19,7 +19,7 @@ import com.gdpost.web.entity.member.Province;
  * manually added to each of these methods for data to be persisted to the JPA
  * datastore.
  * 
- * @see com.gdpost.web.entity.member.Province
+ * @see com.gdpost.web.entity.basedata.Province
  * @author MyEclipse Persistence Tools
  */
 public interface ProvinceDAO extends JpaRepository<Province, Long>, JpaSpecificationExecutor<Province> {
