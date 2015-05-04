@@ -13,29 +13,6 @@
 				<td height="20px">&nbsp;</td>
 			</tr>
 			<tr>
-				<td width="160px">
-					年月：
-					<select id="listNY" name="ny" style="width:100px;">
-						<c:forEach var="item" items="${ny}">
-						<option value="${item}">${item}</option>
-						</c:forEach>
-					</select>
-				</td>
-				<td width="160px">
-				模板
-				<select id="lstTemplate" name="lstTemplate" style="width:100px;">
-					<option value="0">标准模板</option>
-					<option value="1">默认模板</option>
-				</select>
-				</td>
-				<td width="170px">
-					连锁：
-					<input id="txtMemberID" name="search_EQ_tblMember.id" type="hidden"/>
-					<input class="validate[required] required" name="search_EQ_tblMember.memberName" type="text" readonly="readonly" style="width: 120px;"/>
-				</td>
-				<td width="40px">
-					<a class="btnLook" href="${contextPath }/management/uploaddata/lookup2member" lookupGroup="search_EQ_tblMember" title="关联连锁">查找带回</a>
-				</td>
 				<td width="80px">
 					&nbsp;
 				</td>
@@ -68,9 +45,6 @@
     var strFileGroup = "";
     var uploadChunkSize = 512;//kb
     var uploader = null;
-    var ny = null;
-    var template = 0;
-    var member_id = null;
     var memo = "";
     uploader = new plupload.Uploader({
         runtimes: 'flash,silverlight,html5,html4',
@@ -88,8 +62,7 @@
             chunkSize: uploadChunkSize,
             fileCount: 0,
             fileIndex: 0,
-            fileGroup: "",
-            ny: ny
+            fileGroup: ""
         },
         multiple_queues: false,
         multi_selection: true,
@@ -100,26 +73,18 @@
         },
 
         init: {
-            PostInit: function () {
+        	PostInit: function () {
                 document.getElementById('filelist').innerHTML = '';
 
                 document.getElementById('uploadfiles').onclick = function () {
 			        $("#console").html(" ");                
                     // 检查当前选择月份，是否已上传
-                	ny = $("#listNY").val();
-                	template = $("#lstTemplate").val();
-                	member_id = $("#txtMemberID").val();
-                	uploader.settings.multipart_params.ny = ny;
-                	if(isNaN(parseInt(member_id))) {
-                		alert("请选择导入数据的连锁。");
-                		return false;
-                	}
                 	
     		        $.ajax({
                          type: 'post',
                          url: "/management/uploaddata/checkimportny",
                          dataType: "text",
-                         data: {"ny": ny, "member_id": member_id},
+                         data: {},
                          success: function (data) {
 	                         var response = $.parseJSON(data);
 							 if (response.result == "success") {
@@ -136,7 +101,6 @@
                     return false;
                 };
             },
-
             FilesAdded: function (up, files) {
                 iFileIndex = 0;
                 iFileCount = 0;
@@ -183,7 +147,7 @@
                             type: 'post',
                             url: "/management/uploaddata/import",
                             dataType: "text",
-                            data: { strFileGroup: strFileGroup, "ny": ny, "template": template, "member_id": member_id, "memo": memo },
+                            data: { strFileGroup: strFileGroup, "memo": memo },
                             success: function (data) {
                                 clearInterval(tImport);
                                 var response = $.parseJSON(data);
@@ -195,7 +159,7 @@
 				                            type: 'post',
 				                            url: "/management/uploaddata/cancelimport",
 				                            dataType: "text",
-				                            data: {"ny": ny, "member_id": member_id},
+				                            data: {},
 				                            success: function (data) {
 				                                var response = $.parseJSON(data);
 												if (response.result == "success") {

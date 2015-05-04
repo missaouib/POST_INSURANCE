@@ -70,7 +70,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 
 	@SuppressWarnings("resource")
 	@Override
-	public boolean delete(HttpServletRequest request, int ny, Long member_id) {
+	public boolean delete(HttpServletRequest request) {
 		java.sql.Connection connection = null;
 		com.mysql.jdbc.Statement statement = null;
 		boolean bResult = false;
@@ -82,18 +82,10 @@ public class UploadDataServiceImpl implements UploadDataService{
 			connection = DriverManager.getConnection(basic.getUrl(), basic.getUsername(), basic.getPassword());
 			statement = (com.mysql.jdbc.Statement)connection.createStatement();
 			String statementText = "";
-			if(member_id != 0) {
-				statementText = "DELETE FROM tbl_member_data_status WHERE member_id=" + member_id + " AND ny=" + ny;
-			} else {
-				statementText = "DELETE FROM tbl_member_data_status WHERE ny=" + ny;
-			}
+			statementText = "DELETE FROM tbl_member_data_status WHERE ny=";
 			bResult = statement.execute(statementText);
 			
-			if(member_id != 0) {
-				statementText = "DELETE FROM tbl_member_data WHERE member_id=" + member_id + " AND ny=" + ny;
-			} else {
-				statementText = "DELETE FROM tbl_member_data WHERE ny=" + ny;
-			}
+			statementText = "DELETE FROM tbl_member_data WHERE ny=";
 			bResult = statement.execute(statementText);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -127,7 +119,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 
 	@SuppressWarnings("resource")
 	@Override
-	public boolean importData(HttpServletRequest request, DataTable dt, long member_id, int ny) {		
+	public boolean importData(HttpServletRequest request, DataTable dt) {		
 		java.sql.Connection connection = null;
 		com.mysql.jdbc.Statement statement = null;
 		com.alibaba.druid.pool.DruidDataSource basic = null;
@@ -181,9 +173,9 @@ public class UploadDataServiceImpl implements UploadDataService{
 	            builder.append('\t');
         	}
         	
-            builder.append(member_id);
+            //builder.append(member_id);
             builder.append('\t');
-            builder.append(ny);
+            //builder.append(ny);
             builder.append('\n');
         }
 
@@ -229,7 +221,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 		return(true);
 	}
 	
-	private boolean createCSV(HttpServletRequest request, long member_id, int currentNY, long operator_id, Map<String, DataTable[]> listDataSet)
+	private boolean createCSV(HttpServletRequest request, long operator_id, Map<String, DataTable[]> listDataSet)
 	{
 		// 创建CSV文件
 		//String strPath = UploadDataUtils.getFileStorePath(request);
@@ -298,35 +290,11 @@ public class UploadDataServiceImpl implements UploadDataService{
 		return(true);
 	}
 	
-	public boolean handleData(int templateType, HttpServletRequest request, long member_id, List<String> listFiles, 
-			int currentNY, int lastNY, long operator_id, String operator_name, int operator_type, StringBuilder builder, String memo) {
-		// 读取模板，模板中数据文件设置访问的用户名、密码，默认为空
-		long lTemlateMemberID = 1;
-		if(templateType == 1) {
-			lTemlateMemberID = member_id;
-		} else if(templateType == 0) {
-			lTemlateMemberID = 1;
-		}
-		
-		Page page = new Page();
-		Specification<TblMemberDataTemplate> specification = DynamicSpecifications.bySearchFilterWithoutRequest(TblMemberDataTemplate.class,
-				new SearchFilter("tblMember.id", Operator.EQ, lTemlateMemberID), new SearchFilter("status", Operator.EQ, 1));
-		
-		List<TblMemberDataTemplate> templates = templateService.findAll(specification, page);
-		TblMemberDataTemplate template = null;
-		if(templates.size() == 1) {
-			template = templates.get(0);
-		} else {
-			builder.append("没有设置默认模板，请先设置。");
-			return(false);
-		}
-		
-		// 根据模板，设置好ColumnItem
-		String strUserName = template.getUserName();
-		String strPassword = template.getPassword();
+	public boolean handleData(HttpServletRequest request, List<String> listFiles, 
+			long operator_id, String operator_name, int operator_type, StringBuilder builder, String memo) {
+				
 		// 标准列
 		List<ColumnItem> standardColumns = StandardColumn.getStandardColumns();
-		initStandardColumns(standardColumns, template);
 		
 	    boolean bFlag = true;
 		Map<String, Integer> dtCurrentShop = new Hashtable<String, Integer>();
@@ -340,7 +308,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 		// 文件组正确，执行导入
 		for(String strOriginalFileName : listFiles) {
 			// 读文件，取值到DataTable[]中
-			ds = UploadDataUtils.getDataSet(strFilePath, strOriginalFileName, strUserName, strPassword, standardColumns);
+			ds = UploadDataUtils.getDataSet(strFilePath, strOriginalFileName, standardColumns);
 			if(ds == null || ds.length == 0) {
 				builder.append("处理文件[" + strOriginalFileName + "]中数据出错，没有找到数据。");
 				return(false);
@@ -367,12 +335,12 @@ public class UploadDataServiceImpl implements UploadDataService{
 		}
 		
 		// 对比前一月数据
-		checkData(request, member_id, lastNY, listDataSet, dtCurrentShop, builder);
+		//checkData(request, listDataSet, dtCurrentShop, builder);
 		
 		// 导入数据库
 		for(DataTable[] dataSet : listDataSet.values()) {
 			for(DataTable dt : dataSet) {
-				bFlag = importData(request, dt, member_id, currentNY);
+				bFlag = importData(request, dt);
 				dt = null;
 				if(!bFlag) {
 					builder.append("导入数据出错。");
@@ -382,7 +350,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 		}
 		
 		// 导出CSV标准模板文件
-		createCSV(request, member_id, currentNY, operator_id, listDataSet);
+		//createCSV(request, operator_id, listDataSet);
 		
 		// 按DataTable最多列数的对比，超过必须上传列数的，每列增加5个积分
 		int iMustColumns = 5;
@@ -400,18 +368,12 @@ public class UploadDataServiceImpl implements UploadDataService{
 		listDataSet = null;
 		if(!bFlag) {
 			// 清除本次已导入数据
-			clearImport(request, member_id, currentNY); 
+			clearImport(request); 
 			return(false);
 		}
 		
-		if(iMaxColumns > iMustColumns) {
-			TblMember member = memberService.get(member_id);
-			member.setScore(member.getScore() + 5*(iMaxColumns-iMustColumns));
-			memberService.saveOrUpdate(member);
-		}
-		
 		// 设置本月已上传
-		setImportDone(request, member_id, currentNY, operator_id, operator_name, operator_type, memo);	
+		setImportDone(request, operator_id, operator_name, operator_type, memo);	
 	
 		//log.info(shiroUser.getLoginName() + "导入了" + strOriginalFileName);
 	
@@ -465,7 +427,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 		}
 	}
 	
-	private boolean checkData(HttpServletRequest request, long member_id, int lastNY, Map<String, DataTable[]> listDataSet, Map<String, Integer> dtCurrentShop, StringBuilder builder) {
+	@Deprecated
+	private boolean checkData(HttpServletRequest request, Map<String, DataTable[]> listDataSet, Map<String, Integer> dtCurrentShop, StringBuilder builder) {
 		// 检查数据正确性，做出提示，用户可以选择继续
 		// 检查总记录数与上月记录数，相差50%则为错误，做出提示，用户可以选择继续
 		// 检查店名与上月对比，有差别（增加或减少），做出提示，用户可以选择继续
@@ -828,7 +791,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 	}
 		
 	@SuppressWarnings("resource")
-	public boolean setImportDone(HttpServletRequest request, long member_id, int ny, long operator_id, String operator_name, int operate_type, String memo) {
+	public boolean setImportDone(HttpServletRequest request, long operator_id, String operator_name, int operate_type, String memo) {
 		java.sql.Connection connection = null;
 		com.mysql.jdbc.Statement statement = null;
 		boolean bResult = false;
@@ -858,7 +821,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 	}
 	
 	@SuppressWarnings("resource")
-	public boolean clearImportDone(HttpServletRequest request, long member_id, int ny) {
+	public boolean clearImportDone(HttpServletRequest request) {
 		java.sql.Connection connection = null;
 		com.mysql.jdbc.Statement statement = null;
 		boolean bResult = false;
@@ -887,7 +850,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 	}
 	
 	@SuppressWarnings("resource")
-	public boolean clearImport(HttpServletRequest request, long member_id, int ny) {
+	public boolean clearImport(HttpServletRequest request) {
 		java.sql.Connection connection = null;
 		com.mysql.jdbc.Statement statement = null;
 		boolean bResult = false;
@@ -898,7 +861,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			basic = (com.alibaba.druid.pool.DruidDataSource)dataSource;
 			connection = DriverManager.getConnection(basic.getUrl(), basic.getUsername(), basic.getPassword());
 			statement = (com.mysql.jdbc.Statement)connection.createStatement();
-			String statementText = "DELETE FROM tbl_member_data WHERE member_id=" + member_id + " AND ny=" + ny;
+			String statementText = "DELETE FROM tbl_member_data WHERE member_id=";
 			bResult = statement.execute(statementText);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -916,7 +879,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 	}
 	
 	@SuppressWarnings("resource")
-	private int getLastRecordCount(HttpServletRequest request, long member_id, int lastNY) {
+	private int getLastRecordCount(HttpServletRequest request) {
 		int iValue = 0;
 		java.sql.Connection connection = null;
 		com.mysql.jdbc.Statement statement = null;
@@ -949,7 +912,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 		return(iValue);
 	}
 	
-	private void getLastShop(HttpServletRequest request, long member_id, int lastNY, Map<String, Integer> dtLastShop) {
+	private void getLastShop(HttpServletRequest request, Map<String, Integer> dtLastShop) {
 		java.sql.Connection connection = null;
 		com.mysql.jdbc.Statement statement = null;
 		com.alibaba.druid.pool.DruidDataSource basic = null;
@@ -980,7 +943,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 	}
 	
 	@SuppressWarnings("unused")
-	private void fillTable(HttpServletRequest request, long member_id, Map<String, Map<String, Integer>> ds, String strTableName, String strValueColumnName, String strIDColumnName) {
+	private void fillTable(HttpServletRequest request, Map<String, Map<String, Integer>> ds, String strTableName, String strValueColumnName, String strIDColumnName) {
 		Map<String, Integer> dtRelate = new Hashtable<String, Integer>(); // data table
 		
 		java.sql.Connection connection = null;
@@ -1017,7 +980,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 
 	@SuppressWarnings("resource")
 	@Override
-	public boolean checkImportNY(HttpServletRequest request, long member_id, int ny) {
+	public boolean checkImportNY(HttpServletRequest request) {
 		java.sql.Connection connection = null;
 		com.mysql.jdbc.Statement statement = null;
 		com.alibaba.druid.pool.DruidDataSource basic = null;

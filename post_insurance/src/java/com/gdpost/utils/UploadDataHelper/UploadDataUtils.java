@@ -144,7 +144,7 @@ public class UploadDataUtils {
 		return(strPath);
 	}
 	
-	public static DataTable[] getDataSet(String strFilePath, String strFileName, String strUserName, String strPassword, List<ColumnItem> column) {
+	public static DataTable[] getDataSet(String strFilePath, String strFileName, List<ColumnItem> column) {
 		String strExtension = FileUtils.getFileExtension(strFileName);
 		DataTable[] ds = null;
 		IFileHandler handler = null;
@@ -167,8 +167,6 @@ public class UploadDataUtils {
 			handler = new CsvFileHandler();
 		}
 		
-		handler.setUserName(strUserName);
-		handler.setPassword(strPassword);
 		handler.setStandardColumn(column);
 		ds = handler.readFile(strFilePath, strFileName);
 		

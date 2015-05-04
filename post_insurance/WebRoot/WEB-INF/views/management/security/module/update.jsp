@@ -116,11 +116,11 @@ jQuery(document).ready(function(){
 		<legend>动态新增</legend>
 			<p>
 				<label>名称：</label>
-				<input type="text" name="_name" class="input-medium validate[required,maxSize[64]] required" maxlength="64"/>
+				<input type="text" name="_name" class="input-medium validate[required,maxSize[64]] required" maxlength="64" value="授权"/>
 			</p>
 			<p>
 				<label>操作名称：</label>
-				<input type="text" name="_sn" class="input-medium validate[required,maxSize[32]] required" maxlength="32"/>
+				<input type="text" name="_sn" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="assign"/>
 			</p>
 			<p>
 				<label>描述：</label>
