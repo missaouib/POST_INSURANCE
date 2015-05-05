@@ -101,7 +101,7 @@ public class UploadDataController {
 
 	@RequiresPermissions("UploadData:Upload")
 	@RequestMapping(value = "/checkimportny", method = RequestMethod.POST)
-	public @ResponseBody String checkImportNY(HttpServletRequest request, @RequestParam int ny) {
+	public @ResponseBody String checkImportNY(HttpServletRequest request) {
 		//TblMemberUser shiroUser = SecurityUtils.getLoginTblMemberUser();	
 		//long member_id = shiroUser.getTblMember().getId();
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
@@ -113,7 +113,7 @@ public class UploadDataController {
 //	    }
 	    long member_id = shiroUser.getUser().getId();
 		boolean bFlag = true;
-		bFlag = uploadDataService.checkImportNY(request, member_id, ny);
+		bFlag = uploadDataService.checkImportNY(request);
 		
 	    if(bFlag) {
 	    	return("{\"jsonrpc\":\"2.0\",\"result\":\"success\",\"id\":\"id\",\"message\":\"\"}");
@@ -279,7 +279,7 @@ public class UploadDataController {
 	@Log(message="{0}")
 	@RequiresPermissions("UploadData:Upload")
 	@RequestMapping(value = "/import", method = RequestMethod.POST)
-	public @ResponseBody String doImport(HttpServletRequest request, @RequestParam String strFileGroup, @RequestParam int ny, @RequestParam int template, @RequestParam String memo) {
+	public @ResponseBody String doImport(HttpServletRequest request, @RequestParam String strFileGroup, @RequestParam String memo) {
 		com.gdpost.utils.UploadDataHelper.SessionChunk sessionChunk = new com.gdpost.utils.UploadDataHelper.SessionChunk();
 		com.gdpost.utils.UploadDataHelper.FileChunk fileChunk = sessionChunk.getSessionChunk(request);
 		if(fileChunk == null) {
@@ -297,15 +297,15 @@ public class UploadDataController {
 	    long member_id = shiroUser.getUser().getId();
 	    //int currentNY = UploadDataUtils.getNianYue();
 	    //int lastNY = UploadDataUtils.getLastNianYue();
-	    int currentNY = ny;
-	    int lastNY = UploadDataUtils.getLastNianYue(currentNY);
+	    //int currentNY = ny;
+	    //int lastNY = UploadDataUtils.getLastNianYue(currentNY);
 	    String strMessage = ""; // 返回客户端的详细信息
 	    boolean bFlag = true;
 	    StringBuilder builder = new StringBuilder();
 	    
 		if(fileChunk.getFileGroup().equals(strFileGroup)) {
 			List<String> listFiles = fileChunk.getListFileName();
-			bFlag = uploadDataService.handleData(template, request, member_id, listFiles, currentNY, lastNY, shiroUser.getId(), shiroUser.getLoginName(), 0, builder, memo);
+			bFlag = uploadDataService.handleData(request, listFiles, shiroUser.getId(), shiroUser.getLoginName(), 0, builder, memo);
 		}
 		
 	    // 请SessionChunk
@@ -332,7 +332,7 @@ public class UploadDataController {
 		    //member.setScore(member.getScore() + 50);
 		   // memberService.saveOrUpdate(member);
 		    
-	    	LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{"导入了" + currentNY + "月数据。"}));
+	    	LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{"导入了数据。"}));
 	    	
 	    	if(!strMessage.equals("")) {
 				// 如有数据检查提示，则提示，如确认不导入，则提交request执行清除
@@ -341,9 +341,9 @@ public class UploadDataController {
 	    		return("{\"jsonrpc\":\"2.0\",\"result\":\"success\",\"id\":\"id\",\"message\":\"" + strMessage + "\"}");
 	    	}
 	    } else {
-	    	LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{"导入" + currentNY + "月数据出错，" + strMessage + "。"}));
+	    	LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{"导入数据出错，" + strMessage + "。"}));
 	    	
-	    	uploadDataService.setImportDone(request, member_id, currentNY, shiroUser.getId(), shiroUser.getLoginName(), 0, memo);
+	    	uploadDataService.setImportDone(request, shiroUser.getId(), shiroUser.getLoginName(), 0, memo);
 	    	//TblMember member = memberService.get(member_id);
 //	    	if(member.getAlertMsg() != null && !"".equals(member.getAlertMsg())) {
 //	    		strMessage = member.getAlertMsg();
@@ -356,7 +356,7 @@ public class UploadDataController {
 	@Log(message="取消上传{0}月数据。")
 	@RequiresPermissions("UploadData:Upload")
 	@RequestMapping(value = "/cancelupload", method = RequestMethod.POST)
-	public @ResponseBody String cancelUpload(HttpServletRequest request, @RequestParam String strFileGroup, @RequestParam int ny) {
+	public @ResponseBody String cancelUpload(HttpServletRequest request, @RequestParam String strFileGroup) {
 	    ShiroUser shiroUser = SecurityUtils.getShiroUser();
 	    //long member_id = shiroUser.getId();
 //	    TblMember member = shiroUser.getMemberUser().getTblMember();
@@ -368,13 +368,13 @@ public class UploadDataController {
 //	    long member_id = member.getId();
 	    long member_id = shiroUser.getUser().getId();
 	    
-	    //int currentNY = UploadDataUtils.getNianYue();
-	    int currentNY = ny;
+	    int currentNY = UploadDataUtils.getNianYue();
+	    //int currentNY = ny;
 	    String strMessage = "取消导入成功。"; // 返回客户端的详细信息
 	    boolean bFlag = true;
 	    
-	    bFlag = uploadDataService.clearImport(request, member_id, currentNY);
-	    bFlag = uploadDataService.clearImportDone(request, member_id, currentNY);
+	    bFlag = uploadDataService.clearImport(request);
+	    bFlag = uploadDataService.clearImportDone(request);
 	    // 取消增加的10积分
 //	    member.setScore(member.getScore() - 10);
 //	    memberService.saveOrUpdate(member);
@@ -396,7 +396,7 @@ public class UploadDataController {
 	@Log(message="取消导入{0}月数据。")
 	@RequiresPermissions("UploadData:Upload")
 	@RequestMapping(value = "/cancelimport", method = RequestMethod.POST)
-	public @ResponseBody String clearImport(HttpServletRequest request, @RequestParam String strFileGroup, @RequestParam int ny) {
+	public @ResponseBody String clearImport(HttpServletRequest request, @RequestParam String strFileGroup) {
 	    ShiroUser shiroUser = SecurityUtils.getShiroUser();
 	    //long member_id = shiroUser.getId();
 //	    TblMember member = shiroUser.getMemberUser().getTblMember();
@@ -408,13 +408,13 @@ public class UploadDataController {
 //	    long member_id = member.getId();
 	    long member_id = shiroUser.getUser().getId();
 	    
-	    //int currentNY = UploadDataUtils.getNianYue();
-	    int currentNY = ny;
+	    int currentNY = UploadDataUtils.getNianYue();
+	    //int currentNY = ny;
 	    String strMessage = "取消导入成功。"; // 返回客户端的详细信息
 	    boolean bFlag = true;
 	    
-	    bFlag = uploadDataService.clearImport(request, member_id, currentNY);
-	    bFlag = uploadDataService.clearImportDone(request, member_id, currentNY);
+	    bFlag = uploadDataService.clearImport(request);
+	    bFlag = uploadDataService.clearImportDone(request);
 	    // 取消增加的60积分
 //	    member.setScore(member.getScore() - 60);
 //	    memberService.saveOrUpdate(member);

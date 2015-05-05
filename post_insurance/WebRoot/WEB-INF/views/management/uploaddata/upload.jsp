@@ -68,7 +68,7 @@
         multi_selection: true,
 
         filters: {
-            max_file_size: '1024mb',
+            max_file_size: '50mb',
             mime_types: [{ title: "Data files", extensions: "txt,csv,xls,xlsx,dbf,mdb" }]
         },
 

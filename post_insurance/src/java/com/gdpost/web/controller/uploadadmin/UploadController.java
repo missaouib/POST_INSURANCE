@@ -1,10 +1,12 @@
 package com.gdpost.web.controller.uploadadmin;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.file.Files;
@@ -69,14 +71,41 @@ public class UploadController {
 	    	return("{\"jsonrpc\":\"2.0\",\"result\":\"error\",\"id\":\"id\",\"message\":\"该年月已经上传过数据。\"}");
 	    }
 	}
-		
+	
+	@Log(message="上传了{0}。")
+	@RequiresPermissions("UploadData:Upload")
+	@RequestMapping(value = "/upload", method = RequestMethod.POST)
+	public @ResponseBody String patchUpload(HttpServletRequest request, @RequestParam(value = "file", required = true) MultipartFile[] files) {
+		StringBuilder builder = new StringBuilder();
+		for(MultipartFile mf : files) {
+			builder = new StringBuilder();  
+	        for (int i = 1; i <= 10; i++) {  
+	            for (int j = 0; j <= 10000; j++) {  
+	  
+	                builder.append(4);  
+	                builder.append("\t");  
+	                builder.append(4 + 1);  
+	                builder.append("\t");  
+	                builder.append(4 + 2);  
+	                builder.append("\t");  
+	                builder.append(4 + 3);  
+	                builder.append("\t");  
+	                builder.append(4 + 4);  
+	                builder.append("\t");  
+	                builder.append(4 + 5);  
+	                builder.append("\n");  
+	            }  
+	        }  
+	        byte[] bytes = builder.toString().getBytes();  
+	        InputStream is = new ByteArrayInputStream(bytes);
+		}
+	}
+	
 	@Log(message="上传了{0}。")
 	@RequiresPermissions("UploadData:Upload")
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public @ResponseBody String upload(HttpServletRequest request, @RequestParam String name, @RequestParam(value = "file", required = true) MultipartFile file) {
         String strFileGroup = request.getParameter("fileGroup"); // 当前文件组
-        //int iCurrentChunk = Integer.parseInt(request.getParameter("chunk")); //当前分块
-        //int iChunks = Integer.parseInt(request.getParameter("chunks"));//总的分块数量
         int iCurrentChunk = 1;
         int iChunks = 1;
         try {
@@ -86,10 +115,6 @@ public class UploadController {
         }
         
         int iNY = UploadDataUtils.getNianYue();
-        try {
-        	iNY = Integer.parseInt(request.getParameter("ny")); //上传数据年月
-        } catch(Exception e) {
-        }
         
         long lFileSize = Long.parseLong(request.getParameter("fileSize"));//文件大小
         int iChunkSize = Integer.parseInt(request.getParameter("chunkSize")); //分块大小

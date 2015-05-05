@@ -1,0 +1,4 @@
+-- 20150506
+alter table t_policy add column operate_id bigint;
+alter table t_policy add column operate_name date;
+alter table t_policy add column operate_time varchar(32);

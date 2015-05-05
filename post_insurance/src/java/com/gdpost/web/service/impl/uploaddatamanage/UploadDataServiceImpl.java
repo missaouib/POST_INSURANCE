@@ -221,73 +221,11 @@ public class UploadDataServiceImpl implements UploadDataService{
 		return(true);
 	}
 	
-	private boolean createCSV(HttpServletRequest request, long operator_id, Map<String, DataTable[]> listDataSet)
-	{
-		// 创建CSV文件
-		//String strPath = UploadDataUtils.getFileStorePath(request);
-		String strPath = UploadDataUtils.getFileStorePath(request, currentNY);
-		File csvFile = null; 
-		BufferedWriter csvFileOutputStream = null; 
+	@Override
+	public boolean patchImportData(HttpServletRequest request, InputStream is, long operator_id, String operator_name) {
+		//TODO
 		
-		try {
-			csvFile = new File(strPath +  File.separator + currentNY + "月_formal.csv"); 
-			csvFile.createNewFile();
-			csvFileOutputStream = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(csvFile), "GB2312"), 1024);  
-			// 写文件表头
-			List<ColumnItem> standardColumns = StandardColumn.getStandardColumns();
-			int iCount = 0;
-			for(ColumnItem item : standardColumns) {
-				iCount++;
-				if(item.isNeedOutput()) {
-					csvFileOutputStream.write("\"" + item.getOutputName() + "\"");
-					if(iCount != standardColumns.size()) {
-						csvFileOutputStream.write(",");
-					}
-				}
-			}
-			
-			for(DataTable[] dataSet : listDataSet.values()) {
-				for(DataTable dt : dataSet) {
-					// 写入数据
-			        for (DataRow row : dt.Rows) {
-			        	// 换行，第一个换行是跟表头的换行
-			        	csvFileOutputStream.newLine();
-			        	// 从处理后的行中，取出标准列数据
-			        	for(ColumnItem item : standardColumns) {
-			        		if(item.isNeedOutput()) {
-				        		if(!item.isHasValue() && !item.getColumnName().equals("ny")) {
-				        			csvFileOutputStream.write("");
-				        			csvFileOutputStream.write(",");
-				        		} else {
-				        			Object cell = row.getValue(item.getColumnName());
-				        			// 特殊处理年月，年月不写入DataSet数据，作为固定数据
-				        			if(item.getColumnName().equals("ny")) {
-				        				cell = currentNY;
-				        			}
-				        			csvFileOutputStream.write(cell == null ? "" : "\"" + cell + "\"");
-				        			csvFileOutputStream.write(",");
-				        		}
-			        		}
-			        	}
-			        }
-				}
-			}
-			
-			csvFileOutputStream.flush();
-		} catch (Exception e) {
-			 e.printStackTrace();
-			 return(false);
-		} finally {
-			try {
-				if(csvFileOutputStream != null) {
-					csvFileOutputStream.close();
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		return(true);
+		return true;
 	}
 	
 	public boolean handleData(HttpServletRequest request, List<String> listFiles, 
@@ -435,8 +373,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 		// 读取上月数据，总记录数、店名称
 		boolean bFlag = true;
 		Map<String, Integer> dtLastShop = new Hashtable<String, Integer>();
-		getLastShop(request, member_id, lastNY, dtLastShop);
-		int iLastRecordCount = getLastRecordCount(request, member_id, lastNY);
+		getLastShop(request, dtLastShop);
+		int iLastRecordCount = getLastRecordCount(request);
 		int iRecordCount = 0;
 		
 		for(DataTable[] dataSet : listDataSet.values()) {
@@ -803,7 +741,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			connection = DriverManager.getConnection(basic.getUrl(), basic.getUsername(), basic.getPassword());
 			statement = (com.mysql.jdbc.Statement)connection.createStatement();
 			String statementText = "INSERT INTO tbl_member_data_status(member_id, ny, status, create_date, operator, operator_name, operate_type, memo)" +
-			"VALUES(" + member_id + ", " + ny + ", 0, now(), " + operator_id + ", '" + operator_name + "', " + operate_type + ",'" + memo + "')";
+			"VALUES(0, now(), " + operator_id + ", '" + operator_name + "', " + operate_type + ",'" + memo + "')";
 			bResult = statement.execute(statementText);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -832,7 +770,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			basic = (com.alibaba.druid.pool.DruidDataSource)dataSource;
 			connection = DriverManager.getConnection(basic.getUrl(), basic.getUsername(), basic.getPassword());
 			statement = (com.mysql.jdbc.Statement)connection.createStatement();
-			String statementText = "DELETE FROM tbl_member_data_status WHERE member_id=" + member_id + " AND ny=" + ny;
+			String statementText = "DELETE FROM tbl_member_data_status WHERE member_id=";
 			bResult = statement.execute(statementText);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -890,7 +828,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			basic = (com.alibaba.druid.pool.DruidDataSource)dataSource;
 			connection = DriverManager.getConnection(basic.getUrl(), basic.getUsername(), basic.getPassword());
 			statement = (com.mysql.jdbc.Statement)connection.createStatement();
-			String statementText = "SELECT COUNT(1) AS LastRecordCount FROM tbl_member_data WHERE member_id=" + member_id + " AND ny=" + lastNY;
+			String statementText = "SELECT COUNT(1) AS LastRecordCount FROM tbl_member_data WHERE member_id=";
 			ResultSet rs = statement.executeQuery(statementText);
 			while(rs.next()) {			
 				iValue = rs.getInt("LastRecordCount");
@@ -922,7 +860,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			basic = (com.alibaba.druid.pool.DruidDataSource)dataSource;
 			connection = DriverManager.getConnection(basic.getUrl(), basic.getUsername(), basic.getPassword());
 			statement = (com.mysql.jdbc.Statement)connection.createStatement();
-			String statementText = "SELECT aes_decrypt(unhex(dm), '" + com.gdpost.web.MySQLAESKey.AESKey + "') AS dm FROM (SELECT DISTINCT dm FROM tbl_member_data WHERE member_id=" + member_id + " AND ny=" + lastNY + ") A";
+			String statementText = "SELECT aes_decrypt(unhex(dm), '" + com.gdpost.web.MySQLAESKey.AESKey + "') AS dm FROM (SELECT DISTINCT dm FROM tbl_member_data WHERE member_id=" + ") A";
 			ResultSet rs = statement.executeQuery(statementText);
 			while(rs.next()) {		
 				dtLastShop.put(rs.getString("dm"), 0);
@@ -955,7 +893,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			basic = (com.alibaba.druid.pool.DruidDataSource)dataSource;
 			connection = DriverManager.getConnection(basic.getUrl(), basic.getUsername(), basic.getPassword());
 			statement = (com.mysql.jdbc.Statement)connection.createStatement();
-			String statementText = "SELECT " + strValueColumnName + "," + strIDColumnName + " FROM " + strTableName + " WHERE member_id=" + member_id;
+			String statementText = "SELECT " + strValueColumnName + "," + strIDColumnName + " FROM " + strTableName + " WHERE member_id=";
 			ResultSet rs = statement.executeQuery(statementText);
 			while(rs.next()) {
 				// add data row				
@@ -991,7 +929,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			basic = (com.alibaba.druid.pool.DruidDataSource)dataSource;
 			connection = DriverManager.getConnection(basic.getUrl(), basic.getUsername(), basic.getPassword());
 			statement = (com.mysql.jdbc.Statement)connection.createStatement();
-			String statementText = "SELECT ny FROM tbl_member_data_status WHERE member_id=" + member_id + " AND ny=" + ny + " LIMIT 1";
+			String statementText = "SELECT ny FROM tbl_member_data_status WHERE member_id=" + " LIMIT 1";
 			ResultSet rs = statement.executeQuery(statementText);
 			while(rs.next()) {		
 				bFlag = false;

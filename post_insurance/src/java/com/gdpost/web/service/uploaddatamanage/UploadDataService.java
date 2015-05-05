@@ -1,5 +1,6 @@
 package com.gdpost.web.service.uploaddatamanage;
 
+import java.io.InputStream;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,9 @@ public interface UploadDataService {
 	
 	boolean handleData(HttpServletRequest request, List<String> listFiles, 
 			long operator_id, String operator_name, int operator_type, StringBuilder builder, String memo);
+	
+	boolean patchImportData(HttpServletRequest request, InputStream is, 
+			long operator_id, String operator_name);
 	
 	boolean importData(HttpServletRequest request, DataTable dt);
 	

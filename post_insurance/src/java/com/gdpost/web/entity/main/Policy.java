@@ -65,6 +65,9 @@ public class Policy implements Idable<Long> {
 	private Date policyDate;
 	private Integer renewalSucessFlag;
 	private Integer resetValidFlag;
+	private Long operateId;
+	private String operateName;
+	private Date operateTime;
 	private List<RenewalDtl> renewalDtls = new ArrayList<RenewalDtl>(0);
 	private List<ConservationDtl> conservationDtls = new ArrayList<ConservationDtl>(0);
 	private List<RenewalFeeDtl> renewalFeeDtls = new ArrayList<RenewalFeeDtl>(0);
@@ -465,6 +468,33 @@ public class Policy implements Idable<Long> {
 
 	public void setResetValidFlag(Integer resetValidFlag) {
 		this.resetValidFlag = resetValidFlag;
+	}
+
+	@Column(name = "operate_id")
+	public Long getOperateId() {
+		return operateId;
+	}
+
+	public void setOperateId(Long operateId) {
+		this.operateId = operateId;
+	}
+
+	@Column(name = "operate_name")
+	public String getOperateName() {
+		return operateName;
+	}
+
+	public void setOperateName(String operateName) {
+		this.operateName = operateName;
+	}
+
+	@Column(name = "operate_time")
+	public Date getOperateTime() {
+		return operateTime;
+	}
+
+	public void setOperateTime(Date operateTime) {
+		this.operateTime = operateTime;
 	}
 
 	@OneToMany(mappedBy="policy", cascade={CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval=true)
