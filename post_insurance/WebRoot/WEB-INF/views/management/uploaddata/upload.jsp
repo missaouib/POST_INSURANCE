@@ -88,6 +88,7 @@
                          success: function (data) {
 	                         var response = $.parseJSON(data);
 							 if (response.result == "success") {
+								 alert("uploader now start");
 			                    uploader.start();
 	                         } else {
 	                         	alert(response.message);
@@ -130,13 +131,16 @@
             },
 
             FileUploaded: function (up, file, info) {
+            	alert("test");
                 if (iFileIndex !== iFileCount) {
                     return;
                 }
-
+				alert("pass");
+				alert(info.response);
                 // 执行数据导入
                 if (info != null && info.response != null) {
                     var response = $.parseJSON(info.response);
+                    alert(response.result);
                     if (response.result != null && response.result == 'success' && response.strFileName != null) {
                         $("#console").html("开始导入数据");
                         var tImport = setInterval(function () {

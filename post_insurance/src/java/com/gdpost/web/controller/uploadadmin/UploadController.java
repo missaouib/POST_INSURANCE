@@ -74,7 +74,7 @@ public class UploadController {
 	
 	@Log(message="上传了{0}。")
 	@RequiresPermissions("UploadData:Upload")
-	@RequestMapping(value = "/upload", method = RequestMethod.POST)
+	@RequestMapping(value = "/patchUpload", method = RequestMethod.POST)
 	public @ResponseBody String patchUpload(HttpServletRequest request, @RequestParam(value = "file", required = true) MultipartFile[] files) {
 		StringBuilder builder = new StringBuilder();
 		for(MultipartFile mf : files) {
@@ -99,13 +99,15 @@ public class UploadController {
 	        byte[] bytes = builder.toString().getBytes();  
 	        InputStream is = new ByteArrayInputStream(bytes);
 		}
+		return null;
 	}
 	
 	@Log(message="上传了{0}。")
 	@RequiresPermissions("UploadData:Upload")
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public @ResponseBody String upload(HttpServletRequest request, @RequestParam String name, @RequestParam(value = "file", required = true) MultipartFile file) {
-        String strFileGroup = request.getParameter("fileGroup"); // 当前文件组
+        log.info("-------------------------------------------");
+		String strFileGroup = request.getParameter("fileGroup"); // 当前文件组
         int iCurrentChunk = 1;
         int iChunks = 1;
         try {

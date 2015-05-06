@@ -15,8 +15,8 @@ public class StandardColumn {
 		standardColumns = new ArrayList<ColumnItem>();
 		
 		ColumnItem column = new ColumnItem();
-		column.setDisplayName("店名");
-		column.setColumnName("dm");
+		column.setDisplayName("保单号");
+		column.setColumnName("policyNo");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(false);
 		column.setNeedEncrypt(true);
