@@ -120,7 +120,7 @@ public class UploadStatusController {
 		for(Long id : ids) {
 			TblMemberDataStatus item = memberDataStatusService.get(id);
 			strMessage += item.getNy() + "" + item.getTblMember().getMemberName() + ",";
-		 	uploadDataService.delete(request, item.getNy(), item.getTblMember().getId());
+		 	uploadDataService.delete(request);
 		}
 
 		if(strMessage.length() > 0) {
