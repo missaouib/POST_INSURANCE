@@ -25,17 +25,14 @@ import System.Data.DataRow;
 import System.Data.DataTable;
 
 import com.gdpost.utils.SecurityUtils;
-import com.gdpost.utils.StringUtil;
 import com.gdpost.utils.UploadDataHelper.StatisticsType;
 import com.gdpost.utils.UploadDataHelper.UploadDataUtils;
-import com.gdpost.web.entity.main.User;
 import com.gdpost.web.entity.member.TblMemberData;
 import com.gdpost.web.entity.member.TblMemberUser;
 import com.gdpost.web.log.Log;
 import com.gdpost.web.log.LogMessageObject;
 import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.uploaddatamanage.StatisticsService;
-import com.gdpost.web.shiro.ShiroUser;
 import com.gdpost.web.util.dwz.Page;
 import com.gdpost.web.util.persistence.DynamicSpecifications;
 import com.gdpost.web.util.persistence.SearchFilter;
@@ -44,7 +41,7 @@ import com.gdpost.web.util.persistence.SearchFilter.Operator;
 @Controller
 @RequestMapping("/uploaddatamanage/statistics")
 public class StatisticsController {
-	private static final Logger LOG = LoggerFactory.getLogger(StatisticsController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(TemplateController.class);
 	
 	@Autowired
 	private StatisticsService statisticsService;
@@ -68,10 +65,8 @@ public class StatisticsController {
 	@RequiresPermissions("queryuploaddata:show")
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String preList(HttpServletRequest request, Page page, Map<String, Object> map) {
-		//TblMemberUser user = SecurityUtils.getLoginTblMemberUser();
-		User user = (User) SecurityUtils.getLoginUser();
-		ShiroUser shiroUser = SecurityUtils.getShiroUser();
-		long member_id = shiroUser.getUser().getId();
+		TblMemberUser user = SecurityUtils.getLoginTblMemberUser();	
+		long member_id = user.getTblMember().getId();		
 		// 返回年月
 		DataTable dtNY = statisticsService.getNY(request, member_id);
 		
@@ -81,7 +76,7 @@ public class StatisticsController {
 		}		
 		
 		Specification<TblMemberData> specification = DynamicSpecifications.bySearchFilter(request, TblMemberData.class,
-				new SearchFilter("tblMember.id", Operator.EQ, user.getId()),
+				new SearchFilter("tblMember.id", Operator.EQ, user.getTblMember().getId()),
 				new SearchFilter("ny", Operator.EQ, listNY.size()>0 ? listNY.get(0) : -1)
 				);
 		
@@ -98,13 +93,10 @@ public class StatisticsController {
 	@RequiresPermissions("queryuploaddata:show")
 	@RequestMapping(value="/list", method={RequestMethod.POST})
 	public String list(HttpServletRequest request, Page page, Map<String, Object> map) {
-//		TblMemberUser user = SecurityUtils.getLoginTblMemberUser();
-		User user = (User) SecurityUtils.getLoginUser();
-//		long member_id = user.getTblMember().getId();
-		ShiroUser shiroUser = SecurityUtils.getShiroUser();
-		long member_id = shiroUser.getUser().getId();
+		TblMemberUser user = SecurityUtils.getLoginTblMemberUser();
+		long member_id = user.getTblMember().getId();	
 		Specification<TblMemberData> specification = DynamicSpecifications.bySearchFilter(request, TblMemberData.class,
-				new SearchFilter("tblMember.id", Operator.EQ, user.getId()));
+				new SearchFilter("tblMember.id", Operator.EQ, user.getTblMember().getId()));
 		
 		List<TblMemberData> items = statisticsService.findAll(specification, page);
 		
@@ -152,10 +144,8 @@ public class StatisticsController {
 	@RequiresPermissions("statisticszzl:show")
 	@RequestMapping(value = "/zzl", method = RequestMethod.GET)
 	public String preZzl(HttpServletRequest request, Map<String, Object> map) {
-//		TblMemberUser user = SecurityUtils.getLoginTblMemberUser();	
-//		long member_id = user.getTblMember().getId();
-		ShiroUser shiroUser = SecurityUtils.getShiroUser();
-		long member_id = shiroUser.getUser().getId();
+		TblMemberUser user = SecurityUtils.getLoginTblMemberUser();	
+		long member_id = user.getTblMember().getId();
 		
 		// 返回年月
 		DataTable dtNY = statisticsService.getNY(request, member_id);
@@ -174,10 +164,8 @@ public class StatisticsController {
 	@RequiresPermissions("statisticszzl:show")
 	@RequestMapping(value="/zzl", method={RequestMethod.POST})
 	public @ResponseBody String zzl(HttpServletRequest request, String ny) {
-//		TblMemberUser user = SecurityUtils.getLoginTblMemberUser();	
-//		long member_id = user.getTblMember().getId();
-		ShiroUser shiroUser = SecurityUtils.getShiroUser();
-		long member_id = shiroUser.getUser().getId();
+		TblMemberUser user = SecurityUtils.getLoginTblMemberUser();	
+		long member_id = user.getTblMember().getId();
 		int iNY = UploadDataUtils.getNianYue();
 		try {
 			iNY = Integer.parseInt(ny);
@@ -207,10 +195,8 @@ public class StatisticsController {
 	@RequiresPermissions("statisticszzl:show")
 	@RequestMapping(value = "/webzzl", method = RequestMethod.GET)
 	public String preWebZzl(HttpServletRequest request, Map<String, Object> map) {
-//		TblMemberUser user = SecurityUtils.getLoginTblMemberUser();	
-//		long member_id = user.getTblMember().getId();
-		ShiroUser shiroUser = SecurityUtils.getShiroUser();
-		long member_id = shiroUser.getUser().getId();
+		TblMemberUser user = SecurityUtils.getLoginTblMemberUser();	
+		long member_id = user.getTblMember().getId();
 		
 		// 返回年月
 		DataTable dtNY = statisticsService.getNY(request, member_id);
@@ -228,10 +214,8 @@ public class StatisticsController {
 	@RequiresPermissions("statisticsxse:show")
 	@RequestMapping(value = "/xse", method = RequestMethod.GET)
 	public String preXse(HttpServletRequest request, Map<String, Object> map) {
-//		TblMemberUser user = SecurityUtils.getLoginTblMemberUser();	
-//		long member_id = user.getTblMember().getId();
-		ShiroUser shiroUser = SecurityUtils.getShiroUser();
-		long member_id = shiroUser.getUser().getId();
+		TblMemberUser user = SecurityUtils.getLoginTblMemberUser();	
+		long member_id = user.getTblMember().getId();
 		
 		// 返回年月
 		DataTable dtNY = statisticsService.getNY(request, member_id);
@@ -250,10 +234,8 @@ public class StatisticsController {
 	@RequiresPermissions("statisticsxse:show")
 	@RequestMapping(value="/xse", method={RequestMethod.POST})
 	public @ResponseBody String xse(HttpServletRequest request, String ny) {
-//		TblMemberUser user = SecurityUtils.getLoginTblMemberUser();	
-//		long member_id = user.getTblMember().getId();
-		ShiroUser shiroUser = SecurityUtils.getShiroUser();
-		long member_id = shiroUser.getUser().getId();
+		TblMemberUser user = SecurityUtils.getLoginTblMemberUser();	
+		long member_id = user.getTblMember().getId();
 		int iNY = UploadDataUtils.getNianYue();
 		try {
 			iNY = Integer.parseInt(ny);
@@ -458,10 +440,8 @@ public class StatisticsController {
 	@RequiresPermissions("statisticspl:show")
 	@RequestMapping(value = "/pl", method = RequestMethod.GET)
 	public String prePL(HttpServletRequest request, Map<String, Object> map) {
-//		TblMemberUser user = SecurityUtils.getLoginTblMemberUser();	
-//		long member_id = user.getTblMember().getId();
-		ShiroUser shiroUser = SecurityUtils.getShiroUser();
-		long member_id = shiroUser.getUser().getId();
+		TblMemberUser user = SecurityUtils.getLoginTblMemberUser();	
+		long member_id = user.getTblMember().getId();
 		
 		// 返回年月、店名列表
 		DataTable dtNY = statisticsService.getNY(request, member_id);
@@ -487,10 +467,8 @@ public class StatisticsController {
 	@RequiresPermissions("statisticspl:show")
 	@RequestMapping(value = "/webpl", method = RequestMethod.GET)
 	public String preWebPL(HttpServletRequest request, Map<String, Object> map) {
-//		TblMemberUser user = SecurityUtils.getLoginTblMemberUser();	
-//		long member_id = user.getTblMember().getId();
-		ShiroUser shiroUser = SecurityUtils.getShiroUser();
-		long member_id = shiroUser.getUser().getId();
+		TblMemberUser user = SecurityUtils.getLoginTblMemberUser();	
+		long member_id = user.getTblMember().getId();
 		
 		// 返回年月、店名列表
 		DataTable dtNY = statisticsService.getNY(request, member_id);
@@ -517,10 +495,8 @@ public class StatisticsController {
 	@RequiresPermissions("statisticspl:show")
 	@RequestMapping(value="/pl", method={RequestMethod.POST})
 	public @ResponseBody String pl(HttpServletRequest request, String ny, String dm) {
-//		TblMemberUser user = SecurityUtils.getLoginTblMemberUser();	
-//		long member_id = user.getTblMember().getId();
-		ShiroUser shiroUser = SecurityUtils.getShiroUser();
-		long member_id = shiroUser.getUser().getId();
+		TblMemberUser user = SecurityUtils.getLoginTblMemberUser();	
+		long member_id = user.getTblMember().getId();
 		int iNY = UploadDataUtils.getNianYue();
 		try {
 			iNY = Integer.parseInt(ny);
@@ -785,10 +761,8 @@ public class StatisticsController {
 	@RequiresPermissions("statisticspl:show")
 	@RequestMapping(value="/pm", method={RequestMethod.POST})
 	public @ResponseBody String pm(HttpServletRequest request, String ny, String dm, String pl) {
-//		TblMemberUser user = SecurityUtils.getLoginTblMemberUser();	
-//		long member_id = user.getTblMember().getId();
-		ShiroUser shiroUser = SecurityUtils.getShiroUser();
-		long member_id = shiroUser.getUser().getId();
+		TblMemberUser user = SecurityUtils.getLoginTblMemberUser();	
+		long member_id = user.getTblMember().getId();
 		int iNY = UploadDataUtils.getNianYue();
 		try {
 			iNY = Integer.parseInt(ny);
@@ -993,10 +967,8 @@ public class StatisticsController {
 	@RequiresPermissions("statisticspp:show")
 	@RequestMapping(value = "/pp", method = RequestMethod.GET)
 	public String prePP(HttpServletRequest request, Map<String, Object> map) {
-//		TblMemberUser user = SecurityUtils.getLoginTblMemberUser();	
-//		long member_id = user.getTblMember().getId();
-		ShiroUser shiroUser = SecurityUtils.getShiroUser();
-		long member_id = shiroUser.getUser().getId();
+		TblMemberUser user = SecurityUtils.getLoginTblMemberUser();	
+		long member_id = user.getTblMember().getId();
 		
 		// 返回年月、店名、品类列表
 		DataTable dtNY = statisticsService.getNY(request, member_id);
@@ -1031,10 +1003,8 @@ public class StatisticsController {
 	@RequiresPermissions("statisticspp:show")
 	@RequestMapping(value="/pp", method={RequestMethod.POST})
 	public @ResponseBody String pp(HttpServletRequest request, String ny, String dm, String pl, int statisticstype, int statisticsorder) {
-//		TblMemberUser user = SecurityUtils.getLoginTblMemberUser();	
-//		long member_id = user.getTblMember().getId();
-		ShiroUser shiroUser = SecurityUtils.getShiroUser();
-		long member_id = shiroUser.getUser().getId();
+		TblMemberUser user = SecurityUtils.getLoginTblMemberUser();	
+		long member_id = user.getTblMember().getId();
 		int iNY = UploadDataUtils.getNianYue();
 		try {
 			iNY = Integer.parseInt(ny);
@@ -1264,10 +1234,8 @@ public class StatisticsController {
 	@RequiresPermissions("statisticsppdesc:show")
 	@RequestMapping(value = "/ppdesc", method = RequestMethod.GET)
 	public String prePPDesc(HttpServletRequest request, Map<String, Object> map) {
-//		TblMemberUser user = SecurityUtils.getLoginTblMemberUser();	
-//		long member_id = user.getTblMember().getId();
-		ShiroUser shiroUser = SecurityUtils.getShiroUser();
-		long member_id = shiroUser.getUser().getId();
+		TblMemberUser user = SecurityUtils.getLoginTblMemberUser();	
+		long member_id = user.getTblMember().getId();
 		
 		// 返回年月、店名、品类列表
 		DataTable dtNY = statisticsService.getNY(request, member_id);
@@ -1301,10 +1269,8 @@ public class StatisticsController {
 	@RequiresPermissions("statisticsppdesc:show")
 	@RequestMapping(value="/ppdesc", method={RequestMethod.POST})
 	public @ResponseBody String ppdesc(HttpServletRequest request, String ny, String dm, String pl, int statisticstype) {
-//		TblMemberUser user = SecurityUtils.getLoginTblMemberUser();	
-//		long member_id = user.getTblMember().getId();
-		ShiroUser shiroUser = SecurityUtils.getShiroUser();
-		long member_id = shiroUser.getUser().getId();
+		TblMemberUser user = SecurityUtils.getLoginTblMemberUser();	
+		long member_id = user.getTblMember().getId();
 		int iNY = UploadDataUtils.getNianYue();
 		try {
 			iNY = Integer.parseInt(ny);

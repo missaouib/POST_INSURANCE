@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.gdpost.utils.SecurityUtils;
 import com.gdpost.utils.SwfHelper.Common;
 import com.gdpost.utils.SwfHelper.Pdf2Swf;
 import com.gdpost.web.entity.member.TblMemberResource;
@@ -30,11 +29,7 @@ import com.gdpost.web.log.Log;
 import com.gdpost.web.log.LogMessageObject;
 import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.uploaddatamanage.MemberResourceService;
-import com.gdpost.web.shiro.ShiroUser;
-import com.gdpost.web.util.dwz.Page;
 import com.gdpost.web.util.persistence.DynamicSpecifications;
-import com.gdpost.web.util.persistence.SearchFilter;
-import com.gdpost.web.util.persistence.SearchFilter.Operator;
 
 @Controller
 @RequestMapping("/uploaddatamanage/document")
@@ -59,10 +54,8 @@ public class DocumentController {
 	@RequiresPermissions("Document:show")
 	@RequestMapping(value="/list", method={RequestMethod.GET, RequestMethod.POST})
 	public String list(HttpServletRequest request, Page page, Map<String, Object> map) {
-//		TblMemberUser user = SecurityUtils.getLoginTblMemberUser();
-//		long member_id = user.getTblMember().getId();
-		ShiroUser shiroUser = SecurityUtils.getShiroUser();
-		long member_id = shiroUser.getUser().getId();
+		TblMemberUser user = SecurityUtils.getLoginTblMemberUser();
+		long member_id = user.getTblMember().getId();
 		Specification<TblMemberResource> specification = DynamicSpecifications.bySearchFilter(request, TblMemberResource.class,
 				new SearchFilter("tblMember.id", Operator.EQ, member_id));
 		List<TblMemberResource> resources = memberResourceService.findAll(specification, page);
@@ -82,10 +75,8 @@ public class DocumentController {
 	@RequiresPermissions("Document:show")
 	@RequestMapping(value="/toWebList/{storeType}", method={RequestMethod.GET, RequestMethod.POST})
 	public String webList(HttpServletRequest request, @PathVariable String storeType, Page page, Map<String, Object> map) {
-//		TblMemberUser user = SecurityUtils.getLoginTblMemberUser();
-//		long member_id = user.getTblMember().getId();
-		ShiroUser shiroUser = SecurityUtils.getShiroUser();
-		long member_id = shiroUser.getUser().getId();
+		TblMemberUser user = SecurityUtils.getLoginTblMemberUser();
+		long member_id = user.getTblMember().getId();
 		Specification<TblMemberResource> specification = DynamicSpecifications.bySearchFilter(request, TblMemberResource.class,
 				new SearchFilter("tblMember.id", Operator.EQ, member_id),
 				new SearchFilter("resource.storeType", Operator.EQ, storeType));
@@ -109,10 +100,8 @@ public class DocumentController {
 		}
 		
 		// 检查id 是否是该用户的
-//		TblMemberUser user = SecurityUtils.getLoginTblMemberUser();	
-//		long member_id = user.getTblMember().getId();
-		ShiroUser shiroUser = SecurityUtils.getShiroUser();
-		long member_id = shiroUser.getUser().getId();
+		TblMemberUser user = SecurityUtils.getLoginTblMemberUser();	
+		long member_id = user.getTblMember().getId();
 		if(!resource.getTblMember().getId().equals(member_id)) {
 			return request.getServletContext().getContextPath() + "/members/index";
 		}
@@ -144,10 +133,8 @@ public class DocumentController {
 		}
 		
 		// 检查id 是否是该用户的
-//		TblMemberUser user = SecurityUtils.getLoginTblMemberUser();	
-//		long member_id = user.getTblMember().getId();
-		ShiroUser shiroUser = SecurityUtils.getShiroUser();
-		long member_id = shiroUser.getUser().getId();
+		TblMemberUser user = SecurityUtils.getLoginTblMemberUser();	
+		long member_id = user.getTblMember().getId();
 		if(!resource.getTblMember().getId().equals(member_id)) {
 			return request.getServletContext().getContextPath() + "/web/index";
 		}
@@ -175,10 +162,8 @@ public class DocumentController {
 		TblMemberResource resource = memberResourceService.get(id);
 		
 		// 检查id 是否是该用户的
-//		TblMemberUser user = SecurityUtils.getLoginTblMemberUser();	
-//		long member_id = user.getTblMember().getId();
-		ShiroUser shiroUser = SecurityUtils.getShiroUser();
-		long member_id = shiroUser.getUser().getId();
+		TblMemberUser user = SecurityUtils.getLoginTblMemberUser();	
+		long member_id = user.getTblMember().getId();
 		if(!resource.getTblMember().getId().equals(member_id)) {
 			return;
 		}

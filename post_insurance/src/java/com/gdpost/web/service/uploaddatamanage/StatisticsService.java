@@ -1,4 +1,4 @@
-package com.gdpost.web.service.uploaddatamanage;
+package com.sendtend.web.service.uploaddatamanage;
 
 import java.util.List;
 
@@ -8,9 +8,9 @@ import org.springframework.data.jpa.domain.Specification;
 
 import System.Data.DataTable;
 
-import com.gdpost.utils.UploadDataHelper.StatisticsType;
-import com.gdpost.web.entity.member.TblMemberData;
-import com.gdpost.web.util.dwz.Page;
+import com.sendtend.utils.UploadDataHelper.StatisticsType;
+import com.sendtend.web.entity.member.TblMemberData;
+import com.sendtend.web.util.dwz.Page;
 
 public interface StatisticsService {
 	List<TblMemberData> findAll(Specification<TblMemberData> specification, Page page);

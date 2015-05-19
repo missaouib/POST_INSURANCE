@@ -1,12 +1,10 @@
 package com.gdpost.web.controller.uploadadmin;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.file.Files;
@@ -50,20 +48,34 @@ public class UploadController {
 	private MemberService memberService;
 	
 	private static final String UPLOAD = "management/uploaddata/upload";
+	private static final String LOOKUP_MEMBER = "management/uploaddata/lookup_member";
 	
 	String strError = "{\"jsonrpc\":\"2.0\",\"result\":\"error\",\"id\":\"id\",\"message\":\"操作失败。\"}";
 	
 	@RequiresPermissions("UploadData:Upload")
 	@RequestMapping(value = "/upload", method = RequestMethod.GET)
 	public String preUpload(HttpServletRequest request, Map<String, Object> map) {
+		int ny = UploadDataUtils.getNianYue();
+		int lastNY = UploadDataUtils.getLastNianYue();
+		int nextNY = UploadDataUtils.getNextNianYue();
+		int lastNY2 = UploadDataUtils.getLastNianYue(lastNY);
+		
+		List<Integer> listNY = new ArrayList<Integer>();
+		//listNY.add(nextNY);
+		listNY.add(ny);
+		listNY.add(lastNY);
+		listNY.add(lastNY2);
+		
+		map.put("ny", listNY);
+		
 		return UPLOAD;
 	}
 
 	@RequiresPermissions("UploadData:Upload")
 	@RequestMapping(value = "/checkimportny", method = RequestMethod.POST)
-	public @ResponseBody String checkImportNY(HttpServletRequest request) {
+	public @ResponseBody String checkImportNY(HttpServletRequest request, @RequestParam int ny, @RequestParam long member_id) {
 		boolean bFlag = true;
-		//bFlag = uploadDataService.checkImportNY(request, member_id, ny);
+		bFlag = uploadDataService.checkImportNY(request, member_id, ny);
 		
 	    if(bFlag) {
 	    	return("{\"jsonrpc\":\"2.0\",\"result\":\"success\",\"id\":\"id\",\"message\":\"\"}");
@@ -71,43 +83,14 @@ public class UploadController {
 	    	return("{\"jsonrpc\":\"2.0\",\"result\":\"error\",\"id\":\"id\",\"message\":\"该年月已经上传过数据。\"}");
 	    }
 	}
-	
-	@Log(message="上传了{0}。")
-	@RequiresPermissions("UploadData:Upload")
-	@RequestMapping(value = "/patchUpload", method = RequestMethod.POST)
-	public @ResponseBody String patchUpload(HttpServletRequest request, @RequestParam(value = "file", required = true) MultipartFile[] files) {
-		StringBuilder builder = new StringBuilder();
-		for(MultipartFile mf : files) {
-			builder = new StringBuilder();  
-	        for (int i = 1; i <= 10; i++) {  
-	            for (int j = 0; j <= 10000; j++) {  
-	  
-	                builder.append(4);  
-	                builder.append("\t");  
-	                builder.append(4 + 1);  
-	                builder.append("\t");  
-	                builder.append(4 + 2);  
-	                builder.append("\t");  
-	                builder.append(4 + 3);  
-	                builder.append("\t");  
-	                builder.append(4 + 4);  
-	                builder.append("\t");  
-	                builder.append(4 + 5);  
-	                builder.append("\n");  
-	            }  
-	        }  
-	        byte[] bytes = builder.toString().getBytes();  
-	        InputStream is = new ByteArrayInputStream(bytes);
-		}
-		return null;
-	}
-	
+		
 	@Log(message="上传了{0}。")
 	@RequiresPermissions("UploadData:Upload")
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public @ResponseBody String upload(HttpServletRequest request, @RequestParam String name, @RequestParam(value = "file", required = true) MultipartFile file) {
-        log.info("-------------------------------------------");
-		String strFileGroup = request.getParameter("fileGroup"); // 当前文件组
+        String strFileGroup = request.getParameter("fileGroup"); // 当前文件组
+        //int iCurrentChunk = Integer.parseInt(request.getParameter("chunk")); //当前分块
+        //int iChunks = Integer.parseInt(request.getParameter("chunks"));//总的分块数量
         int iCurrentChunk = 1;
         int iChunks = 1;
         try {
@@ -117,6 +100,10 @@ public class UploadController {
         }
         
         int iNY = UploadDataUtils.getNianYue();
+        try {
+        	iNY = Integer.parseInt(request.getParameter("ny")); //上传数据年月
+        } catch(Exception e) {
+        }
         
         long lFileSize = Long.parseLong(request.getParameter("fileSize"));//文件大小
         int iChunkSize = Integer.parseInt(request.getParameter("chunkSize")); //分块大小
@@ -256,7 +243,7 @@ public class UploadController {
 	@Log(message="{0}")
 	@RequiresPermissions("UploadData:Upload")
 	@RequestMapping(value = "/import", method = RequestMethod.POST)
-	public @ResponseBody String doImport(HttpServletRequest request, @RequestParam String strFileGroup, @RequestParam String memo) {
+	public @ResponseBody String doImport(HttpServletRequest request, @RequestParam String strFileGroup, @RequestParam int ny,  @RequestParam int template, @RequestParam long member_id, @RequestParam String memo) {
 		com.gdpost.utils.UploadDataHelper.SessionChunk sessionChunk = new com.gdpost.utils.UploadDataHelper.SessionChunk();
 		com.gdpost.utils.UploadDataHelper.FileChunk fileChunk = sessionChunk.getSessionChunk(request);
 		if(fileChunk == null) {
@@ -264,13 +251,15 @@ public class UploadController {
 		}
 		
 	    ShiroUser shiroUser = SecurityUtils.getShiroUser();
+	    int currentNY = ny;
+	    int lastNY = UploadDataUtils.getLastNianYue(currentNY);
 	    String strMessage = ""; // 返回客户端的详细信息
 	    boolean bFlag = true;
 	    StringBuilder builder = new StringBuilder();
 	    
 		if(fileChunk.getFileGroup().equals(strFileGroup)) {
 			List<String> listFiles = fileChunk.getListFileName();
-			bFlag = uploadDataService.handleData(request, listFiles, shiroUser.getId(), shiroUser.getLoginName(), 1, builder, memo); // operate_type=1,管理导入
+			bFlag = uploadDataService.handleData(template, request, member_id, listFiles, currentNY, lastNY, shiroUser.getId(), shiroUser.getLoginName(), 1, builder, memo); // operate_type=1,管理导入
 		}
 		
 	    // 请SessionChunk
@@ -278,7 +267,7 @@ public class UploadController {
 	    strMessage = builder.toString();
 	    
 	    if(bFlag) {
-	    	LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{"导入了数据。"}));
+	    	LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{"导入了" + currentNY + "月数据。"}));
 	    	if(!strMessage.equals("")) {
 				// 如有数据检查提示，则提示，如确认不导入，则提交request执行清除
 	    		return("{\"jsonrpc\":\"2.0\",\"result\":\"confirm\",\"id\":\"id\",\"message\":\"" + strMessage + "\"}");
@@ -286,10 +275,34 @@ public class UploadController {
 	    		return("{\"jsonrpc\":\"2.0\",\"result\":\"success\",\"id\":\"id\",\"message\":\"" + strMessage + "\"}");
 	    	}
 	    } else {
-	    	LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{"导入数据出错，" + strMessage + "。"}));
+	    	LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{"导入" + currentNY + "月数据出错，" + strMessage + "。"}));
 	    	return("{\"jsonrpc\":\"2.0\",\"result\":\"error\",\"id\":\"id\",\"message\":\"" + strMessage + "\"}");
 	    }
 	}
+	
+	@Log(message="取消导入{0}月数据。")
+	@RequiresPermissions("UploadData:Upload")
+	@RequestMapping(value = "/cancelimport", method = RequestMethod.POST)
+	public @ResponseBody String clearImport(HttpServletRequest request, @RequestParam String strFileGroup,  @RequestParam int ny,  @RequestParam long member_id) {
+	    ShiroUser shiroUser = SecurityUtils.getShiroUser();
+	    //long member_id = shiroUser.getId();
+	    //int currentNY = UploadDataUtils.getNianYue();
+	    int currentNY = ny;
+	    String strMessage = "取消导入成功。"; // 返回客户端的详细信息
+	    boolean bFlag = true;
+	    
+	    bFlag = uploadDataService.clearImport(request, member_id, currentNY);
+	    if(bFlag) {
+	    	bFlag = uploadDataService.clearImportDone(request, member_id, currentNY);
+	    }
+	    
+	    LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{currentNY}));
+	    if(bFlag) {
+	    	return("{\"jsonrpc\":\"2.0\",\"result\":\"success\",\"id\":\"id\",\"message\":\"" + strMessage + "\"}");
+	    } else {
+	    	return("{\"jsonrpc\":\"2.0\",\"result\":\"error\",\"id\":\"id\",\"message\":\"" + strMessage + "\"}");
+	    }
+    }
 
 	@RequiresPermissions("UploadData:Upload")
 	@RequestMapping(value = "/check", method = RequestMethod.POST)
@@ -305,6 +318,14 @@ public class UploadController {
         String strReturn = "{\"lastOffset\":" + lLastOffset + "}";
 		
 		return(strReturn);
+	}
+	
+	@RequiresPermissions("UploadData:Upload")
+	@RequestMapping(value="/lookup2member", method={RequestMethod.GET})
+	public String lookup(Map<String, Object> map) {
+		TblMember member = memberService.getTree();
+		map.put("member", member);
+		return LOOKUP_MEMBER;
 	}
 }
 

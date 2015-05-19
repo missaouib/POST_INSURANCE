@@ -1,12 +1,12 @@
-package com.gdpost.web.service.uploaddatamanage;
+package com.sendtend.web.service.uploaddatamanage;
 
 import java.util.List;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
-import com.gdpost.web.entity.member.TblMemberDataTemplateFieldRule;
-import com.gdpost.web.util.dwz.Page;
+import com.sendtend.web.entity.member.TblMemberDataTemplateFieldRule;
+import com.sendtend.web.util.dwz.Page;
 
 public interface TemplateFieldRuleService {
 	TblMemberDataTemplateFieldRule get(Long id);
