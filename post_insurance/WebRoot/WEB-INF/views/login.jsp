@@ -49,14 +49,17 @@
 		<div id="login_content">
 			<div class="loginForm">
 				<form method="post" action="${contextPath}/login" id="formID" >
+					<input type="hidden" name="userType" value="admin">
 					<c:if test="${msg!=null }">
 						<p style="color: red; margin-left: 10px;">${msg }</p>
 					</c:if>
+					<!-- 
 					<p>
 						<label>登录类型</label>
 						<input type="radio" name="userType" value="member" ${userType!=null&&userType.equals("member")?"checked=\"checked\"":""}/> 连锁登录
 						<input type="radio" name="userType" value="admin" ${userType!=null&&userType.equals("admin")?"checked=\"checked\"":userType==null?"checked=\"checked\"":""}/> 管理登录 
 					</p>
+					 -->
 					<p>
 						<label>用户名:</label>
 						<input type="text" name="username" style="width: 150px;" class="validate[required] login_input" id="username" value="${username }"/>

@@ -9,6 +9,7 @@ import java.io.OutputStreamWriter;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
@@ -40,7 +41,6 @@ import com.gdpost.web.entity.member.TblMemberDataTemplate;
 import com.gdpost.web.entity.member.TblMemberDataTemplateField;
 import com.gdpost.web.entity.member.TblMemberDataTemplateFieldRule;
 import com.gdpost.web.service.member.MemberService;
-import com.gdpost.web.service.uploaddatamanage.TemplateService;
 import com.gdpost.web.service.uploaddatamanage.UploadDataService;
 import com.gdpost.web.util.dwz.Page;
 import com.gdpost.web.util.dwz.PageUtils;
@@ -57,20 +57,11 @@ public class UploadDataServiceImpl implements UploadDataService{
 	private UploadDataDAO uploadDataDAO;
 	
 	@Autowired
-	private TemplateService templateService;
-
-	@Autowired
 	private MemberService memberService;
 	
-	@Override
-	public void saveOrUpdate(TblMemberData tblMemberData) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	@SuppressWarnings("resource")
 	@Override
-	public boolean delete(HttpServletRequest request) {
+	public boolean delete(HttpServletRequest request, int ny, Long member_id) {
 		java.sql.Connection connection = null;
 		com.mysql.jdbc.Statement statement = null;
 		boolean bResult = false;
@@ -82,10 +73,18 @@ public class UploadDataServiceImpl implements UploadDataService{
 			connection = DriverManager.getConnection(basic.getUrl(), basic.getUsername(), basic.getPassword());
 			statement = (com.mysql.jdbc.Statement)connection.createStatement();
 			String statementText = "";
-			statementText = "DELETE FROM tbl_member_data_status WHERE ny=";
+			if(member_id != 0) {
+				statementText = "DELETE FROM tbl_member_data_status WHERE member_id=" + member_id + " AND ny=" + ny;
+			} else {
+				statementText = "DELETE FROM tbl_member_data_status WHERE ny=" + ny;
+			}
 			bResult = statement.execute(statementText);
 			
-			statementText = "DELETE FROM tbl_member_data WHERE ny=";
+			if(member_id != 0) {
+				statementText = "DELETE FROM tbl_member_data WHERE member_id=" + member_id + " AND ny=" + ny;
+			} else {
+				statementText = "DELETE FROM tbl_member_data WHERE ny=" + ny;
+			}
 			bResult = statement.execute(statementText);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -119,7 +118,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 
 	@SuppressWarnings("resource")
 	@Override
-	public boolean importData(HttpServletRequest request, DataTable dt) {		
+	public boolean importData(HttpServletRequest request, DataTable dt, long member_id, int ny) {		
 		java.sql.Connection connection = null;
 		com.mysql.jdbc.Statement statement = null;
 		com.alibaba.druid.pool.DruidDataSource basic = null;
@@ -173,9 +172,9 @@ public class UploadDataServiceImpl implements UploadDataService{
 	            builder.append('\t');
         	}
         	
-            //builder.append(member_id);
+            builder.append(member_id);
             builder.append('\t');
-            //builder.append(ny);
+            builder.append(ny);
             builder.append('\n');
         }
 
@@ -221,18 +220,104 @@ public class UploadDataServiceImpl implements UploadDataService{
 		return(true);
 	}
 	
-	@Override
-	public boolean patchImportData(HttpServletRequest request, InputStream is, long operator_id, String operator_name) {
-		//TODO
+	private boolean createCSV(HttpServletRequest request, long member_id, int currentNY, long operator_id, Map<String, DataTable[]> listDataSet)
+	{
+		// 创建CSV文件
+		//String strPath = UploadDataUtils.getFileStorePath(request);
+		String strPath = UploadDataUtils.getFileStorePath(request, currentNY);
+		File csvFile = null; 
+		BufferedWriter csvFileOutputStream = null; 
 		
-		return true;
+		try {
+			csvFile = new File(strPath +  File.separator + currentNY + "月_formal.csv"); 
+			csvFile.createNewFile();
+			csvFileOutputStream = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(csvFile), "GB2312"), 1024);  
+			// 写文件表头
+			List<ColumnItem> standardColumns = StandardColumn.getStandardColumns();
+			int iCount = 0;
+			for(ColumnItem item : standardColumns) {
+				iCount++;
+				if(item.isNeedOutput()) {
+					csvFileOutputStream.write("\"" + item.getOutputName() + "\"");
+					if(iCount != standardColumns.size()) {
+						csvFileOutputStream.write(",");
+					}
+				}
+			}
+			
+			for(DataTable[] dataSet : listDataSet.values()) {
+				for(DataTable dt : dataSet) {
+					// 写入数据
+			        for (DataRow row : dt.Rows) {
+			        	// 换行，第一个换行是跟表头的换行
+			        	csvFileOutputStream.newLine();
+			        	// 从处理后的行中，取出标准列数据
+			        	for(ColumnItem item : standardColumns) {
+			        		if(item.isNeedOutput()) {
+				        		if(!item.isHasValue() && !item.getColumnName().equals("ny")) {
+				        			csvFileOutputStream.write("");
+				        			csvFileOutputStream.write(",");
+				        		} else {
+				        			Object cell = row.getValue(item.getColumnName());
+				        			// 特殊处理年月，年月不写入DataSet数据，作为固定数据
+				        			if(item.getColumnName().equals("ny")) {
+				        				cell = currentNY;
+				        			}
+				        			csvFileOutputStream.write(cell == null ? "" : "\"" + cell + "\"");
+				        			csvFileOutputStream.write(",");
+				        		}
+			        		}
+			        	}
+			        }
+				}
+			}
+			
+			csvFileOutputStream.flush();
+		} catch (Exception e) {
+			 e.printStackTrace();
+			 return(false);
+		} finally {
+			try {
+				if(csvFileOutputStream != null) {
+					csvFileOutputStream.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return(true);
 	}
 	
-	public boolean handleData(HttpServletRequest request, List<String> listFiles, 
-			long operator_id, String operator_name, int operator_type, StringBuilder builder, String memo) {
-				
+	public boolean handleData(int templateType, HttpServletRequest request, long member_id, List<String> listFiles, 
+			int currentNY, int lastNY, long operator_id, String operator_name, int operator_type, StringBuilder builder, String memo) {
+		// 读取模板，模板中数据文件设置访问的用户名、密码，默认为空
+		long lTemlateMemberID = 1;
+		if(templateType == 1) {
+			lTemlateMemberID = member_id;
+		} else if(templateType == 0) {
+			lTemlateMemberID = 1;
+		}
+		
+		Page page = new Page();
+		Specification<TblMemberDataTemplate> specification = DynamicSpecifications.bySearchFilterWithoutRequest(TblMemberDataTemplate.class,
+				new SearchFilter("tblMember.id", Operator.EQ, lTemlateMemberID), new SearchFilter("status", Operator.EQ, 1));
+		
+		List<TblMemberDataTemplate> templates = new ArrayList<TblMemberDataTemplate>();//templateService.findAll(specification, page);
+		TblMemberDataTemplate template = null;
+		if(templates.size() == 1) {
+			template = templates.get(0);
+		} else {
+			builder.append("没有设置默认模板，请先设置。");
+			return(false);
+		}
+		
+		// 根据模板，设置好ColumnItem
+		String strUserName = template.getUserName();
+		String strPassword = template.getPassword();
 		// 标准列
 		List<ColumnItem> standardColumns = StandardColumn.getStandardColumns();
+		initStandardColumns(standardColumns, template);
 		
 	    boolean bFlag = true;
 		Map<String, Integer> dtCurrentShop = new Hashtable<String, Integer>();
@@ -246,7 +331,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 		// 文件组正确，执行导入
 		for(String strOriginalFileName : listFiles) {
 			// 读文件，取值到DataTable[]中
-			ds = UploadDataUtils.getDataSet(strFilePath, strOriginalFileName, standardColumns);
+			ds = UploadDataUtils.getDataSet(strFilePath, strOriginalFileName, strUserName, strPassword, standardColumns);
 			if(ds == null || ds.length == 0) {
 				builder.append("处理文件[" + strOriginalFileName + "]中数据出错，没有找到数据。");
 				return(false);
@@ -273,12 +358,12 @@ public class UploadDataServiceImpl implements UploadDataService{
 		}
 		
 		// 对比前一月数据
-		//checkData(request, listDataSet, dtCurrentShop, builder);
+		checkData(request, member_id, lastNY, listDataSet, dtCurrentShop, builder);
 		
 		// 导入数据库
 		for(DataTable[] dataSet : listDataSet.values()) {
 			for(DataTable dt : dataSet) {
-				bFlag = importData(request, dt);
+				bFlag = importData(request, dt, member_id, currentNY);
 				dt = null;
 				if(!bFlag) {
 					builder.append("导入数据出错。");
@@ -288,7 +373,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 		}
 		
 		// 导出CSV标准模板文件
-		//createCSV(request, operator_id, listDataSet);
+		createCSV(request, member_id, currentNY, operator_id, listDataSet);
 		
 		// 按DataTable最多列数的对比，超过必须上传列数的，每列增加5个积分
 		int iMustColumns = 5;
@@ -306,12 +391,18 @@ public class UploadDataServiceImpl implements UploadDataService{
 		listDataSet = null;
 		if(!bFlag) {
 			// 清除本次已导入数据
-			clearImport(request); 
+			clearImport(request, member_id, currentNY); 
 			return(false);
 		}
 		
+		if(iMaxColumns > iMustColumns) {
+			TblMember member = memberService.get(member_id);
+			member.setScore(member.getScore() + 5*(iMaxColumns-iMustColumns));
+			memberService.saveOrUpdate(member);
+		}
+		
 		// 设置本月已上传
-		setImportDone(request, operator_id, operator_name, operator_type, memo);	
+		setImportDone(request, member_id, currentNY, operator_id, operator_name, operator_type, memo);	
 	
 		//log.info(shiroUser.getLoginName() + "导入了" + strOriginalFileName);
 	
@@ -365,16 +456,15 @@ public class UploadDataServiceImpl implements UploadDataService{
 		}
 	}
 	
-	@Deprecated
-	private boolean checkData(HttpServletRequest request, Map<String, DataTable[]> listDataSet, Map<String, Integer> dtCurrentShop, StringBuilder builder) {
+	private boolean checkData(HttpServletRequest request, long member_id, int lastNY, Map<String, DataTable[]> listDataSet, Map<String, Integer> dtCurrentShop, StringBuilder builder) {
 		// 检查数据正确性，做出提示，用户可以选择继续
 		// 检查总记录数与上月记录数，相差50%则为错误，做出提示，用户可以选择继续
 		// 检查店名与上月对比，有差别（增加或减少），做出提示，用户可以选择继续
 		// 读取上月数据，总记录数、店名称
 		boolean bFlag = true;
 		Map<String, Integer> dtLastShop = new Hashtable<String, Integer>();
-		getLastShop(request, dtLastShop);
-		int iLastRecordCount = getLastRecordCount(request);
+		getLastShop(request, member_id, lastNY, dtLastShop);
+		int iLastRecordCount = getLastRecordCount(request, member_id, lastNY);
 		int iRecordCount = 0;
 		
 		for(DataTable[] dataSet : listDataSet.values()) {
@@ -729,7 +819,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 	}
 		
 	@SuppressWarnings("resource")
-	public boolean setImportDone(HttpServletRequest request, long operator_id, String operator_name, int operate_type, String memo) {
+	public boolean setImportDone(HttpServletRequest request, long member_id, int ny, long operator_id, String operator_name, int operate_type, String memo) {
 		java.sql.Connection connection = null;
 		com.mysql.jdbc.Statement statement = null;
 		boolean bResult = false;
@@ -741,7 +831,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			connection = DriverManager.getConnection(basic.getUrl(), basic.getUsername(), basic.getPassword());
 			statement = (com.mysql.jdbc.Statement)connection.createStatement();
 			String statementText = "INSERT INTO tbl_member_data_status(member_id, ny, status, create_date, operator, operator_name, operate_type, memo)" +
-			"VALUES(0, now(), " + operator_id + ", '" + operator_name + "', " + operate_type + ",'" + memo + "')";
+			"VALUES(" + member_id + ", " + ny + ", 0, now(), " + operator_id + ", '" + operator_name + "', " + operate_type + ",'" + memo + "')";
 			bResult = statement.execute(statementText);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -759,7 +849,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 	}
 	
 	@SuppressWarnings("resource")
-	public boolean clearImportDone(HttpServletRequest request) {
+	public boolean clearImportDone(HttpServletRequest request, long member_id, int ny) {
 		java.sql.Connection connection = null;
 		com.mysql.jdbc.Statement statement = null;
 		boolean bResult = false;
@@ -770,7 +860,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			basic = (com.alibaba.druid.pool.DruidDataSource)dataSource;
 			connection = DriverManager.getConnection(basic.getUrl(), basic.getUsername(), basic.getPassword());
 			statement = (com.mysql.jdbc.Statement)connection.createStatement();
-			String statementText = "DELETE FROM tbl_member_data_status WHERE member_id=";
+			String statementText = "DELETE FROM tbl_member_data_status WHERE member_id=" + member_id + " AND ny=" + ny;
 			bResult = statement.execute(statementText);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -788,7 +878,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 	}
 	
 	@SuppressWarnings("resource")
-	public boolean clearImport(HttpServletRequest request) {
+	public boolean clearImport(HttpServletRequest request, long member_id, int ny) {
 		java.sql.Connection connection = null;
 		com.mysql.jdbc.Statement statement = null;
 		boolean bResult = false;
@@ -799,7 +889,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			basic = (com.alibaba.druid.pool.DruidDataSource)dataSource;
 			connection = DriverManager.getConnection(basic.getUrl(), basic.getUsername(), basic.getPassword());
 			statement = (com.mysql.jdbc.Statement)connection.createStatement();
-			String statementText = "DELETE FROM tbl_member_data WHERE member_id=";
+			String statementText = "DELETE FROM tbl_member_data WHERE member_id=" + member_id + " AND ny=" + ny;
 			bResult = statement.execute(statementText);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -817,7 +907,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 	}
 	
 	@SuppressWarnings("resource")
-	private int getLastRecordCount(HttpServletRequest request) {
+	private int getLastRecordCount(HttpServletRequest request, long member_id, int lastNY) {
 		int iValue = 0;
 		java.sql.Connection connection = null;
 		com.mysql.jdbc.Statement statement = null;
@@ -828,7 +918,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			basic = (com.alibaba.druid.pool.DruidDataSource)dataSource;
 			connection = DriverManager.getConnection(basic.getUrl(), basic.getUsername(), basic.getPassword());
 			statement = (com.mysql.jdbc.Statement)connection.createStatement();
-			String statementText = "SELECT COUNT(1) AS LastRecordCount FROM tbl_member_data WHERE member_id=";
+			String statementText = "SELECT COUNT(1) AS LastRecordCount FROM tbl_member_data WHERE member_id=" + member_id + " AND ny=" + lastNY;
 			ResultSet rs = statement.executeQuery(statementText);
 			while(rs.next()) {			
 				iValue = rs.getInt("LastRecordCount");
@@ -850,7 +940,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 		return(iValue);
 	}
 	
-	private void getLastShop(HttpServletRequest request, Map<String, Integer> dtLastShop) {
+	private void getLastShop(HttpServletRequest request, long member_id, int lastNY, Map<String, Integer> dtLastShop) {
 		java.sql.Connection connection = null;
 		com.mysql.jdbc.Statement statement = null;
 		com.alibaba.druid.pool.DruidDataSource basic = null;
@@ -860,7 +950,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			basic = (com.alibaba.druid.pool.DruidDataSource)dataSource;
 			connection = DriverManager.getConnection(basic.getUrl(), basic.getUsername(), basic.getPassword());
 			statement = (com.mysql.jdbc.Statement)connection.createStatement();
-			String statementText = "SELECT aes_decrypt(unhex(dm), '" + com.gdpost.web.MySQLAESKey.AESKey + "') AS dm FROM (SELECT DISTINCT dm FROM tbl_member_data WHERE member_id=" + ") A";
+			String statementText = "SELECT aes_decrypt(unhex(dm), '" + com.gdpost.web.MySQLAESKey.AESKey + "') AS dm FROM (SELECT DISTINCT dm FROM tbl_member_data WHERE member_id=" + member_id + " AND ny=" + lastNY + ") A";
 			ResultSet rs = statement.executeQuery(statementText);
 			while(rs.next()) {		
 				dtLastShop.put(rs.getString("dm"), 0);
@@ -881,7 +971,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 	}
 	
 	@SuppressWarnings("unused")
-	private void fillTable(HttpServletRequest request, Map<String, Map<String, Integer>> ds, String strTableName, String strValueColumnName, String strIDColumnName) {
+	private void fillTable(HttpServletRequest request, long member_id, Map<String, Map<String, Integer>> ds, String strTableName, String strValueColumnName, String strIDColumnName) {
 		Map<String, Integer> dtRelate = new Hashtable<String, Integer>(); // data table
 		
 		java.sql.Connection connection = null;
@@ -893,7 +983,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			basic = (com.alibaba.druid.pool.DruidDataSource)dataSource;
 			connection = DriverManager.getConnection(basic.getUrl(), basic.getUsername(), basic.getPassword());
 			statement = (com.mysql.jdbc.Statement)connection.createStatement();
-			String statementText = "SELECT " + strValueColumnName + "," + strIDColumnName + " FROM " + strTableName + " WHERE member_id=";
+			String statementText = "SELECT " + strValueColumnName + "," + strIDColumnName + " FROM " + strTableName + " WHERE member_id=" + member_id;
 			ResultSet rs = statement.executeQuery(statementText);
 			while(rs.next()) {
 				// add data row				
@@ -918,7 +1008,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 
 	@SuppressWarnings("resource")
 	@Override
-	public boolean checkImportNY(HttpServletRequest request) {
+	public boolean checkImportNY(HttpServletRequest request, long member_id, int ny) {
 		java.sql.Connection connection = null;
 		com.mysql.jdbc.Statement statement = null;
 		com.alibaba.druid.pool.DruidDataSource basic = null;
@@ -929,7 +1019,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			basic = (com.alibaba.druid.pool.DruidDataSource)dataSource;
 			connection = DriverManager.getConnection(basic.getUrl(), basic.getUsername(), basic.getPassword());
 			statement = (com.mysql.jdbc.Statement)connection.createStatement();
-			String statementText = "SELECT ny FROM tbl_member_data_status WHERE member_id=" + " LIMIT 1";
+			String statementText = "SELECT ny FROM tbl_member_data_status WHERE member_id=" + member_id + " AND ny=" + ny + " LIMIT 1";
 			ResultSet rs = statement.executeQuery(statementText);
 			while(rs.next()) {		
 				bFlag = false;

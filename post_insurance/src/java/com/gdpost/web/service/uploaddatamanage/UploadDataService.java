@@ -1,4 +1,4 @@
-package com.sendtend.web.service.uploaddatamanage;
+package com.gdpost.web.service.uploaddatamanage;
 
 import java.util.List;
 
@@ -8,8 +8,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 import System.Data.DataTable;
 
-import com.sendtend.web.entity.member.TblMemberData;
-import com.sendtend.web.util.dwz.Page;
+import com.gdpost.web.entity.member.TblMemberData;
 
 public interface UploadDataService {
 	
@@ -24,13 +23,11 @@ public interface UploadDataService {
 	
 	boolean setImportDone(HttpServletRequest request, long member_id, int ny, long operator_id, String operator_name, int operator_type, String memo);
 	
-	void saveOrUpdate(TblMemberData tblMemberData);
-
 	boolean delete(HttpServletRequest request, int ny, Long member_id);
 	
-	List<TblMemberData> findAll(Page page);
+	List<com.gdpost.web.entity.member.TblMemberData> findAll(com.gdpost.web.util.dwz.Page page);
 	
-	List<TblMemberData> findByExample(Specification<TblMemberData> specification, Page page);
+	List<TblMemberData> findByExample(Specification<TblMemberData> specification, com.gdpost.web.util.dwz.Page page);
 	
 	boolean checkImportNY(HttpServletRequest request, long member_id, int ny);
 }

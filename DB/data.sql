@@ -1,4 +1,4 @@
-SET FOREIGN_KEY_CHECKS=0;
+﻿SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 -- Records of t_data_control
 -- ----------------------------
@@ -29,8 +29,9 @@ INSERT INTO `t_module` VALUES ('9', '', '', '日志管理', '999', 'LogInfo', '/
 -- Records of t_organization
 -- ----------------------------
 truncate t_organization;
-INSERT INTO `t_organization` VALUES ('1', '不能删除。', '根节点', '8644', 1, '999', null);
-INSERT INTO `t_organization` VALUES ('2', null, '广州市中邮保险局', '864401', 2, '999', '1');
+INSERT INTO `t_organization` VALUES ('1', '不能删除。', '中邮人寿保险股份有限公司', '86', 1, '999', null);
+INSERT INTO `t_organization` VALUES ('2', '省分公司。', '中邮人寿保险股份有限公司广东分公司', '8644', 2, '999', null);
+INSERT INTO `t_organization` VALUES ('3', null, '广州市中邮保险局', '864401', 3, '999', '2');
 
 -- ----------------------------
 -- Records of t_role
@@ -44,6 +45,7 @@ INSERT INTO `t_role` VALUES ('1', '管理员。', '管理员');
 truncate t_organization_role;
 INSERT INTO `t_organization_role` VALUES ('1', '999', '1', '1');
 INSERT INTO `t_organization_role` VALUES ('2', '999', '2', '1');
+INSERT INTO `t_organization_role` VALUES ('3', '999', '3', '1');
 
 -- ----------------------------
 -- Records of t_permission

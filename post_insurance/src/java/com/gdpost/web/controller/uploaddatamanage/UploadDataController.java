@@ -28,7 +28,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.gdpost.utils.SecurityUtils;
 import com.gdpost.utils.UploadDataHelper.UploadDataUtils;
+import com.gdpost.web.entity.main.User;
 import com.gdpost.web.entity.member.TblMember;
 import com.gdpost.web.log.Log;
 import com.gdpost.web.log.LogMessageObject;
@@ -121,12 +123,7 @@ public class UploadDataController {
 		//TblMemberUser shiroUser = SecurityUtils.getLoginTblMemberUser();	
 		//long member_id = shiroUser.getTblMember().getId();
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
-	    TblMember member = shiroUser.getMemberUser().getTblMember();
-	    // 只增加一级连锁的积分，需要判断当前连锁是否一级连锁
-	    while(member.getParent().getId() != 1)
-	    {
-	    	member = member.getParent();
-	    }
+	    User member = shiroUser.getUser();
 	    long member_id = member.getId();
 		boolean bFlag = true;
 		bFlag = uploadDataService.checkImportNY(request, member_id, ny);
@@ -173,10 +170,10 @@ public class UploadDataController {
         }
 		
         // 分块上传，记录当前已上传块数，根据文件名、文件大小、块大小、块数
-        com.sendtend.utils.UploadDataHelper.SessionChunk sessionChunk = new com.sendtend.utils.UploadDataHelper.SessionChunk();
-        com.sendtend.utils.UploadDataHelper.FileChunk fileChunk = sessionChunk.getSessionChunk(request);
+        com.gdpost.utils.UploadDataHelper.SessionChunk sessionChunk = new com.gdpost.utils.UploadDataHelper.SessionChunk();
+        com.gdpost.utils.UploadDataHelper.FileChunk fileChunk = sessionChunk.getSessionChunk(request);
         if(fileChunk == null) {
-            fileChunk = new com.sendtend.utils.UploadDataHelper.FileChunk();
+            fileChunk = new com.gdpost.utils.UploadDataHelper.FileChunk();
         }
         
         fileChunk.setChunks(iChunks);
@@ -296,19 +293,14 @@ public class UploadDataController {
 	@RequiresPermissions("UploadData:Upload")
 	@RequestMapping(value = "/import", method = RequestMethod.POST)
 	public @ResponseBody String doImport(HttpServletRequest request, @RequestParam String strFileGroup, @RequestParam int ny, @RequestParam int template, @RequestParam String memo) {
-		com.sendtend.utils.UploadDataHelper.SessionChunk sessionChunk = new com.sendtend.utils.UploadDataHelper.SessionChunk();
-		com.sendtend.utils.UploadDataHelper.FileChunk fileChunk = sessionChunk.getSessionChunk(request);
+		com.gdpost.utils.UploadDataHelper.SessionChunk sessionChunk = new com.gdpost.utils.UploadDataHelper.SessionChunk();
+		com.gdpost.utils.UploadDataHelper.FileChunk fileChunk = sessionChunk.getSessionChunk(request);
 		if(fileChunk == null) {
 			return(strError);
 		}
 		
 	    ShiroUser shiroUser = SecurityUtils.getShiroUser();
-	    TblMember member = shiroUser.getMemberUser().getTblMember();
-	    // 只增加一级连锁的积分，需要判断当前连锁是否一级连锁
-	    while(member.getParent().getId() != 1)
-	    {
-	    	member = member.getParent();
-	    }
+	    User member = shiroUser.getUser();
 	    long member_id = member.getId();
 	    //int currentNY = UploadDataUtils.getNianYue();
 	    //int lastNY = UploadDataUtils.getLastNianYue();
@@ -327,25 +319,7 @@ public class UploadDataController {
 	    sessionChunk.clear(request);
 	    strMessage = builder.toString();
 	    
-	    // 上传文件，加10分积分
-	    member.setScore(member.getScore() + 10);
-	    memberService.saveOrUpdate(member);
-	    
-	    // 每月11日前，加10分积分
-		Date date = new Date();
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(date);
-		int iToDay = calendar.get(Calendar.DATE);
-	    if(iToDay < 11)
-	    {
-		    member.setScore(member.getScore() + 10);
-		    memberService.saveOrUpdate(member);
-	    }
-	    
 	    if(bFlag) {
-	    	// 导入数据，加50分积分
-		    member.setScore(member.getScore() + 50);
-		    memberService.saveOrUpdate(member);
 		    
 	    	LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{"导入了" + currentNY + "月数据。"}));
 	    	
@@ -359,10 +333,6 @@ public class UploadDataController {
 	    	LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{"导入" + currentNY + "月数据出错，" + strMessage + "。"}));
 	    	
 	    	uploadDataService.setImportDone(request, member_id, currentNY, shiroUser.getId(), shiroUser.getLoginName(), 0, memo);
-	    	//TblMember member = memberService.get(member_id);
-	    	if(member.getAlertMsg() != null && !"".equals(member.getAlertMsg())) {
-	    		strMessage = member.getAlertMsg();
-	    	}
 
 	    	return("{\"jsonrpc\":\"2.0\",\"result\":\"error\",\"id\":\"id\",\"message\":\"" + strMessage + "\"}");
 	    }
@@ -374,12 +344,7 @@ public class UploadDataController {
 	public @ResponseBody String cancelUpload(HttpServletRequest request, @RequestParam String strFileGroup, @RequestParam int ny) {
 	    ShiroUser shiroUser = SecurityUtils.getShiroUser();
 	    //long member_id = shiroUser.getId();
-	    TblMember member = shiroUser.getMemberUser().getTblMember();
-	    // 只增加一级连锁的积分，需要判断当前连锁是否一级连锁
-	    while(member.getParent().getId() != 1)
-	    {
-	    	member = member.getParent();
-	    }
+	    User member = shiroUser.getUser();
 	    long member_id = member.getId();
 	    
 	    //int currentNY = UploadDataUtils.getNianYue();
@@ -389,19 +354,6 @@ public class UploadDataController {
 	    
 	    bFlag = uploadDataService.clearImport(request, member_id, currentNY);
 	    bFlag = uploadDataService.clearImportDone(request, member_id, currentNY);
-	    // 取消增加的10积分
-	    member.setScore(member.getScore() - 10);
-	    memberService.saveOrUpdate(member);
-	    
-		Date date = new Date();
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(date);
-		int iToDay = calendar.get(Calendar.DATE);
-	    if(iToDay < 11)
-	    {
-		    member.setScore(member.getScore() - 10);
-		    memberService.saveOrUpdate(member);
-	    }
 	    
 	    LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{currentNY}));
 	    return("{\"jsonrpc\":\"2.0\",\"result\":\"success\",\"id\":\"id\",\"message\":\"" + strMessage + "\"}");
@@ -413,12 +365,7 @@ public class UploadDataController {
 	public @ResponseBody String clearImport(HttpServletRequest request, @RequestParam String strFileGroup, @RequestParam int ny) {
 	    ShiroUser shiroUser = SecurityUtils.getShiroUser();
 	    //long member_id = shiroUser.getId();
-	    TblMember member = shiroUser.getMemberUser().getTblMember();
-	    // 只增加一级连锁的积分，需要判断当前连锁是否一级连锁
-	    while(member.getParent().getId() != 1)
-	    {
-	    	member = member.getParent();
-	    }
+	    User member = shiroUser.getUser();
 	    long member_id = member.getId();
 	    
 	    //int currentNY = UploadDataUtils.getNianYue();
@@ -428,19 +375,6 @@ public class UploadDataController {
 	    
 	    bFlag = uploadDataService.clearImport(request, member_id, currentNY);
 	    bFlag = uploadDataService.clearImportDone(request, member_id, currentNY);
-	    // 取消增加的60积分
-	    member.setScore(member.getScore() - 60);
-	    memberService.saveOrUpdate(member);
-	    
-		Date date = new Date();
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(date);
-		int iToDay = calendar.get(Calendar.DATE);
-	    if(iToDay < 11)
-	    {
-		    member.setScore(member.getScore() - 10);
-		    memberService.saveOrUpdate(member);
-	    }
 	    
 	    LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{currentNY}));
 	    return("{\"jsonrpc\":\"2.0\",\"result\":\"success\",\"id\":\"id\",\"message\":\"" + strMessage + "\"}");
@@ -454,7 +388,7 @@ public class UploadDataController {
         int iChunkSize = Integer.parseInt(request.getParameter("chunkSize")); //分块大小
         long lLastOffset = 0;
         
-        com.sendtend.utils.UploadDataHelper.SessionChunk sessionChunk = new com.sendtend.utils.UploadDataHelper.SessionChunk();
+        com.gdpost.utils.UploadDataHelper.SessionChunk sessionChunk = new com.gdpost.utils.UploadDataHelper.SessionChunk();
         lLastOffset = sessionChunk.checkCurrentOffset(request, strFileName, lFileSize, iChunkSize);
         
         String strReturn = "{\"lastOffset\":" + lLastOffset + "}";

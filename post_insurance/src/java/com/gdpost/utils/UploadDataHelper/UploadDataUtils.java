@@ -45,7 +45,6 @@ public class UploadDataUtils {
 		java.util.Calendar.getInstance();
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		//long lID = shiroUser.getMemberUser() != null ? shiroUser.getMemberUser().getId() : shiroUser.getUser().getId();
-		//String strID = shiroUser.getMemberUser() != null ? shiroUser.getMemberUser().getTblMember().getMemberName() : shiroUser.getUser().getId().toString();
 		String strID = shiroUser.getUser().getId().toString();
 		String strPath = request.getSession().getServletContext().getRealPath("/");
 		if(strPath.endsWith(File.separator)) {
@@ -85,7 +84,6 @@ public class UploadDataUtils {
 		int iMonth = calendar.get(Calendar.MONTH) + 1;
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		//long lID = shiroUser.getMemberUser() != null ? shiroUser.getMemberUser().getId() : shiroUser.getUser().getId();
-		//String strID = shiroUser.getMemberUser() != null ? shiroUser.getMemberUser().getTblMember().getMemberName() : shiroUser.getUser().getId().toString();
 		String strID = shiroUser.getUser().getId().toString();
 		String strPath = request.getSession().getServletContext().getRealPath("/");
 		if(strPath.endsWith(File.separator)) {
@@ -132,7 +130,6 @@ public class UploadDataUtils {
 		}
 		
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
-		//long lID = shiroUser.getMemberUser() != null ? shiroUser.getMemberUser().getId() : shiroUser.getUser().getId();
 		long lID = shiroUser.getUser().getId();
 
 		strPath = strPath + File.separator + lID;
@@ -144,7 +141,7 @@ public class UploadDataUtils {
 		return(strPath);
 	}
 	
-	public static DataTable[] getDataSet(String strFilePath, String strFileName, List<ColumnItem> column) {
+	public static DataTable[] getDataSet(String strFilePath, String strFileName, String strUserName, String strPassword, List<ColumnItem> column) {
 		String strExtension = FileUtils.getFileExtension(strFileName);
 		DataTable[] ds = null;
 		IFileHandler handler = null;
@@ -167,6 +164,8 @@ public class UploadDataUtils {
 			handler = new CsvFileHandler();
 		}
 		
+		handler.setUserName(strUserName);
+		handler.setPassword(strPassword);
 		handler.setStandardColumn(column);
 		ds = handler.readFile(strFilePath, strFileName);
 		
