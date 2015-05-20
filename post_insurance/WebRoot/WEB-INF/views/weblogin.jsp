@@ -71,7 +71,7 @@ $(document).ready(function () {
 <body>
 <div class="top">
   <div class="top1">
-    	<div class="logo"><a href="/web/index"><img src="${contextPath}/images/logo.png" style="margin-top:20px;border:none;" width="202" height="80" /></a>
+    	<div class="logo"><a href="/web/index"><img src="${contextPath}/images/logo.png" width="202" height="80" style="margin-top:20px;" /></a>
             <div class="anniu">
             </div>
         </div>
@@ -80,9 +80,9 @@ $(document).ready(function () {
 	<div class="daon">
 		<ul>
 			<li><a href="/web/index">首页</a><span class="daobian"></span></li>
-        	<li><a href="/uploaddatamanage/uploaddata/index">数据服务</a><span class="daobian"></span></li>
-            <li><a href="/uploaddatamanage/document/index">行业报告</a><span class="daobian"></span></li>
-            <li><a href="#">新闻动态</a><span class="daobian"></span></li>
+        	<li><a href="/uploaddatamanage/uploaddata/index">代办任务</a><span class="daobian"></span></li>
+            <li><a href="/uploaddatamanage/document/index">上线产品</a><span class="daobian"></span></li>
+        	<li><a href="#">常见问题</a><span class="daobian"></span></li>
             <shiro:guest>
             <li class="daob"><a href="/web/tologin">登录</a><span class="daobian"></span></li>
             </shiro:guest>
