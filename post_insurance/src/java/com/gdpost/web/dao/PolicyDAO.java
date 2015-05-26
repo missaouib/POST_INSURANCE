@@ -16,5 +16,6 @@ import com.gdpost.web.entity.main.Policy;
  * @author MyEclipse Persistence Tools
  */
 public interface PolicyDAO extends JpaRepository<Policy, Long>, JpaSpecificationExecutor<Policy> {
+	Policy getByPolicyNo(String policyNo);
 
 }
