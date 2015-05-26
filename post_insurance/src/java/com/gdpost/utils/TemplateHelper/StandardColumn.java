@@ -26,7 +26,7 @@ public class StandardColumn {
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("月份");
+		column.setDisplayName("管理机构");
 		column.setColumnName("ny");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(false);

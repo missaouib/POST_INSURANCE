@@ -35,8 +35,8 @@ import com.gdpost.utils.TemplateHelper.ConcatRule;
 import com.gdpost.utils.TemplateHelper.StandardColumn;
 import com.gdpost.utils.UploadDataHelper.UploadDataUtils;
 import com.gdpost.web.dao.uploaddatamanage.UploadDataDAO;
+import com.gdpost.web.entity.main.Policy;
 import com.gdpost.web.entity.member.TblMember;
-import com.gdpost.web.entity.member.TblMemberData;
 import com.gdpost.web.entity.member.TblMemberDataTemplate;
 import com.gdpost.web.entity.member.TblMemberDataTemplateField;
 import com.gdpost.web.entity.member.TblMemberDataTemplateFieldRule;
@@ -59,59 +59,17 @@ public class UploadDataServiceImpl implements UploadDataService{
 	@Autowired
 	private MemberService memberService;
 	
-	@SuppressWarnings("resource")
 	@Override
-	public boolean delete(HttpServletRequest request, int ny, Long member_id) {
-		java.sql.Connection connection = null;
-		com.mysql.jdbc.Statement statement = null;
-		boolean bResult = false;
-		com.alibaba.druid.pool.DruidDataSource basic = null;
-		try {
-			DataSource dataSource = (DataSource)WebApplicationContextUtils.getWebApplicationContext(request.getServletContext()).getBean("dataSource");;
-			//org.apache.commons.dbcp2.BasicDataSource basic = (org.apache.commons.dbcp2.BasicDataSource)dataSource;
-			basic = (com.alibaba.druid.pool.DruidDataSource)dataSource;
-			connection = DriverManager.getConnection(basic.getUrl(), basic.getUsername(), basic.getPassword());
-			statement = (com.mysql.jdbc.Statement)connection.createStatement();
-			String statementText = "";
-			if(member_id != 0) {
-				statementText = "DELETE FROM tbl_member_data_status WHERE member_id=" + member_id + " AND ny=" + ny;
-			} else {
-				statementText = "DELETE FROM tbl_member_data_status WHERE ny=" + ny;
-			}
-			bResult = statement.execute(statementText);
-			
-			if(member_id != 0) {
-				statementText = "DELETE FROM tbl_member_data WHERE member_id=" + member_id + " AND ny=" + ny;
-			} else {
-				statementText = "DELETE FROM tbl_member_data WHERE ny=" + ny;
-			}
-			bResult = statement.execute(statementText);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if(connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		
-		return(bResult);
-	}
-
-	@Override
-	public List<TblMemberData> findAll(Page page) {
-		org.springframework.data.domain.Page<TblMemberData> springDataPage = uploadDataDAO.findAll(PageUtils.createPageable(page));
+	public List<Policy> findAll(Page page) {
+		org.springframework.data.domain.Page<Policy> springDataPage = uploadDataDAO.findAll(PageUtils.createPageable(page));
 		page.setTotalCount(springDataPage.getTotalElements());
 		return springDataPage.getContent();
 	}
 
 	@Override
-	public List<TblMemberData> findByExample(
-			Specification<TblMemberData> specification, Page page) {
-		org.springframework.data.domain.Page<TblMemberData> springDataPage = uploadDataDAO.findAll(specification, PageUtils.createPageable(page));
+	public List<Policy> findByExample(
+			Specification<Policy> specification, Page page) {
+		org.springframework.data.domain.Page<Policy> springDataPage = uploadDataDAO.findAll(specification, PageUtils.createPageable(page));
 		page.setTotalCount(springDataPage.getTotalElements());
 		return springDataPage.getContent();
 	}
@@ -138,7 +96,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 		String strKey = com.gdpost.web.MySQLAESKey.AESKey;
 
 		List<ColumnItem> standardColumns = StandardColumn.getStandardColumns();
-		String strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' INTO TABLE Tbl_member_data character set utf8 (";
+		String strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' INTO TABLE T_POLICY character set utf8 (";
 		String strEncrypt = "";
         for(ColumnItem item : standardColumns) {
         	if(item.isHasValue()) {
@@ -155,7 +113,7 @@ public class UploadDataServiceImpl implements UploadDataService{
         }
 
         // member_id, ny,最后补上两列数据
-        strStatementText += "member_id,ny) ";
+        //strStatementText += "member_id,ny) ";
         strStatementText += strEncrypt + ";";
   
         StringBuilder builder = new StringBuilder();
@@ -172,9 +130,9 @@ public class UploadDataServiceImpl implements UploadDataService{
 	            builder.append('\t');
         	}
         	
-            builder.append(member_id);
-            builder.append('\t');
-            builder.append(ny);
+           // builder.append(member_id);
+            //builder.append('\t');
+           // builder.append(ny);
             builder.append('\n');
         }
 
@@ -358,7 +316,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 		}
 		
 		// 对比前一月数据
-		checkData(request, member_id, lastNY, listDataSet, dtCurrentShop, builder);
+		//checkData(request, member_id, lastNY, listDataSet, dtCurrentShop, builder);
 		
 		// 导入数据库
 		for(DataTable[] dataSet : listDataSet.values()) {
@@ -454,67 +412,6 @@ public class UploadDataServiceImpl implements UploadDataService{
 				}
 			}
 		}
-	}
-	
-	private boolean checkData(HttpServletRequest request, long member_id, int lastNY, Map<String, DataTable[]> listDataSet, Map<String, Integer> dtCurrentShop, StringBuilder builder) {
-		// 检查数据正确性，做出提示，用户可以选择继续
-		// 检查总记录数与上月记录数，相差50%则为错误，做出提示，用户可以选择继续
-		// 检查店名与上月对比，有差别（增加或减少），做出提示，用户可以选择继续
-		// 读取上月数据，总记录数、店名称
-		boolean bFlag = true;
-		Map<String, Integer> dtLastShop = new Hashtable<String, Integer>();
-		getLastShop(request, member_id, lastNY, dtLastShop);
-		int iLastRecordCount = getLastRecordCount(request, member_id, lastNY);
-		int iRecordCount = 0;
-		
-		for(DataTable[] dataSet : listDataSet.values()) {
-			iRecordCount += getRecordCount(dataSet);
-		}
-		
-		if(iLastRecordCount > 0 && Math.abs(iRecordCount - iLastRecordCount)/iLastRecordCount >= 0.5) {
-			bFlag = false;
-			builder.append("与上月相比，记录数相差达50%，");
-		}
-		
-		if(dtLastShop.size() > 0) {
-			int iNew = 0;
-			int iLost = 0;
-			for(String currentShop : dtCurrentShop.keySet()) {
-				if(!dtLastShop.containsKey(currentShop)) {
-					dtCurrentShop.put(currentShop, 2); // 2新增
-					iNew++;
-				} else {
-					dtLastShop.put(currentShop, 1);	// 1现有，默认为0，0为缺少
-				}
-			}
-						
-			for(Integer label :  dtLastShop.values()) {
-				if(label.intValue() == 0) {
-					iLost++;
-				}
-			}
-			
-			if(iNew > 0) {
-				bFlag = false;
-				builder.append("新增店" + iNew + "间，");
-			}
-			
-			if(iLost > 0) {
-				bFlag = false;
-				builder.append("减少店" + iLost + "间，");
-			}
-		}
-		
-		return(bFlag);
-	}
-	
-	private int getRecordCount(DataTable[] ds) {
-		int iRecordCount = 0;
-		for(DataTable dt : ds) {
-			iRecordCount += dt.Rows.size();
-		}
-		
-		return(iRecordCount);
 	}
 
 	private boolean handleColumn(DataTable[] ds, List<ColumnItem> standardColumns, String strOriginalFileName, Map<String, Integer> dtCurrentShop, StringBuilder builder) {
@@ -822,29 +719,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 	public boolean setImportDone(HttpServletRequest request, long member_id, int ny, long operator_id, String operator_name, int operate_type, String memo) {
 		java.sql.Connection connection = null;
 		com.mysql.jdbc.Statement statement = null;
-		boolean bResult = false;
+		boolean bResult = true;
 		com.alibaba.druid.pool.DruidDataSource basic = null;
-		try {
-			DataSource dataSource = (DataSource)WebApplicationContextUtils.getWebApplicationContext(request.getServletContext()).getBean("dataSource");;
-			//org.apache.commons.dbcp2.BasicDataSource basic = (org.apache.commons.dbcp2.BasicDataSource)dataSource;
-			basic = (com.alibaba.druid.pool.DruidDataSource)dataSource;
-			connection = DriverManager.getConnection(basic.getUrl(), basic.getUsername(), basic.getPassword());
-			statement = (com.mysql.jdbc.Statement)connection.createStatement();
-			String statementText = "INSERT INTO tbl_member_data_status(member_id, ny, status, create_date, operator, operator_name, operate_type, memo)" +
-			"VALUES(" + member_id + ", " + ny + ", 0, now(), " + operator_id + ", '" + operator_name + "', " + operate_type + ",'" + memo + "')";
-			bResult = statement.execute(statementText);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if(connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		
 		return(bResult);
 	}
 	
@@ -852,28 +728,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 	public boolean clearImportDone(HttpServletRequest request, long member_id, int ny) {
 		java.sql.Connection connection = null;
 		com.mysql.jdbc.Statement statement = null;
-		boolean bResult = false;
-		com.alibaba.druid.pool.DruidDataSource basic = null;
-		try {
-			DataSource dataSource = (DataSource)WebApplicationContextUtils.getWebApplicationContext(request.getServletContext()).getBean("dataSource");;
-			//org.apache.commons.dbcp2.BasicDataSource basic = (org.apache.commons.dbcp2.BasicDataSource)dataSource;
-			basic = (com.alibaba.druid.pool.DruidDataSource)dataSource;
-			connection = DriverManager.getConnection(basic.getUrl(), basic.getUsername(), basic.getPassword());
-			statement = (com.mysql.jdbc.Statement)connection.createStatement();
-			String statementText = "DELETE FROM tbl_member_data_status WHERE member_id=" + member_id + " AND ny=" + ny;
-			bResult = statement.execute(statementText);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if(connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		
+		boolean bResult = true;
 		return(bResult);
 	}
 	
@@ -881,94 +736,11 @@ public class UploadDataServiceImpl implements UploadDataService{
 	public boolean clearImport(HttpServletRequest request, long member_id, int ny) {
 		java.sql.Connection connection = null;
 		com.mysql.jdbc.Statement statement = null;
-		boolean bResult = false;
-		com.alibaba.druid.pool.DruidDataSource basic = null;
-		try {
-			DataSource dataSource = (DataSource)WebApplicationContextUtils.getWebApplicationContext(request.getServletContext()).getBean("dataSource");;
-			//org.apache.commons.dbcp2.BasicDataSource basic = (org.apache.commons.dbcp2.BasicDataSource)dataSource;
-			basic = (com.alibaba.druid.pool.DruidDataSource)dataSource;
-			connection = DriverManager.getConnection(basic.getUrl(), basic.getUsername(), basic.getPassword());
-			statement = (com.mysql.jdbc.Statement)connection.createStatement();
-			String statementText = "DELETE FROM tbl_member_data WHERE member_id=" + member_id + " AND ny=" + ny;
-			bResult = statement.execute(statementText);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if(connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
+		boolean bResult = true;
 		
 		return(bResult);
 	}
 	
-	@SuppressWarnings("resource")
-	private int getLastRecordCount(HttpServletRequest request, long member_id, int lastNY) {
-		int iValue = 0;
-		java.sql.Connection connection = null;
-		com.mysql.jdbc.Statement statement = null;
-		com.alibaba.druid.pool.DruidDataSource basic = null;
-		try {
-			DataSource dataSource = (DataSource)WebApplicationContextUtils.getWebApplicationContext(request.getServletContext()).getBean("dataSource");;
-			//org.apache.commons.dbcp2.BasicDataSource basic = (org.apache.commons.dbcp2.BasicDataSource)dataSource;
-			basic = (com.alibaba.druid.pool.DruidDataSource)dataSource;
-			connection = DriverManager.getConnection(basic.getUrl(), basic.getUsername(), basic.getPassword());
-			statement = (com.mysql.jdbc.Statement)connection.createStatement();
-			String statementText = "SELECT COUNT(1) AS LastRecordCount FROM tbl_member_data WHERE member_id=" + member_id + " AND ny=" + lastNY;
-			ResultSet rs = statement.executeQuery(statementText);
-			while(rs.next()) {			
-				iValue = rs.getInt("LastRecordCount");
-			}
-			
-			rs.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if(connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		
-		return(iValue);
-	}
-	
-	private void getLastShop(HttpServletRequest request, long member_id, int lastNY, Map<String, Integer> dtLastShop) {
-		java.sql.Connection connection = null;
-		com.mysql.jdbc.Statement statement = null;
-		com.alibaba.druid.pool.DruidDataSource basic = null;
-		try {
-			DataSource dataSource = (DataSource)WebApplicationContextUtils.getWebApplicationContext(request.getServletContext()).getBean("dataSource");;
-			//org.apache.commons.dbcp2.BasicDataSource basic = (org.apache.commons.dbcp2.BasicDataSource)dataSource;
-			basic = (com.alibaba.druid.pool.DruidDataSource)dataSource;
-			connection = DriverManager.getConnection(basic.getUrl(), basic.getUsername(), basic.getPassword());
-			statement = (com.mysql.jdbc.Statement)connection.createStatement();
-			String statementText = "SELECT aes_decrypt(unhex(dm), '" + com.gdpost.web.MySQLAESKey.AESKey + "') AS dm FROM (SELECT DISTINCT dm FROM tbl_member_data WHERE member_id=" + member_id + " AND ny=" + lastNY + ") A";
-			ResultSet rs = statement.executeQuery(statementText);
-			while(rs.next()) {		
-				dtLastShop.put(rs.getString("dm"), 0);
-			}
-			
-			rs.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if(connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}
 	
 	@SuppressWarnings("unused")
 	private void fillTable(HttpServletRequest request, long member_id, Map<String, Map<String, Integer>> ds, String strTableName, String strValueColumnName, String strIDColumnName) {
@@ -1012,31 +784,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 		java.sql.Connection connection = null;
 		com.mysql.jdbc.Statement statement = null;
 		com.alibaba.druid.pool.DruidDataSource basic = null;
-		boolean bFlag = true;
-		try {
-			DataSource dataSource = (DataSource)WebApplicationContextUtils.getWebApplicationContext(request.getServletContext()).getBean("dataSource");;
-			//org.apache.commons.dbcp2.BasicDataSource basic = (org.apache.commons.dbcp2.BasicDataSource)dataSource;
-			basic = (com.alibaba.druid.pool.DruidDataSource)dataSource;
-			connection = DriverManager.getConnection(basic.getUrl(), basic.getUsername(), basic.getPassword());
-			statement = (com.mysql.jdbc.Statement)connection.createStatement();
-			String statementText = "SELECT ny FROM tbl_member_data_status WHERE member_id=" + member_id + " AND ny=" + ny + " LIMIT 1";
-			ResultSet rs = statement.executeQuery(statementText);
-			while(rs.next()) {		
-				bFlag = false;
-			}
-			
-			rs.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if(connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
+		boolean bFlag = false;
+		
 		
 		return bFlag;
 	}

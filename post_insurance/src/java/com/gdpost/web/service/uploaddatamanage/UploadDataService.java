@@ -8,7 +8,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 import System.Data.DataTable;
 
-import com.gdpost.web.entity.member.TblMemberData;
+import com.gdpost.web.entity.main.Policy;
 
 public interface UploadDataService {
 	
@@ -23,11 +23,9 @@ public interface UploadDataService {
 	
 	boolean setImportDone(HttpServletRequest request, long member_id, int ny, long operator_id, String operator_name, int operator_type, String memo);
 	
-	boolean delete(HttpServletRequest request, int ny, Long member_id);
+	List<Policy> findAll(com.gdpost.web.util.dwz.Page page);
 	
-	List<com.gdpost.web.entity.member.TblMemberData> findAll(com.gdpost.web.util.dwz.Page page);
-	
-	List<TblMemberData> findByExample(Specification<TblMemberData> specification, com.gdpost.web.util.dwz.Page page);
+	List<Policy> findByExample(Specification<Policy> specification, com.gdpost.web.util.dwz.Page page);
 	
 	boolean checkImportNY(HttpServletRequest request, long member_id, int ny);
 }

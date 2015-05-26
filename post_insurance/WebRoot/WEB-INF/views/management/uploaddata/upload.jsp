@@ -28,14 +28,6 @@
 					<option value="1">默认模板</option>
 				</select>
 				</td>
-				<td width="170px">
-					连锁：
-					<input id="txtMemberID" name="search_EQ_tblMember.id" type="hidden"/>
-					<input class="validate[required] required" name="search_EQ_tblMember.memberName" type="text" readonly="readonly" style="width: 120px;"/>
-				</td>
-				<td width="40px">
-					<a class="btnLook" href="${contextPath }/management/uploaddata/lookup2member" lookupGroup="search_EQ_tblMember" title="关联连锁">查找带回</a>
-				</td>
 				<td width="80px">
 					&nbsp;
 				</td>
@@ -70,7 +62,7 @@
     var uploader = null;
     var ny = null;
     var template = 0;
-    var member_id = null;
+    var member_id = 1;
     var memo = "";
     uploader = new plupload.Uploader({
         runtimes: 'flash,silverlight,html5,html4',
@@ -95,8 +87,8 @@
         multi_selection: true,
 
         filters: {
-            max_file_size: '1024mb',
-            mime_types: [{ title: "Data files", extensions: "txt,csv,xls,xlsx,dbf,mdb" }]
+            max_file_size: '10mb',
+            mime_types: [{ title: "Data files", extensions: "csv,xls,xlsx" }]
         },
 
         init: {
@@ -108,7 +100,7 @@
                     // 检查当前选择月份，是否已上传
                 	ny = $("#listNY").val();
                 	template = $("#lstTemplate").val();
-                	member_id = $("#txtMemberID").val();
+                	member_id = 1;
                 	uploader.settings.multipart_params.ny = ny;
                 	if(isNaN(parseInt(member_id))) {
                 		alert("请选择导入数据的连锁。");

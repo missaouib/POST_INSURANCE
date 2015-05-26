@@ -31,7 +31,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.gdpost.utils.SecurityUtils;
 import com.gdpost.utils.UploadDataHelper.UploadDataUtils;
 import com.gdpost.web.entity.main.User;
-import com.gdpost.web.entity.member.TblMember;
 import com.gdpost.web.log.Log;
 import com.gdpost.web.log.LogMessageObject;
 import com.gdpost.web.log.impl.LogUitls;
