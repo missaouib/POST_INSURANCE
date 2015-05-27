@@ -37,7 +37,7 @@ import com.gdpost.web.util.dwz.Page;
 import com.gdpost.web.util.persistence.DynamicSpecifications;
 
 @Controller
-@RequestMapping("/qygl/wtj")
+@RequestMapping("/fpgl")
 public class FpglController {
 	//private static final Logger LOG = LoggerFactory.getLogger(MemberController.class);
 	

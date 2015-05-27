@@ -13,13 +13,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gdpost.web.dao.PolicyDAO;
 import com.gdpost.web.entity.main.Policy;
 import com.gdpost.web.exception.ExistedException;
-import com.gdpost.web.service.insurance.QyglService;
+import com.gdpost.web.service.insurance.BqglService;
 import com.gdpost.web.util.dwz.Page;
 import com.gdpost.web.util.dwz.PageUtils;
 
 @Service
 @Transactional
-public class BqglServiceImpl implements QyglService {
+public class BqglServiceImpl implements BqglService {
 	//private static final Logger logger = LoggerFactory.getLogger(QyglServiceImpl.class);
 	
 	@Autowired
