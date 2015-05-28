@@ -16,5 +16,6 @@ import com.gdpost.web.entity.basedata.RenewalType;
  * @author MyEclipse Persistence Tools
  */
 public interface RenewalTypeDAO extends JpaRepository<RenewalType, Long>, JpaSpecificationExecutor<RenewalType> {
+	RenewalType getByTypeName(String typeName);
 
 }

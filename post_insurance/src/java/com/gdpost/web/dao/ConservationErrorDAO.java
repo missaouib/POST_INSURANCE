@@ -16,5 +16,6 @@ import com.gdpost.web.entity.basedata.ConservationError;
  * @author MyEclipse Persistence Tools
  */
 public interface ConservationErrorDAO extends JpaRepository<ConservationError, Long>, JpaSpecificationExecutor<ConservationError> {
+	ConservationError getByErrorCode(String errorCode);
 
 }

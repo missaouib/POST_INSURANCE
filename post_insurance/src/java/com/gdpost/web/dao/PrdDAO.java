@@ -15,5 +15,6 @@ import com.gdpost.web.entity.basedata.Prd;
  * @author MyEclipse Persistence Tools
  */
 public interface PrdDAO extends JpaRepository<Prd, Long>, JpaSpecificationExecutor<Prd> {
+	Prd getByPrdCode(String prdCode);
 
 }

@@ -16,5 +16,6 @@ import com.gdpost.web.entity.basedata.IssueType;
  * @author MyEclipse Persistence Tools
  */
 public interface IssueTypeDAO extends JpaRepository<IssueType, Long>, JpaSpecificationExecutor<IssueType> {
+	IssueType getByTypeName(String typeName);
 
 }

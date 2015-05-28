@@ -16,5 +16,6 @@ import com.gdpost.web.entity.basedata.BankCode;
  * @author MyEclipse Persistence Tools
  */
 public interface BankCodeDAO extends JpaRepository<BankCode, Long>, JpaSpecificationExecutor<BankCode> {
+	BankCode getByCpiCode(String cpiCode);
 
 }

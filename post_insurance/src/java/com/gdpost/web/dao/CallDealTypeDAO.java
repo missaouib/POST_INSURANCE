@@ -16,5 +16,6 @@ import com.gdpost.web.entity.basedata.CallDealType;
  * @author MyEclipse Persistence Tools
  */
 public interface CallDealTypeDAO extends JpaRepository<CallDealType, Long>, JpaSpecificationExecutor<CallDealType> {
+	CallDealType getByTypeName(String typeName);
 
 }

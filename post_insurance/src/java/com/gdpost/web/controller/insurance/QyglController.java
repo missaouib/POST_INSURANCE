@@ -44,9 +44,9 @@ public class QyglController {
 	@Autowired
 	private QyglService qyglService;
 
-	private static final String CREATE = "management/security/user/create";
-	private static final String UPDATE = "management/security/user/update";
-	private static final String LIST = "management/security/user/list";
+	private static final String CREATE = "insurance/qygl/wtj/create";
+	private static final String UPDATE = "insurance/qygl/wtj/update";
+	private static final String LIST = "insurance/qygl/wtj/list";
 	
 	@RequiresPermissions("Policy:save")
 	@RequestMapping(value="/create", method=RequestMethod.GET)
