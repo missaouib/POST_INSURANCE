@@ -22,6 +22,7 @@ public class BankCode implements Idable<Long> {
 	private String cpiCode;
 	private String bankCode;
 	private String name;
+	private String bankName;
 	private Integer status;
 
 	// Constructors
@@ -74,6 +75,15 @@ public class BankCode implements Idable<Long> {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	@Column(name = "bank_name")
+	public String getBankName() {
+		return bankName;
+	}
+	
+	public void setBankName(String bankName) {
+		this.bankName = bankName;
 	}
 
 	@Column(name = "status")

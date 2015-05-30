@@ -39,7 +39,8 @@
 			<mvc:mapping path="/management/**" />
 			<mvc:mapping path="/login/timeout/success"/>
 			<mvc:mapping path="/members/**" />
-			<mvc:mapping path="/uploaddatamanage/**" />			
+			<mvc:mapping path="/basedata/**" />
+			<mvc:mapping path="/insurance/**" />			
 			<bean class="com.gdpost.web.log.spring.LogInterceptor" >
 				<property name="logAPI" ref="log4JDBCImpl"/>
 			</bean>

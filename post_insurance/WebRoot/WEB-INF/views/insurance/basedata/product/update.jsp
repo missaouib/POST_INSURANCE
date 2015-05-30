@@ -1,37 +1,39 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 <div class="pageContent">
-<form method="post" action="${contextPath}/management/security/user/update" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
-	<input type="hidden" name="id" value="${user.id}"/>
+<form method="post" action="${contextPath}/basedata/prd/update" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
+	<input type="hidden" name="id" value="${basedata.id}"/>
 	<div class="pageFormContent" layoutH="58">
 		<p>
-			<label>登录名称：</label>
-			<input type="text" name="username" class="input-medium validate[required,maxSize[32]] required" maxlength="32" readonly="readonly" value="${user.username }"/>
+			<label>产品代码：</label>
+			<input type="text" name="prdCode" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${basedata.prdCode }"/>
 		</p>
 		<p>
-			<label>姓名：</label>
-			<input type="text" name="realname" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${user.realname }"/>
-		</p>		
-		<p>
-			<label>电话：</label>
-			<input type="text" name="phone" class="input-medium validate[custom[phone],maxSize[32]]" maxlength="32" value="${user.phone }"/>
+			<label>产品名称：</label>
+			<input type="text" name="prdName" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${basedata.prdName }"/>
 		</p>
 		<p>
-			<label>用户邮箱：</label>
-			<input type="text" name="email" class="input-medium validate[custom[email],maxSize[128]]" maxlength="128" value="${user.email }"/>
-		</p>		
-		<p>
-			<label>用户状态：</label>
-			<select name="status">
-				<option value="enabled" ${user.status == "enabled" ? 'selected="selected"' : ''}>可用</option>
-				<option value="disabled" ${user.status == "disabled" ? 'selected="selected"' : ''}>不可用</option>
-			</select>
+			<label>产品状态：</label>
+			<form:select path="basedata.prdStatus" id="prdStatus" name="prdStatus" class="combox">
+				<form:option value="0">停售</form:option>
+				<form:option value="1">正常销售</form:option>
+			</form:select>
 		</p>
 		<p>
-			<label>关联组织：</label>
-			<input name="organization.id" value="${user.organization.id }" type="hidden"/>
-			<input class="validate[required] required" name="organization.name" type="text" readonly="readonly" value="${user.organization.name }" style="width: 140px;"/>
-			<a class="btnLook" href="${contextPath}/management/security/user/lookup2org" lookupGroup="organization" title="关联组织" width="400">查找带回</a>	
+			<label>每份金额：</label>
+			<input type="text" name="prdPerMoney" class="input-medium" maxlength="32" value="${basedata.prdPerMoney }"/>
+		</p>
+		<p>
+			<label>交费期间：</label>
+			<input type="text" name="prdPerm" class="input-medium" maxlength="32" value="${basedata.prdPerm }"/>
+		</p>
+		<p>
+			<label>保险期间：</label>
+			<input type="text" name="duration" class="input-medium" maxlength="32" value="${basedata.duration }"/>
+		</p>
+		<p>
+			<label>最高理赔倍数：</label>
+			<input type="text" name="multiple" class="input-medium" maxlength="32" value="${basedata.multiple }"/>
 		</p>		
 	</div>
 			
