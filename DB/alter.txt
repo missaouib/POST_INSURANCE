@@ -2,3 +2,7 @@
 alter table t_policy add column operate_id bigint;
 alter table t_policy add column operate_name date;
 alter table t_policy add column operate_time varchar(32);
+
+--20150530
+alter table t_bank_code add column bank_name varchar(128);
+alter table t_prd add column multiple int;

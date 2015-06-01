@@ -31,6 +31,7 @@ public class Prd implements Idable<Long> {
 	private Integer prdPerMoney;
 	private Integer prdPerm;
 	private Integer duration;
+	private Integer multiple;
 	private List<Policy> policies = new ArrayList<Policy>(0);
 
 	// Constructors
@@ -113,6 +114,15 @@ public class Prd implements Idable<Long> {
 
 	public void setDuration(Integer duration) {
 		this.duration = duration;
+	}
+
+	@Column(name = "multiple")
+	public Integer getMultiple() {
+		return multiple;
+	}
+
+	public void setMultiple(Integer multiple) {
+		this.multiple = multiple;
 	}
 
 	@OneToMany(mappedBy="prd", cascade={CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval=true)

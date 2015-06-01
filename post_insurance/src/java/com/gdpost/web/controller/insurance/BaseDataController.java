@@ -79,55 +79,96 @@ public class BaseDataController {
 	 * =======================================
 	 * 
 	 */
+<<<<<<< HEAD
 	@RequiresPermissions("BaseData:save")
 	@RequestMapping(value="/create", method=RequestMethod.GET)
+=======
+	@RequiresPermissions("CallDealType:save")
+	@RequestMapping(value="/callDealType/create", method=RequestMethod.GET)
+>>>>>>> 9b1451e635b06b74d352017cdf1621fac7bfe666
 	public String preCreateCallDealType() {
 		return CALL_DEAL_TYPE_CREATE;
 	}
 	
 	@Log(message="添加了{0}回访处理类型。")
+<<<<<<< HEAD
 	@RequiresPermissions("BaseData:save")
 	@RequestMapping(value="/create", method=RequestMethod.POST)
 	public @ResponseBody String createCallDealType(@Valid CallDealType user) {	
 		try {
 			baseService.saveOrUpdateCallDealType(user);
+=======
+	@RequiresPermissions("CallDealType:save")
+	@RequestMapping(value="/callDealType/create", method=RequestMethod.POST)
+	public @ResponseBody String createCallDealType(@Valid CallDealType basedata) {	
+		try {
+			baseService.saveOrUpdateCallDealType(basedata);
+>>>>>>> 9b1451e635b06b74d352017cdf1621fac7bfe666
 		} catch (ExistedException e) {
 			return AjaxObject.newError("添加回访处理类型失败：" + e.getMessage()).setCallbackType("").toString();
 		}
 		
+<<<<<<< HEAD
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{user.getTypeName()}));
+=======
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{basedata.getTypeName()}));
+>>>>>>> 9b1451e635b06b74d352017cdf1621fac7bfe666
 		return AjaxObject.newOk("添加回访处理类型成功！").toString();
 	}
 	
 	@ModelAttribute("preloadCallDealType")
 	public CallDealType preloadCallDealType(@RequestParam(value = "id", required = false) Long id) {
 		if (id != null) {
+<<<<<<< HEAD
 			CallDealType user = baseService.getCallDealType(id);
 			return user;
+=======
+			CallDealType basedata = baseService.getCallDealType(id);
+			return basedata;
+>>>>>>> 9b1451e635b06b74d352017cdf1621fac7bfe666
 		}
 		return null;
 	}
 	
+<<<<<<< HEAD
 	@RequiresPermissions("BaseData:edit")
 	@RequestMapping(value="/update/{id}", method=RequestMethod.GET)
 	public String preUpdateCallDealType(@PathVariable Long id, Map<String, Object> map) {
 		CallDealType user = baseService.getCallDealType(id);
 		
 		map.put("user", user);
+=======
+	@RequiresPermissions("CallDealType:edit")
+	@RequestMapping(value="/callDealType/update/{id}", method=RequestMethod.GET)
+	public String preUpdateCallDealType(@PathVariable Long id, Map<String, Object> map) {
+		CallDealType basedata = baseService.getCallDealType(id);
+		
+		map.put("basedata", basedata);
+>>>>>>> 9b1451e635b06b74d352017cdf1621fac7bfe666
 		return CALL_DEAL_TYPE_UPDATE;
 	}
 	
 	@Log(message="修改了{0}回访处理类型的信息。")
+<<<<<<< HEAD
 	@RequiresPermissions("BaseData:edit")
 	@RequestMapping(value="/update", method=RequestMethod.POST)
 	public @ResponseBody String updateCallDealType(@Valid @ModelAttribute("preloadCallDealType")CallDealType user) {
 		baseService.saveOrUpdateCallDealType(user);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{user.getTypeName()}));
+=======
+	@RequiresPermissions("CallDealType:edit")
+	@RequestMapping(value="/callDealType/update", method=RequestMethod.POST)
+	public @ResponseBody String updateCallDealType(@Valid @ModelAttribute("preloadCallDealType")CallDealType basedata) {
+		baseService.saveOrUpdateCallDealType(basedata);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{basedata.getTypeName()}));
+>>>>>>> 9b1451e635b06b74d352017cdf1621fac7bfe666
 		return	AjaxObject.newOk("修改回访处理类型成功！").toString(); 
 	}
 	
 	@Log(message="删除了{0}回访处理类型。")
+<<<<<<< HEAD
 	@RequiresPermissions("BaseData:delete")
 	@RequestMapping(value="/delete/{id}", method=RequestMethod.POST)
 	public @ResponseBody String deleteCallDealType(@PathVariable Long id) {
@@ -135,25 +176,50 @@ public class BaseDataController {
 		try {
 			user = baseService.getCallDealType(id);
 			baseService.deleteCallDealType(user.getId());
+=======
+	@RequiresPermissions("CallDealType:delete")
+	@RequestMapping(value="/callDealType/delete/{id}", method=RequestMethod.POST)
+	public @ResponseBody String deleteCallDealType(@PathVariable Long id) {
+		CallDealType basedata = null;
+		try {
+			basedata = baseService.getCallDealType(id);
+			baseService.deleteCallDealType(basedata.getId());
+>>>>>>> 9b1451e635b06b74d352017cdf1621fac7bfe666
 		} catch (ServiceException e) {
 			return AjaxObject.newError("删除回访处理类型失败：" + e.getMessage()).setCallbackType("").toString();
 		}
 		
+<<<<<<< HEAD
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{user.getTypeName()}));
+=======
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{basedata.getTypeName()}));
+>>>>>>> 9b1451e635b06b74d352017cdf1621fac7bfe666
 		return AjaxObject.newOk("删除回访处理类型成功！").setCallbackType("").toString();
 	}
 	
 	@Log(message="删除了{0}回访处理类型。")
+<<<<<<< HEAD
 	@RequiresPermissions("BaseData:delete")
 	@RequestMapping(value="/delete", method=RequestMethod.POST)
+=======
+	@RequiresPermissions("CallDealType:delete")
+	@RequestMapping(value="/callDealType/delete", method=RequestMethod.POST)
+>>>>>>> 9b1451e635b06b74d352017cdf1621fac7bfe666
 	public @ResponseBody String deleteManyCallDealType(Long[] ids) {
 		String[] callDealTypes = new String[ids.length];
 		try {
 			for (int i = 0; i < ids.length; i++) {
+<<<<<<< HEAD
 				CallDealType user = baseService.getCallDealType(ids[i]);
 				baseService.deleteCallDealType(user.getId());
 				
 				callDealTypes[i] = user.getTypeName();
+=======
+				CallDealType basedata = baseService.getCallDealType(ids[i]);
+				baseService.deleteCallDealType(basedata.getId());
+				
+				callDealTypes[i] = basedata.getTypeName();
+>>>>>>> 9b1451e635b06b74d352017cdf1621fac7bfe666
 			}
 		} catch (ServiceException e) {
 			return AjaxObject.newError("删除回访处理类型失败：" + e.getMessage()).setCallbackType("").toString();
@@ -163,6 +229,7 @@ public class BaseDataController {
 		return AjaxObject.newOk("删除回访处理类型成功！").setCallbackType("").toString();
 	}
 	
+<<<<<<< HEAD
 	@RequiresPermissions("BaseData:view")
 	@RequestMapping(value="/list", method={RequestMethod.GET, RequestMethod.POST})
 	public String listCallDealType(ServletRequest request, Page page, Map<String, Object> map) {
@@ -171,6 +238,16 @@ public class BaseDataController {
 
 		map.put("page", page);
 		map.put("users", users);
+=======
+	@RequiresPermissions("CallDealType:view")
+	@RequestMapping(value="/callDealType/list", method={RequestMethod.GET, RequestMethod.POST})
+	public String listCallDealType(ServletRequest request, Page page, Map<String, Object> map) {
+		Specification<CallDealType> specification = DynamicSpecifications.bySearchFilter(request, CallDealType.class);
+		List<CallDealType> basedata = baseService.findByCallDealTypeExample(specification, page);
+
+		map.put("page", page);
+		map.put("basedata", basedata);
+>>>>>>> 9b1451e635b06b74d352017cdf1621fac7bfe666
 		return CALL_DEAL_TYPE_LIST;
 	}
 	
@@ -180,15 +257,25 @@ public class BaseDataController {
 	 * =======================================
 	 * 
 	 */
+<<<<<<< HEAD
 	@RequiresPermissions("BaseData:save")
 	@RequestMapping(value="/create", method=RequestMethod.GET)
+=======
+	@RequiresPermissions("ConservationError:save")
+	@RequestMapping(value="/conservationError/create", method=RequestMethod.GET)
+>>>>>>> 9b1451e635b06b74d352017cdf1621fac7bfe666
 	public String preCreateConservationError() {
 		return CONSERVATION_ERROR_CREATE;
 	}
 	
 	@Log(message="添加了{0}保全错误类型。")
+<<<<<<< HEAD
 	@RequiresPermissions("BaseData:save")
 	@RequestMapping(value="/create", method=RequestMethod.POST)
+=======
+	@RequiresPermissions("ConservationError:save")
+	@RequestMapping(value="/conservationError/create", method=RequestMethod.POST)
+>>>>>>> 9b1451e635b06b74d352017cdf1621fac7bfe666
 	public @ResponseBody String createConservationError(@Valid ConservationError conservationError) {	
 		try {
 			baseService.saveOrUpdateConservationError(conservationError);
@@ -209,18 +296,32 @@ public class BaseDataController {
 		return null;
 	}
 	
+<<<<<<< HEAD
 	@RequiresPermissions("BaseData:edit")
 	@RequestMapping(value="/update/{id}", method=RequestMethod.GET)
 	public String preUpdateConservationError(@PathVariable Long id, Map<String, Object> map) {
 		ConservationError conservationError = baseService.getConservationError(id);
 		
 		map.put("conservationError", conservationError);
+=======
+	@RequiresPermissions("ConservationError:edit")
+	@RequestMapping(value="/conservationError/update/{id}", method=RequestMethod.GET)
+	public String preUpdateConservationError(@PathVariable Long id, Map<String, Object> map) {
+		ConservationError basedata = baseService.getConservationError(id);
+		
+		map.put("basedata", basedata);
+>>>>>>> 9b1451e635b06b74d352017cdf1621fac7bfe666
 		return CONSERVATION_ERROR_UPDATE;
 	}
 	
 	@Log(message="修改了{0}保全错误类型的信息。")
+<<<<<<< HEAD
 	@RequiresPermissions("BaseData:edit")
 	@RequestMapping(value="/update", method=RequestMethod.POST)
+=======
+	@RequiresPermissions("ConservationError:edit")
+	@RequestMapping(value="/conservationError/update", method=RequestMethod.POST)
+>>>>>>> 9b1451e635b06b74d352017cdf1621fac7bfe666
 	public @ResponseBody String updateConservationError(@Valid @ModelAttribute("preloadConservationError")ConservationError conservationError) {
 		baseService.saveOrUpdateConservationError(conservationError);
 		
@@ -229,8 +330,13 @@ public class BaseDataController {
 	}
 	
 	@Log(message="删除了{0}保全错误类型。")
+<<<<<<< HEAD
 	@RequiresPermissions("BaseData:delete")
 	@RequestMapping(value="/delete/{id}", method=RequestMethod.POST)
+=======
+	@RequiresPermissions("ConservationError:delete")
+	@RequestMapping(value="/conservationError/delete/{id}", method=RequestMethod.POST)
+>>>>>>> 9b1451e635b06b74d352017cdf1621fac7bfe666
 	public @ResponseBody String deleteConservationError(@PathVariable Long id) {
 		ConservationError conservationError = null;
 		try {
@@ -245,8 +351,13 @@ public class BaseDataController {
 	}
 	
 	@Log(message="删除了{0}保全错误类型。")
+<<<<<<< HEAD
 	@RequiresPermissions("BaseData:delete")
 	@RequestMapping(value="/delete", method=RequestMethod.POST)
+=======
+	@RequiresPermissions("ConservationError:delete")
+	@RequestMapping(value="/conservationError/delete", method=RequestMethod.POST)
+>>>>>>> 9b1451e635b06b74d352017cdf1621fac7bfe666
 	public @ResponseBody String deleteManyConservationError(Long[] ids) {
 		String[] conservationErrors = new String[ids.length];
 		try {
@@ -264,6 +375,7 @@ public class BaseDataController {
 		return AjaxObject.newOk("删除保全错误类型成功！").setCallbackType("").toString();
 	}
 	
+<<<<<<< HEAD
 	@RequiresPermissions("BaseData:view")
 	@RequestMapping(value="/list", method={RequestMethod.GET, RequestMethod.POST})
 	public String listConservationError(ServletRequest request, Page page, Map<String, Object> map) {
@@ -272,6 +384,16 @@ public class BaseDataController {
 
 		map.put("page", page);
 		map.put("conservationErrors", conservationErrors);
+=======
+	@RequiresPermissions("ConservationError:view")
+	@RequestMapping(value="/conservationError/list", method={RequestMethod.GET, RequestMethod.POST})
+	public String listConservationError(ServletRequest request, Page page, Map<String, Object> map) {
+		Specification<ConservationError> specification = DynamicSpecifications.bySearchFilter(request, ConservationError.class);
+		List<ConservationError> basedata = baseService.findByConservationErrorExample(specification, page);
+
+		map.put("page", page);
+		map.put("basedata", basedata);
+>>>>>>> 9b1451e635b06b74d352017cdf1621fac7bfe666
 		return CONSERVATION_ERROR_LIST;
 	}
 	
@@ -281,15 +403,25 @@ public class BaseDataController {
 	 * =======================================
 	 * 
 	 */
+<<<<<<< HEAD
 	@RequiresPermissions("BaseData:save")
 	@RequestMapping(value="/create", method=RequestMethod.GET)
+=======
+	@RequiresPermissions("IssueType:save")
+	@RequestMapping(value="/issueType/create", method=RequestMethod.GET)
+>>>>>>> 9b1451e635b06b74d352017cdf1621fac7bfe666
 	public String preCreateIssueType() {
 		return ISSUE_TYPE_CREATE;
 	}
 	
 	@Log(message="添加了{0}工单错误类型。")
+<<<<<<< HEAD
 	@RequiresPermissions("BaseData:save")
 	@RequestMapping(value="/create", method=RequestMethod.POST)
+=======
+	@RequiresPermissions("IssueType:save")
+	@RequestMapping(value="/issueType/create", method=RequestMethod.POST)
+>>>>>>> 9b1451e635b06b74d352017cdf1621fac7bfe666
 	public @ResponseBody String createIssueType(@Valid IssueType issueType) {	
 		try {
 			baseService.saveOrUpdateIssueType(issueType);
@@ -310,18 +442,32 @@ public class BaseDataController {
 		return null;
 	}
 	
+<<<<<<< HEAD
 	@RequiresPermissions("BaseData:edit")
 	@RequestMapping(value="/update/{id}", method=RequestMethod.GET)
 	public String preUpdateIssueType(@PathVariable Long id, Map<String, Object> map) {
 		IssueType issueType = baseService.getIssueType(id);
 		
 		map.put("issueType", issueType);
+=======
+	@RequiresPermissions("IssueType:edit")
+	@RequestMapping(value="/issueType/update/{id}", method=RequestMethod.GET)
+	public String preUpdateIssueType(@PathVariable Long id, Map<String, Object> map) {
+		IssueType basedata = baseService.getIssueType(id);
+		
+		map.put("basedata", basedata);
+>>>>>>> 9b1451e635b06b74d352017cdf1621fac7bfe666
 		return ISSUE_TYPE_UPDATE;
 	}
 	
 	@Log(message="修改了{0}工单错误类型的信息。")
+<<<<<<< HEAD
 	@RequiresPermissions("BaseData:edit")
 	@RequestMapping(value="/update", method=RequestMethod.POST)
+=======
+	@RequiresPermissions("IssueType:edit")
+	@RequestMapping(value="/issueType/update", method=RequestMethod.POST)
+>>>>>>> 9b1451e635b06b74d352017cdf1621fac7bfe666
 	public @ResponseBody String updateIssueType(@Valid @ModelAttribute("preloadIssueType")IssueType issueType) {
 		baseService.saveOrUpdateIssueType(issueType);
 		
@@ -330,8 +476,13 @@ public class BaseDataController {
 	}
 	
 	@Log(message="删除了{0}工单错误类型。")
+<<<<<<< HEAD
 	@RequiresPermissions("BaseData:delete")
 	@RequestMapping(value="/delete/{id}", method=RequestMethod.POST)
+=======
+	@RequiresPermissions("IssueType:delete")
+	@RequestMapping(value="/issueType/delete/{id}", method=RequestMethod.POST)
+>>>>>>> 9b1451e635b06b74d352017cdf1621fac7bfe666
 	public @ResponseBody String deleteIssueType(@PathVariable Long id) {
 		IssueType issueType = null;
 		try {
@@ -346,8 +497,13 @@ public class BaseDataController {
 	}
 	
 	@Log(message="删除了{0}工单错误类型。")
+<<<<<<< HEAD
 	@RequiresPermissions("BaseData:delete")
 	@RequestMapping(value="/delete", method=RequestMethod.POST)
+=======
+	@RequiresPermissions("IssueType:delete")
+	@RequestMapping(value="/issueType/delete", method=RequestMethod.POST)
+>>>>>>> 9b1451e635b06b74d352017cdf1621fac7bfe666
 	public @ResponseBody String deleteManyIssueType(Long[] ids) {
 		String[] issueTypes = new String[ids.length];
 		try {
@@ -365,6 +521,7 @@ public class BaseDataController {
 		return AjaxObject.newOk("删除工单错误类型成功！").setCallbackType("").toString();
 	}
 	
+<<<<<<< HEAD
 	@RequiresPermissions("BaseData:view")
 	@RequestMapping(value="/list", method={RequestMethod.GET, RequestMethod.POST})
 	public String listIssueType(ServletRequest request, Page page, Map<String, Object> map) {
@@ -373,6 +530,16 @@ public class BaseDataController {
 
 		map.put("page", page);
 		map.put("issueTypes", issueTypes);
+=======
+	@RequiresPermissions("IssueType:view")
+	@RequestMapping(value="/issueType/list", method={RequestMethod.GET, RequestMethod.POST})
+	public String listIssueType(ServletRequest request, Page page, Map<String, Object> map) {
+		Specification<IssueType> specification = DynamicSpecifications.bySearchFilter(request, IssueType.class);
+		List<IssueType> basedata = baseService.findByIssueTypeExample(specification, page);
+
+		map.put("page", page);
+		map.put("basedata", basedata);
+>>>>>>> 9b1451e635b06b74d352017cdf1621fac7bfe666
 		return ISSUE_TYPE_LIST;
 	}
 	
@@ -382,15 +549,25 @@ public class BaseDataController {
 	 * =======================================
 	 * 
 	 */
+<<<<<<< HEAD
 	@RequiresPermissions("BaseData:save")
 	@RequestMapping(value="/create", method=RequestMethod.GET)
+=======
+	@RequiresPermissions("BankCode:save")
+	@RequestMapping(value="/bankCode/create", method=RequestMethod.GET)
+>>>>>>> 9b1451e635b06b74d352017cdf1621fac7bfe666
 	public String preCreateNetCode() {
 		return NET_CODE_CREATE;
 	}
 	
 	@Log(message="添加了{0}网点对照。")
+<<<<<<< HEAD
 	@RequiresPermissions("BaseData:save")
 	@RequestMapping(value="/create", method=RequestMethod.POST)
+=======
+	@RequiresPermissions("BankCode:save")
+	@RequestMapping(value="/bankCode/create", method=RequestMethod.POST)
+>>>>>>> 9b1451e635b06b74d352017cdf1621fac7bfe666
 	public @ResponseBody String createNetCode(@Valid BankCode bankCode) {	
 		try {
 			baseService.saveOrUpdateBankCode(bankCode);
@@ -411,18 +588,32 @@ public class BaseDataController {
 		return null;
 	}
 	
+<<<<<<< HEAD
 	@RequiresPermissions("BaseData:edit")
 	@RequestMapping(value="/update/{id}", method=RequestMethod.GET)
 	public String preUpdateNetCode(@PathVariable Long id, Map<String, Object> map) {
 		BankCode bankCode = baseService.getBankCode(id);
 		
 		map.put("bankCode", bankCode);
+=======
+	@RequiresPermissions("BankCode:edit")
+	@RequestMapping(value="/bankCode/update/{id}", method=RequestMethod.GET)
+	public String preUpdateNetCode(@PathVariable Long id, Map<String, Object> map) {
+		BankCode basedata = baseService.getBankCode(id);
+		
+		map.put("basedata", basedata);
+>>>>>>> 9b1451e635b06b74d352017cdf1621fac7bfe666
 		return NET_CODE_UPDATE;
 	}
 	
 	@Log(message="修改了{0}网点对照的信息。")
+<<<<<<< HEAD
 	@RequiresPermissions("BaseData:edit")
 	@RequestMapping(value="/update", method=RequestMethod.POST)
+=======
+	@RequiresPermissions("BankCode:edit")
+	@RequestMapping(value="/bankCode/update", method=RequestMethod.POST)
+>>>>>>> 9b1451e635b06b74d352017cdf1621fac7bfe666
 	public @ResponseBody String updateNetCode(@Valid @ModelAttribute("preloadNetCode")BankCode bankCode) {
 		baseService.saveOrUpdateBankCode(bankCode);
 		
@@ -431,8 +622,13 @@ public class BaseDataController {
 	}
 	
 	@Log(message="删除了{0}网点对照。")
+<<<<<<< HEAD
 	@RequiresPermissions("BaseData:delete")
 	@RequestMapping(value="/delete/{id}", method=RequestMethod.POST)
+=======
+	@RequiresPermissions("BankCode:delete")
+	@RequestMapping(value="/bankCode/delete/{id}", method=RequestMethod.POST)
+>>>>>>> 9b1451e635b06b74d352017cdf1621fac7bfe666
 	public @ResponseBody String deleteNetCode(@PathVariable Long id) {
 		BankCode bankCode = null;
 		try {
@@ -447,8 +643,13 @@ public class BaseDataController {
 	}
 	
 	@Log(message="删除了{0}网点对照。")
+<<<<<<< HEAD
 	@RequiresPermissions("BaseData:delete")
 	@RequestMapping(value="/delete", method=RequestMethod.POST)
+=======
+	@RequiresPermissions("BankCode:delete")
+	@RequestMapping(value="/bankCode/delete", method=RequestMethod.POST)
+>>>>>>> 9b1451e635b06b74d352017cdf1621fac7bfe666
 	public @ResponseBody String deleteManyNetCode(Long[] ids) {
 		String[] bankCodes = new String[ids.length];
 		try {
@@ -466,6 +667,7 @@ public class BaseDataController {
 		return AjaxObject.newOk("删除网点对照成功！").setCallbackType("").toString();
 	}
 	
+<<<<<<< HEAD
 	@RequiresPermissions("BaseData:view")
 	@RequestMapping(value="/list", method={RequestMethod.GET, RequestMethod.POST})
 	public String listNetCode(ServletRequest request, Page page, Map<String, Object> map) {
@@ -474,6 +676,16 @@ public class BaseDataController {
 
 		map.put("page", page);
 		map.put("bankCodes", bankCodes);
+=======
+	@RequiresPermissions("BankCode:view")
+	@RequestMapping(value="/bankCode/list", method={RequestMethod.GET, RequestMethod.POST})
+	public String listNetCode(ServletRequest request, Page page, Map<String, Object> map) {
+		Specification<BankCode> specification = DynamicSpecifications.bySearchFilter(request, BankCode.class);
+		List<BankCode> basedata = baseService.findByBankCodeExample(specification, page);
+
+		map.put("page", page);
+		map.put("basedata", basedata);
+>>>>>>> 9b1451e635b06b74d352017cdf1621fac7bfe666
 		return NET_CODE_LIST;
 	}
 	
@@ -483,15 +695,25 @@ public class BaseDataController {
 	 * =======================================
 	 * 
 	 */
+<<<<<<< HEAD
 	@RequiresPermissions("BaseData:save")
 	@RequestMapping(value="/create", method=RequestMethod.GET)
+=======
+	@RequiresPermissions("RenewalType:save")
+	@RequestMapping(value="/renewalType/create", method=RequestMethod.GET)
+>>>>>>> 9b1451e635b06b74d352017cdf1621fac7bfe666
 	public String preCreateRenewalType() {
 		return RENEWAL_TYPE_CREATE;
 	}
 	
 	@Log(message="添加了{0}催缴类型。")
+<<<<<<< HEAD
 	@RequiresPermissions("BaseData:save")
 	@RequestMapping(value="/create", method=RequestMethod.POST)
+=======
+	@RequiresPermissions("RenewalType:save")
+	@RequestMapping(value="/renewalType/create", method=RequestMethod.POST)
+>>>>>>> 9b1451e635b06b74d352017cdf1621fac7bfe666
 	public @ResponseBody String createRenewalType(@Valid RenewalType renewalType) {	
 		try {
 			baseService.saveOrUpdateRenewalType(renewalType);
@@ -512,18 +734,32 @@ public class BaseDataController {
 		return null;
 	}
 	
+<<<<<<< HEAD
 	@RequiresPermissions("BaseData:edit")
 	@RequestMapping(value="/update/{id}", method=RequestMethod.GET)
 	public String preUpdateRenewalType(@PathVariable Long id, Map<String, Object> map) {
 		RenewalType renewalType = baseService.getRenewalType(id);
 		
 		map.put("renewalType", renewalType);
+=======
+	@RequiresPermissions("RenewalType:edit")
+	@RequestMapping(value="/renewalType/update/{id}", method=RequestMethod.GET)
+	public String preUpdateRenewalType(@PathVariable Long id, Map<String, Object> map) {
+		RenewalType basedata = baseService.getRenewalType(id);
+		
+		map.put("basedata", basedata);
+>>>>>>> 9b1451e635b06b74d352017cdf1621fac7bfe666
 		return RENEWAL_TYPE_UPDATE;
 	}
 	
 	@Log(message="修改了{0}催缴类型的信息。")
+<<<<<<< HEAD
 	@RequiresPermissions("BaseData:edit")
 	@RequestMapping(value="/update", method=RequestMethod.POST)
+=======
+	@RequiresPermissions("RenewalType:edit")
+	@RequestMapping(value="/renewalType/update", method=RequestMethod.POST)
+>>>>>>> 9b1451e635b06b74d352017cdf1621fac7bfe666
 	public @ResponseBody String updateRenewalType(@Valid @ModelAttribute("preloadRenewalType")RenewalType renewalType) {
 		baseService.saveOrUpdateRenewalType(renewalType);
 		
@@ -532,8 +768,13 @@ public class BaseDataController {
 	}
 	
 	@Log(message="删除了{0}催缴类型。")
+<<<<<<< HEAD
 	@RequiresPermissions("BaseData:delete")
 	@RequestMapping(value="/delete/{id}", method=RequestMethod.POST)
+=======
+	@RequiresPermissions("RenewalType:delete")
+	@RequestMapping(value="/renewalType/delete/{id}", method=RequestMethod.POST)
+>>>>>>> 9b1451e635b06b74d352017cdf1621fac7bfe666
 	public @ResponseBody String deleteRenewalType(@PathVariable Long id) {
 		RenewalType renewalType = null;
 		try {
@@ -548,8 +789,13 @@ public class BaseDataController {
 	}
 	
 	@Log(message="删除了{0}催缴类型。")
+<<<<<<< HEAD
 	@RequiresPermissions("BaseData:delete")
 	@RequestMapping(value="/delete", method=RequestMethod.POST)
+=======
+	@RequiresPermissions("RenewalType:delete")
+	@RequestMapping(value="/renewalType/delete", method=RequestMethod.POST)
+>>>>>>> 9b1451e635b06b74d352017cdf1621fac7bfe666
 	public @ResponseBody String deleteManyRenewalType(Long[] ids) {
 		String[] renewalTypes = new String[ids.length];
 		try {
@@ -567,6 +813,7 @@ public class BaseDataController {
 		return AjaxObject.newOk("删除催缴类型成功！").setCallbackType("").toString();
 	}
 	
+<<<<<<< HEAD
 	@RequiresPermissions("BaseData:view")
 	@RequestMapping(value="/list", method={RequestMethod.GET, RequestMethod.POST})
 	public String listRenewalType(ServletRequest request, Page page, Map<String, Object> map) {
@@ -575,6 +822,16 @@ public class BaseDataController {
 
 		map.put("page", page);
 		map.put("renewalTypes", renewalTypes);
+=======
+	@RequiresPermissions("RenewalType:view")
+	@RequestMapping(value="/renewalType/list", method={RequestMethod.GET, RequestMethod.POST})
+	public String listRenewalType(ServletRequest request, Page page, Map<String, Object> map) {
+		Specification<RenewalType> specification = DynamicSpecifications.bySearchFilter(request, RenewalType.class);
+		List<RenewalType> basedata = baseService.findByRenewalTypeExample(specification, page);
+
+		map.put("page", page);
+		map.put("basedata", basedata);
+>>>>>>> 9b1451e635b06b74d352017cdf1621fac7bfe666
 		return RENEWAL_TYPE_LIST;
 	}
 	
@@ -584,15 +841,25 @@ public class BaseDataController {
 	 * =======================================
 	 * 
 	 */
+<<<<<<< HEAD
 	@RequiresPermissions("BaseData:save")
 	@RequestMapping(value="/create", method=RequestMethod.GET)
+=======
+	@RequiresPermissions("Prd:save")
+	@RequestMapping(value="/prd/create", method=RequestMethod.GET)
+>>>>>>> 9b1451e635b06b74d352017cdf1621fac7bfe666
 	public String preCreatePrd() {
 		return PRD_CREATE;
 	}
 	
 	@Log(message="添加了{0}产品。")
+<<<<<<< HEAD
 	@RequiresPermissions("BaseData:save")
 	@RequestMapping(value="/create", method=RequestMethod.POST)
+=======
+	@RequiresPermissions("Prd:save")
+	@RequestMapping(value="/prd/create", method=RequestMethod.POST)
+>>>>>>> 9b1451e635b06b74d352017cdf1621fac7bfe666
 	public @ResponseBody String createPrd(@Valid Prd prd) {	
 		try {
 			baseService.saveOrUpdatePrd(prd);
@@ -613,18 +880,32 @@ public class BaseDataController {
 		return null;
 	}
 	
+<<<<<<< HEAD
 	@RequiresPermissions("BaseData:edit")
 	@RequestMapping(value="/update/{id}", method=RequestMethod.GET)
 	public String preUpdatePrd(@PathVariable Long id, Map<String, Object> map) {
 		Prd prd = baseService.getPrd(id);
 		
 		map.put("prd", prd);
+=======
+	@RequiresPermissions("Prd:edit")
+	@RequestMapping(value="/prd/update/{id}", method=RequestMethod.GET)
+	public String preUpdatePrd(@PathVariable Long id, Map<String, Object> map) {
+		Prd basedata = baseService.getPrd(id);
+		
+		map.put("basedata", basedata);
+>>>>>>> 9b1451e635b06b74d352017cdf1621fac7bfe666
 		return PRD_UPDATE;
 	}
 	
 	@Log(message="修改了{0}产品的信息。")
+<<<<<<< HEAD
 	@RequiresPermissions("BaseData:edit")
 	@RequestMapping(value="/update", method=RequestMethod.POST)
+=======
+	@RequiresPermissions("Prd:edit")
+	@RequestMapping(value="/prd/update", method=RequestMethod.POST)
+>>>>>>> 9b1451e635b06b74d352017cdf1621fac7bfe666
 	public @ResponseBody String updatePrd(@Valid @ModelAttribute("preloadPrd")Prd prd) {
 		baseService.saveOrUpdatePrd(prd);
 		
@@ -633,8 +914,13 @@ public class BaseDataController {
 	}
 	
 	@Log(message="删除了{0}产品。")
+<<<<<<< HEAD
 	@RequiresPermissions("BaseData:delete")
 	@RequestMapping(value="/delete/{id}", method=RequestMethod.POST)
+=======
+	@RequiresPermissions("Prd:delete")
+	@RequestMapping(value="/prd/delete/{id}", method=RequestMethod.POST)
+>>>>>>> 9b1451e635b06b74d352017cdf1621fac7bfe666
 	public @ResponseBody String deletePrd(@PathVariable Long id) {
 		Prd prd = null;
 		try {
@@ -649,8 +935,13 @@ public class BaseDataController {
 	}
 	
 	@Log(message="删除了{0}产品。")
+<<<<<<< HEAD
 	@RequiresPermissions("BaseData:delete")
 	@RequestMapping(value="/delete", method=RequestMethod.POST)
+=======
+	@RequiresPermissions("Prd:delete")
+	@RequestMapping(value="/prd/delete", method=RequestMethod.POST)
+>>>>>>> 9b1451e635b06b74d352017cdf1621fac7bfe666
 	public @ResponseBody String deleteManyPrd(Long[] ids) {
 		String[] prds = new String[ids.length];
 		try {
@@ -668,6 +959,7 @@ public class BaseDataController {
 		return AjaxObject.newOk("删除产品成功！").setCallbackType("").toString();
 	}
 	
+<<<<<<< HEAD
 	@RequiresPermissions("BaseData:view")
 	@RequestMapping(value="/list", method={RequestMethod.GET, RequestMethod.POST})
 	public String listPrd(ServletRequest request, Page page, Map<String, Object> map) {
@@ -676,6 +968,16 @@ public class BaseDataController {
 
 		map.put("page", page);
 		map.put("prds", prds);
+=======
+	@RequiresPermissions("Prd:view")
+	@RequestMapping(value="/prd/list", method={RequestMethod.GET, RequestMethod.POST})
+	public String listPrd(ServletRequest request, Page page, Map<String, Object> map) {
+		Specification<Prd> specification = DynamicSpecifications.bySearchFilter(request, Prd.class);
+		List<Prd> basedata = baseService.findByPrdExample(specification, page);
+
+		map.put("page", page);
+		map.put("basedata", basedata);
+>>>>>>> 9b1451e635b06b74d352017cdf1621fac7bfe666
 		return PRD_LIST;
 	}
 }
