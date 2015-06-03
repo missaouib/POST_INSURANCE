@@ -6,3 +6,25 @@ alter table t_policy add column operate_time varchar(32);
 --20150530
 alter table t_bank_code add column bank_name varchar(128);
 alter table t_prd add column multiple int;
+
+机构		机构代码
+保险单号码		机构名称
+投保人		保单号码
+性别		投保单号码
+被保险人		投保人姓名
+险种名称		被保险人姓名
+保险金额		险种编码
+保险费		险种名称
+营业员		保费
+承保日期		基本保额
+联系电话		缴费频率
+手机号码		缴费期数
+联系地址		签单日期
+邮编		生效日期
+证件类型		保单状态
+证件号码		网点编码
+		网点名称
+		代理机构销售人员编码
+		代理机构销售人员姓名
+		客户经理编码
+		姓名
