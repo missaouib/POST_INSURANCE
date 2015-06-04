@@ -7,24 +7,99 @@ alter table t_policy add column operate_time varchar(32);
 alter table t_bank_code add column bank_name varchar(128);
 alter table t_prd add column multiple int;
 
-机构		机构代码
-保险单号码		机构名称
-投保人		保单号码
-性别		投保单号码
-被保险人		投保人姓名
-险种名称		被保险人姓名
-保险金额		险种编码
-保险费		险种名称
-营业员		保费
-承保日期		基本保额
-联系电话		缴费频率
-手机号码		缴费期数
-联系地址		签单日期
-邮编		生效日期
-证件类型		保单状态
-证件号码		网点编码
-		网点名称
-		代理机构销售人员编码
-		代理机构销售人员姓名
-		客户经理编码
-		姓名
+--20150604
+drop table if exists t_policy;
+
+/*==============================================================*/
+/* Table: t_policy                                              */
+/*==============================================================*/
+create table t_policy
+(
+   id                   bigint not null auto_increment,
+   organ_code           varchar(20),
+   organ_name           varchar(60),
+   policy_no            varchar(12),
+   form_no              varchar(25),
+   holder               varchar(256),
+   insured              varchar(256),
+   prod_code            varchar(8),
+   prod_name            varchar(128),
+   policy_fee           varchar(256),
+   insured_amount       varchar(256),
+   fee_frequency        varchar(10),
+   perm                 int,
+   plicy_valid_date     date,
+   policy_date          date,
+   status               int,
+   bank_id              bigint,
+   bank_code            varchar(12),
+   bank_name            varchar(128),
+   sales_name           varchar(256),
+   sales_id             varchar(256),
+   copies               varchar(256),
+   renewal_sucess_flag  int,
+   reset_valid_flag     int,
+   operate_id           bigint,
+   operate_time         date,
+   operate_name         varchar(32),
+   primary key (id)
+)
+engine=innodb auto_increment=1 default charset=utf8;
+
+alter table t_policy add column
+organ_code           varchar(20),
+add column   organ_name           varchar(60),
+add column   policy_no            varchar(12),
+add column   form_no              varchar(25),
+add column   holder               varchar(256),
+add column   insured              varchar(256),
+add column   prod_code            varchar(8),
+add column   prod_name            varchar(128),
+add column   policy_fee           varchar(256),
+add column   insured_amount       varchar(256),
+add column   fee_frequency        varchar(10),
+add column   perm                 int,
+add column   plicy_valid_date     date,
+add column   policy_date          date,
+add column   status               int,
+add column   bank_id              bigint,
+add column   bank_code            varchar(12),
+add column   bank_name            varchar(128),
+add column   sales_name           varchar(256),
+add column   sales_id             varchar(256),
+add column   copies               varchar(256),
+add column   renewal_sucess_flag  int,
+add column   reset_valid_flag     int,
+add column   operate_id           bigint,
+add column   operate_time         date,
+add column   operate_name         varchar(32);
+
+drop table if exists t_policy_dtl;
+
+/*==============================================================*/
+/* Table: t_policy_dtl                                          */
+/*==============================================================*/
+create table t_policy_dtl
+(
+   id                   bigint not null auto_increment,
+   organ_name           varchar(60),
+   policy_no            varchar(12),
+   holder               varchar(256),
+   holder_sexy          int,
+   insured              varchar(256),
+   prod_name            varchar(128),
+   insured_amount       varchar(256),
+   policy_fee           varchar(256),
+   sales_name           varchar(256),
+   policy_date          date,
+   holder_phone         varchar(256),
+   holder_mobile        varchar(256),
+   holder_addr          varchar(512),
+   holder_postcode      varchar(6),
+   holder_card_type     int,
+   holder_card_num      varchar(256),
+   operate_id           bigint,
+   operate_time         date,
+   primary key (id)
+)
+engine=innodb auto_increment=1 default charset=utf8;

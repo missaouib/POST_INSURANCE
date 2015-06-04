@@ -27,7 +27,7 @@ import com.gdpost.web.entity.basedata.Prd;
  * policy entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "t_policy", catalog = "postinsurance")
+@Table(name = "t_policy")
 public class Policy implements Idable<Long> {
 
 	// Fields
@@ -37,8 +37,6 @@ public class Policy implements Idable<Long> {
 	private Organization organization;
 	private String policyNo;
 	private String formNo;
-	private String cityName;
-	private String areaName;
 	private String prodName;
 	private Long bankId;
 	private String bankName;
@@ -50,24 +48,21 @@ public class Policy implements Idable<Long> {
 	private String copies;
 	private String insuredAmount;
 	private String holder;
-	private String holderAddr;
-	private String holderPhone;
-	private String holderMobile;
-	private Integer holderCardType;
-	private String holderCardNum;
-	private Integer relation;
 	private String insured;
-	private Integer insuredCardType;
-	private String insuredCardNum;
-	private String insuredMobile;
-	private String insuredPhone;
-	private String insuredAddr;
 	private Date policyDate;
 	private Integer renewalSucessFlag;
 	private Integer resetValidFlag;
 	private Long operateId;
 	private String operateName;
 	private Date operateTime;
+
+	private String organCode;
+	private String organName;
+	private String prodCode;
+	private String feeFrequency;
+	private Date plicyValidDate;
+	private String bankCode;
+	
 	private List<RenewalDtl> renewalDtls = new ArrayList<RenewalDtl>(0);
 	private List<ConservationDtl> conservationDtls = new ArrayList<ConservationDtl>(0);
 	private List<RenewalFeeDtl> renewalFeeDtls = new ArrayList<RenewalFeeDtl>(0);
@@ -83,16 +78,12 @@ public class Policy implements Idable<Long> {
 	}
 
 	/** full constructor */
-	public Policy(Prd TPrd, Organization Organization, String cityName, String areaName, String prodName, Long bankId, String bankName, String salesName,
-			String salesId, Integer status, Integer perm, String policyFee, String copies, String insuredAmount, String holder, String holderAddr,
-			String holderPhone, String holderMobile, Integer holderCardType, String holderCardNum, Integer relation, String insured, Integer insuredCardType,
-			String insuredCardNum, String insuredMobile, String insuredPhone, String insuredAddr, Date policyDate, Integer renewalSucessFlag,
+	public Policy(Prd TPrd, Organization Organization, String prodName, Long bankId, String bankName, String salesName,
+			String salesId, Integer status, Integer perm, String policyFee, String copies, String insuredAmount, String holder, String insured, Date policyDate, Integer renewalSucessFlag,
 			Integer resetValidFlag, List<RenewalDtl> TRenewalDtls, List<ConservationDtl> TConservationDtls, List<RenewalFeeDtl> TRenewalFeeDtls,
 			List<Issue> TIssues, List<CheckRecordDtl> TCheckRecordDtls, List<CheckWriteDtl> TCheckWriteDtls, List<CallFail> TCallFails) {
 		this.prd = TPrd;
 		this.organization = Organization;
-		this.cityName = cityName;
-		this.areaName = areaName;
 		this.prodName = prodName;
 		this.bankId = bankId;
 		this.bankName = bankName;
@@ -104,18 +95,7 @@ public class Policy implements Idable<Long> {
 		this.copies = copies;
 		this.insuredAmount = insuredAmount;
 		this.holder = holder;
-		this.holderAddr = holderAddr;
-		this.holderPhone = holderPhone;
-		this.holderMobile = holderMobile;
-		this.holderCardType = holderCardType;
-		this.holderCardNum = holderCardNum;
-		this.relation = relation;
 		this.insured = insured;
-		this.insuredCardType = insuredCardType;
-		this.insuredCardNum = insuredCardNum;
-		this.insuredMobile = insuredMobile;
-		this.insuredPhone = insuredPhone;
-		this.insuredAddr = insuredAddr;
 		this.policyDate = policyDate;
 		this.renewalSucessFlag = renewalSucessFlag;
 		this.resetValidFlag = resetValidFlag;
@@ -177,24 +157,33 @@ public class Policy implements Idable<Long> {
 		this.formNo = formNo;
 	}
 
-	@Column(name = "city_name", length = 12)
-	public String getCityName() {
-		return this.cityName;
+	@Column(name = "organ_code", length = 20)
+	public String getOrganCode() {
+		return this.organCode;
 	}
 
-	public void setCityName(String cityName) {
-		this.cityName = cityName;
+	public void setOrganCode(String organCode) {
+		this.organCode = organCode;
 	}
 
-	@Column(name = "area_name", length = 12)
-	public String getAreaName() {
-		return this.areaName;
+	@Column(name = "organ_name", length = 60)
+	public String getOrganName() {
+		return this.organName;
 	}
 
-	public void setAreaName(String areaName) {
-		this.areaName = areaName;
+	public void setOrganName(String organName) {
+		this.organName = organName;
+	}
+	
+	@Column(name = "prod_code", length = 8)
+	public String getProdCode() {
+		return this.prodCode;
 	}
 
+	public void setProdCode(String prodCode) {
+		this.prodCode = prodCode;
+	}
+	
 	@Column(name = "prod_name", length = 128)
 	public String getProdName() {
 		return this.prodName;
@@ -298,76 +287,6 @@ public class Policy implements Idable<Long> {
 		this.holder = holder;
 	}
 
-	@Column(name = "holder_addr", length = 512)
-	@ColumnTransformer(
-			forColumn="holder_addr",
-			read="cast(aes_decrypt(unhex(holder_addr), '" + com.gdpost.web.MySQLAESKey.AESKey + "') as char(100))", 
-			write="hex(aes_encrypt(?,'" + com.gdpost.web.MySQLAESKey.AESKey + "'))")
-	public String getHolderAddr() {
-		return this.holderAddr;
-	}
-
-	public void setHolderAddr(String holderAddr) {
-		this.holderAddr = holderAddr;
-	}
-
-	@Column(name = "holder_phone", length = 256)
-	@ColumnTransformer(
-			forColumn="holder_phone",
-			read="cast(aes_decrypt(unhex(holder_phone), '" + com.gdpost.web.MySQLAESKey.AESKey + "') as char(100))", 
-			write="hex(aes_encrypt(?,'" + com.gdpost.web.MySQLAESKey.AESKey + "'))")
-	public String getHolderPhone() {
-		return this.holderPhone;
-	}
-
-	public void setHolderPhone(String holderPhone) {
-		this.holderPhone = holderPhone;
-	}
-
-	@Column(name = "holder_mobile", length = 256)
-	@ColumnTransformer(
-			forColumn="holder_mobile",
-			read="cast(aes_decrypt(unhex(holder_mobile), '" + com.gdpost.web.MySQLAESKey.AESKey + "') as char(100))", 
-			write="hex(aes_encrypt(?,'" + com.gdpost.web.MySQLAESKey.AESKey + "'))")
-	public String getHolderMobile() {
-		return this.holderMobile;
-	}
-
-	public void setHolderMobile(String holderMobile) {
-		this.holderMobile = holderMobile;
-	}
-
-	@Column(name = "holder_card_type")
-	public Integer getHolderCardType() {
-		return this.holderCardType;
-	}
-
-	public void setHolderCardType(Integer holderCardType) {
-		this.holderCardType = holderCardType;
-	}
-
-	@Column(name = "holder_card_num", length = 256)
-	@ColumnTransformer(
-			forColumn="holder_card_num",
-			read="cast(aes_decrypt(unhex(holder_card_num), '" + com.gdpost.web.MySQLAESKey.AESKey + "') as char(100))", 
-			write="hex(aes_encrypt(?,'" + com.gdpost.web.MySQLAESKey.AESKey + "'))")
-	public String getHolderCardNum() {
-		return this.holderCardNum;
-	}
-
-	public void setHolderCardNum(String holderCardNum) {
-		this.holderCardNum = holderCardNum;
-	}
-
-	@Column(name = "relation")
-	public Integer getRelation() {
-		return this.relation;
-	}
-
-	public void setRelation(Integer relation) {
-		this.relation = relation;
-	}
-
 	@Column(name = "insured", length = 256)
 	@ColumnTransformer(
 			forColumn="insured",
@@ -381,67 +300,6 @@ public class Policy implements Idable<Long> {
 		this.insured = insured;
 	}
 
-	@Column(name = "insured_card_type")
-	public Integer getInsuredCardType() {
-		return this.insuredCardType;
-	}
-
-	public void setInsuredCardType(Integer insuredCardType) {
-		this.insuredCardType = insuredCardType;
-	}
-
-	@Column(name = "insured_card_num", length = 256)
-	@ColumnTransformer(
-			forColumn="insured_card_num",
-			read="cast(aes_decrypt(unhex(insured_card_num), '" + com.gdpost.web.MySQLAESKey.AESKey + "') as char(100))", 
-			write="hex(aes_encrypt(?,'" + com.gdpost.web.MySQLAESKey.AESKey + "'))")
-	public String getInsuredCardNum() {
-		return this.insuredCardNum;
-	}
-
-	public void setInsuredCardNum(String insuredCardNum) {
-		this.insuredCardNum = insuredCardNum;
-	}
-
-	@Column(name = "insured_mobile", length = 256)
-	@ColumnTransformer(
-			forColumn="insured_mobile",
-			read="cast(aes_decrypt(unhex(insured_mobile), '" + com.gdpost.web.MySQLAESKey.AESKey + "') as char(100))", 
-			write="hex(aes_encrypt(?,'" + com.gdpost.web.MySQLAESKey.AESKey + "'))")
-	public String getInsuredMobile() {
-		return this.insuredMobile;
-	}
-
-	public void setInsuredMobile(String insuredMobile) {
-		this.insuredMobile = insuredMobile;
-	}
-
-	@Column(name = "insured_phone", length = 256)
-	@ColumnTransformer(
-			forColumn="insured_phone",
-			read="cast(aes_decrypt(unhex(insured_phone), '" + com.gdpost.web.MySQLAESKey.AESKey + "') as char(100))", 
-			write="hex(aes_encrypt(?,'" + com.gdpost.web.MySQLAESKey.AESKey + "'))")
-	public String getInsuredPhone() {
-		return this.insuredPhone;
-	}
-
-	public void setInsuredPhone(String insuredPhone) {
-		this.insuredPhone = insuredPhone;
-	}
-
-	@Column(name = "insured_addr", length = 512)
-	@ColumnTransformer(
-			forColumn="insured_addr",
-			read="cast(aes_decrypt(unhex(insured_addr), '" + com.gdpost.web.MySQLAESKey.AESKey + "') as char(100))", 
-			write="hex(aes_encrypt(?,'" + com.gdpost.web.MySQLAESKey.AESKey + "'))")
-	public String getInsuredAddr() {
-		return this.insuredAddr;
-	}
-
-	public void setInsuredAddr(String insuredAddr) {
-		this.insuredAddr = insuredAddr;
-	}
-
 	@Temporal(TemporalType.DATE)
 	@Column(name = "policy_date", length = 10)
 	public Date getPolicyDate() {
@@ -451,7 +309,35 @@ public class Policy implements Idable<Long> {
 	public void setPolicyDate(Date policyDate) {
 		this.policyDate = policyDate;
 	}
+	
+	@Column(name = "fee_frequency", length = 10)
+	public String getFeeFrequency() {
+		return this.feeFrequency;
+	}
 
+	public void setFeeFrequency(String feeFrequency) {
+		this.feeFrequency = feeFrequency;
+	}
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "plicy_valid_date", length = 10)
+	public Date getPlicyValidDate() {
+		return this.plicyValidDate;
+	}
+
+	public void setPlicyValidDate(Date plicyValidDate) {
+		this.plicyValidDate = plicyValidDate;
+	}
+	
+	@Column(name = "bank_code", length = 12)
+	public String getBankCode() {
+		return this.bankCode;
+	}
+
+	public void setBankCode(String bankCode) {
+		this.bankCode = bankCode;
+	}
+	
 	@Column(name = "renewal_sucess_flag")
 	public Integer getRenewalSucessFlag() {
 		return this.renewalSucessFlag;

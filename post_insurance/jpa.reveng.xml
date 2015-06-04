@@ -163,7 +163,12 @@
 			<key-column name="id" type="Long" />
 		</primary-key>
 	</table>
-<table name="t_user" catalog="postinsurance">
+	<table name="t_user" catalog="postinsurance">
+		<primary-key>
+			<key-column name="id" type="Long" />
+		</primary-key>
+	</table>
+<table name="t_policy_dtl" catalog="postinsurance">
 	<primary-key>
 		<key-column name="id" type="Long"/>
 	</primary-key>
