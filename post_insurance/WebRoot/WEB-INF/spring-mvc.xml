@@ -9,7 +9,7 @@
 
 	<!-- 自动扫描且只扫描@Controller -->
 	<!-- 加入定制化包实体路径com.sample -->
-	<context:component-scan base-package="com.,com.sendtend" use-default-filters="false">
+	<context:component-scan base-package="com.,com.gdpost" use-default-filters="false">
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 		<context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
 	</context:component-scan>
@@ -21,7 +21,7 @@
 		<property name="customLogLevel">
            <map>
               <entry key="com.gdpost.web" value="TRACE" />
-              <entry key="com.sendtend" value="TRACE" />
+              <entry key="com.gdpost" value="TRACE" />
            </map>
        </property>
 	</bean>
@@ -117,5 +117,6 @@
 	<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
     	<property name="securityManager" ref="securityManager"/>
 	</bean>
-	<!-- 支持 Shiro对Controller的方法级AOP安全控制 end  -->       	     
+	<!-- 支持 Shiro对Controller的方法级AOP安全控制 end  -->
+	
 </beans>

@@ -51,7 +51,6 @@
 				/css/** = anon
 				/js/** = anon
 				/login/timeout = anon
-				/members/member/register = anon
 				/web/index = anon
 				/web/tologin = anon
 				/login/manager = anon

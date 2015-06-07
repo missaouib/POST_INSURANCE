@@ -14,12 +14,8 @@ jQuery(document).ready(function(){
 	<form method="post" action="${contextPath }/login" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogAjaxDone)">
 		<%-- 指定为ajax请求 --%>
 		<input type="hidden" name="ajax" value="true"/>
+		<input type="hidden" name="userType" value="admin"/>
 		<div class="pageFormContent" layoutH="58">
-			<p>
-				<label>登录类型</label>
-				<input type="radio" name="userType" value="member" ${userType!=null&&userType.equals("member")?"checked=\"checked\"":""}/> 连锁登录
-				<input type="radio" name="userType" value="admin" ${userType!=null&&userType.equals("admin")?"checked=\"checked\"":""}/> 管理登录
-			</p>
 			<p>
 				<label>用户名:</label>
 				<input type="text" name="username" id="username" maxlength="32" class="input-medium validate[required] required"/>

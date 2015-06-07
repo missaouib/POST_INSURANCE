@@ -20,7 +20,7 @@ import org.apache.shiro.web.util.WebUtils;
  * @since   2013年7月22日 下午4:00:25
  */
 public class DWZUserFilter extends UserFilter {
-
+	//private static final Logger log = LoggerFactory.getLogger(DWZUserFilter.class);
 	public final static String X_R = "X-Requested-With";
 	public final static String X_R_VALUE = "XMLHttpRequest";
 	
@@ -36,6 +36,7 @@ public class DWZUserFilter extends UserFilter {
 	protected void redirectToLogin(ServletRequest request,
 			ServletResponse response) throws IOException {
     	HttpServletRequest httpServletRequest = (HttpServletRequest)request;
+    	
 		String xrv = httpServletRequest.getHeader(X_R);
 		
 		if (xrv != null && xrv.equalsIgnoreCase(X_R_VALUE)) {

@@ -9,8 +9,11 @@ import java.io.OutputStreamWriter;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
@@ -21,9 +24,11 @@ import javax.sql.DataSource;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import System.Data.DataRow;
@@ -35,7 +40,9 @@ import com.gdpost.utils.TemplateHelper.ConcatRule;
 import com.gdpost.utils.TemplateHelper.StandardColumn;
 import com.gdpost.utils.UploadDataHelper.UploadDataUtils;
 import com.gdpost.web.dao.uploaddatamanage.UploadDataDAO;
+import com.gdpost.web.entity.basedata.Area;
 import com.gdpost.web.entity.main.Policy;
+import com.gdpost.web.entity.main.User;
 import com.gdpost.web.entity.member.TblMember;
 import com.gdpost.web.entity.member.TblMemberDataTemplate;
 import com.gdpost.web.entity.member.TblMemberDataTemplateField;
@@ -784,7 +791,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 		java.sql.Connection connection = null;
 		com.mysql.jdbc.Statement statement = null;
 		com.alibaba.druid.pool.DruidDataSource basic = null;
-		boolean bFlag = false;
+		boolean bFlag = true;
 		
 		
 		return bFlag;

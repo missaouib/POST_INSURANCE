@@ -6,7 +6,7 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/config/spring"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/resources"/>
         <property name="java-output-path" value="/sso/WebRoot/WEB-INF/classes"/>
-        <property name="me-merge-utility-modules" value="true"/>
         <property name="context-root" value="/"/>
+        <property name="me-merge-utility-modules" value="true"/>
     </wb-module>
 </project-modules>

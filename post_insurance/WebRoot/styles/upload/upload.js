@@ -1,57 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" trimDirectiveWhitespaces="true" pageEncoding="UTF-8"%>
-<link rel="stylesheet" type="text/css" href="${contextPath}/styles/webuploader/webuploader.css">
-<link rel="stylesheet" type="text/css" href="${contextPath}/styles/upload/upload.css">
-<script type="text/javascript" src="${contextPath}/styles/webuploader/webuploader.js"></script>
-<style>
-<!--
-
-p {
-display: block;
--webkit-margin-before: 1em;
--webkit-margin-after: 1em;
--webkit-margin-start: 0px;
--webkit-margin-end: 0px;
-}
-
-h4 {
-font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-font-weight: 500;
-line-height: 1.1;
-color: inherit;
-}
-
-.btn-default {
-text-shadow: 0 1px 0 #fff;
-background-image: -webkit-linear-gradient(top,#fff 0,#e0e0e0 100%);
-background-image: linear-gradient(to bottom,#fff 0,#e0e0e0 100%);
-background-repeat: repeat-x;
-border-color: #dbdbdb;
-border-color: #ccc;
-}
-.btn {
-text-align: center;
-cursor: pointer;
-border: 1px solid transparent;
-width: 80px;
-height: 30px;
-overflow: hidden;
-}
--->
-</style>
-<h2 class="contentTitle">上传保单数据</h2>
-
-<div class="pageContent" style="margin: 0 10px" layoutH="50">
-	<div id="uploader" class="wu-example">
-	    <!--用来存放文件信息-->
-	    <div id="thelist" class="uploader-list"></div>
-	    <div class="btns">
-	        <div id="picker">选择文件</div>
-	        <button id="ctlBtn" class="btn btn-default">开始上传</button>
-	    </div>
-	</div>
-
-<script type="text/javascript"> 
-//文件上传
+// 文件上传
 jQuery(function() {
     var $ = jQuery,
         $list = $('#thelist'),
@@ -65,24 +12,14 @@ jQuery(function() {
         resize: false,
 
         // swf文件路径
-        swf: '${contextPath}/styles/webuploader/Uploader.swf',
+        swf: BASE_URL + '/js/Uploader.swf',
 
         // 文件接收服务端。
-        server: '/management/uploaddata/upload',
-		
+        server: 'http://webuploader.duapp.com/server/fileupload.php',
+
         // 选择文件的按钮。可选。
-        accept: {
-            title: '请选择数据文件',
-            extensions: 'csv,xls'
-        },
-        
         // 内部根据当前运行是创建，可能是input元素，也可能是flash.
-        pick: '#picker',
-        
-       	disableGlobalDnd: true,
-        fileNumLimit: 3,
-        fileSizeLimit: 200 * 1024 * 1024,    // 200 M
-        fileSingleSizeLimit: 50 * 1024 * 1024    // 50 M
+        pick: '#picker'
     });
 
     // 当有文件添加进来的时候
@@ -147,5 +84,3 @@ jQuery(function() {
         }
     });
 });
-</script>
-</div>
