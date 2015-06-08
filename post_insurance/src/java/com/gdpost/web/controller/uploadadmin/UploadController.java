@@ -106,16 +106,10 @@ public class UploadController {
         	}
             String chunkFileName;
             String fileMd5 = request.getParameter("fileMd5");
-            Long fileSize = Long.parseLong(request.getParameter("size"));
+            Long lFileSize = Long.parseLong(request.getParameter("size"));
             String fileName =request.getParameter("name");
-            Integer fileType = Integer.parseInt(request.getParameter("fileType"));
-            Integer isShared = Integer.parseInt(request.getParameter("isShared"));
-            Integer chunks=0,chunk=0;
-            String chunkStr = request.getParameter("chunk");
-            String chunksStr = request.getParameter("chunks");
-            String chunkMd5 = request.getParameter("chunkMd5");
             if(StringUtils.isEmpty(fileMd5)){
-                chunkFileName = fileName+fileSize;
+                chunkFileName = fileName+lFileSize;
             }else{
                 chunkFileName = fileMd5;
             }
@@ -142,8 +136,8 @@ public class UploadController {
             if(fileChunk == null) {
                 fileChunk = new com.gdpost.utils.UploadDataHelper.FileChunk();
             }
-            long lFileSize = Long.parseLong(request.getParameter("fileSize"));//文件大小
-            int iChunkSize = Integer.parseInt(request.getParameter("chunkSize")); //分块大小
+            String chunkSize = request.getParameter("chunkSize");
+            int iChunkSize = Integer.parseInt(chunkSize==null?"0":chunkSize); //分块大小
             String strOriginalFileName = name;
             String strSessionID = request.getSession().getId();
             

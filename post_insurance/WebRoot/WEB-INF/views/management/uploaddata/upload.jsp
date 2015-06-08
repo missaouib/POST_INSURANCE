@@ -49,8 +49,22 @@ overflow: hidden;
 	        <button id="ctlBtn" class="btn btn-default">开始上传</button>
 	    </div>
 	</div>
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+
+	<pre id="console"></pre>
+	<br />
+</div>
 
 <script type="text/javascript"> 
+var strFileGroup = "";
 //文件上传
 jQuery(function() {
     var $ = jQuery,
@@ -111,8 +125,70 @@ jQuery(function() {
         $percent.css( 'width', percentage * 100 + '%' );
     });
 
-    uploader.on( 'uploadSuccess', function( file ) {
+    uploader.on( 'uploadSuccess', function( file, response  ) {
         $( '#'+file.id ).find('p.state').text('已上传');
+        
+        if (response.result != null && response.result == 'success' && response.strFileName != null) {
+            $("#console").html("开始导入数据");
+            var tImport = setInterval(function () {
+                $("#console").html("正在导入数据......");
+            }, 1000);
+            strFileGroup = new Date().Format("yyyyMMddhhmmss");
+            alert("222");
+            $.ajax({
+                type: 'post',
+                url: "/uploaddatamanage/uploaddata/import",
+                dataType: "text",
+                data: { "strFileGroup": strFileGroup, "ny": 201506, "template": 1, "memo": "" },
+                success: function (data) {
+                    clearInterval(tImport);
+                    var response = $.parseJSON(data);
+                    if(response.result == "confirm") {
+                    	if(window.confirm(response.message + "，是否继续导入？")) {
+                    		$("#console").html("导入数据成功。");
+                    	} else {
+		                        $.ajax({
+	                            type: 'post',
+	                            url: "/uploaddatamanage/uploaddata/cancelimport",
+	                            dataType: "text",
+	                            data: { strFileGroup: strFileGroup, "ny": 1 },
+	                            success: function (data) {
+	                                var response = $.parseJSON(data);
+									if (response.result == "success") {
+	                                    $("#console").html("取消导入数据。");
+	                                } else {
+	                                    $("#console").html("取消导入数据失败！");
+	                                    if (response.message != null) {
+	                                        alert(response.message);
+	                                    }
+	                                }
+	                            }
+	                        });
+                    	}
+                    } else if (response.result == "success") {
+                        $("#console").html("导入数据成功。");
+                    } else {
+                        if (response.message != null) {
+                            alert(response.message);
+                        }
+                        if(window.confirm("数据已上传，但由于格式问题未能入库，将对后续的数据分析产生影响,是否当月报数以该文件为准？")) {
+                        	$("#console").html("数据已上传，但由于格式问题未能入库，将对后续的数据分析产生影响。");
+                        } else {
+                        	$.ajax({
+	                            type: 'post',
+	                            url: "/uploaddatamanage/uploaddata/cancelupload",
+	                            dataType: "text",
+	                            data: { strFileGroup: strFileGroup, "ny": ny },
+	                            success: function (data) {
+	                            }
+	                        });
+                        }
+                    }
+                }
+            });
+        } else {
+            alert(response.message);
+        }
     });
 
     uploader.on( 'uploadError', function( file ) {
@@ -148,4 +224,3 @@ jQuery(function() {
     });
 });
 </script>
-</div>
