@@ -44,3 +44,5 @@ Temporary Items
 post_insurance/WebRoot/WEB-INF/classes/**/*
 post_insurance/WebRoot/WEB-INF/lib/**/*
 post_insurance/.classpath
+*.classpath
+post_insurance/.classpath
