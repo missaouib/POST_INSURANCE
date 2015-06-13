@@ -309,9 +309,12 @@ public class UploadDataController {
 	    String strMessage = ""; // 返回客户端的详细信息
 	    boolean bFlag = true;
 	    StringBuilder builder = new StringBuilder();
-	    
+	    log.debug("----------------" + strFileGroup);
+	    log.debug("----------------" + fileChunk.getFileGroup());
 		if(fileChunk.getFileGroup().equals(strFileGroup)) {
+			log.debug("--------------- do import:" + strFileGroup);
 			List<String> listFiles = fileChunk.getListFileName();
+			log.debug("------------------" + listFiles);
 			bFlag = uploadDataService.handleData(template, request, member_id, listFiles, currentNY, lastNY, shiroUser.getId(), shiroUser.getLoginName(), 0, builder, memo);
 		}
 		

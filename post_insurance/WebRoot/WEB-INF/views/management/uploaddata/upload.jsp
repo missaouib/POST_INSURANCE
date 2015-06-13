@@ -64,7 +64,7 @@ overflow: hidden;
 </div>
 
 <script type="text/javascript"> 
-var strFileGroup = "";
+var strFileGroup = new Date().Format("yyyyMMddhhmmss");
 //文件上传
 jQuery(function() {
     var $ = jQuery,
@@ -72,7 +72,7 @@ jQuery(function() {
         $btn = $('#ctlBtn'),
         state = 'pending',
         uploader;
-
+    
     uploader = WebUploader.create({
 
         // 不压缩image
@@ -90,6 +90,9 @@ jQuery(function() {
             extensions: 'csv,xls'
         },
         
+        formData:{
+            fileGroup: strFileGroup
+        },
         // 内部根据当前运行是创建，可能是input元素，也可能是flash.
         pick: '#picker',
         
@@ -133,8 +136,6 @@ jQuery(function() {
             var tImport = setInterval(function () {
                 $("#console").html("正在导入数据......");
             }, 1000);
-            strFileGroup = new Date().Format("yyyyMMddhhmmss");
-            alert("222");
             $.ajax({
                 type: 'post',
                 url: "/uploaddatamanage/uploaddata/import",

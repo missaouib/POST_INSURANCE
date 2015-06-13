@@ -33,12 +33,9 @@ public class Policy implements Idable<Long> {
 	// Fields
 
 	private Long id;
-	private Prd prd;
-	private Organization organization;
 	private String policyNo;
 	private String formNo;
 	private String prodName;
-	private Long bankId;
 	private String bankName;
 	private String salesName;
 	private String salesId;
@@ -55,10 +52,14 @@ public class Policy implements Idable<Long> {
 	private Long operateId;
 	private String operateName;
 	private Date operateTime;
+	private String agentOrgan;
+	private String agentSales;
 
-	private String organCode;
+	//private String organCode;
+	private Organization organization;
 	private String organName;
-	private String prodCode;
+	//private String prodCode;
+	private Prd prd;
 	private String feeFrequency;
 	private Date plicyValidDate;
 	private String bankCode;
@@ -78,14 +79,11 @@ public class Policy implements Idable<Long> {
 	}
 
 	/** full constructor */
-	public Policy(Prd TPrd, Organization Organization, String prodName, Long bankId, String bankName, String salesName,
+	public Policy(String prodName, String bankName, String salesName,
 			String salesId, Integer status, Integer perm, String policyFee, String copies, String insuredAmount, String holder, String insured, Date policyDate, Integer renewalSucessFlag,
 			Integer resetValidFlag, List<RenewalDtl> TRenewalDtls, List<ConservationDtl> TConservationDtls, List<RenewalFeeDtl> TRenewalFeeDtls,
 			List<Issue> TIssues, List<CheckRecordDtl> TCheckRecordDtls, List<CheckWriteDtl> TCheckWriteDtls, List<CallFail> TCallFails) {
-		this.prd = TPrd;
-		this.organization = Organization;
 		this.prodName = prodName;
-		this.bankId = bankId;
 		this.bankName = bankName;
 		this.salesName = salesName;
 		this.salesId = salesId;
@@ -119,26 +117,6 @@ public class Policy implements Idable<Long> {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "prod_id")
-	public Prd getPrd() {
-		return prd;
-	}
-
-	public void setPrd(Prd prd) {
-		this.prd = prd;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "org_id")
-	public Organization getOrganization() {
-		return organization;
-	}
-
-	public void setOrganization(Organization organization) {
-		this.organization = organization;
-	}
-
 	@Column(name = "policy_no", length = 12)
 	public String getPolicyNo() {
 		return policyNo;
@@ -156,15 +134,25 @@ public class Policy implements Idable<Long> {
 	public void setFormNo(String formNo) {
 		this.formNo = formNo;
 	}
-
-	@Column(name = "organ_code", length = 20)
-	public String getOrganCode() {
-		return this.organCode;
+	
+	@ManyToOne(fetch=FetchType.LAZY, optional=true)
+	@JoinColumn(name="organ_code", referencedColumnName="org_code")
+	public Organization getOrganization() {
+		return organization;
 	}
 
-	public void setOrganCode(String organCode) {
-		this.organCode = organCode;
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
 	}
+//
+//	@Column(name = "organ_code", length = 20)
+//	public String getOrganCode() {
+//		return this.organCode;
+//	}
+//
+//	public void setOrganCode(String organCode) {
+//		this.organCode = organCode;
+//	}
 
 	@Column(name = "organ_name", length = 60)
 	public String getOrganName() {
@@ -175,14 +163,24 @@ public class Policy implements Idable<Long> {
 		this.organName = organName;
 	}
 	
-	@Column(name = "prod_code", length = 8)
-	public String getProdCode() {
-		return this.prodCode;
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="prod_code", referencedColumnName="prd_code")
+	public Prd getPrd() {
+		return prd;
 	}
 
-	public void setProdCode(String prodCode) {
-		this.prodCode = prodCode;
+	public void setPrd(Prd prd) {
+		this.prd = prd;
 	}
+
+//	@Column(name = "prod_code", length = 8)
+//	public String getProdCode() {
+//		return this.prodCode;
+//	}
+//
+//	public void setProdCode(String prodCode) {
+//		this.prodCode = prodCode;
+//	}
 	
 	@Column(name = "prod_name", length = 128)
 	public String getProdName() {
@@ -191,15 +189,6 @@ public class Policy implements Idable<Long> {
 
 	public void setProdName(String prodName) {
 		this.prodName = prodName;
-	}
-
-	@Column(name = "bank_id")
-	public Long getBankId() {
-		return this.bankId;
-	}
-
-	public void setBankId(Long bankId) {
-		this.bankId = bankId;
 	}
 
 	@Column(name = "bank_name", length = 128)
@@ -246,8 +235,12 @@ public class Policy implements Idable<Long> {
 	public void setPerm(Integer perm) {
 		this.perm = perm;
 	}
-
+	
 	@Column(name = "policy_fee", length = 256)
+	@ColumnTransformer(
+			forColumn="policy_fee",
+			read="cast(aes_decrypt(unhex(policy_fee), '" + com.gdpost.web.MySQLAESKey.AESKey + "') as char(100))", 
+			write="hex(aes_encrypt(?,'" + com.gdpost.web.MySQLAESKey.AESKey + "'))")
 	public String getPolicyFee() {
 		return this.policyFee;
 	}
@@ -272,6 +265,24 @@ public class Policy implements Idable<Long> {
 
 	public void setInsuredAmount(String insuredAmount) {
 		this.insuredAmount = insuredAmount;
+	}
+
+	@Column(name = "agent_organ")
+	public String getAgentOrgan() {
+		return agentOrgan;
+	}
+
+	public void setAgentOrgan(String agentOrgan) {
+		this.agentOrgan = agentOrgan;
+	}
+
+	@Column(name = "agent_sales")
+	public String getAgentSales() {
+		return agentSales;
+	}
+
+	public void setAgentSales(String agentSales) {
+		this.agentSales = agentSales;
 	}
 
 	@Column(name = "holder", length = 256)

@@ -13,6 +13,7 @@
  
 package com.gdpost.web.entity.main;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +49,12 @@ import com.gdpost.web.entity.Idable;
 @Entity
 @Table(name = "t_organization")
 @Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="com.gdpost.web.entity.main.Organization")
-public class Organization implements Comparable<Organization>, Idable<Long> {
+public class Organization implements Comparable<Organization>, Idable<Long>, Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1629519720659716288L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;

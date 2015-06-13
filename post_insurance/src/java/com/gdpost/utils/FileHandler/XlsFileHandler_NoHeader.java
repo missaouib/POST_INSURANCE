@@ -29,7 +29,7 @@ public class XlsFileHandler_NoHeader extends AbstractFileHandler {
         try
         {
         	// 设置访问密码
-        	Biff8EncryptionKey.setCurrentUserPassword(this.m_strPassword);
+        	//Biff8EncryptionKey.setCurrentUserPassword(this.m_strPassword);
         	
             HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(strFilePath + "\\" + strFileName));
             bFileFlag = true;
@@ -46,7 +46,7 @@ public class XlsFileHandler_NoHeader extends AbstractFileHandler {
             HSSFCell cell = null;
             boolean bFlag = false;
             int iHeaderRow = 0;
-            
+            log.debug("------------xls file handler gogogo");
             for(int iSheet = 0; iSheet < iSheets; iSheet++) {
 	            sheet = (HSSFSheet)workbook.getSheetAt(iSheet);
 
@@ -56,12 +56,14 @@ public class XlsFileHandler_NoHeader extends AbstractFileHandler {
 	            	// 没有找到列头，不是数据sheet，跳过
 	            	continue;
 	            }
-	            
+	            log.debug("------------1111 : " + iHeaderRow);
 	            headerRow = (HSSFRow)sheet.getRow(iHeaderRow);
 	            cellCount = headerRow.getLastCellNum();
+	            log.debug("------------222 : " + cellCount);
 	            
 	            dt = new DataTable();
 	            dt.TableName = sheet.getSheetName();
+	            log.debug("------------333 : " + dt.TableName);
 	
 	            for (int i = headerRow.getFirstCellNum(); i < cellCount; i++) {
 	            	if(headerRow.getCell(i) == null) {
@@ -72,6 +74,7 @@ public class XlsFileHandler_NoHeader extends AbstractFileHandler {
 	            }
 	
 	            rowCount = sheet.getLastRowNum();
+	            log.debug("------------444 : " + rowCount);
 	            
 	            // 从headerRow的下一行开始读数据
 	            for (int i = (iHeaderRow + 1); i <= rowCount; i++) {
@@ -106,12 +109,13 @@ public class XlsFileHandler_NoHeader extends AbstractFileHandler {
 	            sheet = null;
 	            list.add(dt);
             }
-            
+            log.debug("------------555 : done");
             workbook.close();
             workbook = null;
         }
         catch (Exception e)
         {
+        	e.printStackTrace();
         	log.error(e.getMessage());
         	if(!bFileFlag) {
         		return(readSSMLFile(strFilePath, strFileName));

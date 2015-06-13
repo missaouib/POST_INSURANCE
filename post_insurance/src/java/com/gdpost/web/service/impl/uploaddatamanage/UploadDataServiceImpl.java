@@ -264,25 +264,9 @@ public class UploadDataServiceImpl implements UploadDataService{
 			lTemlateMemberID = 1;
 		}
 		
-		Page page = new Page();
-		Specification<TblMemberDataTemplate> specification = DynamicSpecifications.bySearchFilterWithoutRequest(TblMemberDataTemplate.class,
-				new SearchFilter("tblMember.id", Operator.EQ, lTemlateMemberID), new SearchFilter("status", Operator.EQ, 1));
-		
-		List<TblMemberDataTemplate> templates = new ArrayList<TblMemberDataTemplate>();//templateService.findAll(specification, page);
-		TblMemberDataTemplate template = null;
-		if(templates.size() == 1) {
-			template = templates.get(0);
-		} else {
-			builder.append("没有设置默认模板，请先设置。");
-			return(false);
-		}
-		
-		// 根据模板，设置好ColumnItem
-		String strUserName = template.getUserName();
-		String strPassword = template.getPassword();
 		// 标准列
 		List<ColumnItem> standardColumns = StandardColumn.getStandardColumns();
-		initStandardColumns(standardColumns, template);
+		//initStandardColumns(standardColumns, template);
 		
 	    boolean bFlag = true;
 		Map<String, Integer> dtCurrentShop = new Hashtable<String, Integer>();
@@ -296,7 +280,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 		// 文件组正确，执行导入
 		for(String strOriginalFileName : listFiles) {
 			// 读文件，取值到DataTable[]中
-			ds = UploadDataUtils.getDataSet(strFilePath, strOriginalFileName, strUserName, strPassword, standardColumns);
+			ds = UploadDataUtils.getDataSet(strFilePath, strOriginalFileName, standardColumns);
 			if(ds == null || ds.length == 0) {
 				builder.append("处理文件[" + strOriginalFileName + "]中数据出错，没有找到数据。");
 				return(false);
@@ -374,53 +358,6 @@ public class UploadDataServiceImpl implements UploadDataService{
 		return(true);
 	}
 	
-	private void initStandardColumns(List<ColumnItem> standardColumns, TblMemberDataTemplate template) {
-		for(ColumnItem item : standardColumns) {
-			for(TblMemberDataTemplateField field : template.getTblMemberDataTemplateFields()) {
-				if(item.getColumnName().equalsIgnoreCase(field.getFieldName())) {
-					item.setIsStaticValue(field.getIsStaticValue().intValue() == 1); // 是否固定值
-					if(item.isStaticValue()) {
-						item.setStaticValue(field.getStaticValue());	// 固定值
-					}
-					item.setFromColumn(field.getIsUsingColumn().intValue() == 1); // 内容从列数据中截取
-					if(item.isFromColumn()) {
-						item.setFromColumnIndex(field.getDataColumn()); // 对应列序号
-						item.setMapColumnIndex(field.getDataColumn()); // 对应列序号
-						item.setMapColumnName(field.getColumnName());	// 对应列名
-					}
-					item.setFromFileName(field.getIsUsingFilename().intValue() == 1); // 内容从文件名中截取
-					item.setFromSheetName(field.getIsUsingSheetname().intValue() == 1); // 内容从Sheet名中截取
-					item.setMapColumn(field.getIsUsingMapcolumn().intValue() == 1); // 是否对应列
-					item.setNeedCalculate(field.getIsUsingMulticolumn().intValue() == 1); // 是否多列计算
-					if(item.isMapColumn()) {
-						item.setMapColumnIndex(field.getDataColumn()); // 对应列序号
-						item.setMapColumnName(field.getColumnName());	// 对应列名
-					}
-					item.setFormula(field.getMulticolumn()); // 多列计算公式
-					Set<TblMemberDataTemplateFieldRule> rules = field.getTblMemberDataTemplateFieldRules();
-					item.setNeedConcat(!rules.isEmpty()); // 是否需要根据规则截取
-					for(TblMemberDataTemplateFieldRule rule : rules) {
-						ConcatRule concatRule = new ConcatRule();
-						concatRule.setRule(rule.getSplitChar());
-						concatRule.setDataIndex(rule.getValueIndex());
-						if(item.getConcatRule() == null) {
-							item.setConcatRule(concatRule);
-						} else {
-							ConcatRule parent = item.getConcatRule();
-							while(parent.getConcatRule() != null) {
-								parent = parent.getConcatRule();
-							}
-
-							parent.setConcatRule(concatRule);
-						}
-					}
-					
-					item.setHasValue(item.isStaticValue() || item.isFromColumn() || item.isFromFileName() || item.isFromSheetName() || item.isMapColumn() || item.isNeedCalculate());
-				}
-			}
-		}
-	}
-
 	private boolean handleColumn(DataTable[] ds, List<ColumnItem> standardColumns, String strOriginalFileName, Map<String, Integer> dtCurrentShop, StringBuilder builder) {
 		String strHandleMessage = "";
 		String columnName = "";
