@@ -37,7 +37,7 @@ import System.Data.DataTable;
 import com.gdpost.utils.TemplateHelper.ColumnItem;
 import com.gdpost.utils.TemplateHelper.ColumnType;
 import com.gdpost.utils.TemplateHelper.ConcatRule;
-import com.gdpost.utils.TemplateHelper.StandardColumn;
+import com.gdpost.utils.TemplateHelper.PolicyColumn;
 import com.gdpost.utils.UploadDataHelper.UploadDataUtils;
 import com.gdpost.web.dao.uploaddatamanage.UploadDataDAO;
 import com.gdpost.web.entity.basedata.Area;
@@ -102,7 +102,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 		// AES Encrypt key
 		String strKey = com.gdpost.web.MySQLAESKey.AESKey;
 
-		List<ColumnItem> standardColumns = StandardColumn.getStandardColumns();
+		List<ColumnItem> standardColumns = PolicyColumn.getStandardColumns();
 		String strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' INTO TABLE T_POLICY character set utf8 (";
 		String strEncrypt = "";
         for(ColumnItem item : standardColumns) {
@@ -198,7 +198,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			csvFile.createNewFile();
 			csvFileOutputStream = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(csvFile), "GB2312"), 1024);  
 			// 写文件表头
-			List<ColumnItem> standardColumns = StandardColumn.getStandardColumns();
+			List<ColumnItem> standardColumns = PolicyColumn.getStandardColumns();
 			int iCount = 0;
 			for(ColumnItem item : standardColumns) {
 				iCount++;
@@ -265,7 +265,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 		}
 		
 		// 标准列
-		List<ColumnItem> standardColumns = StandardColumn.getStandardColumns();
+		List<ColumnItem> standardColumns = PolicyColumn.getStandardColumns();
 		//initStandardColumns(standardColumns, template);
 		
 	    boolean bFlag = true;

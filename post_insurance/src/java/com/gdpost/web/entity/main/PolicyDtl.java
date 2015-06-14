@@ -11,6 +11,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.ColumnTransformer;
+
 import com.gdpost.web.entity.Idable;
 
 /**
@@ -103,6 +105,10 @@ public class PolicyDtl implements Idable<Long> {
 	}
 
 	@Column(name = "holder", length = 256)
+	@ColumnTransformer(
+			forColumn="holder",
+			read="cast(aes_decrypt(unhex(holder), '" + com.gdpost.web.MySQLAESKey.AESKey + "') as char(100))", 
+			write="hex(aes_encrypt(?,'" + com.gdpost.web.MySQLAESKey.AESKey + "'))")
 	public String getHolder() {
 		return this.holder;
 	}
@@ -121,6 +127,10 @@ public class PolicyDtl implements Idable<Long> {
 	}
 
 	@Column(name = "insured", length = 256)
+	@ColumnTransformer(
+			forColumn="insured",
+			read="cast(aes_decrypt(unhex(insured), '" + com.gdpost.web.MySQLAESKey.AESKey + "') as char(100))", 
+			write="hex(aes_encrypt(?,'" + com.gdpost.web.MySQLAESKey.AESKey + "'))")
 	public String getInsured() {
 		return this.insured;
 	}
@@ -148,6 +158,10 @@ public class PolicyDtl implements Idable<Long> {
 	}
 
 	@Column(name = "policy_fee", length = 256)
+	@ColumnTransformer(
+			forColumn="policy_fee",
+			read="cast(aes_decrypt(unhex(policy_fee), '" + com.gdpost.web.MySQLAESKey.AESKey + "') as char(100))", 
+			write="hex(aes_encrypt(?,'" + com.gdpost.web.MySQLAESKey.AESKey + "'))")
 	public String getPolicyFee() {
 		return this.policyFee;
 	}
@@ -176,6 +190,10 @@ public class PolicyDtl implements Idable<Long> {
 	}
 
 	@Column(name = "holder_phone", length = 256)
+	@ColumnTransformer(
+			forColumn="holder_phone",
+			read="cast(aes_decrypt(unhex(holder_phone), '" + com.gdpost.web.MySQLAESKey.AESKey + "') as char(100))", 
+			write="hex(aes_encrypt(?,'" + com.gdpost.web.MySQLAESKey.AESKey + "'))")
 	public String getHolderPhone() {
 		return this.holderPhone;
 	}
@@ -185,6 +203,10 @@ public class PolicyDtl implements Idable<Long> {
 	}
 
 	@Column(name = "holder_mobile", length = 256)
+	@ColumnTransformer(
+			forColumn="holder_mobile",
+			read="cast(aes_decrypt(unhex(holder_mobile), '" + com.gdpost.web.MySQLAESKey.AESKey + "') as char(100))", 
+			write="hex(aes_encrypt(?,'" + com.gdpost.web.MySQLAESKey.AESKey + "'))")
 	public String getHolderMobile() {
 		return this.holderMobile;
 	}
@@ -193,7 +215,11 @@ public class PolicyDtl implements Idable<Long> {
 		this.holderMobile = holderMobile;
 	}
 
-	@Column(name = "holder_addr", length = 512)
+	@Column(name = "holder_addr", length = 256)
+	@ColumnTransformer(
+			forColumn="holder_addr",
+			read="cast(aes_decrypt(unhex(holder_addr), '" + com.gdpost.web.MySQLAESKey.AESKey + "') as char(100))", 
+			write="hex(aes_encrypt(?,'" + com.gdpost.web.MySQLAESKey.AESKey + "'))")
 	public String getHolderAddr() {
 		return this.holderAddr;
 	}
@@ -221,6 +247,10 @@ public class PolicyDtl implements Idable<Long> {
 	}
 
 	@Column(name = "holder_card_num", length = 256)
+	@ColumnTransformer(
+			forColumn="holder_card_num",
+			read="cast(aes_decrypt(unhex(holder_card_num), '" + com.gdpost.web.MySQLAESKey.AESKey + "') as char(100))", 
+			write="hex(aes_encrypt(?,'" + com.gdpost.web.MySQLAESKey.AESKey + "'))")
 	public String getHolderCardNum() {
 		return this.holderCardNum;
 	}

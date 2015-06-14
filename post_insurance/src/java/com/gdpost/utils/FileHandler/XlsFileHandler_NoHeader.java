@@ -139,15 +139,17 @@ public class XlsFileHandler_NoHeader extends AbstractFileHandler {
 		// 按行从上到下，按列从左到右，查找列头行
 		log.debug("---------------get header row: " + sheet.getFirstRowNum() + ":" + sheet.getLastRowNum());
 		for (int i = sheet.getFirstRowNum(); i <= sheet.getLastRowNum(); i++) {
+			log.debug("---------------get header row: " + i);
 			if(i < 0) {
 				continue;
 			}
 			
 			row = sheet.getRow(i);
+			log.debug("---------------get header row: " + row);
             if (row == null) {
                 continue;
             }
-            
+            log.debug("---------------ready to check row: ");
             if(checkRow(row)) {
             	iHeaderRow = i;
             	break;
@@ -160,21 +162,22 @@ public class XlsFileHandler_NoHeader extends AbstractFileHandler {
 	private boolean checkRow(HSSFRow row) {
 		boolean bFlag = false;
 		String columnName = "";
-		
+		log.debug("---------check row:" + this.m_column.size());
 		for(ColumnItem item : this.m_column) {
-    		if(!item.isHasValue()) {
-    			continue;
-    		}
+			log.debug("---------check row:" + item.toString());
+    		//if(!item.isHasValue()) {
+    			//continue;
+    		//}
     		log.debug("---------check row:" + item.getColumnName() + ":" + item.getDisplayName());
 			columnName = item.getMapColumnName();
-			log.debug("---------check row:" + columnName);
+			log.debug("---------check row:" + columnName + ", isMapColumn:" + item.isMapColumn() + ",isFromColumn:" + item.isFromColumn());
 			if(item.isMapColumn() || item.isFromColumn()) {
 				bFlag = false;
 				for(int i=row.getFirstCellNum(); i<=row.getLastCellNum(); i++) {
 					if(i < 0) {
 						break;
 					}
-					
+					log.debug("---------check cell:" + row.getCell(i));
 					// 在行中查找每个标准列，如果有一个找不到，则认为非表头
 					if(row.getCell(i) != null && row.getCell(i).toString().trim().equalsIgnoreCase(columnName.trim())) {
 						bFlag = true;

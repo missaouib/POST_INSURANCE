@@ -205,6 +205,16 @@ public class ColumnItem {
 	public void setOutputName(String outputName) {
 		this.outputName = outputName;
 	}
+	@Override
+	public String toString() {
+		return "ColumnItem [displayName=" + displayName + ", columnName=" + columnName + ", columnType=" + columnType + ", nullable=" + nullable
+				+ ", isMapColumn=" + isMapColumn + ", mapColumnIndex=" + mapColumnIndex + ", needCalculate=" + needCalculate + ", formula=" + formula
+				+ ", isFromFileName=" + isFromFileName + ", isFromSheetName=" + isFromSheetName + ", isFromColumn=" + isFromColumn + ", fromColumnIndex="
+				+ fromColumnIndex + ", needConcat=" + needConcat + ", concatRule=" + concatRule + ", isAddColumn=" + isAddColumn + ", relateColumnName="
+				+ relateColumnName + ", relateTableName=" + relateTableName + ", relateTableColumnName=" + relateTableColumnName + ", hasValue=" + hasValue
+				+ ", needEncrypt=" + needEncrypt + ", isStaticValue=" + isStaticValue + ", staticValue=" + staticValue + ", mapColumnName=" + mapColumnName
+				+ ", needOutput=" + needOutput + ", iOutputOrder=" + iOutputOrder + ", outputName=" + outputName + "]";
+	}
 	
 }
 
