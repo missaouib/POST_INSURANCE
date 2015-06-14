@@ -23,7 +23,7 @@ public class PolicyDtl implements Idable<Long> {
 	// Fields
 
 	private Long id;
-	private String organName;
+	private String organCode;
 	private String policyNo;
 	private String holder;
 	private Integer holderSexy;
@@ -49,10 +49,10 @@ public class PolicyDtl implements Idable<Long> {
 	}
 
 	/** full constructor */
-	public PolicyDtl(String organName, String policyNo, String holder, Integer holderSexy, String insured, String prodName, String insuredAmount,
+	public PolicyDtl(String organCode, String policyNo, String holder, Integer holderSexy, String insured, String prodName, String insuredAmount,
 			String policyFee, String salesName, Date policyDate, String holderPhone, String holderMobile, String holderAddr, String holderPostcode,
 			Integer holderCardType, String holderCardNum, Long operateId, Date operateTime) {
-		this.organName = organName;
+		this.organCode = organCode;
 		this.policyNo = policyNo;
 		this.holder = holder;
 		this.holderSexy = holderSexy;
@@ -84,13 +84,13 @@ public class PolicyDtl implements Idable<Long> {
 		this.id = id;
 	}
 
-	@Column(name = "organ_name", length = 60)
-	public String getOrganName() {
-		return this.organName;
+	@Column(name = "organ_code", length = 60)
+	public String getOrganCode() {
+		return organCode;
 	}
 
-	public void setOrganName(String organName) {
-		this.organName = organName;
+	public void setOrganCode(String organCode) {
+		this.organCode = organCode;
 	}
 
 	@Column(name = "policy_no", length = 12)

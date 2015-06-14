@@ -82,7 +82,7 @@ drop table if exists t_policy_dtl;
 create table t_policy_dtl
 (
    id                   bigint not null auto_increment,
-   organ_name           varchar(60),
+   organ_code           varchar(60),
    policy_no            varchar(12),
    holder               varchar(256),
    holder_sexy          int,

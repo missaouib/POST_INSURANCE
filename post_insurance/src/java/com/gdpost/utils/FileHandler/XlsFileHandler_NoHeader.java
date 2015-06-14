@@ -137,6 +137,7 @@ public class XlsFileHandler_NoHeader extends AbstractFileHandler {
 		HSSFRow row = null;
 		
 		// 按行从上到下，按列从左到右，查找列头行
+		log.debug("---------------get header row: " + sheet.getFirstRowNum() + ":" + sheet.getLastRowNum());
 		for (int i = sheet.getFirstRowNum(); i <= sheet.getLastRowNum(); i++) {
 			if(i < 0) {
 				continue;
@@ -152,7 +153,7 @@ public class XlsFileHandler_NoHeader extends AbstractFileHandler {
             	break;
             }
 		}
-		
+		log.debug("---------------get header row: " + iHeaderRow);
 		return(iHeaderRow);
 	}
 	
@@ -164,8 +165,9 @@ public class XlsFileHandler_NoHeader extends AbstractFileHandler {
     		if(!item.isHasValue()) {
     			continue;
     		}
-    		
+    		log.debug("---------check row:" + item.getColumnName() + ":" + item.getDisplayName());
 			columnName = item.getMapColumnName();
+			log.debug("---------check row:" + columnName);
 			if(item.isMapColumn() || item.isFromColumn()) {
 				bFlag = false;
 				for(int i=row.getFirstCellNum(); i<=row.getLastCellNum(); i++) {
