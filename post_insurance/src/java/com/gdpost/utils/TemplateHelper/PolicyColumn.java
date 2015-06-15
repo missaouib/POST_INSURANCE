@@ -59,7 +59,7 @@ public class PolicyColumn {
 		standardColumns.add(column);
 
 		column = new ColumnItem();
-		column.setDisplayName("投保人");
+		column.setDisplayName("投保人姓名");
 		column.setColumnName("holder");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(false);
@@ -70,7 +70,7 @@ public class PolicyColumn {
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("被保险人");
+		column.setDisplayName("被保险人姓名");
 		column.setColumnName("insured");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
@@ -189,7 +189,7 @@ public class PolicyColumn {
 		column.setOutputName("WDMC");
 		standardColumns.add(column);
 		
-		column = new ColumnItem();
+		column = new ColumnItem();	
 		column.setDisplayName("代理机构销售人员编码");
 		column.setColumnName("sales_id");
 		column.setColumnType(ColumnType.string);
@@ -204,7 +204,7 @@ public class PolicyColumn {
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		column.setiOutputOrder(19);
-		column.setOutputName("DLJGXSRYBM");
+		column.setOutputName("DLJGXSRYXM");
 		standardColumns.add(column);
 		
 		return(standardColumns);

@@ -52,8 +52,6 @@ import com.gdpost.web.service.OrganizationRoleService;
 import com.gdpost.web.service.RoleService;
 import com.gdpost.web.service.UserRoleService;
 import com.gdpost.web.service.UserService;
-import com.gdpost.web.service.member.MUserRoleService;
-import com.gdpost.web.service.member.MUserService;
 import com.gdpost.web.util.dwz.Page;
 
 /**
@@ -77,13 +75,9 @@ public class ShiroDbRealm extends AuthorizingRealm {
 	
 	protected UserService userService;
 	
-	protected MUserService mUserService;
-	
 	protected RoleService roleService;
 
 	protected UserRoleService userRoleService;
-	
-	protected MUserRoleService mUserRoleService;
 	
 	protected OrganizationRoleService organizationRoleService;
 	
@@ -491,11 +485,4 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		this.roleService = roleService;
 	}
 
-	public void setmUserService(MUserService mUserService) {
-		this.mUserService = mUserService;
-	}
-
-	public void setmUserRoleService(MUserRoleService mUserRoleService) {
-		this.mUserRoleService = mUserRoleService;
-	}
 }

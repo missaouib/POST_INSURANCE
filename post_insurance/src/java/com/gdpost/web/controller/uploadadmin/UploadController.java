@@ -10,13 +10,10 @@ import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -26,7 +23,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,11 +32,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.gdpost.utils.SecurityUtils;
 import com.gdpost.utils.UploadDataHelper.UploadDataUtils;
-import com.gdpost.web.entity.member.TblMember;
 import com.gdpost.web.log.Log;
 import com.gdpost.web.log.LogMessageObject;
 import com.gdpost.web.log.impl.LogUitls;
-import com.gdpost.web.service.member.MemberService;
 import com.gdpost.web.service.uploaddatamanage.UploadDataService;
 import com.gdpost.web.shiro.ShiroUser;
 
@@ -51,9 +45,6 @@ public class UploadController {
 	
 	@Autowired
 	private UploadDataService uploadDataService;
-	
-	@Autowired
-	private MemberService memberService;
 	
 	private static final String UPLOAD = "management/uploaddata/upload";
 	private static final String LOOKUP_MEMBER = "management/uploaddata/lookup_member";
@@ -359,14 +350,6 @@ public class UploadController {
         String strReturn = "{\"lastOffset\":" + lLastOffset + "}";
 		
 		return(strReturn);
-	}
-	
-	@RequiresPermissions("UploadData:Upload")
-	@RequestMapping(value="/lookup2member", method={RequestMethod.GET})
-	public String lookup(Map<String, Object> map) {
-		TblMember member = memberService.getTree();
-		map.put("member", member);
-		return LOOKUP_MEMBER;
 	}
 }
 

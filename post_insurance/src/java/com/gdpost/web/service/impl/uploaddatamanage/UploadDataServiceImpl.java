@@ -9,26 +9,19 @@ import java.io.OutputStreamWriter;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import System.Data.DataRow;
@@ -36,24 +29,13 @@ import System.Data.DataTable;
 
 import com.gdpost.utils.TemplateHelper.ColumnItem;
 import com.gdpost.utils.TemplateHelper.ColumnType;
-import com.gdpost.utils.TemplateHelper.ConcatRule;
 import com.gdpost.utils.TemplateHelper.PolicyColumn;
 import com.gdpost.utils.UploadDataHelper.UploadDataUtils;
 import com.gdpost.web.dao.uploaddatamanage.UploadDataDAO;
-import com.gdpost.web.entity.basedata.Area;
 import com.gdpost.web.entity.main.Policy;
-import com.gdpost.web.entity.main.User;
-import com.gdpost.web.entity.member.TblMember;
-import com.gdpost.web.entity.member.TblMemberDataTemplate;
-import com.gdpost.web.entity.member.TblMemberDataTemplateField;
-import com.gdpost.web.entity.member.TblMemberDataTemplateFieldRule;
-import com.gdpost.web.service.member.MemberService;
 import com.gdpost.web.service.uploaddatamanage.UploadDataService;
 import com.gdpost.web.util.dwz.Page;
 import com.gdpost.web.util.dwz.PageUtils;
-import com.gdpost.web.util.persistence.DynamicSpecifications;
-import com.gdpost.web.util.persistence.SearchFilter;
-import com.gdpost.web.util.persistence.SearchFilter.Operator;
 
 @Service
 @Transactional
@@ -62,9 +44,6 @@ public class UploadDataServiceImpl implements UploadDataService{
 	
 	@Autowired
 	private UploadDataDAO uploadDataDAO;
-	
-	@Autowired
-	private MemberService memberService;
 	
 	@Override
 	public List<Policy> findAll(Page page) {
@@ -120,7 +99,7 @@ public class UploadDataServiceImpl implements UploadDataService{
         }
 
         // member_id, ny,最后补上两列数据
-        //strStatementText += "member_id,ny) ";
+        strStatementText += "operater_id,ny) ";
         strStatementText += strEncrypt + ";";
   
         StringBuilder builder = new StringBuilder();
@@ -322,7 +301,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 		}
 		
 		// 导出CSV标准模板文件
-		createCSV(request, member_id, currentNY, operator_id, listDataSet);
+		//createCSV(request, member_id, currentNY, operator_id, listDataSet);
 		
 		// 按DataTable最多列数的对比，超过必须上传列数的，每列增加5个积分
 		int iMustColumns = 5;
@@ -340,18 +319,18 @@ public class UploadDataServiceImpl implements UploadDataService{
 		listDataSet = null;
 		if(!bFlag) {
 			// 清除本次已导入数据
-			clearImport(request, member_id, currentNY); 
+			//clearImport(request, member_id, currentNY); 
 			return(false);
 		}
 		
-		if(iMaxColumns > iMustColumns) {
-			TblMember member = memberService.get(member_id);
-			member.setScore(member.getScore() + 5*(iMaxColumns-iMustColumns));
-			memberService.saveOrUpdate(member);
-		}
+//		if(iMaxColumns > iMustColumns) {
+//			TblMember member = memberService.get(member_id);
+//			member.setScore(member.getScore() + 5*(iMaxColumns-iMustColumns));
+//			memberService.saveOrUpdate(member);
+//		}
 		
 		// 设置本月已上传
-		setImportDone(request, member_id, currentNY, operator_id, operator_name, operator_type, memo);	
+//		setImportDone(request, member_id, currentNY, operator_id, operator_name, operator_type, memo);	
 	
 		//log.info(shiroUser.getLoginName() + "导入了" + strOriginalFileName);
 	

@@ -34,7 +34,6 @@ import com.gdpost.web.entity.main.User;
 import com.gdpost.web.log.Log;
 import com.gdpost.web.log.LogMessageObject;
 import com.gdpost.web.log.impl.LogUitls;
-import com.gdpost.web.service.member.MemberService;
 import com.gdpost.web.service.uploaddatamanage.UploadDataService;
 import com.gdpost.web.shiro.ShiroUser;
 
@@ -45,9 +44,6 @@ public class UploadDataController {
 	
 	@Autowired
 	private UploadDataService uploadDataService;
-	
-	@Autowired
-	private MemberService memberService;
 	
 	private static final String UPLOAD = "uploaddatamanage/uploaddata/upload";
 	private static final String WEBUPLOAD = "uploaddatamanage/uploaddata/webupload";
