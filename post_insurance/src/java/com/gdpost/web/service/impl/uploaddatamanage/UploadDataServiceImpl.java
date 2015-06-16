@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -40,7 +42,7 @@ import com.gdpost.web.util.dwz.PageUtils;
 @Service
 @Transactional
 public class UploadDataServiceImpl implements UploadDataService{
-	//private static final Logger log = LoggerFactory.getLogger(UploadDataController.class);
+	private static final Logger log = LoggerFactory.getLogger(UploadDataServiceImpl.class);
 	
 	@Autowired
 	private UploadDataDAO uploadDataDAO;
@@ -99,13 +101,16 @@ public class UploadDataServiceImpl implements UploadDataService{
         }
 
         // member_id, ny,最后补上两列数据
-        strStatementText += "operater_id,ny) ";
+        strStatementText += "operate_id,operate_name) ";
         strStatementText += strEncrypt + ";";
-  
+        
+        log.debug("--------------" + strStatementText);
+        
         StringBuilder builder = new StringBuilder();
         Object cell = null;
         for (DataRow row : dt.Rows) {
         	// 从处理后的行中，取出标准列数据
+        	log.debug("--------------" + row.toString());
         	for(ColumnItem item : standardColumns) {
         		if(!item.isHasValue()) {
         			continue;
@@ -116,9 +121,9 @@ public class UploadDataServiceImpl implements UploadDataService{
 	            builder.append('\t');
         	}
         	
-           // builder.append(member_id);
-            //builder.append('\t');
-           // builder.append(ny);
+            builder.append(member_id);
+            builder.append('\t');
+            builder.append("admin");
             builder.append('\n');
         }
 
@@ -301,7 +306,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 		}
 		
 		// 导出CSV标准模板文件
-		//createCSV(request, member_id, currentNY, operator_id, listDataSet);
+		createCSV(request, member_id, currentNY, operator_id, listDataSet);
 		
 		// 按DataTable最多列数的对比，超过必须上传列数的，每列增加5个积分
 		int iMustColumns = 5;

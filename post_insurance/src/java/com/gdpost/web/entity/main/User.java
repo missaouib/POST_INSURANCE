@@ -13,6 +13,7 @@
  
 package com.gdpost.web.entity.main;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -51,8 +52,12 @@ import com.gdpost.web.entity.Idable;
 @Entity
 @Table(name="t_user")
 @Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="com.gdpost.web.entity.main.User")
-public class User implements Idable<Long> {
+public class User implements Idable<Long>, Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2807785661709978099L;
 	public static final String STATUS_DISABLED = "disabled";
 	public static final String STATUS_ENABLED = "enabled";
 	

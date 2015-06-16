@@ -71,6 +71,7 @@ public class CsvFileHandler extends AbstractFileHandler {
 			    
 			    for(int i = 0; i < line.size(); i++) {
 			    	dataRow.setValue(i, line.get(i));
+			    	//log.debug(i + "----------csv read data: " + dataRow.getValue(i));
 			    }
 			    
 			    dt.Rows.add(dataRow);
