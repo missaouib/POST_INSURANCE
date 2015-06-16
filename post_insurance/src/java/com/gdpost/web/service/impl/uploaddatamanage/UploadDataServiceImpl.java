@@ -87,17 +87,15 @@ public class UploadDataServiceImpl implements UploadDataService{
 		String strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' INTO TABLE T_POLICY character set utf8 (";
 		String strEncrypt = "";
         for(ColumnItem item : standardColumns) {
-        	if(item.isHasValue()) {
-        		if(item.isNeedEncrypt()) {
-        			if(strEncrypt.equals("")) {
-        				strEncrypt = "SET " + item.getColumnName() + "=HEX(AES_Encrypt(" + item.getColumnName() + ",'" + strKey + "'))";
-        			} else {
-        				strEncrypt += "," + item.getColumnName() + "=HEX(AES_Encrypt(" + item.getColumnName() + ",'" + strKey + "'))";
-        			}
-        		}
+    		if(item.isNeedEncrypt()) {
+    			if(strEncrypt.equals("")) {
+    				strEncrypt = "SET " + item.getColumnName() + "=HEX(AES_Encrypt(" + item.getColumnName() + ",'" + strKey + "'))";
+    			} else {
+    				strEncrypt += "," + item.getColumnName() + "=HEX(AES_Encrypt(" + item.getColumnName() + ",'" + strKey + "'))";
+    			}
+    		}
         		
-        		strStatementText += item.getColumnName() + ",";
-        	}
+        	strStatementText += item.getColumnName() + ",";
         }
 
         // member_id, ny,最后补上两列数据
@@ -113,10 +111,9 @@ public class UploadDataServiceImpl implements UploadDataService{
         	log.debug("--------------" + row.toString());
         	for(ColumnItem item : standardColumns) {
         		if(!item.isHasValue()) {
-        			continue;
+        			//continue;
         		}
-        		
-        		cell = row.getValue(item.getColumnName());
+        		cell = row.getValue(item.getDisplayName());
         		builder.append(cell);
 	            builder.append('\t');
         	}
@@ -125,6 +122,7 @@ public class UploadDataServiceImpl implements UploadDataService{
             builder.append('\t');
             builder.append("admin");
             builder.append('\n');
+            log.debug("-----" + builder.toString());
         }
 
         InputStream is = null;

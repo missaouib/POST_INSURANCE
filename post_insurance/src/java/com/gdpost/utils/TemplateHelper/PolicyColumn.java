@@ -37,7 +37,7 @@ public class PolicyColumn {
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("保险单号码");
+		column.setDisplayName("保单号码");
 		column.setColumnName("policy_no");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(false);

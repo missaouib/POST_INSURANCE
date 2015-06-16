@@ -8,6 +8,8 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,8 +71,8 @@ public class CsvFileHandler extends AbstractFileHandler {
 			while ((line = reader.read()) != null) {
 			    dataRow = dt.NewRow();
 			    
-			    for(int i = 0; i < line.size(); i++) {
-			    	dataRow.setValue(i, line.get(i));
+			    for(int i = 1; i < line.size(); i++) {
+			    	dataRow.setValue(i, this.trimStr(line.get(i)));
 			    	//log.debug(i + "----------csv read data: " + dataRow.getValue(i));
 			    }
 			    
@@ -90,5 +92,15 @@ public class CsvFileHandler extends AbstractFileHandler {
 		}
 
 		return(ds);
+	}
+	
+	private String trimStr(String str) {
+		if(str == null) {
+			return null;
+		}
+		Pattern p = Pattern.compile("\\s*|\t|\r|\n");
+        Matcher m = p.matcher(str);
+        String dest = m.replaceAll("");
+		return dest;
 	}
 }
