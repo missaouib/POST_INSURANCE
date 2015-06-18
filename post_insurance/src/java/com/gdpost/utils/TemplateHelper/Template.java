@@ -19,6 +19,17 @@ public class Template {
 		public int getIndex() { 
 	        return index; 
 	    }
+		private String templateName;
+
+	    private FileTemplate(String fullName) {
+	        this.templateName = fullName;
+	    }
+		public String getTemplateName() {
+			return templateName;
+		}
+		public void setTemplateName(String templateName) {
+			this.templateName = templateName;
+		}
 	}
 	
 	public static final List<String> FileTemplate = new ArrayList<String>(){

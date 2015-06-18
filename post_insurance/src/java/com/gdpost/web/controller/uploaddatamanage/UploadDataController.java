@@ -288,8 +288,8 @@ public class UploadDataController {
 	@Log(message="{0}")
 	@RequiresPermissions("UploadData:Upload")
 	@RequestMapping(value = "/import", method = RequestMethod.POST)
-	public @ResponseBody String doImport(HttpServletRequest request, @RequestParam String strFileGroup, @RequestParam int ny, @RequestParam FileTemplate template, @RequestParam String memo) {
-		log.debug("-----------------------------------import data");
+	public @ResponseBody String doImport(HttpServletRequest request, @RequestParam String strFileGroup, @RequestParam int ny, @RequestParam String templateName, @RequestParam String memo) {
+		log.debug("-----------------------------------import data by use template: " + templateName);
 		com.gdpost.utils.UploadDataHelper.SessionChunk sessionChunk = new com.gdpost.utils.UploadDataHelper.SessionChunk();
 		com.gdpost.utils.UploadDataHelper.FileChunk fileChunk = sessionChunk.getSessionChunk(request);
 		if(fileChunk == null) {
@@ -312,6 +312,8 @@ public class UploadDataController {
 			log.debug("--------------- do import:" + strFileGroup);
 			List<String> listFiles = fileChunk.getListFileName();
 			log.debug("------------------" + listFiles);
+			FileTemplate template = FileTemplate.valueOf(templateName);
+			log.debug("--------------- do import template:" + template);
 			bFlag = uploadDataService.handleData(template, request, member_id, listFiles, currentNY, lastNY, shiroUser.getId(), shiroUser.getLoginName(), 0, builder, memo);
 		}
 		

@@ -11,13 +11,11 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +26,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.gdpost.utils.SecurityUtils;
 import com.gdpost.utils.TemplateHelper.Template.FileTemplate;
@@ -48,7 +45,6 @@ public class UploadController {
 	private UploadDataService uploadDataService;
 	
 	private static final String UPLOAD = "management/uploaddata/upload";
-	private static final String LOOKUP_MEMBER = "management/uploaddata/lookup_member";
 	
 	String strError = "{\"jsonrpc\":\"2.0\",\"result\":\"error\",\"id\":\"id\",\"message\":\"操作失败。\"}";
 	
@@ -57,7 +53,6 @@ public class UploadController {
 	public String preUpload(HttpServletRequest request, Map<String, Object> map) {
 		int ny = UploadDataUtils.getNianYue();
 		int lastNY = UploadDataUtils.getLastNianYue();
-		int nextNY = UploadDataUtils.getNextNianYue();
 		int lastNY2 = UploadDataUtils.getLastNianYue(lastNY);
 		
 		List<Integer> listNY = new ArrayList<Integer>();
@@ -67,6 +62,7 @@ public class UploadController {
 		listNY.add(lastNY2);
 		
 		map.put("templateList", FileTemplate.values());
+		request.setAttribute("template", FileTemplate.Policy);
 		
 		map.put("ny", listNY);
 		
@@ -85,15 +81,7 @@ public class UploadController {
         		String o = er.nextElement();
         		log.debug("------" + o + ":" + request.getParameter(o));
         	}
-            String chunkFileName;
-            String fileMd5 = request.getParameter("fileMd5");
             Long lFileSize = Long.parseLong(request.getParameter("size"));
-            String fileName =request.getParameter("name");
-            if(StringUtils.isEmpty(fileMd5)){
-                chunkFileName = fileName+lFileSize;
-            }else{
-                chunkFileName = fileMd5;
-            }
             int iNY = UploadDataUtils.getNianYue();
             String strPath = UploadDataUtils.getFileStorePath(request, iNY);
     		String strTempPath = UploadDataUtils.getFileStoreTempPath(request);
@@ -104,14 +92,7 @@ public class UploadController {
             {
                 tempSavePath.mkdirs();
             }
-            MultipartHttpServletRequest mutilrequest = (MultipartHttpServletRequest) request; 
-            //获得文件名
-//            String fileName = file.getOriginalFilename();
 
-            String tempFilePathName =  strTempPath+File.separator+chunkFileName;
-            String tempFilePathNameChunk = tempFilePathName;
-
-            Map<String,String> fileInfo = new HashMap<String,String>();
             com.gdpost.utils.UploadDataHelper.SessionChunk sessionChunk = new com.gdpost.utils.UploadDataHelper.SessionChunk();
             com.gdpost.utils.UploadDataHelper.FileChunk fileChunk = sessionChunk.getSessionChunk(request);
             if(fileChunk == null) {

@@ -275,7 +275,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 	 */
 	public boolean handleData(FileTemplate t, HttpServletRequest request, long member_id, List<String> listFiles, 
 			int currentNY, int lastNY, long operator_id, String operator_name, int operator_type, StringBuilder builder, String memo) {
-		
+		log.debug("-----------handle DATA -use template:" + t);
 		// 标准列
 		List<ColumnItem> standardColumns = null;
 		

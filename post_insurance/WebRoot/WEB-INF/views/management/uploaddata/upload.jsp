@@ -43,7 +43,7 @@ overflow: hidden;
 
 <div class="pageContent" style="margin: 0 10px" layoutH="50">
 	模板:
-		<form:select path="templateList" id="lstTemplate" name="lstTemplate" style="width:100px;"/>
+		<form:select path="template" name="template" id="template" style="width:100px;" items="${templateList}"/>
 	<div id="uploader" class="wu-example">
 	    <!--用来存放文件信息-->
 	    <div id="thelist" class="uploader-list"></div>
@@ -68,7 +68,7 @@ overflow: hidden;
 
 <script type="text/javascript"> 
 var strFileGroup = new Date().Format("yyyyMMddhhmmss");
-var template = $("#lstTemplate").val();
+var template = $("#template").val();
 //文件上传
 jQuery(function() {
     var $ = jQuery,
