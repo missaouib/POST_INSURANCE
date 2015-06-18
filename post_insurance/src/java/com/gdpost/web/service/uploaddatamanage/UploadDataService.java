@@ -8,11 +8,12 @@ import org.springframework.data.jpa.domain.Specification;
 
 import System.Data.DataTable;
 
+import com.gdpost.utils.TemplateHelper.Template.FileTemplate;
 import com.gdpost.web.entity.main.Policy;
 
 public interface UploadDataService {
 	
-	boolean handleData(int template, HttpServletRequest request, long member_id, List<String> listFiles, 
+	boolean handleData(FileTemplate template, HttpServletRequest request, long member_id, List<String> listFiles, 
 			int currentNY, int lastNY, long operator_id, String operator_name, int operator_type, StringBuilder builder, String memo);
 	
 	boolean importPolicyData(HttpServletRequest request, DataTable dt, long member_id, int ny);

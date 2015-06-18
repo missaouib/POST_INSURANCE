@@ -39,7 +39,7 @@ public class Policy implements Idable<Long> {
 	private String bankName;
 	private String salesName;
 	private String salesId;
-	private Integer status;
+	private String status;
 	private Integer perm;
 	private String policyFee;
 	private String copies;
@@ -80,7 +80,7 @@ public class Policy implements Idable<Long> {
 
 	/** full constructor */
 	public Policy(String prodName, String bankName, String salesName,
-			String salesId, Integer status, Integer perm, String policyFee, String copies, String insuredAmount, String holder, String insured, Date policyDate, Integer renewalSucessFlag,
+			String salesId, String status, Integer perm, String policyFee, String copies, String insuredAmount, String holder, String insured, Date policyDate, Integer renewalSucessFlag,
 			Integer resetValidFlag, List<RenewalDtl> TRenewalDtls, List<ConservationDtl> TConservationDtls, List<RenewalFeeDtl> TRenewalFeeDtls,
 			List<Issue> TIssues, List<CheckRecordDtl> TCheckRecordDtls, List<CheckWriteDtl> TCheckWriteDtls, List<CallFail> TCallFails) {
 		this.prodName = prodName;
@@ -117,7 +117,7 @@ public class Policy implements Idable<Long> {
 		this.id = id;
 	}
 
-	@Column(name = "policy_no", length = 12)
+	@Column(name = "policy_no", length = 18)
 	public String getPolicyNo() {
 		return policyNo;
 	}
@@ -219,11 +219,11 @@ public class Policy implements Idable<Long> {
 	}
 
 	@Column(name = "status")
-	public Integer getStatus() {
+	public String getStatus() {
 		return this.status;
 	}
 
-	public void setStatus(Integer status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 
@@ -340,7 +340,7 @@ public class Policy implements Idable<Long> {
 		this.plicyValidDate = plicyValidDate;
 	}
 	
-	@Column(name = "bank_code", length = 12)
+	@Column(name = "bank_code", length = 14)
 	public String getBankCode() {
 		return this.bankCode;
 	}

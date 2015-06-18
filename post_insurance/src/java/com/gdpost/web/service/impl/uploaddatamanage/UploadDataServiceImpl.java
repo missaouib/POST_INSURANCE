@@ -1,11 +1,7 @@
 package com.gdpost.web.service.impl.uploaddatamanage;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStreamWriter;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -33,6 +29,8 @@ import com.gdpost.utils.TemplateHelper.ColumnItem;
 import com.gdpost.utils.TemplateHelper.ColumnType;
 import com.gdpost.utils.TemplateHelper.PolicyColumn;
 import com.gdpost.utils.TemplateHelper.PolicyDtlColumn;
+import com.gdpost.utils.TemplateHelper.Template;
+import com.gdpost.utils.TemplateHelper.Template.FileTemplate;
 import com.gdpost.utils.UploadDataHelper.UploadDataUtils;
 import com.gdpost.web.dao.uploaddatamanage.UploadDataDAO;
 import com.gdpost.web.entity.main.Policy;
@@ -85,7 +83,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 		String strKey = com.gdpost.web.MySQLAESKey.AESKey;
 
 		List<ColumnItem> standardColumns = PolicyColumn.getStandardColumns();
-		String strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' INTO TABLE T_POLICY character set utf8 (";
+		String strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE T_POLICY character set utf8 (";
 		String strEncrypt = "";
         for(ColumnItem item : standardColumns) {
     		if(item.isNeedEncrypt()) {
@@ -109,12 +107,13 @@ public class UploadDataServiceImpl implements UploadDataService{
         Object cell = null;
         for (DataRow row : dt.Rows) {
         	// 从处理后的行中，取出标准列数据
-        	log.debug("--------------" + row.toString());
+        	//log.debug("--------------" + row.toString());
         	for(ColumnItem item : standardColumns) {
         		if(!item.isHasValue()) {
         			//continue;
         		}
         		cell = row.getValue(item.getDisplayName());
+        		//if(item.getDisplayName().equals(""))
         		builder.append(cell);
 	            builder.append('\t');
         	}
@@ -190,7 +189,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 		String strKey = com.gdpost.web.MySQLAESKey.AESKey;
 
 		List<ColumnItem> standardColumns = PolicyColumn.getStandardColumns();
-		String strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' INTO TABLE T_POLICY_DTL character set utf8 (";
+		String strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE T_POLICY_DTL character set utf8 (";
 		String strEncrypt = "";
         for(ColumnItem item : standardColumns) {
     		if(item.isNeedEncrypt()) {
@@ -271,94 +270,29 @@ public class UploadDataServiceImpl implements UploadDataService{
 		return(true);
 	}
 	
-	private boolean createCSV(HttpServletRequest request, long member_id, int currentNY, long operator_id, Map<String, DataTable[]> listDataSet)
-	{
-		// 创建CSV文件
-		//String strPath = UploadDataUtils.getFileStorePath(request);
-		String strPath = UploadDataUtils.getFileStorePath(request, currentNY);
-		File csvFile = null; 
-		BufferedWriter csvFileOutputStream = null; 
-		
-		try {
-			csvFile = new File(strPath +  File.separator + currentNY + "月_formal.csv"); 
-			csvFile.createNewFile();
-			csvFileOutputStream = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(csvFile), "GB2312"), 1024);  
-			// 写文件表头
-			List<ColumnItem> standardColumns = PolicyColumn.getStandardColumns();
-			int iCount = 0;
-			for(ColumnItem item : standardColumns) {
-				iCount++;
-				if(item.isNeedOutput()) {
-					csvFileOutputStream.write("\"" + item.getOutputName() + "\"");
-					if(iCount != standardColumns.size()) {
-						csvFileOutputStream.write(",");
-					}
-				}
-			}
-			
-			for(DataTable[] dataSet : listDataSet.values()) {
-				for(DataTable dt : dataSet) {
-					// 写入数据
-			        for (DataRow row : dt.Rows) {
-			        	// 换行，第一个换行是跟表头的换行
-			        	csvFileOutputStream.newLine();
-			        	// 从处理后的行中，取出标准列数据
-			        	for(ColumnItem item : standardColumns) {
-			        		if(item.isNeedOutput()) {
-				        		if(!item.isHasValue() && !item.getColumnName().equals("ny")) {
-				        			csvFileOutputStream.write("");
-				        			csvFileOutputStream.write(",");
-				        		} else {
-				        			Object cell = row.getValue(item.getColumnName());
-				        			// 特殊处理年月，年月不写入DataSet数据，作为固定数据
-				        			if(item.getColumnName().equals("ny")) {
-				        				cell = currentNY;
-				        			}
-				        			csvFileOutputStream.write(cell == null ? "" : "\"" + cell + "\"");
-				        			csvFileOutputStream.write(",");
-				        		}
-			        		}
-			        	}
-			        }
-				}
-			}
-			
-			csvFileOutputStream.flush();
-		} catch (Exception e) {
-			 e.printStackTrace();
-			 return(false);
-		} finally {
-			try {
-				if(csvFileOutputStream != null) {
-					csvFileOutputStream.close();
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		return(true);
-	}
-	
-	public boolean handleData(int templateType, HttpServletRequest request, long member_id, List<String> listFiles, 
+	/**
+	 * 
+	 */
+	public boolean handleData(FileTemplate t, HttpServletRequest request, long member_id, List<String> listFiles, 
 			int currentNY, int lastNY, long operator_id, String operator_name, int operator_type, StringBuilder builder, String memo) {
-		// 读取模板，模板中数据文件设置访问的用户名、密码，默认为空
-		long lTemlateMemberID = 1;
-		if(templateType == 1) {
-			lTemlateMemberID = member_id;
-		} else if(templateType == 0) {
-			lTemlateMemberID = 1;
-		}
 		
 		// 标准列
-		List<ColumnItem> standardColumns = PolicyColumn.getStandardColumns();
-		//initStandardColumns(standardColumns, template);
+		List<ColumnItem> standardColumns = null;
+		
+		switch(t) {
+		case Policy:
+			PolicyColumn.getStandardColumns();
+			break;
+		case PolicyDtl:
+			PolicyDtlColumn.getStandardColumns();
+			break;
+			default:
+				PolicyColumn.getStandardColumns();
+		}
 		
 	    boolean bFlag = true;
 		Map<String, Integer> dtCurrentShop = new Hashtable<String, Integer>();
 		
-		// 改为读取临时文件夹，读取完删除文件
-		//String strFilePath = UploadDataUtils.getFileStorePath(request);
 		String strFilePath = UploadDataUtils.getFileStoreTempPath(request);
 		DataTable[] ds = null;
 		Map<String, DataTable[]> listDataSet = new HashMap<String, DataTable[]>(); 
@@ -392,9 +326,6 @@ public class UploadDataServiceImpl implements UploadDataService{
 			return(false);
 		}
 		
-		// 对比前一月数据
-		//checkData(request, member_id, lastNY, listDataSet, dtCurrentShop, builder);
-		
 		// 导入数据库
 		for(DataTable[] dataSet : listDataSet.values()) {
 			for(DataTable dt : dataSet) {
@@ -407,31 +338,10 @@ public class UploadDataServiceImpl implements UploadDataService{
 			}
 		}
 		
-		// 导出CSV标准模板文件
-		createCSV(request, member_id, currentNY, operator_id, listDataSet);
-		
-		// 按DataTable最多列数的对比，超过必须上传列数的，每列增加5个积分
-		int iMustColumns = 5;
-		int iMaxColumns = 0;
-		for(DataTable[] dataSet : listDataSet.values()) {
-			for(DataTable dt : dataSet) {
-				if(dt.Columns.size() > iMaxColumns) {
-					iMaxColumns = dt.Columns.size();
-				}
-			}
-		}
-		
 		ds = null;
 		listDataSet.clear();
 		listDataSet = null;
-		if(!bFlag) {
-			// 清除本次已导入数据
-			//clearImport(request, member_id, currentNY); 
-			return(false);
-		}
 		
-		//log.info(shiroUser.getLoginName() + "导入了" + strOriginalFileName);
-	
 		return(true);
 	}
 	

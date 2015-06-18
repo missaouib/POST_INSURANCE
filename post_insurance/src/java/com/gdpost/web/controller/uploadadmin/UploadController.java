@@ -31,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.gdpost.utils.SecurityUtils;
+import com.gdpost.utils.TemplateHelper.Template.FileTemplate;
 import com.gdpost.utils.UploadDataHelper.UploadDataUtils;
 import com.gdpost.web.log.Log;
 import com.gdpost.web.log.LogMessageObject;
@@ -65,24 +66,13 @@ public class UploadController {
 		listNY.add(lastNY);
 		listNY.add(lastNY2);
 		
+		map.put("templateList", FileTemplate.values());
+		
 		map.put("ny", listNY);
 		
 		return UPLOAD;
 	}
 
-	@RequiresPermissions("UploadData:Upload")
-	@RequestMapping(value = "/checkimportny", method = RequestMethod.POST)
-	public @ResponseBody String checkImportNY(HttpServletRequest request, @RequestParam int ny, @RequestParam long member_id) {
-		boolean bFlag = true;
-		bFlag = uploadDataService.checkImportNY(request, member_id, ny);
-		
-	    if(bFlag) {
-	    	return("{\"jsonrpc\":\"2.0\",\"result\":\"success\",\"id\":\"id\",\"message\":\"\"}");
-	    } else {
-	    	return("{\"jsonrpc\":\"2.0\",\"result\":\"error\",\"id\":\"id\",\"message\":\"该年月已经上传过数据。\"}");
-	    }
-	}
-		
 	@Log(message="上传了{0}。")
 	@RequiresPermissions("UploadData:Upload")
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
@@ -270,70 +260,6 @@ public class UploadController {
 		return (strError);
 	}
 	
-	@Log(message="{0}")
-	@RequiresPermissions("UploadData:Upload")
-	@RequestMapping(value = "/import", method = RequestMethod.POST)
-	public @ResponseBody String doImport(HttpServletRequest request, @RequestParam String strFileGroup, @RequestParam int ny,  @RequestParam int template, @RequestParam long member_id, @RequestParam String memo) {
-		com.gdpost.utils.UploadDataHelper.SessionChunk sessionChunk = new com.gdpost.utils.UploadDataHelper.SessionChunk();
-		com.gdpost.utils.UploadDataHelper.FileChunk fileChunk = sessionChunk.getSessionChunk(request);
-		if(fileChunk == null) {
-			return(strError);
-		}
-		
-	    ShiroUser shiroUser = SecurityUtils.getShiroUser();
-	    int currentNY = ny;
-	    int lastNY = UploadDataUtils.getLastNianYue(currentNY);
-	    String strMessage = ""; // 返回客户端的详细信息
-	    boolean bFlag = true;
-	    StringBuilder builder = new StringBuilder();
-	    
-		if(fileChunk.getFileGroup().equals(strFileGroup)) {
-			List<String> listFiles = fileChunk.getListFileName();
-			bFlag = uploadDataService.handleData(template, request, member_id, listFiles, currentNY, lastNY, shiroUser.getId(), shiroUser.getLoginName(), 1, builder, memo); // operate_type=1,管理导入
-		}
-		
-	    // 请SessionChunk
-	    sessionChunk.clear(request);
-	    strMessage = builder.toString();
-	    
-	    if(bFlag) {
-	    	LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{"导入了" + currentNY + "月数据。"}));
-	    	if(!strMessage.equals("")) {
-				// 如有数据检查提示，则提示，如确认不导入，则提交request执行清除
-	    		return("{\"jsonrpc\":\"2.0\",\"result\":\"confirm\",\"id\":\"id\",\"message\":\"" + strMessage + "\"}");
-	    	} else {
-	    		return("{\"jsonrpc\":\"2.0\",\"result\":\"success\",\"id\":\"id\",\"message\":\"" + strMessage + "\"}");
-	    	}
-	    } else {
-	    	LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{"导入" + currentNY + "月数据出错，" + strMessage + "。"}));
-	    	return("{\"jsonrpc\":\"2.0\",\"result\":\"error\",\"id\":\"id\",\"message\":\"" + strMessage + "\"}");
-	    }
-	}
-	
-	@Log(message="取消导入{0}月数据。")
-	@RequiresPermissions("UploadData:Upload")
-	@RequestMapping(value = "/cancelimport", method = RequestMethod.POST)
-	public @ResponseBody String clearImport(HttpServletRequest request, @RequestParam String strFileGroup,  @RequestParam int ny,  @RequestParam long member_id) {
-	    ShiroUser shiroUser = SecurityUtils.getShiroUser();
-	    //long member_id = shiroUser.getId();
-	    //int currentNY = UploadDataUtils.getNianYue();
-	    int currentNY = ny;
-	    String strMessage = "取消导入成功。"; // 返回客户端的详细信息
-	    boolean bFlag = true;
-	    
-	    bFlag = uploadDataService.clearImport(request, member_id, currentNY);
-	    if(bFlag) {
-	    	bFlag = uploadDataService.clearImportDone(request, member_id, currentNY);
-	    }
-	    
-	    LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{currentNY}));
-	    if(bFlag) {
-	    	return("{\"jsonrpc\":\"2.0\",\"result\":\"success\",\"id\":\"id\",\"message\":\"" + strMessage + "\"}");
-	    } else {
-	    	return("{\"jsonrpc\":\"2.0\",\"result\":\"error\",\"id\":\"id\",\"message\":\"" + strMessage + "\"}");
-	    }
-    }
-
 	@RequiresPermissions("UploadData:Upload")
 	@RequestMapping(value = "/check", method = RequestMethod.POST)
 	public @ResponseBody String check(HttpServletRequest request) {

@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" trimDirectiveWhitespaces="true" pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/views/include.inc.jsp"%>
 <link rel="stylesheet" type="text/css" href="${contextPath}/styles/webuploader/webuploader.css">
 <link rel="stylesheet" type="text/css" href="${contextPath}/styles/upload/upload.css">
 <script type="text/javascript" src="${contextPath}/styles/webuploader/webuploader.js"></script>
@@ -41,6 +42,8 @@ overflow: hidden;
 <h2 class="contentTitle">上传保单数据</h2>
 
 <div class="pageContent" style="margin: 0 10px" layoutH="50">
+	模板:
+		<form:select path="templateList" id="lstTemplate" name="lstTemplate" style="width:100px;"/>
 	<div id="uploader" class="wu-example">
 	    <!--用来存放文件信息-->
 	    <div id="thelist" class="uploader-list"></div>
@@ -65,6 +68,7 @@ overflow: hidden;
 
 <script type="text/javascript"> 
 var strFileGroup = new Date().Format("yyyyMMddhhmmss");
+var template = $("#lstTemplate").val();
 //文件上传
 jQuery(function() {
     var $ = jQuery,
@@ -140,7 +144,7 @@ jQuery(function() {
                 type: 'post',
                 url: "/uploaddatamanage/uploaddata/import",
                 dataType: "text",
-                data: { "strFileGroup": strFileGroup, "ny": 201506, "template": 1, "memo": "" },
+                data: { "strFileGroup": strFileGroup, "ny": 201506, "template": template, "memo": "" },
                 success: function (data) {
                     clearInterval(tImport);
                     var response = $.parseJSON(data);

@@ -95,7 +95,7 @@ public class PolicyDtl implements Idable<Long> {
 		this.organCode = organCode;
 	}
 
-	@Column(name = "policy_no", length = 12)
+	@Column(name = "policy_no", length = 18)
 	public String getPolicyNo() {
 		return this.policyNo;
 	}
