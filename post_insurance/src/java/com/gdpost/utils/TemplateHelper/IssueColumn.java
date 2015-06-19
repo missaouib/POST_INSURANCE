@@ -3,7 +3,7 @@ package com.gdpost.utils.TemplateHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PolicyDtlColumn {
+public class IssueColumn {
 
 	private static List<ColumnItem> standardColumns;
 	
@@ -15,73 +15,68 @@ public class PolicyDtlColumn {
 		standardColumns = new ArrayList<ColumnItem>();
 		
 		ColumnItem column = new ColumnItem();
-		column.setDisplayName("机构");
+		column.setDisplayName("机构代码");
 		column.setColumnName("organ_code");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(false);
-		column.setNeedEncrypt(false);
 		column.setNeedOutput(true);
 		column.setiOutputOrder(1);
 		column.setOutputName("JGDM");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("保险单号码");
+		column.setDisplayName("回访人");
+		column.setColumnName("call_man");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(false);
+		column.setNeedOutput(true);
+		column.setiOutputOrder(2);
+		column.setOutputName("HFR");
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
+		column.setDisplayName("工单流水号");
+		column.setColumnName("issue_no");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(false);
+		column.setNeedOutput(true);
+		column.setiOutputOrder(3);
+		column.setOutputName("GDLSH");
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
+		column.setDisplayName("保单号");
 		column.setColumnName("policy_no");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(false);
-		column.setNeedEncrypt(false);
-		column.setNeedOutput(true);
-		column.setiOutputOrder(2);
-		column.setOutputName("BXDHM");
-		standardColumns.add(column);
-		
-		column = new ColumnItem();
-		column.setDisplayName("投保人");
-		column.setColumnName("holder");
-		column.setColumnType(ColumnType.string);
-		column.setNullable(false);
-		column.setNeedEncrypt(true);
-		column.setNeedOutput(true);
-		column.setiOutputOrder(3);
-		column.setOutputName("TBR");
-		standardColumns.add(column);
-		
-		column = new ColumnItem();
-		column.setDisplayName("性别");
-		column.setColumnName("holder_sexy");
-		column.setColumnType(ColumnType.string);
-		column.setNullable(false);
-		column.setNeedEncrypt(false);
 		column.setNeedOutput(true);
 		column.setiOutputOrder(4);
-		column.setOutputName("XB");
+		column.setOutputName("BDH");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("被保险人");
-		column.setColumnName("insured");
+		column.setDisplayName("工单类别");
+		column.setColumnName("issue_desc");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setNeedEncrypt(true);
 		column.setNeedOutput(true);
 		column.setiOutputOrder(5);
-		column.setOutputName("BBXRXM");
+		column.setOutputName("GDLB");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("险种名称");
-		column.setColumnName("prod_name");
+		column.setDisplayName("工单子类");
+		column.setColumnName("issue_type");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		column.setNeedOutput(true);
 		column.setiOutputOrder(6);
-		column.setOutputName("XZMC");
+		column.setOutputName("GDZL");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("保险金额");
-		column.setColumnName("insured_amount");
+		column.setDisplayName("工单内容");
+		column.setColumnName("issue_content");
 		column.setColumnType(ColumnType.numeric);
 		column.setNullable(true);
 		column.setNeedOutput(true);
@@ -90,28 +85,27 @@ public class PolicyDtlColumn {
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("保险费");
-		column.setColumnName("policy_fee");
+		column.setDisplayName("处理结果");
+		column.setColumnName("result");
 		column.setColumnType(ColumnType.numeric);
 		column.setNullable(true);
-		column.setNeedEncrypt(true);
 		column.setNeedOutput(true);
 		column.setiOutputOrder(8);
-		column.setOutputName("BF");
+		column.setOutputName("CLJG");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("营业员");
-		column.setColumnName("sales_name");
+		column.setDisplayName("工单状态");
+		column.setColumnName("status");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		column.setiOutputOrder(9);
-		column.setOutputName("DLJGXSRYBM");
+		column.setOutputName("GDZT");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("承保日期");
-		column.setColumnName("policy_date");
+		column.setDisplayName("待处理时间");
+		column.setColumnName("should_date");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		column.setNeedOutput(true);
@@ -120,62 +114,76 @@ public class PolicyDtlColumn {
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("联系电话");
-		column.setColumnName("holder_mobile");
+		column.setDisplayName("结案时间");
+		column.setColumnName("finish_date");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setNeedEncrypt(true);
 		column.setNeedOutput(true);
 		column.setiOutputOrder(11);
-		column.setOutputName("SXRQ");
+		column.setOutputName("JASJ");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("手机号码");
-		column.setColumnName("holder_phone");
+		column.setDisplayName("银行网点代码");
+		column.setColumnName("bank_code");
 		column.setColumnType(ColumnType.numeric);
 		column.setNullable(true);
-		column.setNeedEncrypt(true);
 		column.setiOutputOrder(12);
-		column.setOutputName("BDZT");
+		column.setOutputName("YHWDDM");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("联系地址");
-		column.setColumnName("holder_addr");
+		column.setDisplayName("银行网点名称");
+		column.setColumnName("bank_name");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setNeedEncrypt(true);
 		column.setiOutputOrder(13);
-		column.setOutputName("WDBM");
+		column.setOutputName("YHWDMC");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("邮编");
-		column.setColumnName("holder_postcode");
+		column.setDisplayName("应访日期");
+		column.setColumnName("should_date");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		column.setiOutputOrder(14);
-		column.setOutputName("WDMC");
+		column.setOutputName("YFRQ");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("证件类型");
-		column.setColumnName("holder_card_type");
+		column.setDisplayName("回访日期");
+		column.setColumnName("call_date");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		column.setiOutputOrder(15);
-		column.setOutputName("DLJGXSRYBM");
+		column.setOutputName("HFRQ");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("证件号码");
-		column.setColumnName("holder_card_num");
+		column.setDisplayName("不成功件生成时间");
+		column.setColumnName("issue_date");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setNeedEncrypt(true);
 		column.setiOutputOrder(16);
-		column.setOutputName("DLJGXSRYBM");
+		column.setOutputName("BCGJSCSJ");
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
+		column.setDisplayName("重置次数");
+		column.setColumnName("reset_num");
+		column.setColumnType(ColumnType.numeric);
+		column.setNullable(true);
+		column.setiOutputOrder(16);
+		column.setOutputName("CZCS");
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
+		column.setDisplayName("复访标记");
+		column.setColumnName("recall_flag");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(true);
+		column.setiOutputOrder(16);
+		column.setOutputName("FGBZ");
 		standardColumns.add(column);
 		
 		return(standardColumns);

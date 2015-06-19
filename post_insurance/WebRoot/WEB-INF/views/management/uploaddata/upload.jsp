@@ -68,7 +68,7 @@ overflow: hidden;
 
 <script type="text/javascript"> 
 var strFileGroup = new Date().Format("yyyyMMddhhmmss");
-var template = $("#template").val();
+
 //文件上传
 jQuery(function() {
     var $ = jQuery,
@@ -140,6 +140,8 @@ jQuery(function() {
             var tImport = setInterval(function () {
                 $("#console").html("正在导入数据......");
             }, 1000);
+            template = $("#template").val();
+            alert(template);
             $.ajax({
                 type: 'post',
                 url: "/uploaddatamanage/uploaddata/import",

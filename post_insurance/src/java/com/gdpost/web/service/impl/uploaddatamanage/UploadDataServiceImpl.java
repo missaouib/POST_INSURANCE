@@ -27,6 +27,7 @@ import System.Data.DataTable;
 
 import com.gdpost.utils.TemplateHelper.ColumnItem;
 import com.gdpost.utils.TemplateHelper.ColumnType;
+import com.gdpost.utils.TemplateHelper.IssueColumn;
 import com.gdpost.utils.TemplateHelper.PolicyColumn;
 import com.gdpost.utils.TemplateHelper.PolicyDtlColumn;
 import com.gdpost.utils.TemplateHelper.Template;
@@ -63,7 +64,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 
 	@SuppressWarnings("resource")
 	@Override
-	public boolean importPolicyData(HttpServletRequest request, DataTable dt, long member_id, int ny) {		
+	public boolean importData(FileTemplate ft, HttpServletRequest request, DataTable dt, long member_id, int ny) {		
 		java.sql.Connection connection = null;
 		com.mysql.jdbc.Statement statement = null;
 		com.alibaba.druid.pool.DruidDataSource basic = null;
@@ -82,10 +83,28 @@ public class UploadDataServiceImpl implements UploadDataService{
 		// AES Encrypt key
 		String strKey = com.gdpost.web.MySQLAESKey.AESKey;
 
-		List<ColumnItem> standardColumns = PolicyColumn.getStandardColumns();
-		String strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE T_POLICY character set utf8 (";
+		List<ColumnItem> standardColumns = null;
+		String strStatementText = null;
 		String strEncrypt = "";
-        for(ColumnItem item : standardColumns) {
+		switch(ft) {
+		case Policy:
+			standardColumns = PolicyColumn.getStandardColumns();
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE T_POLICY character set utf8 (";
+	        break;
+	        
+		case PolicyDtl:
+			standardColumns = PolicyDtlColumn.getStandardColumns();
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE T_POLICY_DTL character set utf8 (";
+			break;
+		case Issue:
+			standardColumns = IssueColumn.getStandardColumns();
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE T_ISSUE character set utf8 (";
+			break;
+			default:
+				log.warn("------------reach the default FileTemplate?? oh no!!");
+		}
+				
+		for(ColumnItem item : standardColumns) {
     		if(item.isNeedEncrypt()) {
     			if(strEncrypt.equals("")) {
     				strEncrypt = "SET " + item.getColumnName() + "=HEX(AES_Encrypt(" + item.getColumnName() + ",'" + strKey + "'))";
@@ -93,14 +112,13 @@ public class UploadDataServiceImpl implements UploadDataService{
     				strEncrypt += "," + item.getColumnName() + "=HEX(AES_Encrypt(" + item.getColumnName() + ",'" + strKey + "'))";
     			}
     		}
-        		
+        	
         	strStatementText += item.getColumnName() + ",";
         }
 
         // member_id, ny,最后补上两列数据
-        strStatementText += "operate_id,operate_name) ";
+        strStatementText += "operate_id) ";
         strStatementText += strEncrypt + ";";
-        
         log.debug("--------------" + strStatementText);
         
         StringBuilder builder = new StringBuilder();
@@ -119,8 +137,6 @@ public class UploadDataServiceImpl implements UploadDataService{
         	}
         	
             builder.append(member_id);
-            builder.append('\t');
-            builder.append("admin");
             builder.append('\n');
             log.debug("-----" + builder.toString());
         }
@@ -140,19 +156,11 @@ public class UploadDataServiceImpl implements UploadDataService{
 			if(statement != null) {
 				try {
 					statement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			
-			if(connection != null) {
-				try {
 					connection.close();
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
 			}
-			
 			if(is != null) {
 				try {
 					is.close();
@@ -167,108 +175,6 @@ public class UploadDataServiceImpl implements UploadDataService{
 		return(true);
 	}
 	
-	@SuppressWarnings("resource")
-	@Override
-	public boolean importPolicyDtlData(HttpServletRequest request, DataTable dt, long member_id, int ny) {		
-		java.sql.Connection connection = null;
-		com.mysql.jdbc.Statement statement = null;
-		com.alibaba.druid.pool.DruidDataSource basic = null;
-		try {
-			Object objDataSource = WebApplicationContextUtils.getWebApplicationContext(request.getServletContext()).getBean("dataSource");
-			DataSource dataSource = (DataSource)objDataSource;
-			//org.apache.commons.dbcp2.BasicDataSource basic = (org.apache.commons.dbcp2.BasicDataSource)dataSource;
-			basic = (com.alibaba.druid.pool.DruidDataSource)dataSource;
-			connection = DriverManager.getConnection(basic.getUrl(), basic.getUsername(), basic.getPassword());
-			statement = (com.mysql.jdbc.Statement)connection.createStatement();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-		}
-		
-		// AES Encrypt key
-		String strKey = com.gdpost.web.MySQLAESKey.AESKey;
-
-		List<ColumnItem> standardColumns = PolicyColumn.getStandardColumns();
-		String strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE T_POLICY_DTL character set utf8 (";
-		String strEncrypt = "";
-        for(ColumnItem item : standardColumns) {
-    		if(item.isNeedEncrypt()) {
-    			if(strEncrypt.equals("")) {
-    				strEncrypt = "SET " + item.getColumnName() + "=HEX(AES_Encrypt(" + item.getColumnName() + ",'" + strKey + "'))";
-    			} else {
-    				strEncrypt += "," + item.getColumnName() + "=HEX(AES_Encrypt(" + item.getColumnName() + ",'" + strKey + "'))";
-    			}
-    		}
-        		
-        	strStatementText += item.getColumnName() + ",";
-        }
-
-        // member_id, ny,最后补上两列数据
-        strStatementText += "operate_id) ";
-        strStatementText += strEncrypt + ";";
-        
-        log.debug("--------------" + strStatementText);
-        
-        StringBuilder builder = new StringBuilder();
-        Object cell = null;
-        for (DataRow row : dt.Rows) {
-        	// 从处理后的行中，取出标准列数据
-        	log.debug("--------------" + row.toString());
-        	for(ColumnItem item : standardColumns) {
-        		if(!item.isHasValue()) {
-        			//continue;
-        		}
-        		cell = row.getValue(item.getDisplayName());
-        		builder.append(cell);
-	            builder.append('\t');
-        	}
-        	
-            builder.append(member_id);
-            builder.append('\n');
-            log.debug("-----" + builder.toString());
-        }
-
-        InputStream is = null;
-        try {
-			is = IOUtils.toInputStream(builder.toString(), "UTF-8");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-        statement.setLocalInfileInputStream(is);
-        try {
-			statement.execute(strStatementText);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if(statement != null) {
-				try {
-					statement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			
-			if(connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			
-			if(is != null) {
-				try {
-					is.close();
-				} catch (IOException e) {
-				}
-			}
-			
-			builder.delete(0, builder.length());
-			builder = null;
-		}
-        
-		return(true);
-	}
 	
 	/**
 	 * 
@@ -281,13 +187,19 @@ public class UploadDataServiceImpl implements UploadDataService{
 		
 		switch(t) {
 		case Policy:
-			PolicyColumn.getStandardColumns();
+			log.debug("----------get the policy column");
+			standardColumns = PolicyColumn.getStandardColumns();
 			break;
 		case PolicyDtl:
-			PolicyDtlColumn.getStandardColumns();
+			log.debug("----------get the dtl column");
+			standardColumns = PolicyDtlColumn.getStandardColumns();
+			break;
+		case Issue:
+			log.debug("----------get the issue column");
+			standardColumns = IssueColumn.getStandardColumns();
 			break;
 			default:
-				PolicyColumn.getStandardColumns();
+				standardColumns = PolicyColumn.getStandardColumns();
 		}
 		
 	    boolean bFlag = true;
@@ -329,7 +241,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 		// 导入数据库
 		for(DataTable[] dataSet : listDataSet.values()) {
 			for(DataTable dt : dataSet) {
-				bFlag = importPolicyData(request, dt, member_id, currentNY);
+				bFlag = importData(t, request, dt, member_id, currentNY);
 				dt = null;
 				if(!bFlag) {
 					builder.append("导入数据出错。");

@@ -30,7 +30,7 @@ import com.gdpost.utils.FileHandler.DbfFileHandler;
 import com.gdpost.utils.FileHandler.IFileHandler;
 import com.gdpost.utils.FileHandler.MdbFileHandler;
 import com.gdpost.utils.FileHandler.TextFileHandler;
-import com.gdpost.utils.FileHandler.XlsFileHandler_NoHeader;
+import com.gdpost.utils.FileHandler.XlsFileHandler;
 import com.gdpost.utils.FileHandler.XlsxFileHandler_NoHeader_Stream;
 import com.gdpost.utils.TemplateHelper.ColumnItem;
 import com.gdpost.web.shiro.ShiroUser;
@@ -147,8 +147,8 @@ public class UploadDataUtils {
 		IFileHandler handler = null;
 		
 		if(strExtension.equals(".xls")) {
-			//handler = new XlsFileHandler();
-			handler = new XlsFileHandler_NoHeader();
+			handler = new XlsFileHandler();
+			//handler = new XlsFileHandler_NoHeader();
 			//handler = new XlsFileHandler_Converter();
 		} else if(strExtension.equals(".xlsx")) {
 			//handler = new XlsxFileHandler();

@@ -30,7 +30,7 @@ public class XlsFileHandler_Converter extends AbstractFileHandler {
         try
         {
         	// 设置访问密码
-        	Biff8EncryptionKey.setCurrentUserPassword(this.m_strPassword);
+        	//Biff8EncryptionKey.setCurrentUserPassword(this.m_strPassword);
         	
         	HSSFWorkbook workbookold = new HSSFWorkbook(new FileInputStream(strFilePath + "\\" + strFileName));
 

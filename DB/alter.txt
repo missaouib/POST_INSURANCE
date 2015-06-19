@@ -103,3 +103,31 @@ create table t_policy_dtl
    primary key (id)
 )
 engine=innodb auto_increment=1 default charset=utf8;
+
+alter table t_issue add column
+   organ_code           varchar(18),
+add column      call_man             varchar(8),
+add column      issue_no             varchar(12),
+add column      policy_no            varchar(18),
+add column      issue_desc           varchar(6),
+add column      issue_type           varchar(10),
+add column      issue_content        varchar(256),
+add column      result       varchar(256),
+add column      ready_date           timestamp default current_timestamp,
+add column      finish_date          datetime,
+add column      bank_code            varchar(20),
+add column      bank_name            varchar(256),
+add column      should_date          date,
+add column      call_date            date,
+add column      issue_date           date,
+add column      reset_num            int,
+add column      recall_flag          varchar(2),
+add column      issue_time           date,
+add column      status               varchar(10),
+add column      deal_man             varchar(32),
+add column      deal_time            date,
+add column      reopen_reason        varchar(256),
+add column      reopen_id            bigint,
+add column      reopen_date          date,
+add column      operate_id          bigint,
+add column      operate_time          timestamp default current_timestamp;

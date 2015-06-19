@@ -288,8 +288,8 @@ public class UploadDataController {
 	@Log(message="{0}")
 	@RequiresPermissions("UploadData:Upload")
 	@RequestMapping(value = "/import", method = RequestMethod.POST)
-	public @ResponseBody String doImport(HttpServletRequest request, @RequestParam String strFileGroup, @RequestParam int ny, @RequestParam String templateName, @RequestParam String memo) {
-		log.debug("-----------------------------------import data by use template: " + templateName);
+	public @ResponseBody String doImport(HttpServletRequest request, @RequestParam String strFileGroup, @RequestParam int ny, @RequestParam String template, @RequestParam String memo) {
+		log.debug("-----------------------------------import data by use template: " + template);
 		com.gdpost.utils.UploadDataHelper.SessionChunk sessionChunk = new com.gdpost.utils.UploadDataHelper.SessionChunk();
 		com.gdpost.utils.UploadDataHelper.FileChunk fileChunk = sessionChunk.getSessionChunk(request);
 		if(fileChunk == null) {
@@ -306,15 +306,15 @@ public class UploadDataController {
 	    String strMessage = ""; // 返回客户端的详细信息
 	    boolean bFlag = true;
 	    StringBuilder builder = new StringBuilder();
-	    log.debug("----------------" + strFileGroup);
-	    log.debug("----------------" + fileChunk.getFileGroup());
+	    //log.debug("----------------" + strFileGroup);
+	    //log.debug("----------------" + fileChunk.getFileGroup());
 		if(fileChunk.getFileGroup().equals(strFileGroup)) {
 			log.debug("--------------- do import:" + strFileGroup);
 			List<String> listFiles = fileChunk.getListFileName();
 			log.debug("------------------" + listFiles);
-			FileTemplate template = FileTemplate.valueOf(templateName);
-			log.debug("--------------- do import template:" + template);
-			bFlag = uploadDataService.handleData(template, request, member_id, listFiles, currentNY, lastNY, shiroUser.getId(), shiroUser.getLoginName(), 0, builder, memo);
+			FileTemplate ft = FileTemplate.valueOf(template);
+			log.debug("--------------- do import template:" + ft);
+			bFlag = uploadDataService.handleData(ft, request, member_id, listFiles, currentNY, lastNY, shiroUser.getId(), shiroUser.getLoginName(), 0, builder, memo);
 		}
 		
 	    // 请SessionChunk

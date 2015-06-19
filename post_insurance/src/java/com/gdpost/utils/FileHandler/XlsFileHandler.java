@@ -26,7 +26,7 @@ public class XlsFileHandler extends AbstractFileHandler {
         try
         {
         	// 设置访问密码
-        	Biff8EncryptionKey.setCurrentUserPassword(this.m_strPassword);
+        	//Biff8EncryptionKey.setCurrentUserPassword(this.m_strPassword);
         	
             HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(strFilePath + "\\" + strFileName));
             HSSFSheet sheet = null;
@@ -41,20 +41,27 @@ public class XlsFileHandler extends AbstractFileHandler {
             HSSFRow row = null;
             HSSFCell cell = null;
             boolean bFlag = false;
+            int markRow = 0;
             
             for(int iSheet = 0; iSheet < iSheets; iSheet++) {
 	            sheet = (HSSFSheet)workbook.getSheetAt(iSheet);
-	            headerRow = (HSSFRow)sheet.getRow(0);
-	            if(headerRow == null) {
-	            	continue;
+	            for(int i=0; i < sheet.getLastRowNum(); i++) {
+		            headerRow = (HSSFRow)sheet.getRow(i);
+		            if(headerRow == null) {
+		            	continue;
+		            }
 	            }
 	            
 	            cellCount = headerRow.getLastCellNum();
+	            log.debug("-----------xls file handle: " + cellCount);
 	            
 	            dt = new DataTable();
 	            dt.TableName = sheet.getSheetName();
 	
 	            for (int i = headerRow.getFirstCellNum(); i < cellCount; i++) {
+	            	if(cellCount < this.m_column.size()) {
+		            	continue;
+		            }                                                                                                                                                                                                                                                                                                                                                      
 	                column = new DataColumn(headerRow.getCell(i).getStringCellValue());
 	                dt.Columns.Add(column);
 	            }
@@ -62,6 +69,9 @@ public class XlsFileHandler extends AbstractFileHandler {
 	            rowCount = sheet.getLastRowNum();
 	
 	            for (int i = (sheet.getFirstRowNum() + 1); i <= rowCount; i++) {
+	            	if(cellCount < this.m_column.size()) {
+		            	continue;
+		            }
 	            	row = (HSSFRow)sheet.getRow(i);
 	            	if(row == null) {	// 空行，跳过
 	            		continue;
