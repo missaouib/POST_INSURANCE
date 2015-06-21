@@ -392,8 +392,10 @@ public class DynamicSpecifications {
 			@SuppressWarnings({ "rawtypes"})
 			@Override
 			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+				List<Predicate> predicates = new ArrayList<Predicate>();
+				List<Predicate> opredicates = new ArrayList<Predicate>();
 				if (filterSet != null && !filterSet.isEmpty()) {
-					List<Predicate> predicates = new ArrayList<Predicate>();
+					Predicate p = null;
 					for (SearchFilter filter : filterSet) {
 						// nested path translate, 如Task的名为"user.name"的filedName, 转换为Task.user.name属性
 						String[] names = StringUtils.split(filter.getFieldName(), ".");
@@ -442,6 +444,19 @@ public class DynamicSpecifications {
 						case NOTNULL:
 							predicates.add(builder.isNotNull(expression));
 							break;
+						case OR_EQ:
+							p = builder.equal(expression, filter.getValue());
+							opredicates.add(builder.or(p));
+							break;
+						case OR_NEQ:
+							p = builder.notEqual(expression, filter.getValue());
+							opredicates.add(builder.or(p));
+							break;
+						case OR_LIKE:
+							p = builder.like(expression, "%" + filter.getValue() + "%");
+							//opredicates.add(builder.or(p));
+							opredicates.add(p);
+							break;
 						}
 					}
 
@@ -450,7 +465,12 @@ public class DynamicSpecifications {
 						return builder.and(predicates.toArray(new Predicate[predicates.size()]));
 					}
 				}
-
+//				logger.debug("------------------" + predicates + "---------" + opredicates);
+//				Predicate p = builder.and(predicates.toArray(new Predicate[predicates.size()]));
+//				Predicate o = builder.or(opredicates.toArray(new Predicate[opredicates.size()]));
+//				query.where(o);
+//				logger.debug("---------------------------" + query.toString());
+//				return null;
 				return builder.conjunction();
 			}
 		};

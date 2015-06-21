@@ -14,13 +14,17 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import com.gdpost.web.entity.Idable;
 
 /**
  * TRenewalFeeDtl entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "t_renewal_fee_dtl", catalog = "postinsurance")
+@Table(name = "t_renewal_fee_dtl")
+@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="com.gdpost.web.entity.main.RenewalFeeDtl")
 public class RenewalFeeDtl implements Idable<Long> {
 
 	// Fields

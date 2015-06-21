@@ -10,7 +10,6 @@ import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 
@@ -76,11 +75,6 @@ public class UploadController {
         log.debug("-------------------------------------upload");
         try
         {
-        	Enumeration<String> er = request.getParameterNames();
-        	while (er.hasMoreElements()) {
-        		String o = er.nextElement();
-        		log.debug("------" + o + ":" + request.getParameter(o));
-        	}
             Long lFileSize = Long.parseLong(request.getParameter("size"));
             int iNY = UploadDataUtils.getNianYue();
             String strPath = UploadDataUtils.getFileStorePath(request, iNY);

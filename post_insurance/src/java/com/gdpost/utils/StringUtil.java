@@ -1,5 +1,6 @@
 package com.gdpost.utils;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import System.Data.DataRow;
@@ -7,6 +8,16 @@ import System.Data.DataRow;
 
 public class StringUtil {
 
+	public static String trimStr(String str) {
+		if(str == null) {
+			return null;
+		}
+		Pattern p = Pattern.compile("\\t|\r|\n");
+        Matcher m = p.matcher(str);
+        String dest = m.replaceAll("");
+		return dest;
+	}
+	
 	public static Object getValue(Object obj, String columnName) {
 		DataRow dr = (DataRow)obj;
 		return(dr.getValue(columnName));

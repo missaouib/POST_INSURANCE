@@ -10,8 +10,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gdpost.web.dao.PolicyDAO;
-import com.gdpost.web.entity.main.Policy;
+import com.gdpost.web.dao.IssueDAO;
+import com.gdpost.web.entity.main.Issue;
 import com.gdpost.web.exception.ExistedException;
 import com.gdpost.web.service.insurance.KfglService;
 import com.gdpost.web.util.dwz.Page;
@@ -23,30 +23,30 @@ public class KfglServiceImpl implements KfglService {
 	//private static final Logger logger = LoggerFactory.getLogger(QyglServiceImpl.class);
 	
 	@Autowired
-	private PolicyDAO policyDAO;
+	private IssueDAO issueDAO;
 	
 	/*
 	 * (non-Javadoc)
 	 * @see com.gdpost.web.service.UserService#get(java.lang.Long)  
 	 */ 
 	@Override
-	public Policy get(Long id) {
-		return policyDAO.findOne(id);
+	public Issue get(Long id) {
+		return issueDAO.findOne(id);
 	}
 
 	/*
 	 * (non-Javadoc) 
-	 * @see com.gdpost.web.service.UserService#saveOrUpdate(com.gdpost.web.entity.main.Policy)  
+	 * @see com.gdpost.web.service.UserService#saveOrUpdate(com.gdpost.web.entity.main.Issue)  
 	 */
 	@Override
-	public void saveOrUpdate(Policy policy) {
+	public void saveOrUpdate(Issue policy) {
 		if (policy.getId() == null) {
-			if (policyDAO.getByPolicyNo(policy.getPolicyNo()) != null) {
-				throw new ExistedException("保单号：" + policy.getPolicyNo() + "已存在。");
+			if (issueDAO.getByIssueNo(policy.getIssueNo()) != null) {
+				throw new ExistedException("保单号：" + policy.getIssueNo() + "已存在。");
 			}
 		}
 		
-		policyDAO.save(policy);
+		issueDAO.save(policy);
 	}
 
 	/*
@@ -55,8 +55,8 @@ public class KfglServiceImpl implements KfglService {
 	 */
 	@Override
 	public void delete(Long id) {
-		Policy user = policyDAO.findOne(id);
-		policyDAO.delete(user.getId());
+		Issue user = issueDAO.findOne(id);
+		issueDAO.delete(user.getId());
 	}
 	
 	/*
@@ -64,8 +64,8 @@ public class KfglServiceImpl implements KfglService {
 	 * @see com.gdpost.web.service.UserService#findAll(com.gdpost.web.util.dwz.Page)  
 	 */
 	@Override
-	public List<Policy> findAll(Page page) {
-		org.springframework.data.domain.Page<Policy> springDataPage = policyDAO.findAll(PageUtils.createPageable(page));
+	public List<Issue> findAll(Page page) {
+		org.springframework.data.domain.Page<Issue> springDataPage = issueDAO.findAll(PageUtils.createPageable(page));
 		page.setTotalCount(springDataPage.getTotalElements());
 		return springDataPage.getContent();
 	}
@@ -75,18 +75,18 @@ public class KfglServiceImpl implements KfglService {
 	 * @see com.gdpost.web.service.UserService#findByExample(org.springframework.data.jpa.domain.Specification, com.gdpost.web.util.dwz.Page)	
 	 */
 	@Override
-	public List<Policy> findByExample(
-			Specification<Policy> specification, Page page) {
-		org.springframework.data.domain.Page<Policy> springDataPage = policyDAO.findAll(specification, PageUtils.createPageable(page));
+	public List<Issue> findByExample(
+			Specification<Issue> specification, Page page) {
+		org.springframework.data.domain.Page<Issue> springDataPage = issueDAO.findAll(specification, PageUtils.createPageable(page));
 		page.setTotalCount(springDataPage.getTotalElements());
 		return springDataPage.getContent();
 	}
 	
 	/* (non-Javadoc)
-	 * @see com.gdpost.web.service.UserService#getByPolicyNo(java.lang.String)
+	 * @see com.gdpost.web.service.UserService#getByIssueNo(java.lang.String)
 	 */
 	@Override
-	public Policy getByPolicyNo(String policyNo) {
-		return policyDAO.getByPolicyNo(policyNo);
+	public Issue getByIssueNo(String issueNo) {
+		return issueDAO.getByIssueNo(issueNo);
 	}
 }

@@ -18,7 +18,7 @@ import com.gdpost.web.entity.Idable;
  */
 @Entity
 @Table(name = "t_area")
-@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="com.gdpost.web.entity.member.Area")
+@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="com.gdpost.web.entity.basedata.Area")
 public class Area implements Comparable<Area>, Idable<Long> {
 
 	// Fields

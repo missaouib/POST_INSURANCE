@@ -10,7 +10,7 @@
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("<ul>" + "\n");
 		for(Organization o : org.getChildren()) {
-			buffer.append("<li><a href=\"javascript:\" onclick=\"$.bringBack({id:'" + o.getId() + "', name:'" + o.getName() + "'})\">" + o.getName() + "</a>" + "\n");
+			buffer.append("<li><a href=\"javascript:\" onclick=\"$.bringBack({id:'" + o.getId() + "', name:'" + o.getName() + "', orgCode:'" + o.getOrgCode() + "'})\">" + o.getName() + "</a>" + "\n");
 			buffer.append(tree(o));
 			buffer.append("</li>" + "\n");
 		}
@@ -32,6 +32,7 @@
 	
 	<div class="formBar">
 		<ul>
+			<li><div class="button"><div class="buttonContent"><button class="close" type="button" onclick="$.bringBack({id:'', name:'', orgCode:''})">清空</button></div></div></li>
 			<li><div class="button"><div class="buttonContent"><button class="close" type="button">关闭</button></div></div></li>
 		</ul>
 	</div>

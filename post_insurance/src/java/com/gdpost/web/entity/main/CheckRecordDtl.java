@@ -14,13 +14,17 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import com.gdpost.web.entity.Idable;
 
 /**
  * TCheckRecordDtl entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "t_check_record_dtl", catalog = "postinsurance")
+@Table(name = "t_check_record_dtl")
+@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="com.gdpost.web.entity.main.CheckRecordDtl")
 public class CheckRecordDtl implements Idable<Long> {
 
 	// Fields

@@ -5,8 +5,8 @@
   version="2.0">
     
   <tlib-version>1.0</tlib-version>
-  <short-name>pico</short-name>
-  <uri>http://www./pico</uri>
+  <short-name>postinsurance</short-name>
+  <uri>http://www./postinsurance</uri>
 
   <function>
     <description>

@@ -60,7 +60,7 @@ li { list-style-type:none;}
 <script src="${contextPath}/styles/dwz/js/dwz.regional.zh.js" type="text/javascript"></script>
 <%-- 自定义JS --%>
 <script src="${contextPath}/styles/dwz/js/customer.js" type="text/javascript"></script>
-<script src="${contextPath}/styles/pico/js/pico.js" type="text/javascript"></script>
+<script src="${contextPath}/styles/postinsurance/js/postinsurance.js" type="text/javascript"></script>
 <%-- upload --%>
 <script src="${contextPath}/styles/uploadify/scripts/jquery.uploadify.min.js" type="text/javascript"></script>
 

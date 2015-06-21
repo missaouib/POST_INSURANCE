@@ -38,7 +38,14 @@
 		<mvc:interceptor>
 			<mvc:mapping path="/management/**" />
 			<mvc:mapping path="/login/timeout/success"/>
-			<mvc:mapping path="/members/**" />
+			<mvc:mapping path="/kfgl/**" />
+			<mvc:mapping path="/qygl/**" />
+			<mvc:mapping path="/hfgl/**" />
+			<mvc:mapping path="/dagl/**" />
+			<mvc:mapping path="/lpgl/**" />
+			<mvc:mapping path="/fpgl/**" />
+			<mvc:mapping path="/bqgl/**" />
+			<mvc:mapping path="/xqgl/**" />
 			<mvc:mapping path="/basedata/**" />
 			<mvc:mapping path="/insurance/**" />
 			<mvc:mapping path="/uploaddatamanage/**" />

@@ -15,13 +15,17 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import com.gdpost.web.entity.Idable;
 
 /**
  * TConservationDtl entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "t_conservation_dtl", catalog = "postinsurance")
+@Table(name = "t_conservation_dtl")
+@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="com.gdpost.web.entity.main.ConservationDtl")
 public class ConservationDtl implements Idable<Long> {
 
 	// Fields

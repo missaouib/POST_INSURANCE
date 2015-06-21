@@ -12,6 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import com.gdpost.web.entity.Idable;
 import com.gdpost.web.entity.main.Issue;
 
@@ -19,7 +22,8 @@ import com.gdpost.web.entity.main.Issue;
  * TIssueType entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "t_issue_type", catalog = "postinsurance")
+@Table(name = "t_issue_type")
+@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="com.gdpost.web.entity.basedata.IssueType")
 public class IssueType implements Idable<Long> {
 
 	// Fields

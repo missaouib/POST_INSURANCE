@@ -14,6 +14,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import com.gdpost.web.entity.Idable;
 
 /**
@@ -21,20 +24,19 @@ import com.gdpost.web.entity.Idable;
  */
 @Entity
 @Table(name = "t_issue")
+@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="com.gdpost.web.entity.main.Issue")
 public class Issue implements Idable<Long> {
 
 	// Fields
 
 	private Long id;
-	private String organCode;
+	private Organization organization;
 	private String callMan;
 	private String issueNo;
-	//private String policyNo;
 	private Policy policy;
 	private String issueDesc;
 	private String issueType;
 	private String issueContent;
-	private String issueDealRst;
 	private Date readyDate;
 	private Date finishDate;
 	private String bankCode;
@@ -50,8 +52,10 @@ public class Issue implements Idable<Long> {
 	private String dealMan;
 	private Date dealTime;
 	private String reopenReason;
-	private Long reopenId;
+	private User reopenUser;
 	private Date reopenDate;
+	private Long operateId;
+	private Date operateTime;
 
 	// Constructors
 
@@ -65,17 +69,16 @@ public class Issue implements Idable<Long> {
 	}
 
 	/** full constructor */
-	public Issue(String organCode, String callMan, String issueNo, Policy policy, String issueDesc, String issueType, String issueContent,
-			String issueDealRst, Date readyDate, Date finishDate, String bankCode, Date shouldDate, Date callDate, Date issueDate, Integer resetNum,
+	public Issue(Organization organCode, String callMan, String issueNo, Policy policy, String issueDesc, String issueType, String issueContent,
+			Date readyDate, Date finishDate, String bankCode, Date shouldDate, Date callDate, Date issueDate, Integer resetNum,
 			String recallFlag, Date issueTime, String status, String result, String dealMan, Date dealTime, String reopenReason, Long reopenId, Date reopenDate) {
-		this.organCode = organCode;
+		this.organization = organCode;
 		this.callMan = callMan;
 		this.issueNo = issueNo;
 		this.policy = policy;
 		this.issueDesc = issueDesc;
 		this.issueType = issueType;
 		this.issueContent = issueContent;
-		this.issueDealRst = issueDealRst;
 		this.readyDate = readyDate;
 		this.finishDate = finishDate;
 		this.bankCode = bankCode;
@@ -90,7 +93,7 @@ public class Issue implements Idable<Long> {
 		this.dealMan = dealMan;
 		this.dealTime = dealTime;
 		this.reopenReason = reopenReason;
-		this.reopenId = reopenId;
+		//this.reopenId = reopenId;
 		this.reopenDate = reopenDate;
 	}
 
@@ -106,14 +109,24 @@ public class Issue implements Idable<Long> {
 		this.id = id;
 	}
 
-	@Column(name = "organ_code", length = 18)
-	public String getOrganCode() {
-		return this.organCode;
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="organ_code", referencedColumnName="org_code")
+	public Organization getOrganization() {
+		return organization;
 	}
 
-	public void setOrganCode(String organCode) {
-		this.organCode = organCode;
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
 	}
+
+//	@Column(name = "organ_code", length = 18)
+//	public String getOrganCode() {
+//		return this.organCode;
+//	}
+//
+//	public void setOrganCode(String organCode) {
+//		this.organCode = organCode;
+//	}
 
 	@Column(name = "call_man", length = 8)
 	public String getCallMan() {
@@ -134,7 +147,7 @@ public class Issue implements Idable<Long> {
 	}
 
 	@ManyToOne(fetch=FetchType.LAZY, optional=true)
-	@JoinColumn(name="policy_no", referencedColumnName="policy_no")
+	@JoinColumn(name="policy_no", referencedColumnName="policy_no", updatable=false)
 	public Policy getPolicy() {
 		return policy;
 	}
@@ -142,15 +155,6 @@ public class Issue implements Idable<Long> {
 	public void setPolicy(Policy policy) {
 		this.policy = policy;
 	}
-
-//	@Column(name = "policy_no", length = 18)
-//	public String getPolicyNo() {
-//		return this.policyNo;
-//	}
-//
-//	public void setPolicyNo(String policyNo) {
-//		this.policyNo = policyNo;
-//	}
 
 	@Column(name = "issue_desc", length = 6)
 	public String getIssueDesc() {
@@ -177,15 +181,6 @@ public class Issue implements Idable<Long> {
 
 	public void setIssueContent(String issueContent) {
 		this.issueContent = issueContent;
-	}
-
-	@Column(name = "issue_deal_rst", length = 256)
-	public String getIssueDealRst() {
-		return this.issueDealRst;
-	}
-
-	public void setIssueDealRst(String issueDealRst) {
-		this.issueDealRst = issueDealRst;
 	}
 
 	@Column(name = "ready_date", nullable = false, length = 19)
@@ -327,15 +322,25 @@ public class Issue implements Idable<Long> {
 	public void setReopenReason(String reopenReason) {
 		this.reopenReason = reopenReason;
 	}
-
-	@Column(name = "reopen_id")
-	public Long getReopenId() {
-		return this.reopenId;
+	
+	@ManyToOne(fetch=FetchType.EAGER, optional=true)
+	@JoinColumn(name = "reopen_id", referencedColumnName="id")
+	public User getReopenUser() {
+		return reopenUser;
 	}
 
-	public void setReopenId(Long reopenId) {
-		this.reopenId = reopenId;
+	public void setReopenUser(User reopenUser) {
+		this.reopenUser = reopenUser;
 	}
+
+//	@Column(name = "reopen_id")
+//	public Long getReopenId() {
+//		return this.reopenId;
+//	}
+//
+//	public void setReopenId(Long reopenId) {
+//		this.reopenId = reopenId;
+//	}
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "reopen_date", length = 10)
@@ -345,6 +350,25 @@ public class Issue implements Idable<Long> {
 
 	public void setReopenDate(Date reopenDate) {
 		this.reopenDate = reopenDate;
+	}
+
+	@Column(name = "operate_id")
+	public Long getOperateId() {
+		return operateId;
+	}
+
+	public void setOperateId(Long operateId) {
+		this.operateId = operateId;
+	}
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "operate_time")
+	public Date getOperateTime() {
+		return operateTime;
+	}
+
+	public void setOperateTime(Date operateTime) {
+		this.operateTime = operateTime;
 	}
 
 }

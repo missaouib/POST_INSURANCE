@@ -10,13 +10,17 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import com.gdpost.web.entity.Idable;
 
 /**
  * TComponentResource entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "t_component_resource", catalog = "postinsurance", uniqueConstraints = @UniqueConstraint(columnNames = "uuid"))
+@Table(name = "t_component_resource", uniqueConstraints = @UniqueConstraint(columnNames = "uuid"))
+@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="com.gdpost.web.entity.main.ComponentResource")
 public class ComponentResource implements Idable<Long> {
 
 	// Fields

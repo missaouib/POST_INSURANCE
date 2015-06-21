@@ -19,6 +19,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -58,15 +59,15 @@ public class Role implements Idable<Long> {
 	@Column(length=256)
 	private String description;
 	
-	@OneToMany(mappedBy="role", cascade={CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval=true)
+	@OneToMany(mappedBy="role", fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval=true)
 	@OrderBy("priority ASC")
 	private List<UserRole> userRoles = new ArrayList<UserRole>();
 	
-	@OneToMany(mappedBy="role", cascade={CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval=true)
+	@OneToMany(mappedBy="role", fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval=true)
 	@OrderBy("priority ASC")
 	private List<OrganizationRole> organizationRoles = new ArrayList<OrganizationRole>();
 	
-	@OneToMany(mappedBy="role", cascade={CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval=true)
+	@OneToMany(mappedBy="role", fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval=true)
 	private List<RolePermission> rolePermissions = new ArrayList<RolePermission>();
 	
 	public Long getId() {

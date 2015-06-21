@@ -11,6 +11,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.ColumnTransformer;
 
 import com.gdpost.web.entity.Idable;
@@ -20,6 +22,7 @@ import com.gdpost.web.entity.Idable;
  */
 @Entity
 @Table(name = "t_policy_dtl")
+@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="com.gdpost.web.entity.main.PolicyDtl")
 public class PolicyDtl implements Idable<Long> {
 
 	// Fields

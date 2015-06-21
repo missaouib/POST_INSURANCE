@@ -14,6 +14,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import com.gdpost.web.entity.Idable;
 import com.gdpost.web.entity.basedata.RenewalType;
 
@@ -21,7 +24,8 @@ import com.gdpost.web.entity.basedata.RenewalType;
  * TRenewalDtl entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "t_renewal_dtl", catalog = "postinsurance")
+@Table(name = "t_renewal_dtl")
+@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="com.gdpost.web.entity.main.RenewalDtl")
 public class RenewalDtl implements Idable<Long> {
 
 	// Fields

@@ -10,7 +10,7 @@
 <link href="${contextPath}/styles/dwz/themes/default/style.css" rel="stylesheet" type="text/css" media="screen"/>
 <link href="${contextPath}/styles/dwz/themes/css/subcore.css" rel="stylesheet" type="text/css" media="screen"/>
 <link href="${contextPath}/styles/validationEngine/css/validationEngine.jquery.css" rel="stylesheet" type="text/css" media="screen"/>
-<link href="${contextPath}/styles/pico/css/pico.css" rel="stylesheet" type="text/css" />
+<link href="${contextPath}/styles/postinsurance/css/postinsurance.css" rel="stylesheet" type="text/css" />
 <!--[if IE]>
 <link href="${contextPath}/styles/dwz/themes/css/ieHack.css" rel="stylesheet" type="text/css" media="screen"/>
 <![endif]-->
@@ -60,7 +60,7 @@
 <script src="${contextPath}/styles/dwz/js/dwz.regional.zh.js" type="text/javascript"></script>
 <%-- 自定义JS --%>
 <script src="${contextPath}/styles/dwz/js/customer.js" type="text/javascript"></script>
-<script src="${contextPath}/styles/pico/js/pico.js" type="text/javascript"></script>
+<script src="${contextPath}/styles/postinsurance/js/postinsurance.js" type="text/javascript"></script>
 <%-- upload --%>
 <script src="${contextPath}/styles/uploadify/scripts/jquery.uploadify.min.js" type="text/javascript"></script>
 

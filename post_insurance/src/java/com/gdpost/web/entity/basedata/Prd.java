@@ -1,5 +1,6 @@
 package com.gdpost.web.entity.basedata;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import com.gdpost.web.entity.Idable;
 import com.gdpost.web.entity.main.Policy;
 
@@ -19,9 +23,14 @@ import com.gdpost.web.entity.main.Policy;
  * TPrd entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "t_prd", catalog = "postinsurance")
-public class Prd implements Idable<Long> {
+@Table(name = "t_prd")
+@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="com.gdpost.web.entity.basedata.Prd")
+public class Prd implements Idable<Long>, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6181491653423772664L;
 	// Fields
 
 	private Long id;

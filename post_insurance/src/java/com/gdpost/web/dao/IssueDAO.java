@@ -17,4 +17,6 @@ import com.gdpost.web.entity.main.Issue;
  */
 public interface IssueDAO extends JpaRepository<Issue, Long>, JpaSpecificationExecutor<Issue> {
 
+	Issue getByIssueNo(String issueNo);
+
 }

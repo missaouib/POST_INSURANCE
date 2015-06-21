@@ -18,6 +18,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import com.gdpost.web.entity.Idable;
 import com.gdpost.web.entity.basedata.CallDealType;
 
@@ -25,7 +28,8 @@ import com.gdpost.web.entity.basedata.CallDealType;
  * TCallFail entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "t_call_fail", catalog = "postinsurance")
+@Table(name = "t_call_fail")
+@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="com.gdpost.web.entity.main.CallFail")
 public class CallFail implements Idable<Long> {
 
 	// Fields

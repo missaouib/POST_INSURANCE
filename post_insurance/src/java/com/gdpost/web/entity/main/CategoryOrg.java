@@ -8,13 +8,17 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import com.gdpost.web.entity.Idable;
 
 /**
  * TCategoryOrg entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "t_category_org", catalog = "postinsurance", uniqueConstraints = @UniqueConstraint(columnNames = { "org_id", "category_id" }))
+@Table(name = "t_category_org", uniqueConstraints = @UniqueConstraint(columnNames = { "org_id", "category_id" }))
+@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="com.gdpost.web.entity.main.CategoryOrg")
 public class CategoryOrg implements Idable<Long> {
 
 	// Fields

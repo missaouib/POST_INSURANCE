@@ -14,13 +14,17 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import com.gdpost.web.entity.Idable;
 
 /**
  * TConvictedInfo entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "t_convicted_info", catalog = "postinsurance")
+@Table(name = "t_convicted_info")
+@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="com.gdpost.web.entity.main.ConvictedInfo")
 public class ConvictedInfo implements Idable<Long> {
 
 	// Fields

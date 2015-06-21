@@ -1,5 +1,6 @@
 package com.gdpost.web.entity.main;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,6 +19,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.ColumnTransformer;
 
 import com.gdpost.web.entity.Idable;
@@ -28,8 +31,13 @@ import com.gdpost.web.entity.basedata.Prd;
  */
 @Entity
 @Table(name = "t_policy")
-public class Policy implements Idable<Long> {
+@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="com.gdpost.web.entity.main.Policy")
+public class Policy implements Idable<Long>, Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1161534787606963177L;
 	// Fields
 
 	private Long id;
@@ -50,7 +58,6 @@ public class Policy implements Idable<Long> {
 	private Integer renewalSucessFlag;
 	private Integer resetValidFlag;
 	private Long operateId;
-	private String operateName;
 	private Date operateTime;
 	private String agentOrgan;
 	private String agentSales;
@@ -374,15 +381,6 @@ public class Policy implements Idable<Long> {
 
 	public void setOperateId(Long operateId) {
 		this.operateId = operateId;
-	}
-
-	@Column(name = "operate_name")
-	public String getOperateName() {
-		return operateName;
-	}
-
-	public void setOperateName(String operateName) {
-		this.operateName = operateName;
 	}
 
 	@Column(name = "operate_time")

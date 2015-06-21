@@ -2,7 +2,7 @@
 <ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="ehcache.xsd" updateCheck="false">
 
-	<diskStore path="java.io.tmpdir/pico/hibernate" />
+	<diskStore path="java.io.tmpdir/postinsurance/hibernate" />
 
 	<!-- DefaultCache setting. -->
 	<defaultCache 
@@ -75,151 +75,133 @@
 		overflowToDisk="true"
 		maxEntriesLocalDisk="10000" />	
 	<cache 
-		name="com.gdpost.web.entity.main.Dictionary"
+		name="com.gdpost.web.entity.main.RenewalFeeDtl"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.gdpost.web.entity.member.Province"
+		name="com.gdpost.web.entity.main.RenewalDtl"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.gdpost.web.entity.member.Area"
+		name="com.gdpost.web.entity.main.PolicyDtl"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.gdpost.web.entity.member.City"
+		name="com.gdpost.web.entity.main.Policy"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.gdpost.web.entity.member.TblCategoryOrg"
+		name="com.gdpost.web.entity.main.Issue"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.gdpost.web.entity.member.TblMember"
+		name="com.gdpost.web.entity.main.ConvictedInfo"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.gdpost.web.entity.member.TblMemberCategory"
+		name="com.gdpost.web.entity.main.ConservationDtl"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.gdpost.web.entity.member.TblMemberData"
+		name="com.gdpost.web.entity.main.ComponentResource"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.gdpost.web.entity.member.TblMemberDataControl"
+		name="com.gdpost.web.entity.main.CheckWriteDtl"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.gdpost.web.entity.member.TblMemberDataStatus"
+		name="com.gdpost.web.entity.main.CheckRecordDtl"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.gdpost.web.entity.member.TblMemberDataTemplate"
+		name="com.gdpost.web.entity.main.CategoryOrg"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.gdpost.web.entity.member.TblMemberDataTemplateField"
+		name="com.gdpost.web.entity.main.CallFeedback"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.gdpost.web.entity.member.TblMemberDataTemplateFieldRule"
+		name="com.gdpost.web.entity.main.CallFail"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.gdpost.web.entity.member.TblMemberMessage"
+		name="com.gdpost.web.entity.main.RenewalType"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.gdpost.web.entity.member.TblMemberMessageAssign"
+		name="com.gdpost.web.entity.basedata.Province"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.gdpost.web.entity.member.TblMemberMessageCategory"
+		name="com.gdpost.web.entity.basedata.Prd"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.gdpost.web.entity.member.TblMemberModule"
+		name="com.gdpost.web.entity.basedata.IssueType"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.gdpost.web.entity.member.TblMemberPermission"
+		name="com.gdpost.web.entity.basedata.ConservationError"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.gdpost.web.entity.member.TblMemberResource"
+		name="com.gdpost.web.entity.basedata.City"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.gdpost.web.entity.member.TblMemberRole"
+		name="com.gdpost.web.entity.basedata.CallDealType"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.gdpost.web.entity.member.TblMemberRolePermission"
+		name="com.gdpost.web.entity.basedata.BankCode"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.gdpost.web.entity.member.TblMemberRolePermissionDataControl"
-		maxEntriesLocalHeap="10000" 
-		eternal="false" 
-		overflowToDisk="true"
-		maxEntriesLocalDisk="100000" />
-	<cache 
-		name="com.gdpost.web.entity.member.TblMemberShop"
-		maxEntriesLocalHeap="10000" 
-		eternal="false" 
-		overflowToDisk="true"
-		maxEntriesLocalDisk="100000" />
-	<cache 
-		name="com.gdpost.web.entity.member.TblMemberUser"
-		maxEntriesLocalHeap="10000" 
-		eternal="false" 
-		overflowToDisk="true"
-		maxEntriesLocalDisk="100000" />
-	<cache 
-		name="com.gdpost.web.entity.member.TblMemberUserRole"
+		name="com.gdpost.web.entity.basedata.Area"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"

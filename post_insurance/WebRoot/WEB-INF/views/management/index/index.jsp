@@ -14,7 +14,7 @@
 <link href="${contextPath}/styles/ztree/css/zTreeStyle.css" rel="stylesheet" type="text/css" media="screen"/>
 <link href="${contextPath}/styles/uploadify/css/uploadify.css" rel="stylesheet" type="text/css" media="screen"/>
 <link href="${contextPath}/styles/treeTable/themes/default/treeTable.css" rel="stylesheet" type="text/css" />
-<link href="${contextPath}/styles/pico/css/pico.css" rel="stylesheet" type="text/css" />
+<link href="${contextPath}/styles/postinsurance/css/postinsurance.css" rel="stylesheet" type="text/css" />
 <!--[if IE]>
 <link href="${contextPath}/styles/dwz/themes/css/ieHack.css" rel="stylesheet" type="text/css" media="screen"/>
 <![endif]-->
@@ -67,7 +67,7 @@
 <script src="${contextPath}/styles/dwz/js/dwz.regional.zh.js" type="text/javascript"></script>
 <%-- 自定义JS --%>
 <script src="${contextPath}/styles/dwz/js/customer.js" type="text/javascript"></script>
-<script src="${contextPath}/styles/pico/js/pico.js" type="text/javascript"></script>
+<script src="${contextPath}/styles/postinsurance/js/postinsurance.js" type="text/javascript"></script>
 <%-- upload --%>
 <script src="${contextPath}/styles/uploadify/scripts/jquery.uploadify.min.js" type="text/javascript"></script>
 <%-- zTree --%>
@@ -101,6 +101,7 @@ $(document).ready(function(){
 			<a class="logo" href="${contextPath}/management/index">Logo</a>
 			<ul class="nav">
 				<li><font color="#ffffff">欢迎您，${login_user.username } 登录管理系统</font></li>
+				<li><font color="#ffffff">所属机构：${login_user.organization.orgCode } ${login_user.organization.name }</font></li>
 				<li><a href="${contextPath}/management/index">主页</a></li>
 				<li><a href="${contextPath}/management/index/updateBase" target="dialog" mask="true" width="550" height="250">修改用户信息</a></li>
 				<li><a href="${contextPath}/management/index/updatePwd" target="dialog" mask="true" width="500" height="200">修改密码</a></li>
@@ -164,39 +165,158 @@ $(document).ready(function(){
 						<div class="right">
 							<p><fmt:formatDate value="<%=new Date() %>" pattern="yyyy-MM-dd EEEE"/></p>
 						</div>
-						<p><span>欢迎, ${login_user.username } .</span></p>
+						<p><span>欢迎, ${login_user.realname } . 请及时处理待办任务。</span></p>
 					</div>
-					<div class="pageFormContent" layouth="80">
+					<div class="pageContent sortDrag" selector="h1" layoutH="42">
 					<fieldset>
-						<legend>基本信息</legend>
-						<dl>
-							<dt>登录名称：</dt>
-							<dd><span class="unit">${login_user.username }</span></dd>
-						</dl>
-						<dl>
-							<dt>真实名字：</dt>
-							<dd><span class="unit">${login_user.realname }</span></dd>
-						</dl>
-						<dl>
-							<dt>电话：</dt>
-							<dd><span class="unit">${login_user.phone }</span></dd>
-						</dl>
-						<dl>
-							<dt>E-Mail：</dt>
-							<dd><span class="unit">${login_user.email }</span></dd>
-						</dl>
-						<dl>
-							<dt>创建时间：</dt>
-							<dd><span class="unit"><fmt:formatDate value="${login_user.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/></span></dd>
-						</dl>
-						<dl>
-							<dt>可用状态：</dt>
-							<dd><span class="unit">${(login_user.status == "enabled")? "可用":"不可用"}</span></dd>
-						</dl>
-						<dl>
-							<dt>所属机构：</dt>
-							<dd><span class="unit">${login_user.organization.name }</span></dd>
-						</dl>
+						<legend>待办任务</legend>
+						<div class="panel collapse" defH="100">
+							<h1>待处理问题工单</h1>
+							<div>
+								<table class="list" width="98%">
+									<thead>
+										<tr>
+											<th>序号</th>
+											<th>工单号</th>
+											<th>工单状态</th>
+											<th>保单号</th>
+											<th>工单子类型</th>
+											<th>工单内容</th>
+										</tr>
+									</thead>
+									<tbody>
+										<c:forEach var="item" items="${issueList}" varStatus="var">
+										<tr target="slt_uid" rel="${item.id}">
+											<td>${var.index+1 }</td>
+											<td>
+											<c:if test="${fn:length(login_user.organization.orgCode) > 4}">
+											<a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/kfgl/issue/update/${item.id}"><span>${item.issueNo}</span></a>
+											</c:if>
+											 <c:if test="${fn:length(login_user.organization.orgCode) <= 4}"> 
+										     <a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/kfgl/issue/view/${item.id}"><span>${item.issueNo}</span></a>
+										    </c:if> 
+											</td>
+											<td>${item.status}</td>
+											<td>${item.policy.policyNo}</td>
+											<td>${item.issueType}</td>
+											<td>${item.issueContent}</td>
+										</tr>
+										</c:forEach>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						
+						<div class="panel collapse" defH="100">
+							<h1>待上门回访工单</h1>
+							<div>
+								<table class="list" width="98%">
+									<thead>
+										<tr>
+											<th>序号</th>
+											<th>工单号</th>
+											<th>工单状态</th>
+											<th>保单号</th>
+											<th>工单子类型</th>
+											<th>工单内容</th>
+										</tr>
+									</thead>
+									<tbody>
+										<c:forEach var="item" items="${issueList}" varStatus="var">
+										<tr target="slt_uid" rel="${item.id}">
+											<td>${var.index+1 }</td>
+											<td>
+											<c:if test="${fn:length(login_user.organization.orgCode) > 4}">
+											<a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/kfgl/issue/update/${item.id}"><span>${item.issueNo}</span></a>
+											</c:if>
+											 <c:if test="${fn:length(login_user.organization.orgCode) <= 4}"> 
+										     <a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/kfgl/issue/view/${item.id}"><span>${item.issueNo}</span></a>
+										    </c:if> 
+											</td>
+											<td>${item.status}</td>
+											<td>${item.policy.policyNo}</td>
+											<td>${item.issueType}</td>
+											<td>${item.issueContent}</td>
+										</tr>
+										</c:forEach>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						
+						<div class="panel collapse" defH="100">
+							<h1>续期催缴工单</h1>
+							<div>
+								<table class="list" width="98%">
+									<thead>
+										<tr>
+											<th>序号</th>
+											<th>工单号</th>
+											<th>工单状态</th>
+											<th>保单号</th>
+											<th>工单子类型</th>
+											<th>工单内容</th>
+										</tr>
+									</thead>
+									<tbody>
+										<c:forEach var="item" items="${issueList}" varStatus="var">
+										<tr target="slt_uid" rel="${item.id}">
+											<td>${var.index+1 }</td>
+											<td>
+											<c:if test="${fn:length(login_user.organization.orgCode) > 4}">
+											<a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/kfgl/issue/update/${item.id}"><span>${item.issueNo}</span></a>
+											</c:if>
+											 <c:if test="${fn:length(login_user.organization.orgCode) <= 4}"> 
+										     <a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/kfgl/issue/view/${item.id}"><span>${item.issueNo}</span></a>
+										    </c:if> 
+											</td>
+											<td>${item.status}</td>
+											<td>${item.policy.policyNo}</td>
+											<td>${item.issueType}</td>
+											<td>${item.issueContent}</td>
+										</tr>
+										</c:forEach>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						
+						<div class="panel collapse" defH="100">
+							<h1>新契约不合格件</h1>
+							<div>
+								<table class="list" width="98%">
+									<thead>
+										<tr>
+											<th>序号</th>
+											<th>工单号</th>
+											<th>工单状态</th>
+											<th>保单号</th>
+											<th>工单子类型</th>
+											<th>工单内容</th>
+										</tr>
+									</thead>
+									<tbody>
+										<c:forEach var="item" items="${issueList}" varStatus="var">
+										<tr target="slt_uid" rel="${item.id}">
+											<td>${var.index+1 }</td>
+											<td>
+											<c:if test="${fn:length(login_user.organization.orgCode) > 4}">
+											<a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/kfgl/issue/update/${item.id}"><span>${item.issueNo}</span></a>
+											</c:if>
+											 <c:if test="${fn:length(login_user.organization.orgCode) <= 4}"> 
+										     <a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/kfgl/issue/view/${item.id}"><span>${item.issueNo}</span></a>
+										    </c:if> 
+											</td>
+											<td>${item.status}</td>
+											<td>${item.policy.policyNo}</td>
+											<td>${item.issueType}</td>
+											<td>${item.issueContent}</td>
+										</tr>
+										</c:forEach>
+									</tbody>
+								</table>
+							</div>
+						</div>
 					</fieldset>
 					</div>
 				</div>

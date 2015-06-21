@@ -18,7 +18,7 @@ import com.gdpost.web.entity.Idable;
  */
 @Entity
 @Table(name = "t_province")
-@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="com.gdpost.web.entity.member.Province")
+@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="com.gdpost.web.entity.basedata.Province")
 public class Province implements Comparable<Province>, Idable<Long> {
 
 	// Fields

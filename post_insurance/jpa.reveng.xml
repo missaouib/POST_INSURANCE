@@ -3,9 +3,7 @@
 
 <hibernate-reverse-engineering>
 	<type-mapping>
-		<sql-type jdbc-type="INT" hibernate-type="Integer"></sql-type>
 		<sql-type jdbc-type="DATE" hibernate-type="Date"></sql-type>
-		<sql-type jdbc-type="DATETIME" hibernate-type="Date"></sql-type>
 	</type-mapping>
 	<table name="t_area" catalog="postinsurance">
 		<primary-key>
@@ -168,7 +166,12 @@
 			<key-column name="id" type="Long" />
 		</primary-key>
 	</table>
-<table name="t_policy_dtl" catalog="postinsurance">
+	<table name="t_policy_dtl" catalog="postinsurance">
+		<primary-key>
+			<key-column name="id" type="Long" />
+		</primary-key>
+	</table>
+<table name="t_check_record" catalog="postinsurance" class="CheckRecord">
 	<primary-key>
 		<key-column name="id" type="Long"/>
 	</primary-key>

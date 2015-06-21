@@ -12,6 +12,8 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.gdpost.utils.StringUtil;
+
 import System.Data.DataColumn;
 import System.Data.DataRow;
 import System.Data.DataTable;
@@ -50,8 +52,15 @@ public class XlsFileHandler extends AbstractFileHandler {
 		            if(headerRow == null) {
 		            	continue;
 		            }
+		            if(headerRow.getLastCellNum() > this.m_column.size()/2) {
+		            	markRow = i;
+		            	break;
+		            }
 	            }
-	            
+	            if(markRow<=0) {
+	            	return null;
+	            }
+	            headerRow = sheet.getRow(markRow);
 	            cellCount = headerRow.getLastCellNum();
 	            log.debug("-----------xls file handle: " + cellCount);
 	            
@@ -68,10 +77,10 @@ public class XlsFileHandler extends AbstractFileHandler {
 	
 	            rowCount = sheet.getLastRowNum();
 	
-	            for (int i = (sheet.getFirstRowNum() + 1); i <= rowCount; i++) {
-	            	if(cellCount < this.m_column.size()) {
-		            	continue;
-		            }
+	            for (int i = markRow+1; i <= rowCount; i++) {
+//	            	if(cellCount < this.m_column.size()) {
+//		            	continue;
+//		            }
 	            	row = (HSSFRow)sheet.getRow(i);
 	            	if(row == null) {	// 空行，跳过
 	            		continue;
@@ -84,7 +93,7 @@ public class XlsFileHandler extends AbstractFileHandler {
 	                    if (cell != null && ("") != cell.toString()) {
 	                    	bFlag = true;
 	    	            	cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-	                        dataRow.setValue(j, cell.getStringCellValue());
+	                        dataRow.setValue(j, StringUtil.trimStr(cell.getStringCellValue()));
 	                    }
 	                }
 	

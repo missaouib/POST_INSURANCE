@@ -7,13 +7,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import com.gdpost.web.entity.Idable;
 
 /**
  * TBankCode entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "t_bank_code", catalog = "postinsurance")
+@Table(name = "t_bank_code")
+@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="com.gdpost.web.entity.basedata.BankCode")
 public class BankCode implements Idable<Long> {
 
 	// Fields

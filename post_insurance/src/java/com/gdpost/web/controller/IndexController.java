@@ -22,7 +22,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.authz.annotation.RequiresUser;
 import org.apache.shiro.subject.Subject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,7 +33,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gdpost.utils.SecurityUtils;
 import com.gdpost.web.SecurityConstants;
+import com.gdpost.web.entity.main.Issue;
 import com.gdpost.web.entity.main.Module;
+import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.Permission;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.exception.ServiceException;
@@ -40,8 +45,14 @@ import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.ModuleService;
 import com.gdpost.web.service.OrganizationService;
 import com.gdpost.web.service.UserService;
+import com.gdpost.web.service.insurance.KfglService;
 import com.gdpost.web.shiro.ShiroUser;
+import com.gdpost.web.util.IssueStatusDefine.STATUS;
 import com.gdpost.web.util.dwz.AjaxObject;
+import com.gdpost.web.util.dwz.Page;
+import com.gdpost.web.util.persistence.DynamicSpecifications;
+import com.gdpost.web.util.persistence.SearchFilter;
+import com.gdpost.web.util.persistence.SearchFilter.Operator;
 
 /** 
  * 	
@@ -52,6 +63,7 @@ import com.gdpost.web.util.dwz.AjaxObject;
 @Controller
 @RequestMapping("/management/index")
 public class IndexController {
+	private static final Logger LOG = LoggerFactory.getLogger(IndexController.class); 
 	
 	@Autowired
 	private UserService userService;
@@ -61,6 +73,9 @@ public class IndexController {
 	
 	@Autowired
 	private OrganizationService organizationService;
+	
+	@Autowired
+	private KfglService kfglService;
 	
 	private static final String WEBINDEX = "index";
 	private static final String INDEX = "management/index/index";
@@ -80,10 +95,60 @@ public class IndexController {
 
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{shiroUser.getLoginName()}));
 		
+		LOG.debug(" ----------- INDEX to get the task");
+		map.put("issueList", this.getIssueList(shiroUser.getUser()));
+		
 		if(shiroUser.getUserType().equals("member")) {
 			return WEBINDEX;
 		}
 		return INDEX;
+	}
+	
+	private List<Issue> getIssueList(User user) {
+		Organization userOrg = user.getOrganization();
+		//默认返回未处理工单
+		Specification<Issue> specification = DynamicSpecifications.bySearchFilterWithoutRequest(Issue.class,
+				new SearchFilter("status", Operator.LIKE, STATUS.NewStatus.getDesc()),
+				new SearchFilter("organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+		
+		//如果是县区局登录的机构号为8位，需要根据保单的所在机构进行筛选
+		if (userOrg.getOrgCode().length() > 6) {
+			specification = DynamicSpecifications.bySearchFilterWithoutRequest(Issue.class,
+					new SearchFilter("status", Operator.LIKE, STATUS.NewStatus.getDesc()),
+					//new SearchFilter("status", Operator.OR_LIKE, STATUS.ReopenStatus.getDesc()),
+					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+		} else if (userOrg.getOrgCode().length() <= 4) { //如果是省分的，看已回复的。
+			specification = DynamicSpecifications.bySearchFilterWithoutRequest(Issue.class,
+					new SearchFilter("status", Operator.LIKE, STATUS.DealStatus.getDesc()),
+					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+		}
+		Page page = new Page();
+		page.setNumPerPage(100);
+		LOG.debug("------------ ready to search:");
+		List<Issue> issues = kfglService.findByExample(specification, page);
+		if (issues == null || issues.isEmpty()) {
+			issues = new ArrayList<Issue>();
+		}
+		
+		//如果是非省分级别，加上重打开数据
+		if(user.getOrganization().getOrgCode().length() > 4) {
+			LOG.debug("------- 非省分级别，查找重打开数据" + issues);
+			specification = DynamicSpecifications.bySearchFilterWithoutRequest(Issue.class,
+					new SearchFilter("status", Operator.LIKE, STATUS.ReopenStatus.getDesc()),
+					new SearchFilter("organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+			if (userOrg.getOrgCode().length() > 6) {
+				specification = DynamicSpecifications.bySearchFilterWithoutRequest(Issue.class,
+						new SearchFilter("status", Operator.LIKE, STATUS.ReopenStatus.getDesc()),
+						new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+			}
+			List<Issue> tmpList = kfglService.findByExample(specification, page);
+			LOG.debug("------------ tmpList:" + tmpList);
+			if(tmpList != null && !tmpList.isEmpty()) {
+				issues.addAll(tmpList);
+			}
+		}
+		
+		return issues;
 	}
 	
 	private Module getMenuModule(Subject subject) {

@@ -79,7 +79,7 @@ public class Permission implements Idable<Long> {
 	@Column(length=256)
 	private String description;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="moduleId")
 	private Module module;
 	

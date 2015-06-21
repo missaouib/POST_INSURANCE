@@ -11,19 +11,19 @@ import java.util.List;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.gdpost.web.entity.main.Policy;
+import com.gdpost.web.entity.main.Issue;
 import com.gdpost.web.util.dwz.Page;
 
 public interface KfglService {
-	Policy get(Long id);
+	Issue get(Long id);
 
-	void saveOrUpdate(Policy user);
+	void saveOrUpdate(Issue user);
 
 	void delete(Long id);
 	
-	List<Policy> findAll(Page page);
+	List<Issue> findAll(Page page);
 	
-	List<Policy> findByExample(Specification<Policy> specification, Page page);
+	List<Issue> findByExample(Specification<Issue> specification, Page page);
 	
-	Policy getByPolicyNo(String username);
+	Issue getByIssueNo(String username);
 }

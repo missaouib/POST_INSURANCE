@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.gdpost</groupId>
-		<artifactId>pico</artifactId>
+		<artifactId>postinsurance</artifactId>
 		<version>3.2</version>
 	</parent>
 	<groupId>com.sample</groupId>
@@ -14,7 +14,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.gdpost</groupId>
-			<artifactId>pico-generate</artifactId>
+			<artifactId>postinsurance-generate</artifactId>
 			<scope>test</scope>
 			<version>3.2</version>
 			<type>jar</type>
@@ -22,20 +22,20 @@
 	
 		<dependency>
 			<groupId>com.gdpost</groupId>
-			<artifactId>pico-resources</artifactId>
+			<artifactId>postinsurance-resources</artifactId>
 			<version>3.2</version>
 			<type>war</type>
 		</dependency>
 
 		<dependency>
 			<groupId>com.gdpost</groupId>
-			<artifactId>pico-main</artifactId>
+			<artifactId>postinsurance-main</artifactId>
 			<version>3.2</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>com.gdpost</groupId>
-			<artifactId>pico-component</artifactId>
+			<artifactId>postinsurance-component</artifactId>
 			<version>3.2</version>
 			<type>war</type>
 		</dependency>		

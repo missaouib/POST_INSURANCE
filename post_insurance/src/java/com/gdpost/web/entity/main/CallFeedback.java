@@ -12,13 +12,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import com.gdpost.web.entity.Idable;
 
 /**
  * TCallFeedback entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "t_call_feedback", catalog = "postinsurance")
+@Table(name = "t_call_feedback")
+@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="com.gdpost.web.entity.main.CallFeedback")
 public class CallFeedback implements Idable<Long> {
 
 	// Fields

@@ -46,7 +46,7 @@ import com.gdpost.web.util.dwz.AjaxObject;
 @Controller
 @RequestMapping("/login")
 public class LoginController {
-	private static final Logger LOG = LoggerFactory.getLogger(LoginController.class); 
+	private static final Logger LOG = LoggerFactory.getLogger(LoginController.class);
 	
 	private static final String LOGIN_PAGE = "login";
 	private static final String WEBINDEX = "index";
@@ -64,11 +64,11 @@ public class LoginController {
 		String ref = request.getHeader("Referer");
 		String tag = request.getParameter("t");
 		
-		LOG.debug("----------req url:" + url);
-		LOG.debug("------------login referer:" + ref);
+//		LOG.debug("----------req url:" + url);
+//		LOG.debug("------------login referer:" + ref);
 		
 		if(url != null && url.equals("/members/index")) {
-			LOG.debug("------------111-----------");
+			//LOG.debug("------------111-----------");
 			try {
 				response.sendRedirect("/login");
 			} catch (IOException e) {
@@ -76,16 +76,16 @@ public class LoginController {
 			}
 			return null;
 		} else if(url != null && url.equals("/login") && tag != null && tag.equals("web")) {
-			LOG.debug("------------2222-----------");
+			//LOG.debug("------------2222-----------");
 			return LOGIN_PAGE;
 		} else if(url == null || url.equals("/")){
-			LOG.debug("------------333-----------");
+			//LOG.debug("------------333-----------");
 			return WEBINDEX;
 		}
 		
 		if(ref != null && (ref.indexOf("web") != -1 || ref.indexOf("toMsgCreate") != -1 || ref.indexOf("toWebUpload") != -1 || ref.indexOf("toWebList") != -1
 				|| ref.indexOf("members/user/index") != -1)) {
-			LOG.debug("------------444-----------");
+			//LOG.debug("------------444-----------");
 			try {
 				response.sendRedirect("/web/tologin");
 			} catch (IOException e) {
@@ -93,7 +93,7 @@ public class LoginController {
 			}
 			return null;
 		} else if(ref == null) {
-			LOG.debug("------------555-----------");
+			//LOG.debug("------------555-----------");
 			return WEBINDEX;
 		}
 		LOG.debug("------------last-----------");

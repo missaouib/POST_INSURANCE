@@ -101,6 +101,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
 	// TODO 对认证进行缓存处理
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) throws AuthenticationException {
+		//log.debug("--------------------------------shiro db realm to cache the user's info");
 		String userType = "admin";
 		if (useCaptcha) {
 			CaptchaUsernamePasswordToken token = (CaptchaUsernamePasswordToken) authcToken;
@@ -112,7 +113,8 @@ public class ShiroDbRealm extends AuthorizingRealm {
 					.getSubject().getSession().getId().toString(), parm.toLowerCase())) {//忽略大小写。
 				throw new IncorrectCaptchaException("验证码错误！");
 			}
-		} 
+		}
+		//log.debug("--------------------------------shiro db realm flag1: " + userType);
 		UsernamePasswordToken token = (UsernamePasswordToken)authcToken;
 		if(userType != null && userType.equals("admin")) {
 			User user = userService.getByUsername(token.getUsername());
@@ -167,6 +169,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		ShiroUser shiroUser = (ShiroUser) collection.iterator().next();
 		// 设置、更新User
 		if(shiroUser.getUserType().equals("admin")) {
+			log.debug("--------------------------------shiro db realm doGetAuthorizationInfo: update the user info");
 			shiroUser.setUser(userService.get(shiroUser.getId()));
 		} else {
 			//shiroUser.setMemberUser(mUserService.get(shiroUser.getId()));
