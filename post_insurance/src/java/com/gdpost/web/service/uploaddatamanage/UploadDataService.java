@@ -28,6 +28,5 @@ public interface UploadDataService {
 	
 	List<Policy> findByExample(Specification<Policy> specification, com.gdpost.web.util.dwz.Page page);
 	
-	boolean checkImportNY(HttpServletRequest request, long member_id, int ny);
 }
 

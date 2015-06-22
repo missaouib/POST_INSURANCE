@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.gdpost.utils.SecurityUtils;
+import com.gdpost.utils.TemplateHelper.Template;
 import com.gdpost.utils.TemplateHelper.Template.FileTemplate;
 import com.gdpost.utils.UploadDataHelper.UploadDataUtils;
 import com.gdpost.web.log.Log;
@@ -47,29 +48,50 @@ public class UploadController {
 	
 	String strError = "{\"jsonrpc\":\"2.0\",\"result\":\"error\",\"id\":\"id\",\"message\":\"操作失败。\"}";
 	
-	@RequiresPermissions("UploadData:Upload")
+	@RequiresPermissions(value={"UploadData:Upload", "UploadRenewed:Upload", "UploadCheck:Upload", "UploadRemit:Upload", "UploadIssue:Upload"})
 	@RequestMapping(value = "/upload", method = RequestMethod.GET)
 	public String preUpload(HttpServletRequest request, Map<String, Object> map) {
 		int ny = UploadDataUtils.getNianYue();
-		int lastNY = UploadDataUtils.getLastNianYue();
-		int lastNY2 = UploadDataUtils.getLastNianYue(lastNY);
+		//int lastNY = UploadDataUtils.getLastNianYue();
+		//int lastNY2 = UploadDataUtils.getLastNianYue(lastNY);
 		
-		List<Integer> listNY = new ArrayList<Integer>();
+		//List<Integer> listNY = new ArrayList<Integer>();
 		//listNY.add(nextNY);
-		listNY.add(ny);
-		listNY.add(lastNY);
-		listNY.add(lastNY2);
+		//listNY.add(ny);
+		//listNY.add(lastNY);
+		//listNY.add(lastNY2);
 		
 		map.put("templateList", FileTemplate.values());
-		request.setAttribute("template", FileTemplate.Policy);
+		FileTemplate ft = FileTemplate.Policy;
+		String type = request.getParameter("type");
+		if (type != null) {
+			switch(type) {
+			case "issue":
+				ft = FileTemplate.Issue;
+				break;
+			case "remit":
+				ft = FileTemplate.RemitMoney;
+				break;
+			case "renewed":
+				ft = FileTemplate.Renewed;
+				break;
+			case "check":
+				ft = FileTemplate.CheckWrite;
+				break;
+			}
+		}
+		//log.debug("-------------------- uplodate list type:" + ft);
+		Template t = new Template();
+		t.setTemplateValue(ft.toString());
+		request.setAttribute("myTemplate", t);
 		
-		map.put("ny", listNY);
+		map.put("ny", ny);
 		
 		return UPLOAD;
 	}
 
 	@Log(message="上传了{0}。")
-	@RequiresPermissions("UploadData:Upload")
+	@RequiresPermissions(value={"UploadData:Upload", "UploadRenewed:Upload", "UploadCheck:Upload", "UploadRemit:Upload", "UploadIssue:Upload"})
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public @ResponseBody String upload(HttpServletRequest request, @RequestParam String name, @RequestParam(value = "file", required = true) MultipartFile file) {
         log.debug("-------------------------------------upload");
@@ -235,7 +257,7 @@ public class UploadController {
 		return (strError);
 	}
 	
-	@RequiresPermissions("UploadData:Upload")
+	@RequiresPermissions(value={"UploadData:Upload", "UploadRenewed:Upload", "UploadCheck:Upload", "UploadRemit:Upload", "UploadIssue:Upload"})
 	@RequestMapping(value = "/check", method = RequestMethod.POST)
 	public @ResponseBody String check(HttpServletRequest request) {
 		log.debug("-------------------------------------upload check");

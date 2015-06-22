@@ -138,7 +138,7 @@ public class RemitMoneyList implements Idable<Long> {
 		this.prdCode = prdCode;
 	}
 
-	@Column(name="prd_code")
+	@Column(name="prd_name")
 	public String getPrdName() {
 		return prdName;
 	}
@@ -200,10 +200,10 @@ public class RemitMoneyList implements Idable<Long> {
 		this.holder = holder;
 	}
 
-	@Column(name = "policy_fee", length = 256)
+	@Column(name = "insured", length = 256)
 	@ColumnTransformer(
-			forColumn="policy_fee",
-			read="cast(aes_decrypt(unhex(policy_fee), '" + com.gdpost.web.MySQLAESKey.AESKey + "') as char(100))", 
+			forColumn="insured",
+			read="cast(aes_decrypt(unhex(insured), '" + com.gdpost.web.MySQLAESKey.AESKey + "') as char(100))", 
 			write="hex(aes_encrypt(?,'" + com.gdpost.web.MySQLAESKey.AESKey + "'))")
 	public String getInsured() {
 		return insured;

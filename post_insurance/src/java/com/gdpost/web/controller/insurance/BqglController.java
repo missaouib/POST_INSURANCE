@@ -31,7 +31,7 @@ import com.gdpost.web.exception.ServiceException;
 import com.gdpost.web.log.Log;
 import com.gdpost.web.log.LogMessageObject;
 import com.gdpost.web.log.impl.LogUitls;
-import com.gdpost.web.service.insurance.QyglService;
+import com.gdpost.web.service.insurance.BqglService;
 import com.gdpost.web.util.dwz.AjaxObject;
 import com.gdpost.web.util.dwz.Page;
 import com.gdpost.web.util.persistence.DynamicSpecifications;
@@ -42,7 +42,7 @@ public class BqglController {
 	//private static final Logger LOG = LoggerFactory.getLogger(MemberController.class);
 	
 	@Autowired
-	private QyglService qyglService;
+	private BqglService bqglService;
 
 	private static final String CREATE = "insurance/bqgl/wtj/create";
 	private static final String UPDATE = "insurance/bqgl/wtj/update";
@@ -59,7 +59,7 @@ public class BqglController {
 	@RequestMapping(value="/create", method=RequestMethod.POST)
 	public @ResponseBody String create(@Valid Policy user) {	
 		try {
-			qyglService.saveOrUpdate(user);
+			bqglService.saveOrUpdate(user);
 		} catch (ExistedException e) {
 			return AjaxObject.newError("添加保单失败：" + e.getMessage()).setCallbackType("").toString();
 		}
@@ -71,7 +71,7 @@ public class BqglController {
 	@ModelAttribute("preloadUser")
 	public Policy preload(@RequestParam(value = "id", required = false) Long id) {
 		if (id != null) {
-			Policy user = qyglService.get(id);
+			Policy user = bqglService.get(id);
 			if(user != null) {
 				user.setOrganization(null);
 			}
@@ -83,7 +83,7 @@ public class BqglController {
 	@RequiresPermissions("Policy:edit")
 	@RequestMapping(value="/update/{id}", method=RequestMethod.GET)
 	public String preUpdate(@PathVariable Long id, Map<String, Object> map) {
-		Policy user = qyglService.get(id);
+		Policy user = bqglService.get(id);
 		
 		map.put("user", user);
 		return UPDATE;
@@ -93,7 +93,7 @@ public class BqglController {
 	@RequiresPermissions("Policy:edit")
 	@RequestMapping(value="/update", method=RequestMethod.POST)
 	public @ResponseBody String update(@Valid @ModelAttribute("preloadUser")Policy user) {
-		qyglService.saveOrUpdate(user);
+		bqglService.saveOrUpdate(user);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{user.getPolicyNo()}));
 		return	AjaxObject.newOk("修改保单成功！").toString(); 
@@ -105,8 +105,8 @@ public class BqglController {
 	public @ResponseBody String delete(@PathVariable Long id) {
 		Policy user = null;
 		try {
-			user = qyglService.get(id);
-			qyglService.delete(user.getId());
+			user = bqglService.get(id);
+			bqglService.delete(user.getId());
 		} catch (ServiceException e) {
 			return AjaxObject.newError("删除保单失败：" + e.getMessage()).setCallbackType("").toString();
 		}
@@ -122,8 +122,8 @@ public class BqglController {
 		String[] policys = new String[ids.length];
 		try {
 			for (int i = 0; i < ids.length; i++) {
-				Policy user = qyglService.get(ids[i]);
-				qyglService.delete(user.getId());
+				Policy user = bqglService.get(ids[i]);
+				bqglService.delete(user.getId());
 				
 				policys[i] = user.getPolicyNo();
 			}
@@ -139,7 +139,7 @@ public class BqglController {
 	@RequestMapping(value="/list", method={RequestMethod.GET, RequestMethod.POST})
 	public String list(ServletRequest request, Page page, Map<String, Object> map) {
 		Specification<Policy> specification = DynamicSpecifications.bySearchFilter(request, Policy.class);
-		List<Policy> users = qyglService.findByExample(specification, page);
+		List<Policy> users = bqglService.findByExample(specification, page);
 
 		map.put("page", page);
 		map.put("users", users);

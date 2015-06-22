@@ -42,8 +42,8 @@ overflow: hidden;
 <h2 class="contentTitle">上传保单数据</h2>
 
 <div class="pageContent" style="margin: 0 10px" layoutH="50">
-	模板:
-		<form:select path="template" name="template" id="template" style="width:100px;" items="${templateList}"/>
+	<label>模板:</label>
+	<form:select path="myTemplate.templateValue" name="template" id="template" style="width:100px;" items="${templateList}" itemLabel="desc"/>
 	<div id="uploader" class="wu-example">
 	    <!--用来存放文件信息-->
 	    <div id="thelist" class="uploader-list"></div>
@@ -78,28 +78,22 @@ jQuery(function() {
         uploader;
     
     uploader = WebUploader.create({
-
         // 不压缩image
         resize: false,
-
         // swf文件路径
         swf: '${contextPath}/styles/webuploader/Uploader.swf',
-
         // 文件接收服务端。
         server: '/management/uploaddata/upload',
-		
         // 选择文件的按钮。可选。
         accept: {
             title: '请选择数据文件',
             extensions: 'csv,xls'
         },
-        
         formData:{
             fileGroup: strFileGroup
         },
         // 内部根据当前运行是创建，可能是input元素，也可能是flash.
         pick: '#picker',
-        
        	disableGlobalDnd: true,
         fileNumLimit: 3,
         fileSizeLimit: 200 * 1024 * 1024,    // 200 M
@@ -118,7 +112,6 @@ jQuery(function() {
     uploader.on( 'uploadProgress', function( file, percentage ) {
         var $li = $( '#'+file.id ),
             $percent = $li.find('.progress .progress-bar');
-
         // 避免重复创建
         if ( !$percent.length ) {
             $percent = $('<div class="progress progress-striped active">' +
@@ -128,7 +121,6 @@ jQuery(function() {
         }
 
         $li.find('p.state').text('上传中');
-
         $percent.css( 'width', percentage * 100 + '%' );
     });
 
@@ -141,12 +133,12 @@ jQuery(function() {
                 $("#console").html("正在导入数据......");
             }, 1000);
             template = $("#template").val();
-            alert(template);
+            //alert(template);
             $.ajax({
                 type: 'post',
                 url: "/uploaddatamanage/uploaddata/import",
                 dataType: "text",
-                data: { "strFileGroup": strFileGroup, "ny": 201506, "template": template, "memo": "" },
+                data: { "strFileGroup": strFileGroup, "ny": "${ny}", "template": template, "memo": "" },
                 success: function (data) {
                     clearInterval(tImport);
                     var response = $.parseJSON(data);

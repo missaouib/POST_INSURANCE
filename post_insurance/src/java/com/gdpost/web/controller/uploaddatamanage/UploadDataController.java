@@ -52,7 +52,7 @@ public class UploadDataController {
 	
 	String strError = "{\"jsonrpc\":\"2.0\",\"result\":\"error\",\"id\":\"id\",\"message\":\"操作失败。\"}";
 	
-	@RequiresPermissions("UploadData:Upload")
+	@RequiresPermissions(value={"UploadData:Upload", "UploadRenewed:Upload", "UploadCheck:Upload", "UploadRemit:Upload", "UploadIssue:Upload"})
 	@RequestMapping(value = "/upload", method = RequestMethod.GET)
 	public String preUpload(HttpServletRequest request, Map<String, Object> map) {
 		int ny = UploadDataUtils.getNianYue();
@@ -86,7 +86,7 @@ public class UploadDataController {
 		return INDEX;
 	}
 	
-	@RequiresPermissions("UploadData:Upload")
+	@RequiresPermissions(value={"UploadData:Upload", "UploadRenewed:Upload", "UploadCheck:Upload", "UploadRemit:Upload", "UploadIssue:Upload"})
 	@RequestMapping(value = "/toWebUpload", method = RequestMethod.GET)
 	public String toWebUpload(HttpServletRequest request, Map<String, Object> map) {
 		int ny = UploadDataUtils.getNianYue();
@@ -113,26 +113,8 @@ public class UploadDataController {
 		return WEBUPLOAD;
 	}
 
-	@RequiresPermissions("UploadData:Upload")
-	@RequestMapping(value = "/checkimportny", method = RequestMethod.POST)
-	public @ResponseBody String checkImportNY(HttpServletRequest request, @RequestParam int ny) {
-		//TblMemberUser shiroUser = SecurityUtils.getLoginTblMemberUser();	
-		//long member_id = shiroUser.getTblMember().getId();
-		ShiroUser shiroUser = SecurityUtils.getShiroUser();
-	    User member = shiroUser.getUser();
-	    long member_id = member.getId();
-		boolean bFlag = true;
-		bFlag = uploadDataService.checkImportNY(request, member_id, ny);
-		
-	    if(bFlag) {
-	    	return("{\"jsonrpc\":\"2.0\",\"result\":\"success\",\"id\":\"id\",\"message\":\"\"}");
-	    } else {
-	    	return("{\"jsonrpc\":\"2.0\",\"result\":\"error\",\"id\":\"id\",\"message\":\"该年月已经上传过数据。\"}");
-	    }
-	}
-		
 	@Log(message="上传了{0}。")
-	@RequiresPermissions("UploadData:Upload")
+	@RequiresPermissions(value={"UploadData:Upload", "UploadRenewed:Upload", "UploadCheck:Upload", "UploadRemit:Upload", "UploadIssue:Upload"})
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public @ResponseBody String upload(HttpServletRequest request, @RequestParam String name, @RequestParam(value = "file", required = true) MultipartFile file) {
         String strFileGroup = request.getParameter("fileGroup"); // 当前文件组
@@ -286,7 +268,7 @@ public class UploadDataController {
 	}
 	
 	@Log(message="{0}")
-	@RequiresPermissions("UploadData:Upload")
+	@RequiresPermissions(value={"UploadData:Upload", "UploadRenewed:Upload", "UploadCheck:Upload", "UploadRemit:Upload", "UploadIssue:Upload"})
 	@RequestMapping(value = "/import", method = RequestMethod.POST)
 	public @ResponseBody String doImport(HttpServletRequest request, @RequestParam String strFileGroup, @RequestParam int ny, @RequestParam String template, @RequestParam String memo) {
 		log.debug("-----------------------------------import data by use template: " + template);
@@ -341,7 +323,7 @@ public class UploadDataController {
 	}
 	
 	@Log(message="取消上传{0}月数据。")
-	@RequiresPermissions("UploadData:Upload")
+	@RequiresPermissions(value={"UploadData:Upload", "UploadRenewed:Upload", "UploadCheck:Upload", "UploadRemit:Upload", "UploadIssue:Upload"})
 	@RequestMapping(value = "/cancelupload", method = RequestMethod.POST)
 	public @ResponseBody String cancelUpload(HttpServletRequest request, @RequestParam String strFileGroup, @RequestParam int ny) {
 	    ShiroUser shiroUser = SecurityUtils.getShiroUser();
@@ -362,7 +344,7 @@ public class UploadDataController {
     }
 
 	@Log(message="取消导入{0}月数据。")
-	@RequiresPermissions("UploadData:Upload")
+	@RequiresPermissions(value={"UploadData:Upload", "UploadRenewed:Upload", "UploadCheck:Upload", "UploadRemit:Upload", "UploadIssue:Upload"})
 	@RequestMapping(value = "/cancelimport", method = RequestMethod.POST)
 	public @ResponseBody String clearImport(HttpServletRequest request, @RequestParam String strFileGroup, @RequestParam int ny) {
 	    ShiroUser shiroUser = SecurityUtils.getShiroUser();
@@ -382,7 +364,7 @@ public class UploadDataController {
 	    return("{\"jsonrpc\":\"2.0\",\"result\":\"success\",\"id\":\"id\",\"message\":\"" + strMessage + "\"}");
     }
 	
-	@RequiresPermissions("UploadData:Upload")
+	@RequiresPermissions(value={"UploadData:Upload", "UploadRenewed:Upload", "UploadCheck:Upload", "UploadRemit:Upload", "UploadIssue:Upload"})
 	@RequestMapping(value = "/check", method = RequestMethod.POST)
 	public @ResponseBody String check(HttpServletRequest request) {
 		String strFileName = request.getParameter("fileName"); //当前分块

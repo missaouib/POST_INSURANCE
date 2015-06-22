@@ -656,16 +656,4 @@ public class UploadDataServiceImpl implements UploadDataService{
 
 		ds.put(strTableName, dtRelate);// add data table to data set
 	}
-
-	@SuppressWarnings("resource")
-	@Override
-	public boolean checkImportNY(HttpServletRequest request, long member_id, int ny) {
-		java.sql.Connection connection = null;
-		com.mysql.jdbc.Statement statement = null;
-		com.alibaba.druid.pool.DruidDataSource basic = null;
-		boolean bFlag = true;
-		
-		
-		return bFlag;
-	}
 }

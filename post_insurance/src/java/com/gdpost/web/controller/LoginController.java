@@ -67,7 +67,7 @@ public class LoginController {
 //		LOG.debug("----------req url:" + url);
 //		LOG.debug("------------login referer:" + ref);
 		
-		if(url != null && url.equals("/members/index")) {
+		if(url != null && url.equals("/web/index")) {
 			//LOG.debug("------------111-----------");
 			try {
 				response.sendRedirect("/login");
@@ -84,7 +84,7 @@ public class LoginController {
 		}
 		
 		if(ref != null && (ref.indexOf("web") != -1 || ref.indexOf("toMsgCreate") != -1 || ref.indexOf("toWebUpload") != -1 || ref.indexOf("toWebList") != -1
-				|| ref.indexOf("members/user/index") != -1)) {
+				|| ref.indexOf("web/index") != -1)) {
 			//LOG.debug("------------444-----------");
 			try {
 				response.sendRedirect("/web/tologin");

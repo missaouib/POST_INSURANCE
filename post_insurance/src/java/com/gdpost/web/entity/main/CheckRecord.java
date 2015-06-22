@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -46,6 +48,13 @@ public class CheckRecord implements Idable<Long> {
 	private String remark;
 	private Long operateId;
 	private Date operateTime;
+	private String fixStatus;
+	private String fixDesc;
+	private String dealMan;
+	private Date dealTime;
+	private String reopenReason;
+	private User reopenUser;
+	private Date reopenDate;
 
 	// Constructors
 
@@ -224,5 +233,79 @@ public class CheckRecord implements Idable<Long> {
 
 	public void setOperateTime(Date operateTime) {
 		this.operateTime = operateTime;
+	}
+
+	@Column(name="fix_status")
+	public String getFixStatus() {
+		return fixStatus;
+	}
+
+	public void setFixStatus(String fixStatus) {
+		this.fixStatus = fixStatus;
+	}
+
+	@Column(name="fix_desc")
+	public String getFixDesc() {
+		return fixDesc;
+	}
+
+	public void setFixDesc(String fixDesc) {
+		this.fixDesc = fixDesc;
+	}
+
+	@Column(name="deal_man")
+	public String getDealMan() {
+		return dealMan;
+	}
+
+	public void setDealMan(String dealMan) {
+		this.dealMan = dealMan;
+	}
+
+	@Column(name="deal_time")
+	public Date getDealTime() {
+		return dealTime;
+	}
+
+	public void setDealTime(Date dealTime) {
+		this.dealTime = dealTime;
+	}
+	
+	@Column(name = "reopen_reason", length = 256)
+	public String getReopenReason() {
+		return this.reopenReason;
+	}
+
+	public void setReopenReason(String reopenReason) {
+		this.reopenReason = reopenReason;
+	}
+	
+	@ManyToOne(fetch=FetchType.EAGER, optional=true)
+	@JoinColumn(name = "reopen_id", referencedColumnName="id")
+	public User getReopenUser() {
+		return reopenUser;
+	}
+
+	public void setReopenUser(User reopenUser) {
+		this.reopenUser = reopenUser;
+	}
+
+//	@Column(name = "reopen_id")
+//	public Long getReopenId() {
+//		return this.reopenId;
+//	}
+//
+//	public void setReopenId(Long reopenId) {
+//		this.reopenId = reopenId;
+//	}
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "reopen_date", length = 10)
+	public Date getReopenDate() {
+		return this.reopenDate;
+	}
+
+	public void setReopenDate(Date reopenDate) {
+		this.reopenDate = reopenDate;
 	}
 }

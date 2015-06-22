@@ -11,19 +11,30 @@ import java.util.List;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.gdpost.web.entity.main.Policy;
+import com.gdpost.web.entity.main.CheckRecord;
+import com.gdpost.web.entity.main.CheckWrite;
 import com.gdpost.web.util.dwz.Page;
 
 public interface QyglService {
-	Policy get(Long id);
+	CheckWrite getCheckWrite(Long id);
+	
+	CheckRecord getCheckRecord(Long id);
 
-	void saveOrUpdate(Policy user);
+	void saveOrUpdateCheckWrite(CheckWrite check);
+	
+	void saveOrUpdateCheckRecord(CheckRecord check);
 
-	void delete(Long id);
+	//void delete(Long id);
 	
-	List<Policy> findAll(Page page);
+	List<CheckWrite> findAllCheckWrite(Page page);
 	
-	List<Policy> findByExample(Specification<Policy> specification, Page page);
+	List<CheckRecord> findAllCheckRecord(Page page);
 	
-	Policy getByPolicyNo(String username);
+	List<CheckWrite> findByCheckWriteExample(Specification<CheckWrite> specification, Page page);
+	
+	List<CheckRecord> findByCheckRecordExample(Specification<CheckRecord> specification, Page page);
+	
+	CheckWrite getByCheckWritePolicyNo(String policyNo);
+	
+	CheckRecord getByCheckRecordPolicyNo(String policyNo);
 }
