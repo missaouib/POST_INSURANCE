@@ -171,7 +171,18 @@
 			<key-column name="id" type="Long" />
 		</primary-key>
 	</table>
-<table name="t_check_record" catalog="postinsurance" class="CheckRecord">
+	<table name="t_check_record" catalog="postinsurance"
+		class="CheckRecord">
+		<primary-key>
+			<key-column name="id" type="Long" />
+		</primary-key>
+	</table>
+	<table name="t_remit_money_list" catalog="postinsurance">
+		<primary-key>
+			<key-column name="id" type="Long" />
+		</primary-key>
+	</table>
+<table name="t_renewed_list" catalog="postinsurance">
 	<primary-key>
 		<key-column name="id" type="Long"/>
 	</primary-key>

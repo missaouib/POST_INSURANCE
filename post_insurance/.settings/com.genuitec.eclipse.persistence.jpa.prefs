@@ -1,5 +1,5 @@
-detect.m2m=false
-detect.o2o=false
+detect.m2m=true
+detect.o2o=true
 eclipse.preferences.version=1
 generate.version=false
 re.settings=/post_insurance/jpa.reveng.xml

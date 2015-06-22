@@ -70,6 +70,8 @@ public class Policy implements Idable<Long>, Serializable{
 	private String feeFrequency;
 	private Date plicyValidDate;
 	private String bankCode;
+	private String customerManagerCode;
+	private String customer_manager;
 	
 	private List<RenewalDtl> renewalDtls = new ArrayList<RenewalDtl>(0);
 	private List<ConservationDtl> conservationDtls = new ArrayList<ConservationDtl>(0);
@@ -390,6 +392,24 @@ public class Policy implements Idable<Long>, Serializable{
 
 	public void setOperateTime(Date operateTime) {
 		this.operateTime = operateTime;
+	}
+
+	@Column(name="customer_manager_code")
+	public String getCustomerManagerCode() {
+		return customerManagerCode;
+	}
+
+	public void setCustomerManagerCode(String customerManagerCode) {
+		this.customerManagerCode = customerManagerCode;
+	}
+
+	@Column(name="customer_manager")
+	public String getCustomer_manager() {
+		return customer_manager;
+	}
+
+	public void setCustomer_manager(String customer_manager) {
+		this.customer_manager = customer_manager;
 	}
 
 	@OneToMany(mappedBy="policy", cascade={CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval=true)

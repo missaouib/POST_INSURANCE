@@ -21,9 +21,9 @@ import com.gdpost.web.entity.Idable;
  * TCheckRecordDtl entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "t_check_record")
-@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="com.gdpost.web.entity.main.CheckRecord")
-public class CheckRecord implements Idable<Long> {
+@Table(name = "t_check_write")
+@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="com.gdpost.web.entity.main.CheckWrite")
+public class CheckWrite implements Idable<Long> {
 
 	// Fields
 
@@ -50,7 +50,7 @@ public class CheckRecord implements Idable<Long> {
 	// Constructors
 
 	/** default constructor */
-	public CheckRecord() {
+	public CheckWrite() {
 	}
 
 	@Id
@@ -225,4 +225,5 @@ public class CheckRecord implements Idable<Long> {
 	public void setOperateTime(Date operateTime) {
 		this.operateTime = operateTime;
 	}
+
 }

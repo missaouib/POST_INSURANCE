@@ -11,7 +11,7 @@ public class Template {
 	public static final int RENEWED_TEMPLATE = 5;
 	public static final int REMIT_MONEY_TEMPLATE = 6;
 	
-	public enum FileTemplate {Policy(1), PolicyDtl(2), Issue(3), CallFail(4), Renewed(5), RemitMoney(6);
+	public enum FileTemplate {Policy(1), PolicyDtl(2), Issue(3), CallFail(4), Renewed(5), RemitMoney(6), CheckWrite(7), CheckRecord(8);
 		private int index;
 		FileTemplate (int idx) {
 			this.index = idx;

@@ -3,7 +3,7 @@ package com.gdpost.utils.TemplateHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CheckRecordColumn {
+public class CheckColumn {
 
 	private static List<ColumnItem> standardColumns;
 	

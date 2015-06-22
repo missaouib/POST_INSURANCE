@@ -123,6 +123,18 @@
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
+		name="com.gdpost.web.entity.main.CheckWrite"
+		maxEntriesLocalHeap="10000" 
+		eternal="false" 
+		overflowToDisk="true"
+		maxEntriesLocalDisk="100000" />
+	<cache 
+		name="com.gdpost.web.entity.main.CheckRecord"
+		maxEntriesLocalHeap="10000" 
+		eternal="false" 
+		overflowToDisk="true"
+		maxEntriesLocalDisk="100000" />
+	<cache 
 		name="com.gdpost.web.entity.main.CheckWriteDtl"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 

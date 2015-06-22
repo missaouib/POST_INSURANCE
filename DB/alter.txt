@@ -131,3 +131,8 @@ add column      reopen_id            bigint,
 add column      reopen_date          date,
 add column      operate_id          bigint,
 add column      operate_time          timestamp default current_timestamp;
+
+
+alter table t_policy 
+add column   customer_manager_code         varchar(25),
+add column   customer_manager              varchar(16);

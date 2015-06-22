@@ -25,12 +25,14 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import System.Data.DataRow;
 import System.Data.DataTable;
 
+import com.gdpost.utils.TemplateHelper.CheckColumn;
 import com.gdpost.utils.TemplateHelper.ColumnItem;
 import com.gdpost.utils.TemplateHelper.ColumnType;
 import com.gdpost.utils.TemplateHelper.IssueColumn;
 import com.gdpost.utils.TemplateHelper.PolicyColumn;
 import com.gdpost.utils.TemplateHelper.PolicyDtlColumn;
-import com.gdpost.utils.TemplateHelper.Template;
+import com.gdpost.utils.TemplateHelper.RemitMoneyColumn;
+import com.gdpost.utils.TemplateHelper.RenewedColumn;
 import com.gdpost.utils.TemplateHelper.Template.FileTemplate;
 import com.gdpost.utils.UploadDataHelper.UploadDataUtils;
 import com.gdpost.web.dao.uploaddatamanage.UploadDataDAO;
@@ -91,7 +93,6 @@ public class UploadDataServiceImpl implements UploadDataService{
 			standardColumns = PolicyColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE T_POLICY character set utf8 (";
 	        break;
-	        
 		case PolicyDtl:
 			standardColumns = PolicyDtlColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE T_POLICY_DTL character set utf8 (";
@@ -99,6 +100,26 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case Issue:
 			standardColumns = IssueColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE T_ISSUE character set utf8 (";
+			break;
+		case CallFail:
+			//standardColumns = CailFileColumn.getStandardColumns();
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE T_CALL_FAIL character set utf8 (";
+			break;
+		case Renewed:
+			standardColumns = RenewedColumn.getStandardColumns();
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE T_RENEWED_LIST character set utf8 (";
+			break;
+		case RemitMoney:
+			standardColumns = RemitMoneyColumn.getStandardColumns();
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE T_REMIT_MONEY_LIST character set utf8 (";
+			break;
+		case CheckWrite:
+			standardColumns = CheckColumn.getStandardColumns();
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE T_CHECK_WRITE character set utf8 (";
+			break;
+		case CheckRecord:
+			standardColumns = CheckColumn.getStandardColumns();
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE T_CHECK_RECORD character set utf8 (";
 			break;
 			default:
 				log.warn("------------reach the default FileTemplate?? oh no!!");
@@ -197,6 +218,21 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case Issue:
 			log.debug("----------get the issue column");
 			standardColumns = IssueColumn.getStandardColumns();
+			break;
+		case CallFail:
+			//standardColumns = CallFailColumn.getStandardColumns();
+			break;
+		case Renewed:
+			standardColumns = RenewedColumn.getStandardColumns();
+			break;
+		case RemitMoney:
+			standardColumns = RemitMoneyColumn.getStandardColumns();
+			break;
+		case CheckWrite:
+			standardColumns = CheckColumn.getStandardColumns();
+			break;
+		case CheckRecord:
+			standardColumns = CheckColumn.getStandardColumns();
 			break;
 			default:
 				standardColumns = PolicyColumn.getStandardColumns();
