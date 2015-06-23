@@ -16,7 +16,7 @@
 				</li>
 			</ul>
 			<div class="subBar">
-				<ul>						
+				<ul>
 					<li><div class="button"><div class="buttonContent"><button type="submit">搜索</button></div></div></li>
 				</ul>
 			</div>
@@ -28,13 +28,13 @@
 
 	<div class="panelBar">
 		<ul class="toolBar">
-			<shiro:hasPermission name="BaseData:save">
+			<shiro:hasPermission name="CallDealType:save">
 				<li><a iconClass="user_add" target="dialog" rel="lookup2organization_add" mask="true" width="530" height="330" href="${contextPath }/basedata/callDealType/create"><span>添加回访类型</span></a></li>
 			</shiro:hasPermission>
-			<shiro:hasPermission name="BaseData:edit">
+			<shiro:hasPermission name="CallDealType:edit">
 				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="330" href="${contextPath }/basedata/callDealType/update/{slt_uid}"><span>编辑回访类型</span></a></li>
 			</shiro:hasPermission>
-			<shiro:hasPermission name="BaseData:delete">
+			<shiro:hasPermission name="CallDealType:delete">
 				<li><a iconClass="user_delete" target="selectedTodo" rel="ids" href="${contextPath }/basedata/callDealType/delete" title="确认要删除?"><span>删除回访类型</span></a></li>
 			</shiro:hasPermission>
 		</ul>
@@ -44,6 +44,7 @@
 		<thead>
 			<tr>
 				<th width="22"><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
+				<th width="100">回访类型代码</th>
 				<th width="100">回访类型名称</th>
 				<th width="100">类型描述</th>
 			</tr>
@@ -52,6 +53,7 @@
 			<c:forEach var="item" items="${basedata}">
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
+				<td>${item.typeCode}</td>
 				<td>${item.typeName}</td>
 				<td>${item.typeDesc}</td>
 			</tr>			

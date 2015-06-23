@@ -1,19 +1,19 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 <div class="pageContent">
-<form method="post" action="${contextPath }/basedata/issueType/create" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
+<form method="post" action="${contextPath }/basedata/renewalType/create" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
 	<div class="pageFormContent" layoutH="58">
 		<p>
-			<label>工单类型代码：</label>
+			<label>续期催收类型代码：</label>
 			<input type="text" name="typeCode" class="input-medium validate[required,maxSize[32]] required" maxlength="32"/>
 		</p>
 		<p>
-			<label>工单类型名称：</label>
+			<label>续期催收类型名称：</label>
 			<input type="text" name="typeName" class="input-medium validate[required,maxSize[32]] required" maxlength="32"/>
 		</p>
 		<p>
-			<label>类型描述：</label>
-			<input type="text" name="typeDesc" class="input-medium" maxlength="32"/>
+			<label>续期催收类型描述：</label>
+			<input type="text" name="typeDesc" class="input-medium" maxlength="32" value="${basedata.typeDesc }"/>
 		</p>
 	</div>
 			

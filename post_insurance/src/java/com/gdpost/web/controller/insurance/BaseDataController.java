@@ -53,13 +53,13 @@ public class BaseDataController {
 	private static final String CALL_DEAL_TYPE_UPDATE = "insurance/basedata/CallDealType/update";
 	private static final String CALL_DEAL_TYPE_LIST = "insurance/basedata/CallDealType/list";
 	
-	private static final String CONSERVATION_ERROR_CREATE = "insurance/basedata/conservationError/create";
-	private static final String CONSERVATION_ERROR_UPDATE = "insurance/basedata/conservationError/update";
-	private static final String CONSERVATION_ERROR_LIST = "insurance/basedata/conservationError/list";
+	private static final String CONSERVATION_ERROR_CREATE = "insurance/basedata/ConservationError/create";
+	private static final String CONSERVATION_ERROR_UPDATE = "insurance/basedata/ConservationError/update";
+	private static final String CONSERVATION_ERROR_LIST = "insurance/basedata/ConservationError/list";
 	
-	private static final String ISSUE_TYPE_CREATE = "insurance/basedata/issueType/create";
-	private static final String ISSUE_TYPE_UPDATE = "insurance/basedata/issueType/update";
-	private static final String ISSUE_TYPE_LIST = "insurance/basedata/issueType/list";
+	private static final String ISSUE_TYPE_CREATE = "insurance/basedata/IssueType/create";
+	private static final String ISSUE_TYPE_UPDATE = "insurance/basedata/IssueType/update";
+	private static final String ISSUE_TYPE_LIST = "insurance/basedata/IssueType/list";
 	
 	private static final String NET_CODE_CREATE = "insurance/basedata/netcode/create";
 	private static final String NET_CODE_UPDATE = "insurance/basedata/netcode/update";

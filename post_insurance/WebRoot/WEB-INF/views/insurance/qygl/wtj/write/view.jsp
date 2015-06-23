@@ -8,52 +8,60 @@
 	<fieldset>
 		<legend>不合格件基本信息</legend>
 		<p>
-			<label>不合格件编号：</label>
-			<input type="text" name="issueNo" readonly="readonly" class="input-medium" maxlength="32" readonly="readonly" value="${issue.issueNo }"/>
-		</p>
-		<p>
-			<label>不合格件状态：</label>
-			<input type="text" name="status" readonly="readonly" class="input-medium" maxlength="32" readonly="readonly" value="${issue.status }"/>
-		</p>
-		<p>
 			<label>保单号：</label>
 			<input type="text" name="policy.policyNo" readonly="readonly" class="input-medium" maxlength="32" value="${issue.policy.policyNo }"/>
 		</p>
 		<p>
-			<label>所属机构：</label>
-			<input type="text" name="organization。name" readonly="readonly" class="input-medium" maxlength="128" value="${issue.organization.name }"/>
+			<label>投保单号：</label>
+			<input type="text" name="formNo" readonly="readonly" class="input-medium" maxlength="32" value="${issue.formNo }"/>
+		</p>
+		<p>
+			<label>网点类型：</label>
+			<textarea name="netType" disabled="true" cols="20" rows="2">${issue.netType }</textarea>
 		</p>
 		<p class="nowrap">
 			<label>出单网点：</label>
-			<textarea name="bankName" disabled="true" cols="20" rows="2">${issue.bankName }</textarea>
+			<textarea name="netName" disabled="true" cols="20" rows="2">${issue.netName }</textarea>
 		</p>
 		<p>
-			<label>回访日期：</label>
-			<input type="text" name="callDate" readonly="readonly" class="input-medium" maxlength="32" value="${issue.callDate }"/>
+			<label>抽检人：</label>
+			<input type="text" name="checker" readonly="readonly" class="input-medium" maxlength="32" value="${issue.checker }"/>
 		</p>
 		<p>
-			<label>不成功日期：</label>
-			<input type="text" name="issueDate" readonly="readonly" class="input-medium" maxlength="32" value="${issue.issueDate }"/>
+			<label>抽检批次：</label>
+			<input type="text" name="checkBatch" readonly="readonly" class="input-medium" maxlength="32" value="${issue.checkBatch }"/>
 		</p>
 		<p>
-			<label>下发日期：</label>
-			<input type="text" name="issueTime" readonly="readonly" class="input-medium" maxlength="32" value="${issue.issueTime }"/>
-		</p>
-		<p>
-			<label>不合格件类型：</label>
-			<input type="text" name="issueType" readonly="readonly" class="input-medium" maxlength="32" value="${issue.issueType }"/>
+			<label>险种名称：</label>
+			<input type="text" name="prdName" readonly="readonly" class="input-medium" maxlength="32" value="${issue.prdName }"/>
 		</p>
 		<p class="nowrap">
-			<label>不合格件内容：</label>
-			<textarea name="issueContent" disabled="true" cols="20" rows="2">${issue.issueContent }</textarea>
+			<label>关键信息错误情况：</label>
+			<textarea name="keyInfo" disabled="true" cols="20" rows="2">${issue.keyInfo }</textarea>
+		</p>
+		<p class="nowrap">
+			<label>重要信息错误情况：</label>
+			<textarea name="importanceInfo" disabled="true" cols="20" rows="2">${issue.importanceInfo }</textarea>
+		</p>
+		<p class="nowrap">
+			<label>其他信息错误情况：</label>
+			<textarea name="elseInfo" disabled="true" cols="20" rows="2">${issue.elseInfo }</textarea>
+		</p>
+		<p>
+			<label>影像件扫描错误：</label>
+			<input type="text" name="dorError" readonly="readonly" class="input-medium" maxlength="32" value="${issue.dorError }"/>
+		</p>
+		<p class="nowrap">
+			<label>投保资料扫描缺失情况：</label>
+			<textarea name="docMiss" disabled="true" cols="20" rows="2">${issue.elseInfo }</textarea>
 		</p>
 	</fieldset>
 	<div class="divider"></div>
 	<fieldset>
 		<legend>不合格件处理详情</legend>
 		<p class="nowrap">
-			<label>不合格件处理结果：</label>
-			<textarea name="result" cols="50" rows="3">${issue.result }</textarea>
+			<label>不合格件处理记录：</label>
+			<textarea name="fixDesc" cols="50" rows="3">${issue.fixDesc }</textarea>
 		</p>
 		<p class="nowrap">
 			<label>经办人：</label>

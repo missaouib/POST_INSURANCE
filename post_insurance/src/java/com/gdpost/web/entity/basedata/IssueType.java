@@ -29,6 +29,7 @@ public class IssueType implements Idable<Long> {
 	// Fields
 
 	private Long id;
+	private String typeCode;
 	private String typeName;
 	private String typeDesc;
 	private List<Issue> issues = new ArrayList<Issue>(0);
@@ -57,6 +58,15 @@ public class IssueType implements Idable<Long> {
 		this.id = id;
 	}
 
+	@Column(name="type_code")
+	public String getTypeCode() {
+		return typeCode;
+	}
+
+	public void setTypeCode(String typeCode) {
+		this.typeCode = typeCode;
+	}
+	
 	@Column(name = "type_name", length = 32)
 	public String getTypeName() {
 		return this.typeName;

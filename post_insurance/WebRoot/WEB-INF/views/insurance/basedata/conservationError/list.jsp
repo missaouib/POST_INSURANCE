@@ -28,13 +28,13 @@
 
 	<div class="panelBar">
 		<ul class="toolBar">
-			<shiro:hasPermission name="BaseData:save">
+			<shiro:hasPermission name="ConservationError:save">
 				<li><a iconClass="user_add" target="dialog" rel="lookup2organization_add" mask="true" width="530" height="330" href="${contextPath }/basedata/conservationError/create"><span>添加保全常见错误定义</span></a></li>
 			</shiro:hasPermission>
-			<shiro:hasPermission name="BaseData:edit">
+			<shiro:hasPermission name="ConservationError:edit">
 				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="330" href="${contextPath }/basedata/conservationError/update/{slt_uid}"><span>编辑保全常见错误定义</span></a></li>
 			</shiro:hasPermission>
-			<shiro:hasPermission name="BaseData:delete">
+			<shiro:hasPermission name="ConservationError:delete">
 				<li><a iconClass="user_delete" target="selectedTodo" rel="ids" href="${contextPath }/basedata/conservationError/delete" title="确认要删除?"><span>删除保全常见错误定义</span></a></li>
 			</shiro:hasPermission>
 		</ul>

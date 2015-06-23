@@ -29,6 +29,7 @@ public class CallDealType implements Idable<Long> {
 	// Fields
 
 	private Long id;
+	private String typeCode;
 	private String typeName;
 	private String typeDesc;
 	private List<CallFail> callFails = new ArrayList<CallFail>(0);
@@ -55,6 +56,15 @@ public class CallDealType implements Idable<Long> {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	@Column(name="type_code")
+	public String getTypeCode() {
+		return typeCode;
+	}
+
+	public void setTypeCode(String typeCode) {
+		this.typeCode = typeCode;
 	}
 
 	@Column(name = "type_name", length = 32)

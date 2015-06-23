@@ -28,13 +28,13 @@
 
 	<div class="panelBar">
 		<ul class="toolBar">
-			<shiro:hasPermission name="BaseData:save">
+			<shiro:hasPermission name="IssueType:save">
 				<li><a iconClass="user_add" target="dialog" rel="lookup2organization_add" mask="true" width="530" height="330" href="${contextPath }/basedata/issueType/create"><span>添加工单类型</span></a></li>
 			</shiro:hasPermission>
-			<shiro:hasPermission name="BaseData:edit">
+			<shiro:hasPermission name="IssueType:edit">
 				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="330" href="${contextPath }/basedata/issueType/update/{slt_uid}"><span>编辑工单类型</span></a></li>
 			</shiro:hasPermission>
-			<shiro:hasPermission name="BaseData:delete">
+			<shiro:hasPermission name="IssueType:delete">
 				<li><a iconClass="user_delete" target="selectedTodo" rel="ids" href="${contextPath }/basedata/issueType/delete" title="确认要删除?"><span>删除工单类型</span></a></li>
 			</shiro:hasPermission>
 		</ul>
@@ -44,6 +44,7 @@
 		<thead>
 			<tr>
 				<th width="22"><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
+				<th width="100">工单类型代码</th>
 				<th width="100">工单类型名称</th>
 				<th width="100">类型描述</th>
 			</tr>
@@ -52,9 +53,10 @@
 			<c:forEach var="item" items="${basedata}">
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
+				<td>${item.typeCode}</td>
 				<td>${item.typeName}</td>
 				<td>${item.typeDesc}</td>
-			</tr>			
+			</tr>
 			</c:forEach>
 		</tbody>
 	</table>
