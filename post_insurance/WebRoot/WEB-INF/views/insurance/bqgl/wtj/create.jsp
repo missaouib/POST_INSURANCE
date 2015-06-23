@@ -1,11 +1,14 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 <div class="pageContent">
-<form method="post" action="${contextPath }/management/security/user/create" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
+<form method="post" action="${contextPath }/bqgl/issue/create" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
 	<div class="pageFormContent" layoutH="58">
 		<p>
-			<label>登录名称：</label>
-			<input type="text" name="username" class="input-medium validate[required,maxSize[32]] required" maxlength="32"/>
+			<label>保单号：</label>
+			<input type="hidden" name="xjglBjdmb.id" />
+			<input name="xjglBjdmb.bjmc" type="text" postField="search_LIKE_bjmc" suggestFields="bjdm,bjmc" 
+					suggestUrl="/xjgl/xsjbxx/lookupBjdmsuggest" lookupGroup="xjglBjdmb"/>
+					<a class="btnLook" href="${contextPath }/xjgl/xsjbxx/lookup2bj" lookupGroup="xjglBjdmb" title="选择班级" width="600">查找带回</a>
 		</p>
 		<p>
 			<label>姓名：</label>
@@ -34,7 +37,7 @@
 			<label>关联组织：</label>	
 			<input name="organization.id" type="hidden"/>
 			<input class="validate[required] required" name="organization.name" type="text" readonly="readonly" style="width: 140px;"/>
-			<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="organization" title="关联组织" width="400">查找带回</a>	
+			<a class="btnLook" href="${contextPath }/bqgl/issue/lookup2org" lookupGroup="organization" title="关联组织" width="400">查找带回</a>	
 		</p>
 	</div>
 			

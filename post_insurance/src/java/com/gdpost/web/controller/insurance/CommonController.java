@@ -1,0 +1,72 @@
+/**
+ * 
+ * ==========================================================
+ * 通用controller
+ * ==========================================================
+ * 
+ */
+package com.gdpost.web.controller.insurance;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.ServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.JavaBeanSerializer;
+import com.alibaba.fastjson.serializer.SerializeConfig;
+import com.gdpost.web.entity.basedata.ConservationError;
+import com.gdpost.web.entity.main.Policy;
+import com.gdpost.web.service.insurance.BaseDataService;
+import com.gdpost.web.service.insurance.CommonService;
+import com.gdpost.web.util.dwz.Page;
+import com.gdpost.web.util.persistence.DynamicSpecifications;
+
+@Controller
+@RequestMapping("/common")
+public class CommonController {
+	//private static final Logger LOG = LoggerFactory.getLogger(MemberController.class);
+	
+	@Autowired
+	private CommonService commonService;
+	
+	@Autowired
+	private BaseDataService basedataService;
+
+	private static final String LOOK_CVE = "insurance/common/lookup_cve";
+	
+	@RequestMapping(value="/lookupPolicysuggest", method={RequestMethod.POST})
+	public @ResponseBody String lookupPolicySuggest(ServletRequest request, Map<String, Object> map) {
+		Specification<Policy> specification = DynamicSpecifications.bySearchFilter(request, Policy.class);
+		Page page = new Page();
+		page.setNumPerPage(10);
+		List<Policy> org = commonService.findByPolicyExample(specification, page);
+		SerializeConfig mapping = new SerializeConfig();
+		HashMap<String, String> fm = new HashMap<String, String>();
+		fm.put("id", "id");
+		fm.put("policyNo", "policyNo");
+		fm.put("holder", "holder");
+		fm.put("organName", "organName");
+		mapping.put(Policy.class, new JavaBeanSerializer(Policy.class, fm));
+		String str = JSON.toJSONString(org, mapping);
+		return str;
+	}
+	
+	@RequestMapping(value="/lookup2BQIssuesDefine", method={RequestMethod.GET})
+	public String lookupBj(ServletRequest request, Map<String, Object> map, Page page) {
+		page.setNumPerPage(60);
+		Specification<ConservationError> specification = DynamicSpecifications.bySearchFilter(request, ConservationError.class);
+		List<ConservationError> org = basedataService.findByConservationErrorExample(specification, page);
+		map.put("cvelist", org);
+		map.put("page", page);
+		return LOOK_CVE;
+	}
+}

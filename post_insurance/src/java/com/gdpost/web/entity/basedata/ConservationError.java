@@ -67,4 +67,9 @@ public class ConservationError implements Idable<Long> {
 		this.errorDesc = errorDesc;
 	}
 
+	@Override
+	public String toString() {
+		return "ConservationError [id=" + id + ", errorCode=" + errorCode + ", errorDesc=" + errorDesc + "]";
+	}
+
 }

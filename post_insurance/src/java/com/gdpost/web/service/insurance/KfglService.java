@@ -12,6 +12,7 @@ import java.util.List;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.gdpost.web.entity.main.Issue;
+import com.gdpost.web.entity.main.User;
 import com.gdpost.web.util.dwz.Page;
 
 public interface KfglService {
@@ -26,4 +27,6 @@ public interface KfglService {
 	List<Issue> findByExample(Specification<Issue> specification, Page page);
 	
 	Issue getByIssueNo(String username);
+	
+	List<Issue> getTODOIssueList(User user);
 }

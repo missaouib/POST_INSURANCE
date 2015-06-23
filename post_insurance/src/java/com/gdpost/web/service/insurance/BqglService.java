@@ -11,19 +11,19 @@ import java.util.List;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.gdpost.web.entity.main.Policy;
+import com.gdpost.web.entity.main.ConservationDtl;
 import com.gdpost.web.util.dwz.Page;
 
 public interface BqglService {
-	Policy get(Long id);
+	ConservationDtl get(Long id);
 
-	void saveOrUpdate(Policy user);
+	void saveOrUpdate(ConservationDtl user);
 
 	void delete(Long id);
 	
-	List<Policy> findAll(Page page);
+	List<ConservationDtl> findAll(Page page);
 	
-	List<Policy> findByExample(Specification<Policy> specification, Page page);
+	List<ConservationDtl> findByExample(Specification<ConservationDtl> specification, Page page);
 	
-	Policy getByPolicyNo(String username);
+	ConservationDtl getByPolicyNo(String policyNo);
 }

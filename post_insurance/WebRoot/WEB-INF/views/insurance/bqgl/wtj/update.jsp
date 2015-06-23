@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 <div class="pageContent">
-<form method="post" action="${contextPath}/management/security/user/update" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
+<form method="post" action="${contextPath}/bqgl/issue/update" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
 	<input type="hidden" name="id" value="${user.id}"/>
 	<div class="pageFormContent" layoutH="58">
 		<p>
@@ -31,7 +31,7 @@
 			<label>关联组织：</label>
 			<input name="organization.id" value="${user.organization.id }" type="hidden"/>
 			<input class="validate[required] required" name="organization.name" type="text" readonly="readonly" value="${user.organization.name }" style="width: 140px;"/>
-			<a class="btnLook" href="${contextPath}/management/security/user/lookup2org" lookupGroup="organization" title="关联组织" width="400">查找带回</a>	
+			<a class="btnLook" href="${contextPath}/bqgl/issue/lookup2org" lookupGroup="organization" title="关联组织" width="400">查找带回</a>	
 		</p>		
 	</div>
 			

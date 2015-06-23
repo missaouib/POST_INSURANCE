@@ -15,14 +15,14 @@ import javax.servlet.ServletRequest;
 import javax.validation.Valid;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gdpost.web.entity.basedata.BankCode;
@@ -44,7 +44,7 @@ import com.gdpost.web.util.persistence.DynamicSpecifications;
 @Controller
 @RequestMapping("/basedata")
 public class BaseDataController {
-	//private static final Logger LOG = LoggerFactory.getLogger(MemberController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(BaseDataController.class);
 	
 	@Autowired
 	private BaseDataService baseService;
@@ -99,15 +99,6 @@ public class BaseDataController {
 		return AjaxObject.newOk("添加回访处理类型成功！").toString();
 	}
 	
-	@ModelAttribute("preloadCallDealType")
-	public CallDealType preloadCallDealType(@RequestParam(value = "id", required = false) Long id) {
-		if (id != null) {
-			CallDealType basedata = baseService.getCallDealType(id);
-			return basedata;
-		}
-		return null;
-	}
-	
 	@RequiresPermissions("CallDealType:edit")
 	@RequestMapping(value="/callDealType/update/{id}", method=RequestMethod.GET)
 	public String preUpdateCallDealType(@PathVariable Long id, Map<String, Object> map) {
@@ -120,7 +111,8 @@ public class BaseDataController {
 	@Log(message="修改了{0}回访处理类型的信息。")
 	@RequiresPermissions("CallDealType:edit")
 	@RequestMapping(value="/callDealType/update", method=RequestMethod.POST)
-	public @ResponseBody String updateCallDealType(@Valid @ModelAttribute("preloadCallDealType")CallDealType basedata) {
+	public @ResponseBody String updateCallDealType(CallDealType basedata) {
+		LOG.debug("-----------conservateoinError:" + basedata.toString());
 		baseService.saveOrUpdateCallDealType(basedata);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{basedata.getTypeName()}));
@@ -200,15 +192,6 @@ public class BaseDataController {
 		return AjaxObject.newOk("添加保全错误类型成功！").toString();
 	}
 	
-	@ModelAttribute("preloadConservationError")
-	public ConservationError preloadConservationError(@RequestParam(value = "id", required = false) Long id) {
-		if (id != null) {
-			ConservationError conservationError = baseService.getConservationError(id);
-			return conservationError;
-		}
-		return null;
-	}
-	
 	@RequiresPermissions("ConservationError:edit")
 	@RequestMapping(value="/conservationError/update/{id}", method=RequestMethod.GET)
 	public String preUpdateConservationError(@PathVariable Long id, Map<String, Object> map) {
@@ -221,9 +204,9 @@ public class BaseDataController {
 	@Log(message="修改了{0}保全错误类型的信息。")
 	@RequiresPermissions("ConservationError:edit")
 	@RequestMapping(value="/conservationError/update", method=RequestMethod.POST)
-	public @ResponseBody String updateConservationError(@Valid @ModelAttribute("preloadConservationError")ConservationError conservationError) {
+	public @ResponseBody String updateConservationError(ConservationError conservationError) {
+		LOG.debug("-----------conservateoinError:" + conservationError.toString());
 		baseService.saveOrUpdateConservationError(conservationError);
-		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{conservationError.getErrorCode()}));
 		return	AjaxObject.newOk("修改保全错误类型成功！").toString(); 
 	}
@@ -301,15 +284,6 @@ public class BaseDataController {
 		return AjaxObject.newOk("添加工单错误类型成功！").toString();
 	}
 	
-	@ModelAttribute("preloadIssueType")
-	public IssueType preloadIssueType(@RequestParam(value = "id", required = false) Long id) {
-		if (id != null) {
-			IssueType issueType = baseService.getIssueType(id);
-			return issueType;
-		}
-		return null;
-	}
-	
 	@RequiresPermissions("IssueType:edit")
 	@RequestMapping(value="/issueType/update/{id}", method=RequestMethod.GET)
 	public String preUpdateIssueType(@PathVariable Long id, Map<String, Object> map) {
@@ -322,7 +296,7 @@ public class BaseDataController {
 	@Log(message="修改了{0}工单错误类型的信息。")
 	@RequiresPermissions("IssueType:edit")
 	@RequestMapping(value="/issueType/update", method=RequestMethod.POST)
-	public @ResponseBody String updateIssueType(@Valid @ModelAttribute("preloadIssueType")IssueType issueType) {
+	public @ResponseBody String updateIssueType(IssueType issueType) {
 		baseService.saveOrUpdateIssueType(issueType);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issueType.getTypeName()}));
@@ -402,15 +376,6 @@ public class BaseDataController {
 		return AjaxObject.newOk("添加网点对照成功！").toString();
 	}
 	
-	@ModelAttribute("preloadNetCode")
-	public BankCode preloadNetCode(@RequestParam(value = "id", required = false) Long id) {
-		if (id != null) {
-			BankCode bankCode = baseService.getBankCode(id);
-			return bankCode;
-		}
-		return null;
-	}
-	
 	@RequiresPermissions("BankCode:edit")
 	@RequestMapping(value="/bankCode/update/{id}", method=RequestMethod.GET)
 	public String preUpdateNetCode(@PathVariable Long id, Map<String, Object> map) {
@@ -423,7 +388,7 @@ public class BaseDataController {
 	@Log(message="修改了{0}网点对照的信息。")
 	@RequiresPermissions("BankCode:edit")
 	@RequestMapping(value="/bankCode/update", method=RequestMethod.POST)
-	public @ResponseBody String updateNetCode(@Valid @ModelAttribute("preloadNetCode")BankCode bankCode) {
+	public @ResponseBody String updateNetCode(BankCode bankCode) {
 		baseService.saveOrUpdateBankCode(bankCode);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{bankCode.getCpiCode()}));
@@ -503,15 +468,6 @@ public class BaseDataController {
 		return AjaxObject.newOk("添加催缴类型成功！").toString();
 	}
 	
-	@ModelAttribute("preloadRenewalType")
-	public RenewalType preloadRenewalType(@RequestParam(value = "id", required = false) Long id) {
-		if (id != null) {
-			RenewalType renewalType = baseService.getRenewalType(id);
-			return renewalType;
-		}
-		return null;
-	}
-	
 	@RequiresPermissions("RenewalType:edit")
 	@RequestMapping(value="/renewalType/update/{id}", method=RequestMethod.GET)
 	public String preUpdateRenewalType(@PathVariable Long id, Map<String, Object> map) {
@@ -524,7 +480,7 @@ public class BaseDataController {
 	@Log(message="修改了{0}催缴类型的信息。")
 	@RequiresPermissions("RenewalType:edit")
 	@RequestMapping(value="/renewalType/update", method=RequestMethod.POST)
-	public @ResponseBody String updateRenewalType(@Valid @ModelAttribute("preloadRenewalType")RenewalType renewalType) {
+	public @ResponseBody String updateRenewalType(RenewalType renewalType) {
 		baseService.saveOrUpdateRenewalType(renewalType);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{renewalType.getTypeName()}));
@@ -604,15 +560,6 @@ public class BaseDataController {
 		return AjaxObject.newOk("添加产品成功！").toString();
 	}
 	
-	@ModelAttribute("preloadPrd")
-	public Prd preloadPrd(@RequestParam(value = "id", required = false) Long id) {
-		if (id != null) {
-			Prd prd = baseService.getPrd(id);
-			return prd;
-		}
-		return null;
-	}
-	
 	@RequiresPermissions("Prd:edit")
 	@RequestMapping(value="/prd/update/{id}", method=RequestMethod.GET)
 	public String preUpdatePrd(@PathVariable Long id, Map<String, Object> map) {
@@ -625,7 +572,7 @@ public class BaseDataController {
 	@Log(message="修改了{0}产品的信息。")
 	@RequiresPermissions("Prd:edit")
 	@RequestMapping(value="/prd/update", method=RequestMethod.POST)
-	public @ResponseBody String updatePrd(@Valid @ModelAttribute("preloadPrd")Prd prd) {
+	public @ResponseBody String updatePrd(Prd prd) {
 		baseService.saveOrUpdatePrd(prd);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{prd.getPrdCode()}));

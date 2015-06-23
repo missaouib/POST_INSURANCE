@@ -3,8 +3,11 @@
  */
 package	com.gdpost.web.service.impl.insurance;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -12,15 +15,21 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gdpost.web.dao.IssueDAO;
 import com.gdpost.web.entity.main.Issue;
+import com.gdpost.web.entity.main.Organization;
+import com.gdpost.web.entity.main.User;
 import com.gdpost.web.exception.ExistedException;
 import com.gdpost.web.service.insurance.KfglService;
+import com.gdpost.web.util.IssueStatusDefine.STATUS;
 import com.gdpost.web.util.dwz.Page;
 import com.gdpost.web.util.dwz.PageUtils;
+import com.gdpost.web.util.persistence.DynamicSpecifications;
+import com.gdpost.web.util.persistence.SearchFilter;
+import com.gdpost.web.util.persistence.SearchFilter.Operator;
 
 @Service
 @Transactional
 public class KfglServiceImpl implements KfglService {
-	//private static final Logger logger = LoggerFactory.getLogger(QyglServiceImpl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(KfglServiceImpl.class);
 	
 	@Autowired
 	private IssueDAO issueDAO;
@@ -88,5 +97,53 @@ public class KfglServiceImpl implements KfglService {
 	@Override
 	public Issue getByIssueNo(String issueNo) {
 		return issueDAO.getByIssueNo(issueNo);
+	}
+
+	@Override
+	public List<Issue> getTODOIssueList(User user) {
+		Organization userOrg = user.getOrganization();
+		//默认返回未处理工单
+		Specification<Issue> specification = DynamicSpecifications.bySearchFilterWithoutRequest(Issue.class,
+				new SearchFilter("status", Operator.LIKE, STATUS.NewStatus.getDesc()),
+				new SearchFilter("organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+		
+		//如果是县区局登录的机构号为8位，需要根据保单的所在机构进行筛选
+		if (userOrg.getOrgCode().length() > 6) {
+			specification = DynamicSpecifications.bySearchFilterWithoutRequest(Issue.class,
+					new SearchFilter("status", Operator.LIKE, STATUS.NewStatus.getDesc()),
+					//new SearchFilter("status", Operator.OR_LIKE, STATUS.ReopenStatus.getDesc()),
+					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+		} else if (userOrg.getOrgCode().length() <= 4) { //如果是省分的，看已回复的。
+			specification = DynamicSpecifications.bySearchFilterWithoutRequest(Issue.class,
+					new SearchFilter("status", Operator.LIKE, STATUS.DealStatus.getDesc()),
+					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+		}
+		Page page = new Page();
+		page.setNumPerPage(100);
+		LOG.debug("------------ ready to search:");
+		List<Issue> issues = this.findByExample(specification, page);
+		if (issues == null || issues.isEmpty()) {
+			issues = new ArrayList<Issue>();
+		}
+		
+		//如果是非省分级别，加上重打开数据
+		if(user.getOrganization().getOrgCode().length() > 4) {
+			LOG.debug("------- 非省分级别，查找重打开数据" + issues);
+			specification = DynamicSpecifications.bySearchFilterWithoutRequest(Issue.class,
+					new SearchFilter("status", Operator.LIKE, STATUS.ReopenStatus.getDesc()),
+					new SearchFilter("organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+			if (userOrg.getOrgCode().length() > 6) {
+				specification = DynamicSpecifications.bySearchFilterWithoutRequest(Issue.class,
+						new SearchFilter("status", Operator.LIKE, STATUS.ReopenStatus.getDesc()),
+						new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+			}
+			List<Issue> tmpList = this.findByExample(specification, page);
+			LOG.debug("------------ tmpList:" + tmpList);
+			if(tmpList != null && !tmpList.isEmpty()) {
+				issues.addAll(tmpList);
+			}
+		}
+		
+		return issues;
 	}
 }

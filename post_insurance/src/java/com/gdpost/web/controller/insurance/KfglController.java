@@ -167,6 +167,24 @@ public class KfglController {
 		
 		List<Issue> issues = kfglService.findByExample(specification, page);
 		
+		//如果是非省分级别，加上重打开数据
+		if(user.getOrganization().getOrgCode().length() > 4) {
+			LOG.debug("------- 非省分级别，查找重打开数据" + issues);
+			specification = DynamicSpecifications.bySearchFilterWithoutRequest(Issue.class,
+					new SearchFilter("status", Operator.LIKE, STATUS.ReopenStatus.getDesc()),
+					new SearchFilter("organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+			if (userOrg.getOrgCode().length() > 6) {
+				specification = DynamicSpecifications.bySearchFilterWithoutRequest(Issue.class,
+						new SearchFilter("status", Operator.LIKE, STATUS.ReopenStatus.getDesc()),
+						new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+			}
+			List<Issue> tmpList = kfglService.findByExample(specification, page);
+			LOG.debug("------------ tmpList:" + tmpList);
+			if(tmpList != null && !tmpList.isEmpty()) {
+				issues.addAll(tmpList);
+			}
+		}
+		
 		map.put("issue", issue);
 		map.put("statusList", STATUS.values());
 		map.put("page", page);

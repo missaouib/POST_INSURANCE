@@ -17,4 +17,6 @@ import com.gdpost.web.entity.main.ConservationDtl;
  */
 public interface ConservationDtlDAO extends JpaRepository<ConservationDtl, Long>, JpaSpecificationExecutor<ConservationDtl> {
 
+	ConservationDtl getByPolicyPolicyNo(String policyNo);
+
 }

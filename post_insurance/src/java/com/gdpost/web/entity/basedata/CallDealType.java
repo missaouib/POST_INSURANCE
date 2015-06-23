@@ -93,4 +93,9 @@ public class CallDealType implements Idable<Long> {
 	public void setCallFails(List<CallFail> callFails) {
 		this.callFails = callFails;
 	}
+
+	@Override
+	public String toString() {
+		return "CallDealType [id=" + id + ", typeCode=" + typeCode + ", typeName=" + typeName + ", typeDesc=" + typeDesc + "]";
+	}
 }
