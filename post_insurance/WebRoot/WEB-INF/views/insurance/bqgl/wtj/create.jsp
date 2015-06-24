@@ -25,6 +25,7 @@
 			<label>保全复核问题：</label>
 			<input name="csRst" type="text" postField="search_LIKE_errorCode" suggestFields="csRst" 
 					suggestUrl="/common/lookupBQIssusSuggest" lookupGroup=""/>
+			<a class="btnLook" target="dialog" width="500" height="500"  href="/common/lookup2BQIssuesDefine" lookupGroup="">查找带回</a>
 		</p>		
 	</div>
 			

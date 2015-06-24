@@ -146,7 +146,7 @@ public class Issue implements Idable<Long> {
 		this.issueNo = issueNo;
 	}
 
-	@ManyToOne(fetch=FetchType.LAZY, optional=true)
+	@ManyToOne(fetch=FetchType.EAGER, optional=true)
 	@JoinColumn(name="policy_no", referencedColumnName="policy_no", updatable=false)
 	public Policy getPolicy() {
 		return policy;

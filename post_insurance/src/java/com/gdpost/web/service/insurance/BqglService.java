@@ -12,6 +12,7 @@ import java.util.List;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.gdpost.web.entity.main.ConservationDtl;
+import com.gdpost.web.entity.main.User;
 import com.gdpost.web.util.dwz.Page;
 
 public interface BqglService {
@@ -26,4 +27,6 @@ public interface BqglService {
 	List<ConservationDtl> findByExample(Specification<ConservationDtl> specification, Page page);
 	
 	ConservationDtl getByPolicyNo(String policyNo);
+	
+	List<ConservationDtl> getTODOIssueList(User user);
 }

@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -55,6 +56,9 @@ public class CheckRecord implements Idable<Long> {
 	private String reopenReason;
 	private User reopenUser;
 	private Date reopenDate;
+	
+	@Transient
+	private String tag = "录入错误";
 
 	// Constructors
 
@@ -307,5 +311,15 @@ public class CheckRecord implements Idable<Long> {
 
 	public void setReopenDate(Date reopenDate) {
 		this.reopenDate = reopenDate;
+	}
+
+	@Transient
+	public String getTag() {
+		return tag;
+	}
+
+	@Transient
+	public void setTag(String tag) {
+		this.tag = tag;
 	}
 }

@@ -170,7 +170,7 @@ $(document).ready(function(){
 					<div class="pageContent sortDrag" selector="h1" layoutH="42">
 					<fieldset>
 						<legend>待办任务</legend>
-						<div class="panel collapse" defH="100">
+						<div class="panel <c:if test='${fn:length(issueList)<=0}'>close</c:if> collapse" defH="100">
 							<h1>待处理问题工单</h1>
 							<div>
 								<table class="list" width="98%">
@@ -207,7 +207,42 @@ $(document).ready(function(){
 							</div>
 						</div>
 						
-						<div class="panel collapse" defH="100">
+						<div class="panel <c:if test='${fn:length(bqIssueList)<=0}'>close</c:if> collapse" defH="100">
+							<h1>待处理保全复核问题</h1>
+							<div>
+								<table class="list" width="98%">
+									<thead>
+										<tr>
+											<th>序号</th>
+											<th>保单号</th>
+											<th>保全复核问题</th>
+											<th>操作</th>
+										</tr>
+									</thead>
+									<tbody>
+										<c:forEach var="item" items="${bqIssueList}" varStatus="var">
+										<tr target="slt_uid" rel="${item.id}">
+											<td>${var.index+1 }</td>
+											<td>${item.policy.policyNo}</td>
+											<td>${item.csRst}</td>
+											<td>
+											<c:if test="${fn:length(login_user.organization.orgCode) > 4}">
+											<a target="ajaxTodo" href="${contextPath }/bqgl/issue/DealStatus/${item.id}" title="确认更新状态?"><span>已处理</span></a>
+											<a target="ajaxTodo" href="${contextPath }/bqgl/issue/CancelStatus/${item.id}" title="确认撤销?"><span>撤销</span></a>
+											</c:if>
+											 <c:if test="${fn:length(login_user.organization.orgCode) <= 4}"> 
+										     <a target="ajaxTodo" href="${contextPath }/bqgl/issue/CancelStatus/${item.id}" title="确认撤销?"><span>撤销</span></a>
+										     <a target="ajaxTodo" href="${contextPath }/bqgl/issue/CloseStatus/${item.id}" title="确认关闭?"><span>关闭</span></a>
+										    </c:if> 
+											</td>
+										</tr>
+										</c:forEach>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						
+						<div class="panel <c:if test='${fn:length(list)>0}'>close</c:if> collapse" defH="100">
 							<h1>待上门回访工单</h1>
 							<div>
 								<table class="list" width="98%">
@@ -244,7 +279,7 @@ $(document).ready(function(){
 							</div>
 						</div>
 						
-						<div class="panel collapse" defH="100">
+						<div class="panel <c:if test='${fn:length(list)>0}'>close</c:if> collapse" defH="100">
 							<h1>续期催缴工单</h1>
 							<div>
 								<table class="list" width="98%">
@@ -281,7 +316,7 @@ $(document).ready(function(){
 							</div>
 						</div>
 						
-						<div class="panel collapse" defH="100">
+						<div class="panel <c:if test='${fn:length(list)>0}'>close</c:if> collapse" defH="100">
 							<h1>新契约不合格件</h1>
 							<div>
 								<table class="list" width="98%">

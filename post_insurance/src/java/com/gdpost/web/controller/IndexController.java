@@ -42,6 +42,7 @@ import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.ModuleService;
 import com.gdpost.web.service.OrganizationService;
 import com.gdpost.web.service.UserService;
+import com.gdpost.web.service.insurance.BqglService;
 import com.gdpost.web.service.insurance.KfglService;
 import com.gdpost.web.shiro.ShiroUser;
 import com.gdpost.web.util.dwz.AjaxObject;
@@ -69,6 +70,9 @@ public class IndexController {
 	@Autowired
 	private KfglService kfglService;
 	
+	@Autowired
+	private BqglService bqglService;
+	
 	private static final String WEBINDEX = "index";
 	private static final String INDEX = "management/index/index";
 	private static final String UPDATE_PASSWORD = "management/index/updatePwd";
@@ -89,6 +93,8 @@ public class IndexController {
 		
 		LOG.debug(" ----------- INDEX to get the task");
 		map.put("issueList", kfglService.getTODOIssueList(shiroUser.getUser()));
+		
+		map.put("bqIssueList", bqglService.getTODOIssueList(shiroUser.getUser()));
 		
 		if(shiroUser.getUserType().equals("member")) {
 			return WEBINDEX;

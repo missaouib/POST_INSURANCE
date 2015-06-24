@@ -78,7 +78,7 @@ public class CommonController {
 		return str;
 	}
 	
-	@RequestMapping(value="/lookup2BQIssuesDefine", method={RequestMethod.POST})
+	@RequestMapping(value="/lookup2BQIssuesDefine", method={RequestMethod.GET})
 	public String lookupCve(ServletRequest request, Map<String, Object> map, Page page) {
 		page.setNumPerPage(60);
 		Specification<ConservationError> specification = DynamicSpecifications.bySearchFilter(request, ConservationError.class);

@@ -18,14 +18,14 @@
 			</tr>
 		</thead>
 		<tbody>
-		<c:forEach items="${cvelistList}" var="cve">
+		<c:forEach items="${cvelist}" var="cve">
 			<tr>
 				<td>${cve.errorCode}</td>
 				<td>
-					<a class="btnSelect" href="javascript:$.bringBack({errorCode:'${cve.errorCode}'})" title="查找带回">选择</a>
+					<a class="btnSelect" href="javascript:$.bringBack({csRst:'${cve.errorCode}'})" title="查找带回">选择</a>
 				</td>
 				<td>
-					<input type="checkbox" name="cve" value="{errorCode:'${cve.errorCode}'}" /> 
+					<input type="checkbox" name="cve" value="{csRst:'${cve.errorCode}'}" /> 
 				</td>
 			</tr>
 		</c:forEach>

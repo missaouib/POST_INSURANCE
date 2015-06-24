@@ -182,7 +182,12 @@
 			<key-column name="id" type="Long" />
 		</primary-key>
 	</table>
-<table name="t_renewed_list" catalog="postinsurance">
+	<table name="t_renewed_list" catalog="postinsurance">
+		<primary-key>
+			<key-column name="id" type="Long" />
+		</primary-key>
+	</table>
+<table name="t_invoice_req" catalog="postinsurance">
 	<primary-key>
 		<key-column name="id" type="Long"/>
 	</primary-key>
