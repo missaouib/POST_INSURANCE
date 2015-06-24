@@ -20,7 +20,7 @@
 					<label>工单状态：</label>
 					<form:select path="issue.status" class="combox">
 						<form:option value=""> -- -- </form:option>
-						<form:options items="${statusList }" itemLabel="desc" itemValue="desc"/>
+						<form:options items="${statusList }" itemLabel="desc"/>
 					</form:select>
 				</li>
 				<li>
@@ -52,9 +52,15 @@
 			<shiro:hasPermission name="Cservice:delete">
 				<li><a iconClass="user_delete" target="selectedTodo" rel="ids" href="${contextPath }/bqgl/issue/delete" title="确认要删除?"><span>删除保全复核问题</span></a></li>
 			</shiro:hasPermission>
+			<shiro:hasPermission name="Cservice:deal">
+				<li class="line">line</li>
+				<li><a iconClass="user_go" target="ajaxTodo" href="${contextPath }/bqgl/issue/DealStatus/{slt_uid}" title="确认更新状态?"><span>已处理</span></a></li>
+				<li><a iconClass="user_go" target="ajaxTodo" href="${contextPath }/bqgl/issue/CancelStatus/{slt_uid}" title="确认撤销?"><span>撤销</span></a></li>
+			</shiro:hasPermission>
 			<shiro:hasPermission name="Cservice:reset">
 				<li class="line">line</li>
-				<li><a iconClass="user_go" target="ajaxTodo" href="${contextPath }/bqgl/issue/reset/status/{slt_uid}" title="确认更新状态?"><span>关闭</span></a></li>
+				<li><a iconClass="user_go" target="ajaxTodo" href="${contextPath }/bqgl/issue/CancelStatus/{slt_uid}" title="确认撤销?"><span>撤销</span></a></li>
+				<li><a iconClass="user_go" target="ajaxTodo" href="${contextPath }/bqgl/issue/CloseStatus/{slt_uid}" title="确认关闭?"><span>关闭</span></a></li>
 			</shiro:hasPermission>
 		</ul>
 	</div>
@@ -77,8 +83,23 @@
 				<td>${item.policy.policyNo}</td>
 				<td>${item.dealNum}</td>
 				<td>${item.type}</td>
-				<td>${item.info}</td>
-				<td>${item.status}</td>
+				<td>${item.csRst}</td>
+				<td>
+				<c:choose>
+					<c:when test="${item.status eq 'NewStatus'}">
+						待处理
+					</c:when>
+					<c:when test="${item.status eq 'DealStatus'}">
+						已处理
+					</c:when>
+					<c:when test="${item.status eq 'CancelStatus'}">
+						已撤销
+					</c:when>
+					<c:otherwise>
+						已关闭
+					</c:otherwise>
+				</c:choose>
+				</td>
 			</tr>
 			</c:forEach>
 		</tbody>

@@ -13,6 +13,8 @@ import java.util.Map;
 
 import javax.servlet.ServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
@@ -33,7 +35,7 @@ import com.gdpost.web.util.persistence.DynamicSpecifications;
 @Controller
 @RequestMapping("/common")
 public class CommonController {
-	//private static final Logger LOG = LoggerFactory.getLogger(MemberController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(CommonController.class);
 	
 	@Autowired
 	private CommonService commonService;
@@ -60,8 +62,24 @@ public class CommonController {
 		return str;
 	}
 	
-	@RequestMapping(value="/lookup2BQIssuesDefine", method={RequestMethod.GET})
-	public String lookupBj(ServletRequest request, Map<String, Object> map, Page page) {
+	@RequestMapping(value="/lookupBQIssusSuggest", method={RequestMethod.POST})
+	public @ResponseBody String lookupBQIssusSuggest(ServletRequest request, Map<String, Object> map) {
+		Specification<ConservationError> specification = DynamicSpecifications.bySearchFilter(request, ConservationError.class);
+		Page page = new Page();
+		page.setNumPerPage(60);
+		List<ConservationError> org = commonService.findByConservationErrorExample(specification, page);
+		SerializeConfig mapping = new SerializeConfig();
+		HashMap<String, String> fm = new HashMap<String, String>();
+		fm.put("id", "id");
+		fm.put("errorCode", "csRst");
+		mapping.put(ConservationError.class, new JavaBeanSerializer(ConservationError.class, fm));
+		String str = JSON.toJSONString(org, mapping);
+		LOG.debug("---------------- bq issue suggest: " + str);
+		return str;
+	}
+	
+	@RequestMapping(value="/lookup2BQIssuesDefine", method={RequestMethod.POST})
+	public String lookupCve(ServletRequest request, Map<String, Object> map, Page page) {
 		page.setNumPerPage(60);
 		Specification<ConservationError> specification = DynamicSpecifications.bySearchFilter(request, ConservationError.class);
 		List<ConservationError> org = basedataService.findByConservationErrorExample(specification, page);

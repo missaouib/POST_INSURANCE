@@ -44,7 +44,6 @@ import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.insurance.BqglService;
 import com.gdpost.web.shiro.ShiroUser;
 import com.gdpost.web.util.BQIssueStatusDefine.BQ_STATUS;
-import com.gdpost.web.util.IssueStatusDefine.STATUS;
 import com.gdpost.web.util.dwz.AjaxObject;
 import com.gdpost.web.util.dwz.Page;
 import com.gdpost.web.util.persistence.DynamicSpecifications;
@@ -74,6 +73,9 @@ public class BqglController {
 	@RequestMapping(value="/issue/create", method=RequestMethod.POST)
 	public @ResponseBody String create(@Valid ConservationDtl issue) {	
 		try {
+			issue.setCsDate(new Date());
+			issue.setCsUserId(SecurityUtils.getShiroUser().getId());
+			issue.setStatus(BQ_STATUS.NewStatus.name());
 			bqglService.saveOrUpdate(issue);
 		} catch (ExistedException e) {
 			return AjaxObject.newError("添加保全复核问题失败：" + e.getMessage()).setCallbackType("").toString();
@@ -109,6 +111,38 @@ public class BqglController {
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issue.getPolicy().getPolicyNo()}));
 		return	AjaxObject.newOk("修改保全复核问题成功！").toString(); 
+	}
+	
+	@Log(message="修改了{0}保全复核问题的状态。")
+	@RequiresPermissions(value={"Cservice:reset","Cservice:deal"})
+	@RequestMapping(value="/issue/{status}/{id}", method=RequestMethod.POST)
+	public @ResponseBody String updateStatus(@PathVariable("status") String status, @PathVariable("id") Long id) {
+		ConservationDtl issue = bqglService.get(id);
+		BQ_STATUS bs = BQ_STATUS.DealStatus;
+		try {
+			bs = BQ_STATUS.valueOf(status);
+		}catch (Exception ex) {
+			return	AjaxObject.newError("状态不对！").setCallbackType("").toString();
+		}
+		switch (bs) {
+		case DealStatus:
+			issue.setDealUserId(SecurityUtils.getShiroUser().getId());
+			break;
+		case CancelStatus:
+			issue.setCancelDate(new Date());
+			issue.setCancelFlag(true);
+			issue.setCancelMan(SecurityUtils.getShiroUser().getId());
+			break;
+		case CloseStatus:
+			break;
+			default:
+				break;
+		}
+		issue.setStatus(status);
+		bqglService.saveOrUpdate(issue);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issue.getPolicy().getPolicyNo()}));
+		return	AjaxObject.newOk("修改保全复核问题成功！").setCallbackType("").toString();
 	}
 	
 	@Log(message="删除了{0}保全复核问题。")
@@ -154,42 +188,31 @@ public class BqglController {
 		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
 		Organization userOrg = user.getOrganization();
 		//默认返回未处理工单
-		String status = request.getParameter("status");
-		LOG.debug("-------------- status: " + status);
+		String s = request.getParameter("status");
+		LOG.debug("-------------- status: " + s);
 		ConservationDtl issue = new ConservationDtl();
-		if(status == null) {
-			status = BQ_STATUS.NewStatus.name();
+		if(s == null) {
+			issue.setStatus(BQ_STATUS.NewStatus.name());
+			s = "";
+		} else if(s.trim().length()>0) {
+			issue.setStatus(BQ_STATUS.valueOf(s).name());
 		}
-		issue.setStatus(status);
 		
 		Specification<ConservationDtl> specification = DynamicSpecifications.bySearchFilter(request, ConservationDtl.class,
-				new SearchFilter("status", Operator.LIKE, status),
+				new SearchFilter("status", Operator.LIKE, s),
 				new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
 		
 		//如果是县区局登录的机构号为8位，需要根据保单的所在机构进行筛选
 		if (user.getOrganization().getOrgCode().length() > 6) {
 			specification = DynamicSpecifications.bySearchFilter(request, ConservationDtl.class,
-					new SearchFilter("status", Operator.LIKE, status),
+					new SearchFilter("status", Operator.LIKE, s),
 					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
 		}
 		
 		List<ConservationDtl> issues = bqglService.findByExample(specification, page);
 		
-		//如果是非省分级别，加上重打开数据
-		if(user.getOrganization().getOrgCode().length() > 4) {
-			LOG.debug("------- 非省分级别，查找重打开数据" + issues);
-			specification = DynamicSpecifications.bySearchFilterWithoutRequest(ConservationDtl.class,
-					new SearchFilter("status", Operator.LIKE, STATUS.ReopenStatus.getDesc()),
-					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
-			List<ConservationDtl> tmpList = bqglService.findByExample(specification, page);
-			LOG.debug("------------ tmpList:" + tmpList);
-			if(tmpList != null && !tmpList.isEmpty()) {
-				issues.addAll(tmpList);
-			}
-		}
-		
 		map.put("issue", issue);
-		map.put("statusList", STATUS.values());
+		map.put("statusList", BQ_STATUS.values());
 		map.put("page", page);
 		map.put("issues", issues);
 		return LIST;

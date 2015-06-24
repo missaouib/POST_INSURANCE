@@ -1,6 +1,5 @@
 package com.gdpost.web.entity.main;
 
-import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -42,7 +41,7 @@ public class ConservationDtl implements Idable<Long> {
 	private String status;
 	private Boolean cancelFlag;
 	private Long cancelMan;
-	private Timestamp cancelDate;
+	private Date cancelDate;
 	private String remark;
 
 	// Constructors
@@ -53,7 +52,7 @@ public class ConservationDtl implements Idable<Long> {
 
 	/** full constructor */
 	public ConservationDtl(Policy TPolicy, Integer type, String dealNum, String info, Date csDate, Long csUserId, String csRst, Long dealUserId,
-			String status, Boolean cancelFlag, Long cancelMan, Timestamp cancelDate, String remark) {
+			String status, Boolean cancelFlag, Long cancelMan, Date cancelDate, String remark) {
 		this.policy = TPolicy;
 		this.type = type;
 		this.dealNum = dealNum;
@@ -80,7 +79,7 @@ public class ConservationDtl implements Idable<Long> {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "policy_id")
 	public Policy getPolicy() {
 		return policy;
@@ -182,11 +181,11 @@ public class ConservationDtl implements Idable<Long> {
 	}
 
 	@Column(name = "cancel_date", length = 19)
-	public Timestamp getCancelDate() {
+	public Date getCancelDate() {
 		return this.cancelDate;
 	}
 
-	public void setCancelDate(Timestamp cancelDate) {
+	public void setCancelDate(Date cancelDate) {
 		this.cancelDate = cancelDate;
 	}
 

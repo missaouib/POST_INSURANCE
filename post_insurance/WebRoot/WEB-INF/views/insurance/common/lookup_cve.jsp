@@ -5,22 +5,7 @@
 <div class="pageHeader">
 	<form method="post" id="cveForm" action="${contextPath }/common/lookup2BQIssuesDefine" onsubmit="return dwzSearch(this, 'dialog');">
 	<div class="searchBar">
-		<ul class="searchContent">
-			<li>
-				<label>用户名</label>
-				<input type="text" name="search_LIKE_realname" value="${param.search_LIKE_realName }" class="textInput" >
-				<!-- 
-				<label>组织:</label>
-				<input type="hidden" name="userId"/>
-				<input name="name" type="text" value="${param.name }" postField="search_LIKE_name" suggestFields="name" suggestUrl="/management/security/organization/lookup2org" lookupGroup=""/>(输入查找)
-				 -->
-			</li>
-		</ul>
-		<div class="subBar">
-			<ul>
-				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">查询</button></div></div></li>
-			</ul>
-		</div>
+	&nbsp;
 	</div>
 	</form>
 </div>
@@ -28,18 +13,19 @@
 	<table class="table" layoutH="118" targetType="dialog" width="100%">
 		<thead>
 			<tr>
-				<th orderfield="loginName">用户登录名</th>
-				<th orderfield="userName">所属组织</th>
+				<th orderfield="loginName">常见错误</th>
 				<th width="80">查找带回</th>
 			</tr>
 		</thead>
 		<tbody>
 		<c:forEach items="${cvelistList}" var="cve">
 			<tr>
-				<td>${user.username}</td>
-				<td>${user.organization.name}</td>
+				<td>${cve.errorCode}</td>
 				<td>
-					<a class="btnSelect" href="javascript:$.bringBack({userId:'${user.id}', username:'${user.username}'})" title="查找带回">选择</a>
+					<a class="btnSelect" href="javascript:$.bringBack({errorCode:'${cve.errorCode}'})" title="查找带回">选择</a>
+				</td>
+				<td>
+					<input type="checkbox" name="cve" value="{errorCode:'${cve.errorCode}'}" /> 
 				</td>
 			</tr>
 		</c:forEach>
@@ -48,4 +34,10 @@
 
 	<!-- 分页 -->
 	<dwz:pagination page="${page }"/>
+	<div class="formBar">  
+        <ul>  
+            <li><div class="buttonActive"><div class="buttonContent"><button type="button" multLookup="cve" >选择</button></div></div></li>  
+            <li><div class="button"><div class="buttonContent"><button class="close" type="button">关闭</button></div></div></li>  
+        </ul>  
+    </div>
 </div>

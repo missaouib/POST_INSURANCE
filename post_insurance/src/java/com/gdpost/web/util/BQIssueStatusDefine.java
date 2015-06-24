@@ -13,6 +13,6 @@ public class BQIssueStatusDefine {
 	
 	public static void main(String[] args) {
 		
-		System.out.println(BQ_STATUS.NewStatus.name());
+		System.out.println(BQ_STATUS.valueOf("test"));
 	}
 }
