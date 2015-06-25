@@ -2,13 +2,15 @@ package com.gdpost.web.entity.main;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
-import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.gdpost.web.entity.Idable;
@@ -23,12 +25,12 @@ public class InvoiceReq implements Idable<Long> {
 	// Fields
 
 	private Long id;
-	private String policyNo;
+	private Policy policy;
 	private String flag;
 	private Date feeDate;
 	private Double fee;
 	private Long dealMan;
-	private Timestamp reqDate;
+	private Date reqDate;
 	private String reqAddr;
 	private String reqMan;
 	private String phone;
@@ -37,6 +39,7 @@ public class InvoiceReq implements Idable<Long> {
 	private Long sendMan;
 	private Long receiveMan;
 	private Date receiveDate;
+	private String billNo;
 
 	// Constructors
 
@@ -45,15 +48,15 @@ public class InvoiceReq implements Idable<Long> {
 	}
 
 	/** minimal constructor */
-	public InvoiceReq(String policyNo, Timestamp reqDate) {
-		this.policyNo = policyNo;
+	public InvoiceReq(Policy policy, Date reqDate) {
+		this.policy = policy;
 		this.reqDate = reqDate;
 	}
 
 	/** full constructor */
-	public InvoiceReq(String policyNo, String flag, Date feeDate, Double fee, Long dealMan, Timestamp reqDate, String reqAddr, String reqMan, String phone,
+	public InvoiceReq(Policy policy, String flag, Date feeDate, Double fee, Long dealMan, Date reqDate, String reqAddr, String reqMan, String phone,
 			String status, Date sendDate, Long sendMan, Long receiveMan, Date receiveDate) {
-		this.policyNo = policyNo;
+		this.policy = policy;
 		this.flag = flag;
 		this.feeDate = feeDate;
 		this.fee = fee;
@@ -81,13 +84,14 @@ public class InvoiceReq implements Idable<Long> {
 		this.id = id;
 	}
 
-	@Column(name = "policy_no", nullable = false, length = 18)
-	public String getPolicyNo() {
-		return this.policyNo;
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name = "policy_no", referencedColumnName="policy_no")
+	public Policy getPolicy() {
+		return this.policy;
 	}
 
-	public void setPolicyNo(String policyNo) {
-		this.policyNo = policyNo;
+	public void setPolicy(Policy policy) {
+		this.policy = policy;
 	}
 
 	@Column(name = "flag", length = 2)
@@ -127,11 +131,11 @@ public class InvoiceReq implements Idable<Long> {
 	}
 
 	@Column(name = "req_date", nullable = false, length = 19)
-	public Timestamp getReqDate() {
+	public Date getReqDate() {
 		return this.reqDate;
 	}
 
-	public void setReqDate(Timestamp reqDate) {
+	public void setReqDate(Date reqDate) {
 		this.reqDate = reqDate;
 	}
 
@@ -205,6 +209,15 @@ public class InvoiceReq implements Idable<Long> {
 
 	public void setReceiveDate(Date receiveDate) {
 		this.receiveDate = receiveDate;
+	}
+
+	@Column(name="bill_no")
+	public String getBillNo() {
+		return billNo;
+	}
+
+	public void setBillNo(String billNo) {
+		this.billNo = billNo;
 	}
 
 }

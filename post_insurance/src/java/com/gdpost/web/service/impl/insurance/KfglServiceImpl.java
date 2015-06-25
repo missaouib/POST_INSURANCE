@@ -19,7 +19,7 @@ import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.exception.ExistedException;
 import com.gdpost.web.service.insurance.KfglService;
-import com.gdpost.web.util.IssueStatusDefine.STATUS;
+import com.gdpost.web.util.StatusDefine.STATUS;
 import com.gdpost.web.util.dwz.Page;
 import com.gdpost.web.util.dwz.PageUtils;
 import com.gdpost.web.util.persistence.DynamicSpecifications;

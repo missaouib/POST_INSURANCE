@@ -43,7 +43,7 @@ import com.gdpost.web.log.LogMessageObject;
 import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.insurance.BqglService;
 import com.gdpost.web.shiro.ShiroUser;
-import com.gdpost.web.util.BQIssueStatusDefine.BQ_STATUS;
+import com.gdpost.web.util.StatusDefine.BQ_STATUS;
 import com.gdpost.web.util.dwz.AjaxObject;
 import com.gdpost.web.util.dwz.Page;
 import com.gdpost.web.util.persistence.DynamicSpecifications;
@@ -193,7 +193,7 @@ public class BqglController {
 		ConservationDtl issue = new ConservationDtl();
 		if(s == null) {
 			issue.setStatus(BQ_STATUS.NewStatus.name());
-			s = "";
+			s = BQ_STATUS.NewStatus.name();
 		} else if(s.trim().length()>0) {
 			issue.setStatus(BQ_STATUS.valueOf(s).name());
 		}
@@ -201,13 +201,6 @@ public class BqglController {
 		Specification<ConservationDtl> specification = DynamicSpecifications.bySearchFilter(request, ConservationDtl.class,
 				new SearchFilter("status", Operator.LIKE, s),
 				new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
-		
-		//如果是县区局登录的机构号为8位，需要根据保单的所在机构进行筛选
-		if (user.getOrganization().getOrgCode().length() > 6) {
-			specification = DynamicSpecifications.bySearchFilter(request, ConservationDtl.class,
-					new SearchFilter("status", Operator.LIKE, s),
-					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
-		}
 		
 		List<ConservationDtl> issues = bqglService.findByExample(specification, page);
 		

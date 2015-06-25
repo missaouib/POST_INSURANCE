@@ -5,34 +5,29 @@
 	<input type="hidden" name="id" value="${user.id}"/>
 	<div class="pageFormContent" layoutH="58">
 		<p>
-			<label>登录名称：</label>
-			<input type="text" name="username" class="input-medium validate[required,maxSize[32]] required" maxlength="32" readonly="readonly" value="${user.username }"/>
+			<label>保单号：</label>
+			<input type="hidden" name="policy.id" value="${issue.policy.id }" class="input-medium validate[required,maxSize[32]] required" />
+			<input name="policy.policyNo" type="text" postField="search_LIKE_policyNo" suggestFields="policyNo" 
+					suggestUrl="/common/lookupPolicysuggest" lookupGroup="policy" value="${issue.policy.policyNo }"/>
 		</p>
 		<p>
-			<label>姓名：</label>
-			<input type="text" name="realname" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${user.realname }"/>
-		</p>		
-		<p>
-			<label>电话：</label>
-			<input type="text" name="phone" class="input-medium validate[custom[phone],maxSize[32]]" maxlength="32" value="${user.phone }"/>
+			<label>保单所属机构</label>
+			<input type="text" name="policy.organName" value="${issue.policy.organName }"/>
 		</p>
 		<p>
-			<label>用户邮箱：</label>
-			<input type="text" name="email" class="input-medium validate[custom[email],maxSize[128]]" maxlength="128" value="${user.email }"/>
+			<label>保全受理号：</label>
+			<input type="text" name="dealNum" class="input-medium" maxlength="32"/ value="${issue.dealNum }">
 		</p>		
 		<p>
-			<label>用户状态：</label>
-			<select name="status">
-				<option value="enabled" ${user.status == "enabled" ? 'selected="selected"' : ''}>可用</option>
-				<option value="disabled" ${user.status == "disabled" ? 'selected="selected"' : ''}>不可用</option>
-			</select>
+			<label>保全受理项目：</label>
+			<input type="text" name="info" class="input-medium" maxlength="32" value="${issue.info }"/>
 		</p>
 		<p>
-			<label>关联组织：</label>
-			<input name="organization.id" value="${user.organization.id }" type="hidden"/>
-			<input class="validate[required] required" name="organization.name" type="text" readonly="readonly" value="${user.organization.name }" style="width: 140px;"/>
-			<a class="btnLook" href="${contextPath}/bqgl/issue/lookup2org" lookupGroup="organization" title="关联组织" width="400">查找带回</a>	
-		</p>		
+			<label>保全复核问题：</label>
+			<input name="csRst" type="text" postField="search_LIKE_errorCode" suggestFields="csRst" 
+					suggestUrl="/common/lookupBQIssusSuggest" lookupGroup="" value="${issue.csRst }" class="input-medium validate[required,maxSize[32]] required"/>
+			<a class="btnLook" target="dialog" width="500" height="500"  href="/common/lookup2BQIssuesDefine" lookupGroup="">查找带回</a>
+		</p>
 	</div>
 			
 	<div class="formBar">

@@ -1,9 +1,12 @@
 package com.gdpost.web.dao;
 
+import java.util.Date;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import com.gdpost.web.entity.main.InvoiceReq;
+import com.gdpost.web.entity.main.Policy;
 
 /**
  * A data access object (DAO) providing persistence and search support for
@@ -16,4 +19,5 @@ import com.gdpost.web.entity.main.InvoiceReq;
  * @author MyEclipse Persistence Tools
  */
 public interface InvoiceReqDAO extends JpaRepository<InvoiceReq, Long>, JpaSpecificationExecutor<InvoiceReq> {
+	InvoiceReq getByPolicyAndFeeDate(Policy policy, Date feeDate);
 }

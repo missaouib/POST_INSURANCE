@@ -41,7 +41,7 @@ import com.gdpost.web.log.LogMessageObject;
 import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.insurance.QyglService;
 import com.gdpost.web.shiro.ShiroUser;
-import com.gdpost.web.util.IssueStatusDefine.STATUS;
+import com.gdpost.web.util.StatusDefine.STATUS;
 import com.gdpost.web.util.dwz.AjaxObject;
 import com.gdpost.web.util.dwz.Page;
 import com.gdpost.web.util.persistence.DynamicSpecifications;

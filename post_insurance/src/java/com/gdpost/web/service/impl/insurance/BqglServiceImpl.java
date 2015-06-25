@@ -18,7 +18,7 @@ import com.gdpost.web.entity.main.ConservationDtl;
 import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.service.insurance.BqglService;
-import com.gdpost.web.util.BQIssueStatusDefine.BQ_STATUS;
+import com.gdpost.web.util.StatusDefine.BQ_STATUS;
 import com.gdpost.web.util.dwz.Page;
 import com.gdpost.web.util.dwz.PageUtils;
 import com.gdpost.web.util.persistence.DynamicSpecifications;

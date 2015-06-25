@@ -41,8 +41,8 @@ import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.UserService;
 import com.gdpost.web.service.insurance.KfglService;
 import com.gdpost.web.shiro.ShiroUser;
-import com.gdpost.web.util.IssueStatusDefine;
-import com.gdpost.web.util.IssueStatusDefine.STATUS;
+import com.gdpost.web.util.StatusDefine;
+import com.gdpost.web.util.StatusDefine.STATUS;
 import com.gdpost.web.util.dwz.AjaxObject;
 import com.gdpost.web.util.dwz.Page;
 import com.gdpost.web.util.persistence.DynamicSpecifications;
@@ -103,7 +103,7 @@ public class KfglController {
 		src.setDealMan(issue.getDealMan());
 		src.setDealTime(issue.getDealTime());
 		src.setResult(issue.getResult());
-		src.setStatus(IssueStatusDefine.STATUS.DealStatus.getDesc());
+		src.setStatus(StatusDefine.STATUS.DealStatus.getDesc());
 		kfglService.saveOrUpdate(src);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issue.getIssueNo()}));
@@ -116,7 +116,7 @@ public class KfglController {
 	public @ResponseBody String reopen(@Valid @ModelAttribute("preloadIssue")Issue issue) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		Issue src = kfglService.get(issue.getId());
-		src.setStatus(IssueStatusDefine.STATUS.ReopenStatus.getDesc());
+		src.setStatus(StatusDefine.STATUS.ReopenStatus.getDesc());
 		src.setReopenUser(shiroUser.getUser());
 		src.setReopenReason(issue.getReopenReason());
 		src.setReopenDate(new Date());
