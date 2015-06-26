@@ -144,7 +144,7 @@ public class Policy implements Idable<Long>, Serializable{
 		this.formNo = formNo;
 	}
 	
-	@ManyToOne(fetch=FetchType.LAZY, optional=true)
+	@ManyToOne(fetch=FetchType.EAGER, optional=true)
 	@JoinColumn(name="organ_code", referencedColumnName="org_code")
 	public Organization getOrganization() {
 		return organization;
