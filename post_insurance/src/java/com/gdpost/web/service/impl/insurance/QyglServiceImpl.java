@@ -3,8 +3,11 @@
  */
 package	com.gdpost.web.service.impl.insurance;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -14,15 +17,21 @@ import com.gdpost.web.dao.CheckRecordDAO;
 import com.gdpost.web.dao.CheckWriteDAO;
 import com.gdpost.web.entity.main.CheckRecord;
 import com.gdpost.web.entity.main.CheckWrite;
+import com.gdpost.web.entity.main.Organization;
+import com.gdpost.web.entity.main.User;
 import com.gdpost.web.exception.ExistedException;
 import com.gdpost.web.service.insurance.QyglService;
+import com.gdpost.web.util.StatusDefine.STATUS;
 import com.gdpost.web.util.dwz.Page;
 import com.gdpost.web.util.dwz.PageUtils;
+import com.gdpost.web.util.persistence.DynamicSpecifications;
+import com.gdpost.web.util.persistence.SearchFilter;
+import com.gdpost.web.util.persistence.SearchFilter.Operator;
 
 @Service
 @Transactional
 public class QyglServiceImpl implements QyglService {
-	//private static final Logger logger = LoggerFactory.getLogger(QyglServiceImpl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(QyglServiceImpl.class);
 	
 	@Autowired
 	private CheckWriteDAO checkWriteDAO;
@@ -115,5 +124,81 @@ public class QyglServiceImpl implements QyglService {
 	@Override
 	public CheckRecord getByCheckRecordPolicyNo(String policyNo) {
 		return checkRecordDAO.getByPolicyPolicyNo(policyNo);
+	}
+
+	@Override
+	public List<CheckWrite> getTODOWriteIssueList(User user) {
+		Organization userOrg = user.getOrganization();
+		//默认返回未处理工单
+		Specification<CheckWrite> specification = DynamicSpecifications.bySearchFilterWithoutRequest(CheckWrite.class,
+				new SearchFilter("fixStatus", Operator.LIKE, STATUS.NewStatus.name()),
+				//new SearchFilter("fixStatus", Operator.OR_LIKE, STATUS.ReopenStatus.getDesc()),
+				new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+		
+		if (userOrg.getOrgCode().length() <= 4) { //如果是省分的，看已回复的。
+			specification = DynamicSpecifications.bySearchFilterWithoutRequest(CheckWrite.class,
+					new SearchFilter("fixStatus", Operator.LIKE, STATUS.DealStatus.name()),
+					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+		}
+		Page page = new Page();
+		page.setNumPerPage(100);
+		LOG.debug("------------ ready to search:");
+		List<CheckWrite> issues = this.findByCheckWriteExample(specification, page);
+		if (issues == null || issues.isEmpty()) {
+			issues = new ArrayList<CheckWrite>();
+		}
+		
+		//如果是非省分级别，加上重打开数据
+		if(user.getOrganization().getOrgCode().length() > 4) {
+			LOG.debug("------- 非省分级别，查找重打开数据" + issues);
+			specification = DynamicSpecifications.bySearchFilterWithoutRequest(CheckWrite.class,
+					new SearchFilter("fixStatus", Operator.LIKE, STATUS.ReopenStatus.name()),
+					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+			List<CheckWrite> tmpList = this.findByCheckWriteExample(specification, page);
+			LOG.debug("------------ tmpList:" + tmpList);
+			if(tmpList != null && !tmpList.isEmpty()) {
+				issues.addAll(tmpList);
+			}
+		}
+		
+		return issues;
+	}
+
+	@Override
+	public List<CheckRecord> getTODORecordIssueList(User user) {
+		Organization userOrg = user.getOrganization();
+		//默认返回未处理工单
+		Specification<CheckRecord> specification = DynamicSpecifications.bySearchFilterWithoutRequest(CheckRecord.class,
+				new SearchFilter("fixStatus", Operator.LIKE, STATUS.NewStatus.name()),
+				//new SearchFilter("fixStatus", Operator.OR_LIKE, STATUS.ReopenStatus.getDesc()),
+				new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+		
+		if (userOrg.getOrgCode().length() <= 4) { //如果是省分的，看已回复的。
+			specification = DynamicSpecifications.bySearchFilterWithoutRequest(CheckRecord.class,
+					new SearchFilter("fixStatus", Operator.LIKE, STATUS.DealStatus.name()),
+					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+		}
+		Page page = new Page();
+		page.setNumPerPage(100);
+		LOG.debug("------------ ready to search:");
+		List<CheckRecord> issues = this.findByCheckRecordExample(specification, page);
+		if (issues == null || issues.isEmpty()) {
+			issues = new ArrayList<CheckRecord>();
+		}
+		
+		//如果是非省分级别，加上重打开数据
+		if(user.getOrganization().getOrgCode().length() > 4) {
+			LOG.debug("------- 非省分级别，查找重打开数据" + issues);
+			specification = DynamicSpecifications.bySearchFilterWithoutRequest(CheckRecord.class,
+					new SearchFilter("fixStatus", Operator.LIKE, STATUS.ReopenStatus.name()),
+					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+			List<CheckRecord> tmpList = this.findByCheckRecordExample(specification, page);
+			LOG.debug("------------ tmpList:" + tmpList);
+			if(tmpList != null && !tmpList.isEmpty()) {
+				issues.addAll(tmpList);
+			}
+		}
+		
+		return issues;
 	}
 }

@@ -13,6 +13,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 import com.gdpost.web.entity.main.CheckRecord;
 import com.gdpost.web.entity.main.CheckWrite;
+import com.gdpost.web.entity.main.User;
 import com.gdpost.web.util.dwz.Page;
 
 public interface QyglService {
@@ -37,4 +38,8 @@ public interface QyglService {
 	CheckWrite getByCheckWritePolicyNo(String policyNo);
 	
 	CheckRecord getByCheckRecordPolicyNo(String policyNo);
+	
+	List<CheckWrite> getTODOWriteIssueList(User user);
+	
+	List<CheckRecord> getTODORecordIssueList(User user);
 }

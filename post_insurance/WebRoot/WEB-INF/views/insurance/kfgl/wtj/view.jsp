@@ -3,7 +3,7 @@
 <div class="pageContent">
 <form method="post" id="issueForm" action="${contextPath}/kfgl/issue/reopen" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
 	<input type="hidden" name="id" value="${issue.id}"/>
-	<input type="hidden" name="status" value="${issue.id}"/>
+	<input type="hidden" name="status" value="${issue.status}"/>
 	<div class="pageFormContent" layoutH="58">
 	<fieldset>
 		<legend>工单基本信息</legend>

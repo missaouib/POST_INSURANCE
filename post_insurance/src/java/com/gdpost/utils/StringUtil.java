@@ -10,7 +10,7 @@ public class StringUtil {
 
 	public static String trimStr(String str) {
 		if(str == null) {
-			return null;
+			return "";
 		}
 		Pattern p = Pattern.compile("\\t|\r|\n");
         Matcher m = p.matcher(str);

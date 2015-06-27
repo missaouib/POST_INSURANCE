@@ -103,7 +103,7 @@ public class CheckWrite implements Idable<Long> {
 		this.needFix = needFix;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "policy_no", referencedColumnName="policy_no")
 	public Policy getPolicy() {
 		return policy;

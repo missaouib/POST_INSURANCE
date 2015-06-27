@@ -44,6 +44,7 @@ import com.gdpost.web.service.OrganizationService;
 import com.gdpost.web.service.UserService;
 import com.gdpost.web.service.insurance.BqglService;
 import com.gdpost.web.service.insurance.KfglService;
+import com.gdpost.web.service.insurance.QyglService;
 import com.gdpost.web.shiro.ShiroUser;
 import com.gdpost.web.util.dwz.AjaxObject;
 
@@ -73,6 +74,9 @@ public class IndexController {
 	@Autowired
 	private BqglService bqglService;
 	
+	@Autowired
+	private QyglService qyglService;
+	
 	private static final String WEBINDEX = "index";
 	private static final String INDEX = "management/index/index";
 	private static final String UPDATE_PASSWORD = "management/index/updatePwd";
@@ -95,6 +99,12 @@ public class IndexController {
 		map.put("issueList", kfglService.getTODOIssueList(shiroUser.getUser()));
 		
 		map.put("bqIssueList", bqglService.getTODOIssueList(shiroUser.getUser()));
+		
+		map.put("checkWriteIssueList", qyglService.getTODOWriteIssueList(shiroUser.getUser()));
+		
+		map.put("checkRecordIssueList", qyglService.getTODORecordIssueList(shiroUser.getUser()));
+		
+		LOG.debug("------------- map: " + map);
 		
 		if(shiroUser.getUserType().equals("member")) {
 			return WEBINDEX;

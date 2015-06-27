@@ -140,26 +140,40 @@ public class UploadDataServiceImpl implements UploadDataService{
         // member_id, ny,最后补上两列数据
         strStatementText += "operate_id) ";
         strStatementText += strEncrypt + ";";
-        log.debug("--------------" + strStatementText);
+        //log.debug("--------------" + strStatementText);
         
         StringBuilder builder = new StringBuilder();
         Object cell = null;
+        boolean isBreak = false;
         for (DataRow row : dt.Rows) {
+        	isBreak = false;
         	// 从处理后的行中，取出标准列数据
         	//log.debug("--------------" + row.toString());
         	for(ColumnItem item : standardColumns) {
-        		if(!item.isHasValue()) {
-        			//continue;
+        		if(ft.name().equals(FileTemplate.CheckWrite.name()) || ft.name().equals(FileTemplate.CheckRecord.name())) {
+        			if(row.getValue(new CheckColumn().getCheckColumn()).equals("不要整改")) {
+        				isBreak = true;
+        				break;
+        			}
         		}
+        		
         		cell = row.getValue(item.getDisplayName());
         		//if(item.getDisplayName().equals(""))
         		builder.append(cell);
 	            builder.append('\t');
         	}
-        	
+        	if(isBreak) {
+        		continue;
+        	}
+        	if(ft.name().equals(FileTemplate.CheckWrite.name()) || ft.name().equals(FileTemplate.CheckRecord.name())) {
+    			if(row.getValue(new CheckColumn().getCheckColumn()).equals("不要整改")) {
+    				isBreak = true;
+    				break;
+    			}
+    		}
             builder.append(member_id);
             builder.append('\n');
-            log.debug("-----" + builder.toString());
+            //log.debug("-----" + builder.toString());
         }
 
         InputStream is = null;

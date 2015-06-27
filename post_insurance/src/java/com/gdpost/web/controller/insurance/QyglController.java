@@ -28,7 +28,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gdpost.utils.SecurityUtils;
@@ -49,18 +48,18 @@ import com.gdpost.web.util.persistence.SearchFilter;
 import com.gdpost.web.util.persistence.SearchFilter.Operator;
 
 @Controller
-@RequestMapping("/Qygl")
+@RequestMapping("/qygl")
 public class QyglController {
 	private static final Logger log = LoggerFactory.getLogger(QyglController.class);
 	
 	@Autowired
 	private QyglService qyglService;
 
-	private static final String VIEW_WRITE = "insurance/qygl/wtj/write/create";
+	private static final String VIEW_WRITE = "insurance/qygl/wtj/write/view";
 	private static final String UPDATE_WRITE = "insurance/qygl/wtj/write/update";
 	private static final String LIST_WRITE = "insurance/qygl/wtj/write/list";
 	
-	private static final String VIEW_RECORD = "insurance/qygl/wtj/record/create";
+	private static final String VIEW_RECORD = "insurance/qygl/wtj/record/view";
 	private static final String UPDATE_RECORD = "insurance/qygl/wtj/record/update";
 	private static final String LIST_RECORD = "insurance/qygl/wtj/record/list";
 	
@@ -70,7 +69,7 @@ public class QyglController {
 	 * =====================================
 	 */
 	@RequiresPermissions("CheckWrite:view")
-	@RequestMapping(value="/issue/viewCheckWrite/{id}", method=RequestMethod.GET)
+	@RequestMapping(value="/issue/write/view/{id}", method=RequestMethod.GET)
 	public String viewCheckWrite(@PathVariable Long id, Map<String, Object> map) {
 		CheckWrite issue = qyglService.getCheckWrite(id);
 		
@@ -79,17 +78,8 @@ public class QyglController {
 		return VIEW_WRITE;
 	}
 	
-	@ModelAttribute("preloadCheckWrite")
-	public CheckWrite preloadCheckWrite(@RequestParam(value = "id", required = false) Long id) {
-		if (id != null) {
-			CheckWrite issue = qyglService.getCheckWrite(id);
-			return issue;
-		}
-		return null;
-	}
-	
 	@RequiresPermissions("CheckWrite:edit")
-	@RequestMapping(value="/issue/updateCheckWrite/{id}", method=RequestMethod.GET)
+	@RequestMapping(value="/issue/write/update/{id}", method=RequestMethod.GET)
 	public String preUpdateCheckWrite(@PathVariable Long id, Map<String, Object> map) {
 		CheckWrite issue = qyglService.getCheckWrite(id);
 		
@@ -99,13 +89,13 @@ public class QyglController {
 	
 	@Log(message="回复了{0}新契约不合格件的信息。")
 	@RequiresPermissions("CheckWrite:edit")
-	@RequestMapping(value="/issue/updateCheckWrite", method=RequestMethod.POST)
-	public @ResponseBody String updateCheckWrite(@Valid @ModelAttribute("preloadCheckWrite")CheckWrite issue) {
+	@RequestMapping(value="/issue/write/update", method=RequestMethod.POST)
+	public @ResponseBody String updateCheckWrite(CheckWrite issue) {
 		CheckWrite src = qyglService.getCheckWrite(issue.getId());
 		src.setDealMan(issue.getDealMan());
 		src.setDealTime(issue.getDealTime());
 		src.setFixDesc(issue.getFixDesc());
-		src.setFixStatus(STATUS.DealStatus.getDesc());
+		src.setFixStatus(STATUS.DealStatus.name());
 		qyglService.saveOrUpdateCheckWrite(src);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issue.getPolicy().getPolicyNo()}));
@@ -114,11 +104,11 @@ public class QyglController {
 	
 	@Log(message="重新打开了{0}新契约不合格件的信息。")
 	@RequiresPermissions("CheckWrite:edit")
-	@RequestMapping(value="/issue/reopenCheckWrite", method=RequestMethod.POST)
+	@RequestMapping(value="/issue/write/reopen", method=RequestMethod.POST)
 	public @ResponseBody String reopenCheckWrite(@Valid @ModelAttribute("preloadCheckWrite")CheckWrite issue) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		CheckWrite src = qyglService.getCheckWrite(issue.getId());
-		src.setFixStatus(STATUS.ReopenStatus.getDesc());
+		src.setFixStatus(STATUS.ReopenStatus.name());
 		src.setReopenUser(shiroUser.getUser());
 		src.setReopenReason(issue.getReopenReason());
 		src.setReopenDate(new Date());
@@ -130,11 +120,11 @@ public class QyglController {
 	
 	@Log(message="结案了{0}新契约不合格件的信息。")
 	@RequiresPermissions("CheckWrite:edit")
-	@RequestMapping(value="/issue/closeCheckWrite", method=RequestMethod.POST)
+	@RequestMapping(value="/issue/write/close", method=RequestMethod.POST)
 	public @ResponseBody String closeCheckWrite(@Valid @ModelAttribute("preloadCheckWrite")CheckWrite issue) {
 		//ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		CheckWrite src = qyglService.getCheckWrite(issue.getId());
-		src.setFixStatus(STATUS.CloseStatus.getDesc());
+		src.setFixStatus(STATUS.CloseStatus.name());
 		qyglService.saveOrUpdateCheckWrite(src);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issue.getPolicy().getPolicyNo()}));
@@ -142,17 +132,19 @@ public class QyglController {
 	}
 	
 	@RequiresPermissions("CheckWrite:view")
-	@RequestMapping(value="/issue/listCheckWrite", method={RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="/issue/write/list", method={RequestMethod.GET, RequestMethod.POST})
 	public String listCheckWrite(ServletRequest request, Page page, Map<String, Object> map) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
 		Organization userOrg = user.getOrganization();
 		//默认返回未处理工单
-		String status = request.getParameter("status");
+		String status = request.getParameter("fixStatus");
 		log.debug("-------------- status: " + status);
 		CheckWrite issue = new CheckWrite();
 		if(status == null) {
-			status = "待处理";
+			status = STATUS.NewStatus.name();
+		} else if(status.trim().length()>0) {
+			issue.setFixStatus(STATUS.valueOf(status).name());
 		}
 		issue.setFixStatus(status);
 		
@@ -175,7 +167,7 @@ public class QyglController {
 	 * =====================================
 	 */
 	@RequiresPermissions("CheckRecord:view")
-	@RequestMapping(value="/issue/viewCheckRecord/{id}", method=RequestMethod.GET)
+	@RequestMapping(value="/issue/record/view/{id}", method=RequestMethod.GET)
 	public String viewCheckRecord(@PathVariable Long id, Map<String, Object> map) {
 		CheckRecord issue = qyglService.getCheckRecord(id);
 		
@@ -184,17 +176,8 @@ public class QyglController {
 		return VIEW_RECORD;
 	}
 	
-	@ModelAttribute("preloadCheckRecord")
-	public CheckRecord preloadCheckRecord(@RequestParam(value = "id", required = false) Long id) {
-		if (id != null) {
-			CheckRecord issue = qyglService.getCheckRecord(id);
-			return issue;
-		}
-		return null;
-	}
-	
 	@RequiresPermissions("CheckRecord:edit")
-	@RequestMapping(value="/issue/updateCheckRecord/{id}", method=RequestMethod.GET)
+	@RequestMapping(value="/issue/record/update/{id}", method=RequestMethod.GET)
 	public String preUpdateCheckRecord(@PathVariable Long id, Map<String, Object> map) {
 		CheckRecord issue = qyglService.getCheckRecord(id);
 		
@@ -204,13 +187,13 @@ public class QyglController {
 	
 	@Log(message="回复了{0}新契约不合格件的信息。")
 	@RequiresPermissions("CheckRecord:edit")
-	@RequestMapping(value="/issue/updateCheckRecord", method=RequestMethod.POST)
+	@RequestMapping(value="/issue/record/update", method=RequestMethod.POST)
 	public @ResponseBody String updateCheckRecord(@Valid @ModelAttribute("preloadCheckRecord")CheckRecord issue) {
 		CheckRecord src = qyglService.getCheckRecord(issue.getId());
 		src.setDealMan(issue.getDealMan());
 		src.setDealTime(issue.getDealTime());
 		src.setFixDesc(issue.getFixDesc());
-		src.setFixStatus(STATUS.DealStatus.getDesc());
+		src.setFixStatus(STATUS.DealStatus.name());
 		qyglService.saveOrUpdateCheckRecord(src);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issue.getPolicy().getPolicyNo()}));
@@ -219,11 +202,11 @@ public class QyglController {
 	
 	@Log(message="重新打开了{0}新契约不合格件的信息。")
 	@RequiresPermissions("CheckRecord:edit")
-	@RequestMapping(value="/issue/reopenCheckRecord", method=RequestMethod.POST)
-	public @ResponseBody String reopenCheckRecord(@Valid @ModelAttribute("preloadCheckRecord")CheckRecord issue) {
+	@RequestMapping(value="/issue/record/reopen", method=RequestMethod.POST)
+	public @ResponseBody String reopenCheckRecord(CheckRecord issue) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		CheckRecord src = qyglService.getCheckRecord(issue.getId());
-		src.setFixStatus(STATUS.ReopenStatus.getDesc());
+		src.setFixStatus(STATUS.ReopenStatus.name());
 		src.setReopenUser(shiroUser.getUser());
 		src.setReopenReason(issue.getReopenReason());
 		src.setReopenDate(new Date());
@@ -235,11 +218,11 @@ public class QyglController {
 	
 	@Log(message="结案了{0}新契约不合格件的信息。")
 	@RequiresPermissions("CheckRecord:edit")
-	@RequestMapping(value="/issue/closeCheckRecord", method=RequestMethod.POST)
+	@RequestMapping(value="/issue/record/close", method=RequestMethod.POST)
 	public @ResponseBody String closeCheckRecord(@Valid @ModelAttribute("preloadCheckRecord")CheckRecord issue) {
 		//ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		CheckRecord src = qyglService.getCheckRecord(issue.getId());
-		src.setFixStatus(STATUS.CloseStatus.getDesc());
+		src.setFixStatus(STATUS.CloseStatus.name());
 		qyglService.saveOrUpdateCheckRecord(src);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issue.getPolicy().getPolicyNo()}));
@@ -247,17 +230,19 @@ public class QyglController {
 	}
 	
 	@RequiresPermissions("CheckRecord:view")
-	@RequestMapping(value="/issue/listCheckRecord", method={RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="/issue/record/list", method={RequestMethod.GET, RequestMethod.POST})
 	public String listCheckRecord(ServletRequest request, Page page, Map<String, Object> map) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
 		Organization userOrg = user.getOrganization();
 		//默认返回未处理工单
-		String status = request.getParameter("status");
+		String status = request.getParameter("fixStatus");
 		log.debug("-------------- status: " + status);
 		CheckRecord issue = new CheckRecord();
 		if(status == null) {
-			status = "待处理";
+			status = STATUS.NewStatus.name();
+		} else if(status.trim().length()>0) {
+			issue.setFixStatus(STATUS.valueOf(status).name());
 		}
 		issue.setFixStatus(status);
 		

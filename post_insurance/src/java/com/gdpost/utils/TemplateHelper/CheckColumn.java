@@ -5,6 +5,16 @@ import java.util.List;
 
 public class CheckColumn {
 
+	public String checkColumn = "是否整改";
+	
+	public String getCheckColumn() {
+		return checkColumn;
+	}
+
+	public void setCheckColumn(String checkColumn) {
+		this.checkColumn = checkColumn;
+	}
+
 	private static List<ColumnItem> standardColumns;
 	
 	public static List<ColumnItem> getStandardColumns() {
@@ -46,7 +56,7 @@ public class CheckColumn {
 		
 		column = new ColumnItem();
 		column.setDisplayName("网点类型");
-		column.setColumnName("net_name");
+		column.setColumnName("net_type");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(false);
 		column.setNeedOutput(true);

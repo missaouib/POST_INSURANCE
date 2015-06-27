@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 <div class="pageContent">
-<form method="post" action="${contextPath}/kfgl/issue/updateCheckWrite" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
+<form method="post" action="${contextPath}/qygl/issue/write/update" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
 	<input type="hidden" name="id" value="${issue.id}"/>
 	<div class="pageFormContent" layoutH="58">
 	<fieldset>
@@ -36,23 +36,23 @@
 		</p>
 		<p class="nowrap">
 			<label>关键信息错误情况：</label>
-			<textarea name="keyInfo" disabled="true" cols="20" rows="2">${issue.keyInfo }</textarea>
+			<textarea name="keyInfo" disabled="true" cols="20" rows="2">${issue.keyInfo=="null"?"":issue.keyInfo }</textarea>
 		</p>
 		<p class="nowrap">
 			<label>重要信息错误情况：</label>
-			<textarea name="importanceInfo" disabled="true" cols="20" rows="2">${issue.importanceInfo }</textarea>
+			<textarea name="importanceInfo" disabled="true" cols="20" rows="2">${issue.importanceInfo=="null"?"":issue.importanceInfo }</textarea>
 		</p>
 		<p class="nowrap">
 			<label>其他信息错误情况：</label>
-			<textarea name="elseInfo" disabled="true" cols="20" rows="2">${issue.elseInfo }</textarea>
+			<textarea name="elseInfo" disabled="true" cols="20" rows="2">${issue.elseInfo=="null"?"":issue.elseInfo }</textarea>
 		</p>
 		<p>
 			<label>影像件扫描错误：</label>
-			<input type="text" name="dorError" readonly="readonly" class="input-medium" maxlength="32" value="${issue.dorError }"/>
+			<input type="text" name="docError" readonly="readonly" class="input-medium" maxlength="32" value="${issue.docError=='null'?'':issue.docError }"/>
 		</p>
 		<p class="nowrap">
 			<label>投保资料扫描缺失情况：</label>
-			<textarea name="docMiss" disabled="true" cols="20" rows="2">${issue.elseInfo }</textarea>
+			<textarea name="docMiss" disabled="true" cols="20" rows="2">${issue.elseInfo=="null"?"":issue.elseInfo }</textarea>
 		</p>
 	</fieldset>
 	<div class="divider"></div>
@@ -76,7 +76,7 @@
 			
 	<div class="formBar">
 		<ul>
-			<li><div <c:if test='${issue.status eq "已结案" }'>class="buttonDisabled"</c:if> <c:if test='${issue.status ne "已结案" }'>class="button"</c:if>><div class="buttonContent"><button type="submit" <c:if test='${issue.status eq "已结案" }'>disabled=true</c:if>>确定</button></div></div></li>
+			<li><div <c:if test='${issue.fixStatus eq "CloseStatus" }'>class="buttonDisabled"</c:if> <c:if test='${issue.fixStatus ne "CloseStatus" }'>class="button"</c:if>><div class="buttonContent"><button type="submit" <c:if test='${issue.fixStatus eq "CloseStatus" }'>disabled=true</c:if>>确定</button></div></div></li>
 			<li><div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div></li>
 		</ul>
 	</div>
