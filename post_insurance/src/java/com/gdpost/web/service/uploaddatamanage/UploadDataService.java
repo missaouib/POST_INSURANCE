@@ -18,6 +18,8 @@ public interface UploadDataService {
 	
 	boolean importData(FileTemplate template, HttpServletRequest request, DataTable dt, long member_id, int ny);
 	
+	boolean updateStatusData(FileTemplate template, HttpServletRequest request, DataTable dt);
+	
 	boolean clearImport(HttpServletRequest request, long member_id, int ny);
 	
 	boolean clearImportDone(HttpServletRequest request, long member_id, int ny);

@@ -25,6 +25,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import System.Data.DataRow;
 import System.Data.DataTable;
 
+import com.gdpost.utils.StringUtil;
 import com.gdpost.utils.TemplateHelper.CheckColumn;
 import com.gdpost.utils.TemplateHelper.ColumnItem;
 import com.gdpost.utils.TemplateHelper.ColumnType;
@@ -33,11 +34,13 @@ import com.gdpost.utils.TemplateHelper.PolicyColumn;
 import com.gdpost.utils.TemplateHelper.PolicyDtlColumn;
 import com.gdpost.utils.TemplateHelper.RemitMoneyColumn;
 import com.gdpost.utils.TemplateHelper.RenewedColumn;
+import com.gdpost.utils.TemplateHelper.RenewedStatusColumn;
 import com.gdpost.utils.TemplateHelper.Template.FileTemplate;
 import com.gdpost.utils.UploadDataHelper.UploadDataUtils;
 import com.gdpost.web.dao.uploaddatamanage.UploadDataDAO;
 import com.gdpost.web.entity.main.Policy;
 import com.gdpost.web.service.uploaddatamanage.UploadDataService;
+import com.gdpost.web.util.StatusDefine.STATUS;
 import com.gdpost.web.util.dwz.Page;
 import com.gdpost.web.util.dwz.PageUtils;
 
@@ -109,22 +112,25 @@ public class UploadDataServiceImpl implements UploadDataService{
 			standardColumns = RenewedColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE T_RENEWED_LIST character set utf8 (";
 			break;
+		case RenewedStatus:
+			standardColumns = RenewedStatusColumn.getStandardColumns();
+			return false;
 		case RemitMoney:
 			standardColumns = RemitMoneyColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE T_REMIT_MONEY_LIST character set utf8 (";
 			break;
 		case CheckWrite:
 			standardColumns = CheckColumn.getStandardColumns();
-			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE T_CHECK_WRITE character set utf8 (";
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE T_CHECK_WRITE character set utf8 (fix_status, ";
 			break;
 		case CheckRecord:
 			standardColumns = CheckColumn.getStandardColumns();
-			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE T_CHECK_RECORD character set utf8 (";
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE T_CHECK_RECORD character set utf8 (fix_status, ";
 			break;
 			default:
 				log.warn("------------reach the default FileTemplate?? oh no!!");
 		}
-				
+		
 		for(ColumnItem item : standardColumns) {
     		if(item.isNeedEncrypt()) {
     			if(strEncrypt.equals("")) {
@@ -140,37 +146,35 @@ public class UploadDataServiceImpl implements UploadDataService{
         // member_id, ny,最后补上两列数据
         strStatementText += "operate_id) ";
         strStatementText += strEncrypt + ";";
-        //log.debug("--------------" + strStatementText);
+        log.debug("--------------" + strStatementText);
         
         StringBuilder builder = new StringBuilder();
         Object cell = null;
-        boolean isBreak = false;
+        //boolean isBreak = false;
         for (DataRow row : dt.Rows) {
-        	isBreak = false;
+        	//isBreak = false;
         	// 从处理后的行中，取出标准列数据
         	//log.debug("--------------" + row.toString());
+        	if(ft.name().equals(FileTemplate.CheckWrite.name()) || ft.name().equals(FileTemplate.CheckRecord.name())) {
+    			if(row.getValue(new CheckColumn().getCheckColumn()).equals("要整改")) {
+    				builder.append(STATUS.NewStatus.name());
+    	            builder.append('\t');
+    			} else {
+    				//builder.append(null);
+    	            builder.append('\t');
+    			}
+    		}
         	for(ColumnItem item : standardColumns) {
-        		if(ft.name().equals(FileTemplate.CheckWrite.name()) || ft.name().equals(FileTemplate.CheckRecord.name())) {
-        			if(row.getValue(new CheckColumn().getCheckColumn()).equals("不要整改")) {
-        				isBreak = true;
-        				break;
-        			}
-        		}
         		
-        		cell = row.getValue(item.getDisplayName());
-        		//if(item.getDisplayName().equals(""))
+        		cell = StringUtil.trimStr(row.getValue(item.getDisplayName()));
+//        		if(log.isDebugEnabled()) {
+//        			if(item.getDisplayName().equals("保险单号码")) {
+//        				log.debug("----------- 保险单号码: " + row.getValue(item.getDisplayName()));
+//        			}
+//        		}
         		builder.append(cell);
 	            builder.append('\t');
         	}
-        	if(isBreak) {
-        		continue;
-        	}
-        	if(ft.name().equals(FileTemplate.CheckWrite.name()) || ft.name().equals(FileTemplate.CheckRecord.name())) {
-    			if(row.getValue(new CheckColumn().getCheckColumn()).equals("不要整改")) {
-    				isBreak = true;
-    				break;
-    			}
-    		}
             builder.append(member_id);
             builder.append('\n');
             //log.debug("-----" + builder.toString());
@@ -210,6 +214,82 @@ public class UploadDataServiceImpl implements UploadDataService{
 		return(true);
 	}
 	
+	@SuppressWarnings("resource")
+	@Override
+	public boolean updateStatusData(FileTemplate ft, HttpServletRequest request, DataTable dt) {		
+		java.sql.Connection connection = null;
+		com.mysql.jdbc.Statement statement = null;
+		com.alibaba.druid.pool.DruidDataSource basic = null;
+		try {
+			Object objDataSource = WebApplicationContextUtils.getWebApplicationContext(request.getServletContext()).getBean("dataSource");
+			DataSource dataSource = (DataSource)objDataSource;
+			//org.apache.commons.dbcp2.BasicDataSource basic = (org.apache.commons.dbcp2.BasicDataSource)dataSource;
+			basic = (com.alibaba.druid.pool.DruidDataSource)dataSource;
+			connection = DriverManager.getConnection(basic.getUrl(), basic.getUsername(), basic.getPassword());
+			statement = (com.mysql.jdbc.Statement)connection.createStatement();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+		}
+		
+		List<ColumnItem> standardColumns = null;
+		StringBuffer sql = null;
+		switch(ft) {
+		case Policy:
+			return true;
+		case PolicyDtl:
+			return true;
+		case Issue:
+			return true;
+		case CallFail:
+			return true;
+		case Renewed:
+			return true;
+		case RenewedStatus:
+			standardColumns = RenewedStatusColumn.getStandardColumns();
+			sql = new StringBuffer("INSERT INTO t_renewed_list(policy_no, prd_name, fee_status, fee_fail_reason) VALUES ");
+			StringBuffer line = null;
+			for (DataRow row : dt.Rows) {
+				line = new StringBuffer("(");
+	        	for(ColumnItem item : standardColumns) {
+	        		line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        	}
+	        	line.deleteCharAt(line.length() - 1);
+	        	line.append("),");
+	        	sql.append(line);
+	        }
+			sql.deleteCharAt(sql.length() - 1);
+			sql.append(" ON DUPLICATE KEY UPDATE policy_no=VALUES(policy_no), prd_name=VALUES(prd_name), ");
+			sql.append("fee_status=VALUES(fee_status), fee_fail_reason=VALUES(fee_fail_reason);");
+			log.debug("----------------batch update : " + sql);
+			break;
+		case RemitMoney:
+			return true;
+		case CheckWrite:
+			return true;
+		case CheckRecord:
+			return true;
+			default:
+				log.warn("------------reach the default FileTemplate?? oh no!!");
+		}
+
+        try {
+			statement.execute(sql.toString());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if(statement != null) {
+				try {
+					statement.close();
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+        
+		return(true);
+	}
 	
 	/**
 	 * 
@@ -238,6 +318,9 @@ public class UploadDataServiceImpl implements UploadDataService{
 			break;
 		case Renewed:
 			standardColumns = RenewedColumn.getStandardColumns();
+			break;
+		case RenewedStatus:
+			standardColumns = RenewedStatusColumn.getStandardColumns();
 			break;
 		case RemitMoney:
 			standardColumns = RemitMoneyColumn.getStandardColumns();
@@ -291,7 +374,11 @@ public class UploadDataServiceImpl implements UploadDataService{
 		// 导入数据库
 		for(DataTable[] dataSet : listDataSet.values()) {
 			for(DataTable dt : dataSet) {
-				bFlag = importData(t, request, dt, member_id, currentNY);
+				if(t.name().equals(FileTemplate.RenewedStatus.name())) {
+					bFlag = updateStatusData(t, request, dt);
+				} else {
+					bFlag = importData(t, request, dt, member_id, currentNY);
+				}
 				dt = null;
 				if(!bFlag) {
 					builder.append("导入数据出错。");

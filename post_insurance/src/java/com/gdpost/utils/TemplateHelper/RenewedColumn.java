@@ -77,6 +77,16 @@ public class RenewedColumn {
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
+		column.setDisplayName("收费状态");
+		column.setColumnName("fee_status");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(true);
+		column.setNeedOutput(true);
+		column.setiOutputOrder(6);
+		column.setOutputName("SFZT");
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
 		column.setDisplayName("开户行");
 		column.setColumnName("account_bank");
 		column.setColumnType(ColumnType.string);

@@ -8,10 +8,11 @@ import System.Data.DataRow;
 
 public class StringUtil {
 
-	public static String trimStr(String str) {
-		if(str == null) {
+	public static String trimStr(Object obj) {
+		if(obj == null) {
 			return "";
 		}
+		String str = obj.toString();
 		Pattern p = Pattern.compile("\\t|\r|\n");
         Matcher m = p.matcher(str);
         String dest = m.replaceAll("");

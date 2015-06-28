@@ -33,6 +33,7 @@ public class RenewedList implements Idable<Long> {
 	private String policyNo;
 	private String policyFee;
 	private String feeStatus;
+	private String feeFailReason;
 	private String accountBank;
 	private String account;
 	private String addr;
@@ -131,6 +132,15 @@ public class RenewedList implements Idable<Long> {
 
 	public void setFeeStatus(String feeStatus) {
 		this.feeStatus = feeStatus;
+	}
+
+	@Column(name="fee_fail_reason")
+	public String getFeeFailReason() {
+		return feeFailReason;
+	}
+
+	public void setFeeFailReason(String feeFailReason) {
+		this.feeFailReason = feeFailReason;
 	}
 
 	@Column(name="account_bank")

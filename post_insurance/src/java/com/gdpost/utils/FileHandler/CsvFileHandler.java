@@ -69,11 +69,11 @@ public class CsvFileHandler extends AbstractFileHandler {
 		try {
 			while ((line = reader.read()) != null) {
 			    dataRow = dt.NewRow();
-			    log.debug("----------csv file read line" + line);
+			    //log.debug("----------csv file read line" + line);
 			    if(line.size() < dt.Columns.size()/2) {
 			    	continue;
 			    }
-			    for(int i = 1; i < line.size(); i++) {
+			    for(int i = 0; i < line.size(); i++) {
 			    	dataRow.setValue(i, StringUtil.trimStr(line.get(i)));
 			    	//log.debug(i + "----------csv read data: " + dataRow.getValue(i));
 			    }
