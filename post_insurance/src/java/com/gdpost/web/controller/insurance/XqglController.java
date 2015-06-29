@@ -39,7 +39,7 @@ import com.gdpost.web.log.LogMessageObject;
 import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.insurance.XqglService;
 import com.gdpost.web.shiro.ShiroUser;
-import com.gdpost.web.util.StatusDefine.STATUS;
+import com.gdpost.web.util.StatusDefine.XQ_STATUS;
 import com.gdpost.web.util.dwz.AjaxObject;
 import com.gdpost.web.util.dwz.Page;
 import com.gdpost.web.util.persistence.DynamicSpecifications;
@@ -64,7 +64,7 @@ public class XqglController {
 		RenewedList issue = xqglService.get(id);
 		
 		map.put("issue", issue);
-		map.put("status", STATUS.ReopenStatus);
+		//map.put("status", XQ_STATUS.ReopenStatus);
 		return VIEW;
 	}
 	
@@ -85,27 +85,11 @@ public class XqglController {
 		src.setDealMan(issue.getDealMan());
 		src.setDealTime(issue.getDealTime());
 		src.setFixDesc(issue.getFixDesc());
-		src.setFixStatus(STATUS.DealStatus.name());
+		src.setFixStatus(XQ_STATUS.DealStatus.getDesc());
 		xqglService.saveOrUpdate(src);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issue.getPolicy().getPolicyNo()}));
 		return	AjaxObject.newOk("回复新契约不合格件成功！").toString(); 
-	}
-	
-	@Log(message="重新打开了{0}新契约不合格件的信息。")
-	@RequiresPermissions("Renewed:edit")
-	@RequestMapping(value="/issue/reopen", method=RequestMethod.POST)
-	public @ResponseBody String reopen(@Valid @ModelAttribute("preload")RenewedList issue) {
-		ShiroUser shiroUser = SecurityUtils.getShiroUser();
-		RenewedList src = xqglService.get(issue.getId());
-		src.setFixStatus(STATUS.ReopenStatus.name());
-		src.setReopenUser(shiroUser.getUser());
-		src.setReopenReason(issue.getReopenReason());
-		src.setReopenDate(new Date());
-		xqglService.saveOrUpdate(src);
-		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issue.getPolicy().getPolicyNo()}));
-		return	AjaxObject.newOk("重新打开新契约不合格件成功！").toString(); 
 	}
 	
 	@Log(message="结案了{0}新契约不合格件的信息。")
@@ -114,7 +98,7 @@ public class XqglController {
 	public @ResponseBody String close(@Valid @ModelAttribute("preload")RenewedList issue) {
 		//ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		RenewedList src = xqglService.get(issue.getId());
-		src.setFixStatus(STATUS.CloseStatus.name());
+		src.setFixStatus(XQ_STATUS.CloseStatus.getDesc());
 		xqglService.saveOrUpdate(src);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issue.getPolicy().getPolicyNo()}));
@@ -129,12 +113,12 @@ public class XqglController {
 		Organization userOrg = user.getOrganization();
 		//默认返回未处理工单
 		String status = request.getParameter("fixStatus");
-		log.debug("-------------- status: " + status);
+		LOG.debug("-------------- status: " + status);
 		RenewedList issue = new RenewedList();
 		if(status == null) {
-			status = STATUS.NewStatus.name();
+			status = XQ_STATUS.NewStatus.getDesc();
 		} else if(status.trim().length()>0) {
-			issue.setFixStatus(STATUS.valueOf(status).name());
+			issue.setFixStatus(XQ_STATUS.valueOf(status).getDesc());
 		}
 		issue.setFixStatus(status);
 		
@@ -145,7 +129,7 @@ public class XqglController {
 		List<RenewedList> issues = xqglService.findByExample(specification, page);
 		
 		map.put("issue", issue);
-		map.put("statusList", STATUS.values());
+		map.put("statusList", XQ_STATUS.values());
 		map.put("page", page);
 		map.put("issues", issues);
 		return LIST;

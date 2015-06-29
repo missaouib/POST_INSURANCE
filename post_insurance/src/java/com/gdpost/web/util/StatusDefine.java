@@ -27,6 +27,19 @@ public class StatusDefine {
 		}
 	};
 	
+	public enum XQ_STATUS {
+		NewStatus("未收"), FeeFailStatus("收费失败"), DealStatus("已催收"), SuspendedStatus("挂起"), BqSuspendedStatus("保全挂起"), CloseStatus("收费成功");
+		private String desc;
+
+		XQ_STATUS(String desc) {
+			this.desc = desc;
+		}
+
+		public String getDesc() {
+			return desc;
+		}
+	};
+	
 	public enum FP_STATUS {
 		NewStatus("待处理"), DealStatus("已寄出"), ReceiveStatus("已接收"), CloseStatus("已关闭");
 		private String desc;

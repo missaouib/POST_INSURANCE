@@ -50,6 +50,11 @@ public class RenewedList implements Idable<Long> {
 	private Long operateId;
 	private Date operateTime;
 
+	private String fixStatus;
+	private String fixDesc;
+	private String dealMan;
+	private Date dealTime;
+	
 	// Constructors
 
 	/** default constructor */
@@ -271,4 +276,49 @@ public class RenewedList implements Idable<Long> {
 		this.operateTime = operateTime;
 	}
 
+	@Column(name="fix_status")
+	public String getFixStatus() {
+		return fixStatus;
+	}
+
+	public void setFixStatus(String fixStatus) {
+		this.fixStatus = fixStatus;
+	}
+
+	@Column(name="fix_desc")
+	public String getFixDesc() {
+		return fixDesc;
+	}
+
+	public void setFixDesc(String fixDesc) {
+		this.fixDesc = fixDesc;
+	}
+	
+	@Column(name="deal_man")
+	public String getDealMan() {
+		return dealMan;
+	}
+
+	public void setDealMan(String dealMan) {
+		this.dealMan = dealMan;
+	}
+
+	@Column(name="deal_time")
+	public Date getDealTime() {
+		return dealTime;
+	}
+
+	public void setDealTime(Date dealTime) {
+		this.dealTime = dealTime;
+	}
+
+	@Override
+	public String toString() {
+		return "RenewedList [id=" + id + ", holder=" + holder + ", policyYear=" + policyYear + ", prdName=" + prdName + ", feeDate=" + feeDate + ", policy="
+				+ policy + ", policyFee=" + policyFee + ", feeStatus=" + feeStatus + ", feeFailReason=" + feeFailReason + ", accountBank=" + accountBank
+				+ ", account=" + account + ", addr=" + addr + ", postCode=" + postCode + ", phone=" + phone + ", mobile=" + mobile + ", orgName=" + orgName
+				+ ", netName=" + netName + ", policyAdmin=" + policyAdmin + ", channel=" + channel + ", operateId=" + operateId + ", operateTime="
+				+ operateTime + ", fixStatus=" + fixStatus + ", fixDesc=" + fixDesc + ", dealMan=" + dealMan + ", dealTime=" + dealTime + "]";
+	}
+	
 }

@@ -136,3 +136,19 @@ add column      operate_time          timestamp default current_timestamp;
 alter table t_policy 
 add column   customer_manager_code         varchar(25),
 add column   customer_manager              varchar(16);
+
+
+INSERT INTO t_renewed_list(policy_no, fee_status, fee_fail_reason, prd_name) 
+VALUES
+('86440100003942', '你好', 'Eliot', '中邮附加重大疾病保险'),
+('86440100003942', 'hello', 'Jhon', '中邮年年好B款年金保险（分红型）'), 
+('86440100005030', '嘻嘻', 'Jim', '中邮年年好百倍保两全保险') 
+ON DUPLICATE KEY UPDATE 
+policy_no=VALUES(policy_no), prd_name=VALUES(prd_name), 
+fee_status=VALUES(fee_status), fee_fail_reason=VALUES(fee_fail_reason);
+
+alter table t_renewed_list
+add column fix_status           varchar(12),
+add column    fix_desc             varchar(256),
+add column    deal_man             varchar(12),
+add column    deal_time            date;
