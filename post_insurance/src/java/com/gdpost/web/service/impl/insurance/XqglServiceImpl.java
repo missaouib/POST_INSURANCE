@@ -10,9 +10,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gdpost.web.dao.PolicyDAO;
+import com.gdpost.web.dao.RenewedListDAO;
 import com.gdpost.web.entity.main.Policy;
-import com.gdpost.web.exception.ExistedException;
+import com.gdpost.web.entity.main.RenewedList;
 import com.gdpost.web.service.insurance.XqglService;
 import com.gdpost.web.util.dwz.Page;
 import com.gdpost.web.util.dwz.PageUtils;
@@ -23,30 +23,24 @@ public class XqglServiceImpl implements XqglService {
 	//private static final Logger logger = LoggerFactory.getLogger(QyglServiceImpl.class);
 	
 	@Autowired
-	private PolicyDAO policyDAO;
+	private RenewedListDAO renewedListDAO;
 	
 	/*
 	 * (non-Javadoc)
 	 * @see com.gdpost.web.service.UserService#get(java.lang.Long)  
 	 */ 
 	@Override
-	public Policy get(Long id) {
-		return policyDAO.findOne(id);
+	public RenewedList get(Long id) {
+		return renewedListDAO.findOne(id);
 	}
 
 	/*
 	 * (non-Javadoc) 
-	 * @see com.gdpost.web.service.UserService#saveOrUpdate(com.gdpost.web.entity.main.Policy)  
+	 * @see com.gdpost.web.service.UserService#saveOrUpdate(com.gdpost.web.entity.main.RenewedList)  
 	 */
 	@Override
-	public void saveOrUpdate(Policy policy) {
-		if (policy.getId() == null) {
-			if (policyDAO.getByPolicyNo(policy.getPolicyNo()) != null) {
-				throw new ExistedException("保单号：" + policy.getPolicyNo() + "已存在。");
-			}
-		}
-		
-		policyDAO.save(policy);
+	public void saveOrUpdate(RenewedList renewed) {
+		renewedListDAO.save(renewed);
 	}
 
 	/*
@@ -55,8 +49,8 @@ public class XqglServiceImpl implements XqglService {
 	 */
 	@Override
 	public void delete(Long id) {
-		Policy user = policyDAO.findOne(id);
-		policyDAO.delete(user.getId());
+		RenewedList user = renewedListDAO.findOne(id);
+		renewedListDAO.delete(user.getId());
 	}
 	
 	/*
@@ -64,8 +58,8 @@ public class XqglServiceImpl implements XqglService {
 	 * @see com.gdpost.web.service.UserService#findAll(com.gdpost.web.util.dwz.Page)  
 	 */
 	@Override
-	public List<Policy> findAll(Page page) {
-		org.springframework.data.domain.Page<Policy> springDataPage = policyDAO.findAll(PageUtils.createPageable(page));
+	public List<RenewedList> findAll(Page page) {
+		org.springframework.data.domain.Page<RenewedList> springDataPage = renewedListDAO.findAll(PageUtils.createPageable(page));
 		page.setTotalCount(springDataPage.getTotalElements());
 		return springDataPage.getContent();
 	}
@@ -75,9 +69,9 @@ public class XqglServiceImpl implements XqglService {
 	 * @see com.gdpost.web.service.UserService#findByExample(org.springframework.data.jpa.domain.Specification, com.gdpost.web.util.dwz.Page)	
 	 */
 	@Override
-	public List<Policy> findByExample(
-			Specification<Policy> specification, Page page) {
-		org.springframework.data.domain.Page<Policy> springDataPage = policyDAO.findAll(specification, PageUtils.createPageable(page));
+	public List<RenewedList> findByExample(
+			Specification<RenewedList> specification, Page page) {
+		org.springframework.data.domain.Page<RenewedList> springDataPage = renewedListDAO.findAll(specification, PageUtils.createPageable(page));
 		page.setTotalCount(springDataPage.getTotalElements());
 		return springDataPage.getContent();
 	}
@@ -86,7 +80,7 @@ public class XqglServiceImpl implements XqglService {
 	 * @see com.gdpost.web.service.UserService#getByPolicyNo(java.lang.String)
 	 */
 	@Override
-	public Policy getByPolicyNo(String policyNo) {
-		return policyDAO.getByPolicyNo(policyNo);
+	public RenewedList getByPolicyNoAndPrdName(Policy policy, String prdName) {
+		return renewedListDAO.getByPolicyAndPrdName(policy, prdName);
 	}
 }

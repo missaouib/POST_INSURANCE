@@ -3,6 +3,7 @@ package com.gdpost.web.dao;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
+import com.gdpost.web.entity.main.Policy;
 import com.gdpost.web.entity.main.RenewedList;
 
 /**
@@ -16,5 +17,5 @@ import com.gdpost.web.entity.main.RenewedList;
  * @author MyEclipse Persistence Tools
  */
 public interface RenewedListDAO extends JpaRepository<RenewedList, Long>, JpaSpecificationExecutor<RenewedList> {
-
+	RenewedList getByPolicyAndPrdName(Policy policy, String prdName);
 }

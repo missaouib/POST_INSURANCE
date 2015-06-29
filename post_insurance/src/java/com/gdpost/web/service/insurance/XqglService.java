@@ -12,18 +12,19 @@ import java.util.List;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.gdpost.web.entity.main.Policy;
+import com.gdpost.web.entity.main.RenewedList;
 import com.gdpost.web.util.dwz.Page;
 
 public interface XqglService {
-	Policy get(Long id);
+	RenewedList get(Long id);
 
-	void saveOrUpdate(Policy user);
+	void saveOrUpdate(RenewedList user);
 
 	void delete(Long id);
 	
-	List<Policy> findAll(Page page);
+	List<RenewedList> findAll(Page page);
 	
-	List<Policy> findByExample(Specification<Policy> specification, Page page);
+	List<RenewedList> findByExample(Specification<RenewedList> specification, Page page);
 	
-	Policy getByPolicyNo(String username);
+	RenewedList getByPolicyNoAndPrdName(Policy policy, String prdName);
 }

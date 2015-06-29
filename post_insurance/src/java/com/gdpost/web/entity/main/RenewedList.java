@@ -4,9 +4,12 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Cache;
@@ -30,7 +33,7 @@ public class RenewedList implements Idable<Long> {
 	private Integer policyYear;
 	private String prdName;
 	private Date feeDate;
-	private String policyNo;
+	private Policy policy;
 	private String policyFee;
 	private String feeStatus;
 	private String feeFailReason;
@@ -103,13 +106,14 @@ public class RenewedList implements Idable<Long> {
 		this.feeDate = feeDate;
 	}
 
-	@Column(name="policy_no")
-	public String getPolicyNo() {
-		return policyNo;
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="policy_no", referencedColumnName="policy_no")
+	public Policy getPolicy() {
+		return policy;
 	}
 
-	public void setPolicyNo(String policyNo) {
-		this.policyNo = policyNo;
+	public void setPolicy(Policy policy) {
+		this.policy = policy;
 	}
 
 	@Column(name = "policy_fee", length = 256)
