@@ -11,19 +11,19 @@ import java.util.List;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.gdpost.web.entity.main.Policy;
+import com.gdpost.web.entity.main.CallFail;
 import com.gdpost.web.util.dwz.Page;
 
 public interface HfglService {
-	Policy get(Long id);
+	CallFail get(Long id);
 
-	void saveOrUpdate(Policy user);
+	void saveOrUpdate(CallFail user);
 
 	void delete(Long id);
 	
-	List<Policy> findAll(Page page);
+	List<CallFail> findAll(Page page);
 	
-	List<Policy> findByExample(Specification<Policy> specification, Page page);
+	List<CallFail> findByExample(Specification<CallFail> specification, Page page);
 	
-	Policy getByPolicyNo(String username);
+	CallFail getByPolicyNo(String username);
 }

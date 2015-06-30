@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import com.gdpost.web.entity.main.CallFail;
+import com.gdpost.web.entity.main.Policy;
 
 /**
  * A data access object (DAO) providing persistence and search support for
@@ -16,5 +17,7 @@ import com.gdpost.web.entity.main.CallFail;
  * @author MyEclipse Persistence Tools
  */
 public interface CallFailDAO extends JpaRepository<CallFail, Long>, JpaSpecificationExecutor<CallFail> {
+
+	CallFail getByPolicy(Policy policy);
 
 }

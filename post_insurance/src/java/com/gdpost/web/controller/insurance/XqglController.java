@@ -47,7 +47,7 @@ import com.gdpost.web.util.persistence.SearchFilter;
 import com.gdpost.web.util.persistence.SearchFilter.Operator;
 
 @Controller
-@RequestMapping("/Xqgl")
+@RequestMapping("/xqgl")
 public class XqglController {
 	private static final Logger LOG = LoggerFactory.getLogger(XqglController.class);
 	
@@ -112,18 +112,18 @@ public class XqglController {
 		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
 		Organization userOrg = user.getOrganization();
 		//默认返回未处理工单
-		String status = request.getParameter("fixStatus");
+		String status = request.getParameter("feeStatus");
 		LOG.debug("-------------- status: " + status);
 		RenewedList issue = new RenewedList();
 		if(status == null) {
 			status = XQ_STATUS.NewStatus.getDesc();
 		} else if(status.trim().length()>0) {
-			issue.setFixStatus(XQ_STATUS.valueOf(status).getDesc());
+			issue.setFeeStatus(XQ_STATUS.valueOf(status).getDesc());
 		}
-		issue.setFixStatus(status);
+		issue.setFeeStatus(status);
 		
 		Specification<RenewedList> specification = DynamicSpecifications.bySearchFilter(request, RenewedList.class,
-				new SearchFilter("fixStatus", Operator.LIKE, status),
+				new SearchFilter("feeStatus", Operator.LIKE, status),
 				new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
 		
 		List<RenewedList> issues = xqglService.findByExample(specification, page);

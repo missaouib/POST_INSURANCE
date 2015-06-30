@@ -2,23 +2,23 @@
 <%@page import="java.util.Date"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 
-<dwz:paginationForm action="${contextPath }/qygl/issue/write/list" page="${page }">
-	<input type="hidden" name="search_LIKE_issueNo" value="${param.search_LIKE_issueNo }"/>
+<dwz:paginationForm action="${contextPath }/xqgl/issue/list" page="${page }">
+	<input type="hidden" name="search_LIKE_policyNo" value="${param.search_LIKE_policyNo }"/>
 	<input type="hidden" name="search_LIKE_organization.orgCode" value="${param.search_LIKE_organization_orgCode }"/>
 	<input type="hidden" name="status" value="${param.status }"/>
 </dwz:paginationForm>
 
-<form method="post" action="${contextPath }/qygl/issue/write/list" onsubmit="return navTabSearch(this)">
+<form method="post" action="${contextPath }/xqgl/issue/list" onsubmit="return navTabSearch(this)">
 	<div class="pageHeader">
 		<div class="searchBar">
 			<ul class="searchContent">
 				<li>
-					<label>问题件编号：</label>
-					<input type="text" name="search_LIKE_issueNo" value="${param.search_LIKE_issueNo }"/>
+					<label>保单号：</label>
+					<input type="text" name="search_LIKE_policyNo" value="${param.search_LIKE_policyNo }"/>
 				</li>
 				<li>
 					<label>问题件状态：</label>
-					<form:select path="issue.fixStatus" class="combox">
+					<form:select path="issue.feeStatus" class="combox">
 						<form:option value=""> -- -- </form:option>
 						<form:options items="${statusList }" itemLabel="desc"/>
 					</form:select>
@@ -43,17 +43,17 @@
 
 	<div class="panelBar">
 		<ul class="toolBar">
-			<%-- <shiro:hasPermission name="CheckWrite:save">
-				<li><a iconClass="user_add" target="dialog" rel="lookup2organization_add" mask="true" width="530" height="330" href="${contextPath }/qygl/write/issue/create"><span>添加问题问题件</span></a></li>
+			<%-- <shiro:hasPermission name="Renewed:save">
+				<li><a iconClass="user_add" target="dialog" rel="lookup2organization_add" mask="true" width="530" height="330" href="${contextPath }/xqgl/issue/create"><span>添加续期催收件</span></a></li>
 			</shiro:hasPermission> --%>
-			<shiro:hasPermission name="CheckWrite:view">
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="680" href="${contextPath }/qygl/issue/write/view/{slt_uid}"><span>查看问题问题件</span></a></li>
+			<shiro:hasPermission name="Renewed:view">
+				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="680" href="${contextPath }/xqgl/issue/view/{slt_uid}"><span>查看续期催收件</span></a></li>
 			</shiro:hasPermission>
-			<shiro:hasPermission name="CheckWrite:edit">
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/qygl/issue/write/update/{slt_uid}"><span>回复问题问题件</span></a></li>
+			<shiro:hasPermission name="Renewed:edit">
+				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/xqgl/issue/update/{slt_uid}"><span>回复续期催收件</span></a></li>
 			</shiro:hasPermission>
-			<%-- <shiro:hasPermission name="CheckWrite:delete">
-				<li><a iconClass="user_delete" target="selectedTodo" rel="ids" href="${contextPath }/qygl/issue/write/delete" title="确认要删除?"><span>删除问题问题件</span></a></li>
+			<%-- <shiro:hasPermission name="Renewed:delete">
+				<li><a iconClass="user_delete" target="selectedTodo" rel="ids" href="${contextPath }/xqgl/issue/delete" title="确认要删除?"><span>删除续期催收件</span></a></li>
 			</shiro:hasPermission> --%>
 		</ul>
 	</div>
@@ -63,12 +63,8 @@
 			<tr>
 				<th width="22"><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
 				<th width="100" orderField=organization.name class="${page.orderField eq 'organization.name' ? page.orderDirection : ''}">所属机构</th>
-				<th width="120" orderField=policy.policyNo class="${page.orderField eq 'policy.policyNo' ? page.orderDirection : ''}">所属保单号</th>
-				<th width="120" orderField=fixStatus class="${page.orderField eq 'fixStatus' ? page.orderDirection : ''}">问题件状态</th>
-				<th width="120" orderField=docMiss class="${page.orderField eq 'docMiss' ? page.orderDirection : ''}">资料缺失</th>
-				<th width="120" orderField=keyInfo class="${page.orderField eq 'keyInfo' ? page.orderDirection : ''}">关键信息</th>
-				<th width="120" orderField=importanceInfo class="${page.orderField eq 'importanceInfo' ? page.orderDirection : ''}">重要信息</th>
-				<th width="120" orderField=netName class="${page.orderField eq 'netName' ? page.orderDirection : ''}">网点名称</th>
+				<th width="120" orderField=policy.policyNo class="${page.orderField eq 'policy.policyNo' ? page.orderDirection : ''}">保单号</th>
+				<th width="120" orderField=feeStatus class="${page.orderField eq 'feeStatus' ? page.orderDirection : ''}">状态</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -77,26 +73,7 @@
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
 				<td>${item.policy.organization.name}</td>
 				<td>${item.policy.policyNo}</td>
-				<td>
-				<c:choose>
-					<c:when test="${item.fixStatus eq 'NewStatus'}">
-						待处理
-					</c:when>
-					<c:when test="${item.fixStatus eq 'DealStatus'}">
-						已处理
-					</c:when>
-					<c:when test="${item.fixStatus eq 'ReopenStatus'}">
-						重打开
-					</c:when>
-					<c:otherwise>
-						已关闭
-					</c:otherwise>
-				</c:choose>
-				</td>
-				<td>${item.docMiss == "null"?"":item.docMiss}</td>
-				<td>${item.keyInfo=="null"?"":item.keyInfo}</td>
-				<td>${item.importanceInfo=="null"?"":item.importanceInfo}</td>
-				<td>${item.netName=="null"?"":item.netName}</td>
+				<td>${item.feeStatus }</td>
 			</tr>
 			</c:forEach>
 		</tbody>

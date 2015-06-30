@@ -111,7 +111,7 @@ public class User implements Idable<Long>, Serializable {
 	@Column(updatable=false)
 	private Date createTime;
 	
-	@OneToMany(mappedBy="user", cascade={CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval=true)
+	@OneToMany(mappedBy="user", fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval=true)
 	@OrderBy("priority ASC")
 	private List<UserRole> userRoles = new ArrayList<UserRole>();
 	

@@ -10,9 +10,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gdpost.web.dao.PolicyDAO;
+import com.gdpost.web.dao.CallFailDAO;
+import com.gdpost.web.entity.main.CallFail;
 import com.gdpost.web.entity.main.Policy;
-import com.gdpost.web.exception.ExistedException;
 import com.gdpost.web.service.insurance.HfglService;
 import com.gdpost.web.util.dwz.Page;
 import com.gdpost.web.util.dwz.PageUtils;
@@ -23,30 +23,24 @@ public class HfglServiceImpl implements HfglService {
 	//private static final Logger logger = LoggerFactory.getLogger(QyglServiceImpl.class);
 	
 	@Autowired
-	private PolicyDAO policyDAO;
+	private CallFailDAO callFailDAO;
 	
 	/*
 	 * (non-Javadoc)
 	 * @see com.gdpost.web.service.UserService#get(java.lang.Long)  
 	 */ 
 	@Override
-	public Policy get(Long id) {
-		return policyDAO.findOne(id);
+	public CallFail get(Long id) {
+		return callFailDAO.findOne(id);
 	}
 
 	/*
 	 * (non-Javadoc) 
-	 * @see com.gdpost.web.service.UserService#saveOrUpdate(com.gdpost.web.entity.main.Policy)  
+	 * @see com.gdpost.web.service.UserService#saveOrUpdate(com.gdpost.web.entity.main.CallFail)  
 	 */
 	@Override
-	public void saveOrUpdate(Policy policy) {
-		if (policy.getId() == null) {
-			if (policyDAO.getByPolicyNo(policy.getPolicyNo()) != null) {
-				throw new ExistedException("保单号：" + policy.getPolicyNo() + "已存在。");
-			}
-		}
-		
-		policyDAO.save(policy);
+	public void saveOrUpdate(CallFail policy) {
+		callFailDAO.save(policy);
 	}
 
 	/*
@@ -55,8 +49,8 @@ public class HfglServiceImpl implements HfglService {
 	 */
 	@Override
 	public void delete(Long id) {
-		Policy user = policyDAO.findOne(id);
-		policyDAO.delete(user.getId());
+		CallFail user = callFailDAO.findOne(id);
+		callFailDAO.delete(user.getId());
 	}
 	
 	/*
@@ -64,8 +58,8 @@ public class HfglServiceImpl implements HfglService {
 	 * @see com.gdpost.web.service.UserService#findAll(com.gdpost.web.util.dwz.Page)  
 	 */
 	@Override
-	public List<Policy> findAll(Page page) {
-		org.springframework.data.domain.Page<Policy> springDataPage = policyDAO.findAll(PageUtils.createPageable(page));
+	public List<CallFail> findAll(Page page) {
+		org.springframework.data.domain.Page<CallFail> springDataPage = callFailDAO.findAll(PageUtils.createPageable(page));
 		page.setTotalCount(springDataPage.getTotalElements());
 		return springDataPage.getContent();
 	}
@@ -75,9 +69,9 @@ public class HfglServiceImpl implements HfglService {
 	 * @see com.gdpost.web.service.UserService#findByExample(org.springframework.data.jpa.domain.Specification, com.gdpost.web.util.dwz.Page)	
 	 */
 	@Override
-	public List<Policy> findByExample(
-			Specification<Policy> specification, Page page) {
-		org.springframework.data.domain.Page<Policy> springDataPage = policyDAO.findAll(specification, PageUtils.createPageable(page));
+	public List<CallFail> findByExample(
+			Specification<CallFail> specification, Page page) {
+		org.springframework.data.domain.Page<CallFail> springDataPage = callFailDAO.findAll(specification, PageUtils.createPageable(page));
 		page.setTotalCount(springDataPage.getTotalElements());
 		return springDataPage.getContent();
 	}
@@ -86,7 +80,7 @@ public class HfglServiceImpl implements HfglService {
 	 * @see com.gdpost.web.service.UserService#getByPolicyNo(java.lang.String)
 	 */
 	@Override
-	public Policy getByPolicyNo(String policyNo) {
-		return policyDAO.getByPolicyNo(policyNo);
+	public CallFail getByPolicy(Policy policy) {
+		return callFailDAO.getByPolicy(policy);
 	}
 }

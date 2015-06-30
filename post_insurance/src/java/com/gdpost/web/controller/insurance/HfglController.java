@@ -7,7 +7,9 @@
  */
 package com.gdpost.web.controller.insurance;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -16,8 +18,11 @@ import javax.validation.Valid;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,16 +30,24 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.gdpost.utils.SecurityUtils;
+import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.Policy;
+import com.gdpost.web.entity.main.CallFail;
+import com.gdpost.web.entity.main.User;
 import com.gdpost.web.exception.ExistedException;
 import com.gdpost.web.exception.ServiceException;
 import com.gdpost.web.log.Log;
 import com.gdpost.web.log.LogMessageObject;
 import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.insurance.HfglService;
+import com.gdpost.web.shiro.ShiroUser;
+import com.gdpost.web.util.StatusDefine.XQ_STATUS;
 import com.gdpost.web.util.dwz.AjaxObject;
 import com.gdpost.web.util.dwz.Page;
 import com.gdpost.web.util.persistence.DynamicSpecifications;
+import com.gdpost.web.util.persistence.SearchFilter;
+import com.gdpost.web.util.persistence.SearchFilter.Operator;
 
 @Controller
 @RequestMapping("/hfgl")
@@ -44,105 +57,90 @@ public class HfglController {
 	@Autowired
 	private HfglService hfglService;
 
-	private static final String CREATE = "insurance/hfgl/wtj/create";
+	private static final String VIEW = "insurance/hfgl/wtj/view";
 	private static final String UPDATE = "insurance/hfgl/wtj/update";
 	private static final String LIST = "insurance/hfgl/wtj/list";
 	
-	@RequiresPermissions("Policy:save")
-	@RequestMapping(value="/create", method=RequestMethod.GET)
-	public String preCreate() {
-		return CREATE;
-	}
-	
-	@Log(message="添加了{0}保单。")
-	@RequiresPermissions("Policy:save")
-	@RequestMapping(value="/create", method=RequestMethod.POST)
-	public @ResponseBody String create(@Valid Policy user) {	
-		try {
-			hfglService.saveOrUpdate(user);
-		} catch (ExistedException e) {
-			return AjaxObject.newError("添加保单失败：" + e.getMessage()).setCallbackType("").toString();
-		}
+	@RequiresPermissions("Callfail:view")
+	@RequestMapping(value="/issue/view/{id}", method=RequestMethod.GET)
+	public String view(@PathVariable Long id, Map<String, Object> map) {
+		CallFail issue = hfglService.get(id);
 		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{user.getPolicyNo()}));
-		return AjaxObject.newOk("添加保单成功！").toString();
+		map.put("issue", issue);
+		//map.put("status", XQ_STATUS.ReopenStatus);
+		return VIEW;
 	}
 	
-	@ModelAttribute("preloadUser")
-	public Policy preload(@RequestParam(value = "id", required = false) Long id) {
-		if (id != null) {
-			Policy user = hfglService.get(id);
-			if(user != null) {
-				user.setOrganization(null);
-			}
-			return user;
-		}
-		return null;
-	}
-	
-	@RequiresPermissions("Policy:edit")
-	@RequestMapping(value="/update/{id}", method=RequestMethod.GET)
+	@RequiresPermissions("Callfail:edit")
+	@RequestMapping(value="/issue/update/{id}", method=RequestMethod.GET)
 	public String preUpdate(@PathVariable Long id, Map<String, Object> map) {
-		Policy user = hfglService.get(id);
+		CallFail issue = hfglService.get(id);
 		
-		map.put("user", user);
+		map.put("issue", issue);
 		return UPDATE;
 	}
 	
-	@Log(message="修改了{0}保单的信息。")
-	@RequiresPermissions("Policy:edit")
-	@RequestMapping(value="/update", method=RequestMethod.POST)
-	public @ResponseBody String update(@Valid @ModelAttribute("preloadUser")Policy user) {
-		hfglService.saveOrUpdate(user);
+	@Log(message="回复了{0}新契约不合格件的信息。")
+	@RequiresPermissions("Callfail:edit")
+	@RequestMapping(value="/issue/update", method=RequestMethod.POST)
+	public @ResponseBody String update(CallFail issue) {
+		CallFail src = hfglService.get(issue.getId());
+		src.setDealMan(issue.getDealMan());
+		src.setDealTime(issue.getDealTime());
+		src.setFixDesc(issue.getFixDesc());
+		src.setFixStatus(XQ_STATUS.DealStatus.getDesc());
+		hfglService.saveOrUpdate(src);
 		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{user.getPolicyNo()}));
-		return	AjaxObject.newOk("修改保单成功！").toString(); 
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issue.getPolicy().getPolicyNo()}));
+		return	AjaxObject.newOk("回复新契约不合格件成功！").toString(); 
 	}
 	
-	@Log(message="删除了{0}保单。")
-	@RequiresPermissions("Policy:delete")
-	@RequestMapping(value="/delete/{id}", method=RequestMethod.POST)
-	public @ResponseBody String delete(@PathVariable Long id) {
-		Policy user = null;
-		try {
-			user = hfglService.get(id);
-			hfglService.delete(user.getId());
-		} catch (ServiceException e) {
-			return AjaxObject.newError("删除保单失败：" + e.getMessage()).setCallbackType("").toString();
-		}
+	@Log(message="结案了{0}新契约不合格件的信息。")
+	@RequiresPermissions("Callfail:edit")
+	@RequestMapping(value="/issue/close", method=RequestMethod.POST)
+	public @ResponseBody String close(@Valid @ModelAttribute("preload")CallFail issue) {
+		//ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		CallFail src = hfglService.get(issue.getId());
+		src.setFixStatus(XQ_STATUS.CloseStatus.getDesc());
+		hfglService.saveOrUpdate(src);
 		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{user.getPolicyNo()}));
-		return AjaxObject.newOk("删除保单成功！").setCallbackType("").toString();
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issue.getPolicy().getPolicyNo()}));
+		return	AjaxObject.newOk("结案新契约不合格件成功！").toString(); 
 	}
 	
-	@Log(message="删除了{0}保单。")
-	@RequiresPermissions("Policy:delete")
-	@RequestMapping(value="/delete", method=RequestMethod.POST)
-	public @ResponseBody String deleteMany(Long[] ids) {
-		String[] policys = new String[ids.length];
-		try {
-			for (int i = 0; i < ids.length; i++) {
-				Policy user = hfglService.get(ids[i]);
-				hfglService.delete(user.getId());
-				
-				policys[i] = user.getPolicyNo();
-			}
-		} catch (ServiceException e) {
-			return AjaxObject.newError("删除保单失败：" + e.getMessage()).setCallbackType("").toString();
-		}
-		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{Arrays.toString(policys)}));
-		return AjaxObject.newOk("删除保单成功！").setCallbackType("").toString();
-	}
-	
-	@RequiresPermissions("Policy:view")
-	@RequestMapping(value="/list", method={RequestMethod.GET, RequestMethod.POST})
+	@RequiresPermissions("Callfail:view")
+	@RequestMapping(value="/issue/list", method={RequestMethod.GET, RequestMethod.POST})
 	public String list(ServletRequest request, Page page, Map<String, Object> map) {
-		Specification<Policy> specification = DynamicSpecifications.bySearchFilter(request, Policy.class);
-		List<Policy> users = hfglService.findByExample(specification, page);
-
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
+		//默认返回未处理工单
+		String status = request.getParameter("feeStatus");
+		LOG.debug("-------------- status: " + status);
+		CallFail issue = new CallFail();
+		if(status == null) {
+			status = XQ_STATUS.NewStatus.getDesc();
+		} else if(status.trim().length()>0) {
+			issue.setFeeStatus(XQ_STATUS.valueOf(status).getDesc());
+		}
+		issue.setFeeStatus(status);
+		
+		Specification<CallFail> specification = DynamicSpecifications.bySearchFilter(request, CallFail.class,
+				new SearchFilter("feeStatus", Operator.LIKE, status),
+				new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+		
+		List<CallFail> issues = hfglService.findByExample(specification, page);
+		
+		map.put("issue", issue);
+		map.put("statusList", XQ_STATUS.values());
 		map.put("page", page);
-		map.put("users", users);
+		map.put("issues", issues);
 		return LIST;
+	}
+	
+	@InitBinder
+	public void initBinder(WebDataBinder binder) {
+		binder.registerCustomEditor(Date.class, new CustomDateEditor(
+				new SimpleDateFormat("yyyy-MM-dd"), true));
 	}
 }
