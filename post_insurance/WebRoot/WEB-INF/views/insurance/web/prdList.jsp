@@ -116,6 +116,6 @@ $(document).ready(function () {
     </dl>
 </div>
 </div>
-<%@ include file="webroot.inc.jsp" %>
+<%@ include file="../../webroot.inc.jsp" %>
 </body>
 </html>

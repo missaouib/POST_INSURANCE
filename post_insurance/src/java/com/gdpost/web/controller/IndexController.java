@@ -47,6 +47,7 @@ import com.gdpost.web.service.insurance.KfglService;
 import com.gdpost.web.service.insurance.QyglService;
 import com.gdpost.web.shiro.ShiroUser;
 import com.gdpost.web.util.dwz.AjaxObject;
+import com.gdpost.web.util.dwz.Page;
 
 /** 
  * 	
@@ -85,7 +86,7 @@ public class IndexController {
 	@Log(message="{0}登录了系统。")
 	@RequiresUser 
 	@RequestMapping(value="", method=RequestMethod.GET)
-	public String index(HttpServletRequest request, Map<String, Object> map) {
+	public String index(HttpServletRequest request, Page page, Map<String, Object> map) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		
 		Module menuModule = getMenuModule(SecurityUtils.getSubject());

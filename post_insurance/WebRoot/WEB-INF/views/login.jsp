@@ -33,7 +33,7 @@
 	<div id="login">
 		<div id="login_header">
 			<h1 class="login_logo">
-				<img src="${contextPath}/styles/dwz/themes/default/images/logo.png" style="display:none;" />
+				<img src="${contextPath}/styles/dwz/themes/default/images/logo.png" />
 			</h1>
 
 			<div class="login_headerContent">

@@ -42,11 +42,22 @@ public class WebIndexController {
 	
 	private static final String INDEX = "index";
 	private static final String WEBLOGIN = "weblogin";
-	
+	private static final String TODO_LIST = "insurance/web/todoList";
+	private static final String PRD_LIST = "insurance/web/prdList";
 	
 	@RequestMapping(value="/index", method=RequestMethod.GET)
 	public String index(ServletRequest request, Map<String, Object> map) {
 		return INDEX;
+	}
+	
+	@RequestMapping(value="/prdList", method=RequestMethod.GET)
+	public String prdList(ServletRequest request, Map<String, Object> map) {
+		return PRD_LIST;
+	}
+	
+	@RequestMapping(value="/todoList", method=RequestMethod.GET)
+	public String todoList(ServletRequest request, Map<String, Object> map) {
+		return TODO_LIST;
 	}
 	
 	@RequestMapping(value="/tologin", method={RequestMethod.GET, RequestMethod.POST})

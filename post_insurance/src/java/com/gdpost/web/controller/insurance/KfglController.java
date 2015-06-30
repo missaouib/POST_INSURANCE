@@ -63,6 +63,7 @@ public class KfglController {
 	private static final String VIEW = "insurance/kfgl/wtj/view";
 	private static final String UPDATE = "insurance/kfgl/wtj/update";
 	private static final String LIST = "insurance/kfgl/wtj/list";
+	private static final String ISSUE_LIST = "insurance/kfgl/wtj/issuelist";
 	
 	@RequiresPermissions("Wtgd:view")
 	@RequestMapping(value="/issue/view/{id}", method=RequestMethod.GET)
@@ -190,6 +191,14 @@ public class KfglController {
 		map.put("page", page);
 		map.put("issues", issues);
 		return LIST;
+	}
+	
+	@RequiresPermissions("Wtgd:view")
+	@RequestMapping(value="/issuelist", method={RequestMethod.GET, RequestMethod.POST})
+	public String issueList(ServletRequest request, Page page, Map<String, Object> map) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		map.put("issueList", kfglService.getTODOIssueList(shiroUser.getUser()));
+		return ISSUE_LIST;
 	}
 
 	// 使用初始化绑定器, 将参数自动转化为日期类型,即所有日期类型的数据都能自动转化为yyyy-MM-dd格式的Date类型

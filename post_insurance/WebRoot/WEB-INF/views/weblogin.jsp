@@ -80,7 +80,7 @@ $(document).ready(function () {
 	<div class="daon">
 		<ul>
 			<li><a href="/web/index">首页</a><span class="daobian"></span></li>
-        	<li><a href="/uploaddatamanage/uploaddata/index">代办任务</a><span class="daobian"></span></li>
+        	<li><a href="/uploaddatamanage/uploaddata/index">待办任务</a><span class="daobian"></span></li>
             <li><a href="/uploaddatamanage/document/index">上线产品</a><span class="daobian"></span></li>
         	<li><a href="#">常见问题</a><span class="daobian"></span></li>
             <shiro:guest>
@@ -98,7 +98,7 @@ $(document).ready(function () {
   <div class="deng">
     	<div class="dengju">
     	  <form id="formID" method="post" action="${contextPath}/login">
-    	    <input type="hidden" name="userType" value="member"/>
+    	    <input type="hidden" name="userType" value="admin"/>
 			<input type="hidden" name="flag" value="web"/>
 			<input type="hidden" name="rememberMe" value="true"/>
     	    <label for="username" style=" display:block; border:1px solid #666; height:40px; width:40px; border:1px solid #DEDEDE; border-right:0; background:url(${contextPath}/images/dengzhang.jpg) no-repeat 13px 10px; float:left;"></label>
@@ -117,7 +117,7 @@ $(document).ready(function () {
 			</c:if>
     	  </form>
       </div>
-      <div style=" color:#666; font-size:12px; width:510px; margin: 0 auto; margin-top:35px;">网站仅供PICO授权用户使用。使用本网站受本网站所载的法律声明，使用条款和隐私声明制约。</div>
+      <div style=" color:#666; font-size:12px; width:510px; margin: 0 auto; margin-top:35px;">中邮保险广东分公司运营管理部提供技术支持。</div>
 	</div>
 </div>
 
