@@ -50,27 +50,26 @@ public class XlsFileHandler extends AbstractFileHandler {
 			for (int iSheet = 0; iSheet < iSheets; iSheet++) {
 				sheet = (HSSFSheet) workbook.getSheetAt(iSheet);
 				int sheetmergerCount = sheet.getNumMergedRegions();
-				log.debug("--------------有这么多个合并单元格：" + sheetmergerCount);
-				log.debug("--------------合并单元格：" + sheet.getMergedRegion(sheetmergerCount-1).getFirstRow());
-				log.debug("--------------合并单元格：" + sheet.getMergedRegion(sheetmergerCount-1).getNumberOfCells());
+				//log.debug("--------------有这么多个合并单元格：" + sheetmergerCount);
+				//log.debug("--------------合并单元格：" + sheet.getMergedRegion(sheetmergerCount-1).getFirstRow());
+				//log.debug("--------------合并单元格：" + sheet.getMergedRegion(sheetmergerCount-1).getNumberOfCells());
 				skipRow = sheet.getMergedRegion(sheetmergerCount-1).getLastRow();
-				log.debug("--------------to skip i: " + skipRow);
+				//log.debug("--------------to skip i: " + skipRow + ", sheet last row: " + sheet.getLastRowNum());
 				for (int i = skipRow+1; i < sheet.getLastRowNum(); i++) {
+					//log.debug("------------ row: " + i);
 					headerRow = (HSSFRow) sheet.getRow(i);
-					log.debug("--------------headerRow : " + headerRow + ", and the cell num: " + headerRow.getLastCellNum() + ", template column size: "
-							+ this.m_column.size());
 					if (headerRow == null) {
 						continue;
 					}
-					
+					//log.debug("--------------headerRow : " + headerRow + ", and the cell num: " + headerRow.getLastCellNum() + ", template column size: " + this.m_column.size());
 					if (headerRow.getLastCellNum() > this.m_column.size() / 2) {
 						markRow = i;
-						log.debug("--------------get the header row num : " + markRow);
+						//log.debug("--------------get the header row num : " + markRow);
 						break;
 					}
-					break;
+					//break;
 				}
-				log.debug("--------------get the header row num : " + markRow);
+				//log.debug("--------------get the header row num : " + markRow);
 				if (markRow <= 0) {
 					return null;
 				}

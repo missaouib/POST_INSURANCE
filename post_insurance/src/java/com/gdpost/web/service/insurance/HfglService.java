@@ -12,6 +12,7 @@ import java.util.List;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.gdpost.web.entity.main.CallFail;
+import com.gdpost.web.entity.main.Policy;
 import com.gdpost.web.util.dwz.Page;
 
 public interface HfglService {
@@ -25,5 +26,5 @@ public interface HfglService {
 	
 	List<CallFail> findByExample(Specification<CallFail> specification, Page page);
 	
-	CallFail getByPolicyNo(String username);
+	CallFail getByPolicy(Policy policy);
 }

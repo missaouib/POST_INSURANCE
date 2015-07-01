@@ -34,6 +34,7 @@ import com.gdpost.utils.TemplateHelper.PolicyColumn;
 import com.gdpost.utils.TemplateHelper.PolicyDtlColumn;
 import com.gdpost.utils.TemplateHelper.RemitMoneyColumn;
 import com.gdpost.utils.TemplateHelper.RenewedColumn;
+import com.gdpost.utils.TemplateHelper.RenewedHQListColumn;
 import com.gdpost.utils.TemplateHelper.RenewedStatusColumn;
 import com.gdpost.utils.TemplateHelper.Template.FileTemplate;
 import com.gdpost.utils.UploadDataHelper.UploadDataUtils;
@@ -234,6 +235,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 		
 		List<ColumnItem> standardColumns = null;
 		StringBuffer sql = null;
+		String sql2 = null;
 		switch(ft) {
 		case Policy:
 			return true;
@@ -261,7 +263,27 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql.deleteCharAt(sql.length() - 1);
 			sql.append(" ON DUPLICATE KEY UPDATE policy_no=VALUES(policy_no), prd_name=VALUES(prd_name), ");
 			sql.append("fee_status=VALUES(fee_status), fee_fail_reason=VALUES(fee_fail_reason);");
-			log.debug("----------------batch update : " + sql);
+			//log.debug("----------------batch update : " + sql);
+			break;
+		case RenewedHQList:
+			standardColumns = RenewedHQListColumn.getStandardColumns();
+			sql = new StringBuffer("INSERT INTO t_renewed_list(policy_no, prd_name, hq_issue_type, hq_deal_rst, hq_deal_date, hq_deal_remark) VALUES ");
+			line = null;
+			for (DataRow row : dt.Rows) {
+				line = new StringBuffer("(");
+	        	for(ColumnItem item : standardColumns) {
+	        		line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        	}
+	        	line.deleteCharAt(line.length() - 1);
+	        	line.append("),");
+	        	sql.append(line);
+	        }
+			sql.deleteCharAt(sql.length() - 1);
+			sql.append(" ON DUPLICATE KEY UPDATE policy_no=VALUES(policy_no), prd_name=VALUES(prd_name), ");
+			sql.append("hq_issue_type=VALUES(hq_issue_type), hq_deal_rst=VALUES(hq_deal_rst), ");
+			sql.append("hq_deal_date=VALUES(hq_deal_date), hq_deal_remark=VALUES(hq_deal_remark);");
+			//log.debug("----------------batch update : " + sql);
+			sql2 = "delete from t_renewed_list where holder is null";
 			break;
 		case RemitMoney:
 			return true;
@@ -275,6 +297,9 @@ public class UploadDataServiceImpl implements UploadDataService{
 
         try {
 			statement.execute(sql.toString());
+			if(sql2 != null) {
+				statement.execute(sql2);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -321,6 +346,9 @@ public class UploadDataServiceImpl implements UploadDataService{
 			break;
 		case RenewedStatus:
 			standardColumns = RenewedStatusColumn.getStandardColumns();
+			break;
+		case RenewedHQList:
+			standardColumns = RenewedHQListColumn.getStandardColumns();
 			break;
 		case RemitMoney:
 			standardColumns = RemitMoneyColumn.getStandardColumns();
@@ -374,7 +402,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 		// 导入数据库
 		for(DataTable[] dataSet : listDataSet.values()) {
 			for(DataTable dt : dataSet) {
-				if(t.name().equals(FileTemplate.RenewedStatus.name())) {
+				if(t.name().equals(FileTemplate.RenewedStatus.name())
+						|| t.name().equals((FileTemplate.RenewedHQList.name()))) {
 					bFlag = updateStatusData(t, request, dt);
 				} else {
 					bFlag = importData(t, request, dt, member_id, currentNY);

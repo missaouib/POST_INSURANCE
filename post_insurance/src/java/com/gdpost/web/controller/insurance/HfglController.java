@@ -8,7 +8,6 @@
 package com.gdpost.web.controller.insurance;
 
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +16,8 @@ import javax.servlet.ServletRequest;
 import javax.validation.Valid;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.data.jpa.domain.Specification;
@@ -27,16 +28,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gdpost.utils.SecurityUtils;
-import com.gdpost.web.entity.main.Organization;
-import com.gdpost.web.entity.main.Policy;
 import com.gdpost.web.entity.main.CallFail;
+import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.User;
-import com.gdpost.web.exception.ExistedException;
-import com.gdpost.web.exception.ServiceException;
 import com.gdpost.web.log.Log;
 import com.gdpost.web.log.LogMessageObject;
 import com.gdpost.web.log.impl.LogUitls;
@@ -52,7 +49,7 @@ import com.gdpost.web.util.persistence.SearchFilter.Operator;
 @Controller
 @RequestMapping("/hfgl")
 public class HfglController {
-	//private static final Logger LOG = LoggerFactory.getLogger(MemberController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(HfglController.class);
 	
 	@Autowired
 	private HfglService hfglService;
@@ -85,10 +82,10 @@ public class HfglController {
 	@RequestMapping(value="/issue/update", method=RequestMethod.POST)
 	public @ResponseBody String update(CallFail issue) {
 		CallFail src = hfglService.get(issue.getId());
-		src.setDealMan(issue.getDealMan());
-		src.setDealTime(issue.getDealTime());
-		src.setFixDesc(issue.getFixDesc());
-		src.setFixStatus(XQ_STATUS.DealStatus.getDesc());
+//		src.setDealMan(issue.getDealMan());
+//		src.setDealTime(issue.getDealTime());
+//		src.setFixDesc(issue.getFixDesc());
+//		src.setFixStatus(XQ_STATUS.DealStatus.getDesc());
 		hfglService.saveOrUpdate(src);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issue.getPolicy().getPolicyNo()}));
@@ -101,7 +98,7 @@ public class HfglController {
 	public @ResponseBody String close(@Valid @ModelAttribute("preload")CallFail issue) {
 		//ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		CallFail src = hfglService.get(issue.getId());
-		src.setFixStatus(XQ_STATUS.CloseStatus.getDesc());
+//		src.setFixStatus(XQ_STATUS.CloseStatus.getDesc());
 		hfglService.saveOrUpdate(src);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issue.getPolicy().getPolicyNo()}));
@@ -121,9 +118,9 @@ public class HfglController {
 		if(status == null) {
 			status = XQ_STATUS.NewStatus.getDesc();
 		} else if(status.trim().length()>0) {
-			issue.setFeeStatus(XQ_STATUS.valueOf(status).getDesc());
+			//issue.setFeeStatus(XQ_STATUS.valueOf(status).getDesc());
 		}
-		issue.setFeeStatus(status);
+		//issue.setFeeStatus(status);
 		
 		Specification<CallFail> specification = DynamicSpecifications.bySearchFilter(request, CallFail.class,
 				new SearchFilter("feeStatus", Operator.LIKE, status),

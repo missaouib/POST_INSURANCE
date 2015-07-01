@@ -31,10 +31,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>500 - 系统内部错误</title>
+<style type="text/css">
+.my {
+	color: #66C;
+}
+</style>
 </head>
 
 <body>
-<div><h1>系统发生内部错误.</h1></div>
-<div><a href="<c:url value="/login"/>" target="_top">重新登录</a></div>
+<div>
+<h1 class="my">500 error...估计又是超时重新登录后Lzay导致的，您需要做的是点击下面连接：</h1></div>
+<div><a href="<c:url value="/logout?userType=admin"/>" target="_top">我要重新登录！</a></div>
 </body>
 </html>

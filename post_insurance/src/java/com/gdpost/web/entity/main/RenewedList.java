@@ -54,6 +54,14 @@ public class RenewedList implements Idable<Long> {
 	private String fixDesc;
 	private String dealMan;
 	private Date dealTime;
+	private String hqIssueType;
+	private String hqDealRst;
+	private String hqDealRemark;
+	private Date hqDealDate;
+	private String provIssueType;
+	private String provDealRst;
+	private String provDealRemark;
+	private Date provDealDate;
 	
 	// Constructors
 
@@ -310,6 +318,78 @@ public class RenewedList implements Idable<Long> {
 
 	public void setDealTime(Date dealTime) {
 		this.dealTime = dealTime;
+	}
+
+	@Column(name="hq_issue_type")
+	public String getHqIssueType() {
+		return hqIssueType;
+	}
+
+	public void setHqIssueType(String hqIssueType) {
+		this.hqIssueType = hqIssueType;
+	}
+
+	@Column(name="hq_deal_rst")
+	public String getHqDealRst() {
+		return hqDealRst;
+	}
+
+	public void setHqDealRst(String hqDealRst) {
+		this.hqDealRst = hqDealRst;
+	}
+
+	@Column(name="hq_deal_remark")
+	public String getHqDealRemark() {
+		return hqDealRemark;
+	}
+
+	public void setHqDealRemark(String hqDealRemark) {
+		this.hqDealRemark = hqDealRemark;
+	}
+
+	@Column(name="hq_deal_date")
+	public Date getHqDealDate() {
+		return hqDealDate;
+	}
+
+	public void setHqDealDate(Date hqDealDate) {
+		this.hqDealDate = hqDealDate;
+	}
+
+	@Column(name="prov_issue_type")
+	public String getProvIssueType() {
+		return provIssueType;
+	}
+
+	public void setProvIssueType(String provIssueType) {
+		this.provIssueType = provIssueType;
+	}
+
+	@Column(name="prov_deal_rst")
+	public String getProvDealRst() {
+		return provDealRst;
+	}
+
+	public void setProvDealRst(String provDealRst) {
+		this.provDealRst = provDealRst;
+	}
+
+	@Column(name="prov_deal_remark")
+	public String getProvDealRemark() {
+		return provDealRemark;
+	}
+
+	public void setProvDealRemark(String provDealRemark) {
+		this.provDealRemark = provDealRemark;
+	}
+
+	@Column(name="prov_deal_date")
+	public Date getProvDealDate() {
+		return provDealDate;
+	}
+
+	public void setProvDealDate(Date provDealDate) {
+		this.provDealDate = provDealDate;
 	}
 
 	@Override
