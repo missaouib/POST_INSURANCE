@@ -7,8 +7,8 @@
 			<div>
 				<table>
 					<tr>
-						<td width="300px">
-							<div layoutH="5" id="jbsxBox2moduleTree" style="float:left; display:block; overflow:auto; width:300px; border:solid 1px #CCC; line-height:21px; background:#fff;">
+						<td width="350px">
+							<div layoutH="5" id="jbsxBox2moduleTree" style="float:left; display:block; overflow:auto; width:350px; border:solid 1px #CCC; line-height:21px; background:#fff;">
 								<c:import url="/management/security/module/tree"/>
 							</div>
 						</td>

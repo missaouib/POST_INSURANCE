@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 <div class="pageContent">
-<form method="post" id="issueForm" action="${contextPath}/xqgl/issue/reopen" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
+<form method="post" action="${contextPath}/xqgl/issue/update" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
 	<input type="hidden" name="id" value="${issue.id}"/>
 	<input type="hidden" name="feeStatus" value="${issue.feeStatus}"/>
 	<div class="pageFormContent" layoutH="58">
@@ -55,6 +55,23 @@
 	</fieldset>
 	<div class="divider"></div>
 	<fieldset>
+		<legend>省分催收处理记录</legend>
+		<p class="nowrap">
+			<label>省分催收结果：</label>
+			<textarea name="provDealRst" cols="50" rows="3">${issue.fixDesc }</textarea>
+		</p>
+		<p class="nowrap">
+			<label>经办人：</label>
+			<input type="text" name="dealMan" class="input-medium" maxlength="32" value="${issue.dealMan }"/>
+		</p>
+		<p class="nowrap">
+			<label>经办日期：</label>
+			<input type="text" name="dealTime" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${issue.dealTime }"/>
+				<a class="inputDateButton" href="javascript:;">选择</a>
+		</p>
+	</fieldset>
+	<div class="divider"></div>
+	<fieldset>
 		<legend>总部催收情况</legend>
 		<p class="nowrap">
 			<label>总部催收产生问题记录：</label>
@@ -75,38 +92,22 @@
 	</fieldset>
 	<div class="divider"></div>
 	<fieldset>
-		<legend>分公司催收情况</legend>
+		<legend>地市催收情况</legend>
 		<p class="nowrap">
-			<label>分公司催收产生问题记录：</label>
-			<textarea name="provIssueType" disabled="true" cols="50" rows="3">${issue.provIssueType }</textarea>
+			<label>地市催收产生问题记录：</label>
+			<textarea name="hqIssueType" disabled="true" cols="50" rows="3">${issue.hqIssueType }</textarea>
 		</p>
 		<p class="nowrap">
-			<label>分公司催收结果：</label>
-			<input type="text" name="provDealRst" disabled="true" class="input-medium" maxlength="32" value="${issue.provDealRst }"/>
+			<label>地市催收结果：</label>
+			<input type="text" name="hqDealRst" disabled="true" class="input-medium" maxlength="32" value="${issue.hqDealRst }"/>
 		</p>
 		<p class="nowrap">
-			<label>分公司催收日期：</label>
-			<input type="text" name="provDealDate" disabled="true" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${issue.provDealDate }"/>
+			<label>地市催收日期：</label>
+			<input type="text" name="hqDealDate" disabled="true" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${issue.hqDealDate }"/>
 		</p>
 		<p class="nowrap">
-			<label>分公司催收备注：</label>
-			<input type="text" name="provDealRemark" disabled="true" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${issue.provDealRemark }"/>
-		</p>
-	</fieldset>
-	<div class="divider"></div>
-	<fieldset>
-		<legend>市县催收情况</legend>
-		<p class="nowrap">
-			<label>续期催收处理记录：</label>
-			<textarea name="fixDesc" disabled="true" cols="50" rows="3">${issue.fixDesc }</textarea>
-		</p>
-		<p class="nowrap">
-			<label>经办人：</label>
-			<input type="text" name="dealMan" disabled="true" class="input-medium" maxlength="32" value="${issue.dealMan }"/>
-		</p>
-		<p class="nowrap">
-			<label>经办日期：</label>
-			<input type="text" name="dealTime" disabled="true" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${issue.dealTime }"/>
+			<label>地市催收备注：</label>
+			<input type="text" name="hqDealRemark" disabled="true" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${issue.hqDealRemark }"/>
 		</p>
 	</fieldset>
 	</div>
