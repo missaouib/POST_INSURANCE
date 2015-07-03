@@ -1,3 +1,10 @@
+CREATE DATABASE postinsurance DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+mysql> grant all privileges on postinsurance.* to yunying@localhost identified by '123456';
+
+mysql> grant all privileges on postinsurance.* to yunying@'%' identified by '123456';
+
+
 -- 20150506
 alter table t_policy add column operate_id bigint;
 alter table t_policy add column operate_name date;
