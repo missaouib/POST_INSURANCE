@@ -80,8 +80,8 @@ $(document).ready(function () {
 	<div class="daon">
 		<ul>
 			<li><a href="/web/index">首页</a><span class="daobian"></span></li>
-        	<li><a href="/uploaddatamanage/uploaddata/index">待办任务</a><span class="daobian"></span></li>
-            <li><a href="/uploaddatamanage/document/index">上线产品</a><span class="daobian"></span></li>
+        	<li><a href="/web/todoList">待办任务</a><span class="daobian"></span></li>
+            <li><a href="/web/prdList">上线产品</a><span class="daobian"></span></li>
         	<li><a href="#">常见问题</a><span class="daobian"></span></li>
             <shiro:guest>
             <li class="daob"><a href="/web/tologin">登录</a><span class="daobian"></span></li>
