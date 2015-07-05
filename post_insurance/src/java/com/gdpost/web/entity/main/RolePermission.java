@@ -13,6 +13,7 @@
  
 package com.gdpost.web.entity.main;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +44,12 @@ import com.gdpost.web.entity.Idable;
 @Entity
 @Table(name="t_role_permission")
 @Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="com.gdpost.web.entity.main.RolePermission")
-public class RolePermission implements Idable<Long> {
+public class RolePermission implements Idable<Long>, Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8837898714517172752L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;

@@ -43,18 +43,12 @@
 
 	<div class="panelBar">
 		<ul class="toolBar">
-			<%-- <shiro:hasPermission name="CheckWrite:save">
-				<li><a iconClass="user_add" target="dialog" rel="lookup2organization_add" mask="true" width="530" height="330" href="${contextPath }/qygl/write/issue/create"><span>添加问题问题件</span></a></li>
-			</shiro:hasPermission> --%>
 			<shiro:hasPermission name="CheckWrite:view">
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="680" href="${contextPath }/qygl/issue/write/view/{slt_uid}"><span>查看问题问题件</span></a></li>
+				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="680" href="${contextPath }/qygl/issue/write/view/{slt_uid}"><span>查看新契约不合格件</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="CheckWrite:edit">
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/qygl/issue/write/update/{slt_uid}"><span>回复问题问题件</span></a></li>
+				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/qygl/issue/write/update/{slt_uid}"><span>回复新契约不合格件</span></a></li>
 			</shiro:hasPermission>
-			<%-- <shiro:hasPermission name="CheckWrite:delete">
-				<li><a iconClass="user_delete" target="selectedTodo" rel="ids" href="${contextPath }/qygl/issue/write/delete" title="确认要删除?"><span>删除问题问题件</span></a></li>
-			</shiro:hasPermission> --%>
 		</ul>
 	</div>
 	

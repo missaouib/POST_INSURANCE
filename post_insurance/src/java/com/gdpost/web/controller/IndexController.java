@@ -20,6 +20,7 @@ import java.util.Map;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresUser;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
@@ -43,8 +44,10 @@ import com.gdpost.web.service.ModuleService;
 import com.gdpost.web.service.OrganizationService;
 import com.gdpost.web.service.UserService;
 import com.gdpost.web.service.insurance.BqglService;
+import com.gdpost.web.service.insurance.HfglService;
 import com.gdpost.web.service.insurance.KfglService;
 import com.gdpost.web.service.insurance.QyglService;
+import com.gdpost.web.service.insurance.XqglService;
 import com.gdpost.web.shiro.ShiroUser;
 import com.gdpost.web.util.dwz.AjaxObject;
 import com.gdpost.web.util.dwz.Page;
@@ -78,10 +81,19 @@ public class IndexController {
 	@Autowired
 	private QyglService qyglService;
 	
+	@Autowired
+	private XqglService xqglService;
+	
+	@Autowired
+	private HfglService hfglService;
+	
 	private static final String WEBINDEX = "index";
 	private static final String INDEX = "management/index/index";
 	private static final String UPDATE_PASSWORD = "management/index/updatePwd";
 	private static final String UPDATE_BASE = "management/index/updateBase";
+	
+	private static final String TODO_LIST = "insurance/todo/todolist";
+	private static final String PANEL_TODO_LIST = "insurance/todo/todopanel";
 	
 	@Log(message="{0}登录了系统。")
 	@RequiresUser 
@@ -95,17 +107,6 @@ public class IndexController {
 		map.put("menuModule", menuModule);
 
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{shiroUser.getLoginName()}));
-		
-		LOG.debug(" ----------- INDEX to get the task");
-		map.put("issueList", kfglService.getTODOIssueList(shiroUser.getUser()));
-		
-		map.put("bqIssueList", bqglService.getTODOIssueList(shiroUser.getUser()));
-		
-		map.put("checkWriteIssueList", qyglService.getTODOWriteIssueList(shiroUser.getUser()));
-		
-		map.put("checkRecordIssueList", qyglService.getTODORecordIssueList(shiroUser.getUser()));
-		
-		LOG.debug("------------- map: " + map);
 		
 		if(shiroUser.getUserType().equals("member")) {
 			return WEBINDEX;
@@ -136,6 +137,46 @@ public class IndexController {
 	@RequestMapping(value="/updatePwd", method=RequestMethod.GET)
 	public String preUpdatePassword() {
 		return UPDATE_PASSWORD;
+	}
+	
+	@RequiresPermissions("TODO:view")
+	@RequestMapping(value="/todolist", method=RequestMethod.GET)
+	public String todoList(HttpServletRequest request, Page page, Map<String, Object> map) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		LOG.debug(" ----------- INDEX to get the task");
+		map.put("issueList", kfglService.getTODOIssueList(shiroUser.getUser()));
+		
+		//map.put("bqIssueList", bqglService.getTODOIssueList(shiroUser.getUser()));
+		
+		//map.put("checkWriteIssueList", qyglService.getTODOWriteIssueList(shiroUser.getUser()));
+		
+		//map.put("checkRecordIssueList", qyglService.getTODORecordIssueList(shiroUser.getUser()));
+		
+		//LOG.debug("------------- map: " + map);
+		
+		return TODO_LIST;
+	}
+	
+	@RequiresPermissions("PANELTODO:view")
+	@RequestMapping(value="/paneltodolist", method=RequestMethod.GET)
+	public String panelTodoList(HttpServletRequest request, Page page, Map<String, Object> map) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		LOG.debug(" ----------- INDEX to get the task");
+		map.put("issueList", kfglService.getTODOIssueList(shiroUser.getUser()));
+		
+		map.put("bqIssueList", bqglService.getTODOIssueList(shiroUser.getUser()));
+		
+		map.put("checkWriteIssueList", qyglService.getTODOWriteIssueList(shiroUser.getUser()));
+		
+		map.put("checkRecordIssueList", qyglService.getTODORecordIssueList(shiroUser.getUser()));
+		
+		map.put("xqIssueList", xqglService.getTODOIssueList(shiroUser.getUser()));
+		
+		map.put("hfIssueList", hfglService.getTODOIssueList(shiroUser.getUser()));
+		
+		LOG.debug("------------- map: " + map);
+		
+		return PANEL_TODO_LIST;
 	}
 	
 	@Log(message="{0}修改了密码。")

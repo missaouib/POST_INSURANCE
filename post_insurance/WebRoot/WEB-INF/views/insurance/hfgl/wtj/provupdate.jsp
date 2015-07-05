@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 <div class="pageContent">
-<form method="post" action="${contextPath}/hfgl/issue/update" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
+<form method="post" action="${contextPath}/xqgl/issue/provUpdate" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
 	<input type="hidden" name="id" value="${issue.id}"/>
 	<input type="hidden" name="status" value="${issue.status}"/>
 	<div class="pageFormContent" layoutH="58">
@@ -50,10 +50,10 @@
 	</fieldset>
 	<div class="divider"></div>
 	<fieldset>
-		<legend>回访不成功处理详情</legend>
+		<legend>省分回访处理记录</legend>
 		<p class="nowrap">
-			<label>回访不成功处理记录：</label>
-			<textarea name="dealDesc" cols="50" rows="3">${issue.dealDesc }</textarea>
+			<label>省分回访结果：</label>
+			<textarea name="provDealRst" cols="50" rows="3">${issue.provDealRst }</textarea>
 		</p>
 		<p class="nowrap">
 			<label>经办人：</label>
@@ -87,22 +87,22 @@
 	</fieldset>
 	<div class="divider"></div>
 	<fieldset>
-		<legend>分公司回访情况</legend>
+		<legend>地市回访情况</legend>
 		<p class="nowrap">
-			<label>分公司回访产生问题记录：</label>
-			<textarea name="provIssueType" disabled="true" cols="50" rows="3">${issue.provIssueType }</textarea>
+			<label>地市回访产生问题记录：</label>
+			<textarea name="hqIssueType" disabled="true" cols="50" rows="3">${issue.hqIssueType }</textarea>
 		</p>
 		<p class="nowrap">
-			<label>分公司回访结果：</label>
-			<input type="text" name="provDealRst" disabled="true" class="input-medium" maxlength="32" value="${issue.provDealRst }"/>
+			<label>地市回访结果：</label>
+			<input type="text" name="hqDealRst" disabled="true" class="input-medium" maxlength="32" value="${issue.hqDealRst }"/>
 		</p>
 		<p class="nowrap">
-			<label>分公司回访日期：</label>
-			<input type="text" name="provDealDate" disabled="true" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${issue.provDealDate }"/>
+			<label>地市回访日期：</label>
+			<input type="text" name="hqDealDate" disabled="true" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${issue.hqDealDate }"/>
 		</p>
 		<p class="nowrap">
-			<label>分公司回访备注：</label>
-			<input type="text" name="provDealRemark" disabled="true" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${issue.provDealRemark }"/>
+			<label>地市回访备注：</label>
+			<input type="text" name="hqDealRemark" disabled="true" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${issue.hqDealRemark }"/>
 		</p>
 	</fieldset>
 	</div>

@@ -43,18 +43,15 @@
 
 	<div class="panelBar">
 		<ul class="toolBar">
-			<%-- <shiro:hasPermission name="Renewed:save">
-				<li><a iconClass="user_add" target="dialog" rel="lookup2organization_add" mask="true" width="530" height="330" href="${contextPath }/xqgl/issue/create"><span>添加续期催收件</span></a></li>
-			</shiro:hasPermission> --%>
 			<shiro:hasPermission name="Renewed:view">
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="680" href="${contextPath }/xqgl/issue/view/{slt_uid}"><span>查看续期催收件</span></a></li>
+				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="680" href="${contextPath }/xqgl/issue/view/{slt_uid}"><span>查看续期催收件详情</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Renewed:edit">
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/xqgl/issue/update/{slt_uid}"><span>回复续期催收件</span></a></li>
+				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/xqgl/issue/update/{slt_uid}"><span>市县续期催收登记</span></a></li>
 			</shiro:hasPermission>
-			<%-- <shiro:hasPermission name="Renewed:delete">
-				<li><a iconClass="user_delete" target="selectedTodo" rel="ids" href="${contextPath }/xqgl/issue/delete" title="确认要删除?"><span>删除续期催收件</span></a></li>
-			</shiro:hasPermission> --%>
+			<shiro:hasPermission name="Renewed:provEdit">
+				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/xqgl/issue/provUpdate/{slt_uid}"><span>省分续期催登记</span></a></li>
+			</shiro:hasPermission>
 		</ul>
 	</div>
 	

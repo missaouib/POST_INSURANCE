@@ -58,10 +58,20 @@ public class QyglController {
 	private static final String VIEW_WRITE = "insurance/qygl/wtj/write/view";
 	private static final String UPDATE_WRITE = "insurance/qygl/wtj/write/update";
 	private static final String LIST_WRITE = "insurance/qygl/wtj/write/list";
+	private static final String ISSUE_WRITE_LIST = "insurance/qygl/wtj/write/issuelist";
 	
 	private static final String VIEW_RECORD = "insurance/qygl/wtj/record/view";
 	private static final String UPDATE_RECORD = "insurance/qygl/wtj/record/update";
 	private static final String LIST_RECORD = "insurance/qygl/wtj/record/list";
+	private static final String ISSUE_RECORD_LIST = "insurance/qygl/wtj/record/issuelist";
+	
+	private static final String UNDERWRITE_LIST = "insurance/qygl/underwrite/underwritelist";
+	
+	@RequiresPermissions("Underwrite:view")
+	@RequestMapping(value="/underwritelist", method={RequestMethod.GET, RequestMethod.POST})
+	public String underwriteList(ServletRequest request, Page page, Map<String, Object> map) {
+		return UNDERWRITE_LIST;
+	}
 	
 	/*
 	 * =====================================
@@ -160,6 +170,14 @@ public class QyglController {
 		map.put("issues", issues);
 		return LIST_WRITE;
 	}
+	
+	@RequiresPermissions("CheckWrite:view")
+	@RequestMapping(value="/issue/write/issuelist", method={RequestMethod.GET, RequestMethod.POST})
+	public String writeIssueList(ServletRequest request, Page page, Map<String, Object> map) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		map.put("issueList", qyglService.getTODOWriteIssueList(shiroUser.getUser()));
+		return ISSUE_WRITE_LIST;
+	}
 
 	/*
 	 * =====================================
@@ -257,6 +275,14 @@ public class QyglController {
 		map.put("page", page);
 		map.put("issues", issues);
 		return LIST_RECORD;
+	}
+	
+	@RequiresPermissions("CheckRecord:view")
+	@RequestMapping(value="/issue/record/issuelist", method={RequestMethod.GET, RequestMethod.POST})
+	public String recordIssueList(ServletRequest request, Page page, Map<String, Object> map) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		map.put("issueList", qyglService.getTODORecordIssueList(shiroUser.getUser()));
+		return ISSUE_RECORD_LIST;
 	}
 	
 	// 使用初始化绑定器, 将参数自动转化为日期类型,即所有日期类型的数据都能自动转化为yyyy-MM-dd格式的Date类型

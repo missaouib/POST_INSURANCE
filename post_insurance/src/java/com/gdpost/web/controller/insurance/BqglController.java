@@ -61,6 +61,7 @@ public class BqglController {
 	private static final String CREATE = "insurance/bqgl/wtj/create";
 	private static final String UPDATE = "insurance/bqgl/wtj/update";
 	private static final String LIST = "insurance/bqgl/wtj/list";
+	private static final String ISSUE_LIST = "insurance/bqgl/wtj/issuelist";
 	
 	@RequiresPermissions("Cservice:save")
 	@RequestMapping(value="/issue/create", method=RequestMethod.GET)
@@ -211,6 +212,13 @@ public class BqglController {
 		return LIST;
 	}
 	
+	@RequiresPermissions("Cservice:view")
+	@RequestMapping(value="/issuelist", method={RequestMethod.GET, RequestMethod.POST})
+	public String issueList(ServletRequest request, Page page, Map<String, Object> map) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		map.put("issueList", bqglService.getTODOIssueList(shiroUser.getUser()));
+		return ISSUE_LIST;
+	}
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(

@@ -3,44 +3,14 @@
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 
 <dwz:paginationForm action="${contextPath }/bqgl/issue/list" page="${page }">
-	<input type="hidden" name="search_LIKE_policy.policyNo" value="${param.search_LIKE_policy_policyNo }"/>
-	<input type="hidden" name="search_LIKE_organization.orgCode" value="${param.search_LIKE_organization_orgCode }"/>
-	<input type="hidden" name="status" value="${param.status }"/>
 </dwz:paginationForm>
 
 <form method="post" action="${contextPath }/bqgl/issue/list" onsubmit="return navTabSearch(this)">
 	<div class="pageHeader">
-		<div class="searchBar">
-			<ul class="searchContent">
-				<li>
-					<label>保单号：</label>
-					<input type="text" name="search_LIKE_policy.policyNo" value="${param.search_LIKE_policy_policyNo }"/>
-				</li>
-				<li>
-					<label>工单状态：</label>
-					<form:select path="issue.status" class="combox">
-						<form:option value=""> -- -- </form:option>
-						<form:options items="${statusList }" itemLabel="desc"/>
-					</form:select>
-				</li>
-				<li>
-					<label>所属机构：</label>
-					<input name="search_LIKE_organization.orgCode" id="search_LIKE_organization.orgCode" type="hidden" value="${search_LIKE_organization_orgCode }"/>
-					<input class="validate[required] required" name="search_LIKE_organization.name" type="text" readonly="readonly" style="width: 140px;" value="${search_LIKE_organization_name }"/>
-					<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="search_LIKE_organization" title="选择机构" width="400">查找带回</a>
-				</li>
-			</ul>
-			<div class="subBar">
-				<ul>						
-					<li><div class="button"><div class="buttonContent"><button type="submit">搜索</button></div></div></li>
-				</ul>
-			</div>
-		</div>
 	</div>
 </form>
 
 <div class="pageContent">
-
 	<div class="panelBar">
 		<ul class="toolBar">
 			<shiro:hasPermission name="Cservice:save">
@@ -63,7 +33,6 @@
 			</shiro:hasPermission>
 		</ul>
 	</div>
-	
 	<table class="table" layoutH="137" width="100%">
 		<thead>
 			<tr>

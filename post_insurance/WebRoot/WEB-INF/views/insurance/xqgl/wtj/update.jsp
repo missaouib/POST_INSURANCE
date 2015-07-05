@@ -70,6 +70,46 @@
 				<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 	</fieldset>
+	<div class="divider"></div>
+	<fieldset>
+		<legend>总部催收情况</legend>
+		<p class="nowrap">
+			<label>总部催收产生问题记录：</label>
+			<textarea name="hqIssueType" disabled="true" cols="50" rows="3">${issue.hqIssueType }</textarea>
+		</p>
+		<p class="nowrap">
+			<label>总部催收结果：</label>
+			<input type="text" name="hqDealRst" disabled="true" class="input-medium" maxlength="32" value="${issue.hqDealRst }"/>
+		</p>
+		<p class="nowrap">
+			<label>总部催收日期：</label>
+			<input type="text" name="hqDealDate" disabled="true" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${issue.hqDealDate }"/>
+		</p>
+		<p class="nowrap">
+			<label>总部催收备注：</label>
+			<input type="text" name="hqDealRemark" disabled="true" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${issue.hqDealRemark }"/>
+		</p>
+	</fieldset>
+	<div class="divider"></div>
+	<fieldset>
+		<legend>分公司催收情况</legend>
+		<p class="nowrap">
+			<label>分公司催收产生问题记录：</label>
+			<textarea name="provIssueType" disabled="true" cols="50" rows="3">${issue.provIssueType }</textarea>
+		</p>
+		<p class="nowrap">
+			<label>分公司催收结果：</label>
+			<input type="text" name="provDealRst" disabled="true" class="input-medium" maxlength="32" value="${issue.provDealRst }"/>
+		</p>
+		<p class="nowrap">
+			<label>分公司催收日期：</label>
+			<input type="text" name="provDealDate" disabled="true" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${issue.provDealDate }"/>
+		</p>
+		<p class="nowrap">
+			<label>分公司催收备注：</label>
+			<input type="text" name="provDealRemark" disabled="true" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${issue.provDealRemark }"/>
+		</p>
+	</fieldset>
 	</div>
 			
 	<div class="formBar">

@@ -189,12 +189,12 @@ public class UploadDataController {
                 FileChannel outChannel = null;
                 
             	try {
-            		FileOutputStream fos = new FileOutputStream(strTempPath + "\\" + strOriginalFileName);
+            		FileOutputStream fos = new FileOutputStream(strTempPath + File.separator + strOriginalFileName);
             		outChannel = fos.getChannel();
             		String strChunkFile = "";
             		ByteBuffer bb = ByteBuffer.allocate(BUFSIZE);
             	    for (int i = 0; i < iChunks; i++) {
-            	    	strChunkFile = strTempPath + "\\" + i + "_" + strSessionID + "_" + strOriginalFileName;
+            	    	strChunkFile = strTempPath + File.separator + i + "_" + strSessionID + "_" + strOriginalFileName;
             	    	FileInputStream fis = new FileInputStream(strChunkFile);
             	    	FileChannel fc = fis.getChannel();
             	    	while(fc.read(bb) != -1){
@@ -213,7 +213,7 @@ public class UploadDataController {
             	    fos.close();
             	    // 从临时目录复制到正式文件目录
             	    try {
-            	    	Files.copy(java.nio.file.Paths.get(strTempPath + "\\" + strOriginalFileName), java.nio.file.Paths.get(strPath + "\\" + strOriginalFileName), StandardCopyOption.REPLACE_EXISTING);
+            	    	Files.copy(java.nio.file.Paths.get(strTempPath + File.separator + strOriginalFileName), java.nio.file.Paths.get(strPath + "\\" + strOriginalFileName), StandardCopyOption.REPLACE_EXISTING);
             	    } catch(Exception e) {
             	    }
             	    
@@ -256,7 +256,7 @@ public class UploadDataController {
         	
         	// 从临时目录复制到正式文件目录
     	    try {
-    	    	Files.copy(java.nio.file.Paths.get(strTempPath + "\\" + strNewFileName), java.nio.file.Paths.get(strPath + "\\" + strNewFileName), StandardCopyOption.REPLACE_EXISTING);
+    	    	Files.copy(java.nio.file.Paths.get(strTempPath + File.separator + strNewFileName), java.nio.file.Paths.get(strPath + File.separator + strNewFileName), StandardCopyOption.REPLACE_EXISTING);
     	    } catch(Exception e) {
     	    }
     	    

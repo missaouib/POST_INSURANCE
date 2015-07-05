@@ -1,5 +1,6 @@
 package com.gdpost.utils.FileHandler;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,7 @@ public class XlsFileHandler extends AbstractFileHandler {
 			// 设置访问密码
 			// Biff8EncryptionKey.setCurrentUserPassword(this.m_strPassword);
 
-			HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(strFilePath + "\\" + strFileName));
+			HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(strFilePath + File.separator + strFileName));
 			HSSFSheet sheet = null;
 			HSSFRow headerRow = null;
 			int iSheets = workbook.getNumberOfSheets();// 一共有几个sheet
@@ -56,12 +57,14 @@ public class XlsFileHandler extends AbstractFileHandler {
 				skipRow = sheet.getMergedRegion(sheetmergerCount-1).getLastRow();
 				//log.debug("--------------to skip i: " + skipRow + ", sheet last row: " + sheet.getLastRowNum());
 				for (int i = skipRow+1; i < sheet.getLastRowNum(); i++) {
-					//log.debug("------------ row: " + i);
+					log.debug("------------ row: " + i);
 					headerRow = (HSSFRow) sheet.getRow(i);
+					log.debug("------------ row: " + headerRow);
 					if (headerRow == null) {
+						log.debug("--------------------headerRow is null");
 						continue;
 					}
-					//log.debug("--------------headerRow : " + headerRow + ", and the cell num: " + headerRow.getLastCellNum() + ", template column size: " + this.m_column.size());
+					log.debug("--------------headerRow : " + headerRow + ", and the cell num: " + headerRow.getLastCellNum() + ", template column size: " + this.m_column.size());
 					if (headerRow.getLastCellNum() > this.m_column.size() / 2) {
 						markRow = i;
 						//log.debug("--------------get the header row num : " + markRow);
@@ -69,7 +72,7 @@ public class XlsFileHandler extends AbstractFileHandler {
 					}
 					//break;
 				}
-				//log.debug("--------------get the header row num : " + markRow);
+				log.debug("--------------get the header row num : " + markRow);
 				if (markRow <= 0) {
 					return null;
 				}
@@ -124,6 +127,7 @@ public class XlsFileHandler extends AbstractFileHandler {
 			workbook.close();
 			workbook = null;
 		} catch (Exception e) {
+			e.printStackTrace();
 			log.error(e.getMessage());
 		}
 

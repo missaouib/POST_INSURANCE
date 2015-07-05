@@ -13,6 +13,19 @@ public class StatusDefine {
 			return desc;
 		}
 	};
+	
+	public enum HF_STATUS {
+		NewStatus("待处理"), DealStatus("已回复"), WithDoorStatus("已上门"), WithMailStatus("已信函"), CloseStatus("已结案");
+		private String desc;
+
+		HF_STATUS(String desc) {
+			this.desc = desc;
+		}
+
+		public String getDesc() {
+			return desc;
+		}
+	};
 
 	public enum BQ_STATUS {
 		NewStatus("待处理"), DealStatus("已处理"), CancelStatus("已撤销"), CloseStatus("已关闭");

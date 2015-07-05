@@ -106,8 +106,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE T_ISSUE character set utf8 (";
 			break;
 		case CallFail:
-			//standardColumns = CailFileColumn.getStandardColumns();
-			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE T_CALL_FAIL character set utf8 (";
+			standardColumns = IssueColumn.getStandardColumns();
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE T_CALL_FAIL_LIST character set utf8 (";
 			break;
 		case Renewed:
 			standardColumns = RenewedColumn.getStandardColumns();
@@ -168,6 +168,13 @@ public class UploadDataServiceImpl implements UploadDataService{
         	for(ColumnItem item : standardColumns) {
         		
         		cell = StringUtil.trimStr(row.getValue(item.getDisplayName()));
+        		if(ft.name().equals(FileTemplate.CallFail.name())) {
+        			if(item.getDisplayName().equals("结案时间") && cell != null && cell.toString().length()<=0) {
+        				log.debug("----------- 结案时间: " + cell);
+        	            builder.append("2005-11-01 09:00:00\t");
+        	            continue;
+        			}
+        		}
 //        		if(log.isDebugEnabled()) {
 //        			if(item.getDisplayName().equals("保险单号码")) {
 //        				log.debug("----------- 保险单号码: " + row.getValue(item.getDisplayName()));
@@ -178,9 +185,11 @@ public class UploadDataServiceImpl implements UploadDataService{
         	}
             builder.append(member_id);
             builder.append('\n');
-            //log.debug("-----" + builder.toString());
+            log.debug("---000--" + builder.toString());
         }
-
+        
+        log.debug("------111-----" + builder.toString());
+        
         InputStream is = null;
         try {
 			is = IOUtils.toInputStream(builder.toString(), "UTF-8");
@@ -339,7 +348,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			standardColumns = IssueColumn.getStandardColumns();
 			break;
 		case CallFail:
-			//standardColumns = CallFailColumn.getStandardColumns();
+			standardColumns = IssueColumn.getStandardColumns();
 			break;
 		case Renewed:
 			standardColumns = RenewedColumn.getStandardColumns();

@@ -5,7 +5,7 @@
 	<input type="hidden" name="id" value="${issue.id}"/>
 	<div class="pageFormContent" layoutH="58">
 	<fieldset>
-		<legend>不合格件基本信息</legend>
+		<legend>新契约填写不合格件基本信息</legend>
 		<p>
 			<label>保单号：</label>
 			<input type="text" name="policy.policyNo" readonly="readonly" class="input-medium" maxlength="32" value="${issue.policy.policyNo }"/>

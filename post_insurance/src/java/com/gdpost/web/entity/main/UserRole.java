@@ -1,5 +1,7 @@
 package com.gdpost.web.entity.main;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -26,7 +28,12 @@ import com.gdpost.web.entity.Idable;
 @Entity
 @Table(name="t_user_role")
 @Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="com.gdpost.web.entity.main.UserRole")
-public class UserRole implements Idable<Long> {
+public class UserRole implements Idable<Long>,Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 976173498717561992L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;

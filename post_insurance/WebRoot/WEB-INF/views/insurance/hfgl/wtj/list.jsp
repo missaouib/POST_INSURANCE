@@ -2,13 +2,13 @@
 <%@page import="java.util.Date"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 
-<dwz:paginationForm action="${contextPath }/kfgl/issue/list" page="${page }">
+<dwz:paginationForm action="${contextPath }/hfgl/issue/list" page="${page }">
 	<input type="hidden" name="search_LIKE_issueNo" value="${param.search_LIKE_issueNo }"/>
 	<input type="hidden" name="search_LIKE_organization.orgCode" value="${param.search_LIKE_organization_orgCode }"/>
 	<input type="hidden" name="status" value="${param.status }"/>
 </dwz:paginationForm>
 
-<form method="post" action="${contextPath }/kfgl/issue/list" onsubmit="return navTabSearch(this)">
+<form method="post" action="${contextPath }/hfgl/issue/list" onsubmit="return navTabSearch(this)">
 	<div class="pageHeader">
 		<div class="searchBar">
 			<ul class="searchContent">
@@ -43,18 +43,15 @@
 
 	<div class="panelBar">
 		<ul class="toolBar">
-			<%-- <shiro:hasPermission name="Wtgd:save">
-				<li><a iconClass="user_add" target="dialog" rel="lookup2organization_add" mask="true" width="530" height="330" href="${contextPath }/kfgl/issue/create"><span>添加问题工单</span></a></li>
-			</shiro:hasPermission> --%>
-			<shiro:hasPermission name="Wtgd:view">
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="680" href="${contextPath }/kfgl/issue/view/{slt_uid}"><span>查看问题工单</span></a></li>
+			<shiro:hasPermission name="Callfail:view">
+				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="680" href="${contextPath }/hfgl/issue/view/{slt_uid}"><span>查看回访不成功件</span></a></li>
 			</shiro:hasPermission>
-			<shiro:hasPermission name="Wtgd:edit">
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/kfgl/issue/update/{slt_uid}"><span>回复问题工单</span></a></li>
+			<shiro:hasPermission name="Callfail:edit">
+				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/hfgl/issue/update/{slt_uid}"><span>回复回访不成功件</span></a></li>
 			</shiro:hasPermission>
-			<%-- <shiro:hasPermission name="Wtgd:delete">
-				<li><a iconClass="user_delete" target="selectedTodo" rel="ids" href="${contextPath }/kfgl/issue/list/delete" title="确认要删除?"><span>删除问题工单</span></a></li>
-			</shiro:hasPermission> --%>
+			<shiro:hasPermission name="Callfail:provEdit">
+				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/hfgl/issue/provUpdate/{slt_uid}"><span>省分回访登记</span></a></li>
+			</shiro:hasPermission>
 		</ul>
 	</div>
 	

@@ -56,7 +56,9 @@ public class XqglController {
 
 	private static final String VIEW = "insurance/xqgl/wtj/view";
 	private static final String UPDATE = "insurance/xqgl/wtj/update";
+	private static final String PROV_UPDATE = "insurance/xqgl/wtj/provupdate";
 	private static final String LIST = "insurance/xqgl/wtj/list";
+	private static final String ISSUE_LIST = "insurance/xqgl/wtj/issuelist";
 	
 	@RequiresPermissions("Renewed:view")
 	@RequestMapping(value="/issue/view/{id}", method=RequestMethod.GET)
@@ -77,7 +79,16 @@ public class XqglController {
 		return UPDATE;
 	}
 	
-	@Log(message="回复了{0}新契约不合格件的信息。")
+	@RequiresPermissions("Renewed:provEdit")
+	@RequestMapping(value="/issue/provUpdate/{id}", method=RequestMethod.GET)
+	public String preProvUpdate(@PathVariable Long id, Map<String, Object> map) {
+		RenewedList issue = xqglService.get(id);
+		
+		map.put("issue", issue);
+		return PROV_UPDATE;
+	}
+	
+	@Log(message="回复了{0}续期催收件的信息。")
 	@RequiresPermissions("Renewed:edit")
 	@RequestMapping(value="/issue/update", method=RequestMethod.POST)
 	public @ResponseBody String update(RenewedList issue) {
@@ -89,10 +100,25 @@ public class XqglController {
 		xqglService.saveOrUpdate(src);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issue.getPolicy().getPolicyNo()}));
-		return	AjaxObject.newOk("回复新契约不合格件成功！").toString(); 
+		return	AjaxObject.newOk("回复续期催收件成功！").toString(); 
 	}
 	
-	@Log(message="结案了{0}新契约不合格件的信息。")
+	@Log(message="回复了{0}续期催收件的信息。")
+	@RequiresPermissions("Renewed:provEdit")
+	@RequestMapping(value="/issue/provUpdate", method=RequestMethod.POST)
+	public @ResponseBody String provUpdate(RenewedList issue) {
+		RenewedList src = xqglService.get(issue.getId());
+		src.setProvDealRst(issue.getProvDealRst());
+		src.setProvDealDate(new Date());
+		src.setProvDealRemark(issue.getProvDealRemark());
+		src.setFixStatus(XQ_STATUS.DealStatus.getDesc());
+		xqglService.saveOrUpdate(src);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issue.getPolicy().getPolicyNo()}));
+		return	AjaxObject.newOk("回复续期催收件成功！").toString(); 
+	}
+	
+	@Log(message="结案了{0}续期催收件的信息。")
 	@RequiresPermissions("Renewed:edit")
 	@RequestMapping(value="/issue/close", method=RequestMethod.POST)
 	public @ResponseBody String close(@Valid @ModelAttribute("preload")RenewedList issue) {
@@ -102,7 +128,7 @@ public class XqglController {
 		xqglService.saveOrUpdate(src);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issue.getPolicy().getPolicyNo()}));
-		return	AjaxObject.newOk("结案新契约不合格件成功！").toString(); 
+		return	AjaxObject.newOk("结案续期催收件成功！").toString(); 
 	}
 	
 	@RequiresPermissions("Renewed:view")
@@ -133,6 +159,14 @@ public class XqglController {
 		map.put("page", page);
 		map.put("issues", issues);
 		return LIST;
+	}
+	
+	@RequiresPermissions("Renewed:view")
+	@RequestMapping(value="/issuelist", method={RequestMethod.GET, RequestMethod.POST})
+	public String issueList(ServletRequest request, Page page, Map<String, Object> map) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		map.put("issueList", xqglService.getTODOIssueList(shiroUser.getUser()));
+		return ISSUE_LIST;
 	}
 	
 	@InitBinder

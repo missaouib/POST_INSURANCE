@@ -109,7 +109,7 @@ public class Issue implements Idable<Long> {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="organ_code", referencedColumnName="org_code")
 	public Organization getOrganization() {
 		return organization;

@@ -168,22 +168,22 @@ $(document).ready(function(){
 						</div>
 						<p><span>欢迎, ${login_user.realname } . 请及时处理待办任务。</span></p>
 					</div>
-					<div class="pageContent sortDrag" selector="h1" layoutH="42">
+					<div class="pageContent sortDrag" selector="h1" layoutH="12">
 					<div class="tabs" currentIndex="0" eventType="click">
 						<div class="tabsHeader">
 							<div class="tabsHeaderContent">
 								<ul>
 									<li><a href="/kfgl/issuelist" class="j-ajax"><span>问题工单</span></a></li>
-									<li><a href="/kfgl/issuelist" class="j-ajax"><span>契约不合格件（填写）</span></a></li>
-									<li><a href="/kfgl/issuelist" class="j-ajax"><span>契约不合格件（录入）</span></a></li>
-									<li><a href="/kfgl/issuelist" class="j-ajax"><span>保全复核问题</span></a></li>
-									<li><a href="/kfgl/issuelist" class="j-ajax"><span>回访不成功件</span></a></li>
-									<li><a href="/kfgl/issuelist" class="j-ajax"><span>续期催缴件</span></a></li>
-									<li><a href="/kfgl/issuelist" class="j-ajax"><span>人工核保件跟进</span></a></li>
+									<li><a href="/qygl/issue/write/issuelist" class="j-ajax"><span>契约不合格件（填写）</span></a></li>
+									<li><a href="/qygl/issue/record/issuelist" class="j-ajax"><span>契约不合格件（录入）</span></a></li>
+									<li><a href="/bqgl/issuelist" class="j-ajax"><span>保全复核问题</span></a></li>
+									<li><a href="/hfgl/issuelist" class="j-ajax"><span>回访不成功件</span></a></li>
+									<li><a href="/xqgl/issuelist" class="j-ajax"><span>续期催缴件</span></a></li>
+									<li><a href="/qygl/underwritelist" class="j-ajax"><span>人工核保件跟进</span></a></li>
 								</ul>
 							</div>
 						</div>
-						<div class="tabsContent" style="height:150px;">
+						<div class="tabsContent" style="height:300px;">
 							<div>
 							<dwz:paginationForm action="${contextPath }/kfgl/issue/list" page="${page }">
 							</dwz:paginationForm>
@@ -243,258 +243,6 @@ $(document).ready(function(){
 							<div class="tabsFooterContent"></div>
 						</div>
 					</div>
-					<fieldset>
-						<legend>待办任务</legend>
-						<div class="panel <c:if test='${fn:length(issueList)<=0}'>close</c:if> collapse" defH="100">
-							<h1>待处理问题工单</h1>
-							<div>
-								<table class="list" width="98%">
-									<thead>
-										<tr>
-											<th>序号</th>
-											<th>工单号</th>
-											<th>工单状态</th>
-											<th>保单号</th>
-											<th>工单子类型</th>
-											<th>工单内容</th>
-										</tr>
-									</thead>
-									<tbody>
-										<c:forEach var="item" items="${issueList}" varStatus="var">
-										<tr target="slt_uid" rel="${item.id}">
-											<td>${var.index+1 }</td>
-											<td>
-											<c:if test="${fn:length(login_user.organization.orgCode) > 4}">
-											<a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/kfgl/issue/update/${item.id}"><span>${item.issueNo}</span></a>
-											</c:if>
-											 <c:if test="${fn:length(login_user.organization.orgCode) <= 4}"> 
-										     <a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/kfgl/issue/view/${item.id}"><span>${item.issueNo}</span></a>
-										    </c:if> 
-											</td>
-											<td>${item.status}</td>
-											<td>${item.policy.policyNo}</td>
-											<td>${item.issueType}</td>
-											<td>${item.issueContent}</td>
-										</tr>
-										</c:forEach>
-									</tbody>
-								</table>
-							</div>
-						</div>
-						
-						<div class="panel <c:if test='${fn:length(bqIssueList)<=0}'>close</c:if> collapse" defH="100">
-							<h1>待处理保全复核问题</h1>
-							<div>
-								<table class="list" width="98%">
-									<thead>
-										<tr>
-											<th>序号</th>
-											<th>保单号</th>
-											<th>保全复核问题</th>
-											<th>操作</th>
-										</tr>
-									</thead>
-									<tbody>
-										<c:forEach var="item" items="${bqIssueList}" varStatus="var">
-										<tr target="slt_uid" rel="${item.id}">
-											<td>${var.index+1 }</td>
-											<td>${item.policy.policyNo}</td>
-											<td>${item.csRst}</td>
-											<td>
-											<c:if test="${fn:length(login_user.organization.orgCode) > 4}">
-											<a target="ajaxTodo" href="${contextPath }/bqgl/issue/DealStatus/${item.id}" title="确认更新状态?"><span>已处理</span></a>
-											<a target="ajaxTodo" href="${contextPath }/bqgl/issue/CancelStatus/${item.id}" title="确认撤销?"><span>撤销</span></a>
-											</c:if>
-											 <c:if test="${fn:length(login_user.organization.orgCode) <= 4}"> 
-										     <a target="ajaxTodo" href="${contextPath }/bqgl/issue/CancelStatus/${item.id}" title="确认撤销?"><span>撤销</span></a>
-										     <a target="ajaxTodo" href="${contextPath }/bqgl/issue/CloseStatus/${item.id}" title="确认关闭?"><span>关闭</span></a>
-										    </c:if> 
-											</td>
-										</tr>
-										</c:forEach>
-									</tbody>
-								</table>
-							</div>
-						</div>
-						
-						<div class="panel <c:if test='${fn:length(issueList)>0}'>close</c:if> collapse" defH="100">
-							<h1>待上门回访工单</h1>
-							<div>
-								<table class="list" width="98%">
-									<thead>
-										<tr>
-											<th>序号</th>
-											<th>工单号</th>
-											<th>工单状态</th>
-											<th>保单号</th>
-											<th>工单子类型</th>
-											<th>工单内容</th>
-										</tr>
-									</thead>
-									<tbody>
-										<c:forEach var="item" items="${issueList}" varStatus="var">
-										<tr target="slt_uid" rel="${item.id}">
-											<td>${var.index+1 }</td>
-											<td>
-											<c:if test="${fn:length(login_user.organization.orgCode) > 4}">
-											<a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/kfgl/issue/update/${item.id}"><span>${item.issueNo}</span></a>
-											</c:if>
-											 <c:if test="${fn:length(login_user.organization.orgCode) <= 4}"> 
-										     <a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/kfgl/issue/view/${item.id}"><span>${item.issueNo}</span></a>
-										    </c:if> 
-											</td>
-											<td>${item.status}</td>
-											<td>${item.policy.policyNo}</td>
-											<td>${item.issueType}</td>
-											<td>${item.issueContent}</td>
-										</tr>
-										</c:forEach>
-									</tbody>
-								</table>
-							</div>
-						</div>
-						
-						<div class="panel <c:if test='${fn:length(issueList)>0}'>close</c:if> collapse" defH="100">
-							<h1>续期催缴工单</h1>
-							<div>
-								<table class="list" width="98%">
-									<thead>
-										<tr>
-											<th>序号</th>
-											<th>工单号</th>
-											<th>工单状态</th>
-											<th>保单号</th>
-											<th>工单子类型</th>
-											<th>工单内容</th>
-										</tr>
-									</thead>
-									<tbody>
-										<c:forEach var="item" items="${issueList}" varStatus="var">
-										<tr target="slt_uid" rel="${item.id}">
-											<td>${var.index+1 }</td>
-											<td>
-											<c:if test="${fn:length(login_user.organization.orgCode) > 4}">
-											<a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/kfgl/issue/update/${item.id}"><span>${item.issueNo}</span></a>
-											</c:if>
-											 <c:if test="${fn:length(login_user.organization.orgCode) <= 4}"> 
-										     <a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/kfgl/issue/view/${item.id}"><span>${item.issueNo}</span></a>
-										    </c:if> 
-											</td>
-											<td>${item.status}</td>
-											<td>${item.policy.policyNo}</td>
-											<td>${item.issueType}</td>
-											<td>${item.issueContent}</td>
-										</tr>
-										</c:forEach>
-									</tbody>
-								</table>
-							</div>
-						</div>
-						
-						<div class="panel <c:if test='${fn:length(checkWriteIssueList)>0}'>close</c:if> collapse" defH="100">
-							<h1>新契约填写不合格件</h1>
-							<div>
-								<table class="list" width="98%">
-									<thead>
-										<tr>
-											<th>序号</th>
-											<th>保单号</th>
-											<th>状态</th>
-											<th>关键信息</th>
-											<th>重要信息</th>
-											<th>扫描不完整</th>
-										</tr>
-									</thead>
-									<tbody>
-										<c:forEach var="item" items="${checkWriteIssueList}" varStatus="var">
-										<tr target="slt_uid" rel="${item.id}">
-											<td>${var.index+1 }</td>
-											<td>
-											<c:if test="${fn:length(login_user.organization.orgCode) > 4}">
-											<a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/qygl/issue/write/update/${item.id}"><span>${item.policy.policyNo}</span></a>
-											</c:if>
-											 <c:if test="${fn:length(login_user.organization.orgCode) <= 4}"> 
-										     <a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/qygl/issue/write/view/${item.id}"><span>${item.policy.policyNo}</span></a>
-										    </c:if> 
-											</td>
-											<td>
-											<c:choose>
-												<c:when test="${item.fixStatus eq 'NewStatus'}">
-													待处理
-												</c:when>
-												<c:when test="${item.fixStatus eq 'DealStatus'}">
-													已处理
-												</c:when>
-												<c:when test="${item.fixStatus eq 'ReopenStatus'}">
-													重打开
-												</c:when>
-												<c:otherwise>
-													已关闭
-												</c:otherwise>
-											</c:choose>
-											</td>
-											<td>${item.keyInfo=="null"?"":item.keyInfo}</td>
-											<td>${item.importanceInfo="null"?"":item.importanceInfo}</td>
-											<td>${item.docMiss==null?"":item.docMiss}</td>
-										</tr>
-										</c:forEach>
-									</tbody>
-								</table>
-							</div>
-						</div>
-						
-						<div class="panel <c:if test='${fn:length(checkRecordIssueList)>0}'>close</c:if> collapse" defH="100">
-							<h1>新契约录入不合格件</h1>
-							<div>
-								<table class="list" width="98%">
-									<thead>
-										<tr>
-											<th>序号</th>
-											<th>保单号</th>
-											<th>状态</th>
-											<th>关键信息</th>
-											<th>重要信息</th>
-											<th>扫描不完整</th>
-										</tr>
-									</thead>
-									<tbody>
-										<c:forEach var="item" items="${checkRecordIssueList}" varStatus="var">
-										<tr target="slt_uid" rel="${item.id}">
-											<td>${var.index+1 }</td>
-											<td>
-											<c:if test="${fn:length(login_user.organization.orgCode) > 4}">
-											<a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/qygl/issue/record/update/${item.id}"><span>${item.policy.policyNo}</span></a>
-											</c:if>
-											 <c:if test="${fn:length(login_user.organization.orgCode) <= 4}"> 
-										     <a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/qygl/issue/record/view/${item.id}"><span>${item.policy.policyNo}</span></a>
-										    </c:if> 
-											</td>
-											<td>
-											<c:choose>
-												<c:when test="${item.fixStatus eq 'NewStatus'}">
-													待处理
-												</c:when>
-												<c:when test="${item.fixStatus eq 'DealStatus'}">
-													已处理
-												</c:when>
-												<c:when test="${item.fixStatus eq 'ReopenStatus'}">
-													重打开
-												</c:when>
-												<c:otherwise>
-													已关闭
-												</c:otherwise>
-											</c:choose>
-											</td>
-											<td>${item.keyInfo=="null"?"":item.keyInfo}</td>
-											<td>${item.importanceInfo="null"?"":item.importanceInfo}</td>
-											<td>${item.docMiss==null?"":item.docMiss}</td>
-										</tr>
-										</c:forEach>
-									</tbody>
-								</table>
-							</div>
-						</div>
-					</fieldset>
 					</div>
 				</div>
 			</div>

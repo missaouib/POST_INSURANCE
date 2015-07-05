@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 <div class="pageContent">
-<form method="post" action="${contextPath}/xqgl/issue/update" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
+<form method="post" action="${contextPath}/xqgl/issue/provUpdate" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
 	<input type="hidden" name="id" value="${issue.id}"/>
 	<input type="hidden" name="feeStatus" value="${issue.feeStatus}"/>
 	<div class="pageFormContent" layoutH="58">
@@ -58,7 +58,7 @@
 		<legend>省分催收处理记录</legend>
 		<p class="nowrap">
 			<label>省分催收结果：</label>
-			<textarea name="provDealRst" cols="50" rows="3">${issue.fixDesc }</textarea>
+			<textarea name="provDealRst" cols="50" rows="3">${issue.provDealRst }</textarea>
 		</p>
 		<p class="nowrap">
 			<label>经办人：</label>

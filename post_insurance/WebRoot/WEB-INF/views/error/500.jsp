@@ -8,10 +8,12 @@
 <%
 	String errorMsg = null;
 	Throwable ex = null;
+	String msg = null;
 	if (request.getAttribute("javax.servlet.error.exception") != null) {
 		ex = (Throwable) request.getAttribute("javax.servlet.error.exception");
 	} else {
 		ex = exception;
+		msg = ex.getMessage();
 	}
 
 	//记录日志
@@ -40,7 +42,11 @@
 
 <body>
 <div>
-<h1 class="my">500 error...估计又是超时重新登录后Lzay导致的，您需要做的是点击下面连接：</h1></div>
+<%if(msg != null && (msg.contains("Lazy") || msg.contains("lazily"))) {%>
+<h1 class="my">500 error...又是超时重新登录后Lazy导致的，您需要做的是点击下面连接：</h1></div>
 <div><a href="<c:url value="/logout?userType=admin"/>" target="_top">我要重新登录！</a></div>
+<%} else { %>
+<h1 class="my">500 error...系统内部错误了，请联系省分公司运营管理部吧，深感抱歉！</h1></div>
+<%} %>
 </body>
 </html>

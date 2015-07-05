@@ -2,56 +2,25 @@
 <%@page import="java.util.Date"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 
-<dwz:paginationForm action="${contextPath }/qygl/issue/record/list" page="${page }">
-	<input type="hidden" name="search_LIKE_issueNo" value="${param.search_LIKE_issueNo }"/>
-	<input type="hidden" name="search_LIKE_organization.orgCode" value="${param.search_LIKE_organization_orgCode }"/>
-	<input type="hidden" name="status" value="${param.status }"/>
+<dwz:paginationForm action="${contextPath }/qygl/issue/write/issuelist" page="${page }">
 </dwz:paginationForm>
 
-<form method="post" action="${contextPath }/qygl/issue/record/list" onsubmit="return navTabSearch(this)">
+<form method="post" action="${contextPath }/qygl/issue/write/issuelist" onsubmit="return navTabSearch(this)">
 	<div class="pageHeader">
-		<div class="searchBar">
-			<ul class="searchContent">
-				<li>
-					<label>工单编号：</label>
-					<input type="text" name="search_LIKE_issueNo" value="${param.search_LIKE_issueNo }"/>
-				</li>
-				<li>
-					<label>工单状态：</label>
-					<form:select path="issue.fixStatus" class="combox">
-						<form:option value=""> -- -- </form:option>
-						<form:options items="${statusList }" itemLabel="desc"/>
-					</form:select>
-				</li>
-				<li>
-					<label>所属机构：</label>
-					<input name="search_LIKE_organization.orgCode" id="search_LIKE_organization.orgCode" type="hidden" value="${search_LIKE_organization_orgCode }"/>
-					<input class="validate[required] required" name="search_LIKE_organization.name" type="text" readonly="readonly" style="width: 140px;" value="${search_LIKE_organization_name }"/>
-					<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="search_LIKE_organization" title="选择机构" width="400">查找带回</a>
-				</li>				
-			</ul>
-			<div class="subBar">
-				<ul>						
-					<li><div class="button"><div class="buttonContent"><button type="submit">搜索</button></div></div></li>
-				</ul>
-			</div>
-		</div>
 	</div>
 </form>
 
 <div class="pageContent">
-
 	<div class="panelBar">
 		<ul class="toolBar">
-			<shiro:hasPermission name="CheckRecord:view">
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="680" href="${contextPath }/qygl/issue/record/view/{slt_uid}"><span>查看新契约不合格件</span></a></li>
+			<shiro:hasPermission name="CheckWrite:view">
+				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="680" href="${contextPath }/qygl/issue/write/view/{slt_uid}"><span>查看新契约不合格件</span></a></li>
 			</shiro:hasPermission>
-			<shiro:hasPermission name="CheckRecord:edit">
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/qygl/issue/record/update/{slt_uid}"><span>回复新契约不合格件</span></a></li>
+			<shiro:hasPermission name="CheckWrite:edit">
+				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/qygl/issue/write/update/{slt_uid}"><span>回复新契约不合格件</span></a></li>
 			</shiro:hasPermission>
 		</ul>
 	</div>
-	
 	<table class="table" layoutH="137" width="100%">
 		<thead>
 			<tr>

@@ -2,10 +2,10 @@
 <%@page import="java.util.Date"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 
-<dwz:paginationForm action="${contextPath }/hfgl/issue/list" page="${page }">
+<dwz:paginationForm action="${contextPath }/kfgl/issue/list" page="${page }">
 </dwz:paginationForm>
 
-<form method="post" action="${contextPath }/hfgl/issue/list" onsubmit="return navTabSearch(this)">
+<form method="post" action="${contextPath }/kfgl/issue/list" onsubmit="return navTabSearch(this)">
 	<div class="pageHeader">
 	</div>
 </form>
@@ -13,14 +13,11 @@
 <div class="pageContent">
 	<div class="panelBar">
 		<ul class="toolBar">
-			<shiro:hasPermission name="Callfail:view">
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="680" href="${contextPath }/hfgl/issue/view/{slt_uid}"><span>查看回访不成功件</span></a></li>
+			<shiro:hasPermission name="Wtgd:view">
+				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="680" href="${contextPath }/kfgl/issue/view/{slt_uid}"><span>查看问题工单</span></a></li>
 			</shiro:hasPermission>
-			<shiro:hasPermission name="Callfail:edit">
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/hfgl/issue/update/{slt_uid}"><span>回复回访不成功件</span></a></li>
-			</shiro:hasPermission>
-			<shiro:hasPermission name="Callfail:provEdit">
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/hfgl/issue/provUpdate/{slt_uid}"><span>省分回访登记</span></a></li>
+			<shiro:hasPermission name="Wtgd:edit">
+				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/kfgl/issue/update/{slt_uid}"><span>回复问题工单</span></a></li>
 			</shiro:hasPermission>
 		</ul>
 	</div>

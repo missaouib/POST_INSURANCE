@@ -48,7 +48,7 @@ public class UploadController {
 	
 	String strError = "{\"jsonrpc\":\"2.0\",\"result\":\"error\",\"id\":\"id\",\"message\":\"操作失败。\"}";
 	
-	@RequiresPermissions(value={"UploadData:Upload", "UploadRenewed:Upload", "UploadCheck:Upload", "UploadRemit:Upload", "UploadIssue:Upload"})
+	@RequiresPermissions(value={"UploadData:Upload", "UploadRenewed:Upload", "UploadCallFail:Upload", "UploadCheck:Upload", "UploadRemit:Upload", "UploadIssue:Upload"})
 	@RequestMapping(value = "/upload", method = RequestMethod.GET)
 	public String preUpload(HttpServletRequest request, Map<String, Object> map) {
 		int ny = UploadDataUtils.getNianYue();
@@ -78,6 +78,9 @@ public class UploadController {
 			case "check":
 				ft = FileTemplate.CheckWrite;
 				break;
+			case "callfail":
+				ft = FileTemplate.CallFail;
+				break;
 			}
 		}
 		//log.debug("-------------------- uplodate list type:" + ft);
@@ -91,7 +94,7 @@ public class UploadController {
 	}
 
 	@Log(message="上传了{0}。")
-	@RequiresPermissions(value={"UploadData:Upload", "UploadRenewed:Upload", "UploadCheck:Upload", "UploadRemit:Upload", "UploadIssue:Upload"})
+	@RequiresPermissions(value={"UploadData:Upload", "UploadRenewed:Upload", "UploadCallFail:Upload", "UploadCheck:Upload", "UploadRemit:Upload", "UploadIssue:Upload"})
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public @ResponseBody String upload(HttpServletRequest request, @RequestParam String name, @RequestParam(value = "file", required = true) MultipartFile file) {
         log.debug("-------------------------------------upload");
@@ -168,12 +171,12 @@ public class UploadController {
                     FileChannel outChannel = null;
                     
                 	try {
-                		FileOutputStream fos = new FileOutputStream(strTempPath + "\\" + strOriginalFileName);
+                		FileOutputStream fos = new FileOutputStream(strTempPath + File.separator + strOriginalFileName);
                 		outChannel = fos.getChannel();
                 		String strChunkFile = "";
                 		ByteBuffer bb = ByteBuffer.allocate(BUFSIZE);
                 	    for (int i = 0; i < iChunks; i++) {
-                	    	strChunkFile = strTempPath + "\\" + i + "_" + strSessionID + "_" + strOriginalFileName;
+                	    	strChunkFile = strTempPath + File.separator + i + "_" + strSessionID + "_" + strOriginalFileName;
                 	    	FileInputStream fis = new FileInputStream(strChunkFile);
                 	    	FileChannel fc = fis.getChannel();
                 	    	while(fc.read(bb) != -1){
@@ -192,7 +195,7 @@ public class UploadController {
                 	    fos.close();
                 	    // 从临时目录复制到正式文件目录
                 	    try {
-                	    	Files.copy(java.nio.file.Paths.get(strTempPath + "\\" + strOriginalFileName), java.nio.file.Paths.get(strPath + "\\" + strOriginalFileName), StandardCopyOption.REPLACE_EXISTING);
+                	    	Files.copy(java.nio.file.Paths.get(strTempPath + File.separator + strOriginalFileName), java.nio.file.Paths.get(strPath + "\\" + strOriginalFileName), StandardCopyOption.REPLACE_EXISTING);
                 	    } catch(Exception e) {
                 	    }
             	    	
@@ -237,7 +240,7 @@ public class UploadController {
             	
             	// 从临时目录复制到正式文件目录
         	    try {
-        	    	Files.copy(java.nio.file.Paths.get(strTempPath + "\\" + strNewFileName), java.nio.file.Paths.get(strPath + "\\" + strNewFileName), StandardCopyOption.REPLACE_EXISTING);
+        	    	Files.copy(java.nio.file.Paths.get(strTempPath + File.separator + strNewFileName), java.nio.file.Paths.get(strPath + File.separator + strNewFileName), StandardCopyOption.REPLACE_EXISTING);
         	    } catch(Exception e) {
         	    }
         	    
@@ -257,7 +260,7 @@ public class UploadController {
 		return (strError);
 	}
 	
-	@RequiresPermissions(value={"UploadData:Upload", "UploadRenewed:Upload", "UploadCheck:Upload", "UploadRemit:Upload", "UploadIssue:Upload"})
+	@RequiresPermissions(value={"UploadData:Upload", "UploadRenewed:Upload", "UploadCallFail:Upload", "UploadCheck:Upload", "UploadRemit:Upload", "UploadIssue:Upload"})
 	@RequestMapping(value = "/check", method = RequestMethod.POST)
 	public @ResponseBody String check(HttpServletRequest request) {
 		log.debug("-------------------------------------upload check");

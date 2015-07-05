@@ -2,36 +2,36 @@ package com.gdpost.web.entity.main;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
-import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import com.gdpost.web.entity.Idable;
 
-/**
- * AbstractTCallFailList entity provides the base persistence definition of the
- * TCallFailList entity. @author MyEclipse Persistence Tools
- */
-@MappedSuperclass
+@Entity
+@Table(name="t_call_fail_list")
 public class CallFailList implements Idable<Long> {
 
 	// Fields
 
 	private Long id;
-	private String organCode;
+	private Organization organization;
 	private String callMan;
 	private String issueNo;
-	private String policyNo;
+	private Policy policy;
 	private String issueDesc;
 	private String issueType;
 	private String issueContent;
 	private String result;
-	private Timestamp readyDate;
-	private Timestamp finishDate;
+	private Date readyDate;
+	private Date finishDate;
 	private String bankCode;
 	private String bankName;
 	private Date shouldDate;
@@ -72,22 +72,22 @@ public class CallFailList implements Idable<Long> {
 	}
 
 	/** minimal constructor */
-	public CallFailList(String policyNo, Timestamp readyDate) {
-		this.policyNo = policyNo;
+	public CallFailList(Policy policy, Date readyDate) {
+		this.policy = policy;
 		this.readyDate = readyDate;
 	}
 
 	/** full constructor */
-	public CallFailList(String organCode, String callMan, String issueNo, String policyNo, String issueDesc, String issueType, String issueContent,
-			String result, Timestamp readyDate, Timestamp finishDate, String bankCode, String bankName, Date shouldDate, Date callDate, Date issueDate,
+	public CallFailList(Organization organization, String callMan, String issueNo, Policy policy, String issueDesc, String issueType, String issueContent,
+			String result, Date readyDate, Date finishDate, String bankCode, String bankName, Date shouldDate, Date callDate, Date issueDate,
 			Integer resetNum, String recallFlag, Date issueTime, String status, String dealMan, String dealStatus, String dealType, String dealDesc,
 			Integer dealNum, Boolean hasClientSigned, Date dealTime, String hqIssueType, String hqDealRst, String hqDealRemark, Date hqDealDate,
 			Date hqDealDate2, String hqDealRst2, Date hqDealDate3, String hqDealRst3, Date hqDealDate4, String hqDealRst4, Date hqDealDate5, String hqDealRst5,
 			String provIssueType, String provDealRst, String provDealRemark, Date provDealDate) {
-		this.organCode = organCode;
+		this.organization = organization;
 		this.callMan = callMan;
 		this.issueNo = issueNo;
-		this.policyNo = policyNo;
+		this.policy = policy;
 		this.issueDesc = issueDesc;
 		this.issueType = issueType;
 		this.issueContent = issueContent;
@@ -140,13 +140,14 @@ public class CallFailList implements Idable<Long> {
 		this.id = id;
 	}
 
-	@Column(name = "organ_code", length = 18)
-	public String getOrganCode() {
-		return this.organCode;
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="organ_code", referencedColumnName="org_code")
+	public Organization getOrganization() {
+		return organization;
 	}
 
-	public void setOrganCode(String organCode) {
-		this.organCode = organCode;
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
 	}
 
 	@Column(name = "call_man", length = 8)
@@ -167,13 +168,14 @@ public class CallFailList implements Idable<Long> {
 		this.issueNo = issueNo;
 	}
 
-	@Column(name = "policy_no", unique = true, nullable = false, length = 18)
-	public String getPolicyNo() {
-		return this.policyNo;
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="policy_no", referencedColumnName="policy_no")
+	public Policy getPolicy() {
+		return this.policy;
 	}
 
-	public void setPolicyNo(String policyNo) {
-		this.policyNo = policyNo;
+	public void setPolicy(Policy policy) {
+		this.policy = policy;
 	}
 
 	@Column(name = "issue_desc", length = 6)
@@ -213,20 +215,20 @@ public class CallFailList implements Idable<Long> {
 	}
 
 	@Column(name = "ready_date", nullable = false, length = 19)
-	public Timestamp getReadyDate() {
+	public Date getReadyDate() {
 		return this.readyDate;
 	}
 
-	public void setReadyDate(Timestamp readyDate) {
+	public void setReadyDate(Date readyDate) {
 		this.readyDate = readyDate;
 	}
 
 	@Column(name = "finish_date", length = 19)
-	public Timestamp getFinishDate() {
+	public Date getFinishDate() {
 		return this.finishDate;
 	}
 
-	public void setFinishDate(Timestamp finishDate) {
+	public void setFinishDate(Date finishDate) {
 		this.finishDate = finishDate;
 	}
 
