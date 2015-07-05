@@ -14,7 +14,7 @@
 <link href="${contextPath}/styles/ztree/css/zTreeStyle.css" rel="stylesheet" type="text/css" media="screen"/>
 <link href="${contextPath}/styles/uploadify/css/uploadify.css" rel="stylesheet" type="text/css" media="screen"/>
 <link href="${contextPath}/styles/treeTable/themes/default/treeTable.css" rel="stylesheet" type="text/css" />
-<link href="${contextPath}/styles/postinsurance/css/postinsurance.css" rel="stylesheet" type="text/css" />
+<link href="${contextPath}/styles/post/css/postinsurance.css" rel="stylesheet" type="text/css" />
 <!--[if IE]>
 <link href="${contextPath}/styles/dwz/themes/css/ieHack.css" rel="stylesheet" type="text/css" media="screen"/>
 <![endif]-->
@@ -67,7 +67,7 @@
 <script src="${contextPath}/styles/dwz/js/dwz.regional.zh.js" type="text/javascript"></script>
 <%-- 自定义JS --%>
 <script src="${contextPath}/styles/dwz/js/customer.js" type="text/javascript"></script>
-<script src="${contextPath}/styles/postinsurance/js/postinsurance.js" type="text/javascript"></script>
+<script src="${contextPath}/styles/post/js/postinsurance.js" type="text/javascript"></script>
 <%-- upload --%>
 <script src="${contextPath}/styles/uploadify/scripts/jquery.uploadify.min.js" type="text/javascript"></script>
 <%-- zTree --%>
@@ -169,80 +169,258 @@ $(document).ready(function(){
 						<p><span>欢迎, ${login_user.realname } . 请及时处理待办任务。</span></p>
 					</div>
 					<div class="pageContent sortDrag" selector="h1" layoutH="12">
-					<div class="tabs" currentIndex="0" eventType="click">
-						<div class="tabsHeader">
-							<div class="tabsHeaderContent">
-								<ul>
-									<li><a href="/kfgl/issuelist" class="j-ajax"><span>问题工单</span></a></li>
-									<li><a href="/qygl/issue/write/issuelist" class="j-ajax"><span>契约不合格件（填写）</span></a></li>
-									<li><a href="/qygl/issue/record/issuelist" class="j-ajax"><span>契约不合格件（录入）</span></a></li>
-									<li><a href="/bqgl/issuelist" class="j-ajax"><span>保全复核问题</span></a></li>
-									<li><a href="/hfgl/issuelist" class="j-ajax"><span>回访不成功件</span></a></li>
-									<li><a href="/xqgl/issuelist" class="j-ajax"><span>续期催缴件</span></a></li>
-									<li><a href="/qygl/underwritelist" class="j-ajax"><span>人工核保件跟进</span></a></li>
-								</ul>
-							</div>
-						</div>
-						<div class="tabsContent" style="height:300px;">
-							<div>
-							<dwz:paginationForm action="${contextPath }/kfgl/issue/list" page="${page }">
-							</dwz:paginationForm>
-							
-							<form method="post" action="${contextPath }/kfgl/issue/list" onsubmit="return navTabSearch(this)">
-								<div class="pageHeader">
-								</div>
-							</form>
-							
-							<div class="pageContent">
-								<div class="panelBar">
-									<ul class="toolBar">
-										<shiro:hasPermission name="Wtgd:view">
-											<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="680" href="${contextPath }/kfgl/issue/view/{slt_uid}"><span>查看问题工单</span></a></li>
-										</shiro:hasPermission>
-										<shiro:hasPermission name="Wtgd:edit">
-											<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/kfgl/issue/update/{slt_uid}"><span>回复问题工单</span></a></li>
-										</shiro:hasPermission>
-									</ul>
-								</div>
-								<table class="table" layoutH="137" width="100%">
-									<thead>
-										<tr>
-											<th width="22"><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
-											<th width="100" orderField=organization.name class="${page.orderField eq 'organization.name' ? page.orderDirection : ''}">所属机构</th>
-											<th width="100" orderField=issueNo class="${page.orderField eq 'issueNo' ? page.orderDirection : ''}">工单编号</th>
-											<th width="200">工单内容</th>
-											<th width="120" orderField=policy.policyNo class="${page.orderField eq 'policy.policyNo' ? page.orderDirection : ''}">所属保单号</th>
-											<th width="120" orderField=status class="${page.orderField eq 'status' ? page.orderDirection : ''}">工单状态</th>
-										</tr>
-									</thead>
-									<tbody>
-										<c:forEach var="item" items="${issues}">
-										<tr target="slt_uid" rel="${item.id}">
-											<td><input name="ids" value="${item.id}" type="checkbox"></td>
-											<td>${item.organization.name}</td>
-											<td>${item.issueNo}</td>
-											<td>${item.issueContent}</td>
-											<td>${item.policy.policyNo}</td>
-											<td>${item.status}</td>
-										</tr>
-										</c:forEach>
-									</tbody>
-								</table>
-								<!-- 分页 -->
-								<dwz:pagination page="${page }"/>
-							</div>
-							</div>
-							<div></div>
-							<div></div>
-							<div></div>
-							<div></div>
-							<div></div>
-							<div></div>
-						</div>
-						<div class="tabsFooter">
-							<div class="tabsFooterContent"></div>
+					<fieldset>
+					<legend>待办任务</legend>
+					<div class="panel <c:if test='${fn:length(issueList)<=0}'>close</c:if> collapse" defH="100">
+						<h1><c:if test='${fn:length(issueList)>0}'><img alt="有新任务" src="/images/redpoint.png" height="12" width="12"></c:if>待处理问题工单</h1>
+						<div>
+							<table class="list" width="98%">
+								<thead>
+									<tr>
+										<th>序号</th>
+										<th orderField=issueNo class="${page.orderField eq 'issueNo' ? page.orderDirection : ''}">工单号</th>
+										<th>工单状态</th>
+										<th orderField=policy.policyNo class="${page.orderField eq 'policy.policyNo' ? page.orderDirection : ''}">保单号</th>
+										<th orderField=issueType class="${page.orderField eq 'issueType' ? page.orderDirection : ''}">工单子类型</th>
+										<th>工单内容</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="item" items="${issueList}" varStatus="var">
+									<tr target="slt_uid" rel="${item.id}">
+										<td>${var.index+1 }</td>
+										<td>
+										<c:if test="${fn:length(login_user.organization.orgCode) > 4}">
+										<a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/kfgl/issue/update/${item.id}"><span>${item.issueNo}</span></a>
+										</c:if>
+										 <c:if test="${fn:length(login_user.organization.orgCode) <= 4}"> 
+									     <a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/kfgl/issue/view/${item.id}"><span>${item.issueNo}</span></a>
+									    </c:if> 
+										</td>
+										<td>${item.status}</td>
+										<td>${item.policy.policyNo}</td>
+										<td>${item.issueType}</td>
+										<td>${item.issueContent}</td>
+									</tr>
+									</c:forEach>
+								</tbody>
+							</table>
 						</div>
 					</div>
+					
+					<div class="panel <c:if test='${fn:length(bqIssueList)<=0}'>close</c:if> collapse" defH="100">
+						<h1><c:if test='${fn:length(bqIssueList)>0}'><img alt="有新任务" src="/images/redpoint.png" height="12" width="12"></c:if>待处理保全复核问题</h1>
+						<div>
+							<table class="list" width="98%">
+								<thead>
+									<tr>
+										<th>序号</th>
+										<th>保单号</th>
+										<th>保全复核问题</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="item" items="${bqIssueList}" varStatus="var">
+									<tr target="slt_uid" rel="${item.id}">
+										<td>${var.index+1 }</td>
+										<td>${item.policy.policyNo}</td>
+										<td>${item.csRst}</td>
+										<td>
+										<c:if test="${fn:length(login_user.organization.orgCode) > 4}">
+										<a target="ajaxTodo" href="${contextPath }/bqgl/issue/DealStatus/${item.id}" title="确认更新状态?"><span>已处理</span></a>
+										<a target="ajaxTodo" href="${contextPath }/bqgl/issue/CancelStatus/${item.id}" title="确认撤销?"><span>撤销</span></a>
+										</c:if>
+										 <c:if test="${fn:length(login_user.organization.orgCode) <= 4}"> 
+									     <a target="ajaxTodo" href="${contextPath }/bqgl/issue/CancelStatus/${item.id}" title="确认撤销?"><span>撤销</span></a>
+									     <a target="ajaxTodo" href="${contextPath }/bqgl/issue/CloseStatus/${item.id}" title="确认关闭?"><span>关闭</span></a>
+									    </c:if> 
+										</td>
+									</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					
+					<div class="panel <c:if test='${fn:length(hfIssueList)<=0}'>close</c:if> collapse" defH="100">
+						<h1><c:if test='${fn:length(hfIssueList)>0}'><img alt="有新任务" src="/images/redpoint.png" height="12" width="12"></c:if>待上门回访工单</h1>
+						<div>
+							<table class="list" width="98%">
+								<thead>
+									<tr>
+										<th>序号</th>
+										<th>工单号</th>
+										<th>工单状态</th>
+										<th>保单号</th>
+										<th>工单子类型</th>
+										<th>工单内容</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="item" items="${hfIssueList}" varStatus="var">
+									<tr target="slt_uid" rel="${item.id}">
+										<td>${var.index+1 }</td>
+										<td>
+										<c:if test="${fn:length(login_user.organization.orgCode) > 4}">
+										<a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/hfgl/issue/update/${item.id}"><span>${item.issueNo}</span></a>
+										</c:if>
+										 <c:if test="${fn:length(login_user.organization.orgCode) <= 4}"> 
+									     <a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/hfgl/issue/view/${item.id}"><span>${item.issueNo}</span></a>
+									    </c:if> 
+										</td>
+										<td>${item.status}</td>
+										<td>${item.policy.policyNo}</td>
+										<td>${item.issueType}</td>
+										<td>${item.issueContent}</td>
+									</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					
+					<div class="panel <c:if test='${fn:length(xqIssueList)<=0}'>close</c:if> collapse" defH="100">
+						<h1><c:if test='${fn:length(xqIssueList)>0}'><img alt="有新任务" src="/images/redpoint.png" height="12" width="12"></c:if>续期催缴工单</h1>
+						<div>
+							<table class="list" width="98%">
+								<thead>
+									<tr>
+										<th>序号</th>
+										<th>工单号</th>
+										<th>工单状态</th>
+										<th>保单号</th>
+										<th>工单子类型</th>
+										<th>工单内容</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="item" items="${xqIssueList}" varStatus="var">
+									<tr target="slt_uid" rel="${item.id}">
+										<td>${var.index+1 }</td>
+										<td>
+										<c:if test="${fn:length(login_user.organization.orgCode) > 4}">
+										<a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/xqgl/issue/update/${item.id}"><span>${item.issueNo}</span></a>
+										</c:if>
+										 <c:if test="${fn:length(login_user.organization.orgCode) <= 4}"> 
+									     <a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/xqfgl/issue/view/${item.id}"><span>${item.issueNo}</span></a>
+									    </c:if> 
+										</td>
+										<td>${item.status}</td>
+										<td>${item.policy.policyNo}</td>
+										<td>${item.issueType}</td>
+										<td>${item.issueContent}</td>
+									</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					
+					<div class="panel <c:if test='${fn:length(checkWriteIssueList)<=0}'>close</c:if> collapse" defH="100">
+						<h1><c:if test='${fn:length(checkWriteIssueList)>0}'><img alt="有新任务" src="/images/redpoint.png" height="12" width="12"></c:if>新契约填写不合格件</h1>
+						<div>
+							<table class="list" width="98%">
+								<thead>
+									<tr>
+										<th>序号</th>
+										<th>保单号</th>
+										<th>状态</th>
+										<th>关键信息</th>
+										<th>重要信息</th>
+										<th>扫描不完整</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="item" items="${checkWriteIssueList}" varStatus="var">
+									<tr target="slt_uid" rel="${item.id}">
+										<td>${var.index+1 }</td>
+										<td>
+										<c:if test="${fn:length(login_user.organization.orgCode) > 4}">
+										<a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/qygl/issue/write/update/${item.id}"><span>${item.policy.policyNo}</span></a>
+										</c:if>
+										 <c:if test="${fn:length(login_user.organization.orgCode) <= 4}"> 
+									     <a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/qygl/issue/write/view/${item.id}"><span>${item.policy.policyNo}</span></a>
+									    </c:if> 
+										</td>
+										<td>
+										<c:choose>
+											<c:when test="${item.fixStatus eq 'NewStatus'}">
+												待处理
+											</c:when>
+											<c:when test="${item.fixStatus eq 'DealStatus'}">
+												已处理
+											</c:when>
+											<c:when test="${item.fixStatus eq 'ReopenStatus'}">
+												重打开
+											</c:when>
+											<c:otherwise>
+												已关闭
+											</c:otherwise>
+										</c:choose>
+										</td>
+										<td>${item.keyInfo=="null"?"":item.keyInfo}</td>
+										<td>${item.importanceInfo="null"?"":item.importanceInfo}</td>
+										<td>${item.docMiss==null?"":item.docMiss}</td>
+									</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					
+					<div class="panel <c:if test='${fn:length(checkRecordIssueList)<=0}'>close</c:if> collapse" defH="100">
+						<h1><c:if test='${fn:length(checkRecordIssueList)>0}'><img alt="有新任务" src="/images/redpoint.png" height="12" width="12"></c:if>新契约录入不合格件</h1>
+						<div>
+							<table class="list" width="98%">
+								<thead>
+									<tr>
+										<th>序号</th>
+										<th>保单号</th>
+										<th>状态</th>
+										<th>关键信息</th>
+										<th>重要信息</th>
+										<th>扫描不完整</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="item" items="${checkRecordIssueList}" varStatus="var">
+									<tr target="slt_uid" rel="${item.id}">
+										<td>${var.index+1 }</td>
+										<td>
+										<c:if test="${fn:length(login_user.organization.orgCode) > 4}">
+										<a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/qygl/issue/record/update/${item.id}"><span>${item.policy.policyNo}</span></a>
+										</c:if>
+										 <c:if test="${fn:length(login_user.organization.orgCode) <= 4}"> 
+									     <a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/qygl/issue/record/view/${item.id}"><span>${item.policy.policyNo}</span></a>
+									    </c:if> 
+										</td>
+										<td>
+										<c:choose>
+											<c:when test="${item.fixStatus eq 'NewStatus'}">
+												待处理
+											</c:when>
+											<c:when test="${item.fixStatus eq 'DealStatus'}">
+												已处理
+											</c:when>
+											<c:when test="${item.fixStatus eq 'ReopenStatus'}">
+												重打开
+											</c:when>
+											<c:otherwise>
+												已关闭
+											</c:otherwise>
+										</c:choose>
+										</td>
+										<td>${item.keyInfo=="null"?"":item.keyInfo}</td>
+										<td>${item.importanceInfo="null"?"":item.importanceInfo}</td>
+										<td>${item.docMiss==null?"":item.docMiss}</td>
+									</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</fieldset>
 					</div>
 				</div>
 			</div>
@@ -250,7 +428,7 @@ $(document).ready(function(){
 	</div>
 </div>
 
-<div id="footer">Copyright &copy; 2012-2014, , All Rights Reserve.</div>
+<div id="footer">中邮保险广东分公司 运营管理部 Copyright &copy; 2013-2015, All Rights Reserve.</div>
 <script src="${contextPath}/js/refresh.js" type="text/javascript"></script>
 </body>
 </html>

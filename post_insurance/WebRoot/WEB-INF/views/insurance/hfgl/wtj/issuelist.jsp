@@ -36,7 +36,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach var="item" items="${issues}">
+			<c:forEach var="item" items="${issueList}">
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
 				<td>${item.organization.name}</td>

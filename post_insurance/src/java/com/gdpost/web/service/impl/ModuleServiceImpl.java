@@ -139,7 +139,7 @@ public class ModuleServiceImpl implements ModuleService {
 	}
 	
 	private void makeChildren(List<Module> parent, List<Module> children) {
-		if (children.isEmpty()) {
+		if (children.isEmpty() || parent.isEmpty()) {
 			return ;
 		}
 		

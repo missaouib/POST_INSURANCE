@@ -2,10 +2,10 @@
 <%@page import="java.util.Date"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 
-<dwz:paginationForm action="${contextPath }/bqgl/issue/list" page="${page }">
+<dwz:paginationForm action="${contextPath }/bqgl/issuelist" page="${page }">
 </dwz:paginationForm>
 
-<form method="post" action="${contextPath }/bqgl/issue/list" onsubmit="return navTabSearch(this)">
+<form method="post" action="${contextPath }/bqgl/issuelist" onsubmit="return navTabSearch(this)">
 	<div class="pageHeader">
 	</div>
 </form>

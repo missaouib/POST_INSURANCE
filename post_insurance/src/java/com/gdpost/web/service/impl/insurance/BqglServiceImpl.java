@@ -98,14 +98,10 @@ public class BqglServiceImpl implements BqglService {
 		//默认返回未处理工单
 		Specification<ConservationDtl> specification = DynamicSpecifications.bySearchFilterWithoutRequest(ConservationDtl.class,
 				new SearchFilter("status", Operator.LIKE, BQ_STATUS.NewStatus.name()),
-				new SearchFilter("organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+				new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
 		
 		//如果是县区局登录的机构号为8位，需要根据保单的所在机构进行筛选
-		if (userOrg.getOrgCode().length() > 6) {
-			specification = DynamicSpecifications.bySearchFilterWithoutRequest(ConservationDtl.class,
-					new SearchFilter("status", Operator.LIKE, BQ_STATUS.NewStatus.name()),
-					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
-		} else if (userOrg.getOrgCode().length() <= 4) { //如果是省分的，看已回复的。
+		if (userOrg.getOrgCode().length() <= 4) { //如果是省分的，看已回复的。
 			specification = DynamicSpecifications.bySearchFilterWithoutRequest(ConservationDtl.class,
 					new SearchFilter("status", Operator.LIKE, BQ_STATUS.DealStatus.name()),
 					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));

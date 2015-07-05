@@ -91,14 +91,10 @@ public class XqglServiceImpl implements XqglService {
 		//默认返回未处理工单
 		Specification<RenewedList> specification = DynamicSpecifications.bySearchFilterWithoutRequest(RenewedList.class,
 				new SearchFilter("feeStatus", Operator.LIKE, XQ_STATUS.NewStatus.getDesc()),
-				new SearchFilter("organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+				new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
 		
 		//如果是县区局登录的机构号为8位，需要根据保单的所在机构进行筛选
-		if (userOrg.getOrgCode().length() > 6) {
-			specification = DynamicSpecifications.bySearchFilterWithoutRequest(RenewedList.class,
-					new SearchFilter("feeStatus", Operator.LIKE, XQ_STATUS.NewStatus.getDesc()),
-					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
-		} else if (userOrg.getOrgCode().length() <= 4) { //如果是省分的，看已回复的。
+		if (userOrg.getOrgCode().length() <= 4) { //如果是省分的，看已回复的。
 			specification = DynamicSpecifications.bySearchFilterWithoutRequest(RenewedList.class,
 					new SearchFilter("feeStatus", Operator.LIKE, XQ_STATUS.DealStatus.getDesc()),
 					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));

@@ -61,7 +61,7 @@ import com.gdpost.web.util.dwz.Page;
 @Controller
 @RequestMapping("/management/index")
 public class IndexController {
-	private static final Logger LOG = LoggerFactory.getLogger(IndexController.class); 
+	private static final Logger LOG = LoggerFactory.getLogger(IndexController.class);
 	
 	@Autowired
 	private UserService userService;
@@ -108,6 +108,19 @@ public class IndexController {
 
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{shiroUser.getLoginName()}));
 		
+		LOG.debug(" ----------- INDEX to get the task");
+		map.put("issueList", kfglService.getTODOIssueList(shiroUser.getUser()));
+		
+		map.put("bqIssueList", bqglService.getTODOIssueList(shiroUser.getUser()));
+		
+		map.put("checkWriteIssueList", qyglService.getTODOWriteIssueList(shiroUser.getUser()));
+		
+		map.put("checkRecordIssueList", qyglService.getTODORecordIssueList(shiroUser.getUser()));
+		
+		map.put("xqIssueList", xqglService.getTODOIssueList(shiroUser.getUser()));
+		
+		map.put("hfIssueList", hfglService.getTODOIssueList(shiroUser.getUser()));
+		
 		if(shiroUser.getUserType().equals("member")) {
 			return WEBINDEX;
 		}
@@ -145,15 +158,7 @@ public class IndexController {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		LOG.debug(" ----------- INDEX to get the task");
 		map.put("issueList", kfglService.getTODOIssueList(shiroUser.getUser()));
-		
-		//map.put("bqIssueList", bqglService.getTODOIssueList(shiroUser.getUser()));
-		
-		//map.put("checkWriteIssueList", qyglService.getTODOWriteIssueList(shiroUser.getUser()));
-		
-		//map.put("checkRecordIssueList", qyglService.getTODORecordIssueList(shiroUser.getUser()));
-		
-		//LOG.debug("------------- map: " + map);
-		
+
 		return TODO_LIST;
 	}
 	

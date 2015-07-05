@@ -17,7 +17,7 @@ import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.Policy;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.service.insurance.HfglService;
-import com.gdpost.web.util.StatusDefine.XQ_STATUS;
+import com.gdpost.web.util.StatusDefine.HF_STATUS;
 import com.gdpost.web.util.dwz.Page;
 import com.gdpost.web.util.dwz.PageUtils;
 import com.gdpost.web.util.persistence.DynamicSpecifications;
@@ -88,17 +88,17 @@ public class HfglServiceImpl implements HfglService {
 		Organization userOrg = user.getOrganization();
 		//默认返回未处理工单
 		Specification<CallFailList> specification = DynamicSpecifications.bySearchFilterWithoutRequest(CallFailList.class,
-				new SearchFilter("status", Operator.LIKE, XQ_STATUS.NewStatus.getDesc()),
+				new SearchFilter("status", Operator.LIKE, HF_STATUS.NewStatus.getDesc()),
 				new SearchFilter("organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
 		
 		//如果是县区局登录的机构号为8位，需要根据保单的所在机构进行筛选
 		if (userOrg.getOrgCode().length() > 6) {
 			specification = DynamicSpecifications.bySearchFilterWithoutRequest(CallFailList.class,
-					new SearchFilter("status", Operator.LIKE, XQ_STATUS.NewStatus.getDesc()),
+					new SearchFilter("status", Operator.LIKE, HF_STATUS.NewStatus.getDesc()),
 					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
 		} else if (userOrg.getOrgCode().length() <= 4) { //如果是省分的，看已回复的。
 			specification = DynamicSpecifications.bySearchFilterWithoutRequest(CallFailList.class,
-					new SearchFilter("status", Operator.LIKE, XQ_STATUS.DealStatus.getDesc()),
+					new SearchFilter("status", Operator.LIKE, HF_STATUS.DealStatus.getDesc()),
 					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
 		}
 		Page page = new Page();
