@@ -26,6 +26,7 @@ import System.Data.DataRow;
 import System.Data.DataTable;
 
 import com.gdpost.utils.StringUtil;
+import com.gdpost.utils.TemplateHelper.CallFailHQListColumn;
 import com.gdpost.utils.TemplateHelper.CheckColumn;
 import com.gdpost.utils.TemplateHelper.ColumnItem;
 import com.gdpost.utils.TemplateHelper.ColumnType;
@@ -109,12 +110,18 @@ public class UploadDataServiceImpl implements UploadDataService{
 			standardColumns = IssueColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE T_CALL_FAIL_LIST character set utf8 (";
 			break;
+		case CallFailStatus:
+			standardColumns = CallFailHQListColumn.getStandardColumns();
+			return false;
 		case Renewed:
 			standardColumns = RenewedColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE T_RENEWED_LIST character set utf8 (";
 			break;
 		case RenewedStatus:
 			standardColumns = RenewedStatusColumn.getStandardColumns();
+			return false;
+		case RenewedHQList:
+			standardColumns = RenewedHQListColumn.getStandardColumns();
 			return false;
 		case RemitMoney:
 			standardColumns = RemitMoneyColumn.getStandardColumns();
@@ -164,6 +171,8 @@ public class UploadDataServiceImpl implements UploadDataService{
     				//builder.append(null);
     	            builder.append('\t');
     			}
+    		} else if(ft.name().equals(FileTemplate.RemitMoney.name())) {
+    			//
     		}
         	for(ColumnItem item : standardColumns) {
         		
@@ -244,6 +253,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 		
 		List<ColumnItem> standardColumns = null;
 		StringBuffer sql = null;
+		StringBuffer line = null;
 		String sql2 = null;
 		switch(ft) {
 		case Policy:
@@ -254,12 +264,31 @@ public class UploadDataServiceImpl implements UploadDataService{
 			return true;
 		case CallFail:
 			return true;
+		case CallFailStatus:
+			standardColumns = CallFailHQListColumn.getStandardColumns();
+			sql = new StringBuffer("INSERT INTO t_call_fail_list(policy_no, hq_issue_type, hq_deal_rst, hq_deal_date, hq_deal_remark) VALUES ");
+			line = null;
+			for (DataRow row : dt.Rows) {
+				line = new StringBuffer("(");
+	        	for(ColumnItem item : standardColumns) {
+	        		line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        	}
+	        	line.deleteCharAt(line.length() - 1);
+	        	line.append("),");
+	        	sql.append(line);
+	        }
+			sql.deleteCharAt(sql.length() - 1);
+			sql.append(" ON DUPLICATE KEY UPDATE policy_no=VALUES(policy_no), ");
+			sql.append("hq_issue_type=VALUES(hq_issue_type), hq_deal_rst=VALUES(hq_deal_rst), ");
+			sql.append("hq_deal_date=VALUES(hq_deal_date), hq_deal_remark=VALUES(hq_deal_remark);");
+			//log.debug("----------------batch update : " + sql);
+			sql2 = "delete from t_call_fail_list where issue_no is null";
+			break;
 		case Renewed:
 			return true;
 		case RenewedStatus:
 			standardColumns = RenewedStatusColumn.getStandardColumns();
 			sql = new StringBuffer("INSERT INTO t_renewed_list(policy_no, prd_name, fee_status, fee_fail_reason) VALUES ");
-			StringBuffer line = null;
 			for (DataRow row : dt.Rows) {
 				line = new StringBuffer("(");
 	        	for(ColumnItem item : standardColumns) {
@@ -278,10 +307,27 @@ public class UploadDataServiceImpl implements UploadDataService{
 			standardColumns = RenewedHQListColumn.getStandardColumns();
 			sql = new StringBuffer("INSERT INTO t_renewed_list(policy_no, prd_name, hq_issue_type, hq_deal_rst, hq_deal_date, hq_deal_remark) VALUES ");
 			line = null;
+			boolean isFail = false;
+			Object val = null;
 			for (DataRow row : dt.Rows) {
+				isFail = false;
+				val = null;
 				line = new StringBuffer("(");
 	        	for(ColumnItem item : standardColumns) {
-	        		line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        		if(item.getDisplayName().equals("工单子类")) {
+	        			val = row.getValue(item.getDisplayName());
+	        			if(val != null && val.equals("收费失败")) {
+	        				isFail = true;
+	        			}
+	        		}
+	        		if(item.getDisplayName().equals("工单内容") && isFail) {
+	        			val = row.getValue(item.getDisplayName());
+	        			if(val == null || val.toString().length() <= 0) {
+	        				line.append("\"已终止\",");
+	        			}
+	        		} else {
+	        			line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        		}
 	        	}
 	        	line.deleteCharAt(line.length() - 1);
 	        	line.append("),");

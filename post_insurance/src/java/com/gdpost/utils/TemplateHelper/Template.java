@@ -3,8 +3,8 @@ package com.gdpost.utils.TemplateHelper;
 
 public class Template {
 	
-	public enum FileTemplate {Policy("承保清单"), PolicyDtl("承保业务信息清单"), Issue("问题件工单"), CallFail("回访不成功清单"), 
-		Renewed("续期应交清单"), RenewedStatus("续期状态清单"), RenewedHQList("总部催收清单"), 
+	public enum FileTemplate {Policy("承保清单"), PolicyDtl("承保业务信息清单"), Issue("问题件工单"), CallFail("回访不成功清单"), CallFailStatus("总部回访数据"), 
+		Renewed("续期应交清单"), RenewedStatus("续期继续率清单"), RenewedHQList("总部催收清单"), 
 		RemitMoney("划扣费清单"), CheckWrite("抽检填写明细"), CheckRecord("抽检录入明细");
 		private String desc;
 		FileTemplate (String desc) {
