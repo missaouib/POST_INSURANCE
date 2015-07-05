@@ -116,6 +116,7 @@ $(document).ready(function () {
     </dl>
 </div>
 </div>
+<div><%@ include file="msg.inc.jsp" %></div>
 <%@ include file="webroot.inc.jsp" %>
 </body>
 </html>
