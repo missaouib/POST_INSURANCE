@@ -1,0 +1,1507 @@
+-- MySQL dump 10.13  Distrib 5.6.22, for Win64 (x86_64)
+--
+-- Host: localhost    Database: postinsurance
+-- ------------------------------------------------------
+-- Server version	5.6.22
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `t_area`
+--
+
+DROP TABLE IF EXISTS `t_area`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_area` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `area_code` varchar(6) NOT NULL,
+  `area_name` varchar(50) NOT NULL,
+  `city_code` varchar(6) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_area`
+--
+
+LOCK TABLES `t_area` WRITE;
+/*!40000 ALTER TABLE `t_area` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_area` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_bank_code`
+--
+
+DROP TABLE IF EXISTS `t_bank_code`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_bank_code` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `cpi_code` varchar(18) DEFAULT NULL,
+  `bank_code` varchar(20) DEFAULT NULL,
+  `name` varchar(60) DEFAULT NULL,
+  `status` int(11) DEFAULT '1' COMMENT '״̬',
+  `bank_name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_bank_code`
+--
+
+LOCK TABLES `t_bank_code` WRITE;
+/*!40000 ALTER TABLE `t_bank_code` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_bank_code` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_call_deal_type`
+--
+
+DROP TABLE IF EXISTS `t_call_deal_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_call_deal_type` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `type_name` varchar(32) DEFAULT NULL,
+  `type_desc` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_call_deal_type`
+--
+
+LOCK TABLES `t_call_deal_type` WRITE;
+/*!40000 ALTER TABLE `t_call_deal_type` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_call_deal_type` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_call_fail`
+--
+
+DROP TABLE IF EXISTS `t_call_fail`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_call_fail` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `policy_id` bigint(20) DEFAULT NULL,
+  `fail_type_id` bigint(20) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  `is_reset` tinyint(1) DEFAULT NULL,
+  `reset_time` date DEFAULT NULL,
+  `issue_date` date DEFAULT NULL,
+  `success_fiag` int(11) DEFAULT NULL,
+  `success_date` date DEFAULT NULL,
+  `letter_flag` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_reference_19` (`fail_type_id`),
+  KEY `fk_reference_22` (`policy_id`),
+  CONSTRAINT `fk_reference_19` FOREIGN KEY (`fail_type_id`) REFERENCES `t_call_deal_type` (`id`),
+  CONSTRAINT `fk_reference_22` FOREIGN KEY (`policy_id`) REFERENCES `t_policy` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_call_fail`
+--
+
+LOCK TABLES `t_call_fail` WRITE;
+/*!40000 ALTER TABLE `t_call_fail` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_call_fail` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_call_fail_list`
+--
+
+DROP TABLE IF EXISTS `t_call_fail_list`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_call_fail_list` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `organ_code` varchar(18) DEFAULT NULL,
+  `call_man` varchar(8) DEFAULT NULL,
+  `issue_no` varchar(12) DEFAULT NULL,
+  `policy_no` varchar(18) NOT NULL,
+  `issue_desc` varchar(6) DEFAULT NULL,
+  `issue_type` varchar(10) DEFAULT NULL,
+  `issue_content` varchar(256) DEFAULT NULL,
+  `result` varchar(256) DEFAULT NULL,
+  `ready_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `finish_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `bank_code` varchar(20) DEFAULT NULL,
+  `bank_name` varchar(256) DEFAULT NULL,
+  `should_date` date DEFAULT NULL,
+  `call_date` date DEFAULT NULL,
+  `issue_date` date DEFAULT NULL,
+  `reset_num` int(11) DEFAULT NULL,
+  `recall_flag` varchar(2) DEFAULT NULL,
+  `issue_time` date DEFAULT NULL,
+  `status` varchar(10) DEFAULT NULL,
+  `deal_man` varchar(32) DEFAULT NULL,
+  `deal_status` varchar(12) DEFAULT NULL,
+  `deal_type` varchar(20) DEFAULT NULL,
+  `deal_desc` varchar(256) DEFAULT NULL,
+  `deal_num` int(11) DEFAULT NULL,
+  `has_client_signed` tinyint(1) DEFAULT NULL,
+  `deal_time` date DEFAULT NULL,
+  `hq_issue_type` varchar(20) DEFAULT NULL,
+  `hq_deal_rst` varchar(250) DEFAULT NULL,
+  `hq_deal_remark` varchar(20) DEFAULT NULL,
+  `hq_deal_date` date DEFAULT NULL,
+  `hq_deal_date2` date DEFAULT NULL,
+  `hq_deal_rst2` varchar(120) DEFAULT NULL,
+  `hq_deal_date3` date DEFAULT NULL,
+  `hq_deal_rst3` varchar(120) DEFAULT NULL,
+  `hq_deal_date4` date DEFAULT NULL,
+  `hq_deal_rst4` varchar(120) DEFAULT NULL,
+  `hq_deal_date5` date DEFAULT NULL,
+  `hq_deal_rst5` varchar(120) DEFAULT NULL,
+  `prov_issue_type` varchar(20) DEFAULT NULL,
+  `prov_deal_rst` varchar(250) DEFAULT NULL,
+  `prov_deal_remark` varchar(20) DEFAULT NULL,
+  `prov_deal_date` date DEFAULT NULL,
+  `operate_id` bigint(20) DEFAULT NULL,
+  `operate_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `ak_key_2` (`policy_no`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_call_fail_list`
+--
+
+LOCK TABLES `t_call_fail_list` WRITE;
+/*!40000 ALTER TABLE `t_call_fail_list` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_call_fail_list` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_call_feedback`
+--
+
+DROP TABLE IF EXISTS `t_call_feedback`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_call_feedback` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `call_fail_id` bigint(20) DEFAULT NULL,
+  `feedback` varchar(255) DEFAULT NULL,
+  `type` int(11) DEFAULT NULL,
+  `woker` varchar(32) DEFAULT NULL,
+  `is_signed` int(11) DEFAULT NULL,
+  `feedback_time` datetime DEFAULT NULL,
+  `is_success` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_reference_20` (`call_fail_id`),
+  CONSTRAINT `fk_reference_20` FOREIGN KEY (`call_fail_id`) REFERENCES `t_call_fail` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_call_feedback`
+--
+
+LOCK TABLES `t_call_feedback` WRITE;
+/*!40000 ALTER TABLE `t_call_feedback` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_call_feedback` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_category_org`
+--
+
+DROP TABLE IF EXISTS `t_category_org`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_category_org` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `org_id` bigint(20) DEFAULT NULL,
+  `category_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_name` (`org_id`,`category_id`),
+  UNIQUE KEY `UK_aqx50fe373x9qwll4sd3rrbg5` (`org_id`,`category_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_category_org`
+--
+
+LOCK TABLES `t_category_org` WRITE;
+/*!40000 ALTER TABLE `t_category_org` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_category_org` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_check_record`
+--
+
+DROP TABLE IF EXISTS `t_check_record`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_check_record` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `checker` varchar(32) DEFAULT NULL,
+  `check_batch` varchar(15) DEFAULT NULL,
+  `need_fix` varchar(8) DEFAULT NULL,
+  `policy_no` varchar(18) NOT NULL,
+  `scan_error` tinyint(1) DEFAULT '0',
+  `form_no` varchar(25) DEFAULT NULL,
+  `net_type` varchar(8) DEFAULT NULL,
+  `prd_name` varchar(120) DEFAULT NULL,
+  `pay_method` varchar(10) DEFAULT NULL,
+  `key_info` varchar(256) DEFAULT NULL,
+  `importance_info` varchar(256) DEFAULT NULL,
+  `else_info` varchar(256) DEFAULT NULL,
+  `doc_error` varchar(32) DEFAULT NULL,
+  `doc_miss` varchar(16) DEFAULT NULL,
+  `net_name` varchar(256) DEFAULT NULL,
+  `remark` varchar(250) DEFAULT NULL,
+  `operate_id` bigint(20) DEFAULT NULL,
+  `operate_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `fix_status` varchar(12) DEFAULT 'NewStatus',
+  `fix_desc` varchar(256) DEFAULT NULL,
+  `deal_man` varchar(12) DEFAULT NULL,
+  `deal_time` date DEFAULT NULL,
+  `reopen_reason` varchar(256) DEFAULT NULL,
+  `reopen_id` bigint(20) DEFAULT NULL,
+  `reopen_date` date DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `policy_no` (`policy_no`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_check_record`
+--
+
+LOCK TABLES `t_check_record` WRITE;
+/*!40000 ALTER TABLE `t_check_record` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_check_record` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_check_record_dtl`
+--
+
+DROP TABLE IF EXISTS `t_check_record_dtl`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_check_record_dtl` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `checker` varchar(32) DEFAULT NULL,
+  `check_date` date DEFAULT NULL,
+  `need_fix` tinyint(1) DEFAULT NULL,
+  `policy_id` bigint(20) DEFAULT NULL,
+  `scan_error` tinyint(1) DEFAULT '0',
+  `holder_name` tinyint(1) DEFAULT NULL,
+  `holder_birthday` tinyint(1) DEFAULT NULL,
+  `holder_sexy` tinyint(1) DEFAULT NULL,
+  `holder_card_id` tinyint(1) DEFAULT NULL,
+  `holder_card_valid_date` tinyint(1) DEFAULT NULL,
+  `holder_married` tinyint(1) DEFAULT NULL,
+  `holder_hight` tinyint(1) DEFAULT NULL,
+  `holder_weight` tinyint(1) DEFAULT NULL,
+  `holder_job` tinyint(1) DEFAULT NULL,
+  `holder_job_code` tinyint(1) DEFAULT NULL,
+  `holder_nation` tinyint(1) DEFAULT NULL,
+  `holder_household` tinyint(1) DEFAULT NULL,
+  `holder_receipt` tinyint(1) DEFAULT NULL,
+  `holder_phone` tinyint(1) DEFAULT NULL,
+  `holder_mobile` tinyint(1) DEFAULT NULL,
+  `holder_addr` tinyint(1) DEFAULT NULL,
+  `holder_postcode` tinyint(1) DEFAULT NULL,
+  `relationship` tinyint(1) DEFAULT NULL,
+  `insured_name` tinyint(1) DEFAULT NULL,
+  `insured_birthday` tinyint(1) DEFAULT NULL,
+  `insured_sexy` tinyint(1) DEFAULT NULL,
+  `insured_card_id` tinyint(1) DEFAULT NULL,
+  `insured_card_valid_date` tinyint(1) DEFAULT NULL,
+  `insured_hight` tinyint(1) DEFAULT NULL,
+  `insured_weight` tinyint(1) DEFAULT NULL,
+  `insured_job` tinyint(1) DEFAULT NULL,
+  `insured_job_code` tinyint(1) DEFAULT NULL,
+  `insured_nation` tinyint(1) DEFAULT NULL,
+  `insured_household` tinyint(1) DEFAULT NULL,
+  `insured_married` tinyint(1) DEFAULT NULL,
+  `insured_phone` tinyint(1) DEFAULT NULL,
+  `insured_mobile` tinyint(1) DEFAULT NULL,
+  `insured_addr` tinyint(1) DEFAULT NULL,
+  `insured_postcode` tinyint(1) DEFAULT NULL,
+  `miss_file` tinyint(1) DEFAULT NULL,
+  `prd_name` tinyint(1) DEFAULT NULL,
+  `copies` tinyint(1) DEFAULT NULL,
+  `pay_period` tinyint(1) DEFAULT NULL,
+  `duration` tinyint(1) DEFAULT NULL,
+  `premiums` tinyint(1) DEFAULT NULL,
+  `pay_frequency` tinyint(1) DEFAULT NULL,
+  `pay_method` tinyint(1) DEFAULT NULL,
+  `pay_name` tinyint(1) DEFAULT NULL,
+  `pay_card_id` tinyint(1) DEFAULT NULL,
+  `bonus_flag` tinyint(1) DEFAULT NULL,
+  `beneficiary` tinyint(1) DEFAULT NULL,
+  `dispute_type` tinyint(1) DEFAULT NULL COMMENT 'dispute',
+  `notify` tinyint(1) DEFAULT NULL,
+  `risk_sentence` tinyint(1) DEFAULT NULL,
+  `holder_signed` tinyint(1) DEFAULT NULL,
+  `insured_signed` tinyint(1) DEFAULT NULL,
+  `insure_date` tinyint(1) DEFAULT NULL,
+  `bank_signed` tinyint(1) DEFAULT NULL,
+  `return_receipt` tinyint(1) DEFAULT NULL,
+  `bank_else_info` tinyint(1) DEFAULT NULL,
+  `auto_bank_account_transfer` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_reference_27` (`policy_id`),
+  CONSTRAINT `fk_reference_27` FOREIGN KEY (`policy_id`) REFERENCES `t_policy` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_check_record_dtl`
+--
+
+LOCK TABLES `t_check_record_dtl` WRITE;
+/*!40000 ALTER TABLE `t_check_record_dtl` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_check_record_dtl` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_check_write`
+--
+
+DROP TABLE IF EXISTS `t_check_write`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_check_write` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `checker` varchar(32) DEFAULT NULL,
+  `check_batch` varchar(15) DEFAULT NULL,
+  `need_fix` varchar(8) DEFAULT NULL,
+  `policy_no` varchar(18) NOT NULL,
+  `scan_error` tinyint(1) DEFAULT '0',
+  `form_no` varchar(25) DEFAULT NULL,
+  `net_type` varchar(8) DEFAULT NULL,
+  `prd_name` varchar(120) DEFAULT NULL,
+  `pay_method` varchar(10) DEFAULT NULL,
+  `key_info` varchar(256) DEFAULT NULL,
+  `importance_info` varchar(256) DEFAULT NULL,
+  `else_info` varchar(256) DEFAULT NULL,
+  `doc_error` varchar(32) DEFAULT NULL,
+  `doc_miss` varchar(16) DEFAULT NULL,
+  `net_name` varchar(256) DEFAULT NULL,
+  `remark` varchar(250) DEFAULT NULL,
+  `operate_id` bigint(20) DEFAULT NULL,
+  `operate_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `fix_status` varchar(12) DEFAULT 'NewStatus',
+  `fix_desc` varchar(256) DEFAULT NULL,
+  `deal_man` varchar(12) DEFAULT NULL,
+  `deal_time` date DEFAULT NULL,
+  `reopen_reason` varchar(256) DEFAULT NULL,
+  `reopen_id` bigint(20) DEFAULT NULL,
+  `reopen_date` date DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `policy_no` (`policy_no`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_check_write`
+--
+
+LOCK TABLES `t_check_write` WRITE;
+/*!40000 ALTER TABLE `t_check_write` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_check_write` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_check_write_dtl`
+--
+
+DROP TABLE IF EXISTS `t_check_write_dtl`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_check_write_dtl` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `checker` varchar(32) DEFAULT NULL,
+  `check_date` date DEFAULT NULL,
+  `need_fix` tinyint(1) DEFAULT NULL,
+  `policy_id` bigint(20) DEFAULT NULL,
+  `scan_error` tinyint(1) DEFAULT '0',
+  `holder_name` tinyint(1) DEFAULT NULL,
+  `holder_birthday` tinyint(1) DEFAULT NULL,
+  `holder_sexy` tinyint(1) DEFAULT NULL,
+  `holder_card_id` tinyint(1) DEFAULT NULL,
+  `holder_card_valid_date` tinyint(1) DEFAULT NULL,
+  `holder_married` tinyint(1) DEFAULT NULL,
+  `holder_hight` tinyint(1) DEFAULT NULL,
+  `holder_weight` tinyint(1) DEFAULT NULL,
+  `holder_job` tinyint(1) DEFAULT NULL,
+  `holder_job_code` tinyint(1) DEFAULT NULL,
+  `holder_nation` tinyint(1) DEFAULT NULL,
+  `holder_household` tinyint(1) DEFAULT NULL,
+  `holder_receipt` tinyint(1) DEFAULT NULL,
+  `holder_phone` tinyint(1) DEFAULT NULL,
+  `holder_mobile` tinyint(1) DEFAULT NULL,
+  `holder_addr` tinyint(1) DEFAULT NULL,
+  `holder_postcode` tinyint(1) DEFAULT NULL,
+  `relationship` tinyint(1) DEFAULT NULL,
+  `insured_name` tinyint(1) DEFAULT NULL,
+  `insured_birthday` tinyint(1) DEFAULT NULL,
+  `insured_sexy` tinyint(1) DEFAULT NULL,
+  `insured_card_id` tinyint(1) DEFAULT NULL,
+  `insured_card_valid_date` tinyint(1) DEFAULT NULL,
+  `insured_hight` tinyint(1) DEFAULT NULL,
+  `insured_weight` tinyint(1) DEFAULT NULL,
+  `insured_job` tinyint(1) DEFAULT NULL,
+  `insured_job_code` tinyint(1) DEFAULT NULL,
+  `insured_nation` tinyint(1) DEFAULT NULL,
+  `insured_household` tinyint(1) DEFAULT NULL,
+  `insured_married` tinyint(1) DEFAULT NULL,
+  `insured_phone` tinyint(1) DEFAULT NULL,
+  `insured_mobile` tinyint(1) DEFAULT NULL,
+  `insured_addr` tinyint(1) DEFAULT NULL,
+  `insured_postcode` tinyint(1) DEFAULT NULL,
+  `miss_file` tinyint(1) DEFAULT NULL,
+  `prd_name` tinyint(1) DEFAULT NULL,
+  `copies` tinyint(1) DEFAULT NULL,
+  `pay_period` tinyint(1) DEFAULT NULL,
+  `duration` tinyint(1) DEFAULT NULL,
+  `premiums` tinyint(1) DEFAULT NULL,
+  `pay_frequency` tinyint(1) DEFAULT NULL,
+  `pay_method` tinyint(1) DEFAULT NULL,
+  `pay_name` tinyint(1) DEFAULT NULL,
+  `pay_card_id` tinyint(1) DEFAULT NULL,
+  `bonus_flag` tinyint(1) DEFAULT NULL,
+  `beneficiary` tinyint(1) DEFAULT NULL,
+  `dispute_type` tinyint(1) DEFAULT NULL COMMENT 'dispute',
+  `notify` tinyint(1) DEFAULT NULL,
+  `risk_sentence` tinyint(1) DEFAULT NULL,
+  `holder_signed` tinyint(1) DEFAULT NULL,
+  `insured_signed` tinyint(1) DEFAULT NULL,
+  `insure_date` tinyint(1) DEFAULT NULL,
+  `bank_signed` tinyint(1) DEFAULT NULL,
+  `return_receipt` tinyint(1) DEFAULT NULL,
+  `bank_else_info` tinyint(1) DEFAULT NULL,
+  `auto_bank_account_transfer` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_reference_26` (`policy_id`),
+  CONSTRAINT `fk_reference_26` FOREIGN KEY (`policy_id`) REFERENCES `t_policy` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_check_write_dtl`
+--
+
+LOCK TABLES `t_check_write_dtl` WRITE;
+/*!40000 ALTER TABLE `t_check_write_dtl` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_check_write_dtl` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_city`
+--
+
+DROP TABLE IF EXISTS `t_city`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_city` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `city_code` varchar(6) NOT NULL,
+  `city_name` varchar(50) NOT NULL,
+  `province_code` varchar(6) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_city`
+--
+
+LOCK TABLES `t_city` WRITE;
+/*!40000 ALTER TABLE `t_city` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_city` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_component_resource`
+--
+
+DROP TABLE IF EXISTS `t_component_resource`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_component_resource` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `file` longblob,
+  `name` varchar(128) DEFAULT NULL,
+  `size` varchar(32) DEFAULT NULL,
+  `store_type` varchar(16) DEFAULT NULL,
+  `upload_time` datetime DEFAULT NULL,
+  `uuid` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_uuid` (`uuid`),
+  UNIQUE KEY `UK_eurjdjq2771m08jbeihecw4wv` (`uuid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_component_resource`
+--
+
+LOCK TABLES `t_component_resource` WRITE;
+/*!40000 ALTER TABLE `t_component_resource` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_component_resource` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_conservation_dtl`
+--
+
+DROP TABLE IF EXISTS `t_conservation_dtl`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_conservation_dtl` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `type` int(11) DEFAULT NULL,
+  `deal_num` varchar(32) DEFAULT NULL,
+  `info` varchar(256) DEFAULT NULL,
+  `cs_date` date DEFAULT NULL,
+  `cs_user_id` bigint(20) DEFAULT NULL,
+  `cs_rst` varchar(64) DEFAULT NULL,
+  `deal_user_id` bigint(20) DEFAULT NULL,
+  `status` varchar(12) DEFAULT NULL,
+  `policy_id` bigint(20) DEFAULT NULL,
+  `cancel_flag` tinyint(1) DEFAULT NULL,
+  `cancel_man` bigint(20) DEFAULT NULL,
+  `cancel_date` datetime DEFAULT NULL,
+  `remark` varchar(256) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_reference_25` (`policy_id`),
+  CONSTRAINT `fk_reference_25` FOREIGN KEY (`policy_id`) REFERENCES `t_policy` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_conservation_dtl`
+--
+
+LOCK TABLES `t_conservation_dtl` WRITE;
+/*!40000 ALTER TABLE `t_conservation_dtl` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_conservation_dtl` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_conservation_error`
+--
+
+DROP TABLE IF EXISTS `t_conservation_error`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_conservation_error` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `error_code` varchar(8) DEFAULT NULL,
+  `error_desc` varchar(256) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_conservation_error`
+--
+
+LOCK TABLES `t_conservation_error` WRITE;
+/*!40000 ALTER TABLE `t_conservation_error` DISABLE KEYS */;
+INSERT INTO `t_conservation_error` VALUES (1,'批改类型录错',''),(2,'客户信息录错',''),(3,'账户信息录错',''),(4,'申请日期录错',''),(5,'资料收件不齐全',''),(6,'资料填写有误',''),(7,'未使用专用凭证',''),(8,'扫描错误',''),(9,'扫描质量欠佳',''),(10,'章戳有误',''),(11,'漏盖章戳',''),(12,'漏签名',''),(13,'签名不符',''),(14,'不符合保全规则',''),(15,'无承保影像件','');
+/*!40000 ALTER TABLE `t_conservation_error` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_convicted_info`
+--
+
+DROP TABLE IF EXISTS `t_convicted_info`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_convicted_info` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `call_fail_id` bigint(20) DEFAULT NULL,
+  `type` int(11) DEFAULT NULL,
+  `convicted_info` varchar(255) DEFAULT NULL,
+  `convicted_time` date DEFAULT NULL,
+  `is_signed` tinyint(1) DEFAULT NULL,
+  `sign_date` date DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_reference_21` (`call_fail_id`),
+  CONSTRAINT `fk_reference_21` FOREIGN KEY (`call_fail_id`) REFERENCES `t_call_fail` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_convicted_info`
+--
+
+LOCK TABLES `t_convicted_info` WRITE;
+/*!40000 ALTER TABLE `t_convicted_info` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_convicted_info` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_data_control`
+--
+
+DROP TABLE IF EXISTS `t_data_control`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_data_control` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `control` varchar(10240) DEFAULT NULL,
+  `description` varchar(256) DEFAULT NULL,
+  `name` varchar(64) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_name` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_data_control`
+--
+
+LOCK TABLES `t_data_control` WRITE;
+/*!40000 ALTER TABLE `t_data_control` DISABLE KEYS */;
+INSERT INTO `t_data_control` VALUES (1,'{\"EQ_user.id\":\"#user.id\"}',NULL,'User关联的资源');
+/*!40000 ALTER TABLE `t_data_control` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_invoice_req`
+--
+
+DROP TABLE IF EXISTS `t_invoice_req`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_invoice_req` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `policy_no` varchar(18) NOT NULL,
+  `flag` varchar(2) DEFAULT NULL COMMENT '首期 续期',
+  `fee_date` date DEFAULT NULL,
+  `fee` double DEFAULT NULL,
+  `deal_man` bigint(20) DEFAULT NULL,
+  `req_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `req_addr` varchar(128) DEFAULT NULL,
+  `req_man` varchar(5) DEFAULT NULL,
+  `phone` varchar(23) DEFAULT NULL,
+  `status` varchar(12) DEFAULT NULL,
+  `send_date` date DEFAULT NULL,
+  `send_man` bigint(20) DEFAULT NULL,
+  `receive_man` bigint(20) DEFAULT NULL,
+  `receive_date` date DEFAULT NULL,
+  `bill_no` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_invoice_req`
+--
+
+LOCK TABLES `t_invoice_req` WRITE;
+/*!40000 ALTER TABLE `t_invoice_req` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_invoice_req` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_issue`
+--
+
+DROP TABLE IF EXISTS `t_issue`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_issue` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `organ_code` varchar(18) DEFAULT NULL,
+  `call_man` varchar(8) DEFAULT NULL,
+  `issue_no` varchar(12) DEFAULT NULL,
+  `policy_no` varchar(18) NOT NULL,
+  `issue_desc` varchar(6) DEFAULT NULL,
+  `issue_type` varchar(10) DEFAULT NULL,
+  `issue_content` varchar(256) DEFAULT NULL,
+  `ready_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `finish_date` datetime DEFAULT NULL,
+  `bank_code` varchar(20) DEFAULT NULL,
+  `should_date` date DEFAULT NULL,
+  `call_date` date DEFAULT NULL,
+  `issue_date` date DEFAULT NULL,
+  `reset_num` int(11) DEFAULT NULL,
+  `recall_flag` varchar(2) DEFAULT NULL,
+  `issue_time` date DEFAULT NULL,
+  `status` varchar(10) DEFAULT NULL,
+  `result` varchar(256) DEFAULT NULL,
+  `deal_man` varchar(32) DEFAULT NULL,
+  `deal_time` date DEFAULT NULL,
+  `reopen_reason` varchar(256) DEFAULT NULL,
+  `reopen_id` bigint(20) DEFAULT NULL,
+  `reopen_date` date DEFAULT NULL,
+  `bank_name` varchar(256) DEFAULT NULL,
+  `operate_id` bigint(20) DEFAULT NULL,
+  `operate_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `policy_no` (`policy_no`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_issue`
+--
+
+LOCK TABLES `t_issue` WRITE;
+/*!40000 ALTER TABLE `t_issue` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_issue` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_issue_type`
+--
+
+DROP TABLE IF EXISTS `t_issue_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_issue_type` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `type_name` varchar(32) DEFAULT NULL,
+  `type_desc` varchar(255) DEFAULT NULL COMMENT '��������',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_issue_type`
+--
+
+LOCK TABLES `t_issue_type` WRITE;
+/*!40000 ALTER TABLE `t_issue_type` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_issue_type` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_log_info`
+--
+
+DROP TABLE IF EXISTS `t_log_info`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_log_info` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `create_time` datetime DEFAULT NULL,
+  `ip_address` varchar(16) DEFAULT NULL,
+  `log_level` varchar(16) DEFAULT NULL,
+  `message` varchar(256) DEFAULT NULL,
+  `username` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_log_info`
+--
+
+LOCK TABLES `t_log_info` WRITE;
+/*!40000 ALTER TABLE `t_log_info` DISABLE KEYS */;
+INSERT INTO `t_log_info` VALUES (1,'2015-07-06 11:07:23','127.0.0.1','TRACE','admin登录了系统。','admin'),(2,'2015-07-06 11:09:15','127.0.0.1','TRACE','添加了省分契约角色。','admin'),(3,'2015-07-06 11:10:04','127.0.0.1','TRACE','添加了省分保全角色。','admin'),(4,'2015-07-06 11:14:54','127.0.0.1','TRACE','添加了省分客服角色。','admin'),(5,'2015-07-06 11:16:04','127.0.0.1','TRACE','添加了省分续期角色。','admin');
+/*!40000 ALTER TABLE `t_log_info` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_module`
+--
+
+DROP TABLE IF EXISTS `t_module`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_module` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `class_name` varchar(256) DEFAULT NULL,
+  `description` varchar(256) DEFAULT NULL,
+  `name` varchar(64) NOT NULL,
+  `priority` int(11) NOT NULL,
+  `sn` varchar(32) NOT NULL,
+  `url` varchar(256) NOT NULL,
+  `parent_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_sn` (`sn`),
+  KEY `fk89a04864953fe581` (`parent_id`),
+  CONSTRAINT `fk89a04864953fe581` FOREIGN KEY (`parent_id`) REFERENCES `t_module` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_module`
+--
+
+LOCK TABLES `t_module` WRITE;
+/*!40000 ALTER TABLE `t_module` DISABLE KEYS */;
+INSERT INTO `t_module` VALUES (1,NULL,'所有模块的根节点，不能删除。','根模块',1,'Root','#',NULL),(2,NULL,'安全管理:包含权限管理、模块管理等。','安全管理',999,'Security','#',1),(3,NULL,NULL,'用户管理',999,'User','/management/security/user/list',2),(4,NULL,NULL,'角色管理',999,'Role','/management/security/role/list',2),(5,NULL,NULL,'数据权限',999,'DataControl','/management/security/dataControl/list',2),(6,NULL,NULL,'模块管理',999,'Module','/management/security/module/tree_list',2),(7,NULL,NULL,'组织管理',999,'Organization','/management/security/organization/tree_list',2),(8,NULL,NULL,'缓存管理',998,'Cache','/management/security/cache/index',2),(9,'','','日志管理',999,'LogInfo','/management/security/logInfo/list',2),(10,'','','契约管理',994,'QYGL','#',1),(11,'','','保全管理',995,'BQGL','#',1),(12,'','','电话回访管理',996,'DHHF','#',1),(13,'','','客服管理',997,'KFGL','#',1),(14,'','','续期管理',998,'XQGL','#',1),(15,'','','数据上传管理',993,'SJSC','#',1),(16,'','','保单数据上传',999,'UploadData','/management/uploaddata/upload',15),(17,'','','填写不合格件管理',999,'CheckWrite','/qygl/issue/write/list',10),(18,'','','发票管理',998,'FPGL','#',1),(19,'','','发票申请登记',999,'InvoiceReq','/fpgl/list',18),(20,'','','保全复核差错管理',999,'Cservice','/bqgl/issue/list',11),(21,'','','回访不成功件管理',999,'Callfail','/hfgl/issue/list',12),(22,'','','问题工单管理',999,'Wtgd','/kfgl/issue/list',13),(23,'','','续期催缴管理',999,'Renewed','/xqgl/issue/list',14),(24,'','','问题工单数据导入',999,'UploadIssue','/management/uploaddata/upload?type=issue',15),(25,'','','不合格新契约件导入',999,'UploadCheck','/management/uploaddata/upload?type=check',15),(26,'','','回访不成功数据导入',999,'UploadCallFail','/management/uploaddata/upload?type=callfail',15),(27,'','','续期清单数据上传',999,'UploadRenewed','/management/uploaddata/upload?type=renewed',15),(28,'','','划扣费明细清单数据导入',999,'UploadRemit','/management/uploaddata/upload?type=remit',15),(29,'','','录入不合格件管理',999,'CheckRecord','/qygl/issue/record/list',10),(30,'','','基本类型维护',998,'JBLX','#',1),(31,'','','保全常见错误类型维护',999,'ConservationError','/basedata/conservationError/list',30),(32,'','','回访类型',999,'CallDealType','/basedata/callDealType/list',30),(33,'','','工单类型',999,'IssueType','/basedata/issueType/list',30),(34,'','','上线产品管理',999,'Prd','/basedata/prd/list',30),(35,'','','网点对照',999,'BankCode','/basedata/bankCode/list',30),(36,'','','续期催收类型',999,'RenewalType','/basedata/renewalType/list',30),(37,'','','待办任务',990,'DBRW','#',1),(38,'','','待办任务列表',999,'TODO','/management/index/todolist',37),(39,'','','待办任务（面板方式）',999,'PANELTODO','/management/index/paneltodolist',37);
+/*!40000 ALTER TABLE `t_module` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_organization`
+--
+
+DROP TABLE IF EXISTS `t_organization`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_organization` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `description` varchar(256) DEFAULT NULL,
+  `name` varchar(64) NOT NULL,
+  `org_code` varchar(12) NOT NULL,
+  `level` int(1) NOT NULL,
+  `priority` int(11) NOT NULL,
+  `parent_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_name` (`name`),
+  UNIQUE KEY `UK_gf4v5gxlt9edno62o0s7a783r` (`org_code`),
+  KEY `fkcae6352bf464a488` (`parent_id`),
+  CONSTRAINT `fkcae6352bf464a488` FOREIGN KEY (`parent_id`) REFERENCES `t_organization` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=128 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_organization`
+--
+
+LOCK TABLES `t_organization` WRITE;
+/*!40000 ALTER TABLE `t_organization` DISABLE KEYS */;
+INSERT INTO `t_organization` VALUES (1,'不能删除。','中邮人寿保险股份有限公司','86',1,999,NULL),(2,NULL,'中邮人寿保险股份有限公司广东分公司','8644',2,999,1),(3,NULL,'广州邮政局中邮保险局','864401',3,999,2),(4,NULL,'韶关邮政局中邮保险局','864402',3,999,2),(5,NULL,'珠海邮政局中邮保险局','864404',3,999,2),(6,NULL,'汕头邮政局中邮保险局','864405',3,999,2),(7,NULL,'佛山市邮政局中邮保险局','864406',3,999,2),(8,NULL,'江门邮政局中邮保险局','864407',3,999,2),(9,NULL,'湛江邮政局中邮保险局','864408',3,999,2),(10,NULL,'茂名邮政局中邮保险局','864409',3,999,2),(11,NULL,'肇庆邮政局中邮保险局','864412',3,999,2),(12,NULL,'惠州邮政局中邮保险局','864413',3,999,2),(13,NULL,'梅州邮政局中邮保险局','864414',3,999,2),(14,NULL,'汕尾邮政局中邮保险局','864415',3,999,2),(15,NULL,'河源邮政局中邮保险局','864416',3,999,2),(16,NULL,'阳江邮政局中邮保险局','864417',3,999,2),(17,NULL,'清远邮政局中邮保险局','864418',3,999,2),(18,NULL,'东莞邮政局中邮保险局','864419',3,999,2),(19,NULL,'中山邮政局中邮保险局','864420',3,999,2),(20,NULL,'潮州邮政局中邮保险局','864451',3,999,2),(21,NULL,'揭阳邮政局中邮保险局','864452',3,999,2),(22,NULL,'云浮邮政局中邮保险局','864453',3,999,2),(23,NULL,'广州东区邮政局中邮保险局','86440101',4,999,3),(24,NULL,'广州南区邮政局中邮保险局','86440102',4,999,3),(25,NULL,'广州西区邮政局中邮保险局','86440103',4,999,3),(26,NULL,'广州北区邮政局中邮保险局','86440104',4,999,3),(27,NULL,'广州中区邮政局中邮保险局','86440105',4,999,3),(28,NULL,'广州番禺区邮政局中邮保险局','86440113',4,999,3),(29,NULL,'广州花都区邮政局中邮保险局','86440114',4,999,3),(30,NULL,'广州增城市邮政局中邮保险局','86440183',4,999,3),(31,NULL,'韶关邮政局直属中邮保险局','86440201',4,999,4),(32,NULL,'韶关曲江区邮政局中邮保险局','86440221',4,999,4),(33,NULL,'韶关始兴县邮政局中邮保险局','86440222',4,999,4),(34,NULL,'韶关乳源县邮政局中邮保险局','86440232',4,999,4),(35,NULL,'韶关新丰县邮政局中邮保险局','86440233',4,999,4),(36,NULL,'韶关乐昌市邮政局中邮保险局','86440281',4,999,4),(37,NULL,'韶关南雄市邮政局中邮保险局','86440282',4,999,4),(38,NULL,'珠海邮政局直属中邮保险局','86440401',4,999,5),(39,NULL,'汕头邮政局直属中邮保险局','86440501',4,999,6),(40,NULL,'汕头潮南区邮政局中邮保险局','86440514',4,999,6),(41,NULL,'汕头潮阳区邮政局中邮保险局','86440582',4,999,6),(42,NULL,'汕头澄海区邮政局中邮保险局','86440583',4,999,6),(43,NULL,'佛山市邮政局直属中邮保险局','86440604',4,999,7),(44,NULL,'佛山市南海区邮政局中邮保险局','86440605',4,999,7),(45,NULL,'佛山市顺德区邮政局中邮保险局','86440606',4,999,7),(46,NULL,'佛山三水区邮政局中邮保险局','86440607',4,999,7),(47,NULL,'佛山高明区邮政局中邮保险局','86440608',4,999,7),(48,NULL,'江门邮政局直属中邮保险局','86440701',4,999,8),(49,NULL,'江门台山市邮政局中邮保险局','86440781',4,999,8),(50,NULL,'江门新会市邮政局中邮保险局','86440782',4,999,8),(51,NULL,'江门开平市邮政局中邮保险局','86440783',4,999,8),(52,NULL,'江门鹤山市邮政局中邮保险局','86440784',4,999,8),(53,NULL,'江门恩平市邮政局中邮保险局','86440785',4,999,8),(54,NULL,'湛江邮政局直属中邮保险局','86440801',4,999,9),(55,NULL,'湛江遂溪县邮政局中邮保险局','86440823',4,999,9),(56,NULL,'湛江徐闻县邮政局中邮保险局','86440825',4,999,9),(57,NULL,'湛江廉江市邮政局中邮保险局','86440881',4,999,9),(58,NULL,'湛江雷州市邮政局中邮保险局','86440882',4,999,9),(59,NULL,'湛江吴川市邮政局中邮保险局','86440883',4,999,9),(60,NULL,'茂名邮政局直属中邮保险局','86440901',4,999,10),(61,NULL,'茂名茂港区邮政局中邮保险局','86440903',4,999,10),(62,NULL,'茂名电白县邮政局中邮保险局','86440923',4,999,10),(63,NULL,'茂名高州市邮政局中邮保险局','86440981',4,999,10),(64,NULL,'茂名化州市邮政局中邮保险局','86440982',4,999,10),(65,NULL,'茂名信宜市邮政局中邮保险局','86440983',4,999,10),(66,NULL,'肇庆邮政局直属中邮保险局','86441201',4,999,11),(67,NULL,'肇庆广宁县邮政局中邮保险局','86441223',4,999,11),(68,NULL,'肇庆怀集县邮政局中邮保险局','86441224',4,999,11),(69,NULL,'肇庆封开县邮政局中邮保险局','86441225',4,999,11),(70,NULL,'肇庆德庆县邮政局中邮保险局','86441226',4,999,11),(71,NULL,'肇庆高要市邮政局中邮保险局','86441283',4,999,11),(72,NULL,'肇庆四会市邮政局中邮保险局','86441284',4,999,11),(73,'','惠州邮政营业局/仲恺高新区/惠城区中邮保险局','86441301',4,999,12),(74,NULL,'惠州惠东县邮政局中邮保险局','86441323',4,999,12),(75,NULL,'惠州惠阳区邮政局中邮保险局','86441381',4,999,12),(76,NULL,'梅州邮政局直属中邮保险局','86441402',4,999,13),(77,NULL,'梅州梅县邮政局中邮保险局','86441421',4,999,13),(78,NULL,'梅州大埔县邮政局中邮保险局','86441422',4,999,13),(79,NULL,'梅州丰顺县邮政局中邮保险局','86441423',4,999,13),(80,NULL,'梅州五华县邮政局中邮保险局','86441424',4,999,13),(81,NULL,'梅州平远县邮政局中邮保险局','86441426',4,999,13),(82,NULL,'梅州蕉岭县邮政局中邮保险局','86441427',4,999,13),(83,NULL,'梅州兴宁市邮政局中邮保险局','86441481',4,999,13),(84,NULL,'汕尾邮政局直属中邮保险局','86441501',4,999,14),(85,NULL,'汕尾海丰县邮政局中邮保险局','86441521',4,999,14),(86,NULL,'河源邮政局直属中邮保险局','86441601',4,999,15),(87,NULL,'河源紫金县邮政局中邮保险局','86441621',4,999,15),(88,NULL,'河源龙川县邮政局中邮保险局','86441622',4,999,15),(89,NULL,'河源连平县邮政局中邮保险局','86441623',4,999,15),(90,NULL,'河源和平县邮政局中邮保险局','86441624',4,999,15),(91,NULL,'阳江邮政局直属中邮保险局','86441701',4,999,16),(92,NULL,'阳江阳西县邮政局中邮保险局','86441721',4,999,16),(93,NULL,'阳江阳东县邮政局中邮保险局','86441723',4,999,16),(94,NULL,'阳江阳春市邮政局中邮保险局','86441781',4,999,16),(95,NULL,'清远邮政局直属中邮保险局','86441801',4,999,17),(96,NULL,'清远佛冈县邮政局中邮保险局','86441821',4,999,17),(97,NULL,'清远阳山县邮政局中邮保险局','86441823',4,999,17),(98,NULL,'清远清新县邮政局中邮保险局','86441827',4,999,17),(99,NULL,'清远英德市邮政局中邮保险局','86441881',4,999,17),(100,NULL,'清远连州市邮政局中邮保险局','86441882',4,999,17),(101,NULL,'东莞市邮政局中邮保险局营业分局','86441901',4,999,18),(102,NULL,'东莞市邮政局中邮保险局长安分局','86441902',4,999,18),(103,NULL,'东莞邮政局中邮保险局厚街分局','86441903',4,999,18),(104,NULL,'东莞邮政局中邮保险局大岭山分局','86441904',4,999,18),(105,NULL,'东莞市邮政局中邮保险局常平分局','86441905',4,999,18),(106,NULL,'东莞市邮政局中邮保险局虎门分局','86441906',4,999,18),(107,NULL,'东莞邮政局中邮保险局清溪分局','86441907',4,999,18),(108,NULL,'东莞市邮政局中邮保险局大朗分局','86441908',4,999,18),(109,NULL,'东莞市邮政局中邮保险局凤岗分局','86441909',4,999,18),(110,NULL,'东莞市邮政局中邮保险局黄江分局','86441910',4,999,18),(111,NULL,'东莞市邮政局中邮保险局高埗分局','86441911',4,999,18),(112,NULL,'东莞市邮政局中邮保险局桥头分局','86441912',4,999,18),(113,NULL,'东莞市邮政局中邮保险局石排分局','86441913',4,999,18),(114,NULL,'中山邮政局直属中邮保险局','86442001',4,999,19),(115,NULL,'潮州邮政局直属中邮保险局','86445120',4,999,20),(116,NULL,'潮州潮安县邮政局中邮保险局','86445121',4,999,20),(117,NULL,'潮州饶平县邮政局中邮保险局','86445122',4,999,20),(118,NULL,'揭阳邮政局直属中邮保险局','86445201',4,999,21),(119,NULL,'揭阳揭东县邮政局中邮保险局','86445221',4,999,21),(120,NULL,'揭阳揭西县邮政局中邮保险局','86445222',4,999,21),(121,NULL,'揭阳惠来县邮政局中邮保险局','86445224',4,999,21),(122,NULL,'揭阳普宁市邮政局中邮保险局','86445281',4,999,21),(123,NULL,'云浮邮政局直属中邮保险局','86445301',4,999,22),(124,NULL,'云浮新兴县邮政局中邮保险局','86445321',4,999,22),(125,NULL,'云浮郁南县邮政局中邮保险局','86445322',4,999,22),(126,NULL,'云浮云安县邮政局中邮保险局','86445323',4,999,22),(127,NULL,'云浮罗定市邮政局中邮保险局','86445381',4,999,22);
+/*!40000 ALTER TABLE `t_organization` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_organization_role`
+--
+
+DROP TABLE IF EXISTS `t_organization_role`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_organization_role` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `priority` int(11) NOT NULL,
+  `organization_id` bigint(20) DEFAULT NULL,
+  `role_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fkd483870ac80e875f` (`organization_id`),
+  KEY `fkd483870a3ffd717f` (`role_id`),
+  CONSTRAINT `fkd483870a3ffd717f` FOREIGN KEY (`role_id`) REFERENCES `t_role` (`id`),
+  CONSTRAINT `fkd483870ac80e875f` FOREIGN KEY (`organization_id`) REFERENCES `t_organization` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_organization_role`
+--
+
+LOCK TABLES `t_organization_role` WRITE;
+/*!40000 ALTER TABLE `t_organization_role` DISABLE KEYS */;
+INSERT INTO `t_organization_role` VALUES (1,999,1,1),(2,999,2,1);
+/*!40000 ALTER TABLE `t_organization_role` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_permission`
+--
+
+DROP TABLE IF EXISTS `t_permission`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_permission` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `description` varchar(256) DEFAULT NULL,
+  `name` varchar(64) NOT NULL,
+  `sn` varchar(16) NOT NULL,
+  `module_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fkcae8abc7bd56587f` (`module_id`),
+  CONSTRAINT `fkcae8abc7bd56587f` FOREIGN KEY (`module_id`) REFERENCES `t_module` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=151 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_permission`
+--
+
+LOCK TABLES `t_permission` WRITE;
+/*!40000 ALTER TABLE `t_permission` DISABLE KEYS */;
+INSERT INTO `t_permission` VALUES (1,NULL,'看','show',2),(2,NULL,'看','show',3),(3,NULL,'增','save',3),(4,NULL,'删','delete',3),(5,NULL,'查','view',3),(6,NULL,'改','edit',3),(7,'重置密码、更新状态','重置','reset',3),(8,'分配、撤销角色','授权','assign',3),(9,NULL,'看','show',4),(10,NULL,'增','save',4),(11,NULL,'删','delete',4),(12,NULL,'查','view',4),(13,NULL,'改','edit',4),(14,NULL,'授权','assign',4),(15,NULL,'看','show',5),(16,NULL,'增','save',5),(17,NULL,'删','delete',5),(18,NULL,'查','view',5),(19,NULL,'改','edit',5),(20,NULL,'看','show',6),(21,NULL,'增','save',6),(22,NULL,'删','delete',6),(23,NULL,'查','view',6),(24,NULL,'改','edit',6),(25,NULL,'看','show',7),(26,NULL,'增','save',7),(27,NULL,'删','delete',7),(28,NULL,'查','view',7),(29,NULL,'改','edit',7),(30,NULL,'授权','assign',7),(31,NULL,'看','show',8),(32,NULL,'删','delete',8),(33,NULL,'看','show',9),(34,NULL,'删','delete',9),(35,NULL,'查','view',9),(36,NULL,'看','show',10),(37,NULL,'看','show',11),(38,NULL,'看','show',12),(39,NULL,'看','show',13),(40,NULL,'看','show',14),(41,NULL,'看','show',15),(42,NULL,'增','save',15),(43,NULL,'删','delete',15),(44,NULL,'查','view',15),(45,NULL,'改','edit',15),(46,NULL,'看','show',16),(51,NULL,'看','show',17),(52,NULL,'增','save',17),(53,NULL,'查','view',17),(54,NULL,'改','edit',17),(55,NULL,'看','show',18),(56,NULL,'看','show',19),(57,NULL,'增','save',19),(58,NULL,'删','delete',19),(59,NULL,'查','view',19),(60,NULL,'改','edit',19),(61,NULL,'看','show',20),(62,NULL,'增','save',20),(63,NULL,'删','delete',20),(64,NULL,'查','view',20),(65,NULL,'改','edit',20),(66,NULL,'看','show',21),(67,NULL,'增','save',21),(68,NULL,'删','delete',21),(69,NULL,'查','view',21),(70,NULL,'改','edit',21),(71,NULL,'看','show',22),(72,NULL,'增','save',22),(73,NULL,'删','delete',22),(74,NULL,'查','view',22),(75,NULL,'改','edit',22),(76,NULL,'看','show',23),(77,NULL,'增','save',23),(78,NULL,'删','delete',23),(79,NULL,'查','view',23),(80,NULL,'改','edit',23),(81,NULL,'看','show',24),(86,NULL,'看','show',25),(91,NULL,'看','show',26),(92,NULL,'增','save',26),(93,NULL,'删','delete',26),(94,NULL,'查','view',26),(95,NULL,'改','edit',26),(96,'','上传','upload',16),(97,'','上传','upload',24),(98,'','上传','upload',25),(99,NULL,'看','show',27),(100,'','上传','upload',27),(101,NULL,'看','show',28),(102,'','上传','upload',28),(103,NULL,'看','show',29),(104,NULL,'增','save',29),(105,NULL,'删','delete',29),(106,NULL,'查','view',29),(107,NULL,'改','edit',29),(108,NULL,'看','show',30),(109,NULL,'删','delete',30),(110,NULL,'看','show',31),(111,NULL,'增','save',31),(112,NULL,'删','delete',31),(113,NULL,'查','view',31),(114,NULL,'改','edit',31),(115,NULL,'看','show',32),(116,NULL,'增','save',32),(117,NULL,'删','delete',32),(118,NULL,'查','view',32),(119,NULL,'改','edit',32),(120,NULL,'看','show',33),(121,NULL,'增','save',33),(122,NULL,'删','delete',33),(123,NULL,'查','view',33),(124,NULL,'改','edit',33),(125,NULL,'看','show',34),(126,NULL,'增','save',34),(127,NULL,'删','delete',34),(128,NULL,'查','view',34),(129,NULL,'改','edit',34),(130,NULL,'看','show',35),(131,NULL,'增','save',35),(132,NULL,'删','delete',35),(133,NULL,'查','view',35),(134,NULL,'改','edit',35),(135,NULL,'看','show',36),(136,NULL,'增','save',36),(137,NULL,'删','delete',36),(138,NULL,'查','view',36),(139,NULL,'改','edit',36),(140,NULL,'看','show',37),(141,NULL,'看','show',38),(142,NULL,'增','save',38),(143,NULL,'删','delete',38),(144,NULL,'查','view',38),(145,NULL,'改','edit',38),(146,NULL,'看','show',39),(147,NULL,'增','save',39),(148,NULL,'删','delete',39),(149,NULL,'查','view',39),(150,NULL,'改','edit',39);
+/*!40000 ALTER TABLE `t_permission` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_policy`
+--
+
+DROP TABLE IF EXISTS `t_policy`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_policy` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `organ_code` varchar(20) DEFAULT NULL,
+  `organ_name` varchar(60) DEFAULT NULL,
+  `policy_no` varchar(18) NOT NULL,
+  `form_no` varchar(25) DEFAULT NULL,
+  `holder` varchar(256) DEFAULT NULL,
+  `insured` varchar(256) DEFAULT NULL,
+  `prod_code` varchar(8) DEFAULT NULL,
+  `prod_name` varchar(128) DEFAULT NULL,
+  `policy_fee` varchar(256) DEFAULT NULL,
+  `insured_amount` varchar(256) DEFAULT NULL,
+  `fee_frequency` varchar(10) DEFAULT NULL,
+  `perm` int(11) DEFAULT NULL,
+  `plicy_valid_date` date DEFAULT NULL,
+  `policy_date` date DEFAULT NULL,
+  `status` varchar(6) DEFAULT NULL,
+  `bank_code` varchar(14) DEFAULT NULL,
+  `bank_name` varchar(128) DEFAULT NULL,
+  `sales_name` varchar(256) DEFAULT NULL,
+  `sales_id` varchar(256) DEFAULT NULL,
+  `copies` varchar(256) DEFAULT NULL,
+  `renewal_sucess_flag` int(11) DEFAULT NULL,
+  `reset_valid_flag` int(11) DEFAULT NULL,
+  `operate_id` bigint(20) DEFAULT NULL,
+  `operate_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `agent_organ` varchar(20) DEFAULT NULL,
+  `agent_sales` varchar(20) DEFAULT NULL,
+  `customer_manager_code` varchar(25) DEFAULT NULL,
+  `customer_manager` varchar(16) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `policy_no` (`policy_no`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_policy`
+--
+
+LOCK TABLES `t_policy` WRITE;
+/*!40000 ALTER TABLE `t_policy` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_policy` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_policy_bak`
+--
+
+DROP TABLE IF EXISTS `t_policy_bak`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_policy_bak` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `org_id` bigint(20) DEFAULT NULL,
+  `policy_no` varchar(12) DEFAULT NULL,
+  `form_no` varchar(25) DEFAULT NULL,
+  `city_name` varchar(12) DEFAULT NULL,
+  `area_name` varchar(12) DEFAULT NULL,
+  `prod_id` bigint(20) DEFAULT NULL,
+  `prod_name` varchar(128) DEFAULT NULL,
+  `bank_id` bigint(20) DEFAULT NULL,
+  `bank_name` varchar(128) DEFAULT NULL,
+  `sales_name` varchar(256) DEFAULT NULL,
+  `sales_id` varchar(256) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  `perm` int(11) DEFAULT NULL,
+  `policy_fee` varchar(256) DEFAULT NULL,
+  `copies` varchar(256) DEFAULT NULL,
+  `insured_amount` varchar(256) DEFAULT NULL,
+  `holder` varchar(256) DEFAULT NULL,
+  `holder_addr` varchar(512) DEFAULT NULL,
+  `holder_phone` varchar(256) DEFAULT NULL,
+  `holder_mobile` varchar(256) DEFAULT NULL,
+  `holder_card_type` int(11) DEFAULT NULL,
+  `holder_card_num` varchar(256) DEFAULT NULL,
+  `relation` int(11) DEFAULT NULL COMMENT '0-����\n            1-��ż\n            2-��ĸ\n            3-��Ů\n            4-����',
+  `insured` varchar(256) DEFAULT NULL,
+  `insured_card_type` int(11) DEFAULT NULL,
+  `insured_card_num` varchar(256) DEFAULT NULL,
+  `insured_mobile` varchar(256) DEFAULT NULL,
+  `insured_phone` varchar(256) DEFAULT NULL,
+  `insured_addr` varchar(512) DEFAULT NULL,
+  `policy_date` date DEFAULT NULL,
+  `renewal_sucess_flag` int(11) DEFAULT NULL,
+  `reset_valid_flag` int(11) DEFAULT NULL,
+  `operate_id` bigint(20) DEFAULT NULL,
+  `operate_name` date DEFAULT NULL,
+  `operate_time` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_reference_13` (`org_id`),
+  KEY `fk_reference_23` (`prod_id`),
+  CONSTRAINT `fk_reference_13` FOREIGN KEY (`org_id`) REFERENCES `t_organization` (`id`),
+  CONSTRAINT `fk_reference_23` FOREIGN KEY (`prod_id`) REFERENCES `t_prd` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_policy_bak`
+--
+
+LOCK TABLES `t_policy_bak` WRITE;
+/*!40000 ALTER TABLE `t_policy_bak` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_policy_bak` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_policy_dtl`
+--
+
+DROP TABLE IF EXISTS `t_policy_dtl`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_policy_dtl` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `organ_code` varchar(60) DEFAULT NULL,
+  `policy_no` varchar(18) NOT NULL,
+  `holder` varchar(256) DEFAULT NULL,
+  `holder_sexy` varchar(2) DEFAULT NULL,
+  `insured` varchar(256) DEFAULT NULL,
+  `prod_name` varchar(128) DEFAULT NULL,
+  `insured_amount` varchar(256) DEFAULT NULL,
+  `policy_fee` varchar(256) DEFAULT NULL,
+  `sales_name` varchar(256) DEFAULT NULL,
+  `policy_date` date DEFAULT NULL,
+  `holder_phone` varchar(256) DEFAULT NULL,
+  `holder_mobile` varchar(256) DEFAULT NULL,
+  `holder_addr` varchar(512) DEFAULT NULL,
+  `holder_postcode` varchar(6) DEFAULT NULL,
+  `holder_card_type` varchar(10) DEFAULT NULL,
+  `holder_card_num` varchar(256) DEFAULT NULL,
+  `operate_id` bigint(20) DEFAULT NULL,
+  `operate_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `policy_no` (`policy_no`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_policy_dtl`
+--
+
+LOCK TABLES `t_policy_dtl` WRITE;
+/*!40000 ALTER TABLE `t_policy_dtl` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_policy_dtl` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_prd`
+--
+
+DROP TABLE IF EXISTS `t_prd`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_prd` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `prd_code` varchar(8) DEFAULT NULL,
+  `prd_name` varchar(128) DEFAULT NULL,
+  `prd_status` int(11) DEFAULT NULL COMMENT '0:invalid\n            1:valid',
+  `prd_per_money` int(11) DEFAULT NULL,
+  `prd_perm` int(11) DEFAULT NULL,
+  `duration` int(11) DEFAULT NULL,
+  `multiple` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_prd`
+--
+
+LOCK TABLES `t_prd` WRITE;
+/*!40000 ALTER TABLE `t_prd` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_prd` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_province`
+--
+
+DROP TABLE IF EXISTS `t_province`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_province` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `province_code` varchar(6) NOT NULL,
+  `province_name` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_province`
+--
+
+LOCK TABLES `t_province` WRITE;
+/*!40000 ALTER TABLE `t_province` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_province` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_remit_money_list`
+--
+
+DROP TABLE IF EXISTS `t_remit_money_list`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_remit_money_list` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `org_code` varchar(25) DEFAULT NULL,
+  `org_name` varchar(64) DEFAULT NULL,
+  `policy_no` varchar(18) NOT NULL,
+  `should_date` date DEFAULT NULL,
+  `to_date` date DEFAULT NULL,
+  `policy_status` varchar(8) DEFAULT NULL,
+  `fail_desc` varchar(20) DEFAULT NULL,
+  `prd_code` varchar(12) DEFAULT NULL,
+  `prd_name` varchar(64) DEFAULT NULL,
+  `insurance_flag` varchar(4) DEFAULT NULL,
+  `frequence` int(11) DEFAULT NULL,
+  `fee_frequency` varchar(4) DEFAULT NULL,
+  `policy_fee` varchar(256) DEFAULT NULL,
+  `holder` varchar(256) DEFAULT NULL,
+  `insured` varchar(256) DEFAULT NULL,
+  `holder_addr` varchar(256) DEFAULT NULL,
+  `holder_phone` varchar(256) DEFAULT NULL,
+  `holder_mobile` varchar(256) DEFAULT NULL,
+  `server_code` varchar(18) DEFAULT NULL,
+  `server_name` varchar(12) DEFAULT NULL,
+  `server_phone` varchar(25) DEFAULT NULL,
+  `operate_id` bigint(20) DEFAULT NULL,
+  `operate_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `policy_no` (`policy_no`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_remit_money_list`
+--
+
+LOCK TABLES `t_remit_money_list` WRITE;
+/*!40000 ALTER TABLE `t_remit_money_list` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_remit_money_list` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_renewal_dtl`
+--
+
+DROP TABLE IF EXISTS `t_renewal_dtl`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_renewal_dtl` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `type_id` bigint(20) DEFAULT NULL COMMENT '0���绰\n            1���ֳ�',
+  `policy_id` bigint(20) DEFAULT NULL,
+  `type` int(11) DEFAULT NULL,
+  `reset_valid_flag` int(11) DEFAULT NULL,
+  `renewal_info` varchar(256) DEFAULT NULL,
+  `renewal_date` date DEFAULT NULL,
+  `renewal_man` varchar(32) DEFAULT NULL,
+  `is_success` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_reference_16` (`type_id`),
+  KEY `fk_reference_17` (`policy_id`),
+  CONSTRAINT `fk_reference_16` FOREIGN KEY (`type_id`) REFERENCES `t_renewal_type` (`id`),
+  CONSTRAINT `fk_reference_17` FOREIGN KEY (`policy_id`) REFERENCES `t_policy` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_renewal_dtl`
+--
+
+LOCK TABLES `t_renewal_dtl` WRITE;
+/*!40000 ALTER TABLE `t_renewal_dtl` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_renewal_dtl` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_renewal_fee_dtl`
+--
+
+DROP TABLE IF EXISTS `t_renewal_fee_dtl`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_renewal_fee_dtl` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `policy_id` bigint(20) DEFAULT NULL,
+  `fee_dtl` varchar(64) DEFAULT NULL,
+  `fee_date` date DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_reference_24` (`policy_id`),
+  CONSTRAINT `fk_reference_24` FOREIGN KEY (`policy_id`) REFERENCES `t_policy` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_renewal_fee_dtl`
+--
+
+LOCK TABLES `t_renewal_fee_dtl` WRITE;
+/*!40000 ALTER TABLE `t_renewal_fee_dtl` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_renewal_fee_dtl` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_renewal_type`
+--
+
+DROP TABLE IF EXISTS `t_renewal_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_renewal_type` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `type_name` varchar(32) DEFAULT NULL,
+  `type_desc` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_renewal_type`
+--
+
+LOCK TABLES `t_renewal_type` WRITE;
+/*!40000 ALTER TABLE `t_renewal_type` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_renewal_type` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_renewed_list`
+--
+
+DROP TABLE IF EXISTS `t_renewed_list`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_renewed_list` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `holder` varchar(256) DEFAULT NULL,
+  `policy_year` int(11) DEFAULT NULL,
+  `prd_name` varchar(120) DEFAULT NULL,
+  `fee_date` date DEFAULT NULL,
+  `policy_no` varchar(18) NOT NULL,
+  `policy_fee` varchar(256) DEFAULT NULL,
+  `fee_status` varchar(6) DEFAULT NULL,
+  `fee_fail_reason` varchar(20) DEFAULT NULL,
+  `account_bank` varchar(64) DEFAULT NULL,
+  `account` varchar(256) DEFAULT NULL,
+  `addr` varchar(256) DEFAULT NULL,
+  `post_code` varchar(6) DEFAULT NULL,
+  `phone` varchar(256) DEFAULT NULL,
+  `mobile` varchar(256) DEFAULT NULL,
+  `org_name` varchar(64) DEFAULT NULL,
+  `net_name` varchar(256) DEFAULT NULL,
+  `policy_admin` varchar(25) DEFAULT NULL,
+  `channel` varchar(16) DEFAULT NULL,
+  `operate_id` bigint(20) DEFAULT NULL,
+  `operate_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `fix_status` varchar(12) DEFAULT NULL,
+  `fix_desc` varchar(256) DEFAULT NULL,
+  `deal_man` varchar(12) DEFAULT NULL,
+  `deal_time` date DEFAULT NULL,
+  `hq_issue_type` varchar(20) DEFAULT NULL,
+  `hq_deal_rst` varchar(250) DEFAULT NULL,
+  `hq_deal_remark` varchar(20) DEFAULT NULL,
+  `hq_deal_date` date DEFAULT NULL,
+  `prov_issue_type` varchar(20) DEFAULT NULL,
+  `prov_deal_rst` varchar(250) DEFAULT NULL,
+  `prov_deal_remark` varchar(20) DEFAULT NULL,
+  `prov_deal_date` date DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `policy_no` (`policy_no`,`prd_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_renewed_list`
+--
+
+LOCK TABLES `t_renewed_list` WRITE;
+/*!40000 ALTER TABLE `t_renewed_list` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_renewed_list` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_role`
+--
+
+DROP TABLE IF EXISTS `t_role`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_role` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `description` varchar(256) DEFAULT NULL,
+  `name` varchar(64) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_name` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_role`
+--
+
+LOCK TABLES `t_role` WRITE;
+/*!40000 ALTER TABLE `t_role` DISABLE KEYS */;
+INSERT INTO `t_role` VALUES (1,'管理员。','管理员'),(2,'','地县市机构'),(3,'','省分契约'),(4,'','省分保全'),(5,'','省分客服'),(6,'','省分续期');
+/*!40000 ALTER TABLE `t_role` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_role_permission`
+--
+
+DROP TABLE IF EXISTS `t_role_permission`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_role_permission` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `permission_id` bigint(20) DEFAULT NULL,
+  `role_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk9b6ea402bb04f1f` (`permission_id`),
+  KEY `fk9b6ea403ffd717f` (`role_id`),
+  CONSTRAINT `fk9b6ea402bb04f1f` FOREIGN KEY (`permission_id`) REFERENCES `t_permission` (`id`),
+  CONSTRAINT `fk9b6ea403ffd717f` FOREIGN KEY (`role_id`) REFERENCES `t_role` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=664 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_role_permission`
+--
+
+LOCK TABLES `t_role_permission` WRITE;
+/*!40000 ALTER TABLE `t_role_permission` DISABLE KEYS */;
+INSERT INTO `t_role_permission` VALUES (1,1,1),(2,2,1),(3,3,1),(4,4,1),(5,5,1),(6,6,1),(7,7,1),(8,8,1),(9,9,1),(10,10,1),(11,11,1),(12,12,1),(13,13,1),(14,14,1),(15,15,1),(16,16,1),(17,17,1),(18,18,1),(19,19,1),(20,20,1),(21,21,1),(22,22,1),(23,23,1),(24,24,1),(25,25,1),(26,26,1),(27,27,1),(28,28,1),(29,29,1),(30,30,1),(31,31,1),(32,32,1),(33,33,1),(34,34,1),(35,35,1),(36,NULL,NULL),(37,NULL,NULL),(38,NULL,NULL),(39,NULL,NULL),(40,NULL,NULL),(41,NULL,NULL),(42,NULL,NULL),(43,NULL,NULL),(44,NULL,NULL),(45,NULL,NULL),(46,NULL,NULL),(47,NULL,NULL),(48,NULL,NULL),(49,NULL,NULL),(50,NULL,NULL),(51,NULL,NULL),(52,NULL,NULL),(53,NULL,NULL),(54,NULL,NULL),(55,NULL,NULL),(56,NULL,NULL),(57,NULL,NULL),(58,NULL,NULL),(59,NULL,NULL),(60,NULL,NULL),(61,36,2),(62,51,2),(63,52,2),(64,53,2),(65,54,2),(66,37,2),(67,61,2),(68,62,2),(69,63,2),(70,64,2),(71,65,2),(72,38,2),(73,66,2),(74,67,2),(75,68,2),(76,69,2),(77,70,2),(78,39,2),(79,71,2),(80,72,2),(81,73,2),(82,74,2),(83,75,2),(84,40,2),(85,76,2),(86,77,2),(87,78,2),(88,79,2),(89,80,2),(90,55,2),(91,56,2),(92,57,2),(93,58,2),(94,59,2),(95,60,2),(96,140,2),(97,141,2),(98,142,2),(99,143,2),(100,144,2),(101,145,2),(102,146,2),(103,147,2),(104,148,2),(105,149,2),(106,150,2),(107,103,2),(108,104,2),(109,105,2),(110,106,2),(111,107,2),(112,140,3),(113,141,3),(114,142,3),(115,143,3),(116,144,3),(117,145,3),(118,146,3),(119,147,3),(120,148,3),(121,149,3),(122,150,3),(123,41,3),(124,42,3),(125,43,3),(126,44,3),(127,45,3),(128,46,3),(129,96,3),(130,81,3),(131,97,3),(132,86,3),(133,98,3),(134,91,3),(135,92,3),(136,93,3),(137,94,3),(138,95,3),(139,99,3),(140,100,3),(141,101,3),(142,102,3),(143,36,3),(144,51,3),(145,52,3),(146,53,3),(147,54,3),(148,103,3),(149,104,3),(150,105,3),(151,106,3),(152,107,3),(153,NULL,NULL),(154,NULL,NULL),(155,NULL,NULL),(156,NULL,NULL),(157,NULL,NULL),(158,NULL,NULL),(159,NULL,NULL),(160,NULL,NULL),(161,NULL,NULL),(162,NULL,NULL),(163,NULL,NULL),(164,NULL,NULL),(165,NULL,NULL),(166,NULL,NULL),(167,NULL,NULL),(168,NULL,NULL),(169,NULL,NULL),(170,NULL,NULL),(171,NULL,NULL),(172,NULL,NULL),(173,NULL,NULL),(174,NULL,NULL),(175,NULL,NULL),(176,NULL,NULL),(177,55,3),(178,56,3),(179,57,3),(180,58,3),(181,59,3),(182,60,3),(183,108,3),(184,109,3),(185,110,3),(186,111,3),(187,112,3),(188,113,3),(189,114,3),(190,115,3),(191,116,3),(192,117,3),(193,118,3),(194,119,3),(195,120,3),(196,121,3),(197,122,3),(198,123,3),(199,124,3),(200,125,3),(201,126,3),(202,127,3),(203,128,3),(204,129,3),(205,130,3),(206,131,3),(207,132,3),(208,133,3),(209,134,3),(210,135,3),(211,136,3),(212,137,3),(213,138,3),(214,139,3),(215,1,3),(216,31,3),(217,32,3),(218,NULL,NULL),(219,NULL,NULL),(220,NULL,NULL),(221,NULL,NULL),(222,NULL,NULL),(223,NULL,NULL),(224,NULL,NULL),(225,NULL,NULL),(226,NULL,NULL),(227,NULL,NULL),(228,NULL,NULL),(229,NULL,NULL),(230,NULL,NULL),(231,NULL,NULL),(232,NULL,NULL),(233,NULL,NULL),(234,NULL,NULL),(235,NULL,NULL),(236,NULL,NULL),(237,NULL,NULL),(238,NULL,NULL),(239,NULL,NULL),(240,NULL,NULL),(241,NULL,NULL),(242,NULL,NULL),(243,NULL,NULL),(244,NULL,NULL),(245,NULL,NULL),(246,NULL,NULL),(247,33,3),(248,34,3),(249,35,3),(250,140,4),(251,141,4),(252,142,4),(253,143,4),(254,144,4),(255,145,4),(256,146,4),(257,147,4),(258,148,4),(259,149,4),(260,150,4),(261,NULL,NULL),(262,NULL,NULL),(263,NULL,NULL),(264,NULL,NULL),(265,NULL,NULL),(266,NULL,NULL),(267,NULL,NULL),(268,NULL,NULL),(269,NULL,NULL),(270,NULL,NULL),(271,NULL,NULL),(272,NULL,NULL),(273,NULL,NULL),(274,NULL,NULL),(275,NULL,NULL),(276,NULL,NULL),(277,NULL,NULL),(278,NULL,NULL),(279,NULL,NULL),(280,NULL,NULL),(281,NULL,NULL),(282,NULL,NULL),(283,NULL,NULL),(284,NULL,NULL),(285,NULL,NULL),(286,NULL,NULL),(287,NULL,NULL),(288,NULL,NULL),(289,NULL,NULL),(290,NULL,NULL),(291,37,4),(292,61,4),(293,62,4),(294,63,4),(295,64,4),(296,65,4),(297,NULL,NULL),(298,NULL,NULL),(299,NULL,NULL),(300,NULL,NULL),(301,NULL,NULL),(302,NULL,NULL),(303,NULL,NULL),(304,NULL,NULL),(305,NULL,NULL),(306,NULL,NULL),(307,NULL,NULL),(308,NULL,NULL),(309,NULL,NULL),(310,NULL,NULL),(311,NULL,NULL),(312,NULL,NULL),(313,NULL,NULL),(314,NULL,NULL),(315,NULL,NULL),(316,NULL,NULL),(317,NULL,NULL),(318,NULL,NULL),(319,NULL,NULL),(320,NULL,NULL),(321,108,4),(322,109,4),(323,110,4),(324,111,4),(325,112,4),(326,113,4),(327,114,4),(328,NULL,NULL),(329,NULL,NULL),(330,NULL,NULL),(331,NULL,NULL),(332,NULL,NULL),(333,NULL,NULL),(334,NULL,NULL),(335,NULL,NULL),(336,NULL,NULL),(337,NULL,NULL),(338,NULL,NULL),(339,NULL,NULL),(340,NULL,NULL),(341,NULL,NULL),(342,NULL,NULL),(343,130,4),(344,131,4),(345,132,4),(346,133,4),(347,134,4),(348,NULL,NULL),(349,NULL,NULL),(350,NULL,NULL),(351,NULL,NULL),(352,NULL,NULL),(353,1,4),(354,31,4),(355,32,4),(356,NULL,NULL),(357,NULL,NULL),(358,NULL,NULL),(359,NULL,NULL),(360,NULL,NULL),(361,NULL,NULL),(362,NULL,NULL),(363,NULL,NULL),(364,NULL,NULL),(365,NULL,NULL),(366,NULL,NULL),(367,NULL,NULL),(368,NULL,NULL),(369,NULL,NULL),(370,NULL,NULL),(371,NULL,NULL),(372,NULL,NULL),(373,NULL,NULL),(374,NULL,NULL),(375,NULL,NULL),(376,NULL,NULL),(377,NULL,NULL),(378,NULL,NULL),(379,NULL,NULL),(380,NULL,NULL),(381,NULL,NULL),(382,NULL,NULL),(383,NULL,NULL),(384,NULL,NULL),(385,33,4),(386,34,4),(387,35,4),(388,140,5),(389,141,5),(390,142,5),(391,143,5),(392,144,5),(393,145,5),(394,146,5),(395,147,5),(396,148,5),(397,149,5),(398,150,5),(399,NULL,NULL),(400,NULL,NULL),(401,NULL,NULL),(402,NULL,NULL),(403,NULL,NULL),(404,NULL,NULL),(405,NULL,NULL),(406,81,5),(407,97,5),(408,NULL,NULL),(409,NULL,NULL),(410,91,5),(411,92,5),(412,93,5),(413,94,5),(414,95,5),(415,NULL,NULL),(416,NULL,NULL),(417,NULL,NULL),(418,NULL,NULL),(419,NULL,NULL),(420,NULL,NULL),(421,NULL,NULL),(422,NULL,NULL),(423,NULL,NULL),(424,NULL,NULL),(425,NULL,NULL),(426,NULL,NULL),(427,NULL,NULL),(428,NULL,NULL),(429,NULL,NULL),(430,NULL,NULL),(431,NULL,NULL),(432,NULL,NULL),(433,NULL,NULL),(434,NULL,NULL),(435,38,5),(436,66,5),(437,67,5),(438,68,5),(439,69,5),(440,70,5),(441,39,5),(442,71,5),(443,72,5),(444,73,5),(445,74,5),(446,75,5),(447,NULL,NULL),(448,NULL,NULL),(449,NULL,NULL),(450,NULL,NULL),(451,NULL,NULL),(452,NULL,NULL),(453,NULL,NULL),(454,NULL,NULL),(455,NULL,NULL),(456,NULL,NULL),(457,NULL,NULL),(458,NULL,NULL),(459,108,5),(460,109,5),(461,NULL,NULL),(462,NULL,NULL),(463,NULL,NULL),(464,NULL,NULL),(465,NULL,NULL),(466,115,5),(467,116,5),(468,117,5),(469,118,5),(470,119,5),(471,120,5),(472,121,5),(473,122,5),(474,123,5),(475,124,5),(476,125,5),(477,126,5),(478,127,5),(479,128,5),(480,129,5),(481,130,5),(482,131,5),(483,132,5),(484,133,5),(485,134,5),(486,NULL,NULL),(487,NULL,NULL),(488,NULL,NULL),(489,NULL,NULL),(490,NULL,NULL),(491,1,5),(492,31,5),(493,32,5),(494,NULL,NULL),(495,NULL,NULL),(496,NULL,NULL),(497,NULL,NULL),(498,NULL,NULL),(499,NULL,NULL),(500,NULL,NULL),(501,NULL,NULL),(502,NULL,NULL),(503,NULL,NULL),(504,NULL,NULL),(505,NULL,NULL),(506,NULL,NULL),(507,NULL,NULL),(508,NULL,NULL),(509,NULL,NULL),(510,NULL,NULL),(511,NULL,NULL),(512,NULL,NULL),(513,NULL,NULL),(514,NULL,NULL),(515,NULL,NULL),(516,NULL,NULL),(517,NULL,NULL),(518,NULL,NULL),(519,NULL,NULL),(520,NULL,NULL),(521,NULL,NULL),(522,NULL,NULL),(523,33,5),(524,34,5),(525,35,5),(526,140,6),(527,141,6),(528,142,6),(529,143,6),(530,144,6),(531,145,6),(532,146,6),(533,147,6),(534,148,6),(535,149,6),(536,150,6),(537,41,6),(538,42,6),(539,43,6),(540,44,6),(541,45,6),(542,NULL,NULL),(543,NULL,NULL),(544,NULL,NULL),(545,NULL,NULL),(546,NULL,NULL),(547,NULL,NULL),(548,NULL,NULL),(549,NULL,NULL),(550,NULL,NULL),(551,NULL,NULL),(552,NULL,NULL),(553,99,6),(554,100,6),(555,101,6),(556,102,6),(557,NULL,NULL),(558,NULL,NULL),(559,NULL,NULL),(560,NULL,NULL),(561,NULL,NULL),(562,NULL,NULL),(563,NULL,NULL),(564,NULL,NULL),(565,NULL,NULL),(566,NULL,NULL),(567,NULL,NULL),(568,NULL,NULL),(569,NULL,NULL),(570,NULL,NULL),(571,NULL,NULL),(572,NULL,NULL),(573,NULL,NULL),(574,NULL,NULL),(575,NULL,NULL),(576,NULL,NULL),(577,NULL,NULL),(578,NULL,NULL),(579,NULL,NULL),(580,NULL,NULL),(581,NULL,NULL),(582,NULL,NULL),(583,NULL,NULL),(584,NULL,NULL),(585,40,6),(586,76,6),(587,77,6),(588,78,6),(589,79,6),(590,80,6),(591,NULL,NULL),(592,NULL,NULL),(593,NULL,NULL),(594,NULL,NULL),(595,NULL,NULL),(596,NULL,NULL),(597,108,6),(598,109,6),(599,NULL,NULL),(600,NULL,NULL),(601,NULL,NULL),(602,NULL,NULL),(603,NULL,NULL),(604,NULL,NULL),(605,NULL,NULL),(606,NULL,NULL),(607,NULL,NULL),(608,NULL,NULL),(609,NULL,NULL),(610,NULL,NULL),(611,NULL,NULL),(612,NULL,NULL),(613,NULL,NULL),(614,125,6),(615,126,6),(616,127,6),(617,128,6),(618,129,6),(619,130,6),(620,131,6),(621,132,6),(622,133,6),(623,134,6),(624,135,6),(625,136,6),(626,137,6),(627,138,6),(628,139,6),(629,1,6),(630,31,6),(631,32,6),(632,NULL,NULL),(633,NULL,NULL),(634,NULL,NULL),(635,NULL,NULL),(636,NULL,NULL),(637,NULL,NULL),(638,NULL,NULL),(639,NULL,NULL),(640,NULL,NULL),(641,NULL,NULL),(642,NULL,NULL),(643,NULL,NULL),(644,NULL,NULL),(645,NULL,NULL),(646,NULL,NULL),(647,NULL,NULL),(648,NULL,NULL),(649,NULL,NULL),(650,NULL,NULL),(651,NULL,NULL),(652,NULL,NULL),(653,NULL,NULL),(654,NULL,NULL),(655,NULL,NULL),(656,NULL,NULL),(657,NULL,NULL),(658,NULL,NULL),(659,NULL,NULL),(660,NULL,NULL),(661,33,6),(662,34,6),(663,35,6);
+/*!40000 ALTER TABLE `t_role_permission` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_role_permission_data_control`
+--
+
+DROP TABLE IF EXISTS `t_role_permission_data_control`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_role_permission_data_control` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `data_control_id` bigint(20) DEFAULT NULL,
+  `role_permission_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fkb2efd96750319a20` (`data_control_id`),
+  KEY `fkb2efd96758f6f1ac` (`role_permission_id`),
+  CONSTRAINT `fkb2efd96750319a20` FOREIGN KEY (`data_control_id`) REFERENCES `t_data_control` (`id`),
+  CONSTRAINT `fkb2efd96758f6f1ac` FOREIGN KEY (`role_permission_id`) REFERENCES `t_role_permission` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_role_permission_data_control`
+--
+
+LOCK TABLES `t_role_permission_data_control` WRITE;
+/*!40000 ALTER TABLE `t_role_permission_data_control` DISABLE KEYS */;
+INSERT INTO `t_role_permission_data_control` VALUES (1,1,2),(2,1,3),(3,1,4),(4,1,5),(5,1,6),(6,1,7),(7,1,8);
+/*!40000 ALTER TABLE `t_role_permission_data_control` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_user`
+--
+
+DROP TABLE IF EXISTS `t_user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_user` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `create_time` datetime DEFAULT NULL,
+  `email` varchar(128) DEFAULT NULL,
+  `password` varchar(64) NOT NULL,
+  `pwd_time` datetime DEFAULT NULL,
+  `phone` varchar(32) DEFAULT NULL,
+  `realname` varchar(32) NOT NULL,
+  `salt` varchar(32) NOT NULL,
+  `status` varchar(16) NOT NULL,
+  `username` varchar(32) NOT NULL,
+  `organization_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_name` (`username`),
+  KEY `fk97bbabc3c80e875f` (`organization_id`),
+  CONSTRAINT `fk97bbabc3c80e875f` FOREIGN KEY (`organization_id`) REFERENCES `t_organization` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=166 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_user`
+--
+
+LOCK TABLES `t_user` WRITE;
+/*!40000 ALTER TABLE `t_user` DISABLE KEYS */;
+INSERT INTO `t_user` VALUES (1,'2014-08-03 14:58:38','test@gmail.com','f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,'02038181638','超级管理员','f40eaf1c6ec3efaf','enabled','admin',2),(2,'2015-06-21 06:34:27','','6c27b0bfaddd78142b4e0aa7844871af4669abad',NULL,'','阿清','bec8bc817c6d308d','enabled','test1',8),(3,'2015-06-21 06:38:21','','0aa7d07e78cfef5573338e6d989361b0a373e58f',NULL,'','阿雷','6dea96e7e6365cce','enabled','test2',49),(4,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'李尹','f40eaf1c6ec3efaf','enabled','4400443',3),(5,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'王晓娅','f40eaf1c6ec3efaf','enabled','4400445',3),(6,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'王恺敏','f40eaf1c6ec3efaf','enabled','4400175',3),(7,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'纪金虹','f40eaf1c6ec3efaf','enabled','4400447',23),(8,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'陈申湘','f40eaf1c6ec3efaf','enabled','4400448',24),(9,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'陀海芸','f40eaf1c6ec3efaf','enabled','4400449',25),(10,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'古舟君','f40eaf1c6ec3efaf','enabled','4400450',26),(11,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'罗岱','f40eaf1c6ec3efaf','enabled','4400451',27),(12,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'伍海燕','f40eaf1c6ec3efaf','enabled','4400452',28),(13,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'曾途','f40eaf1c6ec3efaf','enabled','4400182',29),(14,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'马秀琼','f40eaf1c6ec3efaf','enabled','4400183',30),(15,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'肖小兰','f40eaf1c6ec3efaf','enabled','4400512',4),(16,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'王燕','f40eaf1c6ec3efaf','enabled','4400185',4),(17,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'黄韶东','f40eaf1c6ec3efaf','enabled','4400186',4),(18,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'罗宝林','f40eaf1c6ec3efaf','enabled','4400309',32),(19,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'吴斌','f40eaf1c6ec3efaf','enabled','4400381',33),(20,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'付彪','f40eaf1c6ec3efaf','enabled','4400382',34),(21,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'潘中静','f40eaf1c6ec3efaf','enabled','4400463',35),(22,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'杨松志','f40eaf1c6ec3efaf','enabled','4400384',36),(23,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'聂郁红','f40eaf1c6ec3efaf','enabled','4400385',37),(24,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'朱云香','f40eaf1c6ec3efaf','enabled','4400187',5),(25,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'刘芊','f40eaf1c6ec3efaf','enabled','4400188',5),(26,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'张怡新','f40eaf1c6ec3efaf','enabled','4400189',5),(27,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'钟佳娜','f40eaf1c6ec3efaf','enabled','4400190',6),(28,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'倪琳','f40eaf1c6ec3efaf','enabled','4400191',6),(29,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'胡沛','f40eaf1c6ec3efaf','enabled','4400192',6),(30,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'萧嘉敏','f40eaf1c6ec3efaf','enabled','4400475',40),(31,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'王权','f40eaf1c6ec3efaf','enabled','4400310',42),(32,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'吴小虎','f40eaf1c6ec3efaf','enabled','4400474',41),(33,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'钟摄檀','f40eaf1c6ec3efaf','enabled','4400318',7),(34,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'宁建英','f40eaf1c6ec3efaf','enabled','4400195',7),(35,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'杨旭','f40eaf1c6ec3efaf','enabled','4400196',7),(36,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'唐雪梅','f40eaf1c6ec3efaf','enabled','4400453',44),(37,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'何淑欣','f40eaf1c6ec3efaf','enabled','4400454',45),(38,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'陈丽','f40eaf1c6ec3efaf','enabled','4400387',46),(39,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'蔡非怡','f40eaf1c6ec3efaf','enabled','4400455',47),(40,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'黄健清','f40eaf1c6ec3efaf','enabled','4400426',8),(41,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'李碧玲','f40eaf1c6ec3efaf','enabled','4400428',8),(42,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'何志华','f40eaf1c6ec3efaf','enabled','4400430',8),(43,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'江姗姗','f40eaf1c6ec3efaf','enabled','4400202',49),(44,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'李福仪','f40eaf1c6ec3efaf','enabled','4400203',50),(45,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'方惠银','f40eaf1c6ec3efaf','enabled','4400204',51),(46,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'梁文光','f40eaf1c6ec3efaf','enabled','4400205',52),(47,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'吴愉波','f40eaf1c6ec3efaf','enabled','4400206',53),(48,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'唐兴拓','f40eaf1c6ec3efaf','enabled','4400207',9),(49,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'钟黛云','f40eaf1c6ec3efaf','enabled','4400208',9),(50,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'王洪岳','f40eaf1c6ec3efaf','enabled','4400209',9),(51,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'李聪','f40eaf1c6ec3efaf','enabled','4400471',55),(52,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'邹林养','f40eaf1c6ec3efaf','enabled','4400464',56),(53,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'马继松','f40eaf1c6ec3efaf','enabled','4400465',57),(54,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'吴珠敏','f40eaf1c6ec3efaf','enabled','4400213',58),(55,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'宁晓清','f40eaf1c6ec3efaf','enabled','4400214',59),(56,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'陈璐','f40eaf1c6ec3efaf','enabled','4400215',10),(57,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'谭秋萍','f40eaf1c6ec3efaf','enabled','4400216',10),(58,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'文海滔','f40eaf1c6ec3efaf','enabled','4400217',10),(59,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'徐博慧','f40eaf1c6ec3efaf','enabled','4400218',62),(60,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'周燕','f40eaf1c6ec3efaf','enabled','4400219',63),(61,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'曾小燕','f40eaf1c6ec3efaf','enabled','4400220',64),(62,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'高少云','f40eaf1c6ec3efaf','enabled','4400221',65),(63,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'杨玉穗','f40eaf1c6ec3efaf','enabled','4400311',61),(64,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'黄群爱','f40eaf1c6ec3efaf','enabled','4400222',11),(65,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'袁飞雁','f40eaf1c6ec3efaf','enabled','4400223',11),(66,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'罗毅刚','f40eaf1c6ec3efaf','enabled','4400224',11),(67,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'黎家道','f40eaf1c6ec3efaf','enabled','4400459',68),(68,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'罗剑敏','f40eaf1c6ec3efaf','enabled','4400446',67),(69,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'吴洁雄','f40eaf1c6ec3efaf','enabled','4400389',69),(70,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'陈莉','f40eaf1c6ec3efaf','enabled','4400458',70),(71,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'莫瑞安','f40eaf1c6ec3efaf','enabled','4400391',71),(72,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'申玉婷','f40eaf1c6ec3efaf','enabled','4400392',72),(73,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'江蕾','f40eaf1c6ec3efaf','enabled','4400226',12),(74,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'刘穆','f40eaf1c6ec3efaf','enabled','4400227',12),(75,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'胡章悦','f40eaf1c6ec3efaf','enabled','4400416',12),(76,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'聂郁源','f40eaf1c6ec3efaf','enabled','4400460',73),(77,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'黎秀连','f40eaf1c6ec3efaf','enabled','4400230',74),(78,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'朱思思','f40eaf1c6ec3efaf','enabled','4400473',75),(79,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'王伟','f40eaf1c6ec3efaf','enabled','4400232',13),(80,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'王玲芳','f40eaf1c6ec3efaf','enabled','4400233',13),(81,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'陈德生','f40eaf1c6ec3efaf','enabled','4400234',13),(82,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'张芳芳','f40eaf1c6ec3efaf','enabled','4400235',77),(83,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'刘舒云','f40eaf1c6ec3efaf','enabled','4400236',78),(84,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'周彩彬','f40eaf1c6ec3efaf','enabled','4400457',80),(85,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'练柳霞','f40eaf1c6ec3efaf','enabled','4400238',83),(86,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'王小美','f40eaf1c6ec3efaf','enabled','4400456',79),(87,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'张红梅','f40eaf1c6ec3efaf','enabled','4400394',81),(88,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'林春媚','f40eaf1c6ec3efaf','enabled','4400395',82),(89,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'卢漫华','f40eaf1c6ec3efaf','enabled','4400239',14),(90,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'李晓雀','f40eaf1c6ec3efaf','enabled','4400240',14),(91,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'陈立宏','f40eaf1c6ec3efaf','enabled','4400482',14),(92,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'蔡镔锋','f40eaf1c6ec3efaf','enabled','4400472',85),(93,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'朱衍辉','f40eaf1c6ec3efaf','enabled','4400242',15),(94,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'刘娜','f40eaf1c6ec3efaf','enabled','4400243',15),(95,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'邹勇践','f40eaf1c6ec3efaf','enabled','4400244',15),(96,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'龚品娴','f40eaf1c6ec3efaf','enabled','4400397',87),(97,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'叶小华','f40eaf1c6ec3efaf','enabled','4400398',88),(98,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'谢剑晓','f40eaf1c6ec3efaf','enabled','4400399',89),(99,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'刘美珍','f40eaf1c6ec3efaf','enabled','4400400',90),(100,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'冯俏霞','f40eaf1c6ec3efaf','enabled','4400439',16),(101,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'林健喜','f40eaf1c6ec3efaf','enabled','4400246',16),(102,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'陈达超','f40eaf1c6ec3efaf','enabled','4400245',16),(103,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'郭新锐','f40eaf1c6ec3efaf','enabled','4400248',92),(104,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'梁宝玲','f40eaf1c6ec3efaf','enabled','4400249',93),(105,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'李明','f40eaf1c6ec3efaf','enabled','4400250',94),(106,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'邓永青','f40eaf1c6ec3efaf','enabled','4400251',17),(107,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'梁雪媚','f40eaf1c6ec3efaf','enabled','4400252',17),(108,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'梁月养','f40eaf1c6ec3efaf','enabled','4400253',17),(109,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'卢丽仙','f40eaf1c6ec3efaf','enabled','4400254',99),(110,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'赵四连','f40eaf1c6ec3efaf','enabled','4400435',97),(111,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'罗桂花','f40eaf1c6ec3efaf','enabled','4400510',98),(112,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'成智薇','f40eaf1c6ec3efaf','enabled','4400315',100),(113,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'李伯健','f40eaf1c6ec3efaf','enabled','4400509',96),(114,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'黄晓程','f40eaf1c6ec3efaf','enabled','4400444',18),(115,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'高云','f40eaf1c6ec3efaf','enabled','4400255',18),(116,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'陈伟皓','f40eaf1c6ec3efaf','enabled','4400257',18),(117,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'李丽霞','f40eaf1c6ec3efaf','enabled','4400258',101),(118,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'黄静宏','f40eaf1c6ec3efaf','enabled','4400431',102),(119,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'叶淑文','f40eaf1c6ec3efaf','enabled','4400260',108),(120,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'张剑峰','f40eaf1c6ec3efaf','enabled','4400467',109),(121,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'邓雪瑾','f40eaf1c6ec3efaf','enabled','4400468',110),(122,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'温润江','f40eaf1c6ec3efaf','enabled','4400263',111),(123,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'邓杏媚','f40eaf1c6ec3efaf','enabled','4400264',112),(124,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'王雅仪','f40eaf1c6ec3efaf','enabled','4400265',113),(125,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'周惠灵','f40eaf1c6ec3efaf','enabled','4400466',105),(126,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'李文芳','f40eaf1c6ec3efaf','enabled','4400433',106),(127,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'许碧霞','f40eaf1c6ec3efaf','enabled','4400432',103),(128,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'何伟杰','f40eaf1c6ec3efaf','enabled','4400403',104),(129,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'刘宇杰','f40eaf1c6ec3efaf','enabled','4400404',107),(130,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'张广燕','f40eaf1c6ec3efaf','enabled','4400427',19),(131,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'梁诗雅','f40eaf1c6ec3efaf','enabled','4400429',19),(132,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'杨玲','f40eaf1c6ec3efaf','enabled','4400470',19),(133,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'管洁玲','f40eaf1c6ec3efaf','enabled','4400269',20),(134,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'陈超','f40eaf1c6ec3efaf','enabled','4400270',20),(135,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'张方超','f40eaf1c6ec3efaf','enabled','4400271',20),(136,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'黄晓璇','f40eaf1c6ec3efaf','enabled','4400272',116),(137,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'黄楷桦','f40eaf1c6ec3efaf','enabled','4400405',117),(138,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'林奕兰','f40eaf1c6ec3efaf','enabled','4400469',21),(139,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'林晓瑜','f40eaf1c6ec3efaf','enabled','4400274',21),(140,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'管侃侃','f40eaf1c6ec3efaf','enabled','4400481',21),(141,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'吴琳琳','f40eaf1c6ec3efaf','enabled','4400276',119),(142,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'李晓丹','f40eaf1c6ec3efaf','enabled','4400277',122),(143,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'张洁','f40eaf1c6ec3efaf','enabled','4400406',120),(144,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'徐思宜','f40eaf1c6ec3efaf','enabled','4400407',121),(145,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'陈恒','f40eaf1c6ec3efaf','enabled','4400278',22),(146,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'吴奕坚','f40eaf1c6ec3efaf','enabled','4400279',22),(147,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'孔祥健','f40eaf1c6ec3efaf','enabled','4400280',22),(148,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'张淑欢','f40eaf1c6ec3efaf','enabled','4400281',124),(149,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'李丹丹','f40eaf1c6ec3efaf','enabled','4400321',125),(150,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'梁聪','f40eaf1c6ec3efaf','enabled','4400283',127),(151,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'梁彩娟','f40eaf1c6ec3efaf','enabled','4400408',126),(152,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'毕泽明','f40eaf1c6ec3efaf','enabled','4400168',2),(153,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'吕一婷','f40eaf1c6ec3efaf','enabled','4400170',2),(154,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'聂冬梅','f40eaf1c6ec3efaf','enabled','4400413',2),(155,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'凌翔','f40eaf1c6ec3efaf','enabled','4400172',2),(156,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'黎健琦','f40eaf1c6ec3efaf','enabled','1602',2),(157,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'李惠仪','f40eaf1c6ec3efaf','enabled','1601',2),(158,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'周艳','f40eaf1c6ec3efaf','enabled','4400171',2),(159,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'王鹤','f40eaf1c6ec3efaf','enabled','4400287',2),(160,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'赵勇','f40eaf1c6ec3efaf','enabled','4400442',2),(161,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'李舒','f40eaf1c6ec3efaf','enabled','4400415',2),(162,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'肖晓东','f40eaf1c6ec3efaf','enabled','4400508',2),(163,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'闫子卿','f40eaf1c6ec3efaf','enabled','4400479',2),(164,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'孙永敏','f40eaf1c6ec3efaf','enabled','4400516',2),(165,'2015-07-01 00:06:30',NULL,'f0850817aee6fcd981ec4578314ee3bc8afdc61c',NULL,NULL,'张圣华','f40eaf1c6ec3efaf','enabled','4400513',2);
+/*!40000 ALTER TABLE `t_user` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_user_role`
+--
+
+DROP TABLE IF EXISTS `t_user_role`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_user_role` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `priority` int(11) NOT NULL,
+  `role_id` bigint(20) DEFAULT NULL,
+  `user_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk24086f723ffd717f` (`role_id`),
+  KEY `fk24086f72e528355f` (`user_id`),
+  CONSTRAINT `fk24086f723ffd717f` FOREIGN KEY (`role_id`) REFERENCES `t_role` (`id`),
+  CONSTRAINT `fk24086f72e528355f` FOREIGN KEY (`user_id`) REFERENCES `t_user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=166 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_user_role`
+--
+
+LOCK TABLES `t_user_role` WRITE;
+/*!40000 ALTER TABLE `t_user_role` DISABLE KEYS */;
+INSERT INTO `t_user_role` VALUES (1,999,1,1),(2,999,2,2),(3,999,2,3),(4,999,2,4),(5,999,2,5),(6,999,2,6),(7,999,2,7),(8,999,2,8),(9,999,2,9),(10,999,2,10),(11,999,2,11),(12,999,2,12),(13,999,2,13),(14,999,2,14),(15,999,2,15),(16,999,2,16),(17,999,2,17),(18,999,2,18),(19,999,2,19),(20,999,2,20),(21,999,2,21),(22,999,2,22),(23,999,2,23),(24,999,2,24),(25,999,2,25),(26,999,2,26),(27,999,2,27),(28,999,2,28),(29,999,2,29),(30,999,2,30),(31,999,2,31),(32,999,2,32),(33,999,2,33),(34,999,2,34),(35,999,2,35),(36,999,2,36),(37,999,2,37),(38,999,2,38),(39,999,2,39),(40,999,2,40),(41,999,2,41),(42,999,2,42),(43,999,2,43),(44,999,2,44),(45,999,2,45),(46,999,2,46),(47,999,2,47),(48,999,2,48),(49,999,2,49),(50,999,2,50),(51,999,2,51),(52,999,2,52),(53,999,2,53),(54,999,2,54),(55,999,2,55),(56,999,2,56),(57,999,2,57),(58,999,2,58),(59,999,2,59),(60,999,2,60),(61,999,2,61),(62,999,2,62),(63,999,2,63),(64,999,2,64),(65,999,2,65),(66,999,2,66),(67,999,2,67),(68,999,2,68),(69,999,2,69),(70,999,2,70),(71,999,2,71),(72,999,2,72),(73,999,2,73),(74,999,2,74),(75,999,2,75),(76,999,2,76),(77,999,2,77),(78,999,2,78),(79,999,2,79),(80,999,2,80),(81,999,2,81),(82,999,2,82),(83,999,2,83),(84,999,2,84),(85,999,2,85),(86,999,2,86),(87,999,2,87),(88,999,2,88),(89,999,2,89),(90,999,2,90),(91,999,2,91),(92,999,2,92),(93,999,2,93),(94,999,2,94),(95,999,2,95),(96,999,2,96),(97,999,2,97),(98,999,2,98),(99,999,2,99),(100,999,2,100),(101,999,2,101),(102,999,2,102),(103,999,2,103),(104,999,2,104),(105,999,2,105),(106,999,2,106),(107,999,2,107),(108,999,2,108),(109,999,2,109),(110,999,2,110),(111,999,2,111),(112,999,2,112),(113,999,2,113),(114,999,2,114),(115,999,2,115),(116,999,2,116),(117,999,2,117),(118,999,2,118),(119,999,2,119),(120,999,2,120),(121,999,2,121),(122,999,2,122),(123,999,2,123),(124,999,2,124),(125,999,2,125),(126,999,2,126),(127,999,2,127),(128,999,2,128),(129,999,2,129),(130,999,2,130),(131,999,2,131),(132,999,2,132),(133,999,2,133),(134,999,2,134),(135,999,2,135),(136,999,2,136),(137,999,2,137),(138,999,2,138),(139,999,2,139),(140,999,2,140),(141,999,2,141),(142,999,2,142),(143,999,2,143),(144,999,2,144),(145,999,2,145),(146,999,2,146),(147,999,2,147),(148,999,2,148),(149,999,2,149),(150,999,2,150),(151,999,2,151),(152,999,2,1),(153,999,2,3),(154,999,2,6),(155,999,2,1),(156,999,2,5),(157,999,2,5),(158,999,2,4),(159,999,2,4),(160,999,2,1),(161,999,2,1),(162,999,2,1),(163,999,2,1),(164,999,2,1),(165,999,2,1);
+/*!40000 ALTER TABLE `t_user_role` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2015-07-06 12:32:49
