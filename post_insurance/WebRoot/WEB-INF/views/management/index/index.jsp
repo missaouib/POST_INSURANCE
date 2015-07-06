@@ -166,8 +166,9 @@ $(document).ready(function(){
 						<div class="right">
 							<p><fmt:formatDate value="<%=new Date() %>" pattern="yyyy-MM-dd EEEE"/></p>
 						</div>
-						<p><span>欢迎, ${login_user.realname } . 请及时处理待办任务。</span></p>
+						<p><span>欢迎, ${login_user.realname } . 请及时处理待办任务。</p>
 					</div>
+					<div align="center"><%@ include file="../../msg.inc.jsp" %></div>
 					<div class="pageContent sortDrag" selector="h1" layoutH="12">
 					<fieldset>
 					<legend>待办任务</legend>

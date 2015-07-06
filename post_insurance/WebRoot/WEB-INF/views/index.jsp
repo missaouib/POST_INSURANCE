@@ -101,22 +101,8 @@ $(document).ready(function () {
 			</div>
              <div style=" width:100%; margin-top:1px; height:14px; background:url(${contextPath}/images/t2.jpg); float:left;"></div>
 			</div>
-<div class="c2" style="display:none;">
-	<dl>
-    	<dt><img src="${contextPath}/images/tu1.jpg" width="228" height="180" /></dt>
-        <dd><a href="/uploaddatamanage/uploaddata/toWebUpload"><span class="adian"></span>数据服务</a></dd>
-    </dl>
-    <dl>
-   	  <dt><img src="${contextPath}/images/tu2.jpg" width="228" height="180" /></dt>
-        <dd><a href="/uploaddatamanage/document/toWebList"><span class="adian"></span>行业报告</a></dd>
-    </dl>
-    <dl>
-    	<dt><img src="${contextPath}/images/tu3.jpg" width="228" height="180" /></dt>
-        <dd><a href="#"><span class="adian"></span>新闻动态</a></dd>
-    </dl>
 </div>
-</div>
-<div><%@ include file="msg.inc.jsp" %></div>
+<div align="center"><%@ include file="msg.inc.jsp" %></div>
 <%@ include file="webroot.inc.jsp" %>
 </body>
 </html>

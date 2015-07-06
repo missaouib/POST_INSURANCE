@@ -62,7 +62,7 @@
 					 -->
 					<p>
 						<label>用户名:</label>
-						<input type="text" name="username" style="width: 150px;" class="validate[required] login_input" id="username" value="${username }"/>
+						<input type="text" name="username" style="width: 150px;" alt="可使用核心工号" class="validate[required] login_input" id="username" />
 					</p>
 					<p>
 						<label>密&nbsp;&nbsp;&nbsp;&nbsp;码:</label>

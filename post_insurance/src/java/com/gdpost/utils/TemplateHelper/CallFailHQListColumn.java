@@ -59,6 +59,64 @@ public class CallFailHQListColumn {
 		column.setOutputName("QD");
 		standardColumns.add(column);
 		
+		column = new ColumnItem();
+		column.setDisplayName("回访日期2");
+		column.setColumnName("hq_deal_date2");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(true);
+		column.setiOutputOrder(16);
+		column.setOutputName("QD");
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
+		column.setDisplayName("回访结果2");
+		column.setColumnName("hq_deal_rst2");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(true);
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
+		column.setDisplayName("回访日期3");
+		column.setColumnName("hq_deal_date3");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(true);
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
+		column.setDisplayName("回访结果3");
+		column.setColumnName("hq_deal_rst3");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(true);
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
+		column.setDisplayName("回访日期4");
+		column.setColumnName("hq_deal_date4");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(true);
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
+		column.setDisplayName("回访结果4");
+		column.setColumnName("hq_deal_rst4");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(true);
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
+		column.setDisplayName("回访日期5");
+		column.setColumnName("hq_deal_date5");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(true);
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
+		column.setDisplayName("回访结果5");
+		column.setColumnName("hq_deal_rst5");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(true);
+		standardColumns.add(column);
+		
 		return(standardColumns);
 	}
 }

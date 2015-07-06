@@ -102,7 +102,7 @@ $(document).ready(function () {
 			<input type="hidden" name="flag" value="web"/>
 			<input type="hidden" name="rememberMe" value="false"/>
     	    <label for="username" style=" display:block; border:1px solid #666; height:40px; width:40px; border:1px solid #DEDEDE; border-right:0; background:url(${contextPath}/images/dengzhang.jpg) no-repeat 13px 10px; float:left;"></label>
-    	    <input type="text" name="username" class="dakuang validate[required]" id="username" value="${username }"/>
+    	    <input type="text" name="username" alt="可使用核心工号" class="textInput dakuang validate[required]" id="username"/>
   	        <label for="password" style=" margin-top:20px; display:block; border:1px solid #666; height:40px; width:40px; border:1px solid #DEDEDE; border-right:0; float:left; background:url(${contextPath}/images/dengmi.jpg) no-repeat 13px 10px;"></label>
   	        <input type="password" name="password" class="dakuang validate[required]" id="password"/>
   	        <br />
