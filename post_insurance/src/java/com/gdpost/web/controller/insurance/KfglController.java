@@ -16,6 +16,7 @@ import javax.servlet.ServletRequest;
 import javax.validation.Valid;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +62,7 @@ public class KfglController {
 	private UserService userService;
 
 	private static final String VIEW = "insurance/kfgl/wtj/view";
+	private static final String PRINT = "insurance/kfgl/wtj/issue";
 	private static final String UPDATE = "insurance/kfgl/wtj/update";
 	private static final String LIST = "insurance/kfgl/wtj/list";
 	private static final String ISSUE_LIST = "insurance/kfgl/wtj/issuelist";
@@ -73,6 +75,16 @@ public class KfglController {
 		map.put("issue", issue);
 		map.put("status", STATUS.ReopenStatus);
 		return VIEW;
+	}
+	
+	@RequiresUser
+	@RequestMapping(value="/issue/print/{id}", method=RequestMethod.GET)
+	public String print(@PathVariable Long id, Map<String, Object> map) {
+		Issue issue = kfglService.get(id);
+		
+		map.put("issue", issue);
+		map.put("status", STATUS.ReopenStatus);
+		return PRINT;
 	}
 	
 	@ModelAttribute("preloadIssue")

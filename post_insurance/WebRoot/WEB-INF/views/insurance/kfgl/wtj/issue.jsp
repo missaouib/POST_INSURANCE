@@ -36,14 +36,14 @@ table.gridtable td {
 </style>
 <div id="MsgContent" style="width:756px;height:1086px;border:0px solid #000000;">
 <div>
-  <p>&nbsp;&nbsp;${fn:substring(issue.orangization.name, 0, 2)}-${issue.issueType }-${issue.issueNo }</p>
+  <p>&nbsp;&nbsp;${fn:substring(issue.organization.name, 0, 2)}-${issue.issueType }-${issue.issueNo }</p>
   <div align="center" style="font-size:16px">中邮人寿呼入/回访问题工单转办单 </div>
   <div>&nbsp;&nbsp;工单流水号：${issue.issueNo } </div>
   </div>
   <table width="90%" align="center" class="gridtable">
     <tr >
       <td >承办机构： </td>
-      <td >${issue.policy.orangization.name } </td>
+      <td >${issue.policy.organization.name } </td>
       <td >保险单号码： </td>
       <td >${issue.policy.policyNo } </td>
     </tr>
@@ -75,7 +75,7 @@ table.gridtable td {
       <td >工单子类型： </td>
       <td >${issue.issueType } </td>
       <td >要求时效： </td>
-      <td >${issue.readyDate+5 } </td>
+      <td ><fmt:formatDate value="${issue.finishDate}" pattern="yyyy-MM-dd"/>  </td>
     </tr>
   </table><br><br>
   <div>&nbsp;&nbsp;问题说明：（由省分客服人员填写）：</div> 

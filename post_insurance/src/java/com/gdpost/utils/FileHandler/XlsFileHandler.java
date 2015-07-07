@@ -49,12 +49,15 @@ public class XlsFileHandler extends AbstractFileHandler {
 			// 如果是合并单元表格，略过
 			
 			for (int iSheet = 0; iSheet < iSheets; iSheet++) {
+				log.debug("---------sheet:" + iSheet);
 				sheet = (HSSFSheet) workbook.getSheetAt(iSheet);
 				int sheetmergerCount = sheet.getNumMergedRegions();
-				//log.debug("--------------有这么多个合并单元格：" + sheetmergerCount);
+				log.debug("--------------有这么多个合并单元格：" + sheetmergerCount);
 				//log.debug("--------------合并单元格：" + sheet.getMergedRegion(sheetmergerCount-1).getFirstRow());
 				//log.debug("--------------合并单元格：" + sheet.getMergedRegion(sheetmergerCount-1).getNumberOfCells());
-				skipRow = sheet.getMergedRegion(sheetmergerCount-1).getLastRow();
+				if(sheetmergerCount > 0) {
+					skipRow = sheet.getMergedRegion(sheetmergerCount-1).getLastRow();
+				}
 				//log.debug("--------------to skip i: " + skipRow + ", sheet last row: " + sheet.getLastRowNum());
 				for (int i = skipRow+1; i < sheet.getLastRowNum(); i++) {
 					log.debug("------------ row: " + i);
@@ -77,8 +80,12 @@ public class XlsFileHandler extends AbstractFileHandler {
 					return null;
 				}
 				headerRow = sheet.getRow(markRow);
+				log.debug("------------ header is null?" + (headerRow == null?"null":headerRow.getSheet().getSheetName()));
+				if(headerRow == null) {
+					continue;
+				}
 				cellCount = headerRow.getLastCellNum();
-				//log.debug("-----------xls file handle: " + cellCount);
+				log.debug("-----------xls file handle: " + cellCount);
 
 				dt = new DataTable();
 				dt.TableName = sheet.getSheetName();

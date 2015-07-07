@@ -49,7 +49,7 @@
 			<shiro:hasPermission name="Wtgd:edit">
 				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/kfgl/issue/update/{slt_uid}"><span>回复问题工单</span></a></li>
 			</shiro:hasPermission>
-			<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="680" href="${contextPath }/kfgl/issue/print/{slt_uid}"><span>查看问题工单</span></a></li>
+			<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="680" href="${contextPath }/kfgl/issue/print/{slt_uid}"><span>打印问题工单</span></a></li>
 		</ul>
 	</div>
 	

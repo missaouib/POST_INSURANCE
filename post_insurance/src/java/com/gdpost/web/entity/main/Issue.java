@@ -1,5 +1,6 @@
 package com.gdpost.web.entity.main;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -199,7 +200,13 @@ public class Issue implements Idable<Long> {
 
 	@Column(name = "finish_date", length = 19)
 	public Date getFinishDate() {
-		return this.finishDate;
+		if(this.finishDate != null && this.finishDate.after(this.readyDate)) {
+			return this.finishDate;
+		}
+		Calendar ca = Calendar.getInstance();
+		ca.setTime(this.readyDate);
+		ca.add(Calendar.DATE, 5);
+		return ca.getTime();
 	}
 
 	public void setFinishDate(Date finishDate) {

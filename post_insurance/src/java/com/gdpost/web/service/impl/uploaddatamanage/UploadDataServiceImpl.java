@@ -177,7 +177,7 @@ public class UploadDataServiceImpl implements UploadDataService{
         	for(ColumnItem item : standardColumns) {
         		
         		cell = StringUtil.trimStr(row.getValue(item.getDisplayName()));
-        		if(ft.name().equals(FileTemplate.CallFail.name())) {
+        		if(ft.name().equals(FileTemplate.CallFail.name()) || ft.name().equals(FileTemplate.Issue.name())) {
         			if(item.getDisplayName().equals("结案时间") && cell != null && cell.toString().length()<=0) {
         				log.debug("----------- 结案时间: " + cell);
         	            builder.append("2005-11-01 09:00:00\t");
