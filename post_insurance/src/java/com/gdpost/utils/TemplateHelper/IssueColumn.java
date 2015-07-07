@@ -25,6 +25,13 @@ public class IssueColumn {
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
+		column.setDisplayName("机构名称");
+		column.setColumnName("organ_name");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(false);
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
 		column.setDisplayName("回访人");
 		column.setColumnName("call_man");
 		column.setColumnType(ColumnType.string);
@@ -139,6 +146,20 @@ public class IssueColumn {
 		column.setNullable(true);
 		column.setiOutputOrder(13);
 		column.setOutputName("YHWDMC");
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
+		column.setDisplayName("联系电话");
+		column.setColumnName("holder_phone");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(false);
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
+		column.setDisplayName("手机号码");
+		column.setColumnName("holder_mobile");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(false);
 		standardColumns.add(column);
 		
 		column = new ColumnItem();

@@ -16,6 +16,7 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.ColumnTransformer;
 
 import com.gdpost.web.entity.Idable;
 
@@ -56,7 +57,11 @@ public class Issue implements Idable<Long> {
 	private Date reopenDate;
 	private Long operateId;
 	private Date operateTime;
-
+	
+	private String organName;
+	private String holderPhone;
+	private String holderMobile;
+	
 	// Constructors
 
 	/** default constructor */
@@ -369,6 +374,41 @@ public class Issue implements Idable<Long> {
 
 	public void setOperateTime(Date operateTime) {
 		this.operateTime = operateTime;
+	}
+
+	@Column(name="organ_name")
+	public String getOrganName() {
+		return organName;
+	}
+
+	public void setOrganName(String organName) {
+		this.organName = organName;
+	}
+
+	@Column(name = "holder_phone", length = 256)
+	@ColumnTransformer(
+			forColumn="holder_phone",
+			read="cast(aes_decrypt(unhex(holder_phone), '" + com.gdpost.web.MySQLAESKey.AESKey + "') as char(100))", 
+			write="hex(aes_encrypt(?,'" + com.gdpost.web.MySQLAESKey.AESKey + "'))")
+	public String getHolderPhone() {
+		return holderPhone;
+	}
+
+	public void setHolderPhone(String holderPhone) {
+		this.holderPhone = holderPhone;
+	}
+
+	@Column(name = "holder_mobile", length = 256)
+	@ColumnTransformer(
+			forColumn="holder_mobile",
+			read="cast(aes_decrypt(unhex(holder_mobile), '" + com.gdpost.web.MySQLAESKey.AESKey + "') as char(100))", 
+			write="hex(aes_encrypt(?,'" + com.gdpost.web.MySQLAESKey.AESKey + "'))")
+	public String getHolderMobile() {
+		return holderMobile;
+	}
+
+	public void setHolderMobile(String holderMobile) {
+		this.holderMobile = holderMobile;
 	}
 
 }

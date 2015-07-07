@@ -43,18 +43,13 @@
 
 	<div class="panelBar">
 		<ul class="toolBar">
-			<%-- <shiro:hasPermission name="Wtgd:save">
-				<li><a iconClass="user_add" target="dialog" rel="lookup2organization_add" mask="true" width="530" height="330" href="${contextPath }/kfgl/issue/create"><span>添加问题工单</span></a></li>
-			</shiro:hasPermission> --%>
 			<shiro:hasPermission name="Wtgd:view">
 				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="680" href="${contextPath }/kfgl/issue/view/{slt_uid}"><span>查看问题工单</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Wtgd:edit">
 				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/kfgl/issue/update/{slt_uid}"><span>回复问题工单</span></a></li>
 			</shiro:hasPermission>
-			<%-- <shiro:hasPermission name="Wtgd:delete">
-				<li><a iconClass="user_delete" target="selectedTodo" rel="ids" href="${contextPath }/kfgl/issue/list/delete" title="确认要删除?"><span>删除问题工单</span></a></li>
-			</shiro:hasPermission> --%>
+			<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="680" href="${contextPath }/kfgl/issue/print/{slt_uid}"><span>查看问题工单</span></a></li>
 		</ul>
 	</div>
 	
