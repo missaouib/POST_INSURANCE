@@ -247,4 +247,10 @@ public class StringUtil {
 		
 		return(strValue);
 	}
+	
+	public static void main(String[] args) {
+		String str = "search.id";
+		System.out.println(str.indexOf("."));
+		System.out.println(str.replaceAll("\\.", "_"));
+	}
 }

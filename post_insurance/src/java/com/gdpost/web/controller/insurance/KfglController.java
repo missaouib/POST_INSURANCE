@@ -63,6 +63,7 @@ public class KfglController {
 
 	private static final String VIEW = "insurance/kfgl/wtj/view";
 	private static final String PRINT = "insurance/kfgl/wtj/issue";
+	private static final String PRINT_LIST = "insurance/kfgl/wtj/issues";
 	private static final String UPDATE = "insurance/kfgl/wtj/update";
 	private static final String LIST = "insurance/kfgl/wtj/list";
 	private static final String ISSUE_LIST = "insurance/kfgl/wtj/issuelist";
@@ -85,6 +86,49 @@ public class KfglController {
 		map.put("issue", issue);
 		map.put("status", STATUS.ReopenStatus);
 		return PRINT;
+	}
+	
+	@RequiresUser
+	@RequestMapping(value="/issues/print", method={RequestMethod.POST, RequestMethod.GET})
+	public String prints(ServletRequest request, Page page, Map<String, Object> map) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
+		
+		String status = request.getParameter("status");
+		LOG.debug("-------------- status: " + status);
+		Issue issue = new Issue();
+		if(status == null) {
+			status = "待处理";
+		}
+		issue.setStatus(status);
+		
+		map.put("issue", issue);
+		map.put("statusList", STATUS.values());
+		
+		String searchOrg = request.getParameter("orgCode");
+		request.setAttribute("orgCode", searchOrg);
+		request.setAttribute("orgName", request.getParameter("orgName"));
+		if(searchOrg != null && searchOrg.trim().length() <= 0) {
+			if(userOrg.getOrgCode().length()<=4) {
+				//return	AjaxObject.newError("请选择机构！").toString(); 
+				return PRINT_LIST;
+			} else {
+				searchOrg = userOrg.getOrgCode();
+			}
+		} else if(searchOrg == null || searchOrg.trim().length() <= 0) {
+			return PRINT_LIST;
+		}
+		
+		page.setNumPerPage(50);
+		
+		Specification<Issue> specification = DynamicSpecifications.bySearchFilter(request, Issue.class,
+				new SearchFilter("status", Operator.LIKE, STATUS.CloseStatus),
+				new SearchFilter("policy.organization.orgCode", Operator.LIKE, searchOrg));
+		List<Issue> issues = kfglService.findByExample(specification, page);
+		map.put("issues", issues);
+		
+		return PRINT_LIST;
 	}
 	
 	@ModelAttribute("preloadIssue")

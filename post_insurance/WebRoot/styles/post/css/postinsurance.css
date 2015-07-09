@@ -42,3 +42,26 @@ span.inputValueMemberRole input {vertical-align:middle;margin-right:15px;}
 .mTreeTable tr td {line-height: 16px;vertical-align: middle;}
 .mTreeTable tr td span.pmn{display: block; float: left; line-height: 16px;}
 .mTreeTable tr td span.pmnc{margin-right: 15px !important;}
+
+table.gridtable {
+font-family:  "微软雅黑";
+ font-size:14px;
+ color:#333333;
+ border-width: 1px;
+ border-color: #666666;
+ border-collapse: collapse;
+}
+table.gridtable th {
+	border-width: 1px;
+	padding: 2px;
+	border-style: solid;
+	border-color: #666666;
+	background-color: #dedede;
+}
+table.gridtable td {
+	border-width: 1px;
+	padding: 2px;
+	border-style: solid;
+	border-color: #666666;
+	background-color: #ffffff;
+}

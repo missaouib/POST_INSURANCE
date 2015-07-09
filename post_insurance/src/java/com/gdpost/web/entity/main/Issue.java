@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -63,7 +64,28 @@ public class Issue implements Idable<Long> {
 	private String holderPhone;
 	private String holderMobile;
 	
+	@Transient
+	private Date readyDate1;
+	@Transient
+	private Date readyDate2;
+	
 	// Constructors
+	@Transient
+	public Date getReadyDate1() {
+		return readyDate1;
+	}
+	@Transient
+	public void setReadyDate1(Date readyDate1) {
+		this.readyDate1 = readyDate1;
+	}
+	@Transient
+	public Date getReadyDate2() {
+		return readyDate2;
+	}
+	@Transient
+	public void setReadyDate2(Date readyDate2) {
+		this.readyDate2 = readyDate2;
+	}
 
 	/** default constructor */
 	public Issue() {

@@ -152,6 +152,7 @@ public class IssueColumn {
 		column.setDisplayName("联系电话");
 		column.setColumnName("holder_phone");
 		column.setColumnType(ColumnType.string);
+		column.setNeedEncrypt(true);
 		column.setNullable(false);
 		standardColumns.add(column);
 		
@@ -159,6 +160,7 @@ public class IssueColumn {
 		column.setDisplayName("手机号码");
 		column.setColumnName("holder_mobile");
 		column.setColumnType(ColumnType.string);
+		column.setNeedEncrypt(true);
 		column.setNullable(false);
 		standardColumns.add(column);
 		

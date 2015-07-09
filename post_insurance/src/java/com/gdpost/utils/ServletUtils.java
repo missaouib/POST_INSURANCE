@@ -91,11 +91,13 @@ public class ServletUtils {
 					params.put(unprefixed, values);
 					if(paramName.indexOf(".") != -1) {
 						request.setAttribute(paramName.replaceAll("\\.", "_"), values);
+						//params.put(paramName.replaceAll("\\.", "_"), values);
 					}
 				} else {
 					params.put(unprefixed, values[0]);
 					if(paramName.indexOf(".") != -1) {
 						request.setAttribute(paramName.replaceAll("\\.", "_"), values[0]);
+						//params.put(paramName.replaceAll("\\.", "_"), values[0]);
 					}
 				}
 			}
