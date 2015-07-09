@@ -12,8 +12,8 @@ import java.util.Map;
 import javax.servlet.ServletRequest;
 import javax.validation.Valid;
 
-import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.serializer.JSONSerializer;
 import com.alibaba.fastjson.serializer.PropertyFilter;
 import com.alibaba.fastjson.serializer.SerializeWriter;
+import com.gdpost.utils.SecurityUtils;
 import com.gdpost.utils.StringUtil;
 import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.Role;
@@ -43,6 +44,7 @@ import com.gdpost.web.service.OrganizationService;
 import com.gdpost.web.service.RoleService;
 import com.gdpost.web.service.UserRoleService;
 import com.gdpost.web.service.UserService;
+import com.gdpost.web.shiro.ShiroUser;
 import com.gdpost.web.util.dwz.AjaxObject;
 import com.gdpost.web.util.dwz.Page;
 import com.gdpost.web.util.persistence.DynamicSpecifications;
@@ -270,11 +272,13 @@ public class UserController {
 		userRoleService.delete(userRoleId);
 	}
 	
-	@RequiresPermissions(value={"User:edit", "User:save", "MemberMessage:edit"}, logical=Logical.OR)
+	@RequiresUser
 	@RequestMapping(value="/lookup2org", method={RequestMethod.GET})
 	public String lookup(Map<String, Object> map) {
-		Organization org = organizationService.getTree();
-		
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		Organization org = organizationService.getTree(shiroUser.getUser());
+		//Organization org = organizationService.getTree();
+		LOG.debug("------------ LOOKUP FOR ORG: " + org);
 		map.put("org", org);
 		return LOOK_ORG;
 	}

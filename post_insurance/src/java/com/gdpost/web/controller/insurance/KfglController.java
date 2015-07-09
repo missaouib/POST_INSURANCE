@@ -99,7 +99,7 @@ public class KfglController {
 		LOG.debug("-------------- status: " + status);
 		Issue issue = new Issue();
 		if(status == null) {
-			status = "待处理";
+			status = STATUS.CloseStatus.getDesc();
 		}
 		issue.setStatus(status);
 		
@@ -108,7 +108,8 @@ public class KfglController {
 		
 		String searchOrg = request.getParameter("orgCode");
 		request.setAttribute("orgCode", searchOrg);
-		request.setAttribute("orgName", request.getParameter("orgName"));
+		request.setAttribute("orgName", request.getParameter("name"));
+		LOG.debug("------------orgCode:" + searchOrg + ", name=:" + request.getParameter("name"));
 		if(searchOrg != null && searchOrg.trim().length() <= 0) {
 			if(userOrg.getOrgCode().length()<=4) {
 				//return	AjaxObject.newError("请选择机构！").toString(); 
@@ -123,9 +124,10 @@ public class KfglController {
 		page.setNumPerPage(50);
 		
 		Specification<Issue> specification = DynamicSpecifications.bySearchFilter(request, Issue.class,
-				new SearchFilter("status", Operator.LIKE, STATUS.CloseStatus),
+				new SearchFilter("status", Operator.LIKE, status),
 				new SearchFilter("policy.organization.orgCode", Operator.LIKE, searchOrg));
 		List<Issue> issues = kfglService.findByExample(specification, page);
+		LOG.debug("-----------------" + issues);
 		map.put("issues", issues);
 		
 		return PRINT_LIST;

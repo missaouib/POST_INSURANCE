@@ -1,7 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" trimDirectiveWhitespaces="true" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 <div class="pageContent">
-<div class="pageFormContent" layoutH="58">
+<div class="panelBar">
+		<ul class="toolBar">
+			<li><a class="icon" href="javascript:$.printBox('IssuePrintContent')"><span>工单打印</span></a></li>
+		</ul>
+	</div>
+<div class="pageFormContent" layoutH="78">
 <div id="IssuePrintContent">
 <table width="95%" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>

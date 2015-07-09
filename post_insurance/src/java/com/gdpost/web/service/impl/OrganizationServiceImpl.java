@@ -6,6 +6,8 @@ package	com.gdpost.web.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gdpost.web.dao.OrganizationDAO;
 import com.gdpost.web.dao.UserDAO;
 import com.gdpost.web.entity.main.Organization;
+import com.gdpost.web.entity.main.User;
 import com.gdpost.web.exception.NotDeletedException;
 import com.gdpost.web.exception.NotExistedException;
 import com.gdpost.web.service.OrganizationService;
@@ -23,6 +26,7 @@ import com.gdpost.web.util.dwz.PageUtils;
 @Service
 @Transactional
 public class OrganizationServiceImpl implements OrganizationService {
+	private static final Logger LOG = LoggerFactory.getLogger(OrganizationServiceImpl.class);
 	
 	@Autowired
 	private OrganizationDAO organizationDAO;
@@ -126,6 +130,33 @@ public class OrganizationServiceImpl implements OrganizationService {
 		return rootList.get(0);
 	}
 	
+	@Override
+	public Organization getTree(User user) {
+		LOG.debug(" ---------------- user org id: " + user.getOrganization().getId());
+		//List<TblMember> list = memberDAO.findByIdWithCache(id);
+		List<Organization> list = organizationDAO.findAllByOrgIdWithCache(user.getOrganization().getId());
+		//LOG.debug("---------" + list);
+		LOG.debug("--------000");
+		//List<TblMember> rootList = makeTree(list, id);
+		List<Organization> rootList = makeTree(list, user);
+		LOG.debug("---------" + rootList);
+		LOG.debug("--------111");
+		Organization root = rootList.get(0);
+		LOG.debug("--------222");
+		List<Organization> children = root.getChildren();
+		for(Organization rst : children) {
+			LOG.debug("----------------" + rst.getId());
+			if(rst.getId().intValue() == user.getOrganization().getId().intValue()) {
+				return rst;
+			}
+			LOG.debug("------------------333");
+			children = rst.getChildren();
+			LOG.debug("------------------children size: " + children.size());
+		}
+		
+		return null;
+	}
+	
 	/**
 	 * 判断是否是根组织.
 	 */
@@ -150,8 +181,27 @@ public class OrganizationServiceImpl implements OrganizationService {
 		return parent;
 	}
 	
+	private List<Organization> makeTree(List<Organization> list, User user) {
+		List<Organization> parent = new ArrayList<Organization>();
+		// get parentId = null;
+		LOG.debug(" ----------------- LIST: " + list.size());
+		for (Organization e : list) {
+			LOG.debug(" ----------------- LIST: " + e.getParent().getId());
+			if (e.getParent() != null && e.getParent().getId() == 1) {
+				e.setChildren(new ArrayList<Organization>(0));
+				parent.add(e);
+			}
+		}
+		// 删除parentId = null;
+		list.removeAll(parent);
+		
+		makeChildren(parent, list);
+		
+		return parent;
+	}
+	
 	private void makeChildren(List<Organization> parent, List<Organization> children) {
-		if (children.isEmpty()) {
+		if (children.isEmpty() || parent.isEmpty()) {
 			return ;
 		}
 		

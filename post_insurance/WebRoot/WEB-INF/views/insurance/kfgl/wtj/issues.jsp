@@ -52,45 +52,51 @@
 	</div>
 </form>
 <div class="pageContent">
-<div class="pageFormContent" layoutH="58">
-<div id="IssuePrintContent">
+<div class="panelBar">
+		<ul class="toolBar">
+			<li><a class="icon" href="javascript:$.printBox('IssueListPrintContent')"><span>批打工单列表</span></a></li>
+		</ul>
+	</div>
+<div id="IssueListPrintContent">
 <table width="95%" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
-    <td colspan="2" align="center">___<u>${fn:substring(param.search_LIKE_organization_orgCode, 0, 2)}</u>___中邮保险局问题件清单</td>
+    <td align="center"><p>___<u>${fn:substring(orgName, 0, 2)}</u>___中邮保险局问题件清单</p></td>
   </tr>
   <tr>
-    <td colspan="2"><p>工单转办/下发意见：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 签名：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日期：</p></td>
+    <td>工单转办/下发意见：
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+签名：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日期：</td>
   </tr>
   <tr>
-    <td><table width="100%" border="0" cellspacing="0" cellpadding="0" class="gridtable">
+    <td><table width="100%" class="gridtable">
       <tr>
-        <td><p>工单转办/下发处理结果（由省分相关处理部门或机构填写）：<br />
-        </p>
-          <p>经办人签字：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日期：</p></td>
+        <td>工单转办/下发处理结果（由省分相关处理部门或机构填写）：<br />
+        <br>
+        经办人签字：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日期：</td>
         </tr>
       <tr>
-        <td><p>处理意见：
+        <td>处理意见：
             <br />
-        </p>
-          <p>负责人签字：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          日期</p></td>
+        <br>
+          负责人签字：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          日期</td>
       </tr>
       <tr>
         <td>处理结果（由地市、县在以下列表中逐件进行回复）</td>
       </tr>
       <tr>
-        <td><p>处理意见（由地市、县负责人填写并签章确认）：<br />
-        </p>
-          <p>&nbsp;</p>
-          <p> 负责人签字：
+        <td>处理意见（由地市、县负责人填写并签章确认）：<br />
+          <br>
+          负责人签字：
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          日期：</p></td>
+          日期：</td>
       </tr>
-    </table></td>
-    <td>&nbsp;</td>
+    </table>
+    </td>
   </tr>
   <tr>
-    <td colspan="2"><table width="100%" border="0" cellspacing="0" cellpadding="0" class="gridtable">
+    <td><table width="100%" class="gridtable">
+    <thead>
       <tr>
         <th>机构名称</th>
         <th>工单流水号</th>
@@ -105,12 +111,14 @@
         <th>经办人员</th>
         <th>处理日期</th>
       </tr>
+      </thead>
+      <tbody>
       <c:forEach var="item" items="${issues}">
-		<tr target="slt_uid" rel="${item.id}">
+		<tr>
 			<td>${item.organName}</td>
 			<td>${item.issueNo}</td>
 			<td>${item.policy.policyNo}</td>
-			<td>${item.holder}</td>
+			<td>${item.policy.holder}</td>
 			<td>${item.issueType}</td>
 			<td>${item.issueContent}</td>
 			<td>${item.bankName}</td>
@@ -121,14 +129,9 @@
 			<td>${item.dealTime}</td>
 		</tr>
 		</c:forEach>
+		</tbody>
     </table></td>
   </tr>
 </table>
 </div>
 </div>
-<div class="formBar">
-		<ul>
-			<li><div class="button"><div class="buttonContent"><button type="button" class="close" onclick="javascript:$.printBox('IssuePrintContent')">打印工单</button></div></div></li>
-		</ul>
-	</div>
-	</div>

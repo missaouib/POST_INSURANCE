@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.gdpost.web.entity.main.Organization;
+import com.gdpost.web.entity.main.User;
 import com.gdpost.web.util.dwz.Page;
 
 public interface OrganizationService {
@@ -24,4 +25,6 @@ public interface OrganizationService {
 	Organization getByName(String name);
 	
 	Organization getTree();
+	
+	Organization getTree(User user);
 }
