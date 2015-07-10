@@ -84,7 +84,7 @@ public class InvoiceReq implements Idable<Long> {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne
 	@JoinColumn(name = "policy_no", referencedColumnName="policy_no")
 	public Policy getPolicy() {
 		return this.policy;

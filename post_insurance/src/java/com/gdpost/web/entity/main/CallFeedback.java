@@ -64,7 +64,7 @@ public class CallFeedback implements Idable<Long> {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "call_fail_id")
 	public CallFail getCallFail() {
 		return callFail;

@@ -85,7 +85,7 @@ public class Permission implements Idable<Long>, Serializable {
 	@Column(length=256)
 	private String description;
 	
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne
 	@JoinColumn(name="moduleId")
 	private Module module;
 	

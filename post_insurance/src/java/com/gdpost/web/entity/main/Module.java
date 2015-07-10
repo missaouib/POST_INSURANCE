@@ -98,7 +98,7 @@ public class Module implements Comparable<Module>, Idable<Long>, Serializable {
 	@Column(length=3, nullable=false)
 	private Integer priority = 999;
 
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne
 	@JoinColumn(name="parentId")
 	private Module parent;
 	

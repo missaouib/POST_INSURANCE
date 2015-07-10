@@ -65,15 +65,15 @@ public class Role implements Idable<Long>,Serializable {
 	@Column(length=256)
 	private String description;
 	
-	@OneToMany(mappedBy="role", fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval=true)
+	@OneToMany(mappedBy="role", fetch=FetchType.LAZY, cascade={CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval=true)
 	@OrderBy("priority ASC")
 	private List<UserRole> userRoles = new ArrayList<UserRole>();
 	
-	@OneToMany(mappedBy="role", fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval=true)
+	@OneToMany(mappedBy="role", fetch=FetchType.LAZY, cascade={CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval=true)
 	@OrderBy("priority ASC")
 	private List<OrganizationRole> organizationRoles = new ArrayList<OrganizationRole>();
 	
-	@OneToMany(mappedBy="role", fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval=true)
+	@OneToMany(mappedBy="role", fetch=FetchType.LAZY, cascade={CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval=true)
 	private List<RolePermission> rolePermissions = new ArrayList<RolePermission>();
 	
 	public Long getId() {

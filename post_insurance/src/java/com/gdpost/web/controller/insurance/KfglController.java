@@ -202,7 +202,7 @@ public class KfglController {
 	@RequestMapping(value="/issue/list", method={RequestMethod.GET, RequestMethod.POST})
 	public String list(ServletRequest request, Page page, Map<String, Object> map) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
-		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
+		User user = userService.get(shiroUser.getId());
 		Organization userOrg = user.getOrganization();
 		//默认返回未处理工单
 		String status = request.getParameter("status");

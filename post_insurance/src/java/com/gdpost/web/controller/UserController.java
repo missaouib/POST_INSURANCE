@@ -276,8 +276,8 @@ public class UserController {
 	@RequestMapping(value="/lookup2org", method={RequestMethod.GET})
 	public String lookup(Map<String, Object> map) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
-		Organization org = organizationService.getTree(shiroUser.getUser());
-		//Organization org = organizationService.getTree();
+		User user = userService.get(shiroUser.getId());
+		Organization org = organizationService.getTree(user);
 		LOG.debug("------------ LOOKUP FOR ORG: " + org);
 		map.put("org", org);
 		return LOOK_ORG;

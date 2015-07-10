@@ -80,7 +80,7 @@ public class CallFail implements Idable<Long> {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "fail_type_id")
 	public CallDealType getCallDealType() {
 		return callDealType;
@@ -90,7 +90,7 @@ public class CallFail implements Idable<Long> {
 		this.callDealType = callDealType;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "policy_id")
 	public Policy getPolicy() {
 		return policy;

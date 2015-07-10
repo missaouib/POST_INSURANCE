@@ -24,7 +24,7 @@
 <div class="pageContent">
 	<div class="pageFormContent" layoutH="58">
 		<ul class="tree expand">
-			<li><a href="javascript:"><%=org.getName() %></a>
+			<li><a href="javascript:" onclick="$.bringBack({id:'<%=org.getId() %>', name:'<%=org.getName() %>', orgCode:'<%=org.getOrgCode() %>'})"><%=org.getName() %></a>
 				<%=tree(org) %>
 			</li>
 		</ul>

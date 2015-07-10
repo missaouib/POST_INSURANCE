@@ -144,7 +144,7 @@ public class Policy implements Idable<Long>, Serializable{
 		this.formNo = formNo;
 	}
 	
-	@ManyToOne(fetch=FetchType.EAGER, optional=true)
+	@ManyToOne(optional=true)
 	@JoinColumn(name="organ_code", referencedColumnName="org_code")
 	public Organization getOrganization() {
 		return organization;
@@ -172,7 +172,7 @@ public class Policy implements Idable<Long>, Serializable{
 		this.organName = organName;
 	}
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name="prod_code", referencedColumnName="prd_code")
 	public Prd getPrd() {
 		return prd;

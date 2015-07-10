@@ -133,28 +133,29 @@ public class OrganizationServiceImpl implements OrganizationService {
 	@Override
 	public Organization getTree(User user) {
 		LOG.debug(" ---------------- user org id: " + user.getOrganization().getId());
-		//List<TblMember> list = memberDAO.findByIdWithCache(id);
-		List<Organization> list = organizationDAO.findAllByOrgIdWithCache(user.getOrganization().getId());
-		//LOG.debug("---------" + list);
-		LOG.debug("--------000");
+		//List<Organization> list = organizationDAO.findAllByOrgIdWithCache(user.getOrganization().getId());
+		List<Organization> list = organizationDAO.findAllWithCache();
+		//List<Organization> list = organizationDAO.findByIdOrParent(user.getOrganization().getId(), user.getOrganization().getParent());
 		//List<TblMember> rootList = makeTree(list, id);
 		List<Organization> rootList = makeTree(list, user);
 		LOG.debug("---------" + rootList);
-		LOG.debug("--------111");
 		Organization root = rootList.get(0);
-		LOG.debug("--------222");
+		
+		return root;
+		/*
 		List<Organization> children = root.getChildren();
+		LOG.debug("--------222 children size: " + children.size());
 		for(Organization rst : children) {
-			LOG.debug("----------------" + rst.getId());
+			LOG.debug("---------------rst id-" + rst.getId());
 			if(rst.getId().intValue() == user.getOrganization().getId().intValue()) {
 				return rst;
 			}
-			LOG.debug("------------------333");
+			LOG.debug("------------------333" + rst.getName());
 			children = rst.getChildren();
 			LOG.debug("------------------children size: " + children.size());
 		}
 		
-		return null;
+		return null;*/
 	}
 	
 	/**
@@ -183,17 +184,28 @@ public class OrganizationServiceImpl implements OrganizationService {
 	
 	private List<Organization> makeTree(List<Organization> list, User user) {
 		List<Organization> parent = new ArrayList<Organization>();
+		List<Organization> tmp = new ArrayList<Organization>();
 		// get parentId = null;
-		LOG.debug(" ----------------- LIST: " + list.size());
+		LOG.debug(" ----------------- LIST size: " + list.size());
+		list.remove(user.getOrganization().getParent());
 		for (Organization e : list) {
-			LOG.debug(" ----------------- LIST: " + e.getParent().getId());
-			if (e.getParent() != null && e.getParent().getId() == 1) {
+			LOG.debug(" ----------------- LIST: " + e.getName());
+			if (e.getId() == user.getOrganization().getId()) {
 				e.setChildren(new ArrayList<Organization>(0));
 				parent.add(e);
+			} else {
+				if(e.getParent() == null) {
+					tmp.add(e);
+				} else if(e.getParent().getId() == user.getOrganization().getParent().getId()) {
+					tmp.add(e);
+				}
 			}
+			
 		}
 		// 删除parentId = null;
+		//list.remove(index)
 		list.removeAll(parent);
+		list.removeAll(tmp);
 		
 		makeChildren(parent, list);
 		
@@ -208,12 +220,19 @@ public class OrganizationServiceImpl implements OrganizationService {
 		List<Organization> tmp = new ArrayList<Organization>();
 		for (Organization c1 : parent) {
 			for (Organization c2 : children) {
+				if(c2.getParent() == null) {
+					continue;
+				}
 				c2.setChildren(new ArrayList<Organization>(0));
 				if (c1.getId().equals(c2.getParent().getId())) {
 					c1.getChildren().add(c2);
 					tmp.add(c2);
 				}
 			}
+		}
+		
+		if(tmp.isEmpty()) {
+			return;
 		}
 		
 		children.removeAll(tmp);

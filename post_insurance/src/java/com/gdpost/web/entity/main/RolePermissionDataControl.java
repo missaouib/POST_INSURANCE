@@ -29,11 +29,11 @@ public class RolePermissionDataControl implements Idable<Long>{
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name="rolePermissionId")
 	private RolePermission rolePermission;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name="dataControlId")
 	private DataControl dataControl;
 	

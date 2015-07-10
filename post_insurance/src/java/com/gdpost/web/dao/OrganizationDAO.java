@@ -29,8 +29,12 @@ public interface OrganizationDAO extends JpaRepository<Organization, Long>, JpaS
 			@QueryHint(name="org.hibernate.cacheRegion",value="com.gdpost.web.entity.main.Organization")
 		}
 	)
-	@Query("from Organization o where id=:id or parent.id=:id order by o.priority ASC")
-	List<Organization> findAllByOrgIdWithCache(@Param("id")Long orgId);
+	@Query("from Organization o where id=:id order by o.priority ASC")
+	List<Organization> findAllByOrgIdWithCache(@Param("id")Long id);
+	
+	List<Organization> findByIdOrParent(Long id, Organization parent);
+	
+	List<Organization> findById(Long id);
 	
 	Organization getByName(String name);
 }

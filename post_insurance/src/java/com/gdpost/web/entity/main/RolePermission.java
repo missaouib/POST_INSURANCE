@@ -54,11 +54,11 @@ public class RolePermission implements Idable<Long>, Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name="roleId")
 	private Role role;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name="permissionId")
 	private Permission permission;
 	

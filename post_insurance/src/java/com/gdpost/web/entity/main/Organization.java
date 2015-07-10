@@ -31,7 +31,6 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.Length;
@@ -76,11 +75,11 @@ public class Organization implements Comparable<Organization>, Idable<Long>, Ser
 	@Column(length=256)
 	private String description;
 
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne
 	@JoinColumn(name="parentId")
 	private Organization parent;
 	
-	@OneToMany(mappedBy="parent", cascade={CascadeType.PERSIST, CascadeType.REMOVE})
+	@OneToMany(mappedBy="parent", fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.REMOVE})
 	@OrderBy("priority ASC")
 	private List<Organization> children = new ArrayList<Organization>();
 	
@@ -255,6 +254,9 @@ public class Organization implements Comparable<Organization>, Idable<Long>, Ser
 
 	@Override
 	public String toString() {
-		return ToStringBuilder.reflectionToString(this);
+		return "Organization [id=" + id + ", name=" + name + ", priority="
+				+ priority + ", description=" + description + ", parent="
+				+ parent + ", orgCode="
+				+ orgCode + ", level=" + level + "]";
 	}
 }

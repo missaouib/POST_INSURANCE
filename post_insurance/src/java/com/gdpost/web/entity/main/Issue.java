@@ -137,7 +137,7 @@ public class Issue implements Idable<Long> {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne
 	@JoinColumn(name="organ_code", referencedColumnName="org_code")
 	public Organization getOrganization() {
 		return organization;
@@ -174,7 +174,7 @@ public class Issue implements Idable<Long> {
 		this.issueNo = issueNo;
 	}
 
-	@ManyToOne(fetch=FetchType.EAGER, optional=true)
+	@ManyToOne(optional=true)
 	@JoinColumn(name="policy_no", referencedColumnName="policy_no", updatable=false)
 	public Policy getPolicy() {
 		return policy;
@@ -357,7 +357,7 @@ public class Issue implements Idable<Long> {
 		this.reopenReason = reopenReason;
 	}
 	
-	@ManyToOne(fetch=FetchType.EAGER, optional=true)
+	@ManyToOne(optional=true)
 	@JoinColumn(name = "reopen_id", referencedColumnName="id")
 	public User getReopenUser() {
 		return reopenUser;

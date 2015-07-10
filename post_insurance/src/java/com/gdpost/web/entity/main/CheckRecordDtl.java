@@ -183,7 +183,7 @@ public class CheckRecordDtl implements Idable<Long> {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "policy_id")
 	public Policy getPolicy() {
 		return policy;

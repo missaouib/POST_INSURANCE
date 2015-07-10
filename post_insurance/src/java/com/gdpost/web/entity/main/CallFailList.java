@@ -140,7 +140,7 @@ public class CallFailList implements Idable<Long> {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne
 	@JoinColumn(name="organ_code", referencedColumnName="org_code")
 	public Organization getOrganization() {
 		return organization;
@@ -168,7 +168,7 @@ public class CallFailList implements Idable<Long> {
 		this.issueNo = issueNo;
 	}
 
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne
 	@JoinColumn(name="policy_no", referencedColumnName="policy_no")
 	public Policy getPolicy() {
 		return this.policy;

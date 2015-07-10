@@ -119,7 +119,7 @@ public class RenewedList implements Idable<Long> {
 		this.feeDate = feeDate;
 	}
 
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne
 	@JoinColumn(name="policy_no", referencedColumnName="policy_no")
 	public Policy getPolicy() {
 		return policy;

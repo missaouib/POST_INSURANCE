@@ -103,7 +103,7 @@ public class CheckRecord implements Idable<Long> {
 		this.needFix = needFix;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne
 	@JoinColumn(name = "policy_no", referencedColumnName="policy_no")
 	public Policy getPolicy() {
 		return policy;
@@ -284,7 +284,7 @@ public class CheckRecord implements Idable<Long> {
 		this.reopenReason = reopenReason;
 	}
 	
-	@ManyToOne(fetch=FetchType.EAGER, optional=true)
+	@ManyToOne(optional=true)
 	@JoinColumn(name = "reopen_id", referencedColumnName="id")
 	public User getReopenUser() {
 		return reopenUser;

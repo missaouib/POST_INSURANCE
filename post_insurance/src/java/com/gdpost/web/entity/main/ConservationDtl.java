@@ -79,7 +79,7 @@ public class ConservationDtl implements Idable<Long> {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne
 	@JoinColumn(name = "policy_id")
 	public Policy getPolicy() {
 		return policy;

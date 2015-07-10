@@ -59,11 +59,11 @@ public class OrganizationRole implements Idable<Long>, Serializable {
 	@Column(length=3, nullable=false)
 	private Integer priority = 999;
 	
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne
 	@JoinColumn(name="roleId")
 	private Role role;
 	
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne
 	@JoinColumn(name="organizationId")
 	private Organization organization;
 	
