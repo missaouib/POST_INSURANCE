@@ -166,6 +166,7 @@ public class IndexController {
 	@RequestMapping(value="/paneltodolist", method=RequestMethod.GET)
 	public String panelTodoList(HttpServletRequest request, Page page, Map<String, Object> map) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		map.put(SecurityConstants.LOGIN_USER, shiroUser.getUser());
 		LOG.debug(" ----------- INDEX to get the task");
 		map.put("issueList", kfglService.getTODOIssueList(shiroUser.getUser()));
 		

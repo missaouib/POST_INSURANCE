@@ -50,7 +50,7 @@
 	</fieldset>
 	<div class="divider"></div>
 	<fieldset>
-		<legend>回访不成功处理详情</legend>
+		<legend>回访不成功处理详情(请在后面追加)</legend>
 		<p class="nowrap">
 			<label>回访不成功处理记录：</label>
 			<textarea name="dealDesc" cols="50" rows="3">${issue.dealDesc }</textarea>
@@ -67,21 +67,21 @@
 	</fieldset>
 	<div class="divider"></div>
 	<fieldset>
-		<legend>总部回访情况</legend>
+		<legend>11185回访情况</legend>
 		<p class="nowrap">
-			<label>总部回访产生问题记录：</label>
+			<label>11185回访产生问题记录：</label>
 			<textarea name="hqIssueType" disabled="true" cols="50" rows="3">${issue.hqIssueType }</textarea>
 		</p>
 		<p class="nowrap">
-			<label>总部回访结果：</label>
+			<label>11185回访结果：</label>
 			<input type="text" name="hqDealRst" disabled="true" class="input-medium" maxlength="32" value="${issue.hqDealRst }"/>
 		</p>
 		<p class="nowrap">
-			<label>总部回访日期：</label>
+			<label>11185回访日期：</label>
 			<input type="text" name="hqDealDate" disabled="true" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${issue.hqDealDate }"/>
 		</p>
 		<p class="nowrap">
-			<label>总部回访备注：</label>
+			<label>11185回访备注：</label>
 			<input type="text" name="hqDealRemark" disabled="true" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${issue.hqDealRemark }"/>
 		</p>
 	</fieldset>

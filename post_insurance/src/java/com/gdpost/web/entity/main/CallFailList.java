@@ -6,12 +6,13 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.ColumnTransformer;
 
 import com.gdpost.web.entity.Idable;
 
@@ -65,6 +66,11 @@ public class CallFailList implements Idable<Long> {
 	private String provDealRemark;
 	private Date provDealDate;
 
+	private Integer hqDealNum;
+	private Integer provDealNum;
+	private String organName;
+	private String holderPhone;
+	private String holderMobile;
 	// Constructors
 
 	/** default constructor */
@@ -520,4 +526,56 @@ public class CallFailList implements Idable<Long> {
 		this.provDealDate = provDealDate;
 	}
 
+	@Column(name="hq_deal_num")
+	public Integer getHqDealNum() {
+		return hqDealNum;
+	}
+
+	public void setHqDealNum(Integer hqDealNum) {
+		this.hqDealNum = hqDealNum;
+	}
+
+	@Column(name="prov_deal_num")
+	public Integer getProvDealNum() {
+		return provDealNum;
+	}
+
+	public void setProvDealNum(Integer provDealNum) {
+		this.provDealNum = provDealNum;
+	}
+
+	@Column(name="organ_name")
+	public String getOrganName() {
+		return organName;
+	}
+
+	public void setOrganName(String organName) {
+		this.organName = organName;
+	}
+
+	@Column(name = "holder_phone", length = 256)
+	@ColumnTransformer(
+			forColumn="holder_phone",
+			read="cast(aes_decrypt(unhex(holder_phone), '" + com.gdpost.web.MySQLAESKey.AESKey + "') as char(100))", 
+			write="hex(aes_encrypt(?,'" + com.gdpost.web.MySQLAESKey.AESKey + "'))")
+	public String getHolderPhone() {
+		return holderPhone;
+	}
+
+	public void setHolderPhone(String holderPhone) {
+		this.holderPhone = holderPhone;
+	}
+
+	@Column(name = "holder_mobile", length = 256)
+	@ColumnTransformer(
+			forColumn="holder_mobile",
+			read="cast(aes_decrypt(unhex(holder_mobile), '" + com.gdpost.web.MySQLAESKey.AESKey + "') as char(100))", 
+			write="hex(aes_encrypt(?,'" + com.gdpost.web.MySQLAESKey.AESKey + "'))")
+	public String getHolderMobile() {
+		return holderMobile;
+	}
+
+	public void setHolderMobile(String holderMobile) {
+		this.holderMobile = holderMobile;
+	}
 }

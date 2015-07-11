@@ -97,10 +97,10 @@
 						<td>${var.index+1 }</td>
 						<td>
 						<c:if test="${fn:length(login_user.organization.orgCode) > 4}">
-						<a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/kfgl/issue/update/${item.id}"><span>${item.issueNo}</span></a>
+						<a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/hfgl/issue/update/${item.id}"><span>${item.issueNo}</span></a>
 						</c:if>
 						 <c:if test="${fn:length(login_user.organization.orgCode) <= 4}"> 
-					     <a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/kfgl/issue/view/${item.id}"><span>${item.issueNo}</span></a>
+					     <a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/hfgl/issue/view/${item.id}"><span>${item.issueNo}</span></a>
 					    </c:if> 
 						</td>
 						<td>${item.status}</td>
@@ -134,10 +134,10 @@
 						<td>${var.index+1 }</td>
 						<td>
 						<c:if test="${fn:length(login_user.organization.orgCode) > 4}">
-						<a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/kfgl/issue/update/${item.id}"><span>${item.issueNo}</span></a>
+						<a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/xqgl/issue/update/${item.id}"><span>${item.issueNo}</span></a>
 						</c:if>
 						 <c:if test="${fn:length(login_user.organization.orgCode) <= 4}"> 
-					     <a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/kfgl/issue/view/${item.id}"><span>${item.issueNo}</span></a>
+					     <a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/xqfgl/issue/view/${item.id}"><span>${item.issueNo}</span></a>
 					    </c:if> 
 						</td>
 						<td>${item.status}</td>
@@ -255,4 +255,4 @@
 		</div>
 	</div>
 </fieldset>
-</div>
+	</div>

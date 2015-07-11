@@ -115,6 +115,23 @@ public class HfglController {
 		src.setProvDealDate(new Date());
 		src.setProvDealRemark(issue.getProvDealRemark());
 		src.setStatus(XQ_STATUS.DealStatus.getDesc());
+		src.setProvDealNum(src.getProvDealNum());
+		hfglService.saveOrUpdate(src);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issue.getPolicy().getPolicyNo()}));
+		return	AjaxObject.newOk("回复回访不成功件成功！").toString(); 
+	}
+	
+	@Log(message="回复了{0}回访不成功件的信息。")
+	@RequiresPermissions("Callfail:11185Edit")
+	@RequestMapping(value="/issue/hqUpdate", method=RequestMethod.POST)
+	public @ResponseBody String hqUpdate(RenewedList issue) {
+		CallFailList src = hfglService.get(issue.getId());
+		src.setHqDealRst(issue.getProvDealRst());
+		src.setHqDealDate(new Date());
+		src.setHqDealRemark(issue.getProvDealRemark());
+		src.setHqDealNum(src.getHqDealNum()+1);
+		src.setStatus(XQ_STATUS.DealStatus.getDesc());
 		hfglService.saveOrUpdate(src);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issue.getPolicy().getPolicyNo()}));

@@ -159,3 +159,12 @@ add column fix_status           varchar(12),
 add column    fix_desc             varchar(256),
 add column    deal_man             varchar(12),
 add column    deal_time            date;
+
+alter table t_call_fail_list add column organ_name varchar(20);
+alter table t_issue add column organ_name varchar(20);
+alter table t_call_fail_list add column hq_deal_num int;
+alter table t_call_fail_list add column prov_deal_num int;
+alter table t_issue add column holder_mobile varchar(256);
+alter table t_issue add column holder_phone varchar(256);
+alter table t_call_fail_list add column holder_phone varchar(256);
+alter table t_call_fail_list add column holder_mobile varchar(256);
