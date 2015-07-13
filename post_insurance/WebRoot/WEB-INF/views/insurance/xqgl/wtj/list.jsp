@@ -5,7 +5,7 @@
 <dwz:paginationForm action="${contextPath }/xqgl/issue/list" page="${page }">
 	<input type="hidden" name="search_LIKE_policyNo" value="${param.search_LIKE_policyNo }"/>
 	<input type="hidden" name="search_LIKE_organization.orgCode" value="${param.search_LIKE_organization_orgCode }"/>
-	<input type="hidden" name="status" value="${param.status }"/>
+	<input type="hidden" name="feeStatus" value="${issue.feeStatus }"/>
 </dwz:paginationForm>
 
 <form method="post" action="${contextPath }/xqgl/issue/list" onsubmit="return navTabSearch(this)">
@@ -20,7 +20,7 @@
 					<label>问题件状态：</label>
 					<form:select path="issue.feeStatus" class="combox">
 						<form:option value=""> -- -- </form:option>
-						<form:options items="${statusList }" itemLabel="desc"/>
+						<form:options items="${statusList }" itemLabel="desc" itemValue="desc"/>
 					</form:select>
 				</li>
 				<li>

@@ -307,6 +307,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql.append(" ON DUPLICATE KEY UPDATE policy_no=VALUES(policy_no), prd_name=VALUES(prd_name), ");
 			sql.append("fee_status=VALUES(fee_status), fee_fail_reason=VALUES(fee_fail_reason);");
 			//log.debug("----------------batch update : " + sql);
+			sql2 = "delete from t_renewed_list where holder is null";
 			break;
 		case RenewedHQList:
 			standardColumns = RenewedHQListColumn.getStandardColumns();

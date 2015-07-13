@@ -2,10 +2,14 @@ package com.gdpost.utils.FileHandler;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -76,7 +80,7 @@ public class XlsFileHandler extends AbstractFileHandler {
 					//break;
 				}
 				log.debug("--------------get the header row num : " + markRow);
-				if (markRow <= 0) {
+				if (markRow < 0) {
 					return null;
 				}
 				headerRow = sheet.getRow(markRow);
@@ -91,7 +95,7 @@ public class XlsFileHandler extends AbstractFileHandler {
 				dt.TableName = sheet.getSheetName();
 
 				for (int i = headerRow.getFirstCellNum(); i < cellCount; i++) {
-					if (cellCount < this.m_column.size()) {
+					if (cellCount < this.m_column.size()/2) {
 						continue;
 					}
 					column = new DataColumn(headerRow.getCell(i).getStringCellValue());
@@ -101,22 +105,34 @@ public class XlsFileHandler extends AbstractFileHandler {
 				rowCount = sheet.getLastRowNum();
 
 				for (int i = markRow + 1; i <= rowCount; i++) {
-					// if(cellCount < this.m_column.size()) {
-					// continue;
-					// }
 					row = (HSSFRow) sheet.getRow(i);
 					if (row == null) { // 空行，跳过
 						continue;
 					}
-
+					//如果row的列长度不够，跳过
+					if(row.getLastCellNum() < this.m_column.size()/2) {
+						continue;
+					}
 					dataRow = dt.NewRow();
 					bFlag = false;
 					for (int j = row.getFirstCellNum(); j < cellCount; j++) {
 						cell = row.getCell(j);
 						if (cell != null && ("") != cell.toString()) {
 							bFlag = true;
-							cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-							dataRow.setValue(j, StringUtil.trimStr(cell.getStringCellValue()));
+							switch(cell.getCellType()) {
+							case HSSFCell.CELL_TYPE_NUMERIC:
+								if (HSSFDateUtil.isCellDateFormatted(cell)) {
+							        Date date = cell.getDateCellValue();
+							        dataRow.setValue(j, StringUtil.trimStr(DateFormatUtils.format(date, "yyyy-MM-dd")));
+							    } else {
+							        DecimalFormat df = new DecimalFormat("0");
+							        dataRow.setValue(j, df.format(cell.getNumericCellValue()));
+							    }
+								break;
+								default:
+									cell.setCellType(HSSFCell.CELL_TYPE_STRING);
+									dataRow.setValue(j, StringUtil.trimStr(cell.getStringCellValue()));
+							}
 						}
 					}
 

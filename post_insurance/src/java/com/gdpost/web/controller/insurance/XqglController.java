@@ -144,7 +144,7 @@ public class XqglController {
 		if(status == null) {
 			status = XQ_STATUS.NewStatus.getDesc();
 		} else if(status.trim().length()>0) {
-			issue.setFeeStatus(XQ_STATUS.valueOf(status).getDesc());
+			issue.setFeeStatus(status);
 		}
 		issue.setFeeStatus(status);
 		

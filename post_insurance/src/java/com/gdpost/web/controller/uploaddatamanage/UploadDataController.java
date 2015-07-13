@@ -284,9 +284,9 @@ public class UploadDataController {
 	    //int currentNY = UploadDataUtils.getNianYue();
 	    //int lastNY = UploadDataUtils.getLastNianYue();
 	    int currentNY = ny;
-	    int lastNY = UploadDataUtils.getLastNianYue(currentNY);
+	    int lastNY = UploadDataUtils.getLastNianYue();
 	    String strMessage = ""; // 返回客户端的详细信息
-	    boolean bFlag = true;
+	    boolean bFlag = false;
 	    StringBuilder builder = new StringBuilder();
 	    //log.debug("----------------" + strFileGroup);
 	    //log.debug("----------------" + fileChunk.getFileGroup());
@@ -305,7 +305,7 @@ public class UploadDataController {
 	    
 	    if(bFlag) {
 		    
-	    	LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{"导入了" + currentNY + "月数据。"}));
+	    	LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{"导入了" + template + "的" + currentNY + "数据。"}));
 	    	
 	    	if(!strMessage.equals("")) {
 				// 如有数据检查提示，则提示，如确认不导入，则提交request执行清除
@@ -314,7 +314,7 @@ public class UploadDataController {
 	    		return("{\"jsonrpc\":\"2.0\",\"result\":\"success\",\"id\":\"id\",\"message\":\"" + strMessage + "\"}");
 	    	}
 	    } else {
-	    	LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{"导入" + currentNY + "月数据出错，" + strMessage + "。"}));
+	    	LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{"导入" + template + "的数据出错，" + strMessage + "。"}));
 	    	
 	    	uploadDataService.setImportDone(request, member_id, currentNY, shiroUser.getId(), shiroUser.getLoginName(), 0, memo);
 
