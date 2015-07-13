@@ -5,6 +5,8 @@
 <dwz:paginationForm action="${contextPath }/bqgl/issue/list" page="${page }">
 	<input type="hidden" name="search_LIKE_policy.policyNo" value="${param.search_LIKE_policy_policyNo }"/>
 	<input type="hidden" name="search_LIKE_organization.orgCode" value="${param.search_LIKE_organization_orgCode }"/>
+	<input type="hidden" name="search_LTE_csDate" value="${param.search_LTE_csDate }"/>
+	<input type="hidden" name="search_GTE_csDate" value="${param.search_GTE_csDate }"/>
 	<input type="hidden" name="status" value="${param.status }"/>
 </dwz:paginationForm>
 
@@ -28,6 +30,18 @@
 					<input name="search_LIKE_organization.orgCode" id="search_LIKE_organization.orgCode" type="hidden" value="${search_LIKE_organization_orgCode }"/>
 					<input class="validate[required] required" name="search_LIKE_organization.name" type="text" readonly="readonly" style="width: 140px;" value="${search_LIKE_organization_name }"/>
 					<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="search_LIKE_organization" title="选择机构" width="400">查找带回</a>
+				</li>
+			</ul>
+			<ul class="searchContent">
+				<li>
+					<label>开始日期：</label>
+					<input type="text" name="search_GTE_csDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_csDate }"/>
+					<a class="inputDateButton" href="javascript:;">选择</a>
+				</li>
+				<li>
+					<label>结束日期：</label>
+					<input type="text" name="search_LTE_csDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_csDate }"/>
+					<a class="inputDateButton" href="javascript:;">选择</a>
 				</li>
 			</ul>
 			<div class="subBar">
@@ -73,6 +87,7 @@
 				<th width="100" orderField=dealNum class="${page.orderField eq 'dealNum' ? page.orderDirection : ''}">保全受理号</th>
 				<th width="200">保全项目</th>
 				<th width="120" orderField=info class="${page.orderField eq 'info' ? page.orderDirection : ''}">复核修改问题</th>
+				<th width="120" orderField=csDate class="${page.orderField eq 'csDate' ? page.orderDirection : ''}">问题产生日期</th>
 				<th width="120" orderField=status class="${page.orderField eq 'status' ? page.orderDirection : ''}">状态</th>
 			</tr>
 		</thead>
@@ -84,10 +99,11 @@
 				<td>${item.dealNum}</td>
 				<td>${item.type}</td>
 				<td>${item.csRst}</td>
+				<td>${item.csDate}</td>
 				<td>
 				<c:choose>
 					<c:when test="${item.status eq 'NewStatus'}">
-						待处理
+						<font style="color: red">待处理</font>
 					</c:when>
 					<c:when test="${item.status eq 'DealStatus'}">
 						已处理

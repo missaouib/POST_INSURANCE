@@ -180,6 +180,7 @@ $(document).ready(function(){
 									<tr>
 										<th>序号</th>
 										<th orderField=issueNo class="${page.orderField eq 'issueNo' ? page.orderDirection : ''}">工单号</th>
+										<th orderField=shouldDate class="${page.orderField eq 'shouldDate' ? page.orderDirection : ''}">待处理时间</th>
 										<th>工单状态</th>
 										<th orderField=policy.policyNo class="${page.orderField eq 'policy.policyNo' ? page.orderDirection : ''}">保单号</th>
 										<th orderField=issueType class="${page.orderField eq 'issueType' ? page.orderDirection : ''}">工单子类型</th>
@@ -198,6 +199,7 @@ $(document).ready(function(){
 									     <a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/kfgl/issue/view/${item.id}"><span>${item.issueNo}</span></a>
 									    </c:if> 
 										</td>
+										<td>${item.shouldDate }</td>
 										<td>${item.status}</td>
 										<td>${item.policy.policyNo}</td>
 										<td>${item.issueType}</td>
@@ -218,6 +220,7 @@ $(document).ready(function(){
 										<th>序号</th>
 										<th>保单号</th>
 										<th>保全复核问题</th>
+										<th>问题产生日期</th>
 										<th>操作</th>
 									</tr>
 								</thead>
@@ -227,6 +230,7 @@ $(document).ready(function(){
 										<td>${var.index+1 }</td>
 										<td>${item.policy.policyNo}</td>
 										<td>${item.csRst}</td>
+										<td>${item.csDate}</td>
 										<td>
 										<c:if test="${fn:length(login_user.organization.orgCode) > 4}">
 										<a target="ajaxTodo" href="${contextPath }/bqgl/issue/DealStatus/${item.id}" title="确认更新状态?"><span>已处理</span></a>
@@ -252,6 +256,7 @@ $(document).ready(function(){
 									<tr>
 										<th>序号</th>
 										<th>工单号</th>
+										<th>待处理时间</th>
 										<th>工单状态</th>
 										<th>保单号</th>
 										<th>工单子类型</th>
@@ -270,6 +275,7 @@ $(document).ready(function(){
 									     <a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/hfgl/issue/view/${item.id}"><span>${item.issueNo}</span></a>
 									    </c:if> 
 										</td>
+										<td><fmt:formatDate value="${item.shouldDate }" pattern="yyyy-MM-dd"/></td>
 										<td>${item.status}</td>
 										<td>${item.policy.policyNo}</td>
 										<td>${item.issueType}</td>
@@ -289,6 +295,7 @@ $(document).ready(function(){
 									<tr>
 										<th>序号</th>
 										<th>工单号</th>
+										<th>交费对应日</th>
 										<th>工单状态</th>
 										<th>保单号</th>
 										<th>工单子类型</th>
@@ -307,6 +314,7 @@ $(document).ready(function(){
 									     <a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/xqfgl/issue/view/${item.id}"><span>${item.issueNo}</span></a>
 									    </c:if> 
 										</td>
+										<td><fmt:formatDate value="${item.feeDate }" pattern="yyyy-MM-dd"/></td>
 										<td>${item.status}</td>
 										<td>${item.policy.policyNo}</td>
 										<td>${item.issueType}</td>
@@ -326,6 +334,7 @@ $(document).ready(function(){
 									<tr>
 										<th>序号</th>
 										<th>保单号</th>
+										<th>承保日期</th>
 										<th>状态</th>
 										<th>关键信息</th>
 										<th>重要信息</th>
@@ -344,6 +353,7 @@ $(document).ready(function(){
 									     <a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/qygl/issue/write/view/${item.id}"><span>${item.policy.policyNo}</span></a>
 									    </c:if> 
 										</td>
+										<td>${item.policy.policyDate}</td>
 										<td>
 										<c:choose>
 											<c:when test="${item.fixStatus eq 'NewStatus'}">
@@ -378,6 +388,7 @@ $(document).ready(function(){
 									<tr>
 										<th>序号</th>
 										<th>保单号</th>
+										<th>承保日期</th>
 										<th>状态</th>
 										<th>关键信息</th>
 										<th>重要信息</th>
@@ -396,6 +407,7 @@ $(document).ready(function(){
 									     <a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/qygl/issue/record/view/${item.id}"><span>${item.policy.policyNo}</span></a>
 									    </c:if> 
 										</td>
+										<td>${item.policy.policyDate}</td>
 										<td>
 										<c:choose>
 											<c:when test="${item.fixStatus eq 'NewStatus'}">

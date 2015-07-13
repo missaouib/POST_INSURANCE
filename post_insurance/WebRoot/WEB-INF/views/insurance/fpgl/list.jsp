@@ -4,6 +4,8 @@
 
 <dwz:paginationForm action="${contextPath }/fpgl/list" page="${page }">
 	<input type="hidden" name="search_LIKE_policy.policyNo" value="${param.search_LIKE_policy_policyNo }"/>
+	<input type="hidden" name="search_LTE_reqDate" value="${param.search_LTE_reqDate }"/>
+	<input type="hidden" name="search_GTE_reqDate" value="${param.search_GTE_reqDate }"/>
 	<input type="hidden" name="status" value="${param.status }"/>
 </dwz:paginationForm>
 
@@ -21,6 +23,18 @@
 						<form:option value=""> -- -- </form:option>
 						<form:options items="${statusList }" itemLabel="desc"/>
 					</form:select>
+				</li>
+			</ul>
+			<ul class="searchContent">
+				<li>
+					<label>申请开始日期：</label>
+					<input type="text" name="search_GTE_reqDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_reqDate }"/>
+					<a class="inputDateButton" href="javascript:;">选择</a>
+				</li>
+				<li>
+					<label>申请结束日期：</label>
+					<input type="text" name="search_LTE_reqDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_reqDate }"/>
+					<a class="inputDateButton" href="javascript:;">选择</a>
 				</li>
 			</ul>
 			<div class="subBar">
@@ -65,6 +79,7 @@
 				<th width="100" orderField=flag class="${page.orderField eq 'flag' ? page.orderDirection : ''}">发票标记</th>
 				<th width="200">发票金额</th>
 				<th width="120">发票缴费日期</th>
+				<th width="100" orderField=reqDate class="${page.orderField eq 'reqDate' ? page.orderDirection : ''}">申请日期</th>
 				<th width="120" orderField=status class="${page.orderField eq 'status' ? page.orderDirection : ''}">状态</th>
 			</tr>
 		</thead>
@@ -76,6 +91,7 @@
 				<td>${item.flag}</td>
 				<td>${item.fee}</td>
 				<td>${item.feeDate}</td>
+				<td>${item.reqDate}</td>
 				<td>
 				<c:choose>
 					<c:when test="${item.status eq 'NewStatus'}">

@@ -5,6 +5,8 @@
 <dwz:paginationForm action="${contextPath }/qygl/issue/write/list" page="${page }">
 	<input type="hidden" name="search_LIKE_issueNo" value="${param.search_LIKE_issueNo }"/>
 	<input type="hidden" name="search_LIKE_organization.orgCode" value="${param.search_LIKE_organization_orgCode }"/>
+	<input type="hidden" name="search_LTE_policy.policyDate" value="${search_LTE_policy_policyDate }"/>
+	<input type="hidden" name="search_GTE_policy.policyDate" value="${search_GTE_policy_policyDate }"/>
 	<input type="hidden" name="status" value="${param.status }"/>
 </dwz:paginationForm>
 
@@ -30,8 +32,20 @@
 					<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="search_LIKE_organization" title="选择机构" width="400">查找带回</a>
 				</li>				
 			</ul>
+			<ul class="searchContent">
+				<li>
+					<label>承保开始日期：</label>
+					<input type="text" name="search_GTE_policy.policyDate" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${search_GTE_policy_policyDate }"/>
+					<a class="inputDateButton" href="javascript:;">选择</a>
+				</li>
+				<li>
+					<label>承保结束日期：</label>
+					<input type="text" name="search_LTE_policy.policyDate" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${search_LTE_policy_policyDate }"/>
+					<a class="inputDateButton" href="javascript:;">选择</a>
+				</li>
+			</ul>
 			<div class="subBar">
-				<ul>						
+				<ul>
 					<li><div class="button"><div class="buttonContent"><button type="submit">搜索</button></div></div></li>
 				</ul>
 			</div>
@@ -58,6 +72,7 @@
 				<th width="22"><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
 				<th width="100" orderField=organization.name class="${page.orderField eq 'organization.name' ? page.orderDirection : ''}">所属机构</th>
 				<th width="120" orderField=policy.policyNo class="${page.orderField eq 'policy.policyNo' ? page.orderDirection : ''}">所属保单号</th>
+				<th width="120" orderField=policy.policyDate class="${page.orderField eq 'policy.policyDate' ? page.orderDirection : ''}">承保日期</th>
 				<th width="120" orderField=fixStatus class="${page.orderField eq 'fixStatus' ? page.orderDirection : ''}">问题件状态</th>
 				<th width="120" orderField=docMiss class="${page.orderField eq 'docMiss' ? page.orderDirection : ''}">资料缺失</th>
 				<th width="120" orderField=keyInfo class="${page.orderField eq 'keyInfo' ? page.orderDirection : ''}">关键信息</th>
@@ -71,6 +86,7 @@
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
 				<td>${item.policy.organization.name}</td>
 				<td>${item.policy.policyNo}</td>
+				<td>${item.policy.policyDate}</td>
 				<td>
 				<c:choose>
 					<c:when test="${item.fixStatus eq 'NewStatus'}">

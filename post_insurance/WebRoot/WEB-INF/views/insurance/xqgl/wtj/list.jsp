@@ -5,6 +5,8 @@
 <dwz:paginationForm action="${contextPath }/xqgl/issue/list" page="${page }">
 	<input type="hidden" name="search_LIKE_policyNo" value="${param.search_LIKE_policyNo }"/>
 	<input type="hidden" name="search_LIKE_organization.orgCode" value="${param.search_LIKE_organization_orgCode }"/>
+	<input type="hidden" name="search_LTE_feeDate" value="${param.search_LTE_feeDate }"/>
+	<input type="hidden" name="search_GTE_feeDate" value="${param.search_GTE_feeDate }"/>
 	<input type="hidden" name="feeStatus" value="${issue.feeStatus }"/>
 </dwz:paginationForm>
 
@@ -29,6 +31,18 @@
 					<input class="validate[required] required" name="search_LIKE_organization.name" type="text" readonly="readonly" style="width: 140px;" value="${search_LIKE_organization_name }"/>
 					<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="search_LIKE_organization" title="选择机构" width="400">查找带回</a>
 				</li>				
+			</ul>
+			<ul class="searchContent">
+				<li>
+					<label>交费对应日开始日期：</label>
+					<input type="text" name="search_GTE_feeDate" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_feeDate }"/>
+					<a class="inputDateButton" href="javascript:;">选择</a>
+				</li>
+				<li>
+					<label>交费对应日结束日期：</label>
+					<input type="text" name="search_LTE_feeDate" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_feeDate }"/>
+					<a class="inputDateButton" href="javascript:;">选择</a>
+				</li>
 			</ul>
 			<div class="subBar">
 				<ul>						
@@ -61,6 +75,7 @@
 				<th width="22"><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
 				<th width="100" orderField=organization.name class="${page.orderField eq 'organization.name' ? page.orderDirection : ''}">所属机构</th>
 				<th width="120" orderField=policy.policyNo class="${page.orderField eq 'policy.policyNo' ? page.orderDirection : ''}">保单号</th>
+				<th width="120" orderField=feeDate class="${page.orderField eq 'feeDate' ? page.orderDirection : ''}">交费对应日</th>
 				<th width="120" orderField=feeStatus class="${page.orderField eq 'feeStatus' ? page.orderDirection : ''}">状态</th>
 			</tr>
 		</thead>
@@ -70,6 +85,7 @@
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
 				<td>${item.policy.organization.name}</td>
 				<td>${item.policy.policyNo}</td>
+				<td><fmt:formatDate value="${item.feeDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.feeStatus }</td>
 			</tr>
 			</c:forEach>

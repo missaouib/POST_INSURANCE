@@ -164,7 +164,7 @@ public class HfglController {
 		if(status == null) {
 			status = HF_STATUS.NewStatus.getDesc();
 		} else if(status.trim().length()>0) {
-			issue.setStatus(HF_STATUS.valueOf(status).getDesc());
+			issue.setStatus(status);
 		}
 		issue.setStatus(status);
 		

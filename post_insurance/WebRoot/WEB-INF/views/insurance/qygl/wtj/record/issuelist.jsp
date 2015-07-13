@@ -27,6 +27,7 @@
 				<th width="22"><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
 				<th width="100" orderField=organization.name class="${page.orderField eq 'organization.name' ? page.orderDirection : ''}">所属机构</th>
 				<th width="120" orderField=policy.policyNo class="${page.orderField eq 'policy.policyNo' ? page.orderDirection : ''}">所属保单号</th>
+				<th width="120" orderField=policy.policyDate class="${page.orderField eq 'policy.policyDate' ? page.orderDirection : ''}">承保日期</th>
 				<th width="120" orderField=fixStatus class="${page.orderField eq 'fixStatus' ? page.orderDirection : ''}">问题件状态</th>
 				<th width="120" orderField=docMiss class="${page.orderField eq 'docMiss' ? page.orderDirection : ''}">资料缺失</th>
 				<th width="120" orderField=keyInfo class="${page.orderField eq 'keyInfo' ? page.orderDirection : ''}">关键信息</th>
@@ -40,6 +41,7 @@
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
 				<td>${item.policy.organization.name}</td>
 				<td>${item.policy.policyNo}</td>
+				<td>${item.policy.policyDate}</td>
 				<td>
 				<c:choose>
 					<c:when test="${item.fixStatus eq 'NewStatus'}">

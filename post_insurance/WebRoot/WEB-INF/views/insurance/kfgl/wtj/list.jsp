@@ -87,8 +87,8 @@
 				<td>${item.organization.name}</td>
 				<td>${item.issueNo}</td>
 				<td>${item.issueContent}</td>
-				<td>${item.policy.policyNo}</td>
 				<td>${item.shouldDate }</td>
+				<td>${item.policy.policyNo}</td>
 				<td>${item.status}</td>
 			</tr>
 			</c:forEach>

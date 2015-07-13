@@ -28,6 +28,7 @@
 				<th width="100" orderField=organization.name class="${page.orderField eq 'organization.name' ? page.orderDirection : ''}">所属机构</th>
 				<th width="100" orderField=issueNo class="${page.orderField eq 'issueNo' ? page.orderDirection : ''}">工单编号</th>
 				<th width="200">工单内容</th>
+				<th width="100" orderField=shouldDate class="${page.orderField eq 'shouldDate' ? page.orderDirection : ''}">待处理时间</th>
 				<th width="120" orderField=policy.policyNo class="${page.orderField eq 'policy.policyNo' ? page.orderDirection : ''}">所属保单号</th>
 				<th width="120" orderField=status class="${page.orderField eq 'status' ? page.orderDirection : ''}">工单状态</th>
 			</tr>
@@ -39,6 +40,7 @@
 				<td>${item.organization.name}</td>
 				<td>${item.issueNo}</td>
 				<td>${item.issueContent}</td>
+				<td>${item.shouldDate }</td>
 				<td>${item.policy.policyNo}</td>
 				<td>${item.status}</td>
 			</tr>
