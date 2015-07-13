@@ -43,6 +43,7 @@ import com.gdpost.web.dao.uploaddatamanage.UploadDataDAO;
 import com.gdpost.web.entity.main.Policy;
 import com.gdpost.web.service.uploaddatamanage.UploadDataService;
 import com.gdpost.web.util.StatusDefine.STATUS;
+import com.gdpost.web.util.StatusDefine.XQ_STATUS;
 import com.gdpost.web.util.dwz.Page;
 import com.gdpost.web.util.dwz.PageUtils;
 
@@ -322,7 +323,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        	for(ColumnItem item : standardColumns) {
 	        		if(item.getDisplayName().equals("工单子类")) {
 	        			val = row.getValue(item.getDisplayName());
-	        			if(val != null && val.equals("收费失败")) {
+	        			if(val != null && val.equals(XQ_STATUS.FeeFailStatus.getDesc())) {
 	        				isFail = true;
 	        			}
 	        		}
