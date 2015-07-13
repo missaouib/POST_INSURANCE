@@ -206,7 +206,7 @@ public class BqglController {
 		List<ConservationDtl> issues = bqglService.findByExample(specification, page);
 		
 		map.put("issue", issue);
-		map.put("statusList", BQ_STATUS.values());
+		map.put("baStatusList", BQ_STATUS.values());
 		map.put("page", page);
 		map.put("issues", issues);
 		return LIST;

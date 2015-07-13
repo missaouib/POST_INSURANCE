@@ -175,7 +175,7 @@ public class HfglController {
 		List<CallFailList> issues = hfglService.findByExample(specification, page);
 		
 		map.put("issue", issue);
-		map.put("statusList", HF_STATUS.values());
+		map.put("hfStatusList", HF_STATUS.values());
 		LOG.debug("---111--" + issues);
 		map.put("page", page);
 		map.put("issues", issues);

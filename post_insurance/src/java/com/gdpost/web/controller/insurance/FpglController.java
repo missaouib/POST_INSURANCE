@@ -211,7 +211,7 @@ public class FpglController {
 		List<InvoiceReq> reqs = fpglService.findByExample(specification, page);
 
 		map.put("req", req);
-		map.put("statusList", FP_STATUS.values());
+		map.put("fpStatusList", FP_STATUS.values());
 		
 		map.put("page", page);
 		map.put("reqs", reqs);

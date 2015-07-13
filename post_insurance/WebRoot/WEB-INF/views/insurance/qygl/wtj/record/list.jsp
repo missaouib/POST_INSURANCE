@@ -22,7 +22,7 @@
 					<label>工单状态：</label>
 					<form:select path="issue.fixStatus" class="combox">
 						<form:option value=""> -- -- </form:option>
-						<form:options items="${statusList }" itemLabel="desc"/>
+						<form:options items="${qyRecordStatusList }" itemLabel="desc"/>
 					</form:select>
 				</li>
 				<li>

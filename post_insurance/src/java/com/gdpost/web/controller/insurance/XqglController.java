@@ -155,7 +155,7 @@ public class XqglController {
 		List<RenewedList> issues = xqglService.findByExample(specification, page);
 		
 		map.put("issue", issue);
-		map.put("statusList", XQ_STATUS.values());
+		map.put("xqStatusList", XQ_STATUS.values());
 		map.put("page", page);
 		map.put("issues", issues);
 		return LIST;

@@ -21,7 +21,7 @@
 					<label>状态：</label>
 					<form:select path="req.status" class="combox">
 						<form:option value=""> -- -- </form:option>
-						<form:options items="${statusList }" itemLabel="desc"/>
+						<form:options items="${fpStatusList }" itemLabel="desc"/>
 					</form:select>
 				</li>
 			</ul>

@@ -22,7 +22,7 @@
 					<label>问题件状态：</label>
 					<form:select path="issue.feeStatus" class="combox">
 						<form:option value=""> -- -- </form:option>
-						<form:options items="${statusList }" itemLabel="desc" itemValue="desc"/>
+						<form:options items="${xqStatusList }" itemLabel="desc" itemValue="desc"/>
 					</form:select>
 				</li>
 				<li>

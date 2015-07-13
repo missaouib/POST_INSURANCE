@@ -22,7 +22,7 @@
 					<label>工单状态：</label>
 					<form:select path="issue.status" class="combox">
 						<form:option value=""> -- -- </form:option>
-						<form:options items="${statusList }" itemLabel="desc" itemValue="desc"/>
+						<form:options items="${hfStatusList }" itemLabel="desc" itemValue="desc"/>
 					</form:select>
 				</li>
 				<li>

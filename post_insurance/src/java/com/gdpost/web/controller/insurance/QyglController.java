@@ -165,7 +165,7 @@ public class QyglController {
 		List<CheckWrite> issues = qyglService.findByCheckWriteExample(specification, page);
 		
 		map.put("issue", issue);
-		map.put("statusList", STATUS.values());
+		map.put("qyWriteStatusList", STATUS.values());
 		map.put("page", page);
 		map.put("issues", issues);
 		return LIST_WRITE;
@@ -271,7 +271,7 @@ public class QyglController {
 		List<CheckRecord> issues = qyglService.findByCheckRecordExample(specification, page);
 		
 		map.put("issue", issue);
-		map.put("statusList", STATUS.values());
+		map.put("qyRecordStatusList", STATUS.values());
 		map.put("page", page);
 		map.put("issues", issues);
 		return LIST_RECORD;
