@@ -9,17 +9,17 @@
 	<input type="hidden" name="status" value="${param.status }"/>
 </dwz:paginationForm>
 
-<form method="post" action="${contextPath }/fpgl/list" onsubmit="return navTabSearch(this)">
+<form method="post" id="fpForm" action="${contextPath }/fpgl/list" onsubmit="return navTabSearch(this)">
 	<div class="pageHeader">
 		<div class="searchBar">
 			<ul class="searchContent">
 				<li>
 					<label>保单号：</label>
-					<input type="text" name="search_LIKE_policy.policyNo" value="${param.search_LIKE_policy_policyNo }"/>
+					<input type="text" id="fqPolicyNo" name="search_LIKE_policy.policyNo" value="${param.search_LIKE_policy_policyNo }"/>
 				</li>
 				<li>
 					<label>状态：</label>
-					<form:select path="req.status" class="combox">
+					<form:select path="req.status" id="fpStatus" class="combox">
 						<form:option value=""> -- -- </form:option>
 						<form:options items="${fpStatusList }" itemLabel="desc"/>
 					</form:select>
@@ -28,12 +28,12 @@
 			<ul class="searchContent">
 				<li>
 					<label>申请开始日期：</label>
-					<input type="text" name="search_GTE_reqDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_reqDate }"/>
+					<input type="text" name="search_GTE_reqDate" id="fqReqDate1" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_reqDate }"/>
 					<a class="inputDateButton" href="javascript:;">选择</a>
 				</li>
 				<li>
 					<label>申请结束日期：</label>
-					<input type="text" name="search_LTE_reqDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_reqDate }"/>
+					<input type="text" name="search_LTE_reqDate" id="fqReqDate2" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_reqDate }"/>
 					<a class="inputDateButton" href="javascript:;">选择</a>
 				</li>
 			</ul>

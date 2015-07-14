@@ -10,37 +10,37 @@
 	<input type="hidden" name="status" value="${param.status }"/>
 </dwz:paginationForm>
 
-<form method="post" action="${contextPath }/qygl/issue/record/list" onsubmit="return navTabSearch(this)">
+<form method="post" id="qyRecordForm" action="${contextPath }/qygl/issue/record/list" onsubmit="return navTabSearch(this)">
 	<div class="pageHeader">
 		<div class="searchBar">
 			<ul class="searchContent">
 				<li>
 					<label>工单编号：</label>
-					<input type="text" name="search_LIKE_issueNo" value="${param.search_LIKE_issueNo }"/>
+					<input type="text" id="qyRecordPolicyNo" name="search_LIKE_issueNo" value="${param.search_LIKE_issueNo }"/>
 				</li>
 				<li>
 					<label>工单状态：</label>
-					<form:select path="issue.fixStatus" class="combox">
+					<form:select path="issue.fixStatus" id="qyRecordStatus" class="combox">
 						<form:option value=""> -- -- </form:option>
 						<form:options items="${qyRecordStatusList }" itemLabel="desc"/>
 					</form:select>
 				</li>
 				<li>
 					<label>所属机构：</label>
-					<input name="search_LIKE_organization.orgCode" id="search_LIKE_organization.orgCode" type="hidden" value="${search_LIKE_organization_orgCode }"/>
-					<input class="validate[required] required" name="search_LIKE_organization.name" type="text" readonly="readonly" style="width: 140px;" value="${search_LIKE_organization_name }"/>
+					<input name="search_LIKE_organization.orgCode" id="qy_r_orgCode" type="hidden" value="${search_LIKE_organization_orgCode }"/>
+					<input class="validate[required] required" name="search_LIKE_organization.name" id="qy_r_orgName" type="text" readonly="readonly" style="width: 140px;" value="${search_LIKE_organization_name }"/>
 					<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="search_LIKE_organization" title="选择机构" width="400">查找带回</a>
 				</li>				
 			</ul>
 			<ul class="searchContent">
 				<li>
 					<label>承保开始日期：</label>
-					<input type="text" name="search_GTE_policy.policyDate" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${search_GTE_policy_policyDate }"/>
+					<input type="text" name="search_GTE_policy.policyDate" id="qy_r_date1" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${search_GTE_policy_policyDate }"/>
 					<a class="inputDateButton" href="javascript:;">选择</a>
 				</li>
 				<li>
 					<label>承保结束日期：</label>
-					<input type="text" name="search_LTE_policy.policyDate" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${search_LTE_policy_policyDate }"/>
+					<input type="text" name="search_LTE_policy.policyDate" id="qy_r_date2" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${search_LTE_policy_policyDate }"/>
 					<a class="inputDateButton" href="javascript:;">选择</a>
 				</li>
 			</ul>

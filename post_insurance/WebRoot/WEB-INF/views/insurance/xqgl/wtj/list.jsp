@@ -10,37 +10,37 @@
 	<input type="hidden" name="feeStatus" value="${issue.feeStatus }"/>
 </dwz:paginationForm>
 
-<form method="post" action="${contextPath }/xqgl/issue/list" onsubmit="return navTabSearch(this)">
+<form id="xqForm" method="post" action="${contextPath }/xqgl/issue/list" onsubmit="return navTabSearch(this)">
 	<div class="pageHeader">
 		<div class="searchBar">
 			<ul class="searchContent">
 				<li>
 					<label>保单号：</label>
-					<input type="text" name="search_LIKE_policyNo" value="${param.search_LIKE_policyNo }"/>
+					<input type="text" id="xq_policyno" name="search_LIKE_policyNo" value="${param.search_LIKE_policyNo }"/>
 				</li>
 				<li>
 					<label>问题件状态：</label>
-					<form:select path="issue.feeStatus" class="combox">
+					<form:select path="issue.feeStatus" id="xqStatus" class="combox">
 						<form:option value=""> -- -- </form:option>
 						<form:options items="${xqStatusList }" itemLabel="desc" itemValue="desc"/>
 					</form:select>
 				</li>
 				<li>
 					<label>所属机构：</label>
-					<input name="search_LIKE_organization.orgCode" id="search_LIKE_organization.orgCode" type="hidden" value="${search_LIKE_organization_orgCode }"/>
-					<input class="validate[required] required" name="search_LIKE_organization.name" type="text" readonly="readonly" style="width: 140px;" value="${search_LIKE_organization_name }"/>
+					<input name="search_LIKE_organization.orgCode" id="xq_orgCode" type="hidden" value="${search_LIKE_organization_orgCode }"/>
+					<input class="validate[required] required" name="search_LIKE_organization.name" id="xq_orgName" type="text" readonly="readonly" style="width: 140px;" value="${search_LIKE_organization_name }"/>
 					<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="search_LIKE_organization" title="选择机构" width="400">查找带回</a>
 				</li>				
 			</ul>
 			<ul class="searchContent">
 				<li>
 					<label>交费对应日开始日期：</label>
-					<input type="text" name="search_GTE_feeDate" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_feeDate }"/>
+					<input type="text" name="search_GTE_feeDate" class="date" id="xq_date1" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_feeDate }"/>
 					<a class="inputDateButton" href="javascript:;">选择</a>
 				</li>
 				<li>
 					<label>交费对应日结束日期：</label>
-					<input type="text" name="search_LTE_feeDate" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_feeDate }"/>
+					<input type="text" name="search_LTE_feeDate" class="date" id="xq_date2" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_feeDate }"/>
 					<a class="inputDateButton" href="javascript:;">选择</a>
 				</li>
 			</ul>

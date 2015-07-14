@@ -10,37 +10,37 @@
 	<input type="hidden" name="search_GTE_shouldDate" value="${param.search_GTE_shouldDate }"/>
 </dwz:paginationForm>
 
-<form method="post" action="${contextPath }/kfgl/issue/list" onsubmit="return navTabSearch(this)">
+<form method="post" id="kfForm" action="${contextPath }/kfgl/issue/list" onsubmit="return navTabSearch(this)">
 	<div class="pageHeader">
 		<div class="searchBar">
 			<ul class="searchContent">
 				<li>
 					<label>工单编号：</label>
-					<input type="text" name="search_LIKE_issueNo" value="${param.search_LIKE_issueNo }"/>
+					<input type="text" id="kfPolicyNo" name="search_LIKE_issueNo" value="${param.search_LIKE_issueNo }"/>
 				</li>
 				<li>
 					<label>工单状态：</label>
-					<form:select path="issue.status" class="combox">
+					<form:select path="issue.status" id="kfStatus" class="combox">
 						<form:option value=""> -- -- </form:option>
 						<form:options items="${statusList }" itemLabel="desc" itemValue="desc"/>
 					</form:select>
 				</li>
 				<li>
 					<label>所属机构：</label>
-					<input name="search_LIKE_organization.orgCode" id="search_LIKE_organization.orgCode" type="hidden" value="${search_LIKE_organization_orgCode }"/>
-					<input class="validate[required] required" name="search_LIKE_organization.name" type="text" readonly="readonly" style="width: 140px;" value="${search_LIKE_organization_name }"/>
+					<input name="search_LIKE_organization.orgCode" id="kf_orgCode" type="hidden" value="${search_LIKE_organization_orgCode }"/>
+					<input class="validate[required] required" name="search_LIKE_organization.name" id="kf_orgName" type="text" readonly="readonly" style="width: 140px;" value="${search_LIKE_organization_name }"/>
 					<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="search_LIKE_organization" title="选择机构" width="400">查找带回</a>
 				</li>				
 			</ul>
 			<ul class="searchContent">
 				<li>
 					<label>工单开始日期：</label>
-					<input type="text" name="search_GTE_shouldDate" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_shouldDate }"/>
+					<input type="text" name="search_GTE_shouldDate" id="kfDate1" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_shouldDate }"/>
 					<a class="inputDateButton" href="javascript:;">选择</a>
 				</li>
 				<li>
 					<label>工单结束日期：</label>
-					<input type="text" name="search_LTE_shouldDate" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_shouldDate }"/>
+					<input type="text" name="search_LTE_shouldDate" id="kfDate2" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_shouldDate }"/>
 					<a class="inputDateButton" href="javascript:;">选择</a>
 				</li>
 			</ul>

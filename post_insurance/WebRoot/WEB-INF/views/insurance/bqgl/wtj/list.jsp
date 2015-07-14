@@ -10,37 +10,37 @@
 	<input type="hidden" name="status" value="${param.status }"/>
 </dwz:paginationForm>
 
-<form method="post" action="${contextPath }/bqgl/issue/list" onsubmit="return navTabSearch(this)">
+<form method="post" id="bqForm" action="${contextPath }/bqgl/issue/list" onsubmit="return navTabSearch(this)">
 	<div class="pageHeader">
 		<div class="searchBar">
 			<ul class="searchContent">
 				<li>
 					<label>保单号：</label>
-					<input type="text" name="search_LIKE_policy.policyNo" value="${param.search_LIKE_policy_policyNo }"/>
+					<input type="text" id="bqPolicyNo" name="search_LIKE_policy.policyNo" value="${param.search_LIKE_policy_policyNo }"/>
 				</li>
 				<li>
 					<label>工单状态：</label>
-					<form:select path="issue.status" class="combox">
+					<form:select path="issue.status" class="combox" id="bqStatus">
 						<form:option value=""> -- -- </form:option>
 						<form:options items="${baStatusList }" itemLabel="desc"/>
 					</form:select>
 				</li>
 				<li>
 					<label>所属机构：</label>
-					<input name="search_LIKE_organization.orgCode" id="search_LIKE_organization.orgCode" type="hidden" value="${search_LIKE_organization_orgCode }"/>
-					<input class="validate[required] required" name="search_LIKE_organization.name" type="text" readonly="readonly" style="width: 140px;" value="${search_LIKE_organization_name }"/>
+					<input name="search_LIKE_organization.orgCode" id="bq_orgCode" type="hidden" value="${search_LIKE_organization_orgCode }"/>
+					<input class="validate[required] required" name="search_LIKE_organization.name" id="bq_orgName" type="text" readonly="readonly" style="width: 140px;" value="${search_LIKE_organization_name }"/>
 					<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="search_LIKE_organization" title="选择机构" width="400">查找带回</a>
 				</li>
 			</ul>
 			<ul class="searchContent">
 				<li>
 					<label>开始日期：</label>
-					<input type="text" name="search_GTE_csDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_csDate }"/>
+					<input type="text" id="bqCsDate1" name="search_GTE_csDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_csDate }"/>
 					<a class="inputDateButton" href="javascript:;">选择</a>
 				</li>
 				<li>
 					<label>结束日期：</label>
-					<input type="text" name="search_LTE_csDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_csDate }"/>
+					<input type="text" id="bqCsDate2" name="search_LTE_csDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_csDate }"/>
 					<a class="inputDateButton" href="javascript:;">选择</a>
 				</li>
 			</ul>

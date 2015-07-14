@@ -10,37 +10,37 @@
 	<input type="hidden" name="status" value="${param.status }"/>
 </dwz:paginationForm>
 
-<form method="post" action="${contextPath }/hfgl/issue/list" onsubmit="return navTabSearch(this)">
+<form method="post" id="hfForm" action="${contextPath }/hfgl/issue/list" onsubmit="return navTabSearch(this)">
 	<div class="pageHeader">
 		<div class="searchBar">
 			<ul class="searchContent">
 				<li>
 					<label>工单编号：</label>
-					<input type="text" name="search_LIKE_issueNo" value="${param.search_LIKE_issueNo }"/>
+					<input type="text" id="hfPolicyNo" name="search_LIKE_issueNo" value="${param.search_LIKE_issueNo }"/>
 				</li>
 				<li>
 					<label>工单状态：</label>
-					<form:select path="issue.status" class="combox">
+					<form:select path="issue.status" id="hfStatus" class="combox">
 						<form:option value=""> -- -- </form:option>
 						<form:options items="${hfStatusList }" itemLabel="desc" itemValue="desc"/>
 					</form:select>
 				</li>
 				<li>
 					<label>所属机构：</label>
-					<input name="search_LIKE_organization.orgCode" id="search_LIKE_organization.orgCode" type="hidden" value="${search_LIKE_organization_orgCode }"/>
-					<input class="validate[required] required" name="search_LIKE_organization.name" type="text" readonly="readonly" style="width: 140px;" value="${search_LIKE_organization_name }"/>
+					<input name="search_LIKE_organization.orgCode" id="hf_orgCode" type="hidden" value="${search_LIKE_organization_orgCode }"/>
+					<input class="validate[required] required" name="search_LIKE_organization.name" id="hf_orgName" type="text" readonly="readonly" style="width: 140px;" value="${search_LIKE_organization_name }"/>
 					<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="search_LIKE_organization" title="选择机构" width="400">查找带回</a>
 				</li>				
 			</ul>
 			<ul class="searchContent">
 				<li>
 					<label>待处理开始日期：</label>
-					<input type="text" name="search_GTE_shouldDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_shouldDate }"/>
+					<input type="text" name="search_GTE_shouldDate" id="hfDate1" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_shouldDate }"/>
 					<a class="inputDateButton" href="javascript:;">选择</a>
 				</li>
 				<li>
 					<label>待处理结束日期：</label>
-					<input type="text" name="search_LTE_shouldDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_shouldDate }"/>
+					<input type="text" name="search_LTE_shouldDate" id="hfDate2" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_shouldDate }"/>
 					<a class="inputDateButton" href="javascript:;">选择</a>
 				</li>
 			</ul>
