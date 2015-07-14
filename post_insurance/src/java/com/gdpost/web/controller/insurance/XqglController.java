@@ -39,6 +39,7 @@ import com.gdpost.web.log.LogMessageObject;
 import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.insurance.XqglService;
 import com.gdpost.web.shiro.ShiroUser;
+import com.gdpost.web.util.StatusDefine.STATUS;
 import com.gdpost.web.util.StatusDefine.XQ_STATUS;
 import com.gdpost.web.util.dwz.AjaxObject;
 import com.gdpost.web.util.dwz.Page;
@@ -149,7 +150,8 @@ public class XqglController {
 		issue.setFeeStatus(status);
 		
 		Specification<RenewedList> specification = DynamicSpecifications.bySearchFilter(request, RenewedList.class,
-				new SearchFilter("feeStatus", Operator.LIKE, status),
+				new SearchFilter("feeStatus", Operator.OR_LIKE, status),
+				new SearchFilter("feeStatus", Operator.OR_LIKE, XQ_STATUS.FeeFailStatus.getDesc()),
 				new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
 		
 		List<RenewedList> issues = xqglService.findByExample(specification, page);

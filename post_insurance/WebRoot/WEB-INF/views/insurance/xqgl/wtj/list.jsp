@@ -45,7 +45,7 @@
 				</li>
 			</ul>
 			<div class="subBar">
-				<ul>						
+				<ul>
 					<li><div class="button"><div class="buttonContent"><button type="submit">搜索</button></div></div></li>
 				</ul>
 			</div>

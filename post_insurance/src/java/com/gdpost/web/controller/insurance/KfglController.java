@@ -208,24 +208,44 @@ public class KfglController {
 		String status = request.getParameter("status");
 		LOG.debug("-------------- status: " + status);
 		Issue issue = new Issue();
-		if(status == null) {
-			status = "待处理";
-		}
+//		if(status == null) {
+//			status = "待处理";
+//		}
 		issue.setStatus(status);
 		
-		Specification<Issue> specification = DynamicSpecifications.bySearchFilter(request, Issue.class,
-				new SearchFilter("status", Operator.LIKE, status),
-				new SearchFilter("organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+		Specification<Issue> specification = null;
 		
 		//如果是县区局登录的机构号为8位，需要根据保单的所在机构进行筛选
-		if (user.getOrganization().getOrgCode().length() > 6) {
-			specification = DynamicSpecifications.bySearchFilter(request, Issue.class,
+		if (user.getOrganization().getOrgCode().length() > 4) {
+			if(status == null) {
+				LOG.debug("-------------- 111: " );
+				specification = DynamicSpecifications.bySearchFilter(request, Issue.class,
+						new SearchFilter("status", Operator.OR_LIKE, STATUS.NewStatus.getDesc()),
+						new SearchFilter("status", Operator.OR_LIKE, STATUS.ReopenStatus.getDesc()),
+						new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+			} else {
+				LOG.debug("-------------- 222: " );
+				specification = DynamicSpecifications.bySearchFilter(request, Issue.class,
 					new SearchFilter("status", Operator.LIKE, status),
 					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+			}
+		} else {
+			if(status == null) {
+				LOG.debug("-------------- 333: " );
+				specification = DynamicSpecifications.bySearchFilter(request, Issue.class,
+						new SearchFilter("status", Operator.LIKE, STATUS.DealStatus.getDesc()),
+						new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+			} else {
+				LOG.debug("-------------- 444: " );
+				specification = DynamicSpecifications.bySearchFilter(request, Issue.class,
+					new SearchFilter("status", Operator.LIKE, status),
+					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+			}
 		}
 		
 		List<Issue> issues = kfglService.findByExample(specification, page);
 		
+		/*
 		//如果是非省分级别，加上重打开数据
 		if(user.getOrganization().getOrgCode().length() > 4) {
 			LOG.debug("------- 非省分级别，查找重打开数据" + issues);
@@ -243,7 +263,7 @@ public class KfglController {
 				issues.addAll(tmpList);
 			}
 		}
-		
+		*/
 		map.put("issue", issue);
 		map.put("statusList", STATUS.values());
 		map.put("page", page);

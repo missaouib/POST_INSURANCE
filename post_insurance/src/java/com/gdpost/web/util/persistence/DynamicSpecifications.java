@@ -394,6 +394,7 @@ public class DynamicSpecifications {
 			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
 				List<Predicate> predicates = new ArrayList<Predicate>();
 				List<Predicate> opredicates = new ArrayList<Predicate>();
+				boolean hasOr = false;
 				if (filterSet != null && !filterSet.isEmpty()) {
 					Predicate p = null;
 					for (SearchFilter filter : filterSet) {
@@ -445,33 +446,38 @@ public class DynamicSpecifications {
 							predicates.add(builder.isNotNull(expression));
 							break;
 						case OR_EQ:
+							hasOr = true;
 							p = builder.equal(expression, filter.getValue());
 							opredicates.add(builder.or(p));
 							break;
 						case OR_NEQ:
+							hasOr = true;
 							p = builder.notEqual(expression, filter.getValue());
 							opredicates.add(builder.or(p));
 							break;
 						case OR_LIKE:
+							hasOr = true;
 							p = builder.like(expression, "%" + filter.getValue() + "%");
 							//opredicates.add(builder.or(p));
-							opredicates.add(p);
+							opredicates.add(builder.or(p));
 							break;
 						}
 					}
-
+					if (!hasOr) {
 					// 将所有条件用 and 联合起来
-					if (predicates.size() > 0) {
-						return builder.and(predicates.toArray(new Predicate[predicates.size()]));
+						if (predicates.size() > 0) {
+							return builder.and(predicates.toArray(new Predicate[predicates.size()]));
+						}
 					}
 				}
-//				logger.debug("------------------" + predicates + "---------" + opredicates);
-//				Predicate p = builder.and(predicates.toArray(new Predicate[predicates.size()]));
-//				Predicate o = builder.or(opredicates.toArray(new Predicate[opredicates.size()]));
-//				query.where(o);
-//				logger.debug("---------------------------" + query.toString());
-//				return null;
-				return builder.conjunction();
+				if(hasOr) {
+					Predicate p = builder.and(predicates.toArray(new Predicate[predicates.size()]));
+					Predicate o = builder.or(opredicates.toArray(new Predicate[opredicates.size()]));
+					query.where(p, o);
+					return null;
+				} else {
+					return builder.conjunction();
+				}
 			}
 		};
 	}

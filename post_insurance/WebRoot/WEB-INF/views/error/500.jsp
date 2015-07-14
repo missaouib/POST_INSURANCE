@@ -43,6 +43,7 @@
 <div>
 <%if(msg != null && (msg.contains("Lazy") || msg.contains("lazily") || (msg.contains("Session")))) {%>
 <h1 class="my">500 error...又是超时重新登录后Lazy导致的，您需要做的是点击下面连接：</h1></div>
+<div><a href="<c:url value="/management/index"/>" target="_top">刷新！</a></div><br/><br/>
 <div><a href="<c:url value="/logout?userType=admin"/>" target="_top">我要重新登录！</a></div>
 <%} else { %>
 <h1 class="my">500 error...系统内部错误了，请联系省分公司运营管理部吧，深感抱歉！ 或尝试按键盘上F5刷新再试。</h1></div>
