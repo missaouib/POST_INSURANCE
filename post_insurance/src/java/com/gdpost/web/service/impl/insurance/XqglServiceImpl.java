@@ -6,8 +6,6 @@ package	com.gdpost.web.service.impl.insurance;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -29,7 +27,7 @@ import com.gdpost.web.util.persistence.SearchFilter.Operator;
 @Service
 @Transactional
 public class XqglServiceImpl implements XqglService {
-	private static final Logger LOG = LoggerFactory.getLogger(XqglServiceImpl.class);
+	//private static final Logger LOG = LoggerFactory.getLogger(XqglServiceImpl.class);
 	
 	@Autowired
 	private RenewedListDAO renewedListDAO;
@@ -89,19 +87,20 @@ public class XqglServiceImpl implements XqglService {
 	public List<RenewedList> getTODOIssueList(User user) {
 		Organization userOrg = user.getOrganization();
 		//默认返回未处理工单
-		Specification<RenewedList> specification = DynamicSpecifications.bySearchFilterWithoutRequest(RenewedList.class,
-				new SearchFilter("feeStatus", Operator.LIKE, XQ_STATUS.NewStatus.getDesc()),
-				new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+		Specification<RenewedList> specification = null;
 		
-		//如果是县区局登录的机构号为8位，需要根据保单的所在机构进行筛选
-		if (userOrg.getOrgCode().length() <= 4) { //如果是省分的，看已回复的。
+		if (user.getOrganization().getOrgCode().length() > 4) {
+			specification = DynamicSpecifications.bySearchFilterWithoutRequest(RenewedList.class,
+					new SearchFilter("feeStatus", Operator.OR_LIKE, XQ_STATUS.NewStatus.getDesc()),
+					new SearchFilter("feeStatus", Operator.OR_LIKE, XQ_STATUS.FeeFailStatus.getDesc()),
+					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+		} else {
 			specification = DynamicSpecifications.bySearchFilterWithoutRequest(RenewedList.class,
 					new SearchFilter("feeStatus", Operator.LIKE, XQ_STATUS.DealStatus.getDesc()),
 					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
 		}
 		Page page = new Page();
 		page.setNumPerPage(100);
-		LOG.debug("------------ ready to search:");
 		List<RenewedList> issues = this.findByExample(specification, page);
 		if (issues == null || issues.isEmpty()) {
 			issues = new ArrayList<RenewedList>();

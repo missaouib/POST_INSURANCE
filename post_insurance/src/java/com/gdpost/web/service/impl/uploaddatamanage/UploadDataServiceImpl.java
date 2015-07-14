@@ -73,6 +73,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 	@SuppressWarnings("resource")
 	@Override
 	public boolean importData(FileTemplate ft, HttpServletRequest request, DataTable dt, long member_id, int ny) {		
+		log.debug("---------   into import data");
 		java.sql.Connection connection = null;
 		com.mysql.jdbc.Statement statement = null;
 		com.alibaba.druid.pool.DruidDataSource basic = null;
@@ -236,7 +237,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 	
 	@SuppressWarnings("resource")
 	@Override
-	public boolean updateStatusData(FileTemplate ft, HttpServletRequest request, DataTable dt) {		
+	public boolean updateStatusData(FileTemplate ft, HttpServletRequest request, DataTable dt) {	
+		log.debug("---------  into update status data");
 		java.sql.Connection connection = null;
 		com.mysql.jdbc.Statement statement = null;
 		com.alibaba.druid.pool.DruidDataSource basic = null;
@@ -256,6 +258,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 		StringBuffer sql = null;
 		StringBuffer line = null;
 		String sql2 = null;
+		boolean isFail = false;
+		Object val = null;
 		switch(ft) {
 		case Policy:
 			return true;
@@ -295,10 +299,30 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case RenewedStatus:
 			standardColumns = RenewedStatusColumn.getStandardColumns();
 			sql = new StringBuffer("INSERT INTO t_renewed_list(policy_no, prd_name, fee_status, fee_fail_reason) VALUES ");
+			line = null;
+			isFail = false;
+			val = null;
 			for (DataRow row : dt.Rows) {
+				isFail = false;
+				val = null;
 				line = new StringBuffer("(");
 	        	for(ColumnItem item : standardColumns) {
-	        		line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        		if(item.getDisplayName().equals("保单当前状态")) {
+	        			val = row.getValue(item.getDisplayName());
+	        			if(val != null && val.equals(XQ_STATUS.FeeFailStatus.getDesc())) {
+	        				isFail = true;
+	        			}
+	        		}
+	        		if(item.getDisplayName().equals("交费失败原因") && isFail) {
+	        			val = row.getValue(item.getDisplayName());
+	        			if(val == null || val.toString().length() <= 0) {
+	        				line.append("\"已终止\",");
+	        			} else {
+	        				line.append("\"" + StringUtil.trimStr(val) + "\",");
+	        			}
+	        		} else {
+	        			line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        		}
 	        	}
 	        	line.deleteCharAt(line.length() - 1);
 	        	line.append("),");
@@ -307,15 +331,15 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql.deleteCharAt(sql.length() - 1);
 			sql.append(" ON DUPLICATE KEY UPDATE policy_no=VALUES(policy_no), prd_name=VALUES(prd_name), ");
 			sql.append("fee_status=VALUES(fee_status), fee_fail_reason=VALUES(fee_fail_reason);");
-			//log.debug("----------------batch update : " + sql);
+			log.debug("----------------batch update : " + sql);
 			sql2 = "delete from t_renewed_list where holder is null";
 			break;
 		case RenewedHQList:
 			standardColumns = RenewedHQListColumn.getStandardColumns();
 			sql = new StringBuffer("INSERT INTO t_renewed_list(policy_no, prd_name, hq_issue_type, hq_deal_rst, hq_deal_date, hq_deal_remark) VALUES ");
 			line = null;
-			boolean isFail = false;
-			Object val = null;
+			isFail = false;
+			val = null;
 			for (DataRow row : dt.Rows) {
 				isFail = false;
 				val = null;
@@ -331,6 +355,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        			val = row.getValue(item.getDisplayName());
 	        			if(val == null || val.toString().length() <= 0) {
 	        				line.append("\"已终止\",");
+	        			} else {
+	        				line.append("\"" + StringUtil.trimStr(val) + "\",");
 	        			}
 	        		} else {
 	        			line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
@@ -465,7 +491,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 		for(DataTable[] dataSet : listDataSet.values()) {
 			for(DataTable dt : dataSet) {
 				if(t.name().equals(FileTemplate.RenewedStatus.name())
-						|| t.name().equals((FileTemplate.RenewedHQList.name()))) {
+						|| t.name().equals((FileTemplate.RenewedHQList.name())) 
+						|| t.name().equals((FileTemplate.CallFailStatus.name()))) {
 					bFlag = updateStatusData(t, request, dt);
 				} else {
 					bFlag = importData(t, request, dt, member_id, currentNY);

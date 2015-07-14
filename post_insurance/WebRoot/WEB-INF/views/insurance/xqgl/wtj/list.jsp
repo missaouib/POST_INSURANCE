@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 
 <dwz:paginationForm action="${contextPath }/xqgl/issue/list" page="${page }">
-	<input type="hidden" name="search_LIKE_policyNo" value="${param.search_LIKE_policyNo }"/>
+	<input type="hidden" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
 	<input type="hidden" name="search_LIKE_organization.orgCode" value="${param.search_LIKE_organization_orgCode }"/>
 	<input type="hidden" name="search_LTE_feeDate" value="${param.search_LTE_feeDate }"/>
 	<input type="hidden" name="search_GTE_feeDate" value="${param.search_GTE_feeDate }"/>
@@ -16,7 +16,7 @@
 			<ul class="searchContent">
 				<li>
 					<label>保单号：</label>
-					<input type="text" id="xq_policyno" name="search_LIKE_policyNo" value="${param.search_LIKE_policyNo }"/>
+					<input type="text" id="xq_policyno" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
 				</li>
 				<li>
 					<label>问题件状态：</label>
@@ -77,6 +77,7 @@
 				<th width="120" orderField=policy.policyNo class="${page.orderField eq 'policy.policyNo' ? page.orderDirection : ''}">保单号</th>
 				<th width="120" orderField=feeDate class="${page.orderField eq 'feeDate' ? page.orderDirection : ''}">交费对应日</th>
 				<th width="120" orderField=feeStatus class="${page.orderField eq 'feeStatus' ? page.orderDirection : ''}">状态</th>
+				<th width="120" orderField=feeFailReason class="${page.orderField eq 'feeFailReason' ? page.orderDirection : ''}">交费失败原因</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -87,6 +88,7 @@
 				<td>${item.policy.policyNo}</td>
 				<td><fmt:formatDate value="${item.feeDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.feeStatus }</td>
+				<td>${item.feeFailReason}</td>
 			</tr>
 			</c:forEach>
 		</tbody>

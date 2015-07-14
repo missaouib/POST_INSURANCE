@@ -232,6 +232,7 @@ public class KfglController {
 		} else {
 			if(status == null) {
 				LOG.debug("-------------- 333: " );
+				issue.setStatus(STATUS.DealStatus.getDesc());
 				specification = DynamicSpecifications.bySearchFilter(request, Issue.class,
 						new SearchFilter("status", Operator.LIKE, STATUS.DealStatus.getDesc()),
 						new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));

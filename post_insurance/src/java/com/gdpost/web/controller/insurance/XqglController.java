@@ -39,7 +39,6 @@ import com.gdpost.web.log.LogMessageObject;
 import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.insurance.XqglService;
 import com.gdpost.web.shiro.ShiroUser;
-import com.gdpost.web.util.StatusDefine.STATUS;
 import com.gdpost.web.util.StatusDefine.XQ_STATUS;
 import com.gdpost.web.util.dwz.AjaxObject;
 import com.gdpost.web.util.dwz.Page;
@@ -67,7 +66,7 @@ public class XqglController {
 		RenewedList issue = xqglService.get(id);
 		
 		map.put("issue", issue);
-		//map.put("status", XQ_STATUS.ReopenStatus);
+		//map.put("feeStatus", XQ_STATUS.ReopenStatus);
 		return VIEW;
 	}
 	
@@ -139,20 +138,41 @@ public class XqglController {
 		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
 		Organization userOrg = user.getOrganization();
 		//默认返回未处理工单
-		String status = request.getParameter("feeStatus");
-		LOG.debug("-------------- status: " + status);
+		String feeStatus = request.getParameter("feeStatus");
+		LOG.debug("-------------- feeStatus: " + feeStatus);
 		RenewedList issue = new RenewedList();
-		if(status == null) {
-			status = XQ_STATUS.NewStatus.getDesc();
-		} else if(status.trim().length()>0) {
-			issue.setFeeStatus(status);
+		if(feeStatus == null) {
+			feeStatus = XQ_STATUS.NewStatus.getDesc();
+		} else if(feeStatus.trim().length()>0) {
+			issue.setFeeStatus(feeStatus);
 		}
-		issue.setFeeStatus(status);
+		issue.setFeeStatus(feeStatus);
 		
-		Specification<RenewedList> specification = DynamicSpecifications.bySearchFilter(request, RenewedList.class,
-				new SearchFilter("feeStatus", Operator.OR_LIKE, status),
-				new SearchFilter("feeStatus", Operator.OR_LIKE, XQ_STATUS.FeeFailStatus.getDesc()),
-				new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+		Specification<RenewedList> specification = null;
+		
+		if (user.getOrganization().getOrgCode().length() > 4) {
+			if(feeStatus == null) {
+				specification = DynamicSpecifications.bySearchFilter(request, RenewedList.class,
+						new SearchFilter("feeStatus", Operator.OR_LIKE, XQ_STATUS.NewStatus.getDesc()),
+						new SearchFilter("feeStatus", Operator.OR_LIKE, XQ_STATUS.FeeFailStatus.getDesc()),
+						new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+			} else {
+				specification = DynamicSpecifications.bySearchFilter(request, RenewedList.class,
+					new SearchFilter("feeStatus", Operator.LIKE, feeStatus),
+					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+			}
+		} else {
+			if(feeStatus == null) {
+				issue.setFeeStatus(XQ_STATUS.DealStatus.getDesc());
+				specification = DynamicSpecifications.bySearchFilter(request, RenewedList.class,
+						new SearchFilter("feeStatus", Operator.LIKE, XQ_STATUS.DealStatus.getDesc()),
+						new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+			} else {
+				specification = DynamicSpecifications.bySearchFilter(request, RenewedList.class,
+					new SearchFilter("feeStatus", Operator.LIKE, feeStatus),
+					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+			}
+		}
 		
 		List<RenewedList> issues = xqglService.findByExample(specification, page);
 		

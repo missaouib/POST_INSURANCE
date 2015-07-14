@@ -129,7 +129,8 @@
 						<th>序号</th>
 						<th>工单号</th>
 						<th>交费对应日</th>
-						<th>工单状态</th>
+						<th>交费状态</th>
+						<th>交费失败原因</th>
 						<th>保单号</th>
 						<th>工单子类型</th>
 						<th>工单内容</th>
@@ -148,7 +149,8 @@
 					    </c:if> 
 						</td>
 						<td><fmt:formatDate value="${item.feeDate }" pattern="yyyy-MM-dd"/></td>
-						<td>${item.status}</td>
+						<td>${item.feeStatus}</td>
+						<td>${item.feeFailReason}</td>
 						<td>${item.policy.policyNo}</td>
 						<td>${item.issueType}</td>
 						<td>${item.issueContent}</td>
