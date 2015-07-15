@@ -28,6 +28,10 @@
 					suggestUrl="/common/lookupBQIssusSuggest" lookupGroup="" value="${issue.csRst }" class="input-medium validate[required,maxSize[32]] required"/>
 			<a class="btnLook" target="dialog" width="500" height="500"  href="/common/lookup2BQIssuesDefine" lookupGroup="">查找带回</a>
 		</p>
+		<p class="nowrap">
+			<label>保全复核问题详细内容：</label>
+			<textarea name="remark" cols="50" rows="3">${issue.remark }</textarea>
+		</p>
 	</div>
 			
 	<div class="formBar">

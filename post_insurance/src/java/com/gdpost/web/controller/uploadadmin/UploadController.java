@@ -48,7 +48,7 @@ public class UploadController {
 	
 	String strError = "{\"jsonrpc\":\"2.0\",\"result\":\"error\",\"id\":\"id\",\"message\":\"操作失败。\"}";
 	
-	@RequiresPermissions(value={"UploadData:Upload", "UploadRenewed:Upload", "UploadCallFail:Upload", "UploadCheck:Upload", "UploadRemit:Upload", "UploadIssue:Upload"})
+	@RequiresPermissions(value={"UploadData:upload", "UploadRenewed:upload", "UploadCallFail:upload", "UploadCheck:upload", "UploadRemit:upload", "UploadIssue:upload"})
 	@RequestMapping(value = "/upload", method = RequestMethod.GET)
 	public String preUpload(HttpServletRequest request, Map<String, Object> map) {
 		int ny = UploadDataUtils.getNianYue();
@@ -94,7 +94,7 @@ public class UploadController {
 	}
 
 	@Log(message="上传了{0}。")
-	@RequiresPermissions(value={"UploadData:Upload", "UploadRenewed:Upload", "UploadCallFail:Upload", "UploadCheck:Upload", "UploadRemit:Upload", "UploadIssue:Upload"})
+	@RequiresPermissions(value={"UploadData:upload", "UploadRenewed:upload", "UploadCallFail:upload", "UploadCheck:upload", "UploadRemit:upload", "UploadIssue:upload"})
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public @ResponseBody String upload(HttpServletRequest request, @RequestParam String name, @RequestParam(value = "file", required = true) MultipartFile file) {
         log.debug("-------------------------------------upload");
@@ -260,7 +260,7 @@ public class UploadController {
 		return (strError);
 	}
 	
-	@RequiresPermissions(value={"UploadData:Upload", "UploadRenewed:Upload", "UploadCallFail:Upload", "UploadCheck:Upload", "UploadRemit:Upload", "UploadIssue:Upload"})
+	@RequiresPermissions(value={"UploadData:upload", "UploadRenewed:upload", "UploadCallFail:upload", "UploadCheck:upload", "UploadRemit:upload", "UploadIssue:upload"})
 	@RequestMapping(value = "/check", method = RequestMethod.POST)
 	public @ResponseBody String check(HttpServletRequest request) {
 		log.debug("-------------------------------------upload check");
