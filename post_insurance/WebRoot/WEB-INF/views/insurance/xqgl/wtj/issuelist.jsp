@@ -13,24 +13,27 @@
 <div class="pageContent">
 	<div class="panelBar">
 		<ul class="toolBar">
-			<shiro:hasPermission name="Wtgd:view">
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="680" href="${contextPath }/kfgl/issue/view/{slt_uid}"><span>查看问题工单</span></a></li>
+			<shiro:hasPermission name="Renewed:view">
+				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="680" href="${contextPath }/xqgl/issue/view/{slt_uid}"><span>查看续期催收件详情</span></a></li>
 			</shiro:hasPermission>
-			<shiro:hasPermission name="Wtgd:edit">
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/kfgl/issue/update/{slt_uid}"><span>回复问题工单</span></a></li>
+			<shiro:hasPermission name="Renewed:edit">
+				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/xqgl/issue/update/{slt_uid}"><span>市县续期催收登记</span></a></li>
+			</shiro:hasPermission>
+			<shiro:hasPermission name="Renewed:provEdit">
+				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/xqgl/issue/provUpdate/{slt_uid}"><span>省分续期催登记</span></a></li>
 			</shiro:hasPermission>
 		</ul>
 	</div>
+	
 	<table class="table" layoutH="137" width="100%">
 		<thead>
 			<tr>
 				<th width="22"><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
 				<th width="100" orderField=organization.name class="${page.orderField eq 'organization.name' ? page.orderDirection : ''}">所属机构</th>
-				<th width="100" orderField=issueNo class="${page.orderField eq 'issueNo' ? page.orderDirection : ''}">工单编号</th>
-				<th width="200">工单内容</th>
-				<th width="120" orderField=policy.policyNo class="${page.orderField eq 'policy.policyNo' ? page.orderDirection : ''}">所属保单号</th>
+				<th width="120" orderField=policy.policyNo class="${page.orderField eq 'policy.policyNo' ? page.orderDirection : ''}">保单号</th>
 				<th width="120" orderField=feeDate class="${page.orderField eq 'feeDate' ? page.orderDirection : ''}">交费对应日</th>
-				<th width="120" orderField=status class="${page.orderField eq 'status' ? page.orderDirection : ''}">工单状态</th>
+				<th>宽限期还有（天）</th>
+				<th width="120" orderField=feeStatus class="${page.orderField eq 'feeStatus' ? page.orderDirection : ''}">状态</th>
 				<th width="120" orderField=feeFailReason class="${page.orderField eq 'feeFailReason' ? page.orderDirection : ''}">交费失败原因</th>
 			</tr>
 		</thead>
@@ -38,12 +41,11 @@
 			<c:forEach var="item" items="${issues}">
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
-				<td>${item.organization.name}</td>
-				<td>${item.issueNo}</td>
-				<td>${item.issueContent}</td>
+				<td>${item.policy.organization.name}</td>
 				<td>${item.policy.policyNo}</td>
 				<td><fmt:formatDate value="${item.feeDate }" pattern="yyyy-MM-dd"/></td>
-				<td>${item.status}</td>
+				<td>${item.lastDateNum }</td>
+				<td>${item.feeStatus }</td>
 				<td>${item.feeFailReason}</td>
 			</tr>
 			</c:forEach>

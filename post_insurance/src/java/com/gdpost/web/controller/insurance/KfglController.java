@@ -213,6 +213,11 @@ public class KfglController {
 //		}
 		issue.setStatus(status);
 		
+		if(page.getOrderField() == null) {
+			page.setOrderField("shouldDate");
+			page.setOrderDirection("ASC");
+		}
+		
 		Specification<Issue> specification = null;
 		
 		//如果是县区局登录的机构号为8位，需要根据保单的所在机构进行筛选

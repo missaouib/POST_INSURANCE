@@ -16,7 +16,7 @@
 		<p>
 			<label>发票标记：</label>
 			<input type="radio" name="flag" value="首期" checked="checked"/>首期
-			<input type="radio" name="flag" value="续期"/>首期
+			<input type="radio" name="flag" value="续期"/>续期
 		</p>		
 		<p>
 			<label>发票金额：</label>

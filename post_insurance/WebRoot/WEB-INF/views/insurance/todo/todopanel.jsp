@@ -14,6 +14,7 @@
 						<th>序号</th>
 						<th orderField=issueNo class="${page.orderField eq 'issueNo' ? page.orderDirection : ''}">工单号</th>
 						<th orderField=shouldDate class="${page.orderField eq 'shouldDate' ? page.orderDirection : ''}">待处理时间</th>
+						<th>离结案还有（天）</th>
 						<th>工单状态</th>
 						<th orderField=policy.policyNo class="${page.orderField eq 'policy.policyNo' ? page.orderDirection : ''}">保单号</th>
 						<th orderField=issueType class="${page.orderField eq 'issueType' ? page.orderDirection : ''}">工单子类型</th>
@@ -33,6 +34,7 @@
 					    </c:if> 
 						</td>
 						<td>${item.shouldDate }</td>
+						<td>${item.lastDateNum }</td>
 						<td>${item.status}</td>
 						<td>${item.policy.policyNo}</td>
 						<td>${item.issueType}</td>
@@ -90,6 +92,7 @@
 						<th>序号</th>
 						<th>工单号</th>
 						<th>待处理时间</th>
+						<th>离犹豫期还有（天）</th>
 						<th>工单状态</th>
 						<th>保单号</th>
 						<th>工单子类型</th>
@@ -109,6 +112,7 @@
 					    </c:if> 
 						</td>
 						<td><fmt:formatDate value="${item.shouldDate }" pattern="yyyy-MM-dd"/></td>
+						<td>${item.lastDateNum }</td>
 						<td>${item.status}</td>
 						<td>${item.policy.policyNo}</td>
 						<td>${item.issueType}</td>
@@ -129,6 +133,7 @@
 						<th>序号</th>
 						<th>工单号</th>
 						<th>交费对应日</th>
+						<th>宽限期还有（天）</th>
 						<th>交费状态</th>
 						<th>交费失败原因</th>
 						<th>保单号</th>
@@ -149,6 +154,7 @@
 					    </c:if> 
 						</td>
 						<td><fmt:formatDate value="${item.feeDate }" pattern="yyyy-MM-dd"/></td>
+						<td>${item.lastDateNum }</td>
 						<td>${item.feeStatus}</td>
 						<td>${item.feeFailReason}</td>
 						<td>${item.policy.policyNo}</td>

@@ -148,6 +148,11 @@ public class XqglController {
 		}
 		issue.setFeeStatus(feeStatus);
 		
+		if(page.getOrderField() == null) {
+			page.setOrderField("policy.policyDate");
+			page.setOrderDirection("ASC");
+		}
+		
 		Specification<RenewedList> specification = null;
 		
 		if (user.getOrganization().getOrgCode().length() > 4) {

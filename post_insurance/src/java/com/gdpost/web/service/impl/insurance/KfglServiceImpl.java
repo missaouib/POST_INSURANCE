@@ -101,6 +101,8 @@ public class KfglServiceImpl implements KfglService {
 		Organization userOrg = user.getOrganization();
 		Page page = new Page();
 		page.setNumPerPage(100);
+		page.setOrderField("shouldDate");
+		page.setOrderDirection("ASC");
 		//默认返回未处理工单
 		Specification<Issue> specification = null;
 		

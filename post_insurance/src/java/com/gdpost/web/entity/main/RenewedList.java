@@ -1,5 +1,6 @@
 package com.gdpost.web.entity.main;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -10,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -62,6 +64,25 @@ public class RenewedList implements Idable<Long> {
 	private String provDealRemark;
 	private Date provDealDate;
 	
+	@Transient
+	private Integer lastDateNum;
+	
+	@Transient
+	public Integer getLastDateNum() {
+		if(this.feeDate != null) {
+			Calendar c1 = Calendar.getInstance();
+			c1.setTime(this.feeDate);
+			Calendar now = Calendar.getInstance();
+			int check = now.compareTo(c1);
+			return 60-check;
+		}
+		return lastDateNum;
+	}
+	
+	@Transient
+	public void setLastDateNum(Integer lastDateNum) {
+		this.lastDateNum = lastDateNum;
+	}
 	// Constructors
 
 	/** default constructor */

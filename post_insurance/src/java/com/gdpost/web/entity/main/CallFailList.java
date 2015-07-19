@@ -2,6 +2,7 @@ package com.gdpost.web.entity.main;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -11,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.ColumnTransformer;
 
@@ -71,6 +73,30 @@ public class CallFailList implements Idable<Long> {
 	private String organName;
 	private String holderPhone;
 	private String holderMobile;
+	
+	@Transient
+	private Integer lastDateNum;
+	
+	@Transient
+	public Integer getLastDateNum() {
+		if(this.policy != null) {
+			try {
+				Calendar c1 = Calendar.getInstance();
+				c1.setTime(this.policy.getPolicyDate());
+				Calendar now = Calendar.getInstance();
+				int check = now.compareTo(c1);
+				return 15-check;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return lastDateNum;
+	}
+	
+	@Transient
+	public void setLastDateNum(Integer lastDateNum) {
+		this.lastDateNum = lastDateNum;
+	}
 	// Constructors
 
 	/** default constructor */

@@ -67,6 +67,8 @@ public class Issue implements Idable<Long> {
 	private Date readyDate1;
 	@Transient
 	private Date readyDate2;
+	@Transient
+	private Integer lastDateNum;
 	
 	// Constructors
 	@Transient
@@ -86,6 +88,22 @@ public class Issue implements Idable<Long> {
 		this.readyDate2 = readyDate2;
 	}
 
+	@Transient
+	public Integer getLastDateNum() {
+		if(this.shouldDate != null) {
+			Calendar c1 = Calendar.getInstance();
+			c1.setTime(this.shouldDate);
+			Calendar now = Calendar.getInstance();
+			int check = now.compareTo(c1);
+			return 5-check;
+		}
+		return lastDateNum;
+	}
+	
+	@Transient
+	public void setLastDateNum(Integer lastDateNum) {
+		this.lastDateNum = lastDateNum;
+	}
 	/** default constructor */
 	public Issue() {
 	}

@@ -168,6 +168,11 @@ public class HfglController {
 		}
 		issue.setStatus(status);
 		
+		if(page.getOrderField() == null) {
+			page.setOrderField("policy.policyDate");
+			page.setOrderDirection("ASC");
+		}
+		
 		Specification<CallFailList> specification = DynamicSpecifications.bySearchFilter(request, CallFailList.class,
 				new SearchFilter("status", Operator.LIKE, status),
 				new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));

@@ -76,6 +76,7 @@
 				<th width="100" orderField=organization.name class="${page.orderField eq 'organization.name' ? page.orderDirection : ''}">所属机构</th>
 				<th width="120" orderField=policy.policyNo class="${page.orderField eq 'policy.policyNo' ? page.orderDirection : ''}">保单号</th>
 				<th width="120" orderField=feeDate class="${page.orderField eq 'feeDate' ? page.orderDirection : ''}">交费对应日</th>
+				<th>宽限期还有（天）</th>
 				<th width="120" orderField=feeStatus class="${page.orderField eq 'feeStatus' ? page.orderDirection : ''}">状态</th>
 				<th width="120" orderField=feeFailReason class="${page.orderField eq 'feeFailReason' ? page.orderDirection : ''}">交费失败原因</th>
 			</tr>
@@ -87,6 +88,7 @@
 				<td>${item.policy.organization.name}</td>
 				<td>${item.policy.policyNo}</td>
 				<td><fmt:formatDate value="${item.feeDate }" pattern="yyyy-MM-dd"/></td>
+				<td>${item.lastDateNum }</td>
 				<td>${item.feeStatus }</td>
 				<td>${item.feeFailReason}</td>
 			</tr>

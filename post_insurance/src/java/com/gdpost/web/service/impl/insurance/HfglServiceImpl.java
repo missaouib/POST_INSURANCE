@@ -103,6 +103,8 @@ public class HfglServiceImpl implements HfglService {
 		}
 		Page page = new Page();
 		page.setNumPerPage(100);
+		page.setOrderField("policy.policyDate");
+		page.setOrderDirection("ASC");
 		//LOG.debug("------------ ready to search:");
 		List<CallFailList> issues = this.findByExample(specification, page);
 		if (issues == null || issues.isEmpty()) {
