@@ -1,0 +1,1 @@
+mysql> select count(id) from t_policy where prod_name not in('中邮禄禄通9号综合交通意外伤害保险','中邮附加意外伤害医疗保险','中邮附 加意外伤害医疗保险') and policy_date >= '2014-1-1' and policy_date <= '2014-6-30';

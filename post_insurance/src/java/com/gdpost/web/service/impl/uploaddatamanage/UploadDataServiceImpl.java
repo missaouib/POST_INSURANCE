@@ -98,26 +98,26 @@ public class UploadDataServiceImpl implements UploadDataService{
 		switch(ft) {
 		case Policy:
 			standardColumns = PolicyColumn.getStandardColumns();
-			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE T_POLICY character set utf8 (";
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_policy character set utf8 (";
 	        break;
 		case PolicyDtl:
 			standardColumns = PolicyDtlColumn.getStandardColumns();
-			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE T_POLICY_DTL character set utf8 (";
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_policy_dtl character set utf8 (";
 			break;
 		case Issue:
 			standardColumns = IssueColumn.getStandardColumns();
-			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE T_ISSUE character set utf8 (";
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_issue character set utf8 (";
 			break;
 		case CallFail:
 			standardColumns = IssueColumn.getStandardColumns();
-			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE T_CALL_FAIL_LIST character set utf8 (";
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_call_fail_list character set utf8 (";
 			break;
 		case CallFailStatus:
 			standardColumns = CallFailHQListColumn.getStandardColumns();
 			return false;
 		case Renewed:
 			standardColumns = RenewedColumn.getStandardColumns();
-			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE T_RENEWED_LIST character set utf8 (";
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_renewed_list character set utf8 (";
 			break;
 		case RenewedStatus:
 			standardColumns = RenewedStatusColumn.getStandardColumns();
@@ -127,15 +127,15 @@ public class UploadDataServiceImpl implements UploadDataService{
 			return false;
 		case RemitMoney:
 			standardColumns = RemitMoneyColumn.getStandardColumns();
-			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE T_REMIT_MONEY_LIST character set utf8 (";
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_remit_money_list character set utf8 (";
 			break;
 		case CheckWrite:
 			standardColumns = CheckColumn.getStandardColumns();
-			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE T_CHECK_WRITE character set utf8 (fix_status, ";
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_check_write character set utf8 (fix_status, ";
 			break;
 		case CheckRecord:
 			standardColumns = CheckColumn.getStandardColumns();
-			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE T_CHECK_RECORD character set utf8 (fix_status, ";
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_check_record character set utf8 (fix_status, ";
 			break;
 			default:
 				log.warn("------------reach the default FileTemplate?? oh no!!");
