@@ -77,7 +77,7 @@
 		</ul>
 	</div>
 	<div id="w_list_print">
-	<table class="table" layoutH="137" width="100%">
+	<table class="table" layoutH="160" width="100%">
 		<thead>
 			<tr>
 				<th width="22"><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
