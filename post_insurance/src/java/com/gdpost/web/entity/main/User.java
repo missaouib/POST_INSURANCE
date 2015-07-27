@@ -34,7 +34,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.Email;
@@ -310,9 +309,11 @@ public class User implements Idable<Long>, Serializable {
 	public void setOrganization(Organization organization) {
 		this.organization = organization;
 	}
-	
+
 	@Override
 	public String toString() {
-		return ToStringBuilder.reflectionToString(this);
+		return "User [id=" + id + ", realname=" + realname + ", username=" + username + ", password=" + password + ", plainPassword=" + plainPassword
+				+ ", salt=" + salt + ", phone=" + phone + ", email=" + email + ", pwdTime=" + pwdTime + ", status=" + status + ", createTime=" + createTime
+				+ ", organization=" + organization + "]";
 	}
 }

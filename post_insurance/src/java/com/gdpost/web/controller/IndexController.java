@@ -163,7 +163,7 @@ public class IndexController {
 	}
 	
 	@RequiresPermissions("PANELTODO:view")
-	@RequestMapping(value="/paneltodolist", method=RequestMethod.GET)
+	@RequestMapping(value="/paneltodolist", method={RequestMethod.GET, RequestMethod.POST})
 	public String panelTodoList(HttpServletRequest request, Page page, Map<String, Object> map) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		map.put(SecurityConstants.LOGIN_USER, shiroUser.getUser());

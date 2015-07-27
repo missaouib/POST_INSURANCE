@@ -15,7 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.Length;
@@ -124,12 +123,9 @@ public class DataControl implements Idable<Long> {
 		this.rolePermissionDataControls = rolePermissionDataControls;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
-		return ToStringBuilder.reflectionToString(this);
+		return "DataControl [id=" + id + ", name=" + name + ", description=" + description + ", control=" + control + "]";
 	}
-	
+
 }

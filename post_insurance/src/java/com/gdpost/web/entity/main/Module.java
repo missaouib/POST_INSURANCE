@@ -30,7 +30,6 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.Length;
@@ -279,9 +278,10 @@ public class Module implements Comparable<Module>, Idable<Long>, Serializable {
 
 		return 0;	
 	}
-	
+
 	@Override
 	public String toString() {
-		return ToStringBuilder.reflectionToString(this);
+		return "Module [id=" + id + ", name=" + name + ", className=" + className + ", url=" + url + ", description=" + description + ", sn=" + sn
+				+ ", priority=" + priority + ", parent=" + parent + "]";
 	}
 }

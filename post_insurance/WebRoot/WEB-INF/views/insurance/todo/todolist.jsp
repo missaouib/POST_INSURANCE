@@ -2,7 +2,7 @@
 <%@page import="java.util.Date"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 
-<div class="pageContent sortDrag" selector="h1" layoutH="12">
+<div class="pageContent sortDrag" selector="h1" layoutH="10">
 	<div class="tabs" currentIndex="0" eventType="click">
 		<div class="tabsHeader">
 			<div class="tabsHeaderContent">
@@ -17,7 +17,7 @@
 				</ul>
 			</div>
 		</div>
-		<div class="tabsContent" style="height:300px;">
+		<div class="tabsContent" style="height:40;">
 			<div class="pageContent">
 				<div class="panelBar">
 					<ul class="toolBar">
