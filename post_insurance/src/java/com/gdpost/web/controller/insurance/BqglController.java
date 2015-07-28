@@ -16,6 +16,7 @@ import java.util.Map;
 import javax.servlet.ServletRequest;
 import javax.validation.Valid;
 
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -115,7 +116,7 @@ public class BqglController {
 	}
 	
 	@Log(message="修改了{0}保全复核问题的状态。")
-	@RequiresPermissions(value={"Cservice:reset","Cservice:deal"})
+	@RequiresPermissions(value={"Cservice:reset","Cservice:deal"}, logical=Logical.OR)
 	@RequestMapping(value="/issue/{status}/{id}", method=RequestMethod.POST)
 	public @ResponseBody String updateStatus(@PathVariable("status") String status, @PathVariable("id") Long id) {
 		ConservationDtl issue = bqglService.get(id);

@@ -8,12 +8,24 @@
 			<div class="tabsHeaderContent">
 				<ul>
 					<li><a href="/kfgl/issuelist" class="j-ajax"><span><img src="/images/redpoint.png" height="12" width="12">问题工单</span></a></li>
+					<shiro:hasPermission name="CheckWrite:view">
 					<li><a href="/qygl/issue/write/issuelist" class="j-ajax"><span>契约不合格件（填写）</span></a></li>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="CheckRecord:view">
 					<li><a href="/qygl/issue/record/issuelist" class="j-ajax"><span>契约不合格件（录入）</span></a></li>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="Cservice:view">
 					<li><a href="/bqgl/issuelist" class="j-ajax"><span>保全复核问题</span></a></li>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="Callfail:view">
 					<li><a href="/hfgl/issuelist" class="j-ajax"><span>回访不成功件</span></a></li>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="Renewed:view">
 					<li><a href="/xqgl/issuelist" class="j-ajax"><span>续期催缴件</span></a></li>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="Underwrite:view">
 					<li><a href="/qygl/underwritelist" class="j-ajax"><span>人工核保件跟进</span></a></li>
+					</shiro:hasPermission>
 				</ul>
 			</div>
 		</div>
