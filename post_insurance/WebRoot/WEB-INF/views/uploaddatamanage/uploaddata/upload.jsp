@@ -19,13 +19,9 @@
 				<option value="0">标准模板</option>
 				<option value="1">默认模板</option>
 			</select>			
-		    <a class="btn btn-primary" id="pickfiles"><i class="icon-search"></i> 选择文件</a>
-		    <a class="btn btn-success" id="uploadfiles"><i class="icon-ok icon-white"></i> 开始上传</a>
+		    <a class="button" id="pickfiles"><i class="icon-search"></i><span>选择文件</span></a>
+		    <a class="button" id="uploadfiles"><i class="icon-ok icon-white"></i><span>开始上传</span></a>
 		</div>
-		<br />
-		<br />
-		<br />
-		<br />
 		<br />
 		<br />
 		<br />

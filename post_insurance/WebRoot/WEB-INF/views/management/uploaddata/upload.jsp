@@ -22,20 +22,22 @@ color: inherit;
 }
 
 .btn-default {
-text-shadow: 0 1px 0 #fff;
-background-image: -webkit-linear-gradient(top,#fff 0,#e0e0e0 100%);
-background-image: linear-gradient(to bottom,#fff 0,#e0e0e0 100%);
-background-repeat: repeat-x;
-border-color: #dbdbdb;
-border-color: #ccc;
+width: 80px;
+line-height: 25px;
+text-align: center;
+color: #fff;
+text-shadow:1px 1px 1px #333;
+border-radius: 5px;
+margin:0 20px 20px 0;
+position: relative;
+overflow: hidden;
 }
 .btn {
-text-align: center;
-cursor: pointer;
-border: 1px solid transparent;
-width: 80px;
-height: 30px;
-overflow: hidden;
+border:1px solid #1e7db9;
+box-shadow: 0 1px 2px #8fcaee inset,0 -1px 0 #497897 inset,0 -2px 3px #8fcaee inset;
+background: -webkit-linear-gradient(top,#42a4e0,#2e88c0);
+background: -moz-linear-gradient(top,#42a4e0,#2e88c0);
+background: linear-gradient(top,#42a4e0,#2e88c0);
 }
 -->
 </style>
@@ -56,12 +58,6 @@ overflow: hidden;
 	<br />
 	<br />
 	<br />
-	<br />
-	<br />
-	<br />
-	<br />
-	<br />
-
 	<pre id="console"></pre>
 	<br />
 </div>
