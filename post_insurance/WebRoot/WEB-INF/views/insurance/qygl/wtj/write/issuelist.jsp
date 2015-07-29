@@ -45,7 +45,7 @@
 				<td>
 				<c:choose>
 					<c:when test="${item.fixStatus eq 'NewStatus'}">
-						待处理
+						<span style="color:red">待处理</span>
 					</c:when>
 					<c:when test="${item.fixStatus eq 'DealStatus'}">
 						已处理

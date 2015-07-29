@@ -114,7 +114,7 @@
 			
 	<div class="formBar">
 		<ul>
-			<li><div <c:if test='${issue.feeStatus eq "收费成功" }'>class="buttonDisabled"</c:if> <c:if test='${issue.feeStatus ne "收费成功" }'>class="button"</c:if>><div class="buttonContent"><button type="button" onclick="$('#feeStatus').val('收费成功');$('#issueForm').attr('action', '/xqgl/issue/close').submit();" <c:if test='${issue.feeStatus eq "收费成功" }'>disabled=true</c:if>>提交催收结果</button></div></div></li>
+			<li><div <c:if test='${issue.feeStatus eq "收费成功" }'>class="buttonDisabled"</c:if> <c:if test='${issue.feeStatus ne "收费成功" }'>class="button"</c:if>><div class="buttonContent"><button type="button" onclick="$('#feeStatus').val('已催收');$('#issueForm').submit();" <c:if test='${issue.feeStatus eq "收费成功" }'>disabled=true</c:if>>提交催收结果</button></div></div></li>
 			<li><div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div></li>
 		</ul>
 	</div>

@@ -95,7 +95,7 @@
 				<td>
 				<c:choose>
 					<c:when test="${item.status eq 'NewStatus'}">
-						待处理
+						<span style="color:red">待处理</span>
 					</c:when>
 					<c:when test="${item.status eq 'DealStatus'}">
 						已寄出

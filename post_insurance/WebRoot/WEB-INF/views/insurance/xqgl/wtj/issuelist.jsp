@@ -44,7 +44,7 @@
 				<td>${item.policy.organization.name}</td>
 				<td>${item.policy.policyNo}</td>
 				<td><fmt:formatDate value="${item.feeDate }" pattern="yyyy-MM-dd"/></td>
-				<td>${item.lastDateNum }</td>
+				<td><span style="color:red">${item.lastDateNum }</span></td>
 				<td>${item.feeStatus }</td>
 				<td>${item.feeFailReason}</td>
 			</tr>

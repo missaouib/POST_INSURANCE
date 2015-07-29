@@ -101,7 +101,7 @@
 				<td>
 				<c:choose>
 					<c:when test="${item.status eq 'NewStatus'}">
-						<font style="color: red">待处理</font>
+						 <span style="color:red">待处理</span>
 					</c:when>
 					<c:when test="${item.status eq 'DealStatus'}">
 						已处理

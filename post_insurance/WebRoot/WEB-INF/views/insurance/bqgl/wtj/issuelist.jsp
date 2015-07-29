@@ -28,7 +28,6 @@
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Cservice:reset">
 				<li class="line">line</li>
-				<li><a iconClass="user_go" target="ajaxTodo" href="${contextPath }/bqgl/issue/CancelStatus/{slt_uid}" title="确认撤销?"><span>撤销</span></a></li>
 				<li><a iconClass="user_go" target="ajaxTodo" href="${contextPath }/bqgl/issue/CloseStatus/{slt_uid}" title="确认关闭?"><span>关闭</span></a></li>
 			</shiro:hasPermission>
 		</ul>
@@ -57,7 +56,7 @@
 				<td>
 				<c:choose>
 					<c:when test="${item.status eq 'NewStatus'}">
-						待处理
+						<span style="color:red">待处理</span>
 					</c:when>
 					<c:when test="${item.status eq 'DealStatus'}">
 						已处理

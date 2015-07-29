@@ -89,7 +89,7 @@
 				<td>${item.issueNo}</td>
 				<td>${item.issueContent}</td>
 				<td>${item.shouldDate }</td>
-				<td>${item.lastDateNum }</td>
+				<td><span style="color:red">${item.lastDateNum }</span></td>
 				<td>${item.policy.policyNo}</td>
 				<td>${item.status}</td>
 			</tr>

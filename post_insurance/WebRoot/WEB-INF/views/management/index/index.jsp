@@ -101,8 +101,8 @@ $(document).ready(function(){
 			<a class="logo" href="${contextPath}/management/index">Logo</a>
 			<ul class="nav">
 				<li><a href="${contextPath}/web/index">网站</a></li>
-				<li><font color="#ffffff">欢迎您，${login_user.username } 登录管理系统</font></li>
-				<li><font color="#ffffff">所属机构：${login_user.organization.orgCode } ${login_user.organization.name }</font></li>
+				<li><span style="color:#ffffff">欢迎您，${login_user.username } 登录管理系统</span></li>
+				<li><span style="color:#ffffff">所属机构：${login_user.organization.orgCode } ${login_user.organization.name }</span></li>
 				<li><a href="${contextPath}/management/index">主页</a></li>
 				<li><a href="${contextPath}/management/index/updateBase" target="dialog" mask="true" width="550" height="250">修改用户信息</a></li>
 				<li><a href="${contextPath}/management/index/updatePwd" target="dialog" mask="true" width="500" height="200">修改密码</a></li>
@@ -202,7 +202,7 @@ $(document).ready(function(){
 									    </c:if> 
 										</td>
 										<td>${item.shouldDate }</td>
-										<td>${item.lastDateNum }</td>
+										<td><span style="color:red">${item.lastDateNum }</span></td>
 										<td>${item.status}</td>
 										<td>${item.policy.policyNo}</td>
 										<td>${item.issueType}</td>
@@ -238,10 +238,8 @@ $(document).ready(function(){
 										<td>
 										<c:if test="${fn:length(login_user.organization.orgCode) > 4}">
 										<a target="ajaxTodo" href="${contextPath }/bqgl/issue/DealStatus/${item.id}" title="确认更新状态?"><span>已处理</span></a>
-										<a target="ajaxTodo" href="${contextPath }/bqgl/issue/CancelStatus/${item.id}" title="确认撤销?"><span>撤销</span></a>
 										</c:if>
 										 <c:if test="${fn:length(login_user.organization.orgCode) <= 4}"> 
-									     <a target="ajaxTodo" href="${contextPath }/bqgl/issue/CancelStatus/${item.id}" title="确认撤销?"><span>撤销</span></a>
 									     <a target="ajaxTodo" href="${contextPath }/bqgl/issue/CloseStatus/${item.id}" title="确认关闭?"><span>关闭</span></a>
 									    </c:if> 
 										</td>
@@ -282,7 +280,7 @@ $(document).ready(function(){
 									    </c:if> 
 										</td>
 										<td><fmt:formatDate value="${item.shouldDate }" pattern="yyyy-MM-dd"/></td>
-										<td>${item.lastDateNum }</td>
+										<td><span style="color:red">${item.lastDateNum }</span></td>
 										<td>${item.status}</td>
 										<td>${item.policy.policyNo}</td>
 										<td>${item.issueType}</td>
@@ -322,7 +320,7 @@ $(document).ready(function(){
 									    </c:if> 
 										</td>
 										<td><fmt:formatDate value="${item.feeDate }" pattern="yyyy-MM-dd"/></td>
-										<td>${item.lastDateNum }</td>
+										<td><span style="color:red">${item.lastDateNum }</span></td>
 										<td>${item.feeStatus}</td>
 										<td>${item.feeFailReason}</td>
 									</tr>
@@ -364,7 +362,7 @@ $(document).ready(function(){
 										<td>
 										<c:choose>
 											<c:when test="${item.fixStatus eq 'NewStatus'}">
-												待处理
+												<span style="color:red">待处理</span>
 											</c:when>
 											<c:when test="${item.fixStatus eq 'DealStatus'}">
 												已处理
@@ -419,7 +417,7 @@ $(document).ready(function(){
 										<td>
 										<c:choose>
 											<c:when test="${item.fixStatus eq 'NewStatus'}">
-												待处理
+												<span style="color:red">待处理</span>
 											</c:when>
 											<c:when test="${item.fixStatus eq 'DealStatus'}">
 												已处理

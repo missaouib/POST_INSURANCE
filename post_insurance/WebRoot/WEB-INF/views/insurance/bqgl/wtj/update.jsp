@@ -36,7 +36,7 @@
 			
 	<div class="formBar">
 		<ul>
-			<li><div class="button"><div class="buttonContent"><button type="submit">确定</button></div></div></li>
+			<li><div <c:if test='${issue.status eq "已关闭" }'>class="buttonDisabled"</c:if> <c:if test='${issue.status ne "已关闭" }'>class="button"</c:if>><div class="buttonContent"><button type="submit" <c:if test='${issue.status eq "已关闭" }'>disabled=true</c:if>>确定</button></div></div></li>
 			<li><div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div></li>
 		</ul>
 	</div>

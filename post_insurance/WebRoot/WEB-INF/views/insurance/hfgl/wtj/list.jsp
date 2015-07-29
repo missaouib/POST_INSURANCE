@@ -93,7 +93,7 @@
 				<td>${item.issueNo}</td>
 				<td>${item.issueContent}</td>
 				<td><fmt:formatDate value="${item.shouldDate }" pattern="yyyy-MM-dd"/></td>
-				<td>${lastDateNum }</td>
+				<td><span style="color:red">${lastDateNum }</span></td>
 				<td>${item.policy.policyNo}</td>
 				<td>${item.status}</td>
 			</tr>
