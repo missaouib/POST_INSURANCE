@@ -170,10 +170,13 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		// 设置、更新User
 		if(shiroUser.getUserType().equals("admin")) {
 			log.debug("--------------------------------shiro db realm doGetAuthorizationInfo: update the user info");
-			shiroUser.setUser(userService.get(shiroUser.getId()));
+			User user = userService.get(shiroUser.getId());
+			shiroUser.setUser(user);
+			//this
 		} else {
 			//shiroUser.setMemberUser(mUserService.get(shiroUser.getId()));
 		}
+		
 		return newAuthorizationInfo(shiroUser);
 	}
 	
@@ -199,8 +202,8 @@ public class ShiroDbRealm extends AuthorizingRealm {
 				
 				if (log.isInfoEnabled()) {
 					log.info("使用了" + shiroUser.getLoginName() + "的超级管理员权限:" + "。At " + new Date());
-					log.info(shiroUser.getLoginName() + "拥有的角色:" + hasRoles);
-					log.info(shiroUser.getLoginName() + "拥有的权限:" + hasPermissions);
+					//log.info(shiroUser.getLoginName() + "拥有的角色:" + hasRoles);
+					//log.info(shiroUser.getLoginName() + "拥有的权限:" + hasPermissions);
 				}
 			} else {
 				List<UserRole> userRoles = userRoleService.findByUserId(shiroUser.getId());
@@ -259,8 +262,8 @@ public class ShiroDbRealm extends AuthorizingRealm {
 			hasRoles.add(role.getName());
 		}
 
-		if (log.isInfoEnabled()) {
-			log.info(shiroUser.getLoginName() + "拥有的角色:" + hasRoles);
+		if (log.isDebugEnabled()) {
+			log.debug(shiroUser.getLoginName() + "拥有的角色:" + hasRoles);
 		}
 		return hasRoles;
 	}
@@ -325,8 +328,8 @@ public class ShiroDbRealm extends AuthorizingRealm {
 			}
 		}
 
-		if (log.isInfoEnabled()) {
-			log.info(shiroUser.getLoginName() + "拥有的权限:" + stringPermissions);
+		if (log.isDebugEnabled()) {
+			log.debug(shiroUser.getLoginName() + "拥有的权限:" + stringPermissions);
 		}
 		return stringPermissions;
 	}
