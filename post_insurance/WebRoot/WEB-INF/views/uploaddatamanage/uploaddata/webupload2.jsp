@@ -202,7 +202,7 @@ li { list-style-type:none;}
                 var i = 0;
                 plupload.each(files, function (file) {
                     i++;
-                    document.getElementById('filelist').innerHTML += '<div class="div_allinline">' + '<div class="file" id="' + file.id + '">' + i + '、' + file.name + ' (' + plupload.formatSize(file.size) + ') <b></b><a class="file_delete" data-val=' + file.id + ' style="color:red;">&nbsp;&nbsp;取消&nbsp;&nbsp;</a></div>' + 
+                    document.getElementById('filelist').innerHTML += '<div class="div_allinline">' + '<div class="file" id="' + file.id + '">' + i + '、' + file.name + ' (' + plupload.formatSize(file.size) + ') <b></b><a class="file_delete" data-val=' + file.id + ' style="color:red; height:50%; margin-bottom:-contentheight;;">&nbsp;&nbsp;取消&nbsp;&nbsp;</a></div>' + 
                     '<div id="div' + file.id + '" class="loading"><div id="loadingdiv' + file.id + '"  class="loadingdiv"></div></div>' + '</div>';
                     file.index = i;
 

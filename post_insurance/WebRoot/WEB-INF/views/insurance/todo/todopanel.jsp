@@ -18,6 +18,7 @@
 						<th>离结案还有（天）</th>
 						<th>工单状态</th>
 						<th orderField=policy.policyNo class="${page.orderField eq 'policy.policyNo' ? page.orderDirection : ''}">保单号</th>
+						<th>保单所属机构</th>
 						<th orderField=issueType class="${page.orderField eq 'issueType' ? page.orderDirection : ''}">工单子类型</th>
 						<th>工单内容</th>
 					</tr>
@@ -35,9 +36,10 @@
 					    </c:if> 
 						</td>
 						<td>${item.shouldDate }</td>
-						<td><span style="color:red">${item.lastDateNum }</span></td>
+						<td><span style="color:red; height:50%; margin-bottom:-contentheight;">${item.lastDateNum }</span></td>
 						<td>${item.status}</td>
 						<td>${item.policy.policyNo}</td>
+						<td>${item.policy.organization.name}</td>
 						<td>${item.issueType}</td>
 						<td>${item.issueContent}</td>
 					</tr>
@@ -56,6 +58,7 @@
 					<tr>
 						<th>序号</th>
 						<th>保单号</th>
+						<th>保单所属机构</th>
 						<th>保全复核问题</th>
 						<th>问题产生日期</th>
 						<th>操作</th>
@@ -66,6 +69,7 @@
 					<tr target="slt_uid" rel="${item.id}">
 						<td>${var.index+1 }</td>
 						<td>${item.policy.policyNo}</td>
+						<td>${item.policy.organization.name}</td>
 						<td>${item.csRst}</td>
 						<td>${item.csDate}</td>
 						<td>
@@ -96,6 +100,7 @@
 						<th>离犹豫期还有（天）</th>
 						<th>工单状态</th>
 						<th>保单号</th>
+						<th>保单所属机构</th>
 						<th>工单子类型</th>
 						<th>工单内容</th>
 					</tr>
@@ -113,9 +118,10 @@
 					    </c:if> 
 						</td>
 						<td><fmt:formatDate value="${item.shouldDate }" pattern="yyyy-MM-dd"/></td>
-						<td><span style="color:red">${item.lastDateNum }</span></td>
+						<td><span style="color:red; height:50%; margin-bottom:-contentheight;">${item.lastDateNum }</span></td>
 						<td>${item.status}</td>
 						<td>${item.policy.policyNo}</td>
+						<td>${item.policy.organization.name}</td>
 						<td>${item.issueType}</td>
 						<td>${item.issueContent}</td>
 					</tr>
@@ -134,6 +140,7 @@
 					<tr>
 						<th>序号</th>
 						<th>保单号</th>
+						<th>保单所属机构</th>
 						<th>交费对应日</th>
 						<th>宽限期还有（天）</th>
 						<th>交费状态</th>
@@ -152,8 +159,9 @@
 					     <a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/xqfgl/issue/view/${item.id}"><span>${item.policy.policyNo}</span></a>
 					    </c:if> 
 						</td>
+						<td>${item.policy.organization.name}</td>
 						<td><fmt:formatDate value="${item.feeDate }" pattern="yyyy-MM-dd"/></td>
-						<td><span style="color:red">${item.lastDateNum }</span></td>
+						<td><span style="color:red; height:50%; margin-bottom:-contentheight;">${item.lastDateNum }</span></td>
 						<td>${item.feeStatus}</td>
 						<td>${item.feeFailReason}</td>
 					</tr>
@@ -172,6 +180,7 @@
 					<tr>
 						<th>序号</th>
 						<th>保单号</th>
+						<th>保单所属机构</th>
 						<th>承保日期</th>
 						<th>状态</th>
 						<th>关键信息</th>
@@ -191,11 +200,12 @@
 					     <a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/qygl/issue/write/view/${item.id}"><span>${item.policy.policyNo}</span></a>
 					    </c:if> 
 						</td>
+						<td>${item.policy.organization.name}</td>
 						<td>${item.policy.policyDate}</td>
 						<td>
 						<c:choose>
 							<c:when test="${item.fixStatus eq 'NewStatus'}">
-								<span style="color:red">待处理</span>
+								<span style="color:red; height:50%; margin-bottom:-contentheight;">待处理</span>
 							</c:when>
 							<c:when test="${item.fixStatus eq 'DealStatus'}">
 								已处理
@@ -227,6 +237,7 @@
 					<tr>
 						<th>序号</th>
 						<th>保单号</th>
+						<th>保单所属机构</th>
 						<th>承保日期</th>
 						<th>状态</th>
 						<th>关键信息</th>
@@ -246,11 +257,12 @@
 					     <a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/qygl/issue/record/view/${item.id}"><span>${item.policy.policyNo}</span></a>
 					    </c:if> 
 						</td>
+						<td>${item.policy.organization.name}</td>
 						<td>${item.policy.policyDate}</td>
 						<td>
 						<c:choose>
 							<c:when test="${item.fixStatus eq 'NewStatus'}">
-								<span style="color:red">待处理</span>
+								<span style="color:red; height:50%; margin-bottom:-contentheight;">待处理</span>
 							</c:when>
 							<c:when test="${item.fixStatus eq 'DealStatus'}">
 								已处理

@@ -202,6 +202,8 @@ public class FpglController {
 			req.setStatus(FP_STATUS.valueOf(s).name());
 		}
 		LOG.debug("-----------------status2:" + s);
+		page.setOrderField("policy.organization.orgCode");
+		page.setOrderDirection("ASC");
 		Specification<InvoiceReq> specification = DynamicSpecifications.bySearchFilter(request, InvoiceReq.class, 
 				new SearchFilter("status", Operator.EQ, s));
 		if(user.getOrganization().getOrgCode().length()>4) {

@@ -42,7 +42,7 @@ jQuery(document).ready(function(){
 			<tbody id="hasRoles">
 				<c:if test="${empty userRoles }">
 				<tr>
-					<td colspan="2" align="center" style="color:red;">该用户还没有分配角色。</td>
+					<td colspan="2" align="center" style="color:red; height:50%; margin-bottom:-contentheight;;">该用户还没有分配角色。</td>
 				</tr>
 				</c:if>
 				<c:forEach var="item" items="${userRoles}">

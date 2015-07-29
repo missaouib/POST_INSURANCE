@@ -27,14 +27,15 @@
 	<table class="table" layoutH="137" width="100%">
 		<thead>
 			<tr>
-				<th width="22"><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
-				<th width="100" orderField=organization.name class="${page.orderField eq 'organization.name' ? page.orderDirection : ''}">所属机构</th>
-				<th width="100" orderField=issueNo class="${page.orderField eq 'issueNo' ? page.orderDirection : ''}">工单编号</th>
-				<th width="200">工单内容</th>
-				<th width="100" orderField=shouldDate class="${page.orderField eq 'shouldDate' ? page.orderDirection : ''}">待处理时间</th>
+				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
+				<th orderField=organization.name class="${page.orderField eq 'organization.name' ? page.orderDirection : ''}">所属机构</th>
+				<th orderField=issueNo class="${page.orderField eq 'issueNo' ? page.orderDirection : ''}">工单编号</th>
+				<th>工单内容</th>
+				<th orderField=shouldDate class="${page.orderField eq 'shouldDate' ? page.orderDirection : ''}">待处理时间</th>
 				<th>离犹豫期还有（天）</th>
-				<th width="120" orderField=policy.policyNo class="${page.orderField eq 'policy.policyNo' ? page.orderDirection : ''}">所属保单号</th>
-				<th width="120" orderField=status class="${page.orderField eq 'status' ? page.orderDirection : ''}">工单状态</th>
+				<th orderField=policy.policyNo class="${page.orderField eq 'policy.policyNo' ? page.orderDirection : ''}">所属保单号</th>
+				<th>保单机构</th>
+				<th orderField=status class="${page.orderField eq 'status' ? page.orderDirection : ''}">工单状态</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -45,8 +46,9 @@
 				<td>${item.issueNo}</td>
 				<td>${item.issueContent}</td>
 				<td><fmt:formatDate value="${item.shouldDate }" pattern="yyyy-MM-dd"/></td>
-				<td><span style="color:red">${item.lastDateNum }</span></td>
+				<td><span style="color:red; height:50%; margin-bottom:-contentheight;">${item.lastDateNum }</span></td>
 				<td>${item.policy.policyNo}</td>
+				<td>${item.policy.organization.name}</td>
 				<td>${item.status}</td>
 			</tr>
 			</c:forEach>

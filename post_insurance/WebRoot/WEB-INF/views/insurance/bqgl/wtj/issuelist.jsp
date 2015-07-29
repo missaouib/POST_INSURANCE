@@ -35,13 +35,14 @@
 	<table class="table" layoutH="137" width="100%">
 		<thead>
 			<tr>
-				<th width="22"><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
-				<th width="100" orderField=policy.policyNo class="${page.orderField eq 'policy.policyNo' ? page.orderDirection : ''}">保单号</th>
-				<th width="100" orderField=dealNum class="${page.orderField eq 'dealNum' ? page.orderDirection : ''}">保全受理号</th>
-				<th width="200">保全项目</th>
-				<th width="120" orderField=info class="${page.orderField eq 'info' ? page.orderDirection : ''}">复核修改问题</th>
-				<th width="120" orderField=csDate class="${page.orderField eq 'csDate' ? page.orderDirection : ''}">问题产生日期</th>
-				<th width="120" orderField=status class="${page.orderField eq 'status' ? page.orderDirection : ''}">状态</th>
+				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
+				<th orderField=policy.policyNo class="${page.orderField eq 'policy.policyNo' ? page.orderDirection : ''}">保单号</th>
+				<th>保单所属机构</th>
+				<th orderField=dealNum class="${page.orderField eq 'dealNum' ? page.orderDirection : ''}">保全受理号</th>
+				<th>保全项目</th>
+				<th orderField=info class="${page.orderField eq 'info' ? page.orderDirection : ''}">复核修改问题</th>
+				<th orderField=csDate class="${page.orderField eq 'csDate' ? page.orderDirection : ''}">问题产生日期</th>
+				<th orderField=status class="${page.orderField eq 'status' ? page.orderDirection : ''}">状态</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -49,6 +50,7 @@
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
 				<td>${item.policy.policyNo}</td>
+				<td>${item.policy.organization.name}</td>
 				<td>${item.dealNum}</td>
 				<td>${item.type}</td>
 				<td>${item.csRst}</td>
@@ -56,7 +58,7 @@
 				<td>
 				<c:choose>
 					<c:when test="${item.status eq 'NewStatus'}">
-						<span style="color:red">待处理</span>
+						<span style="color:red; height:50%; margin-bottom:-contentheight;">待处理</span>
 					</c:when>
 					<c:when test="${item.status eq 'DealStatus'}">
 						已处理

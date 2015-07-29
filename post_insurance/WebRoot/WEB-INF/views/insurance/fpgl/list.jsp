@@ -74,13 +74,14 @@
 	<table class="table" layoutH="160" width="100%">
 		<thead>
 			<tr>
-				<th width="22"><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
-				<th width="100" orderField=policy.policyNo class="${page.orderField eq 'policy.policyNo' ? page.orderDirection : ''}">保单号</th>
-				<th width="100" orderField=flag class="${page.orderField eq 'flag' ? page.orderDirection : ''}">发票标记</th>
-				<th width="200">发票金额</th>
-				<th width="120">发票缴费日期</th>
-				<th width="100" orderField=reqDate class="${page.orderField eq 'reqDate' ? page.orderDirection : ''}">申请日期</th>
-				<th width="120" orderField=status class="${page.orderField eq 'status' ? page.orderDirection : ''}">状态</th>
+				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
+				<th>保单号</th>
+				<th>保单所属机构</th>
+				<th>发票标记</th>
+				<th>发票金额</th>
+				<th>发票缴费日期</th>
+				<th orderField=reqDate class="${page.orderField eq 'reqDate' ? page.orderDirection : ''}">申请日期</th>
+				<th orderField=status class="${page.orderField eq 'status' ? page.orderDirection : ''}">状态</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -88,6 +89,7 @@
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
 				<td>${item.policy.policyNo}</td>
+				<td>${item.policy.organization.name}</td>
 				<td>${item.flag}</td>
 				<td>${item.fee}</td>
 				<td>${item.feeDate}</td>
@@ -95,7 +97,7 @@
 				<td>
 				<c:choose>
 					<c:when test="${item.status eq 'NewStatus'}">
-						<span style="color:red">待处理</span>
+						<span style="color:red; height:50%; margin-bottom:-contentheight;">待处理</span>
 					</c:when>
 					<c:when test="${item.status eq 'DealStatus'}">
 						已寄出
