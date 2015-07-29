@@ -196,6 +196,10 @@ public class BqglController {
 		if(s == null) {
 			issue.setStatus(BQ_STATUS.NewStatus.name());
 			s = BQ_STATUS.NewStatus.name();
+			if (userOrg.getOrgCode().length()<=4) {
+				issue.setStatus(BQ_STATUS.DealStatus.name());
+				s = BQ_STATUS.DealStatus.name();
+			}
 		} else if(s.trim().length()>0) {
 			issue.setStatus(BQ_STATUS.valueOf(s).name());
 		}
