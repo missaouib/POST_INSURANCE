@@ -101,8 +101,8 @@ public class HfglController {
 		src.setDealMan(issue.getDealMan());
 		src.setDealTime(issue.getDealTime());
 		src.setDealDesc(issue.getDealDesc());
-		src.setDealNum(issue.getDealNum() + 1);
-		//src.setStatus(HF_STATUS.DealStatus.getDesc());
+		src.setDealNum(issue.getDealNum()==null?0:issue.getDealNum() + 1);
+		src.setStatus(issue.getStatus());
 		hfglService.saveOrUpdate(src);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issue.getPolicy().getPolicyNo()}));
@@ -156,7 +156,7 @@ public class HfglController {
 	@RequestMapping(value="/issue/{status}/{id}", method=RequestMethod.POST)
 	public @ResponseBody String updateStatus(ServletRequest request, @PathVariable("status") String status, @PathVariable("id") Long id) {
 		CallFailList call = hfglService.get(id);
-		String phone = request.getParameter("phone");
+		String resetPhone = request.getParameter("resetPhone");
 		HF_STATUS bs = HF_STATUS.ResetStatus;
 		try {
 			bs = HF_STATUS.valueOf(status);
@@ -165,7 +165,10 @@ public class HfglController {
 		}
 		switch (bs) {
 		case ResetStatus:
-			call.setHolderMobile(phone);
+			call.setResetPhone(resetPhone);
+			break;
+		case CloseStatus:
+			call.setStatus(bs.getDesc());
 			break;
 			default:
 				break;

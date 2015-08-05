@@ -1,11 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 <div class="pageContent">
-<form method="post" action="${contextPath }/hfgl/ResetStatus/${cfl.id}" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogAjaxDone);">
+<form method="post" action="${contextPath }/hfgl/issue/ResetStatus/${cfl.id}" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogAjaxDone);">
 	<div class="pageFormContent" layouth="58">
 		<p>
 			<label>重置电话号码：</label>
-			<textarea name="phone" class="validate[required, maxSize[32]] required" cols="30" rows="2"></textarea>
+			<textarea name="resetPhone" class="validate[required, minSize[11], maxSize[32]] required" cols="30" rows="2"></textarea>
 		</p>
 	</div>
 	<div class="formBar">

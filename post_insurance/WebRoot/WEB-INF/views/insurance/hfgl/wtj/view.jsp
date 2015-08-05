@@ -50,6 +50,13 @@
 	</fieldset>
 	<div class="divider"></div>
 	<fieldset>
+		<p>
+			<label>重置电话为：</label>
+			<input type="text" name="resetPhone" readonly="readonly" class="input-medium" maxlength="32" value="${issue.resetPhone }"/>
+		</p>
+	</fieldset>
+	<div class="divider"></div>
+	<fieldset>
 		<legend>总部催收情况</legend>
 		<p class="nowrap">
 			<label>总部催收产生问题记录：</label>

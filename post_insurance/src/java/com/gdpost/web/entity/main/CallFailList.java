@@ -2,7 +2,6 @@ package com.gdpost.web.entity.main;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
-import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -16,6 +15,7 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.ColumnTransformer;
 
+import com.gdpost.utils.StringUtil;
 import com.gdpost.web.entity.Idable;
 
 @Entity
@@ -74,18 +74,30 @@ public class CallFailList implements Idable<Long> {
 	private String holderPhone;
 	private String holderMobile;
 	
+	private String resetPhone; 
+	
 	@Transient
 	private Integer lastDateNum = 0;
-	
+	@Transient
+	private String newStatus;
+	@Transient
+	public String getNewStatus() {
+		return newStatus;
+	}
+	@Transient
+	public void setNewStatus(String newStatus) {
+		this.newStatus = newStatus;
+	}
+
 	@Transient
 	public Integer getLastDateNum() {
 		if(this.policy != null) {
 			try {
-				Calendar c1 = Calendar.getInstance();
-				c1.setTime(this.policy.getPolicyDate());
-				Calendar now = Calendar.getInstance();
-				now.setTime(new Date());
-				int check = now.compareTo(c1);
+//				Calendar c1 = Calendar.getInstance();
+//				c1.setTime(this.policy.getPolicyDate());
+//				Calendar now = Calendar.getInstance();
+//				now.setTime(new Date());
+				int check = StringUtil.getBetweenDay(this.policy.getPolicyDate(), new Date());
 				int c = 15-check;
 				if(c<0) {
 					return 0;
@@ -610,4 +622,19 @@ public class CallFailList implements Idable<Long> {
 	public void setHolderMobile(String holderMobile) {
 		this.holderMobile = holderMobile;
 	}
+
+	@Column(name = "reset_phone", length = 256)
+	@ColumnTransformer(
+			forColumn="reset_phone",
+			read="cast(aes_decrypt(unhex(reset_phone), '" + com.gdpost.web.MySQLAESKey.AESKey + "') as char(100))", 
+			write="hex(aes_encrypt(?,'" + com.gdpost.web.MySQLAESKey.AESKey + "'))")
+	public String getResetPhone() {
+		return resetPhone;
+	}
+
+	public void setResetPhone(String resetPhone) {
+		this.resetPhone = resetPhone;
+	}
+	
+	
 }

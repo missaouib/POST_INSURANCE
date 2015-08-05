@@ -168,3 +168,6 @@ alter table t_issue add column holder_mobile varchar(256);
 alter table t_issue add column holder_phone varchar(256);
 alter table t_call_fail_list add column holder_phone varchar(256);
 alter table t_call_fail_list add column holder_mobile varchar(256);
+
+/* 2015-08-06*/
+alter table `t_call_fail_list` add column reset_phone VARCHAR(256);

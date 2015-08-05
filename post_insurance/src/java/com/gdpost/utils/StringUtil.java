@@ -1,5 +1,8 @@
 package com.gdpost.utils;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -8,6 +11,27 @@ import System.Data.DataRow;
 
 public class StringUtil {
 
+	/**
+	 * 得到两个日期相差的天数
+	 */
+	public static int getBetweenDay(Date date1, Date date2) {
+		Calendar d1 = new GregorianCalendar();
+		d1.setTime(date1);
+		Calendar d2 = new GregorianCalendar();
+		d2.setTime(date2);
+		int days = d2.get(Calendar.DAY_OF_YEAR)- d1.get(Calendar.DAY_OF_YEAR);
+		//System.out.println("days="+days);
+		int y2 = d2.get(Calendar.YEAR);
+		if (d1.get(Calendar.YEAR) != y2) {
+//			d1 = (Calendar) d1.clone();
+			do {
+				days += d1.getActualMaximum(Calendar.DAY_OF_YEAR);
+				d1.add(Calendar.YEAR, 1);
+			} while (d1.get(Calendar.YEAR) != y2);
+		}
+		return days;
+	}
+	
 	public static String trimStr(Object obj) {
 		if(obj == null) {
 			return null;

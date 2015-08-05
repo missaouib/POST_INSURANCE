@@ -19,6 +19,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.ColumnTransformer;
 
+import com.gdpost.utils.StringUtil;
 import com.gdpost.web.entity.Idable;
 
 /**
@@ -91,11 +92,11 @@ public class Issue implements Idable<Long> {
 	@Transient
 	public Integer getLastDateNum() {
 		if(this.shouldDate != null) {
-			Calendar c1 = Calendar.getInstance();
-			c1.setTime(this.shouldDate);
-			Calendar now = Calendar.getInstance();
-			now.setTime(new Date());
-			int check = now.compareTo(c1);
+//			Calendar c1 = Calendar.getInstance();
+//			c1.setTime(this.shouldDate);
+//			Calendar now = Calendar.getInstance();
+//			now.setTime(new Date());
+			int check = StringUtil.getBetweenDay(this.shouldDate, new Date());
 			int c = 5-check;
 			if(c < 0) {
 				return 0;

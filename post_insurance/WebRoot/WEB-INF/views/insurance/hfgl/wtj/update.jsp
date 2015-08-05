@@ -12,7 +12,7 @@
 		</p>
 		<p>
 			<label>工单状态：</label>
-			<input type="text" name="status" readonly="readonly" class="input-medium" maxlength="32" readonly="readonly" value="${issue.status }"/>
+			<input type="text" name="newStatus" readonly="readonly" class="input-medium" maxlength="32" readonly="readonly" value="${issue.status }"/>
 		</p>
 		<p>
 			<label>保单号：</label>
@@ -49,6 +49,13 @@
 	</fieldset>
 	<div class="divider"></div>
 	<fieldset>
+		<p>
+			<label>重置电话为：</label>
+			<input type="text" name="resetPhone" readonly="readonly" class="input-medium" maxlength="32" value="${issue.resetPhone }"/>
+		</p>
+	</fieldset>
+	<div class="divider"></div>
+	<fieldset>
 		<legend>回访不成功处理详情(请在后面追加)</legend>
 		<p class="nowrap">
 			<label>回访不成功处理记录：</label>
@@ -56,11 +63,9 @@
 		</p>
 		<p class="nowrap">
 			<label>回访结果：</label>
-			<label>
-			成功<form:radiobutton path="hf.status" name="status" value="上门成功"/>&nbsp;
-			失败<form:radiobutton path="hf.status" name="status" value="上门失败"/>&nbsp;
-			未定<form:radiobutton path="hf.status" name="status" value="已回复"/>
-			</label>
+			<form:radiobutton path="issue.status" value="上门成功"/>成功&nbsp;&nbsp;
+			<form:radiobutton path="issue.status" value="上门失败"/>失败&nbsp;&nbsp;
+			<form:radiobutton path="issue.status" value="已回复"/>未定
 		</p>
 		<p class="nowrap">
 			<label>经办人：</label>
@@ -68,7 +73,7 @@
 		</p>
 		<p class="nowrap">
 			<label>经办日期：</label>
-			<input type="text" name="dealTime" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${issue.dealTime }"/>
+			<input type="text" name="dealTime" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value="${issue.dealTime }" pattern="yyyy-MM-dd"/>"/>
 				<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 	</fieldset>
