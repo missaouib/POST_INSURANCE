@@ -63,6 +63,10 @@
 			<shiro:hasPermission name="Callfail:edit">
 				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/hfgl/issue/update/{slt_uid}"><span>回复回访不成功件</span></a></li>
 			</shiro:hasPermission>
+			<shiro:hasPermission name="Callfail:edit">
+				<li class="line">line</li>
+				<li><a iconClass="user_go" href="${contextPath}/hfgl/updateResetStatus/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>电话重置</span></a></li>
+			</shiro:hasPermission>
 			<shiro:hasPermission name="Callfail:provEdit">
 				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/hfgl/issue/provUpdate/{slt_uid}"><span>省分回访登记</span></a></li>
 			</shiro:hasPermission>
@@ -84,6 +88,7 @@
 				<th orderField=policy.policyNo class="${page.orderField eq 'policy.policyNo' ? page.orderDirection : ''}">所属保单号</th>
 				<th>保单机构</th>
 				<th orderField=status class="${page.orderField eq 'status' ? page.orderDirection : ''}">工单状态</th>
+				<th>客户电话（含重置）</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -98,6 +103,7 @@
 				<td>${item.policy.policyNo}</td>
 				<td>${item.policy.organization.name}</td>
 				<td>${item.status}</td>
+				<td>${item.holderMobile}</td>
 			</tr>
 			</c:forEach>
 		</tbody>

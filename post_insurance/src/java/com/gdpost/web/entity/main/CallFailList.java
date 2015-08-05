@@ -75,7 +75,7 @@ public class CallFailList implements Idable<Long> {
 	private String holderMobile;
 	
 	@Transient
-	private Integer lastDateNum;
+	private Integer lastDateNum = 0;
 	
 	@Transient
 	public Integer getLastDateNum() {
@@ -84,8 +84,14 @@ public class CallFailList implements Idable<Long> {
 				Calendar c1 = Calendar.getInstance();
 				c1.setTime(this.policy.getPolicyDate());
 				Calendar now = Calendar.getInstance();
+				now.setTime(new Date());
 				int check = now.compareTo(c1);
-				return 15-check;
+				int c = 15-check;
+				if(c<0) {
+					return 0;
+				} else {
+					return c;
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

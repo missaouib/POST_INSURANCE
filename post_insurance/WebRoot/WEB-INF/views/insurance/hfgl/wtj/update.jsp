@@ -3,7 +3,6 @@
 <div class="pageContent">
 <form method="post" action="${contextPath}/hfgl/issue/update" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
 	<input type="hidden" name="id" value="${issue.id}"/>
-	<input type="hidden" name="status" value="${issue.status}"/>
 	<div class="pageFormContent" layoutH="58">
 	<fieldset>
 		<legend>回访不成功件基本信息</legend>
@@ -54,6 +53,14 @@
 		<p class="nowrap">
 			<label>回访不成功处理记录：</label>
 			<textarea name="dealDesc" cols="50" rows="3">${issue.dealDesc }</textarea>
+		</p>
+		<p class="nowrap">
+			<label>回访结果：</label>
+			<label>
+			成功<form:radiobutton path="hf.status" name="status" value="上门成功"/>&nbsp;
+			失败<form:radiobutton path="hf.status" name="status" value="上门失败"/>&nbsp;
+			未定<form:radiobutton path="hf.status" name="status" value="已回复"/>
+			</label>
 		</p>
 		<p class="nowrap">
 			<label>经办人：</label>

@@ -68,7 +68,7 @@ public class Issue implements Idable<Long> {
 	@Transient
 	private Date readyDate2;
 	@Transient
-	private Integer lastDateNum;
+	private Integer lastDateNum = 0;
 	
 	// Constructors
 	@Transient
@@ -94,8 +94,14 @@ public class Issue implements Idable<Long> {
 			Calendar c1 = Calendar.getInstance();
 			c1.setTime(this.shouldDate);
 			Calendar now = Calendar.getInstance();
+			now.setTime(new Date());
 			int check = now.compareTo(c1);
-			return 5-check;
+			int c = 5-check;
+			if(c < 0) {
+				return 0;
+			} else {
+				return c;
+			}
 		}
 		return lastDateNum;
 	}

@@ -33,7 +33,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.gdpost.utils.SecurityUtils;
 import com.gdpost.web.entity.main.CallFailList;
 import com.gdpost.web.entity.main.Organization;
-import com.gdpost.web.entity.main.RenewedList;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.log.Log;
 import com.gdpost.web.log.LogMessageObject;
@@ -61,6 +60,7 @@ public class HfglController {
 	private static final String PROV_UPDATE = "insurance/hfgl/wtj/provupdate";
 	private static final String LIST = "insurance/hfgl/wtj/list";
 	private static final String ISSUE_LIST = "insurance/hfgl/wtj/issuelist";
+	private static final String RESET = "insurance/hfgl/wtj/setPhone";
 	
 	@RequiresPermissions("Callfail:view")
 	@RequestMapping(value="/issue/view/{id}", method=RequestMethod.GET)
@@ -85,7 +85,10 @@ public class HfglController {
 	@RequestMapping(value="/issue/provUpdate/{id}", method=RequestMethod.GET)
 	public String preProvUpdate(@PathVariable Long id, Map<String, Object> map) {
 		CallFailList issue = hfglService.get(id);
-		
+		HF_STATUS status = HF_STATUS.DealStatus;
+		CallFailList cfl = new CallFailList();
+		cfl.setStatus(status.getDesc());
+		map.put("hf", cfl);
 		map.put("issue", issue);
 		return PROV_UPDATE;
 	}
@@ -99,7 +102,7 @@ public class HfglController {
 		src.setDealTime(issue.getDealTime());
 		src.setDealDesc(issue.getDealDesc());
 		src.setDealNum(issue.getDealNum() + 1);
-		src.setStatus(HF_STATUS.DealStatus.getDesc());
+		//src.setStatus(HF_STATUS.DealStatus.getDesc());
 		hfglService.saveOrUpdate(src);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issue.getPolicy().getPolicyNo()}));
@@ -109,13 +112,14 @@ public class HfglController {
 	@Log(message="回复了{0}回访不成功件的信息。")
 	@RequiresPermissions("Callfail:provEdit")
 	@RequestMapping(value="/issue/provUpdate", method=RequestMethod.POST)
-	public @ResponseBody String provUpdate(RenewedList issue) {
+	public @ResponseBody String provUpdate(CallFailList issue) {
 		CallFailList src = hfglService.get(issue.getId());
 		src.setProvDealRst(issue.getProvDealRst());
 		src.setProvDealDate(new Date());
 		src.setProvDealRemark(issue.getProvDealRemark());
 		src.setStatus(XQ_STATUS.DealStatus.getDesc());
 		src.setProvDealNum(src.getProvDealNum());
+		src.setStatus(issue.getStatus());
 		hfglService.saveOrUpdate(src);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issue.getPolicy().getPolicyNo()}));
@@ -125,7 +129,7 @@ public class HfglController {
 	@Log(message="回复了{0}回访不成功件的信息。")
 	@RequiresPermissions("Callfail:11185Edit")
 	@RequestMapping(value="/issue/hqUpdate", method=RequestMethod.POST)
-	public @ResponseBody String hqUpdate(RenewedList issue) {
+	public @ResponseBody String hqUpdate(CallFailList issue) {
 		CallFailList src = hfglService.get(issue.getId());
 		src.setHqDealRst(issue.getProvDealRst());
 		src.setHqDealDate(new Date());
@@ -136,6 +140,41 @@ public class HfglController {
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issue.getPolicy().getPolicyNo()}));
 		return	AjaxObject.newOk("回复回访不成功件成功！").toString(); 
+	}
+	
+	@RequiresPermissions("Callfail:edit")
+	@RequestMapping(value="/updateResetStatus/{id}", method=RequestMethod.GET)
+	public String preUpdateResetStatus(@PathVariable Long id, Map<String, Object> map) {
+		CallFailList req = hfglService.get(id);
+		
+		map.put("cfl", req);
+		return RESET;
+	}
+	
+	@Log(message="进行了{0}电话重置(holderMobile)。")
+	@RequiresPermissions("Callfail:edit")
+	@RequestMapping(value="/issue/{status}/{id}", method=RequestMethod.POST)
+	public @ResponseBody String updateStatus(ServletRequest request, @PathVariable("status") String status, @PathVariable("id") Long id) {
+		CallFailList call = hfglService.get(id);
+		String phone = request.getParameter("phone");
+		HF_STATUS bs = HF_STATUS.ResetStatus;
+		try {
+			bs = HF_STATUS.valueOf(status);
+		}catch (Exception ex) {
+			return	AjaxObject.newError("状态不对！").setCallbackType("").toString();
+		}
+		switch (bs) {
+		case ResetStatus:
+			call.setHolderMobile(phone);
+			break;
+			default:
+				break;
+		}
+		call.setStatus(bs.getDesc());
+		hfglService.saveOrUpdate(call);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{call.getPolicy().getPolicyNo()}));
+		return	AjaxObject.newOk("回访电话重置成功！").setCallbackType("").toString();
 	}
 	
 	@Log(message="结案了{0}回访不成功件的信息。")
