@@ -75,6 +75,9 @@ public class CallFailList implements Idable<Long> {
 	private String holderMobile;
 	
 	private String resetPhone; 
+	private Integer orgDealFlag;
+	private Integer hqDealFlag;
+	private Integer provDealFlag;
 	
 	@Transient
 	private Integer lastDateNum = 0;
@@ -636,5 +639,30 @@ public class CallFailList implements Idable<Long> {
 		this.resetPhone = resetPhone;
 	}
 	
+	@Column(name="org_deal_flag")
+	public Integer getOrgDealFlag() {
+		return orgDealFlag;
+	}
 	
+	public void setOrgDealFlag(Integer orgDealFlag) {
+		this.orgDealFlag = orgDealFlag;
+	}
+	
+	@Column(name="hq_deal_flag")
+	public Integer getHqDealFlag() {
+		return hqDealFlag;
+	}
+	
+	public void setHqDealFlag(Integer hqDealFlag) {
+		this.hqDealFlag = hqDealFlag;
+	}
+	
+	@Column(name="prov_deal_flag")
+	public Integer getProvDealFlag() {
+		return provDealFlag;
+	}
+	
+	public void setProvDealFlag(Integer provDealFlag) {
+		this.provDealFlag = provDealFlag;
+	}
 }

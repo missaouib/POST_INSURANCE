@@ -101,8 +101,11 @@ public class HfglController {
 		src.setDealMan(issue.getDealMan());
 		src.setDealTime(issue.getDealTime());
 		src.setDealDesc(issue.getDealDesc());
-		src.setDealNum(issue.getDealNum()==null?0:issue.getDealNum() + 1);
+		src.setDealNum((issue.getDealNum()==null?0:issue.getDealNum()) + 1);
 		src.setStatus(issue.getStatus());
+		if(issue.getStatus().equals(HF_STATUS.DoorSuccessStatus.getDesc())) {
+			src.setOrgDealFlag(1);
+		}
 		hfglService.saveOrUpdate(src);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issue.getPolicy().getPolicyNo()}));
@@ -118,8 +121,11 @@ public class HfglController {
 		src.setProvDealDate(new Date());
 		src.setProvDealRemark(issue.getProvDealRemark());
 		src.setStatus(XQ_STATUS.DealStatus.getDesc());
-		src.setProvDealNum(src.getProvDealNum());
+		src.setProvDealNum((src.getProvDealNum()==null?0:src.getProvDealNum())+1);
 		src.setStatus(issue.getStatus());
+		if(issue.getStatus().equals(HF_STATUS.CallSuccessStatus.getDesc())) {
+			src.setProvDealFlag(1);
+		}
 		hfglService.saveOrUpdate(src);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issue.getPolicy().getPolicyNo()}));
@@ -134,8 +140,11 @@ public class HfglController {
 		src.setHqDealRst(issue.getProvDealRst());
 		src.setHqDealDate(new Date());
 		src.setHqDealRemark(issue.getProvDealRemark());
-		src.setHqDealNum(src.getHqDealNum()+1);
+		src.setHqDealNum((src.getHqDealNum()==null?0:src.getHqDealNum())+1);
 		src.setStatus(XQ_STATUS.DealStatus.getDesc());
+		if(issue.getStatus().equals(HF_STATUS.CallSuccessStatus.getDesc())) {
+			src.setHqDealFlag(1);
+		}
 		hfglService.saveOrUpdate(src);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issue.getPolicy().getPolicyNo()}));
