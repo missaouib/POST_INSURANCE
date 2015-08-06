@@ -96,10 +96,16 @@ public class HfglServiceImpl implements HfglService {
 			specification = DynamicSpecifications.bySearchFilterWithoutRequest(CallFailList.class,
 					new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.NewStatus.getDesc()),
 					new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.DealStatus.getDesc()),
+					new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.ResetStatus.getDesc()),
 					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
 		} else if (userOrg.getOrgCode().length() <= 4) { //如果是省分的，看已回复的。
 			specification = DynamicSpecifications.bySearchFilterWithoutRequest(CallFailList.class,
-					new SearchFilter("status", Operator.LIKE, HF_STATUS.DealStatus.getDesc()),
+					new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.DealStatus.getDesc()),
+					new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.ResetStatus.getDesc()),
+					new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.DoorSuccessStatus.getDesc()),
+					new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.DoorFailStatus.getDesc()),
+					new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.CallSuccessStatus.getDesc()),
+					new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.CallFailStatus.getDesc()),
 					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
 		}
 		Page page = new Page();
