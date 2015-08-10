@@ -192,9 +192,12 @@
 			<key-column name="id" type="Long" />
 		</primary-key>
 	</table>
-<table name="t_call_fail_list" catalog="postinsurance">
-	<primary-key>
-		<key-column name="id" type="Long"/>
-	</primary-key>
-</table>
+	<table name="t_call_fail_list" catalog="postinsurance">
+		<primary-key>
+			<key-column name="id" type="Long" />
+		</primary-key>
+	</table>
+	<table name="v_call_fail_list" catalog="postinsurance">
+		<column name="id"></column>
+	</table>
 </hibernate-reverse-engineering>

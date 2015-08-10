@@ -243,10 +243,14 @@ public class HfglController {
 		Specification<CallFailList> specification = null;
 		
 		if(user.getOrganization().getOrgCode().contains("11185")) {
-			specification = DynamicSpecifications.bySearchFilter(request, CallFailList.class,
-					new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.NewStatus.getDesc()),
-					new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.CallFailStatus.getDesc()),
-					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+			List<CallFailList> issues = hfglService.find11185List(page);
+			
+			map.put("issue", issue);
+			map.put("hfStatusList", HF_STATUS.values());
+			LOG.debug("---111--" + issues);
+			map.put("page", page);
+			map.put("issues", issues);
+			return LIST;
 		} else if (user.getOrganization().getOrgCode().length() > 4) {
 			if(status == null) {
 				LOG.debug("-------------- 111: " );

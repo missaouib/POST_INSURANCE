@@ -73,9 +73,10 @@ public class HfglServiceImpl implements HfglService {
 	
 	@Override
 	public List<CallFailList> find11185List(Page page) {
-		org.springframework.data.domain.Page<CallFailList> springDataPage = callFailListDAO.get11185List(PageUtils.createPageable(page));
-		page.setTotalCount(springDataPage.getTotalElements());
-		return springDataPage.getContent();
+		//org.springframework.data.domain.Page<CallFailList> springDataPage = callFailListDAO.get11185List(PageUtils.createPageable(page));
+		//page.setTotalCount(springDataPage.getTotalElements());
+		//return springDataPage.getContent();
+		return null;
 	}
 	
 	/*

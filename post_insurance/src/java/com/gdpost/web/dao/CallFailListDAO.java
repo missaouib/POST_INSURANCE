@@ -22,8 +22,5 @@ import com.gdpost.web.entity.main.Policy;
 public interface CallFailListDAO extends JpaRepository<CallFailList, Long>, JpaSpecificationExecutor<CallFailList> {
 
 	CallFailList getByPolicy(Policy policy);
-
-	@Query("from CallFailList o where DATE_ADD(policy.policyDate,12) <= current_date "
-			+ "and (status like '%待处理%' or status like '%二访失败%') order by policy.policyDate ASC")
-	Page<CallFailList> get11185List(Pageable page);
+	
 }
