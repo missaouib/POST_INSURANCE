@@ -71,6 +71,13 @@ public class HfglServiceImpl implements HfglService {
 		return springDataPage.getContent();
 	}
 	
+	@Override
+	public List<CallFailList> find11185List(Page page) {
+		org.springframework.data.domain.Page<CallFailList> springDataPage = callFailListDAO.get11185List(PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see com.gdpost.web.service.UserService#findByExample(org.springframework.data.jpa.domain.Specification, com.gdpost.web.util.dwz.Page)	
@@ -87,19 +94,18 @@ public class HfglServiceImpl implements HfglService {
 	public List<CallFailList> getTODOIssueList(User user) {
 		Organization userOrg = user.getOrganization();
 		//默认返回未处理工单
-		Specification<CallFailList> specification = DynamicSpecifications.bySearchFilterWithoutRequest(CallFailList.class,
-				new SearchFilter("status", Operator.LIKE, HF_STATUS.NewStatus.getDesc()),
-				new SearchFilter("organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+		Specification<CallFailList> specification = null;
 		
 		//如果是县区局登录的机构号为8位，需要根据保单的所在机构进行筛选
 		if (userOrg.getOrgCode().length() > 6) {
 			specification = DynamicSpecifications.bySearchFilterWithoutRequest(CallFailList.class,
-					new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.NewStatus.getDesc()),
-					new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.DealStatus.getDesc()),
-					new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.ResetStatus.getDesc()),
+					new SearchFilter("status", Operator.LIKE, HF_STATUS.CallFailStatus.getDesc()),
+					//new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.DealStatus.getDesc()),
+					//new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.ResetStatus.getDesc()),
 					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
 		} else if (userOrg.getOrgCode().length() <= 4) { //如果是省分的，看已回复的。
 			specification = DynamicSpecifications.bySearchFilterWithoutRequest(CallFailList.class,
+					new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.NewStatus.getDesc()),
 					new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.DealStatus.getDesc()),
 					new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.ResetStatus.getDesc()),
 					new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.DoorSuccessStatus.getDesc()),

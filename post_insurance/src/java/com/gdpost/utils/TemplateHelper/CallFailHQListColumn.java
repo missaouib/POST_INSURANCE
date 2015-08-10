@@ -42,6 +42,24 @@ public class CallFailHQListColumn {
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
+		column.setDisplayName("工单类别");
+		column.setColumnName("issue_desc");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(true);
+		column.setiOutputOrder(16);
+		column.setOutputName("QD");
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
+		column.setDisplayName("工单状态");
+		column.setColumnName("status");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(true);
+		column.setiOutputOrder(16);
+		column.setOutputName("QD");
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
 		column.setDisplayName("回访日期");
 		column.setColumnName("hq_deal_date");
 		column.setColumnType(ColumnType.string);
@@ -112,6 +130,20 @@ public class CallFailHQListColumn {
 		
 		column = new ColumnItem();
 		column.setDisplayName("回访结果5");
+		column.setColumnName("hq_deal_rst5");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(true);
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
+		column.setDisplayName("回访日期6");
+		column.setColumnName("hq_deal_date5");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(true);
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
+		column.setDisplayName("回访结果6");
 		column.setColumnName("hq_deal_rst5");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);

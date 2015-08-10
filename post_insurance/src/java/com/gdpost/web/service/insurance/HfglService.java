@@ -27,6 +27,8 @@ public interface HfglService {
 	
 	List<CallFailList> findByExample(Specification<CallFailList> specification, Page page);
 	
+	List<CallFailList> find11185List(Page page);
+	
 	CallFailList getByPolicy(Policy policy);
 	
 	List<CallFailList> getTODOIssueList(User user);

@@ -176,3 +176,14 @@ alter table `t_call_fail_list` add column reset_phone VARCHAR(256);
 ALTER TABLE `t_call_fail_list` ADD COLUMN `org_deal_flag` TINYINT(4) DEFAULT 0;
 ALTER TABLE `t_call_fail_list` ADD COLUMN `hq_deal_flag` TINYINT(4) DEFAULT 0;
 ALTER TABLE `t_call_fail_list` ADD COLUMN `prov_deal_flag` TINYINT(4) DEFAULT 0;
+
+===============20150810
+ALTER TABLE `t_call_fail_list` ADD COLUMN `hq_deal_date6` date DEFAULT NULL AFTER `hq_deal_rst5`;
+ALTER TABLE `t_call_fail_list` ADD COLUMN `hq_deal_rst6` VARCHAR(120) DEFAULT NULL AFTER `hq_deal_date6`;
+--------------- SQL ---------------
+
+ALTER TABLE `t_call_fail_list` ADD COLUMN `has_letter` VARCHAR(32) DEFAULT NULL;
+
+--------------- SQL ---------------
+
+ALTER TABLE `t_call_fail_list` ADD COLUMN `letter_date` DATE DEFAULT NULL;

@@ -62,7 +62,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 			if (parentOrganization == null) {
 				throw new NotExistedException("id=" + organization.getParent().getId() + "父组织不存在！");
 			}
-			
+			organization.setLevel(parentOrganization.getLevel() + 1);
 			if (organizationDAO.getByName(organization.getName()) != null) {
 				throw new NotExistedException(organization.getName() + "已存在！");
 			}

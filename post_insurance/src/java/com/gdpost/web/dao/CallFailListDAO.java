@@ -1,7 +1,10 @@
 package com.gdpost.web.dao;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 
 import com.gdpost.web.entity.main.CallFailList;
 import com.gdpost.web.entity.main.Policy;
@@ -20,4 +23,7 @@ public interface CallFailListDAO extends JpaRepository<CallFailList, Long>, JpaS
 
 	CallFailList getByPolicy(Policy policy);
 
+	@Query("from CallFailList o where DATE_ADD(policy.policyDate,12) <= current_date "
+			+ "and (status like '%待处理%' or status like '%二访失败%') order by policy.policyDate ASC")
+	Page<CallFailList> get11185List(Pageable page);
 }

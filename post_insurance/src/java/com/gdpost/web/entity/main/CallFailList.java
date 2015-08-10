@@ -63,6 +63,8 @@ public class CallFailList implements Idable<Long> {
 	private String hqDealRst4;
 	private Date hqDealDate5;
 	private String hqDealRst5;
+	private Date hqDealDate6;
+	private String hqDealRst6;
 	private String provIssueType;
 	private String provDealRst;
 	private String provDealRemark;
@@ -78,6 +80,9 @@ public class CallFailList implements Idable<Long> {
 	private Integer orgDealFlag;
 	private Integer hqDealFlag;
 	private Integer provDealFlag;
+	
+	private String hasLetter;
+	private Date letterDate;
 	
 	@Transient
 	private Integer lastDateNum = 0;
@@ -537,6 +542,24 @@ public class CallFailList implements Idable<Long> {
 		this.hqDealRst5 = hqDealRst5;
 	}
 
+	@Column(name = "hq_deal_date6")
+	public Date getHqDealDate6() {
+		return hqDealDate6;
+	}
+	
+	public void setHqDealDate6(Date hqDealDate6) {
+		this.hqDealDate6 = hqDealDate6;
+	}
+	
+	@Column(name = "hq_deal_rst6", length = 120)
+	public String getHqDealRst6() {
+		return hqDealRst6;
+	}
+	
+	public void setHqDealRst6(String hqDealRst6) {
+		this.hqDealRst6 = hqDealRst6;
+	}
+	
 	@Column(name = "prov_issue_type", length = 20)
 	public String getProvIssueType() {
 		return this.provIssueType;
@@ -664,5 +687,23 @@ public class CallFailList implements Idable<Long> {
 	
 	public void setProvDealFlag(Integer provDealFlag) {
 		this.provDealFlag = provDealFlag;
+	}
+	
+	@Column(name="has_letter")
+	public String getHasLetter() {
+		return hasLetter;
+	}
+	
+	public void setHasLetter(String hasLetter) {
+		this.hasLetter = hasLetter;
+	}
+	
+	@Column(name="letter_date")
+	public Date getLetterDate() {
+		return letterDate;
+	}
+	
+	public void setLetterDate(Date letterDate) {
+		this.letterDate = letterDate;
 	}
 }

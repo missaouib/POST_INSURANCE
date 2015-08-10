@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gdpost.utils.SecurityUtils;
 import com.gdpost.web.entity.main.CallFailList;
+import com.gdpost.web.entity.main.Issue;
 import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.log.Log;
@@ -39,6 +40,7 @@ import com.gdpost.web.log.LogMessageObject;
 import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.insurance.HfglService;
 import com.gdpost.web.shiro.ShiroUser;
+import com.gdpost.web.util.StatusDefine.HF_STATUS;
 import com.gdpost.web.util.StatusDefine.HF_STATUS;
 import com.gdpost.web.util.StatusDefine.XQ_STATUS;
 import com.gdpost.web.util.dwz.AjaxObject;
@@ -76,7 +78,9 @@ public class HfglController {
 	@RequestMapping(value="/issue/update/{id}", method=RequestMethod.GET)
 	public String preUpdate(@PathVariable Long id, Map<String, Object> map) {
 		CallFailList issue = hfglService.get(id);
-		
+		if(issue.getStatus() == null || issue.getStatus().equals(HF_STATUS.NewStatus.getDesc())) {
+			issue.setStatus(HF_STATUS.DealStatus.getDesc());
+		}
 		map.put("issue", issue);
 		return UPDATE;
 	}
@@ -85,10 +89,20 @@ public class HfglController {
 	@RequestMapping(value="/issue/provUpdate/{id}", method=RequestMethod.GET)
 	public String preProvUpdate(@PathVariable Long id, Map<String, Object> map) {
 		CallFailList issue = hfglService.get(id);
-		HF_STATUS status = HF_STATUS.DealStatus;
-		CallFailList cfl = new CallFailList();
-		cfl.setStatus(status.getDesc());
-		map.put("hf", cfl);
+		if(issue.getStatus() == null || issue.getStatus().equals(HF_STATUS.NewStatus.getDesc())) {
+			issue.setStatus(HF_STATUS.DealStatus.getDesc());
+		}
+		map.put("issue", issue);
+		return PROV_UPDATE;
+	}
+	
+	@RequiresPermissions("Callfail:11185Edit")
+	@RequestMapping(value="/issue/hqUpdate/{id}", method=RequestMethod.GET)
+	public String preHqUpdate(@PathVariable Long id, Map<String, Object> map) {
+		CallFailList issue = hfglService.get(id);
+		if(issue.getStatus() == null || issue.getStatus().equals(HF_STATUS.NewStatus.getDesc())) {
+			issue.setStatus(HF_STATUS.DealStatus.getDesc());
+		}
 		map.put("issue", issue);
 		return PROV_UPDATE;
 	}
@@ -155,7 +169,9 @@ public class HfglController {
 	@RequestMapping(value="/updateResetStatus/{id}", method=RequestMethod.GET)
 	public String preUpdateResetStatus(@PathVariable Long id, Map<String, Object> map) {
 		CallFailList req = hfglService.get(id);
-		
+		if(req.getStatus() == null || req.getStatus().equals(HF_STATUS.NewStatus.getDesc())) {
+			req.setStatus(HF_STATUS.ResetStatus.getDesc());
+		}
 		map.put("cfl", req);
 		return RESET;
 	}
@@ -212,11 +228,11 @@ public class HfglController {
 		String status = request.getParameter("status");
 		LOG.debug("-------------- status: " + status + ", user org code:" + userOrg.getOrgCode());
 		CallFailList issue = new CallFailList();
-		if(status == null) {
-			status = HF_STATUS.NewStatus.getDesc();
-		} else if(status.trim().length()>0) {
-			issue.setStatus(status);
-		}
+//		if(status == null) {
+//			status = HF_STATUS.NewStatus.getDesc();
+//		} else if(status.trim().length()>0) {
+//			issue.setStatus(status);
+//		}
 		issue.setStatus(status);
 		
 		if(page.getOrderField() == null) {
@@ -224,10 +240,45 @@ public class HfglController {
 			page.setOrderDirection("ASC");
 		}
 		
-		Specification<CallFailList> specification = DynamicSpecifications.bySearchFilter(request, CallFailList.class,
-				new SearchFilter("status", Operator.LIKE, status),
-				new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+		Specification<CallFailList> specification = null;
 		
+		if(user.getOrganization().getOrgCode().contains("11185")) {
+			specification = DynamicSpecifications.bySearchFilter(request, CallFailList.class,
+					new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.NewStatus.getDesc()),
+					new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.CallFailStatus.getDesc()),
+					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+		} else if (user.getOrganization().getOrgCode().length() > 4) {
+			if(status == null) {
+				LOG.debug("-------------- 111: " );
+				specification = DynamicSpecifications.bySearchFilter(request, CallFailList.class,
+						new SearchFilter("status", Operator.LIKE, HF_STATUS.CallFailStatus.getDesc()),
+						new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+			} else {
+				LOG.debug("-------------- 222: " );
+				specification = DynamicSpecifications.bySearchFilter(request, CallFailList.class,
+					new SearchFilter("status", Operator.LIKE, status),
+					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+			}
+		} else {
+			if(status == null) {
+				LOG.debug("-------------- 333: " );
+				issue.setStatus(HF_STATUS.DealStatus.getDesc());
+				specification = DynamicSpecifications.bySearchFilter(request, CallFailList.class,
+						new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.NewStatus.getDesc()),
+						new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.DealStatus.getDesc()),
+						new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.ResetStatus.getDesc()),
+						new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.DoorSuccessStatus.getDesc()),
+						new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.DoorFailStatus.getDesc()),
+						new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.CallSuccessStatus.getDesc()),
+						new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.CallFailStatus.getDesc()),
+						new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+			} else {
+				LOG.debug("-------------- 444: " );
+				specification = DynamicSpecifications.bySearchFilter(request, CallFailList.class,
+					new SearchFilter("status", Operator.LIKE, status),
+					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+			}
+		}
 		List<CallFailList> issues = hfglService.findByExample(specification, page);
 		
 		map.put("issue", issue);

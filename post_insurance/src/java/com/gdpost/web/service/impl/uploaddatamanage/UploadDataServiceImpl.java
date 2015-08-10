@@ -271,8 +271,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 			return true;
 		case CallFailStatus:
 			standardColumns = CallFailHQListColumn.getStandardColumns();
-			sql = new StringBuffer("INSERT INTO t_call_fail_list(policy_no, hq_issue_type, hq_deal_rst, hq_deal_date, hq_deal_remark, "
-					+ "hq_deal_date2, hq_deal_rst2, hq_deal_date3, hq_deal_rst3, hq_deal_date4, hq_deal_rst4, hq_deal_date5, hq_deal_rst5) VALUES ");
+			sql = new StringBuffer("INSERT INTO t_call_fail_list(policy_no, hq_issue_type, issue_desc, status, hq_deal_rst, hq_deal_date, hq_deal_remark, "
+					+ "hq_deal_date2, hq_deal_rst2, hq_deal_date3, hq_deal_rst3, hq_deal_date4, hq_deal_rst4, hq_deal_date5, hq_deal_rst5, hq_deal_date6, hq_deal_rst6) VALUES ");
 			line = null;
 			for (DataRow row : dt.Rows) {
 				line = new StringBuffer("(");
@@ -286,11 +286,12 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql.deleteCharAt(sql.length() - 1);
 			sql.append(" ON DUPLICATE KEY UPDATE policy_no=VALUES(policy_no), ");
 			sql.append("hq_issue_type=VALUES(hq_issue_type), hq_deal_rst=VALUES(hq_deal_rst), ");
-			sql.append("hq_deal_date=VALUES(hq_deal_date), hq_deal_remark=VALUES(hq_deal_remark);");
-			sql.append("hq_deal_date2=VALUES(hq_deal_date2), hq_deal_rst2=VALUES(hq_deal_rst2);");
-			sql.append("hq_deal_date3=VALUES(hq_deal_date3), hq_deal_rst3=VALUES(hq_deal_rst3);");
-			sql.append("hq_deal_date4=VALUES(hq_deal_date4), hq_deal_rst4=VALUES(hq_deal_rst4);");
-			sql.append("hq_deal_date5=VALUES(hq_deal_date5), hq_deal_rst5=VALUES(hq_deal_rst5);");
+			sql.append("hq_deal_date=VALUES(hq_deal_date), hq_deal_remark=VALUES(hq_deal_remark), ");
+			sql.append("hq_deal_date2=VALUES(hq_deal_date2), hq_deal_rst2=VALUES(hq_deal_rst2), ");
+			sql.append("hq_deal_date3=VALUES(hq_deal_date3), hq_deal_rst3=VALUES(hq_deal_rst3), ");
+			sql.append("hq_deal_date4=VALUES(hq_deal_date4), hq_deal_rst4=VALUES(hq_deal_rst4), ");
+			sql.append("hq_deal_date5=VALUES(hq_deal_date5), hq_deal_rst5=VALUES(hq_deal_rst5), ");
+			sql.append("hq_deal_date6=VALUES(hq_deal_date6), hq_deal_rst6=VALUES(hq_deal_rst6);");
 			//log.debug("----------------batch update : " + sql);
 			sql2 = "delete from t_call_fail_list where issue_no is null";
 			break;
