@@ -61,17 +61,18 @@
 				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="680" href="${contextPath }/hfgl/issue/view/{slt_uid}"><span>查看回访不成功件</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Callfail:edit">
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/hfgl/issue/update/{slt_uid}"><span>回复回访不成功件</span></a></li>
+				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="620" href="${contextPath }/hfgl/issue/update/{slt_uid}"><span>回复回访不成功件</span></a></li>
 				<li><a iconClass="user_go" href="${contextPath}/hfgl/updateResetStatus/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>电话重置</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Callfail:provEdit">
 			<li class="line">line</li>
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/hfgl/issue/provUpdate/{slt_uid}"><span>省分回访登记</span></a></li>
+				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="720" href="${contextPath }/hfgl/issue/provUpdate/{slt_uid}"><span>省分回访登记</span></a></li>
+				<li><a title="确认已发信函?" target="selectedTodo" rel="ids" href="${contextPath }/hfgl/issue/WithMailStatus" class="edit"><span>批量已发信函</span></a></li>
 				<li><a iconClass="user_go" target="ajaxTodo" href="${contextPath }/hfgl/issue/CloseStatus/{slt_uid}" title="确认办结案关闭?"><span>结案关闭</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Callfail:11185Edit">
 			<li class="line">line</li>
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/hfgl/issue/hqUpdate/{slt_uid}"><span>11185回访登记</span></a></li>
+				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="720" href="${contextPath }/hfgl/issue/hqUpdate/{slt_uid}"><span>11185回访登记</span></a></li>
 			</shiro:hasPermission>
 		</ul>
 	</div>
@@ -99,7 +100,7 @@
 				<td>${item.issueNo}</td>
 				<td>${item.issueContent}</td>
 				<td><fmt:formatDate value="${item.shouldDate }" pattern="yyyy-MM-dd"/></td>
-				<td><span style="color:red; height:50%; margin-bottom:-contentheight;">${item.lastDateNum }</span></td>
+				<td><span style="color:red; height:50%; margin-bottom:-contentheight;"><c:if test="${item.lastDateNum<0 }">0</c:if><c:if test="${item.lastDateNum>=0 }">${item.lastDateNum }</c:if></span></td>
 				<td>${item.policy.policyNo}</td>
 				<td>${item.policy.organization.name}</td>
 				<td>${item.status}</td>

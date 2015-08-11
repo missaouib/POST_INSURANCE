@@ -115,6 +115,11 @@ public class HfglServiceImpl implements HfglService {
 	}
 	
 	@Override
+	public List<CallFailList> batchMail(List<CallFailList> list) {
+		return callFailListDAO.save(list);
+	}
+	
+	@Override
 	public List<VCallFailList> getTODOIssueList(User user) {
 		Organization userOrg = user.getOrganization();
 		//默认返回未处理工单
@@ -124,6 +129,7 @@ public class HfglServiceImpl implements HfglService {
 		if(user.getOrganization().getOrgCode().contains("11185")) {
 			specification = DynamicSpecifications.bySearchFilterWithoutRequest(VCallFailList.class,
 					new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.NewStatus.getDesc()),
+					new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.ResetStatus.getDesc()),
 					new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.CallFailStatus.getDesc()),
 					new SearchFilter("lastDateNum", Operator.GTE, 3));
 		} else if (userOrg.getOrgCode().length() > 6) {

@@ -814,27 +814,24 @@ public class UploadDataServiceImpl implements UploadDataService{
 		return(bFlag);
 	}
 		
-	@SuppressWarnings("resource")
 	public boolean setImportDone(HttpServletRequest request, long member_id, int ny, long operator_id, String operator_name, int operate_type, String memo) {
-		java.sql.Connection connection = null;
-		com.mysql.jdbc.Statement statement = null;
+//		java.sql.Connection connection = null;
+//		com.mysql.jdbc.Statement statement = null;
 		boolean bResult = true;
-		com.alibaba.druid.pool.DruidDataSource basic = null;
+		//com.alibaba.druid.pool.DruidDataSource basic = null;
 		return(bResult);
 	}
 	
-	@SuppressWarnings("resource")
 	public boolean clearImportDone(HttpServletRequest request, long member_id, int ny) {
-		java.sql.Connection connection = null;
-		com.mysql.jdbc.Statement statement = null;
+//		java.sql.Connection connection = null;
+//		com.mysql.jdbc.Statement statement = null;
 		boolean bResult = true;
 		return(bResult);
 	}
 	
-	@SuppressWarnings("resource")
 	public boolean clearImport(HttpServletRequest request, long member_id, int ny) {
-		java.sql.Connection connection = null;
-		com.mysql.jdbc.Statement statement = null;
+//		java.sql.Connection connection = null;
+//		com.mysql.jdbc.Statement statement = null;
 		boolean bResult = true;
 		
 		return(bResult);

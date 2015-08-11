@@ -8,12 +8,12 @@
 package com.gdpost.web.controller.insurance;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletRequest;
-import javax.validation.Valid;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -24,7 +24,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -41,7 +40,6 @@ import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.insurance.HfglService;
 import com.gdpost.web.shiro.ShiroUser;
 import com.gdpost.web.util.StatusDefine.HF_STATUS;
-import com.gdpost.web.util.StatusDefine.XQ_STATUS;
 import com.gdpost.web.util.dwz.AjaxObject;
 import com.gdpost.web.util.dwz.Page;
 import com.gdpost.web.util.persistence.DynamicSpecifications;
@@ -59,6 +57,7 @@ public class HfglController {
 	private static final String VIEW = "insurance/hfgl/wtj/view";
 	private static final String UPDATE = "insurance/hfgl/wtj/update";
 	private static final String PROV_UPDATE = "insurance/hfgl/wtj/provupdate";
+	private static final String HQ_UPDATE = "insurance/hfgl/wtj/hqupdate";
 	private static final String LIST = "insurance/hfgl/wtj/list";
 	private static final String ISSUE_LIST = "insurance/hfgl/wtj/issuelist";
 	private static final String RESET = "insurance/hfgl/wtj/setPhone";
@@ -100,10 +99,10 @@ public class HfglController {
 	public String preHqUpdate(@PathVariable Long id, Map<String, Object> map) {
 		CallFailList issue = hfglService.get(id);
 		if(issue.getStatus() == null || issue.getStatus().equals(HF_STATUS.NewStatus.getDesc())) {
-			issue.setStatus(HF_STATUS.DealStatus.getDesc());
+			issue.setStatus(HF_STATUS.CallFailStatus.getDesc());
 		}
 		map.put("issue", issue);
-		return PROV_UPDATE;
+		return HQ_UPDATE;
 	}
 	
 	@Log(message="回复了{0}回访不成功件的信息。")
@@ -116,6 +115,7 @@ public class HfglController {
 		src.setDealDesc(issue.getDealDesc());
 		src.setDealNum((issue.getDealNum()==null?0:issue.getDealNum()) + 1);
 		src.setStatus(issue.getStatus());
+		src.setDealType(issue.getStatus());
 		if(issue.getStatus().equals(HF_STATUS.DoorSuccessStatus.getDesc())) {
 			src.setOrgDealFlag(1);
 		}
@@ -133,9 +133,10 @@ public class HfglController {
 		src.setProvDealRst(issue.getProvDealRst());
 		src.setProvDealDate(new Date());
 		src.setProvDealRemark(issue.getProvDealRemark());
-		src.setStatus(XQ_STATUS.DealStatus.getDesc());
+		//src.setStatus(XQ_STATUS.DealStatus.getDesc());
 		src.setProvDealNum((src.getProvDealNum()==null?0:src.getProvDealNum())+1);
 		src.setStatus(issue.getStatus());
+		src.setProvIssueType(issue.getStatus());
 		if(issue.getStatus().equals(HF_STATUS.CallSuccessStatus.getDesc())) {
 			src.setProvDealFlag(1);
 		}
@@ -150,11 +151,12 @@ public class HfglController {
 	@RequestMapping(value="/issue/hqUpdate", method=RequestMethod.POST)
 	public @ResponseBody String hqUpdate(CallFailList issue) {
 		CallFailList src = hfglService.get(issue.getId());
-		src.setHqDealRst(issue.getProvDealRst());
+		src.setHqDealRst(issue.getHqDealRst());
 		src.setHqDealDate(new Date());
-		src.setHqDealRemark(issue.getProvDealRemark());
+		src.setHqDealRemark(issue.getHqDealRemark());
 		src.setHqDealNum((src.getHqDealNum()==null?0:src.getHqDealNum())+1);
-		src.setStatus(XQ_STATUS.DealStatus.getDesc());
+		src.setStatus(issue.getStatus());
+		src.setHqIssueType(issue.getStatus());
 		if(issue.getStatus().equals(HF_STATUS.CallSuccessStatus.getDesc())) {
 			src.setHqDealFlag(1);
 		}
@@ -207,14 +209,30 @@ public class HfglController {
 	@Log(message="结案了{0}回访不成功件的信息。")
 	@RequiresPermissions("Callfail:edit")
 	@RequestMapping(value="/issue/close", method=RequestMethod.POST)
-	public @ResponseBody String close(@Valid @ModelAttribute("preload")CallFailList issue) {
+	public @ResponseBody String close(CallFailList issue) {
 		//ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		CallFailList src = hfglService.get(issue.getId());
 		src.setStatus(HF_STATUS.CloseStatus.getDesc());
 		hfglService.saveOrUpdate(src);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issue.getPolicy().getPolicyNo()}));
-		return	AjaxObject.newOk("结案回访不成功件成功！").toString(); 
+		return	AjaxObject.newOk("结案回访不成功件完成！").toString(); 
+	}
+	
+	@Log(message="进行了信函的已发登记。")
+	@RequiresPermissions("Callfail:edit")
+	@RequestMapping(value="/issue/WithMailStatus", method=RequestMethod.POST)
+	public @ResponseBody String mail(Long[] ids) {
+		List<CallFailList> list = new ArrayList<CallFailList>();
+		for(Long id:ids) {
+			CallFailList src = hfglService.get(id);
+			src.setLetterDate(new Date());
+			src.setHasLetter("信函已发");
+			list.add(src);
+		}
+		hfglService.batchMail(list);
+		LogUitls.putArgs(LogMessageObject.newWrite());
+		return	AjaxObject.newOk("登记信函已发成功！").toString(); 
 	}
 	
 	@RequiresPermissions("Callfail:view")
@@ -245,6 +263,7 @@ public class HfglController {
 			if(status == null) {
 				specification = DynamicSpecifications.bySearchFilter(request, VCallFailList.class,
 						new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.NewStatus.getDesc()),
+						new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.ResetStatus.getDesc()),
 						new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.CallFailStatus.getDesc()),
 						new SearchFilter("lastDateNum", Operator.GTE, 3));
 			} else {

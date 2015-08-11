@@ -35,4 +35,6 @@ public interface HfglService {
 	List<VCallFailList> getTODOIssueList(User user);
 
 	List<VCallFailList> get11185TODOList();
+
+	List<CallFailList> batchMail(List<CallFailList> list);
 }
