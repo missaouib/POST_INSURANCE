@@ -50,7 +50,7 @@
 	</fieldset>
 	<div class="divider"></div>
 	<fieldset>
-		<legend>回访不成功处理详情(请在后面追加)</legend>
+		<legend>第一次回访不成功处理详情(请在后面追加)</legend>
 		<p class="nowrap">
 			<label>回访不成功处理记录：</label>
 			<textarea name="hqDealDesc" cols="50" rows="3">${issue.hqDealDesc }</textarea>
