@@ -76,6 +76,7 @@
 			<tr>
 				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
 				<th>保单号</th>
+				<th>投保人</th>
 				<th>保单所属机构</th>
 				<th>发票标记</th>
 				<th>发票金额</th>
@@ -89,6 +90,7 @@
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
 				<td>${item.policy.policyNo}</td>
+				<td>${item.policy.holder}</td>
 				<td>${item.policy.organization.name}</td>
 				<td>${item.flag}</td>
 				<td>${item.fee}</td>

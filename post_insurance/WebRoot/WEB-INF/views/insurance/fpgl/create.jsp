@@ -10,8 +10,12 @@
 					suggestUrl="/common/lookupPolicysuggest" lookupGroup="policy" class="input-medium validate[required,maxSize[32]] required"/>
 		</p>
 		<p>
-			<label>保单所属机构</label>
-			<input type="text" name="policy.organName" readonly="readonly" />
+			<label>投保人姓名：</label>
+			<input type="text" name="policy.holder" readonly="readonly" class="input-medium validate[required,maxSize[32]] required"/>
+		</p>
+		<p>
+			<label>保单所属机构：</label>
+			<input type="text" name="policy.organName" readonly="readonly" class="input-medium validate[required,maxSize[32]] required"/>
 		</p>
 		<p>
 			<label>发票标记：</label>
@@ -20,7 +24,7 @@
 		</p>		
 		<p>
 			<label>发票金额：</label>
-			<input type="text" name="fee" maxlength="32" class="input-medium validate[required,maxSize[32]] required"/>
+			<input type="text" name="fee" maxlength="32" class="input-medium validate[required,maxSize[7]] required"/>
 		</p>
 		<p>
 			<label>缴费日期：</label>
@@ -33,11 +37,11 @@
 		</p>
 		<p>
 			<label>发票收件人：</label>
-			<input type="text" name="reqMan" class="input-medium"/>
+			<input type="text" name="reqMan" class="input-medium validate[maxSize[9]]"/>
 		</p>
 		<p>
 			<label>发票收件人电话：</label>
-			<input type="text" name="phone" class="input-medium"/>
+			<input type="text" name="phone" class="input-medium validate[maxSize[11]]"/>
 		</p>
 	</div>
 			

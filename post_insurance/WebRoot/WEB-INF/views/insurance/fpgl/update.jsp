@@ -12,7 +12,11 @@
 					suggestUrl="/common/lookupPolicysuggest" lookupGroup="policy" class="input-medium validate[required,maxSize[32]] required" value="${req.policy.policyNo }"/>
 		</p>
 		<p>
-			<label>保单所属机构</label>
+			<label>保单所属机构：</label>
+			<input type="text" name="policy.holder" readonly="readonly" value="${req.policy.holder }"/>
+		</p>
+		<p>
+			<label>保单所属机构：</label>
 			<input type="text" name="policy.organName" readonly="readonly" value="${req.policy.organization.name }"/>
 		</p>
 		<p>
