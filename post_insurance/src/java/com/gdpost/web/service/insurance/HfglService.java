@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.domain.Specification;
 
+import com.gdpost.web.entity.basedata.CallDealType;
 import com.gdpost.web.entity.component.VCallFailList;
 import com.gdpost.web.entity.main.CallFailList;
 import com.gdpost.web.entity.main.Policy;
@@ -37,4 +38,6 @@ public interface HfglService {
 	List<VCallFailList> get11185TODOList();
 
 	List<CallFailList> batchMail(List<CallFailList> list);
+	
+	List<CallDealType> getCallDealTypeList(Integer flag);
 }

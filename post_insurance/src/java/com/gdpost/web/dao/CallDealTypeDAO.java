@@ -1,5 +1,7 @@
 package com.gdpost.web.dao;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
@@ -17,5 +19,6 @@ import com.gdpost.web.entity.basedata.CallDealType;
  */
 public interface CallDealTypeDAO extends JpaRepository<CallDealType, Long>, JpaSpecificationExecutor<CallDealType> {
 	CallDealType getByTypeName(String typeName);
-
+	
+	List<CallDealType> getByFlag(Integer flag);
 }

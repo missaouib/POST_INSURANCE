@@ -11,8 +11,10 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gdpost.web.dao.CallDealTypeDAO;
 import com.gdpost.web.dao.CallFailListDAO;
 import com.gdpost.web.dao.component.IVCallFailListDAO;
+import com.gdpost.web.entity.basedata.CallDealType;
 import com.gdpost.web.entity.component.VCallFailList;
 import com.gdpost.web.entity.main.CallFailList;
 import com.gdpost.web.entity.main.Organization;
@@ -36,6 +38,9 @@ public class HfglServiceImpl implements HfglService {
 	
 	@Autowired
 	private IVCallFailListDAO vCFLDAO;
+	
+	@Autowired
+	private CallDealTypeDAO cdtDAO;
 	
 	/*
 	 * (non-Javadoc)
@@ -168,5 +173,10 @@ public class HfglServiceImpl implements HfglService {
 	@Override
 	public CallFailList getByPolicy(Policy policy) {
 		return callFailListDAO.getByPolicy(policy);
+	}
+
+	@Override
+	public List<CallDealType> getCallDealTypeList(Integer flag) {
+		return cdtDAO.getByFlag(flag);
 	}
 }

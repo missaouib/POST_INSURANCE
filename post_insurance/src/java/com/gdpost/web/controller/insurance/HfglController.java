@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gdpost.utils.SecurityUtils;
+import com.gdpost.web.entity.basedata.CallDealType;
 import com.gdpost.web.entity.component.VCallFailList;
 import com.gdpost.web.entity.main.CallFailList;
 import com.gdpost.web.entity.main.Organization;
@@ -102,6 +103,8 @@ public class HfglController {
 			issue.setStatus(HF_STATUS.CallFailStatus.getDesc());
 		}
 		map.put("issue", issue);
+		List<CallDealType> cdtList = hfglService.getCallDealTypeList(CallDealType.HQ_TYPE);
+		map.put("hqTypeList", cdtList);
 		return HQ_UPDATE;
 	}
 	

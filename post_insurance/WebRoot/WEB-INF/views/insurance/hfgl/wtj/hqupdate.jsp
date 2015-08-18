@@ -68,11 +68,19 @@
 	</fieldset>
 	<fieldset>
 		<legend>第一次回访不成功处理详情</legend>
-		<p class="nowrap">
-			<label>回访不成功处理记录：</label>
-			<textarea name="hqDealRst" cols="50" rows="3">${issue.hqDealRst }</textarea>
+		<p>
+			<label>不成类型：</label>
+			<form:select path="hqDealType" items="${hqTypeList }" itemLabel="typeName" itemValue="typeName" onchange="javascript:${#hqDealRst }.val(this)"></form:select>
 		</p>
-		<p class="nowrap">
+		<p>
+			<label>不成结果：</label>
+			<textarea name="hqDealRst" cols="25" rows="2">${issue.hqDealRst }</textarea>
+		</p>
+		<p>
+			<label>经办人：</label>
+			<textarea name="hqDealMan" cols="25" rows="2">${issue.hqDealMan }</textarea>
+		</p>
+		<p>
 			<label>回访日期：</label>
 			<input type="text" name="hqDealDate" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${issue.hqDealDate }"/>
 				<a class="inputDateButton" href="javascript:;">选择</a>

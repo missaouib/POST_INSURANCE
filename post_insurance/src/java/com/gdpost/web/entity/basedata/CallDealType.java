@@ -1,22 +1,16 @@
 package com.gdpost.web.entity.basedata;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import com.gdpost.web.entity.Idable;
-import com.gdpost.web.entity.main.CallFail;
 
 /**
  * TCallDealType entity. @author MyEclipse Persistence Tools
@@ -26,14 +20,15 @@ import com.gdpost.web.entity.main.CallFail;
 @Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="com.gdpost.web.entity.basedata.CallDealType")
 public class CallDealType implements Idable<Long> {
 
+	public static final int HQ_TYPE = 1;
+	public static final int ORG_TYPE = 2;
 	// Fields
 
 	private Long id;
 	private String typeCode;
 	private String typeName;
 	private String typeDesc;
-	private List<CallFail> callFails = new ArrayList<CallFail>(0);
-
+	private Integer flag;
 	// Constructors
 
 	/** default constructor */
@@ -41,10 +36,9 @@ public class CallDealType implements Idable<Long> {
 	}
 
 	/** full constructor */
-	public CallDealType(String typeName, String typeDesc, List<CallFail> TCallFails) {
+	public CallDealType(String typeName, String typeDesc) {
 		this.typeName = typeName;
 		this.typeDesc = typeDesc;
-		this.callFails = TCallFails;
 	}
 
 	// Property accessors
@@ -85,13 +79,13 @@ public class CallDealType implements Idable<Long> {
 		this.typeDesc = typeDesc;
 	}
 
-	@OneToMany(mappedBy="callDealType", cascade={CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval=true)
-	public List<CallFail> getCallFails() {
-		return callFails;
+	@Column(name = "flag")
+	public Integer getFlag() {
+		return flag;
 	}
 
-	public void setCallFails(List<CallFail> callFails) {
-		this.callFails = callFails;
+	public void setFlag(Integer flag) {
+		this.flag = flag;
 	}
 
 	@Override
