@@ -4,6 +4,7 @@
 
 <dwz:paginationForm action="${contextPath }/basedata/callDealType/list" page="${page }">
 	<input type="hidden" name="search_LIKE_typeName" value="${param.search_LIKE_typeName }"/>
+	<input type="hidden" name="search_EQ_flag" value="${param.search_EQ_flag }"/>
 </dwz:paginationForm>
 
 <form method="post" action="${contextPath }/basedata/callDealType/list" onsubmit="return navTabSearch(this)">
@@ -13,6 +14,11 @@
 				<li>
 					<label>回访处理类型：</label>
 					<input type="text" name="search_LIKE_typeName" value="${param.search_LIKE_typeName }"/>
+				</li>
+				<li>
+					<label>类型标记：</label>
+					<input type="radio" name="search_EQ_flag" value="1" <c:if test="${param.search_EQ_flag==1 }">checked="checked"</c:if>/>二次回访中心类型
+					<input type="radio" name="search_EQ_flag" value="2" <c:if test="${param.search_EQ_flag==2 }">checked="checked"</c:if>/>地市回访类型
 				</li>
 			</ul>
 			<div class="subBar">
@@ -43,8 +49,8 @@
 	<table class="table" layoutH="137" width="100%">
 		<thead>
 			<tr>
-				<th width="22"><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
-				<th width="100">回访类型代码</th>
+				<th width="22"><input type="checkbox" group="ids" class="checkboxCtrl"></th>
+				<th width="100">类型标记</th>		
 				<th width="100">回访类型名称</th>
 				<th width="100">类型描述</th>
 			</tr>
@@ -53,7 +59,10 @@
 			<c:forEach var="item" items="${basedata}">
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
-				<td>${item.typeCode}</td>
+				<td>
+				<c:if test="${item.flag==1}">二次回访中心类型</c:if>
+				<c:if test="${item.flag==2}">地市回访类型</c:if>
+				</td>
 				<td>${item.typeName}</td>
 				<td>${item.typeDesc}</td>
 			</tr>			

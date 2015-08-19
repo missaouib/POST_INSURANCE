@@ -5,12 +5,8 @@
 	<input type="hidden" name="id" value="${basedata.id}"/>
 	<div class="pageFormContent" layoutH="58">
 		<p>
-			<label>回访标记：</label>
+			<label>类型标记：</label>
 			<label>二次回访中心类型：<form:radiobutton path="hftype.flag" value="1"/>&nbsp;地市回访类型<form:radiobutton path="hftype.flag" value="2"/></label>
-		</p>
-		<p>
-			<label>回访类型代码：</label>
-			<input type="text" name="typeCode" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${basedata.typeCode }"/>
 		</p>
 		<p>
 			<label>回访类型名称：</label>

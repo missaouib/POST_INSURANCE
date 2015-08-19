@@ -4,13 +4,9 @@
 <form method="post" action="${contextPath }/basedata/callDealType/create" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
 	<div class="pageFormContent" layoutH="58">
 		<p>
-			<label>回访标记：</label>
+			<label>类型标记：</label>
 			<input type="radio" name="flag" value="1" checked="checked"/>二次回访中心类型
 			<input type="radio" name="flag" value="2"/>地市回访类型
-		</p>
-		<p>
-			<label>回访类型代码：</label>
-			<input type="text" name="typeCode" class="input-medium validate[required,maxSize[32]] required" maxlength="32"/>
 		</p>
 		<p>
 			<label>回访类型名称：</label>

@@ -52,7 +52,7 @@ public interface BaseDataService {
 	
 	List<CallDealType> findByCallDealTypeExample(Specification<CallDealType> specification, Page page);
 	
-	CallDealType getByCallDealTypeName(String typeName);
+	CallDealType getByCallDealTypeNameAndFlag(String typeName, Integer falg);
 	
 	/*
 	 * ==============

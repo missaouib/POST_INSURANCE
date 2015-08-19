@@ -70,15 +70,16 @@
 		<legend>第一次回访不成功处理详情</legend>
 		<p>
 			<label>不成类型：</label>
-			<form:select path="hqDealType" items="${hqTypeList }" itemLabel="typeName" itemValue="typeName" onchange="javascript:${#hqDealRst }.val(this)"></form:select>
+			<form:select path="issue.hqDealType" items="${hqTypeList }" itemLabel="typeName" itemValue="typeName" onchange="javascript:${'#hqDealMan' }.val('FSD')"></form:select>
 		</p>
 		<p>
 			<label>不成结果：</label>
-			<textarea name="hqDealRst" cols="25" rows="2">${issue.hqDealRst }</textarea>
+			<textarea name="hqDealRst" id="hqDealRst" cols="25" rows="2">${issue.hqDealRst }</textarea>
 		</p>
+		<p>&nbsp;</p><p>&nbsp;</p>
 		<p>
 			<label>经办人：</label>
-			<textarea name="hqDealMan" cols="25" rows="2">${issue.hqDealMan }</textarea>
+			<input type="text" name="hqDealMan" id="hqDealMan" value="${issue.hqDealMan }"/>
 		</p>
 		<p>
 			<label>回访日期：</label>

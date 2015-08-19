@@ -190,7 +190,7 @@ ALTER TABLE `t_call_fail_list` ADD COLUMN `letter_date` DATE DEFAULT NULL;
 
 --------------- SQL ---------------
 
-CREATE OR REPLACE  ALGORITHM=UNDEFINED DEFINER='root'@'localhost' SQL SECURITY DEFINER VIEW `v_call_fail_list`
+CREATE OR REPLACE  ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `v_call_fail_list`
 AS
 select
   `a`.*,
@@ -216,3 +216,5 @@ ALTER TABLE `t_call_fail_list` ADD COLUMN `hq_deal_type5` varchar(20) DEFAULT NU
 ALTER TABLE `t_call_fail_list` ADD COLUMN `hq_deal_man5` varchar(20) DEFAULT NULL AFTER `hq_deal_type5`;
 ALTER TABLE `t_call_fail_list` ADD COLUMN `hq_deal_type6` varchar(20) DEFAULT NULL AFTER `hq_deal_date6`;
 ALTER TABLE `t_call_fail_list` ADD COLUMN `hq_deal_man6` varchar(20) DEFAULT NULL AFTER `hq_deal_type6`;
+
+alter table t_call_deal_type add column flag int default 0;
