@@ -72,7 +72,7 @@
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Callfail:11185Edit">
 			<li class="line">line</li>
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="720" href="${contextPath }/hfgl/issue/hqUpdate/{slt_uid}"><span>11185回访登记</span></a></li>
+				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="720" href="${contextPath }/hfgl/issue/hqUpdate/{slt_uid}"><span>二访中心回访登记</span></a></li>
 			</shiro:hasPermission>
 		</ul>
 	</div>

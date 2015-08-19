@@ -70,7 +70,10 @@
 		<legend>第一次回访不成功处理详情</legend>
 		<p>
 			<label>不成类型：</label>
-			<form:select path="issue.hqDealType" items="${hqTypeList }" itemLabel="typeName" itemValue="typeName" onchange="javascript:${'#hqDealMan' }.val('FSD')"></form:select>
+			<form:select path="issue.hqDealType" onchange="javascript:$('#hqDealRst').val(this.value)">
+				<form:option value=""> -- </form:option>
+				<form:options items="${hqTypeList }" itemLabel="typeName" itemValue="typeName"/>
+			</form:select>
 		</p>
 		<p>
 			<label>不成结果：</label>
@@ -89,11 +92,23 @@
 	</fieldset>
 	<fieldset>
 		<legend>第二次回访不成功处理详情</legend>
-		<p class="nowrap">
-			<label>回访不成功处理记录：</label>
-			<textarea name="hqDealRst2" cols="50" rows="3">${issue.hqDealRst2 }</textarea>
+		<p>
+			<label>不成类型：</label>
+			<form:select path="issue.hqDealType2" onchange="javascript:$('#hqDealRst2').val(this.value)">
+				<form:option value=""> -- </form:option>
+				<form:options items="${hqTypeList }" itemLabel="typeName" itemValue="typeName"/>
+			</form:select>
 		</p>
-		<p class="nowrap">
+		<p>
+			<label>不成结果：</label>
+			<textarea name="hqDealRst2" id="hqDealRst2" cols="25" rows="2">${issue.hqDealRst2 }</textarea>
+		</p>
+		<p>&nbsp;</p><p>&nbsp;</p>
+		<p>
+			<label>经办人：</label>
+			<input type="text" name="hqDealMan2" id="hqDealMan2" value="${issue.hqDealMan2 }"/>
+		</p>
+		<p>
 			<label>回访日期：</label>
 			<input type="text" name="hqDealDate2" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${issue.hqDealDate2 }"/>
 				<a class="inputDateButton" href="javascript:;">选择</a>
@@ -101,11 +116,23 @@
 	</fieldset>
 	<fieldset>
 		<legend>第三次回访不成功处理详情</legend>
-		<p class="nowrap">
-			<label>回访不成功处理记录：</label>
-			<textarea name="hqDealRst3" cols="50" rows="3">${issue.hqDealRst3 }</textarea>
+		<p>
+			<label>不成类型：</label>
+			<form:select path="issue.hqDealType3" onchange="javascript:$('#hqDealRst3').val(this.value)">
+				<form:option value=""> -- </form:option>
+				<form:options items="${hqTypeList }" itemLabel="typeName" itemValue="typeName"/>
+			</form:select>
 		</p>
-		<p class="nowrap">
+		<p>
+			<label>不成结果：</label>
+			<textarea name="hqDealRst3" id="hqDealRst3" cols="25" rows="2">${issue.hqDealRst3 }</textarea>
+		</p>
+		<p>&nbsp;</p><p>&nbsp;</p>
+		<p>
+			<label>经办人：</label>
+			<input type="text" name="hqDealMan3" id="hqDealMan3" value="${issue.hqDealMan3 }"/>
+		</p>
+		<p>
 			<label>回访日期：</label>
 			<input type="text" name="hqDealDate3" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${issue.hqDealDate3 }"/>
 				<a class="inputDateButton" href="javascript:;">选择</a>
@@ -113,11 +140,23 @@
 	</fieldset>
 	<fieldset>
 		<legend>第四次回访不成功处理详情</legend>
-		<p class="nowrap">
-			<label>回访不成功处理记录：</label>
-			<textarea name="hqDealRst4" cols="50" rows="3">${issue.hqDealRst4 }</textarea>
+		<p>
+			<label>不成类型：</label>
+			<form:select path="issue.hqDealType4" onchange="javascript:$('#hqDealRst4').val(this.value)">
+				<form:option value=""> -- </form:option>
+				<form:options items="${hqTypeList }" itemLabel="typeName" itemValue="typeName"/>
+			</form:select>
 		</p>
-		<p class="nowrap">
+		<p>
+			<label>不成结果：</label>
+			<textarea name="hqDealRst4" id="hqDealRst4" cols="25" rows="2">${issue.hqDealRst4 }</textarea>
+		</p>
+		<p>&nbsp;</p><p>&nbsp;</p>
+		<p>
+			<label>经办人：</label>
+			<input type="text" name="hqDealMan4" id="hqDealMan4" value="${issue.hqDealMan4 }"/>
+		</p>
+		<p>
 			<label>回访日期：</label>
 			<input type="text" name="hqDealDate4" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${issue.hqDealDate4 }"/>
 				<a class="inputDateButton" href="javascript:;">选择</a>
@@ -125,11 +164,23 @@
 	</fieldset>
 	<fieldset>
 		<legend>第五次回访不成功处理详情</legend>
-		<p class="nowrap">
-			<label>回访不成功处理记录：</label>
-			<textarea name="hqDealRst5" cols="50" rows="3">${issue.hqDealRst5 }</textarea>
+		<p>
+			<label>不成类型：</label>
+			<form:select path="issue.hqDealType5" onchange="javascript:$('#hqDealRst5').val(this.value)">
+				<form:option value=""> -- </form:option>
+				<form:options items="${hqTypeList }" itemLabel="typeName" itemValue="typeName"/>
+			</form:select>
 		</p>
-		<p class="nowrap">
+		<p>
+			<label>不成结果：</label>
+			<textarea name="hqDealRst5" id="hqDealRst5" cols="25" rows="2">${issue.hqDealRst5 }</textarea>
+		</p>
+		<p>&nbsp;</p><p>&nbsp;</p>
+		<p>
+			<label>经办人：</label>
+			<input type="text" name="hqDealMan5" id="hqDealMan5" value="${issue.hqDealMan5 }"/>
+		</p>
+		<p>
 			<label>回访日期：</label>
 			<input type="text" name="hqDealDate5" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${issue.hqDealDate5 }"/>
 				<a class="inputDateButton" href="javascript:;">选择</a>
@@ -137,11 +188,23 @@
 	</fieldset>
 	<fieldset>
 		<legend>第六次回访不成功处理详情</legend>
-		<p class="nowrap">
-			<label>回访不成功处理记录：</label>
-			<textarea name="hqDealRst6" cols="50" rows="3">${issue.hqDealRst6 }</textarea>
+		<p>
+			<label>不成类型：</label>
+			<form:select path="issue.hqDealType6" onchange="javascript:$('#hqDealRst6').val(this.value)">
+				<form:option value=""> -- </form:option>
+				<form:options items="${hqTypeList }" itemLabel="typeName" itemValue="typeName"/>
+			</form:select>
 		</p>
-		<p class="nowrap">
+		<p>
+			<label>不成结果：</label>
+			<textarea name="hqDealRst6" id="hqDealRst6" cols="25" rows="2">${issue.hqDealRst6 }</textarea>
+		</p>
+		<p>&nbsp;</p><p>&nbsp;</p>
+		<p>
+			<label>经办人：</label>
+			<input type="text" name="hqDealMan6" id="hqDealMan6" value="${issue.hqDealMan6 }"/>
+		</p>
+		<p>
 			<label>回访日期：</label>
 			<input type="text" name="hqDealDate6" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${issue.hqDealDate6 }"/>
 				<a class="inputDateButton" href="javascript:;">选择</a>
