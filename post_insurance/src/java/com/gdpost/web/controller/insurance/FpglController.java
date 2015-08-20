@@ -145,7 +145,7 @@ public class FpglController {
 		fpglService.saveOrUpdate(req);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{req.getPolicy().getPolicyNo()}));
-		return	AjaxObject.newOk("修改保全复核问题成功！").setCallbackType("").toString();
+		return	AjaxObject.newOk("发票处理操作成功！").setCallbackType("").toString();
 	}
 	
 	@Log(message="删除了{0}发票申请。")

@@ -83,6 +83,7 @@
 				<th>发票缴费日期</th>
 				<th orderField=reqDate class="${page.orderField eq 'reqDate' ? page.orderDirection : ''}">申请日期</th>
 				<th orderField=status class="${page.orderField eq 'status' ? page.orderDirection : ''}">状态</th>
+				<th>EMS</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -112,6 +113,7 @@
 					</c:otherwise>
 				</c:choose>
 				</td>
+				<td>${item.billNo}</td>
 			</tr>
 			</c:forEach>
 		</tbody>

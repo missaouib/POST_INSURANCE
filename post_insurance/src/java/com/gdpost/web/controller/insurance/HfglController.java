@@ -81,6 +81,8 @@ public class HfglController {
 			issue.setStatus(HF_STATUS.DealStatus.getDesc());
 		}
 		map.put("issue", issue);
+		List<CallDealType> cdtList = hfglService.getCallDealTypeList(CallDealType.ORG_TYPE);
+		map.put("orgTypeList", cdtList);
 		return UPDATE;
 	}
 	
@@ -117,9 +119,16 @@ public class HfglController {
 		src.setDealTime(issue.getDealTime());
 		src.setDealDesc(issue.getDealDesc());
 		src.setDealNum((issue.getDealNum()==null?0:issue.getDealNum()) + 1);
-		src.setStatus(issue.getStatus());
-		src.setDealType(issue.getStatus());
-		if(issue.getStatus().equals(HF_STATUS.DoorSuccessStatus.getDesc())) {
+		//src.setStatus(issue.getStatus());
+		src.setDealType(issue.getDealType());
+		if(issue.getDealType().equals("不成功件")) {
+//			if(issue.getStatus().equals(HF_STATUS.DoorSuccessStatus.getDesc())) {
+//				src.setOrgDealFlag(1);
+//			}
+			src.setStatus(HF_STATUS.DoorFailStatus.getDesc());
+			//src.setOrgDealFlag(1);
+		} else if(issue.getDealType().equals("成功件")) {
+			src.setStatus(HF_STATUS.DoorSuccessStatus.getDesc());
 			src.setOrgDealFlag(1);
 		}
 		hfglService.saveOrUpdate(src);
@@ -154,15 +163,83 @@ public class HfglController {
 	@RequestMapping(value="/issue/hqUpdate", method=RequestMethod.POST)
 	public @ResponseBody String hqUpdate(CallFailList issue) {
 		CallFailList src = hfglService.get(issue.getId());
-		src.setHqDealRst(issue.getHqDealRst());
-		src.setHqDealDate(new Date());
-		src.setHqDealRemark(issue.getHqDealRemark());
-		src.setHqDealNum((src.getHqDealNum()==null?0:src.getHqDealNum())+1);
-		src.setStatus(issue.getStatus());
-		src.setHqIssueType(issue.getStatus());
-		if(issue.getStatus().equals(HF_STATUS.CallSuccessStatus.getDesc())) {
-			src.setHqDealFlag(1);
+		if(issue.getHqDealType() != null && issue.getHqDealType().trim().length()>0) {
+			src.setHqDealRst(issue.getHqDealRst());
+			src.setHqDealDate(issue.getHqDealDate());
+			src.setHqDealMan(issue.getHqDealMan());
+			src.setHqDealType(issue.getHqDealType());
+			if(issue.getHqDealType().equals("不成功件")) {
+				src.setStatus(HF_STATUS.CallFailStatus.getDesc());
+			} else if(issue.getHqDealType().equals("成功件")) {
+				src.setStatus(HF_STATUS.CallSuccessStatus.getDesc());
+				src.setOrgDealFlag(1);
+			}
 		}
+		if(issue.getHqDealType2() != null && issue.getHqDealType2().trim().length()>0) {
+			src.setHqDealRst2(issue.getHqDealRst2());
+			src.setHqDealDate2(issue.getHqDealDate2());
+			src.setHqDealMan2(issue.getHqDealMan2());
+			src.setHqDealType2(issue.getHqDealType2());
+			if(issue.getHqDealType2().equals("不成功件")) {
+				src.setStatus(HF_STATUS.CallFailStatus.getDesc());
+			} else if(issue.getHqDealType2().equals("成功件")) {
+				src.setStatus(HF_STATUS.CallSuccessStatus.getDesc());
+				src.setOrgDealFlag(1);
+			}
+		}
+		if(issue.getHqDealType3() != null && issue.getHqDealType3().trim().length()>0) {
+			src.setHqDealRst3(issue.getHqDealRst3());
+			src.setHqDealDate3(issue.getHqDealDate3());
+			src.setHqDealMan3(issue.getHqDealMan3());
+			src.setHqDealType3(issue.getHqDealType3());
+			if(issue.getHqDealType3().equals("不成功件")) {
+				src.setStatus(HF_STATUS.CallFailStatus.getDesc());
+			} else if(issue.getHqDealType3().equals("成功件")) {
+				src.setStatus(HF_STATUS.CallSuccessStatus.getDesc());
+				src.setOrgDealFlag(1);
+			}
+		}
+		if(issue.getHqDealType4() != null && issue.getHqDealType4().trim().length()>0) {
+			src.setHqDealRst4(issue.getHqDealRst4());
+			src.setHqDealDate4(issue.getHqDealDate4());
+			src.setHqDealMan4(issue.getHqDealMan4());
+			src.setHqDealType4(issue.getHqDealType4());
+			if(issue.getHqDealType4().equals("不成功件")) {
+				src.setStatus(HF_STATUS.CallFailStatus.getDesc());
+			} else if(issue.getHqDealType4().equals("成功件")) {
+				src.setStatus(HF_STATUS.CallSuccessStatus.getDesc());
+				src.setOrgDealFlag(1);
+			}
+		}
+		if(issue.getHqDealType5() != null && issue.getHqDealType5().trim().length()>0) {
+			src.setHqDealRst5(issue.getHqDealRst5());
+			src.setHqDealDate5(issue.getHqDealDate5());
+			src.setHqDealMan5(issue.getHqDealMan5());
+			src.setHqDealType5(issue.getHqDealType5());
+			if(issue.getHqDealType5().equals("不成功件")) {
+				src.setStatus(HF_STATUS.CallFailStatus.getDesc());
+			} else if(issue.getHqDealType5().equals("成功件")) {
+				src.setStatus(HF_STATUS.CallSuccessStatus.getDesc());
+				src.setOrgDealFlag(1);
+			}
+		}
+		if(issue.getHqDealType6() != null && issue.getHqDealType6().trim().length()>0) {
+			src.setHqDealRst6(issue.getHqDealRst6());
+			src.setHqDealDate6(issue.getHqDealDate6());
+			src.setHqDealMan6(issue.getHqDealMan6());
+			src.setHqDealType6(issue.getHqDealType6());
+			if(issue.getHqDealType6().equals("不成功件")) {
+				src.setStatus(HF_STATUS.CallFailStatus.getDesc());
+			} else if(issue.getHqDealType6().equals("成功件")) {
+				src.setStatus(HF_STATUS.CallSuccessStatus.getDesc());
+				src.setOrgDealFlag(1);
+			}
+		}
+		src.setHqDealNum((src.getHqDealNum()==null?0:src.getHqDealNum())+1);
+//		if(issue.getStatus().equals(HF_STATUS.CallSuccessStatus.getDesc())) {
+//			src.setHqDealFlag(1);
+//		}
+		
 		hfglService.saveOrUpdate(src);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issue.getPolicy().getPolicyNo()}));

@@ -59,22 +59,24 @@
 	</fieldset>
 	<div class="divider"></div>
 	<fieldset>
-		<legend>回访不成功处理详情(请在后面追加)</legend>
-		<p class="nowrap">
-			<label>回访不成功处理记录：</label>
-			<textarea name="dealDesc" cols="50" rows="3">${issue.dealDesc }</textarea>
+		<legend>回访不成功处理详情(仅记录最后结果)</legend>
+		<p>
+			<label>不成类型：</label>
+			<form:select path="issue.dealType" onchange="javascript:$('#dealDesc').val($('#dealType').find('option:selected').text())">
+				<form:option value=""> -- </form:option>
+				<form:options items="${orgTypeList }" itemLabel="typeDesc" itemValue="typeName"/>
+			</form:select>
 		</p>
-		<p class="nowrap">
-			<label>回访结果：</label>
-			<form:radiobutton path="issue.status" value="上门成功"/>成功&nbsp;&nbsp;
-			<form:radiobutton path="issue.status" value="上门失败"/>失败&nbsp;&nbsp;
-			<form:radiobutton path="issue.status" value="已回复"/>未定
+		<p>
+			<label>不成结果：</label>
+			<textarea name="dealDesc" id="dealDesc" cols="25" rows="2">${issue.dealDesc }</textarea>
 		</p>
-		<p class="nowrap">
+		<p>&nbsp;</p><p>&nbsp;</p>
+		<p>
 			<label>经办人：</label>
 			<input type="text" name="dealMan" class="input-medium" maxlength="32" value="${issue.dealMan }"/>
 		</p>
-		<p class="nowrap">
+		<p>
 			<label>经办日期：</label>
 			<input type="text" name="dealTime" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value="${issue.dealTime }" pattern="yyyy-MM-dd"/>"/>
 				<a class="inputDateButton" href="javascript:;">选择</a>

@@ -14,7 +14,7 @@
 		</p>
 		<p>
 			<label>回访类型描述：</label>
-			<input type="text" name="typeDesc" class="input-medium" value="${basedata.typeDesc }"/>
+			<input type="text" name="typeDesc" class="input-medium validate[required,maxSize[32]] required" value="${basedata.typeDesc }"/>
 		</p>		
 	</div>
 	
