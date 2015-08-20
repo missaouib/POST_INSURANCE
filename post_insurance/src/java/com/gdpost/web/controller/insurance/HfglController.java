@@ -62,6 +62,7 @@ public class HfglController {
 	private static final String LIST = "insurance/hfgl/wtj/list";
 	private static final String ISSUE_LIST = "insurance/hfgl/wtj/issuelist";
 	private static final String RESET = "insurance/hfgl/wtj/setPhone";
+	private static final String SET_MAIL_DATE = "insurance/hfgl/wtj/mailDate";
 	
 	@RequiresPermissions("Callfail:view")
 	@RequestMapping(value="/issue/view/{id}", method=RequestMethod.GET)
@@ -84,6 +85,14 @@ public class HfglController {
 		List<CallDealType> cdtList = hfglService.getCallDealTypeList(CallDealType.ORG_TYPE);
 		map.put("orgTypeList", cdtList);
 		return UPDATE;
+	}
+	
+	@RequiresPermissions("Callfail:provEdit")
+	@RequestMapping(value="/issue/toSetMailDate", method={RequestMethod.POST, RequestMethod.GET})
+	public String preMail(String ids, Map<String, Object> map) {
+		LOG.info("-------------" + ids);
+		map.put("hfIds", ids);
+		return SET_MAIL_DATE;
 	}
 	
 	@RequiresPermissions("Callfail:provEdit")
@@ -133,7 +142,7 @@ public class HfglController {
 		}
 		hfglService.saveOrUpdate(src);
 		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issue.getPolicy().getPolicyNo()}));
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));
 		return	AjaxObject.newOk("回复回访不成功件成功！").toString(); 
 	}
 	
@@ -154,7 +163,7 @@ public class HfglController {
 		}
 		hfglService.saveOrUpdate(src);
 		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issue.getPolicy().getPolicyNo()}));
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));
 		return	AjaxObject.newOk("回复回访不成功件成功！").toString(); 
 	}
 	
@@ -242,7 +251,7 @@ public class HfglController {
 		
 		hfglService.saveOrUpdate(src);
 		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issue.getPolicy().getPolicyNo()}));
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));
 		return	AjaxObject.newOk("回复回访不成功件成功！").toString(); 
 	}
 	
@@ -295,18 +304,19 @@ public class HfglController {
 		src.setStatus(HF_STATUS.CloseStatus.getDesc());
 		hfglService.saveOrUpdate(src);
 		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issue.getPolicy().getPolicyNo()}));
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));
 		return	AjaxObject.newOk("结案回访不成功件完成！").toString(); 
 	}
 	
 	@Log(message="进行了信函的已发登记。")
-	@RequiresPermissions("Callfail:edit")
-	@RequestMapping(value="/issue/WithMailStatus", method=RequestMethod.POST)
-	public @ResponseBody String mail(Long[] ids) {
+	@RequiresPermissions("Callfail:provEdit")
+	@RequestMapping(value="/issue/setMailDate", method=RequestMethod.POST)
+	public @ResponseBody String mail(String ids, Date mailDate) {
 		List<CallFailList> list = new ArrayList<CallFailList>();
-		for(Long id:ids) {
-			CallFailList src = hfglService.get(id);
-			src.setLetterDate(new Date());
+		String[] strIds = ids.split(",");
+		for(String id:strIds) {
+			CallFailList src = hfglService.get(new Long(id));
+			src.setLetterDate(mailDate);
 			src.setHasLetter("信函已发");
 			list.add(src);
 		}

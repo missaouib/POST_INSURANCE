@@ -67,7 +67,7 @@
 			<shiro:hasPermission name="Callfail:provEdit">
 			<li class="line">line</li>
 				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="720" href="${contextPath }/hfgl/issue/provUpdate/{slt_uid}"><span>省分回访登记</span></a></li>
-				<li><a title="确认已发信函?" target="selectedTodo" rel="ids" href="${contextPath }/hfgl/issue/WithMailStatus" class="edit"><span>批量已发信函</span></a></li>
+				<li><a target="myDialog" rel="ids" href="${contextPath }/hfgl/issue/toSetMailDate" class="edit"><span>批量已发信函</span></a></li>
 				<li><a iconClass="user_go" target="ajaxTodo" href="${contextPath }/hfgl/issue/CloseStatus/{slt_uid}" title="确认办结案关闭?"><span>结案关闭</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Callfail:11185Edit">

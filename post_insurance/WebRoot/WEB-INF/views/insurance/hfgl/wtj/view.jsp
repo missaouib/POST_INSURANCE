@@ -79,68 +79,116 @@
 	<div class="divider"></div>
 	<fieldset>
 		<legend>省分二访中心第一次回访不成功处理详情</legend>
-		<p class="nowrap">
-			<label>回访不成功处理记录：</label>
+		<p>
+			<label>问题类型：</label>
+			<span class="unit">${issue.hqDealType }</span>
+		</p>
+		<p>
+			<label>问题详情：</label>
 			<span class="unit">${issue.hqDealRst }</span>
 		</p>
-		<p class="nowrap">
+		<p>
+			<label>经办人：</label>
+			<span class="unit">${issue.hqDealMan }</span>
+		</p>
+		<p>
 			<label>回访日期：</label>
-			<span class="unit">${issue.hqDealDate }"</span>
+			<span class="unit"><fmt:formatDate value='${issue.hqDealDate }' pattern='yyyy-MM-dd'/></span>
 		</p>
 	</fieldset>
 	<fieldset>
 		<legend>省分二访中心第二次回访不成功处理详情</legend>
-		<p class="nowrap">
-			<label>回访不成功处理记录：</label>
+		<p>
+			<label>问题类型：</label>
+			<span class="unit">${issue.hqDealType2 }</span>
+		</p>
+		<p>
+			<label>问题详情：</label>
 			<span class="unit">${issue.hqDealRst2 }</span>
 		</p>
-		<p class="nowrap">
+		<p>
+			<label>经办人：</label>
+			<span class="unit">${issue.hqDealMan2 }</span>
+		</p>
+		<p>
 			<label>回访日期：</label>
-			<span class="unit">${issue.hqDealDate2 }</span>
+			<span class="unit"><fmt:formatDate value='${issue.hqDealDate2 }' pattern='yyyy-MM-dd'/></span>
 		</p>
 	</fieldset>
 	<fieldset>
 		<legend>省分二访中心第三次回访不成功处理详情</legend>
-		<p class="nowrap">
-			<label>回访不成功处理记录：</label>
+		<p>
+			<label>问题类型：</label>
+			<span class="unit">${issue.hqDealType3 }</span>
+		</p>
+		<p>
+			<label>问题详情：</label>
 			<span class="unit">${issue.hqDealRst3 }</span>
 		</p>
-		<p class="nowrap">
+		<p>
+			<label>经办人：</label>
+			<span class="unit">${issue.hqDealMan3 }</span>
+		</p>
+		<p>
 			<label>回访日期：</label>
-			<span class="unit">${issue.hqDealDate3 }</span>
+			<span class="unit"><fmt:formatDate value='${issue.hqDealDate3 }' pattern='yyyy-MM-dd'/></span>
 		</p>
 	</fieldset>
 	<fieldset>
 		<legend>省分二访中心第四次回访不成功处理详情</legend>
-		<p class="nowrap">
-			<label>回访不成功处理记录：</label>
+		<p>
+			<label>问题类型：</label>
+			<span class="unit">${issue.hqDealType4 }</span>
+		</p>
+		<p>
+			<label>问题详情：</label>
 			<span class="unit">${issue.hqDealRst4 }</span>
 		</p>
-		<p class="nowrap">
+		<p>
+			<label>经办人：</label>
+			<span class="unit">${issue.hqDealMan4 }</span>
+		</p>
+		<p>
 			<label>回访日期：</label>
-			<span class="unit">${issue.hqDealDate4 }</span>
+			<span class="unit"><fmt:formatDate value='${issue.hqDealDate4 }' pattern='yyyy-MM-dd'/></span>
 		</p>
 	</fieldset>
 	<fieldset>
 		<legend>省分二访中心第五次回访不成功处理详情</legend>
-		<p class="nowrap">
-			<label>回访不成功处理记录：</label>
+		<p>
+			<label>问题类型：</label>
+			<span class="unit">${issue.hqDealType5 }</span>
+		</p>
+		<p>
+			<label>问题详情：</label>
 			<span class="unit">${issue.hqDealRst5 }</span>
 		</p>
-		<p class="nowrap">
+		<p>
+			<label>经办人：</label>
+			<span class="unit">${issue.hqDealMan5 }</span>
+		</p>
+		<p>
 			<label>回访日期：</label>
-			<span class="unit">${issue.hqDealDate5 }</span>
+			<span class="unit"><fmt:formatDate value='${issue.hqDealDate5 }' pattern='yyyy-MM-dd'/></span>
 		</p>
 	</fieldset>
 	<fieldset>
 		<legend>省分二访中心第六次回访不成功处理详情</legend>
-		<p class="nowrap">
-			<label>回访不成功处理记录：</label>
+		<p>
+			<label>问题类型：</label>
+			<span class="unit">${issue.hqDealType6 }</span>
+		</p>
+		<p>
+			<label>问题详情：</label>
 			<span class="unit">${issue.hqDealRst6 }</span>
 		</p>
-		<p class="nowrap">
+		<p>
+			<label>经办人：</label>
+			<span class="unit">${issue.hqDealMan6 }</span>
+		</p>
+		<p>
 			<label>回访日期：</label>
-			<span class="unit">${issue.hqDealDate6 }</span>
+			<span class="unit"><fmt:formatDate value='${issue.hqDealDate6 }' pattern='yyyy-MM-dd'/></span>
 		</p>
 	</fieldset>
 	<div class="divider"></div>

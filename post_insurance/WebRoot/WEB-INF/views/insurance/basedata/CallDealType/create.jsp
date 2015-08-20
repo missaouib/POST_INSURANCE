@@ -5,8 +5,8 @@
 	<div class="pageFormContent" layoutH="58">
 		<p>
 			<label>类型标记：</label>
-			<input type="radio" name="flag" value="1" checked="checked"/>二次回访中心类型
-			<input type="radio" name="flag" value="2"/>地市回访类型
+			二次回访中心<input type="radio" name="flag" value="1" checked="checked"/>
+			地市回访<input type="radio" name="flag" value="2"/>
 		</p>
 		<p>
 			<label>回访类型名称：</label>

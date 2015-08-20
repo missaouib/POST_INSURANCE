@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 <div class="pageContent">
-<form method="post" action="${contextPath}/hfgl/issue/update" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
+<form method="post" action="${contextPath}/hfgl/issue/hqUpdate" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
 	<input type="hidden" name="id" value="${issue.id}"/>
 	<div class="pageFormContent" layoutH="58">
 	<fieldset>
@@ -86,7 +86,7 @@
 		</p>
 		<p>
 			<label>回访日期：</label>
-			<input type="text" name="hqDealDate" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${issue.hqDealDate }"/>
+			<input type="text" name="hqDealDate" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value='${issue.hqDealDate }' pattern='yyyy-MM-dd'/>"/>
 				<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 	</fieldset>
@@ -94,7 +94,7 @@
 		<legend>第二次回访不成功处理详情</legend>
 		<p>
 			<label>不成类型：</label>
-			<form:select path="issue.hqDealType2" onchange="javascript:$('#hqDealRst').val($('#hqDealType').find('option:selected').text())">
+			<form:select path="issue.hqDealType2" onchange="javascript:$('#hqDealRst2').val($('#hqDealType2').find('option:selected').text())">
 				<form:option value=""> -- </form:option>
 				<form:options items="${hqTypeList }" itemLabel="typeDesc" itemValue="typeName"/>
 			</form:select>
@@ -110,7 +110,7 @@
 		</p>
 		<p>
 			<label>回访日期：</label>
-			<input type="text" name="hqDealDate2" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${issue.hqDealDate2 }"/>
+			<input type="text" name="hqDealDate2" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value='${issue.hqDealDate2 }' pattern='yyyy-MM-dd'/>"/>
 				<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 	</fieldset>
@@ -118,7 +118,7 @@
 		<legend>第三次回访不成功处理详情</legend>
 		<p>
 			<label>不成类型：</label>
-			<form:select path="issue.hqDealType3" onchange="javascript:$('#hqDealRst').val($('#hqDealType').find('option:selected').text())">
+			<form:select path="issue.hqDealType3" onchange="javascript:$('#hqDealRst3').val($('#hqDealType3').find('option:selected').text())">
 				<form:option value=""> -- </form:option>
 				<form:options items="${hqTypeList }" itemLabel="typeDesc" itemValue="typeName"/>
 			</form:select>
@@ -134,7 +134,7 @@
 		</p>
 		<p>
 			<label>回访日期：</label>
-			<input type="text" name="hqDealDate3" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${issue.hqDealDate3 }"/>
+			<input type="text" name="hqDealDate3" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value='${issue.hqDealDate3 }' pattern='yyyy-MM-dd'/>"/>
 				<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 	</fieldset>
@@ -142,7 +142,7 @@
 		<legend>第四次回访不成功处理详情</legend>
 		<p>
 			<label>不成类型：</label>
-			<form:select path="issue.hqDealType4" onchange="javascript:$('#hqDealRst').val($('#hqDealType').find('option:selected').text())">
+			<form:select path="issue.hqDealType4" onchange="javascript:$('#hqDealRst4').val($('#hqDealType4').find('option:selected').text())">
 				<form:option value=""> -- </form:option>
 				<form:options items="${hqTypeList }" itemLabel="typeDesc" itemValue="typeName"/>
 			</form:select>
@@ -158,7 +158,7 @@
 		</p>
 		<p>
 			<label>回访日期：</label>
-			<input type="text" name="hqDealDate4" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${issue.hqDealDate4 }"/>
+			<input type="text" name="hqDealDate4" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value='${issue.hqDealDate4 }' pattern='yyyy-MM-dd'/>"/>
 				<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 	</fieldset>
@@ -166,7 +166,7 @@
 		<legend>第五次回访不成功处理详情</legend>
 		<p>
 			<label>不成类型：</label>
-			<form:select path="issue.hqDealType5" onchange="javascript:$('#hqDealRst').val($('#hqDealType').find('option:selected').text())">
+			<form:select path="issue.hqDealType5" onchange="javascript:$('#hqDealRst5').val($('#hqDealType5').find('option:selected').text())">
 				<form:option value=""> -- </form:option>
 				<form:options items="${hqTypeList }" itemLabel="typeDesc" itemValue="typeName"/>
 			</form:select>
@@ -182,7 +182,7 @@
 		</p>
 		<p>
 			<label>回访日期：</label>
-			<input type="text" name="hqDealDate5" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${issue.hqDealDate5 }"/>
+			<input type="text" name="hqDealDate5" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value='${issue.hqDealDate5 }' pattern='yyyy-MM-dd'/>"/>
 				<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 	</fieldset>
@@ -190,7 +190,7 @@
 		<legend>第六次回访不成功处理详情</legend>
 		<p>
 			<label>不成类型：</label>
-			<form:select path="issue.hqDealType6" onchange="javascript:$('#hqDealRst').val($('#hqDealType').find('option:selected').text())">
+			<form:select path="issue.hqDealType6" onchange="javascript:$('#hqDealRst6').val($('#hqDealType6').find('option:selected').text())">
 				<form:option value=""> -- </form:option>
 				<form:options items="${hqTypeList }" itemLabel="typeDesc" itemValue="typeName"/>
 			</form:select>
@@ -206,7 +206,7 @@
 		</p>
 		<p>
 			<label>回访日期：</label>
-			<input type="text" name="hqDealDate6" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${issue.hqDealDate6 }"/>
+			<input type="text" name="hqDealDate6" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value='${issue.hqDealDate6 }' pattern='yyyy-MM-dd'/>"/>
 				<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 	</fieldset>

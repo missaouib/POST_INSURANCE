@@ -6,7 +6,7 @@
 	<div class="pageFormContent" layoutH="58">
 		<p>
 			<label>类型标记：</label>
-			<label>二次回访中心类型：<form:radiobutton path="hftype.flag" value="1"/>&nbsp;地市回访类型<form:radiobutton path="hftype.flag" value="2"/></label>
+			二次回访中心<form:radiobutton path="basedata.flag" value="1"/>地市回访<form:radiobutton path="basedata.flag" value="2"/>
 		</p>
 		<p>
 			<label>回访类型名称：</label>
