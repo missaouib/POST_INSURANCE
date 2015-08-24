@@ -91,6 +91,9 @@
 				<th>保单机构</th>
 				<th orderField=status class="${page.orderField eq 'status' ? page.orderDirection : ''}">工单状态</th>
 				<th>重置的客户电话</th>
+				<shiro:hasPermission name="Callfail:provEdit">
+				<th orderField=hasLetter class="${page.orderField eq 'hasLetter' ? page.orderDirection : ''}">信函记录</th>
+				</shiro:hasPermission>
 			</tr>
 		</thead>
 		<tbody>
@@ -107,6 +110,9 @@
 				<td>${item.policy.organization.name}</td>
 				<td>${item.status}</td>
 				<td>${item.resetPhone}</td>
+				<shiro:hasPermission name="Callfail:provEdit">
+				<td>${item.hasLetter}</td>
+				</shiro:hasPermission>
 			</tr>
 			</c:forEach>
 		</tbody>
