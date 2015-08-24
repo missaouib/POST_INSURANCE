@@ -78,13 +78,13 @@
 	</fieldset>
 	<div class="divider"></div>
 	<fieldset>
-		<legend>省分二访中心第一次回访不成功处理详情</legend>
+		<legend>省分二访中心第一次回访处理详情</legend>
 		<p>
-			<label>问题类型：</label>
+			<label>不成功类型：</label>
 			<span class="unit">${issue.hqDealType }</span>
 		</p>
 		<p>
-			<label>问题详情：</label>
+			<label>回访类型：</label>
 			<span class="unit">${issue.hqDealRst }</span>
 		</p>
 		<p>
@@ -97,13 +97,13 @@
 		</p>
 	</fieldset>
 	<fieldset>
-		<legend>省分二访中心第二次回访不成功处理详情</legend>
+		<legend>省分二访中心第二次回访处理详情</legend>
 		<p>
-			<label>问题类型：</label>
+			<label>不成功类型：</label>
 			<span class="unit">${issue.hqDealType2 }</span>
 		</p>
 		<p>
-			<label>问题详情：</label>
+			<label>回访类型：</label>
 			<span class="unit">${issue.hqDealRst2 }</span>
 		</p>
 		<p>
@@ -116,13 +116,13 @@
 		</p>
 	</fieldset>
 	<fieldset>
-		<legend>省分二访中心第三次回访不成功处理详情</legend>
+		<legend>省分二访中心第三次回访处理详情</legend>
 		<p>
-			<label>问题类型：</label>
+			<label>不成功类型：</label>
 			<span class="unit">${issue.hqDealType3 }</span>
 		</p>
 		<p>
-			<label>问题详情：</label>
+			<label>回访类型：</label>
 			<span class="unit">${issue.hqDealRst3 }</span>
 		</p>
 		<p>
@@ -135,13 +135,13 @@
 		</p>
 	</fieldset>
 	<fieldset>
-		<legend>省分二访中心第四次回访不成功处理详情</legend>
+		<legend>省分二访中心第四次回访处理详情</legend>
 		<p>
-			<label>问题类型：</label>
+			<label>不成功类型：</label>
 			<span class="unit">${issue.hqDealType4 }</span>
 		</p>
 		<p>
-			<label>问题详情：</label>
+			<label>回访类型：</label>
 			<span class="unit">${issue.hqDealRst4 }</span>
 		</p>
 		<p>
@@ -154,13 +154,13 @@
 		</p>
 	</fieldset>
 	<fieldset>
-		<legend>省分二访中心第五次回访不成功处理详情</legend>
+		<legend>省分二访中心第五次回访处理详情</legend>
 		<p>
-			<label>问题类型：</label>
+			<label>不成功类型：</label>
 			<span class="unit">${issue.hqDealType5 }</span>
 		</p>
 		<p>
-			<label>问题详情：</label>
+			<label>回访类型：</label>
 			<span class="unit">${issue.hqDealRst5 }</span>
 		</p>
 		<p>
@@ -173,13 +173,13 @@
 		</p>
 	</fieldset>
 	<fieldset>
-		<legend>省分二访中心第六次回访不成功处理详情</legend>
+		<legend>省分二访中心第六次回访处理详情</legend>
 		<p>
-			<label>问题类型：</label>
+			<label>不成功类型：</label>
 			<span class="unit">${issue.hqDealType6 }</span>
 		</p>
 		<p>
-			<label>问题详情：</label>
+			<label>回访类型：</label>
 			<span class="unit">${issue.hqDealRst6 }</span>
 		</p>
 		<p>

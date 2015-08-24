@@ -67,9 +67,9 @@
 		</p>
 	</fieldset>
 	<fieldset>
-		<legend>第一次回访不成功处理详情</legend>
+		<legend>第一次回访处理详情</legend>
 		<p>
-			<label>不成类型：</label>
+			<label>不成功类型：</label>
 			<form:select path="issue.hqDealType" onchange="javascript:$('#hqDealRst').val($('#hqDealType').find('option:selected').text())">
 				<form:option value=""> -- </form:option>
 				<form:options items="${hqTypeList }" itemLabel="typeDesc" itemValue="typeName"/>
@@ -91,9 +91,9 @@
 		</p>
 	</fieldset>
 	<fieldset>
-		<legend>第二次回访不成功处理详情</legend>
+		<legend>第二次回访处理详情</legend>
 		<p>
-			<label>不成类型：</label>
+			<label>不成功类型：</label>
 			<form:select path="issue.hqDealType2" onchange="javascript:$('#hqDealRst2').val($('#hqDealType2').find('option:selected').text())">
 				<form:option value=""> -- </form:option>
 				<form:options items="${hqTypeList }" itemLabel="typeDesc" itemValue="typeName"/>
@@ -115,9 +115,9 @@
 		</p>
 	</fieldset>
 	<fieldset>
-		<legend>第三次回访不成功处理详情</legend>
+		<legend>第三次回访处理详情</legend>
 		<p>
-			<label>不成类型：</label>
+			<label>不成功类型：</label>
 			<form:select path="issue.hqDealType3" onchange="javascript:$('#hqDealRst3').val($('#hqDealType3').find('option:selected').text())">
 				<form:option value=""> -- </form:option>
 				<form:options items="${hqTypeList }" itemLabel="typeDesc" itemValue="typeName"/>
@@ -139,9 +139,9 @@
 		</p>
 	</fieldset>
 	<fieldset>
-		<legend>第四次回访不成功处理详情</legend>
+		<legend>第四次回访处理详情</legend>
 		<p>
-			<label>不成类型：</label>
+			<label>不成功类型：</label>
 			<form:select path="issue.hqDealType4" onchange="javascript:$('#hqDealRst4').val($('#hqDealType4').find('option:selected').text())">
 				<form:option value=""> -- </form:option>
 				<form:options items="${hqTypeList }" itemLabel="typeDesc" itemValue="typeName"/>
@@ -163,9 +163,9 @@
 		</p>
 	</fieldset>
 	<fieldset>
-		<legend>第五次回访不成功处理详情</legend>
+		<legend>第五次回访处理详情</legend>
 		<p>
-			<label>不成类型：</label>
+			<label>不成功类型：</label>
 			<form:select path="issue.hqDealType5" onchange="javascript:$('#hqDealRst5').val($('#hqDealType5').find('option:selected').text())">
 				<form:option value=""> -- </form:option>
 				<form:options items="${hqTypeList }" itemLabel="typeDesc" itemValue="typeName"/>
@@ -187,9 +187,9 @@
 		</p>
 	</fieldset>
 	<fieldset>
-		<legend>第六次回访不成功处理详情</legend>
+		<legend>第六次回访处理详情</legend>
 		<p>
-			<label>不成类型：</label>
+			<label>不成功类型：</label>
 			<form:select path="issue.hqDealType6" onchange="javascript:$('#hqDealRst6').val($('#hqDealType6').find('option:selected').text())">
 				<form:option value=""> -- </form:option>
 				<form:options items="${hqTypeList }" itemLabel="typeDesc" itemValue="typeName"/>

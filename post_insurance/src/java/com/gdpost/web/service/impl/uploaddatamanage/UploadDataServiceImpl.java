@@ -259,6 +259,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 		StringBuffer line = null;
 		String sql2 = null;
 		boolean isFail = false;
+		boolean updateRst = true;
 		Object val = null;
 		switch(ft) {
 		case Policy:
@@ -385,11 +386,12 @@ public class UploadDataServiceImpl implements UploadDataService{
 		}
 
         try {
-			statement.execute(sql.toString());
+        	updateRst = statement.execute(sql.toString());
 			if(sql2 != null) {
-				statement.execute(sql2);
+				updateRst = statement.execute(sql2);
 			}
 		} catch (SQLException e) {
+			updateRst = false;
 			e.printStackTrace();
 		} finally {
 			if(statement != null) {
@@ -402,7 +404,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			}
 		}
         
-		return(true);
+		return updateRst;
 	}
 	
 	/**
@@ -510,7 +512,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 		listDataSet.clear();
 		listDataSet = null;
 		
-		return(true);
+		return bFlag;
 	}
 	
 	private boolean handleColumn(DataTable[] ds, List<ColumnItem> standardColumns, String strOriginalFileName, Map<String, Integer> dtCurrentShop, StringBuilder builder) {
