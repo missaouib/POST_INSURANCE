@@ -5,10 +5,6 @@
 	<input type="hidden" name="id" value="${basedata.id}"/>
 	<div class="pageFormContent" layoutH="58">
 		<p>
-			<label>续期催收类型代码：</label>
-			<input type="text" name="typeCode" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${basedata.typeCode }"/>
-		</p>
-		<p>
 			<label>续期催收类型名称：</label>
 			<input type="text" name="typeName" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${basedata.typeName }"/>
 		</p>

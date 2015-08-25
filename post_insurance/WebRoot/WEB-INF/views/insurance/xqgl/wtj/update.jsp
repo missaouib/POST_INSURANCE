@@ -56,17 +56,25 @@
 	<div class="divider"></div>
 	<fieldset>
 		<legend>续期催收处理详情</legend>
-		<p class="nowrap">
-			<label>续期催收处理记录：</label>
-			<textarea name="fixDesc" cols="50" rows="3">${issue.fixDesc }</textarea>
+		<p>
+			<label>催收类型：</label>
+			<form:select path="issue.dealType" onchange="javascript:$('#fixDesc').val($('#dealType').find('option:selected').text())">
+				<form:option value=""> -- </form:option>
+				<form:options items="${orgTypeList }" itemLabel="typeDesc" itemValue="typeName"/>
+			</form:select>
 		</p>
-		<p class="nowrap">
+		<p>
+			<label>催收结果：</label>
+			<textarea name="fixDesc" id="fixDesc" cols="25" rows="2">${issue.fixDesc }</textarea>
+		</p>
+		<p>&nbsp;</p><p>&nbsp;</p>
+		<p>
 			<label>经办人：</label>
-			<input type="text" name="dealMan" class="input-medium" maxlength="32" value="${issue.dealMan }"/>
+			<input type="text" name="dealMan" id="hqDealMan" value="${issue.dealMan }"/>
 		</p>
-		<p class="nowrap">
-			<label>经办日期：</label>
-			<input type="text" name="dealTime" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${issue.dealTime }"/>
+		<p>
+			<label>催收日期：</label>
+			<input type="text" name="dealTime" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value='${issue.dealTime }' pattern='yyyy-MM-dd'/>"/>
 				<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 	</fieldset>

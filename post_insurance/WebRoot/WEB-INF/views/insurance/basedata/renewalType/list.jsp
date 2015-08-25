@@ -3,8 +3,7 @@
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 
 <dwz:paginationForm action="${contextPath }/basedata/renewalType/list" page="${page }">
-	<input type="hidden" name="search_LIKE_prdCode" value="${param.search_LIKE_prdCode }"/>
-	<input type="hidden" name="search_LIKE_prdName" value="${param.search_LIKE_prdName }"/>
+	<input type="hidden" name="search_LIKE_prdName" value="${param.search_LIKE_typeName }"/>
 </dwz:paginationForm>
 
 <form method="post" action="${contextPath }/basedata/renewalType/list" onsubmit="return navTabSearch(this)">
@@ -12,12 +11,8 @@
 		<div class="searchBar">
 			<ul class="searchContent">
 				<li>
-					<label>续期催收类型代码：</label>
-					<input type="text" name="search_LIKE_prdCode" value="${param.search_LIKE_prdCode }"/>
-				</li>
-				<li>
 					<label>续期催收类型名称：</label>
-					<input type="text" name="search_LIKE_prdName" value="${param.search_LIKE_prdName }"/>
+					<input type="text" name="search_LIKE_prdName" value="${param.search_LIKE_typeName }"/>
 				</li>
 			</ul>
 			<div class="subBar">
@@ -49,7 +44,6 @@
 		<thead>
 			<tr>
 				<th width="22"><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
-				<th width="100">续期催收类型代码</th>
 				<th width="100">续期催收类型名称</th>
 				<th width="100">续期催收类型描述</th>
 			</tr>
@@ -58,7 +52,6 @@
 			<c:forEach var="item" items="${basedata}">
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
-				<td>${item.typeCode}</td>
 				<td>${item.typeName}</td>
 				<td>${item.typeDesc}</td>
 			</tr>			

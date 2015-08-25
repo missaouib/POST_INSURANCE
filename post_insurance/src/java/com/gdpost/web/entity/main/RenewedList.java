@@ -64,6 +64,10 @@ public class RenewedList implements Idable<Long> {
 	private String provDealRemark;
 	private Date provDealDate;
 	
+	private String hqDealMan;
+	private String provDealMan;
+	private String dealType;
+	
 	@Transient
 	private Integer lastDateNum;
 	
@@ -415,6 +419,33 @@ public class RenewedList implements Idable<Long> {
 
 	public void setProvDealDate(Date provDealDate) {
 		this.provDealDate = provDealDate;
+	}
+
+	@Column(name="hq_deal_man")
+	public String getHqDealMan() {
+		return hqDealMan;
+	}
+
+	public void setHqDealMan(String hqDealMan) {
+		this.hqDealMan = hqDealMan;
+	}
+
+	@Column(name="prov_deal_man")
+	public String getProvDealMan() {
+		return provDealMan;
+	}
+
+	public void setProvDealMan(String provDealMan) {
+		this.provDealMan = provDealMan;
+	}
+
+	@Column(name="deal_type")
+	public String getDealType() {
+		return dealType;
+	}
+
+	public void setDealType(String dealType) {
+		this.dealType = dealType;
 	}
 
 	@Override

@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gdpost.utils.SecurityUtils;
-import com.gdpost.web.entity.main.Organization;
+import com.gdpost.web.entity.basedata.RenewalType;
 import com.gdpost.web.entity.main.RenewedList;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.log.Log;
@@ -76,6 +76,8 @@ public class XqglController {
 		RenewedList issue = xqglService.get(id);
 		
 		map.put("issue", issue);
+		List<RenewalType> cdtList = xqglService.getAllRenewedDealTypeList();
+		map.put("orgTypeList", cdtList);
 		return UPDATE;
 	}
 	
@@ -136,9 +138,16 @@ public class XqglController {
 	public String list(ServletRequest request, Page page, Map<String, Object> map) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
-		Organization userOrg = user.getOrganization();
 		//默认返回未处理工单
 		String feeStatus = request.getParameter("feeStatus");
+		String orgCode = request.getParameter("policy.orgCode");
+		if(orgCode == null) {
+			orgCode = user.getOrganization().getOrgCode();
+		} else {
+			String orgName = request.getParameter("policy.name");
+			request.setAttribute("policy_orgCode", orgCode);
+			request.setAttribute("policy_name", orgName);
+		}
 		LOG.debug("-------------- feeStatus: " + feeStatus);
 		RenewedList issue = new RenewedList();
 		if(feeStatus == null) {
@@ -160,22 +169,22 @@ public class XqglController {
 				specification = DynamicSpecifications.bySearchFilter(request, RenewedList.class,
 						new SearchFilter("feeStatus", Operator.OR_LIKE, XQ_STATUS.NewStatus.getDesc()),
 						new SearchFilter("feeStatus", Operator.OR_LIKE, XQ_STATUS.FeeFailStatus.getDesc()),
-						new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+						new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 			} else {
 				specification = DynamicSpecifications.bySearchFilter(request, RenewedList.class,
 					new SearchFilter("feeStatus", Operator.LIKE, feeStatus),
-					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+					new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 			}
 		} else {
 			if(feeStatus == null) {
 				issue.setFeeStatus(XQ_STATUS.DealStatus.getDesc());
 				specification = DynamicSpecifications.bySearchFilter(request, RenewedList.class,
 						new SearchFilter("feeStatus", Operator.LIKE, XQ_STATUS.DealStatus.getDesc()),
-						new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+						new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 			} else {
 				specification = DynamicSpecifications.bySearchFilter(request, RenewedList.class,
-					new SearchFilter("feeStatus", Operator.LIKE, feeStatus),
-					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+						new SearchFilter("feeStatus", Operator.LIKE, XQ_STATUS.DealStatus.getDesc()),
+						new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 			}
 		}
 		

@@ -11,7 +11,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gdpost.web.dao.RenewalTypeDAO;
 import com.gdpost.web.dao.RenewedListDAO;
+import com.gdpost.web.entity.basedata.RenewalType;
 import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.Policy;
 import com.gdpost.web.entity.main.RenewedList;
@@ -31,6 +33,9 @@ public class XqglServiceImpl implements XqglService {
 	
 	@Autowired
 	private RenewedListDAO renewedListDAO;
+	
+	@Autowired
+	private RenewalTypeDAO rnwDAO;
 	
 	/*
 	 * (non-Javadoc)
@@ -118,5 +123,15 @@ public class XqglServiceImpl implements XqglService {
 	@Override
 	public RenewedList getByPolicyNoAndPrdName(Policy policy, String prdName) {
 		return renewedListDAO.getByPolicyAndPrdName(policy, prdName);
+	}
+
+	@Override
+	public List<RenewalType> getRenewedDealTypeList(int flag) {
+		return rnwDAO.getByFlag(flag);
+	}
+
+	@Override
+	public List<RenewalType> getAllRenewedDealTypeList() {
+		return rnwDAO.findAll();
 	}
 }

@@ -218,3 +218,9 @@ ALTER TABLE `t_call_fail_list` ADD COLUMN `hq_deal_type6` varchar(20) DEFAULT NU
 ALTER TABLE `t_call_fail_list` ADD COLUMN `hq_deal_man6` varchar(20) DEFAULT NULL AFTER `hq_deal_type6`;
 
 alter table t_call_deal_type add column flag int default 0;
+
+====20050825
+alter table t_renewed_list add column hq_deal_man varchar(32);
+alter table t_renewed_list add column prov_deal_man varchar(32);
+alter table t_renewed_list add column deal_type varchar(32);
+alter table t_renewal_type add column flag int default 0;
