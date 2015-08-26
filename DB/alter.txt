@@ -225,3 +225,53 @@ alter table t_renewed_list add column prov_deal_man varchar(32);
 alter table t_renewed_list add column deal_type varchar(32) AFTER `fix_desc`;
 alter table t_renewal_type add column flag int default 0;
 ALTER TABLE `t_call_fail_list` ADD COLUMN `prov_deal_man` varchar(20) DEFAULT NULL AFTER `prov_issue_type`;
+
+use picodb;
+
+drop table if exists t_under_write;
+
+/*==============================================================*/
+/* Table: t_under_write                                         */
+/*==============================================================*/
+create table t_under_write
+(
+   id                   bigint not null auto_increment,
+   policy_no            varchar(18),
+   form_no              varchar(25),
+   organ_id             bigint,
+   product_id           bigint,
+   holder               varchar(32),
+   insured              varchar(32),
+   underwrite_reason    varchar(64),
+   ybt_date             date,
+   sys_date             datetime,
+   check_date           datetime,
+   issue_flag           tinyint,
+   error_desc           varchar(256),
+   deal_man             varchar(12),
+   underwrite_date      datetime,
+   is_letter            boolean,
+   sign_date            datetime,
+   prov_receive_date    date,
+   prov_send_date       date,
+   prov_ems_no          varchar(32),
+   city_receive_date    date,
+   city_send_date       date,
+   city_ems_no          varchar(32),
+   area_receive_date    date,
+   area_send_date       date,
+   area_ems_no          varchar(32),
+   net_receive_date     date,
+   client_receive_date  date,
+   sign_input_date      date,
+   remark               varchar(250),
+   primary key (id),
+   unique key ak_key_2 (policy_no)
+)
+engine=innodb auto_increment=1 default charset=utf8;
+
+alter table t_under_write add constraint fk_uw_prd foreign key (product_id)
+      references t_prd (id);
+
+alter table t_under_write add constraint fk_uw_org foreign key (organ_id)
+      references t_organization (id);
