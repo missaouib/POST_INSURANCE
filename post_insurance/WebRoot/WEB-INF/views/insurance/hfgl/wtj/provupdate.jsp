@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 <div class="pageContent">
-<form method="post" action="${contextPath}/xqgl/issue/provUpdate" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
+<form method="post" action="${contextPath}/hfgl/issue/provUpdate" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
 	<input type="hidden" name="id" value="${issue.id}"/>
 	<div class="pageFormContent" layoutH="58">
 	<fieldset>
@@ -78,16 +78,16 @@
 		</p>
 		<p class="nowrap">
 			<label>回访结果：</label>
-			<form:radiobutton path="issue.status" value="已信函"/>已信函&nbsp;&nbsp;
+			<form:radiobutton path="issue.status" value="二访失败"/>二访失败&nbsp;&nbsp;
 			<form:radiobutton path="issue.status" value="已结案"/>已结案
 		</p>
 		<p class="nowrap">
 			<label>经办人：</label>
-			<input type="text" name="dealMan" class="input-medium" maxlength="32" value="${issue.dealMan }"/>
+			<input type="text" name="provDealMan" class="input-medium" maxlength="32" value="${issue.provDealMan }"/>
 		</p>
 		<p class="nowrap">
 			<label>经办日期：</label>
-			<input type="text" name="dealTime" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${issue.dealTime }"/>
+			<input type="text" name="provDealDate" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value='${issue.provDealDate }' pattern='yyyy-MM-dd'/>"/>
 				<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 	</fieldset>

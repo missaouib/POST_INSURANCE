@@ -4,9 +4,12 @@
 
 <dwz:paginationForm action="${contextPath }/hfgl/issue/list" page="${page }">
 	<input type="hidden" name="search_LIKE_issueNo" value="${param.search_LIKE_issueNo }"/>
-	<input type="hidden" name="search_LIKE_organization.orgCode" value="${param.search_LIKE_organization_orgCode }"/>
+	<input type="hidden" name="policy.orgCode" value="${policy_orgCode }"/>
+	<input type="hidden" name="policy.name" value="${policy_name }"/>
 	<input type="hidden" name="search_LTE_shouldDate" value="${param.search_LTE_shouldDate }"/>
 	<input type="hidden" name="search_GTE_shouldDate" value="${param.search_GTE_shouldDate }"/>
+	<input type="hidden" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
+	<input type="hidden" name="search_LIKE_hasLetter" value="${param.search_LIKE_hasLetter }"/>
 	<input type="hidden" name="status" value="${param.status }"/>
 </dwz:paginationForm>
 
@@ -16,7 +19,11 @@
 			<ul class="searchContent">
 				<li>
 					<label>工单编号：</label>
-					<input type="text" id="hfPolicyNo" name="search_LIKE_issueNo" value="${param.search_LIKE_issueNo }"/>
+					<input type="text" id="hfIssueNo" name="search_LIKE_issueNo" value="${param.search_LIKE_issueNo }"/>
+				</li>
+				<li>
+					<label>保单号：</label>
+					<input type="text" id="hfPolicyNo" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
 				</li>
 				<li>
 					<label>工单状态：</label>
@@ -27,9 +34,9 @@
 				</li>
 				<li>
 					<label>所属机构：</label>
-					<input name="search_LIKE_organization.orgCode" id="hf_orgCode" type="hidden" value="${search_LIKE_organization_orgCode }"/>
-					<input class="validate[required] required" name="search_LIKE_organization.name" id="hf_orgName" type="text" readonly="readonly" style="width: 140px;" value="${search_LIKE_organization_name }"/>
-					<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="search_LIKE_organization" title="选择机构" width="400">查找带回</a>
+					<input name="policy.orgCode" id="xq_orgCode" type="hidden" value="${policy_orgCode }"/>
+					<input class="validate[required] required" name="policy.name" id="xq_orgName" type="text" readonly="readonly" style="width: 140px;" value="${policy_name }"/>
+					<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="policy" title="选择机构" width="400">查找带回</a>
 				</li>				
 			</ul>
 			<ul class="searchContent">
@@ -42,6 +49,13 @@
 					<label>待处理结束日期：</label>
 					<input type="text" name="search_LTE_shouldDate" id="hfDate2" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_shouldDate }"/>
 					<a class="inputDateButton" href="javascript:;">选择</a>
+				</li>
+				<li>
+					<label>已信函：</label>
+					<form:select path="issue.search_LIKE_hasLetter" id="hfHsLetter" class="combox">
+						<form:option value=""> -- -- </form:option>
+						<form:option value="信函已发"> 信函已发 </form:option>
+					</form:select>
 				</li>
 			</ul>
 			<div class="subBar">

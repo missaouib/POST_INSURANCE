@@ -224,3 +224,4 @@ alter table t_renewed_list add column hq_deal_man varchar(32) AFTER `hq_deal_dat
 alter table t_renewed_list add column prov_deal_man varchar(32);
 alter table t_renewed_list add column deal_type varchar(32) AFTER `fix_desc`;
 alter table t_renewal_type add column flag int default 0;
+ALTER TABLE `t_call_fail_list` ADD COLUMN `prov_deal_man` varchar(20) DEFAULT NULL AFTER `prov_issue_type`;

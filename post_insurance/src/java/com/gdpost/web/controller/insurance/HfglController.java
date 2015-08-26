@@ -79,9 +79,9 @@ public class HfglController {
 	@RequestMapping(value="/issue/update/{id}", method=RequestMethod.GET)
 	public String preUpdate(@PathVariable Long id, Map<String, Object> map) {
 		CallFailList issue = hfglService.get(id);
-		if(issue.getStatus() == null || issue.getStatus().equals(HF_STATUS.NewStatus.getDesc())) {
-			issue.setStatus(HF_STATUS.DealStatus.getDesc());
-		}
+//		if(issue.getStatus() == null || issue.getStatus().equals(HF_STATUS.NewStatus.getDesc())) {
+//			issue.setStatus(HF_STATUS.DealStatus.getDesc());
+//		}
 		map.put("issue", issue);
 		List<CallDealType> cdtList = hfglService.getCallDealTypeList(CallDealType.ORG_TYPE);
 		map.put("orgTypeList", cdtList);
@@ -100,9 +100,9 @@ public class HfglController {
 	@RequestMapping(value="/issue/provUpdate/{id}", method=RequestMethod.GET)
 	public String preProvUpdate(@PathVariable Long id, Map<String, Object> map) {
 		CallFailList issue = hfglService.get(id);
-		if(issue.getStatus() == null || issue.getStatus().equals(HF_STATUS.NewStatus.getDesc())) {
-			issue.setStatus(HF_STATUS.DealStatus.getDesc());
-		}
+//		if(issue.getStatus() == null || issue.getStatus().equals(HF_STATUS.NewStatus.getDesc())) {
+//			issue.setStatus(HF_STATUS.DealStatus.getDesc());
+//		}
 		map.put("issue", issue);
 		return PROV_UPDATE;
 	}
@@ -111,9 +111,9 @@ public class HfglController {
 	@RequestMapping(value="/issue/hqUpdate/{id}", method=RequestMethod.GET)
 	public String preHqUpdate(@PathVariable Long id, Map<String, Object> map) {
 		CallFailList issue = hfglService.get(id);
-		if(issue.getStatus() == null || issue.getStatus().equals(HF_STATUS.NewStatus.getDesc())) {
-			issue.setStatus(HF_STATUS.CallFailStatus.getDesc());
-		}
+//		if(issue.getStatus() == null || issue.getStatus().equals(HF_STATUS.NewStatus.getDesc())) {
+//			issue.setStatus(HF_STATUS.CallFailStatus.getDesc());
+//		}
 		map.put("issue", issue);
 		List<CallDealType> cdtList = hfglService.getCallDealTypeList(CallDealType.HQ_TYPE);
 		map.put("hqTypeList", cdtList);
@@ -154,6 +154,7 @@ public class HfglController {
 		CallFailList src = hfglService.get(issue.getId());
 		src.setProvDealRst(issue.getProvDealRst());
 		src.setProvDealDate(new Date());
+		src.setProvDealMan(issue.getProvDealMan());
 		src.setProvDealRemark(issue.getProvDealRemark());
 		//src.setStatus(XQ_STATUS.DealStatus.getDesc());
 		src.setProvDealNum((src.getProvDealNum()==null?0:src.getProvDealNum())+1);
@@ -260,9 +261,9 @@ public class HfglController {
 	@RequestMapping(value="/updateResetStatus/{id}", method=RequestMethod.GET)
 	public String preUpdateResetStatus(@PathVariable Long id, Map<String, Object> map) {
 		CallFailList req = hfglService.get(id);
-		if(req.getStatus() == null || req.getStatus().equals(HF_STATUS.NewStatus.getDesc())) {
-			req.setStatus(HF_STATUS.ResetStatus.getDesc());
-		}
+//		if(req.getStatus() == null || req.getStatus().equals(HF_STATUS.NewStatus.getDesc())) {
+//			req.setStatus(HF_STATUS.ResetStatus.getDesc());
+//		}
 		map.put("cfl", req);
 		return RESET;
 	}
@@ -339,6 +340,11 @@ public class HfglController {
 		String status = request.getParameter("status");
 		LOG.debug("-------------- status: " + status + ", user org code:" + userOrg.getOrgCode());
 		CallFailList issue = new CallFailList();
+		String hasLetter = request.getParameter("search_LIKE_hasLetter");
+		if(hasLetter == null) {
+			hasLetter = "";
+		}
+		issue.setSearch_LIKE_hasLetter(hasLetter);
 //		if(status == null) {
 //			status = HF_STATUS.NewStatus.getDesc();
 //		} else if(status.trim().length()>0) {
@@ -351,6 +357,18 @@ public class HfglController {
 			page.setOrderDirection("ASC");
 		}
 		
+		String orgCode = request.getParameter("policy.orgCode");
+		if(orgCode == null) {
+			orgCode = user.getOrganization().getOrgCode();
+			if(orgCode.contains("11185")) {
+				orgCode = "8644";
+			}
+		} else {
+			String orgName = request.getParameter("policy.name");
+			request.setAttribute("policy_orgCode", orgCode);
+			request.setAttribute("policy_name", orgName);
+		}
+		
 		Specification<VCallFailList> specification = null;
 		
 		if(user.getOrganization().getOrgCode().contains("11185")) {
@@ -359,10 +377,12 @@ public class HfglController {
 						new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.NewStatus.getDesc()),
 						new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.ResetStatus.getDesc()),
 						new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.CallFailStatus.getDesc()),
-						new SearchFilter("lastDateNum", Operator.GTE, 3));
+						new SearchFilter("lastDateNum", Operator.GTE, 3),
+						new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 			} else {
 				specification = DynamicSpecifications.bySearchFilter(request, VCallFailList.class,
-						new SearchFilter("status", Operator.LIKE, status));
+						new SearchFilter("status", Operator.LIKE, status),
+						new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 			}
 		} else if (user.getOrganization().getOrgCode().length() > 4) {
 			if(status == null) {
@@ -370,29 +390,29 @@ public class HfglController {
 				specification = DynamicSpecifications.bySearchFilter(request, VCallFailList.class,
 						new SearchFilter("status", Operator.LIKE, HF_STATUS.CallFailStatus.getDesc()),
 						new SearchFilter("lastDateNum", Operator.LTE, 3),
-						new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+						new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 			} else {
 				LOG.debug("-------------- 222: " );
 				specification = DynamicSpecifications.bySearchFilter(request, VCallFailList.class,
 					new SearchFilter("status", Operator.LIKE, status),
-					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+					new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 			}
 		} else {
 			if(status == null) {
 				LOG.debug("-------------- 333: " );
-				issue.setStatus(HF_STATUS.DealStatus.getDesc());
 				specification = DynamicSpecifications.bySearchFilter(request, VCallFailList.class,
 						new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.NewStatus.getDesc()),
-						new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.DealStatus.getDesc()),
 						new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.ResetStatus.getDesc()),
 						new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.DoorSuccessStatus.getDesc()),
 						new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.DoorFailStatus.getDesc()),
 						new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.CallSuccessStatus.getDesc()),
-						new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.CallFailStatus.getDesc()));
+						new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.CallFailStatus.getDesc()),
+						new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 			} else {
 				LOG.debug("-------------- 444: " );
 				specification = DynamicSpecifications.bySearchFilter(request, VCallFailList.class,
-					new SearchFilter("status", Operator.LIKE, status));
+					new SearchFilter("status", Operator.LIKE, status),
+					new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 			}
 		}
 		List<VCallFailList> issues = hfglService.findByExample(specification, page);

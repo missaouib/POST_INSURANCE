@@ -94,10 +94,21 @@ public class CallFailList implements Idable<Long> {
 	private Integer orgDealFlag;
 	private Integer hqDealFlag;
 	private Integer provDealFlag;
+	private String provDealMan;
 	
 	private String hasLetter;
 	private Date letterDate;
 	
+	@Transient
+	private String search_LIKE_hasLetter;
+	@Transient
+	public String getSearch_LIKE_hasLetter() {
+		return search_LIKE_hasLetter;
+	}
+	@Transient
+	public void setSearch_LIKE_hasLetter(String search_LIKE_hasLetter) {
+		this.search_LIKE_hasLetter = search_LIKE_hasLetter;
+	}
 	@Transient
 	private Integer lastDateNum = 0;
 	@Transient
@@ -702,7 +713,13 @@ public class CallFailList implements Idable<Long> {
 	public void setProvDealFlag(Integer provDealFlag) {
 		this.provDealFlag = provDealFlag;
 	}
-	
+	@Column(name="prov_deal_man")
+	public String getProvDealMan() {
+		return provDealMan;
+	}
+	public void setProvDealMan(String provDealMan) {
+		this.provDealMan = provDealMan;
+	}
 	@Column(name="has_letter")
 	public String getHasLetter() {
 		return hasLetter;

@@ -71,14 +71,6 @@
 	</fieldset>
 	<div class="divider"></div>
 	<fieldset>
-	<legend>回访结果</legend>
-		<p class="nowrap">
-			<label>回访结果：</label>
-			<form:radiobutton path="issue.status" value="二访成功"/>成功&nbsp;&nbsp;
-			<form:radiobutton path="issue.status" value="二访失败"/>失败&nbsp;&nbsp;
-		</p>
-	</fieldset>
-	<fieldset>
 		<legend>第一次回访处理详情</legend>
 		<p>
 			<label>不成功类型：</label>

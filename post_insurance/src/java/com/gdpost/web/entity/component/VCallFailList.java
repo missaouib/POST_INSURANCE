@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.ColumnTransformer;
 
@@ -22,6 +23,17 @@ import com.gdpost.web.entity.main.Policy;
 @Entity
 @Table(name = "v_call_fail_list")
 public class VCallFailList implements Idable<Long>, java.io.Serializable {
+
+	@Transient
+	private String search_LIKE_hasLetter;
+	@Transient
+	public String getSearch_LIKE_hasLetter() {
+		return search_LIKE_hasLetter;
+	}
+	@Transient
+	public void setSearch_LIKE_hasLetter(String search_LIKE_hasLetter) {
+		this.search_LIKE_hasLetter = search_LIKE_hasLetter;
+	}
 
 	/**
 	 * 
@@ -101,6 +113,8 @@ public class VCallFailList implements Idable<Long>, java.io.Serializable {
 	private String hqDealMan5;
 	private String hqDealType6;
 	private String hqDealMan6;
+	
+	private String provDealMan;
 
 	// Constructors
 
@@ -778,5 +792,13 @@ public class VCallFailList implements Idable<Long>, java.io.Serializable {
 	
 	public void setHqDealMan6(String hqDealMan6) {
 		this.hqDealMan6 = hqDealMan6;
+	}
+	
+	@Column(name="prov_deal_man")
+	public String getProvDealMan() {
+		return provDealMan;
+	}
+	public void setProvDealMan(String provDealMan) {
+		this.provDealMan = provDealMan;
 	}
 }

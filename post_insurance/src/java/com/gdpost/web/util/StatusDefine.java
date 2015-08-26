@@ -15,7 +15,7 @@ public class StatusDefine {
 	};
 	
 	public enum HF_STATUS {
-		NewStatus("待处理"), DealStatus("已回复"),  ResetStatus("已重置"), DoorSuccessStatus("上门成功"), DoorFailStatus("上门失败"), CallSuccessStatus("二访成功"), CallFailStatus("二访失败"), WithMailStatus("已信函"), CloseStatus("已结案");
+		NewStatus("待处理"), ResetStatus("已重置"), DoorSuccessStatus("上门成功"), DoorFailStatus("上门失败"), CallSuccessStatus("二访成功"), CallFailStatus("二访失败"), CloseStatus("已结案");
 		private String desc;
 
 		HF_STATUS(String desc) {
