@@ -24,7 +24,7 @@ public class RenewedHQListColumn {
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("险种名称");
+		column.setDisplayName("保险产品");
 		column.setColumnName("prd_name");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(false);

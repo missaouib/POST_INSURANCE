@@ -41,10 +41,23 @@ public class StatusDefine {
 	};
 	
 	public enum XQ_STATUS {
-		NewStatus("未收"), FeeFailStatus("交费失败"), DealStatus("已催收"), SuspendedStatus("挂起"), BqSuspendedStatus("保全挂起"), CloseStatus("交费成功");
+		NewStatus("未收"), FeeFailStatus("交费失败"), SuspendedStatus("挂起"), BqSuspendedStatus("保全挂起"), CloseStatus("交费成功");
 		private String desc;
 
 		XQ_STATUS(String desc) {
+			this.desc = desc;
+		}
+
+		public String getDesc() {
+			return desc;
+		}
+	};
+	
+	public enum XQ_DEAL_STATUS {
+		SuccessStatus("成功"), FailStatus("不成功件"), ProblemStatus("问题件"), TerminateStatus("已退保");
+		private String desc;
+
+		XQ_DEAL_STATUS(String desc) {
 			this.desc = desc;
 		}
 

@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.ColumnTransformer;
+
 import com.gdpost.web.entity.Idable;
 import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.Policy;
@@ -534,6 +536,10 @@ public class VCallFailList implements Idable<Long>, java.io.Serializable {
 	}
 
 	@Column(name = "reset_phone", length = 256)
+	@ColumnTransformer(
+			forColumn="reset_phone",
+			read="cast(aes_decrypt(unhex(reset_phone), '" + com.gdpost.web.MySQLAESKey.AESKey + "') as char(100))", 
+			write="hex(aes_encrypt(?,'" + com.gdpost.web.MySQLAESKey.AESKey + "'))")
 	public String getResetPhone() {
 		return this.resetPhone;
 	}
@@ -570,6 +576,10 @@ public class VCallFailList implements Idable<Long>, java.io.Serializable {
 	}
 
 	@Column(name = "holder_phone", length = 256)
+	@ColumnTransformer(
+			forColumn="holder_phone",
+			read="cast(aes_decrypt(unhex(holder_phone), '" + com.gdpost.web.MySQLAESKey.AESKey + "') as char(100))", 
+			write="hex(aes_encrypt(?,'" + com.gdpost.web.MySQLAESKey.AESKey + "'))")
 	public String getHolderPhone() {
 		return this.holderPhone;
 	}
@@ -579,6 +589,10 @@ public class VCallFailList implements Idable<Long>, java.io.Serializable {
 	}
 
 	@Column(name = "holder_mobile", length = 256)
+	@ColumnTransformer(
+			forColumn="holder_mobile",
+			read="cast(aes_decrypt(unhex(holder_mobile), '" + com.gdpost.web.MySQLAESKey.AESKey + "') as char(100))", 
+			write="hex(aes_encrypt(?,'" + com.gdpost.web.MySQLAESKey.AESKey + "'))")
 	public String getHolderMobile() {
 		return this.holderMobile;
 	}

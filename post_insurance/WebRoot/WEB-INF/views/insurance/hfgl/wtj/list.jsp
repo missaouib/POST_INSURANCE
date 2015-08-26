@@ -77,20 +77,23 @@
 		</ul>
 	</div>
 	
-	<table class="table" layoutH="160" width="100%">
+	<table class="table" layoutH="160" width="140%">
 		<thead>
 			<tr>
 				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
-				<th orderField=organization.name class="${page.orderField eq 'organization.name' ? page.orderDirection : ''}">所属机构</th>
 				<th orderField=issueNo class="${page.orderField eq 'issueNo' ? page.orderDirection : ''}">工单编号</th>
 				<th>工单内容</th>
 				<th orderField=shouldDate class="${page.orderField eq 'shouldDate' ? page.orderDirection : ''}">待处理时间</th>
-				<th>离犹豫期还有（天）</th>
+				<th>离犹豫期(天)</th>
 				<th orderField=policy.policyNo class="${page.orderField eq 'policy.policyNo' ? page.orderDirection : ''}">所属保单号</th>
 				<th>投保人</th>
+				<th>联系电话</th>
+				<th>险种名称</th>
 				<th>保单机构</th>
+				<th>出单网点</th>
 				<th orderField=status class="${page.orderField eq 'status' ? page.orderDirection : ''}">工单状态</th>
-				<th>重置的客户电话</th>
+				<th>重置电话</th>
+				<th orderField=organization.name class="${page.orderField eq 'organization.name' ? page.orderDirection : ''}">所属机构</th>
 				<shiro:hasPermission name="Callfail:provEdit">
 				<th orderField=hasLetter class="${page.orderField eq 'hasLetter' ? page.orderDirection : ''}">信函记录</th>
 				</shiro:hasPermission>
@@ -100,16 +103,28 @@
 			<c:forEach var="item" items="${issues}">
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
-				<td>${item.organization.name}</td>
 				<td>${item.issueNo}</td>
 				<td>${item.issueContent}</td>
 				<td><fmt:formatDate value="${item.shouldDate }" pattern="yyyy-MM-dd"/></td>
 				<td><span style="color:red; height:50%; margin-bottom:-contentheight;"><c:if test="${item.lastDateNum<0 }">0</c:if><c:if test="${item.lastDateNum>=0 }">${item.lastDateNum }</c:if></span></td>
 				<td>${item.policy.policyNo}</td>
 				<td>${item.policy.holder}</td>
+				<td>${item.holderMobile eq ""?item.holderPhone:item.holderMobile}</td>
+				<td>${item.policy.prodName}</td>
 				<td>${item.policy.organization.name}</td>
+				<td>
+					<c:choose>  
+					    <c:when test="${fn:length(item.bankName) > 14}">  
+					        <c:out value="${fn:substring(item.bankName, 14, 30)}" />  
+					    </c:when>  
+					   <c:otherwise>  
+					      <c:out value="${item.bankName}" />  
+					    </c:otherwise>  
+					</c:choose>
+				</td>
 				<td>${item.status}</td>
 				<td>${item.resetPhone}</td>
+				<td>${item.organization.name}</td>
 				<shiro:hasPermission name="Callfail:provEdit">
 				<td>${item.hasLetter}</td>
 				</shiro:hasPermission>

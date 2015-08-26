@@ -101,7 +101,6 @@ public class XqglServiceImpl implements XqglService {
 					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
 		} else {
 			specification = DynamicSpecifications.bySearchFilterWithoutRequest(RenewedList.class,
-					new SearchFilter("feeStatus", Operator.LIKE, XQ_STATUS.DealStatus.getDesc()),
 					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
 		}
 		Page page = new Page();

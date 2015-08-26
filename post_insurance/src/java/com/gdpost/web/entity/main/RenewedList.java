@@ -72,6 +72,13 @@ public class RenewedList implements Idable<Long> {
 	private Integer lastDateNum;
 	
 	@Transient
+	private String search_LIKE_feeStatus;
+	@Transient
+	private String search_LIKE_hqDealRemark;
+	@Transient
+	private String search_LIKE_dealType;
+	
+	@Transient
 	public Integer getLastDateNum() {
 		if(this.feeDate != null) {
 //			Calendar c1 = Calendar.getInstance();
@@ -93,6 +100,31 @@ public class RenewedList implements Idable<Long> {
 		this.lastDateNum = lastDateNum;
 	}
 	// Constructors
+
+	@Transient
+	public String getSearch_LIKE_feeStatus() {
+		return search_LIKE_feeStatus;
+	}
+	@Transient
+	public void setSearch_LIKE_feeStatus(String search_LIKE_feeStatus) {
+		this.search_LIKE_feeStatus = search_LIKE_feeStatus;
+	}
+	@Transient
+	public String getSearch_LIKE_hqDealRemark() {
+		return search_LIKE_hqDealRemark;
+	}
+	@Transient
+	public void setSearch_LIKE_hqDealRemark(String search_LIKE_hqDealRemark) {
+		this.search_LIKE_hqDealRemark = search_LIKE_hqDealRemark;
+	}
+	@Transient
+	public String getSearch_LIKE_dealType() {
+		return search_LIKE_dealType;
+	}
+	@Transient
+	public void setSearch_LIKE_dealType(String search_LIKE_dealType) {
+		this.search_LIKE_dealType = search_LIKE_dealType;
+	}
 
 	/** default constructor */
 	public RenewedList() {

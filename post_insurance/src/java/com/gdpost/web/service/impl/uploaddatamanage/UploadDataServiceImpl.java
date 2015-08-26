@@ -331,6 +331,11 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        			} else {
 	        				line.append("\"" + StringUtil.trimStr(val) + "\",");
 	        			}
+	        		} else if(item.getDisplayName().equals("交费失败原因")) {
+	        			val = row.getValue(item.getDisplayName());
+	        			if(val != null && val.equals("交费成功")) {
+	        				line.append("\"\",");
+	        			}
 	        		} else {
 	        			line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
 	        		}
@@ -358,14 +363,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        	for(ColumnItem item : standardColumns) {
 	        		if(item.getDisplayName().equals("工单子类")) {
 	        			val = row.getValue(item.getDisplayName());
-	        			if(val != null && val.equals(XQ_STATUS.FeeFailStatus.getDesc())) {
-	        				isFail = true;
-	        			}
-	        		}
-	        		if(item.getDisplayName().equals("工单内容") && isFail) {
-	        			val = row.getValue(item.getDisplayName());
 	        			if(val == null || val.toString().length() <= 0) {
-	        				line.append("\"已终止\",");
+	        				line.append("\"已告知\",");
 	        			} else {
 	        				line.append("\"" + StringUtil.trimStr(val) + "\",");
 	        			}
@@ -381,7 +380,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql.append(" ON DUPLICATE KEY UPDATE policy_no=VALUES(policy_no), prd_name=VALUES(prd_name), ");
 			sql.append("hq_issue_type=VALUES(hq_issue_type), hq_deal_rst=VALUES(hq_deal_rst), ");
 			sql.append("hq_deal_date=VALUES(hq_deal_date), hq_deal_remark=VALUES(hq_deal_remark);");
-			//log.debug("----------------batch update : " + sql);
+			log.debug("----------------hq update status batch sql : " + sql);
 			sql2 = "delete from t_renewed_list where holder is null";
 			break;
 		case RemitMoney:
@@ -390,15 +389,14 @@ public class UploadDataServiceImpl implements UploadDataService{
 			return true;
 		case CheckRecord:
 			return true;
-			default:
-				log.warn("------------reach the default FileTemplate?? oh no!!");
 		}
 
         try {
-        	updateRst = statement.execute(sql.toString());
+        	statement.execute(sql.toString());
 			if(sql2 != null) {
-				updateRst = statement.execute(sql2);
+				statement.execute(sql2);
 			}
+			log.info("------------renewed status update result:" + updateRst);
 		} catch (SQLException e) {
 			updateRst = false;
 			e.printStackTrace();

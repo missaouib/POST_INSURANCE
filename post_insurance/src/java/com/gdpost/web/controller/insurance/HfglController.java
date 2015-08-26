@@ -15,6 +15,7 @@ import java.util.Map;
 
 import javax.servlet.ServletRequest;
 
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -266,13 +267,14 @@ public class HfglController {
 		return RESET;
 	}
 	
-	@Log(message="进行了{0}电话重置(holderMobile)。")
-	@RequiresPermissions("Callfail:edit")
+	@Log(message="进行了{0}更新操作{1}。")
+	@RequiresPermissions(value={"Callfail:edit","Callfail:provEdit"}, logical=Logical.OR)
 	@RequestMapping(value="/issue/{status}/{id}", method=RequestMethod.POST)
 	public @ResponseBody String updateStatus(ServletRequest request, @PathVariable("status") String status, @PathVariable("id") Long id) {
 		CallFailList call = hfglService.get(id);
 		String resetPhone = request.getParameter("resetPhone");
 		HF_STATUS bs = HF_STATUS.ResetStatus;
+		String desc = null;
 		try {
 			bs = HF_STATUS.valueOf(status);
 		}catch (Exception ex) {
@@ -280,9 +282,11 @@ public class HfglController {
 		}
 		switch (bs) {
 		case ResetStatus:
+			desc = "成功重置电话";
 			call.setResetPhone(resetPhone);
 			break;
 		case CloseStatus:
+			desc = "成功进行结案";
 			call.setStatus(bs.getDesc());
 			break;
 			default:
@@ -291,8 +295,8 @@ public class HfglController {
 		call.setStatus(bs.getDesc());
 		hfglService.saveOrUpdate(call);
 		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{call.getPolicy().getPolicyNo()}));
-		return	AjaxObject.newOk("回访电话重置成功！").setCallbackType("").toString();
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{call.getPolicy().getPolicyNo(), desc}));
+		return	AjaxObject.newOk(desc).setCallbackType("").toString();
 	}
 	
 	@Log(message="结案了{0}回访不成功件的信息。")

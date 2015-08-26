@@ -37,6 +37,7 @@ import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gdpost.utils.Digests;
 import com.gdpost.utils.Encodes;
@@ -49,6 +50,7 @@ import com.gdpost.web.entity.main.RolePermissionDataControl;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.entity.main.UserRole;
 import com.gdpost.web.service.OrganizationRoleService;
+import com.gdpost.web.service.RolePermissionService;
 import com.gdpost.web.service.RoleService;
 import com.gdpost.web.service.UserRoleService;
 import com.gdpost.web.service.UserService;
@@ -80,6 +82,9 @@ public class ShiroDbRealm extends AuthorizingRealm {
 	protected UserRoleService userRoleService;
 	
 	protected OrganizationRoleService organizationRoleService;
+	
+	@Autowired
+	private RolePermissionService rolePermissionService;
 	
 	/**
 	 * 给ShiroDbRealm提供编码信息，用于密码密码比对
@@ -169,15 +174,20 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		ShiroUser shiroUser = (ShiroUser) collection.iterator().next();
 		// 设置、更新User
 		if(shiroUser.getUserType().equals("admin")) {
-			log.debug("--------------------------------shiro db realm doGetAuthorizationInfo: update the user info");
+			log.debug("--------------------------------shiro db realm doGetAuthorizationInfo: update the user info" + shiroUser.getId());
 			User user = userService.get(shiroUser.getId());
 			shiroUser.setUser(user);
 			//this
 		} else {
 			//shiroUser.setMemberUser(mUserService.get(shiroUser.getId()));
 		}
-		
-		return newAuthorizationInfo(shiroUser);
+		SimpleAuthorizationInfo sai = null;
+		try {
+			sai = newAuthorizationInfo(shiroUser);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return sai;
 	}
 	
 	private SimpleAuthorizationInfo newAuthorizationInfo(ShiroUser shiroUser) {
@@ -212,7 +222,14 @@ public class ShiroDbRealm extends AuthorizingRealm {
 				
 				Collection<Role> roles = getUserRoles(userRoles, organizationRoles);
 				hasRoles = makeRoles(roles, shiroUser);
-				hasPermissions = makePermissions(roles, shiroUser);
+				try {
+					hasPermissions = makePermissions(roles, shiroUser);
+				} catch (Exception ex) {
+					for (Role role:roles) {
+						role.setRolePermissions(rolePermissionService.findByRoleId(role.getId()));
+					}
+					hasPermissions = makePermissions(roles, shiroUser);
+				}
 			}
 		} else {
 //			List<TblMemberUserRole> userRoles = mUserRoleService.findByUserId(shiroUser.getId());

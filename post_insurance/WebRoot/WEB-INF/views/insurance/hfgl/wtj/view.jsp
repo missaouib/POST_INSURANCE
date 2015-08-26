@@ -20,8 +20,20 @@
 			<span class="unit">${issue.policy.policyNo }</span>
 		</p>
 		<p>
+			<label>险种名称：</label>
+			<span class="unit">${issue.policy.prodName }</span>
+		</p>
+		<p>
 			<label>客户姓名：</label>
 			<span class="unit">${issue.policy.holder }</span>
+		</p>
+		<p>
+			<label>客户电话：</label>
+			<span class="unit">${issue.holderPhone }</span>
+		</p>
+		<p>
+			<label>客户手机：</label>
+			<span class="unit">${issue.holderMobile }</span>
 		</p>
 		<p>
 			<label>所属机构：</label>

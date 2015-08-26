@@ -25,7 +25,6 @@ public class RenewalType implements Idable<Long> {
 	// Fields
 
 	private Long id;
-	private String typeCode;
 	private String typeName;
 	private String typeDesc;
 	private Integer flag;
@@ -51,15 +50,6 @@ public class RenewalType implements Idable<Long> {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	@Column(name = "type_code", length = 32)
-	public String getTypeCode() {
-		return typeCode;
-	}
-
-	public void setTypeCode(String typeCode) {
-		this.typeCode = typeCode;
 	}
 
 	@Column(name = "type_name", length = 32)

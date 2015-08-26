@@ -39,6 +39,7 @@ import com.gdpost.web.log.LogMessageObject;
 import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.insurance.XqglService;
 import com.gdpost.web.shiro.ShiroUser;
+import com.gdpost.web.util.StatusDefine.XQ_DEAL_STATUS;
 import com.gdpost.web.util.StatusDefine.XQ_STATUS;
 import com.gdpost.web.util.dwz.AjaxObject;
 import com.gdpost.web.util.dwz.Page;
@@ -95,13 +96,14 @@ public class XqglController {
 	@RequestMapping(value="/issue/update", method=RequestMethod.POST)
 	public @ResponseBody String update(RenewedList issue) {
 		RenewedList src = xqglService.get(issue.getId());
+		src.setDealType(issue.getDealType());
 		src.setDealMan(issue.getDealMan());
 		src.setDealTime(issue.getDealTime());
 		src.setFixDesc(issue.getFixDesc());
-		src.setFixStatus(XQ_STATUS.DealStatus.getDesc());
+		//src.setFixStatus(XQ_STATUS.DealStatus.getDesc());
 		xqglService.saveOrUpdate(src);
 		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issue.getPolicy().getPolicyNo()}));
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));
 		return	AjaxObject.newOk("回复续期催收件成功！").toString(); 
 	}
 	
@@ -113,10 +115,10 @@ public class XqglController {
 		src.setProvDealRst(issue.getProvDealRst());
 		src.setProvDealDate(new Date());
 		src.setProvDealRemark(issue.getProvDealRemark());
-		src.setFixStatus(XQ_STATUS.DealStatus.getDesc());
+		//src.setFixStatus(XQ_STATUS.DealStatus.getDesc());
 		xqglService.saveOrUpdate(src);
 		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issue.getPolicy().getPolicyNo()}));
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));
 		return	AjaxObject.newOk("回复续期催收件成功！").toString(); 
 	}
 	
@@ -129,7 +131,7 @@ public class XqglController {
 		src.setFixStatus(XQ_STATUS.CloseStatus.getDesc());
 		xqglService.saveOrUpdate(src);
 		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issue.getPolicy().getPolicyNo()}));
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));
 		return	AjaxObject.newOk("结案续期催收件成功！").toString(); 
 	}
 	
@@ -138,8 +140,25 @@ public class XqglController {
 	public String list(ServletRequest request, Page page, Map<String, Object> map) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
+		RenewedList issue = new RenewedList();
 		//默认返回未处理工单
-		String feeStatus = request.getParameter("feeStatus");
+		String feeStatus = request.getParameter("search_LIKE_feeStatus");
+		String hqDealRemark = request.getParameter("search_LIKE_hqDealRemark");
+		String dealType = request.getParameter("search_LIKE_dealType");
+		if(hqDealRemark == null) {
+			hqDealRemark = "";
+		}
+		issue.setSearch_LIKE_hqDealRemark(hqDealRemark);
+		if(dealType == null) {
+			dealType = "";
+		}
+		issue.setSearch_LIKE_dealType(dealType);
+		LOG.debug("-------------- feeStatus: " + feeStatus);
+		if(feeStatus == null) {
+			feeStatus = "";
+		}
+		issue.setSearch_LIKE_feeStatus(feeStatus);
+		
 		String orgCode = request.getParameter("policy.orgCode");
 		if(orgCode == null) {
 			orgCode = user.getOrganization().getOrgCode();
@@ -148,14 +167,6 @@ public class XqglController {
 			request.setAttribute("policy_orgCode", orgCode);
 			request.setAttribute("policy_name", orgName);
 		}
-		LOG.debug("-------------- feeStatus: " + feeStatus);
-		RenewedList issue = new RenewedList();
-		if(feeStatus == null) {
-			feeStatus = XQ_STATUS.NewStatus.getDesc();
-		} else if(feeStatus.trim().length()>0) {
-			issue.setFeeStatus(feeStatus);
-		}
-		issue.setFeeStatus(feeStatus);
 		
 		if(page.getOrderField() == null) {
 			page.setOrderField("policy.policyDate");
@@ -164,34 +175,16 @@ public class XqglController {
 		
 		Specification<RenewedList> specification = null;
 		
-		if (user.getOrganization().getOrgCode().length() > 4) {
-			if(feeStatus == null) {
-				specification = DynamicSpecifications.bySearchFilter(request, RenewedList.class,
-						new SearchFilter("feeStatus", Operator.OR_LIKE, XQ_STATUS.NewStatus.getDesc()),
-						new SearchFilter("feeStatus", Operator.OR_LIKE, XQ_STATUS.FeeFailStatus.getDesc()),
-						new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
-			} else {
-				specification = DynamicSpecifications.bySearchFilter(request, RenewedList.class,
-					new SearchFilter("feeStatus", Operator.LIKE, feeStatus),
-					new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
-			}
-		} else {
-			if(feeStatus == null) {
-				issue.setFeeStatus(XQ_STATUS.DealStatus.getDesc());
-				specification = DynamicSpecifications.bySearchFilter(request, RenewedList.class,
-						new SearchFilter("feeStatus", Operator.LIKE, XQ_STATUS.DealStatus.getDesc()),
-						new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
-			} else {
-				specification = DynamicSpecifications.bySearchFilter(request, RenewedList.class,
-						new SearchFilter("feeStatus", Operator.LIKE, XQ_STATUS.DealStatus.getDesc()),
-						new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
-			}
-		}
+		specification = DynamicSpecifications.bySearchFilter(request, RenewedList.class,
+				new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 		
 		List<RenewedList> issues = xqglService.findByExample(specification, page);
 		
 		map.put("issue", issue);
 		map.put("xqStatusList", XQ_STATUS.values());
+		map.put("xqDealStatusList", XQ_DEAL_STATUS.values());
+		List<RenewalType> cdtList = xqglService.getAllRenewedDealTypeList();
+		map.put("orgTypeList", cdtList);
 		map.put("page", page);
 		map.put("issues", issues);
 		return LIST;
