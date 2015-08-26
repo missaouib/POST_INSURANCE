@@ -63,6 +63,8 @@
 			<shiro:hasPermission name="CheckWrite:edit">
 				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/qygl/issue/write/update/{slt_uid}"><span>回复新契约不合格件</span></a></li>
 			</shiro:hasPermission>
+			<li class="line">line</li>
+			<li><a class="icon" target="dialog" href="${contextPath }/qygl/help" mask="true" width="530" height="430"><span>功能说明</span></a></li>
 		</ul>
 	</div>
 	

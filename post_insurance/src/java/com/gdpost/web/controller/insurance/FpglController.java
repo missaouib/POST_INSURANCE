@@ -59,6 +59,12 @@ public class FpglController {
 	private static final String UPDATE = "insurance/fpgl/update";
 	private static final String LIST = "insurance/fpgl/list";
 	private static final String UPDATE_DEALSTATUS = "insurance/fpgl/setBillNo";
+	private static final String TO_HELP = "insurance/help/fpgl";
+	
+	@RequestMapping(value="/help", method=RequestMethod.GET)
+	public String toHelp() {
+		return TO_HELP;
+	}
 	
 	@RequiresPermissions("InvoiceReq:save")
 	@RequestMapping(value="/create", method=RequestMethod.GET)

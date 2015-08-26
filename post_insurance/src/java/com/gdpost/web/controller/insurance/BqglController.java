@@ -63,11 +63,17 @@ public class BqglController {
 	private static final String UPDATE = "insurance/bqgl/wtj/update";
 	private static final String LIST = "insurance/bqgl/wtj/list";
 	private static final String ISSUE_LIST = "insurance/bqgl/wtj/issuelist";
+	private static final String TO_HELP = "insurance/help/bqgl";
 	
 	@RequiresPermissions("Cservice:save")
 	@RequestMapping(value="/issue/create", method=RequestMethod.GET)
 	public String preCreate() {
 		return CREATE;
+	}
+	
+	@RequestMapping(value="/help", method=RequestMethod.GET)
+	public String toHelp() {
+		return TO_HELP;
 	}
 	
 	@Log(message="添加了{0}保全复核问题。")

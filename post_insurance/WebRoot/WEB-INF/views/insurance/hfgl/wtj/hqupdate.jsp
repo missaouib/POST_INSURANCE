@@ -80,7 +80,7 @@
 			</form:select>
 		</p>
 		<p>
-			<label>不成结果：</label>
+			<label>不成功结果：</label>
 			<textarea name="hqDealRst" id="hqDealRst" cols="25" rows="2">${issue.hqDealRst }</textarea>
 		</p>
 		<p>&nbsp;</p><p>&nbsp;</p>
@@ -104,7 +104,7 @@
 			</form:select>
 		</p>
 		<p>
-			<label>不成结果：</label>
+			<label>不成功结果：</label>
 			<textarea name="hqDealRst2" id="hqDealRst2" cols="25" rows="2">${issue.hqDealRst2 }</textarea>
 		</p>
 		<p>&nbsp;</p><p>&nbsp;</p>
@@ -128,7 +128,7 @@
 			</form:select>
 		</p>
 		<p>
-			<label>不成结果：</label>
+			<label>不成功结果：</label>
 			<textarea name="hqDealRst3" id="hqDealRst3" cols="25" rows="2">${issue.hqDealRst3 }</textarea>
 		</p>
 		<p>&nbsp;</p><p>&nbsp;</p>
@@ -152,7 +152,7 @@
 			</form:select>
 		</p>
 		<p>
-			<label>不成结果：</label>
+			<label>不成功结果：</label>
 			<textarea name="hqDealRst4" id="hqDealRst4" cols="25" rows="2">${issue.hqDealRst4 }</textarea>
 		</p>
 		<p>&nbsp;</p><p>&nbsp;</p>
@@ -176,7 +176,7 @@
 			</form:select>
 		</p>
 		<p>
-			<label>不成结果：</label>
+			<label>不成功结果：</label>
 			<textarea name="hqDealRst5" id="hqDealRst5" cols="25" rows="2">${issue.hqDealRst5 }</textarea>
 		</p>
 		<p>&nbsp;</p><p>&nbsp;</p>
@@ -200,7 +200,7 @@
 			</form:select>
 		</p>
 		<p>
-			<label>不成结果：</label>
+			<label>不成功结果：</label>
 			<textarea name="hqDealRst6" id="hqDealRst6" cols="25" rows="2">${issue.hqDealRst6 }</textarea>
 		</p>
 		<p>&nbsp;</p><p>&nbsp;</p>
@@ -218,7 +218,7 @@
 	<fieldset>
 		<legend>分公司回访情况</legend>
 		<p class="nowrap">
-			<label>分公司回访产生问题记录：</label>
+			<label>分公司回访问题类型：</label>
 			<span class="unit">${issue.provIssueType }</span>
 		</p>
 		<p class="nowrap">

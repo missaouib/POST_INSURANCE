@@ -74,6 +74,8 @@
 				<li class="line">line</li>
 				<li><a iconClass="user_go" target="ajaxTodo" href="${contextPath }/bqgl/issue/CloseStatus/{slt_uid}" title="确认关闭?"><span>关闭</span></a></li>
 			</shiro:hasPermission>
+			<li class="line">line</li>
+			<li><a class="icon" target="dialog" href="${contextPath }/bqgl/help" mask="true" width="530" height="430"><span>功能说明</span></a></li>
 		</ul>
 	</div>
 	<div id="w_list_print">

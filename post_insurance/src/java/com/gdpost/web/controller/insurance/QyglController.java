@@ -66,6 +66,12 @@ public class QyglController {
 	private static final String ISSUE_RECORD_LIST = "insurance/qygl/wtj/record/issuelist";
 	
 	private static final String UNDERWRITE_LIST = "insurance/qygl/underwrite/underwritelist";
+	private static final String TO_HELP = "insurance/help/qygl";
+	
+	@RequestMapping(value="/help", method=RequestMethod.GET)
+	public String toHelp() {
+		return TO_HELP;
+	}
 	
 	@RequiresPermissions("Underwrite:view")
 	@RequestMapping(value="/underwritelist", method={RequestMethod.GET, RequestMethod.POST})

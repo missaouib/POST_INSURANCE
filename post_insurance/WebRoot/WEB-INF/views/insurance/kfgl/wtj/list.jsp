@@ -65,6 +65,8 @@
 			</shiro:hasPermission>
 			<li><a iconClass="user_edit" target="navTab" rel="printIssue" mask="true" width="850" height="680" href="${contextPath }/kfgl/issue/print/{slt_uid}"><span>打印问题工单</span></a></li>
 			<li><a iconClass="user_edit" target="navTab" rel="printIssueList" mask="true" width="850" height="680" href="${contextPath }/kfgl/issues/print"><span>批打问题列表</span></a></li>
+			<li class="line">line</li>
+			<li><a class="icon" target="dialog" href="${contextPath }/kfgl/help" mask="true" width="530" height="430"><span>功能说明</span></a></li>
 		</ul>
 	</div>
 	

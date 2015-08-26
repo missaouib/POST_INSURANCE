@@ -67,6 +67,12 @@ public class KfglController {
 	private static final String UPDATE = "insurance/kfgl/wtj/update";
 	private static final String LIST = "insurance/kfgl/wtj/list";
 	private static final String ISSUE_LIST = "insurance/kfgl/wtj/issuelist";
+	private static final String TO_HELP = "insurance/help/kfgl";
+	
+	@RequestMapping(value="/help", method=RequestMethod.GET)
+	public String toHelp() {
+		return TO_HELP;
+	}
 	
 	@RequiresPermissions("Wtgd:view")
 	@RequestMapping(value="/issue/view/{id}", method=RequestMethod.GET)

@@ -73,14 +73,14 @@
 	<fieldset>
 		<legend>回访不成功处理详情(仅记录最后结果)</legend>
 		<p>
-			<label>不成类型：</label>
+			<label>不成功类型：</label>
 			<form:select path="issue.dealType" onchange="javascript:$('#dealDesc').val($('#dealType').find('option:selected').text())">
 				<form:option value=""> -- </form:option>
 				<form:options items="${orgTypeList }" itemLabel="typeDesc" itemValue="typeName"/>
 			</form:select>
 		</p>
 		<p>
-			<label>不成结果：</label>
+			<label>不成功结果：</label>
 			<textarea name="dealDesc" id="dealDesc" cols="25" rows="2">${issue.dealDesc }</textarea>
 		</p>
 		<p>&nbsp;</p><p>&nbsp;</p>

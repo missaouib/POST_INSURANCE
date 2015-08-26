@@ -60,6 +60,12 @@ public class XqglController {
 	private static final String PROV_UPDATE = "insurance/xqgl/wtj/provupdate";
 	private static final String LIST = "insurance/xqgl/wtj/list";
 	private static final String ISSUE_LIST = "insurance/xqgl/wtj/issuelist";
+	private static final String TO_HELP = "insurance/help/xqgl";
+	
+	@RequestMapping(value="/help", method=RequestMethod.GET)
+	public String toHelp() {
+		return TO_HELP;
+	}
 	
 	@RequiresPermissions("Renewed:view")
 	@RequestMapping(value="/issue/view/{id}", method=RequestMethod.GET)

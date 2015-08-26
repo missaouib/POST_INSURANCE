@@ -96,7 +96,7 @@
 			<span class="unit">${issue.hqDealType }</span>
 		</p>
 		<p>
-			<label>回访类型：</label>
+			<label>回访详情：</label>
 			<span class="unit">${issue.hqDealRst }</span>
 		</p>
 		<p>
@@ -115,7 +115,7 @@
 			<span class="unit">${issue.hqDealType2 }</span>
 		</p>
 		<p>
-			<label>回访类型：</label>
+			<label>回访详情：</label>
 			<span class="unit">${issue.hqDealRst2 }</span>
 		</p>
 		<p>
@@ -134,7 +134,7 @@
 			<span class="unit">${issue.hqDealType3 }</span>
 		</p>
 		<p>
-			<label>回访类型：</label>
+			<label>回访详情：</label>
 			<span class="unit">${issue.hqDealRst3 }</span>
 		</p>
 		<p>
@@ -153,7 +153,7 @@
 			<span class="unit">${issue.hqDealType4 }</span>
 		</p>
 		<p>
-			<label>回访类型：</label>
+			<label>回访详情：</label>
 			<span class="unit">${issue.hqDealRst4 }</span>
 		</p>
 		<p>
@@ -172,7 +172,7 @@
 			<span class="unit">${issue.hqDealType5 }</span>
 		</p>
 		<p>
-			<label>回访类型：</label>
+			<label>回访详情：</label>
 			<span class="unit">${issue.hqDealRst5 }</span>
 		</p>
 		<p>
@@ -191,7 +191,7 @@
 			<span class="unit">${issue.hqDealType6 }</span>
 		</p>
 		<p>
-			<label>回访类型：</label>
+			<label>回访详情：</label>
 			<span class="unit">${issue.hqDealRst6 }</span>
 		</p>
 		<p>
@@ -207,7 +207,7 @@
 	<fieldset>
 		<legend>分公司回访情况</legend>
 		<p class="nowrap">
-			<label>分公司回访产生问题记录：</label>
+			<label>分公司回访问题类型：</label>
 			<span class="unit">${issue.provIssueType }</span>
 		</p>
 		<p class="nowrap">

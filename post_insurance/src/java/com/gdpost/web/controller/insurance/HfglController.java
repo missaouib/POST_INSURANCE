@@ -64,6 +64,12 @@ public class HfglController {
 	private static final String ISSUE_LIST = "insurance/hfgl/wtj/issuelist";
 	private static final String RESET = "insurance/hfgl/wtj/setPhone";
 	private static final String SET_MAIL_DATE = "insurance/hfgl/wtj/mailDate";
+	private static final String TO_HELP = "insurance/help/hfgl";
+	
+	@RequestMapping(value="/help", method=RequestMethod.GET)
+	public String toHelp() {
+		return TO_HELP;
+	}
 	
 	@RequiresPermissions("Callfail:view")
 	@RequestMapping(value="/issue/view/{id}", method=RequestMethod.GET)

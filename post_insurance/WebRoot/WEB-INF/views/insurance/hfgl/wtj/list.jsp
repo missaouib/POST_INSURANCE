@@ -88,6 +88,8 @@
 			<li class="line">line</li>
 				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="720" href="${contextPath }/hfgl/issue/hqUpdate/{slt_uid}"><span>二访中心回访登记</span></a></li>
 			</shiro:hasPermission>
+			<li class="line">line</li>
+			<li><a class="icon" target="dialog" href="${contextPath }/hfgl/help" mask="true" width="530" height="430"><span>功能说明</span></a></li>
 		</ul>
 	</div>
 	
