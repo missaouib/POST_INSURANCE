@@ -331,11 +331,6 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        			} else {
 	        				line.append("\"" + StringUtil.trimStr(val) + "\",");
 	        			}
-	        		} else if(item.getDisplayName().equals("交费失败原因")) {
-	        			val = row.getValue(item.getDisplayName());
-	        			if(val != null && val.equals("交费成功")) {
-	        				line.append("\"\",");
-	        			}
 	        		} else {
 	        			line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
 	        		}

@@ -1,6 +1,7 @@
 package com.gdpost.web.controller;
 
 import org.apache.shiro.authz.annotation.RequiresUser;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,37 +56,56 @@ public class RefreshController {
 		boolean hasRecordCheck = false;
 		boolean hasXqIssue = false;
 		boolean hasHfissue = false;
-		if(kfglService.getTODOIssueList(shiroUser.getUser()).size() > 0) {
-			hasIssue = true;
-		} else if (bqglService.getTODOIssueList(shiroUser.getUser()).size() > 0) {
-			hasBqIssue = true;
-		} else if (qyglService.getTODOWriteIssueList(shiroUser.getUser()).size() > 0) {
-			hasWriteCheck = true;
-		} else if (qyglService.getTODORecordIssueList(shiroUser.getUser()).size() > 0) {
-			hasRecordCheck = true;
-		} else if (xqglService.getTODOIssueList(shiroUser.getUser()).size() > 0) {
-			hasXqIssue = true;
-		} else if (hfglService.getTODOIssueList(shiroUser.getUser()).size() > 0) {
-			hasHfissue = true;
+		Subject sub = SecurityUtils.getSubject();
+		if(sub.isPermitted("Wtgd:view")) {
+			if(kfglService.getTODOIssueList(shiroUser.getUser()).size() > 0) {
+				hasIssue = true;
+			}
 		}
+		if(sub.isPermitted("Cservice:view")) {
+			if (bqglService.getTODOIssueList(shiroUser.getUser()).size() > 0) {
+				hasBqIssue = true;
+			}
+		}
+		if(sub.isPermitted("CheckWrite:view")) {
+			if (qyglService.getTODOWriteIssueList(shiroUser.getUser()).size() > 0) {
+				hasWriteCheck = true;
+			}
+		}
+		if(sub.isPermitted("CheckRecord:view")) {
+			if (qyglService.getTODORecordIssueList(shiroUser.getUser()).size() > 0) {
+				hasRecordCheck = true;
+			}
+		}
+		if(sub.isPermitted("Renewed:view")) {
+			if (xqglService.getTODOIssueList(shiroUser.getUser()).size() > 0) {
+				hasXqIssue = true;
+			}
+		}
+		if(sub.isPermitted("Callfail:view")) {
+			if (hfglService.getTODOIssueList(shiroUser.getUser()).size() > 0) {
+				hasHfissue = true;
+			}
+		}
+		String rst = "";
 		if(hasIssue) {
-			return "issue";
+			rst += "|KFGD|";
 		}
 		if(hasBqIssue) {
-			return "bqissue";
+			rst += "|BQGD|";
 		}
 		if(hasWriteCheck) {
-			return "writecheck";
+			rst += "|TXGD|";
 		}
 		if(hasRecordCheck) {
-			return "recordcheck";
+			rst += "|LRGD|";
 		}
 		if(hasXqIssue) {
-			return "xqissue";
+			rst += "|XQGD|";
 		}
 		if(hasHfissue) {
-			return "hfissue";
+			rst += "|HFGD|";
 		}
-		return "";
+		return rst;
 	}
 }

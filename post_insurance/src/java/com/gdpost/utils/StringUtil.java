@@ -34,7 +34,7 @@ public class StringUtil {
 	
 	public static String trimStr(Object obj) {
 		if(obj == null) {
-			return null;
+			return "";
 		}
 		String str = obj.toString();
 		Pattern p = Pattern.compile("\\t|\r|\n");
