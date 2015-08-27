@@ -4,32 +4,55 @@
 <form method="post" action="${contextPath }/qygl/underwrite/create" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
 	<div class="pageFormContent" layoutH="58">
 		<p>
-			<label>保单号：</label>
-			<input type="hidden" name="policy.id" class="input-medium validate[required,maxSize[32]] required" />
-			<input name="policy.policyNo" type="text" postField="search_LIKE_policyNo" suggestFields="policyNo" 
-					suggestUrl="/common/lookupPolicysuggest" lookupGroup="policy"/>
+			<label>所属机构：</label>
+			<input name="organization.id" id="uw_orgId" type="hidden" value=""/>
+					<input class="validate[required] required" name="organization.name" id="uw_orgName" type="text" readonly="readonly" style="width: 140px;" value=""/>
+					<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="organization" title="选择机构" width="400">查找带回</a>
 		</p>
 		<p>
-			<label>保单所属机构</label>
-			<input type="text" name="policy.organName" />
+			<label>投保单号</label>
+			<input type="text" name="formNo" class="input-medium validate[required,maxSize[21] required"/>
 		</p>
 		<p>
-			<label>保全受理号：</label>
-			<input type="text" name="dealNum" class="input-medium" maxlength="32"/>
-		</p>		
-		<p>
-			<label>保全受理项目：</label>
-			<input type="text" name="info" class="input-medium" maxlength="32"/>
+			<label>投保人：</label>
+			<input type="text" name="holder" class="input-medium validate[required,maxSize[14]] required" maxlength="32"/>
 		</p>
 		<p>
-			<label>保全复核问题：</label>
-			<input name="csRst" type="text" postField="search_LIKE_errorCode" suggestFields="csRst" 
-					suggestUrl="/common/lookupBQIssusSuggest" lookupGroup="" class="input-medium validate[required,maxSize[32]] required"/>
-			<a class="btnLook" target="dialog" width="500" height="500"  href="/common/lookup2BQIssuesDefine" lookupGroup="">查找带回</a>
+			<label>被保人：</label>
+			<input type="text" name="insured" class="input-medium validate[required,maxSize[14]] required" maxlength="32"/>
 		</p>
-		<p class="nowrap">
-			<label>保全复核问题详细内容：</label>
-			<textarea name="remark" cols="50" rows="3"></textarea>
+		<p>
+			<label>投被保人关系：</label>
+			<input type="text" name="relation" class="input-medium validate[required,maxSize[14]] required" maxlength="32"/>
+		</p>
+		<p>
+			<label>转核原因：</label>
+			<input type="text" name="underwriteReason" class="input-medium validate[required,maxSize[64]] required" maxlength="64"/>
+		</p>
+		<p>
+			<label>保险产品：</label>
+			<input type="hidden" name="prd.id" class="input-medium validate[required,maxSize[32]] required" />
+			<input name="prd.prdName" type="text" postField="search_LIKE_prdName" suggestFields="prd" 
+					suggestUrl="/common/lookupPolicysuggest" lookupGroup="prd"/>
+		</p>
+		<p>
+			<label>保费：</label>
+			<input type="text" name="policyFee" class="input-medium validate[required,maxSize[14]] required" maxlength="32"/>
+		</p>
+		<p>
+			<label>邮保通录入日期：</label>
+			<input type="text" name="ybtDate" id="hfDate1" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value=""/>
+					<a class="inputDateButton" href="javascript:;">选择</a>
+		</p>
+		<p>
+			<label>核心录入日期：</label>
+			<input type="text" name="sysDate" id="hfDate1" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value=""/>
+					<a class="inputDateButton" href="javascript:;">选择</a>
+		</p>
+		<p>
+			<label>复核日期：</label>
+			<input type="text" name="checkDate" id="hfDate1" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value=""/>
+					<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 	</div>
 			

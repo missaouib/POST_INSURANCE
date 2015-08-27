@@ -56,8 +56,29 @@ public class UnderWrite implements Idable<Long> {
 	private Date clientReceiveDate;
 	private Date signInputDate;
 	private String remark;
+	
+	private String relation;
+	private Double policyFee;
 
 	// Constructors
+
+	@Column(name="relation")
+	public String getRelation() {
+		return relation;
+	}
+
+	public void setRelation(String relation) {
+		this.relation = relation;
+	}
+
+	@Column(name="policy_fee")
+	public Double getPolicyFee() {
+		return policyFee;
+	}
+
+	public void setPolicyFee(Double policyFee) {
+		this.policyFee = policyFee;
+	}
 
 	/** default constructor */
 	public UnderWrite() {

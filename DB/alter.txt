@@ -275,3 +275,6 @@ alter table t_under_write add constraint fk_uw_prd foreign key (product_id)
 
 alter table t_under_write add constraint fk_uw_org foreign key (organ_id)
       references t_organization (id);
+
+alter table t_under_write add column relation varchar(16) after insured;
+alter table t_under_write add column policy_fee double after relation;

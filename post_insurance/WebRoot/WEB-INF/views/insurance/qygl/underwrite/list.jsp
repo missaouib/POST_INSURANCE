@@ -95,57 +95,47 @@
 		</ul>
 	</div>
 	
-	<table class="table" layoutH="160" width="140%">
+	<table class="table" layoutH="160" width="100%">
 		<thead>
 			<tr>
 				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
-				<th orderField=issueNo class="${page.orderField eq 'issueNo' ? page.orderDirection : ''}">工单编号</th>
-				<th>工单内容</th>
-				<th orderField=ybtDate class="${page.orderField eq 'ybtDate' ? page.orderDirection : ''}">待处理时间</th>
-				<th>离犹豫期(天)</th>
-				<th orderField=policy.policyNo class="${page.orderField eq 'policy.policyNo' ? page.orderDirection : ''}">所属保单号</th>
+				<th orderField=organization.name class="${page.orderField eq 'organization.name' ? page.orderDirection : ''}">市县机构</th>
+				<th orderField=formNo class="${page.orderField eq 'formNo' ? page.orderDirection : ''}">投保单号</th>
+				<th orderField=policyNo class="${page.orderField eq 'policyNo' ? page.orderDirection : ''}">保单号</th>
 				<th>投保人</th>
-				<th>联系电话</th>
-				<th>险种名称</th>
-				<th>保单机构</th>
-				<th>出单网点</th>
-				<th orderField=status class="${page.orderField eq 'status' ? page.orderDirection : ''}">工单状态</th>
-				<th>重置电话</th>
-				<th orderField=organization.name class="${page.orderField eq 'organization.name' ? page.orderDirection : ''}">所属机构</th>
-				<shiro:hasPermission name="UnderWrite:provEdit">
-				<th orderField=hasLetter class="${page.orderField eq 'hasLetter' ? page.orderDirection : ''}">信函记录</th>
-				</shiro:hasPermission>
+				<th>被保人</th>
+				<th>关系</th>
+				<th orderField=prd.prdName class="${page.orderField eq 'prd.prdName' ? page.orderDirection : ''}">产品</th>
+				<th orderField=policyFee class="${page.orderField eq 'policyFee' ? page.orderDirection : ''}">保费</th>
+				<th orderField=ytbDate class="${page.orderField eq 'ytbDate' ? page.orderDirection : ''}">邮保通录入时间</th>
+				<th>核心录入时间</th>
+				<th>复核时间</th>
+				<th>签单日期</th>
+				<th>省分收到合同日</th>
+				<th>合同签收日期</th>
+				<th>回执录入日期</th>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach var="item" items="${issues}">
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
-				<td>${item.issueNo}</td>
-				<td>${item.issueContent}</td>
-				<td><fmt:formatDate value="${item.ybtDate }" pattern="yyyy-MM-dd"/></td>
-				<td><span style="color:red; height:50%; margin-bottom:-contentheight;"><c:if test="${item.lastDateNum<0 }">0</c:if><c:if test="${item.lastDateNum>=0 }">${item.lastDateNum }</c:if></span></td>
-				<td>${item.policy.policyNo}</td>
-				<td>${item.policy.holder}</td>
-				<td>${item.holderMobile eq ""?item.holderPhone:item.holderMobile}</td>
-				<td>${item.policy.prodName}</td>
-				<td>${item.policy.organization.name}</td>
-				<td>
-					<c:choose>  
-					    <c:when test="${fn:length(item.bankName) > 14}">  
-					        <c:out value="${fn:substring(item.bankName, 14, 30)}" />  
-					    </c:when>  
-					   <c:otherwise>  
-					      <c:out value="${item.bankName}" />  
-					    </c:otherwise>  
-					</c:choose>
-				</td>
-				<td>${item.status}</td>
-				<td>${item.resetPhone}</td>
 				<td>${item.organization.name}</td>
-				<shiro:hasPermission name="UnderWrite:provEdit">
-				<td>${item.hasLetter}</td>
-				</shiro:hasPermission>
+				<td>${item.formNo}</td>
+				<td>${item.policyNo}</td>
+				<td>${item.holder}</td>
+				<td>${item.insured}</td>
+				<td>${item.relation}</td>
+				<td>${item.prd.prdName}</td>
+				<td>${item.policyFee}</td>
+				<td><fmt:formatDate value="${item.ybtDate }" pattern="yyyy-MM-dd"/></td>
+				<td><fmt:formatDate value="${item.sysDate }" pattern="yyyy-MM-dd"/></td>
+				<td><fmt:formatDate value="${item.checkDate }" pattern="yyyy-MM-dd"/></td>
+				<td><fmt:formatDate value="${item.underwriteDate }" pattern="yyyy-MM-dd"/></td>
+				<td><fmt:formatDate value="${item.signDate }" pattern="yyyy-MM-dd"/></td>
+				<td><fmt:formatDate value="${item.provReceiveDate }" pattern="yyyy-MM-dd"/></td>
+				<td><fmt:formatDate value="${item.clientReceiveDate }" pattern="yyyy-MM-dd"/></td>
+				<td><fmt:formatDate value="${item.signInputDate }" pattern="yyyy-MM-dd"/></td>
 			</tr>
 			</c:forEach>
 		</tbody>

@@ -26,6 +26,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.JavaBeanSerializer;
 import com.alibaba.fastjson.serializer.SerializeConfig;
 import com.gdpost.web.entity.basedata.ConservationError;
+import com.gdpost.web.entity.basedata.Prd;
 import com.gdpost.web.entity.main.Policy;
 import com.gdpost.web.service.insurance.BaseDataService;
 import com.gdpost.web.service.insurance.CommonService;
@@ -86,5 +87,21 @@ public class CommonController {
 		map.put("cvelist", org);
 		map.put("page", page);
 		return LOOK_CVE;
+	}
+	
+	@RequestMapping(value="/lookupPrdSuggest", method={RequestMethod.POST})
+	public @ResponseBody String lookupPrdSuggest(ServletRequest request, Map<String, Object> map) {
+		Specification<Prd> specification = DynamicSpecifications.bySearchFilter(request, Prd.class);
+		Page page = new Page();
+		page.setNumPerPage(60);
+		List<Prd> org = commonService.findByPrdExample(specification, page);
+		SerializeConfig mapping = new SerializeConfig();
+		HashMap<String, String> fm = new HashMap<String, String>();
+		fm.put("id", "id");
+		fm.put("prdName", "prdName");
+		mapping.put(Prd.class, new JavaBeanSerializer(Prd.class, fm));
+		String str = JSON.toJSONString(org, mapping);
+		LOG.debug("---------------- bq issue suggest: " + str);
+		return str;
 	}
 }
