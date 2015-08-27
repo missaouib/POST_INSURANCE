@@ -13,6 +13,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 import com.gdpost.web.entity.main.CheckRecord;
 import com.gdpost.web.entity.main.CheckWrite;
+import com.gdpost.web.entity.main.UnderWrite;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.util.dwz.Page;
 
@@ -42,4 +43,25 @@ public interface QyglService {
 	List<CheckWrite> getTODOWriteIssueList(User user);
 	
 	List<CheckRecord> getTODORecordIssueList(User user);
+	
+	/*
+	 * ================
+	 * 人核件
+	 * ================
+	 */
+	UnderWrite getUnderWrite(Long id);
+
+	void saveOrUpdateUnderWrite(UnderWrite uw);
+
+	void deleteUnderWrite(Long id);
+	
+	List<UnderWrite> findAllUnderWrite(Page page);
+	
+	List<UnderWrite> findByUnderWriteExample(Specification<UnderWrite> specification, Page page);
+	
+	UnderWrite getUnderWriteByPolicyNo(String policyNo);
+	
+	UnderWrite getUnderWriteByFormNo(String formNo);
+	
+	List<UnderWrite> getTODOUnderWriteList(User user);
 }

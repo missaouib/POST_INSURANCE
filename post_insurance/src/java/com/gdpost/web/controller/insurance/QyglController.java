@@ -24,7 +24,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,7 +33,9 @@ import com.gdpost.utils.SecurityUtils;
 import com.gdpost.web.entity.main.CheckRecord;
 import com.gdpost.web.entity.main.CheckWrite;
 import com.gdpost.web.entity.main.Organization;
+import com.gdpost.web.entity.main.UnderWrite;
 import com.gdpost.web.entity.main.User;
+import com.gdpost.web.exception.ExistedException;
 import com.gdpost.web.log.Log;
 import com.gdpost.web.log.LogMessageObject;
 import com.gdpost.web.log.impl.LogUitls;
@@ -66,17 +67,16 @@ public class QyglController {
 	private static final String ISSUE_RECORD_LIST = "insurance/qygl/wtj/record/issuelist";
 	
 	private static final String UNDERWRITE_LIST = "insurance/qygl/underwrite/underwritelist";
+	private static final String UW_VIEW = "insurance/qygl/underwrite/view";
+	private static final String UW_UPDATE = "insurance/qygl/underwrite/update";
+	private static final String UW_LIST = "insurance/qygl/underwrite/list";
+	private static final String UW_CREATE = "insurance/qygl/underwrite/create";
+	
 	private static final String TO_HELP = "insurance/help/qygl";
 	
 	@RequestMapping(value="/help", method=RequestMethod.GET)
 	public String toHelp() {
 		return TO_HELP;
-	}
-	
-	@RequiresPermissions("Underwrite:view")
-	@RequestMapping(value="/underwritelist", method={RequestMethod.GET, RequestMethod.POST})
-	public String underwriteList(ServletRequest request, Page page, Map<String, Object> map) {
-		return UNDERWRITE_LIST;
 	}
 	
 	/*
@@ -121,7 +121,7 @@ public class QyglController {
 	@Log(message="重新打开了{0}新契约不合格件的信息。")
 	@RequiresPermissions("CheckWrite:edit")
 	@RequestMapping(value="/issue/write/reopen", method=RequestMethod.POST)
-	public @ResponseBody String reopenCheckWrite(@Valid @ModelAttribute("preloadCheckWrite")CheckWrite issue) {
+	public @ResponseBody String reopenCheckWrite(CheckWrite issue) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		CheckWrite src = qyglService.getCheckWrite(issue.getId());
 		src.setFixStatus(STATUS.ReopenStatus.name());
@@ -137,7 +137,7 @@ public class QyglController {
 	@Log(message="结案了{0}新契约不合格件的信息。")
 	@RequiresPermissions("CheckWrite:edit")
 	@RequestMapping(value="/issue/write/close", method=RequestMethod.POST)
-	public @ResponseBody String closeCheckWrite(@Valid @ModelAttribute("preloadCheckWrite")CheckWrite issue) {
+	public @ResponseBody String closeCheckWrite(CheckWrite issue) {
 		//ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		CheckWrite src = qyglService.getCheckWrite(issue.getId());
 		src.setFixStatus(STATUS.CloseStatus.name());
@@ -212,7 +212,7 @@ public class QyglController {
 	@Log(message="回复了{0}新契约不合格件的信息。")
 	@RequiresPermissions("CheckRecord:edit")
 	@RequestMapping(value="/issue/record/update", method=RequestMethod.POST)
-	public @ResponseBody String updateCheckRecord(@Valid @ModelAttribute("preloadCheckRecord")CheckRecord issue) {
+	public @ResponseBody String updateCheckRecord(CheckRecord issue) {
 		CheckRecord src = qyglService.getCheckRecord(issue.getId());
 		src.setDealMan(issue.getDealMan());
 		src.setDealTime(issue.getDealTime());
@@ -243,7 +243,7 @@ public class QyglController {
 	@Log(message="结案了{0}新契约不合格件的信息。")
 	@RequiresPermissions("CheckRecord:edit")
 	@RequestMapping(value="/issue/record/close", method=RequestMethod.POST)
-	public @ResponseBody String closeCheckRecord(@Valid @ModelAttribute("preloadCheckRecord")CheckRecord issue) {
+	public @ResponseBody String closeCheckRecord(CheckRecord issue) {
 		//ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		CheckRecord src = qyglService.getCheckRecord(issue.getId());
 		src.setFixStatus(STATUS.CloseStatus.name());
@@ -289,6 +289,89 @@ public class QyglController {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		map.put("issueList", qyglService.getTODORecordIssueList(shiroUser.getUser()));
 		return ISSUE_RECORD_LIST;
+	}
+	
+	/*
+	 * =====================================
+	 * UNDER WRITE
+	 * =====================================
+	 */
+	
+	@RequiresPermissions("UnderWrite:save")
+	@RequestMapping(value="/underwrite/create", method=RequestMethod.GET)
+	public String preCreate() {
+		return UW_CREATE;
+	}
+	
+	@Log(message="添加了{0}人核件信息。")
+	@RequiresPermissions("UnderWrite:save")
+	@RequestMapping(value="/underwrite/create", method=RequestMethod.POST)
+	public @ResponseBody String create(@Valid UnderWrite underwrite) {	
+		try {
+			qyglService.saveOrUpdateUnderWrite(underwrite);
+		} catch (ExistedException e) {
+			return AjaxObject.newError("添加人核件信息失败：" + e.getMessage()).setCallbackType("").toString();
+		}
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{underwrite.getPolicyNo()}));
+		return AjaxObject.newOk("添加人核件信息成功！").toString();
+	}
+	
+	@RequiresPermissions("UnderWrite:view")
+	@RequestMapping(value="/underwrite/view/{id}", method=RequestMethod.GET)
+	public String viewUnderWrite(@PathVariable Long id, Map<String, Object> map) {
+		UnderWrite underwrite = qyglService.getUnderWrite(id);
+		
+		map.put("underwrite", underwrite);
+		return UW_VIEW;
+	}
+	
+	@RequiresPermissions("UnderWrite:edit")
+	@RequestMapping(value="/underwrite/update/{id}", method=RequestMethod.GET)
+	public String preUpdateUnderWrite(@PathVariable Long id, Map<String, Object> map) {
+		UnderWrite underwrite = qyglService.getUnderWrite(id);
+		
+		map.put("underwrite", underwrite);
+		return UW_UPDATE;
+	}
+	
+	@Log(message="回复了{0}新契约不合格件的信息。")
+	@RequiresPermissions("UnderWrite:edit")
+	@RequestMapping(value="/underwrite/update", method=RequestMethod.POST)
+	public @ResponseBody String updateUnderWrite(UnderWrite underwrite) {
+		UnderWrite src = qyglService.getUnderWrite(underwrite.getId());
+		src.setDealMan(underwrite.getDealMan());
+		qyglService.saveOrUpdateUnderWrite(src);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{underwrite.getPolicyNo()}));
+		return	AjaxObject.newOk("回复新契约不合格件成功！").toString(); 
+	}
+	
+	@RequiresPermissions("UnderWrite:view")
+	@RequestMapping(value="/underwrite/list", method={RequestMethod.GET, RequestMethod.POST})
+	public String listUnderWrite(ServletRequest request, Page page, Map<String, Object> map) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
+		//默认返回未处理工单
+		
+		Specification<UnderWrite> specification = DynamicSpecifications.bySearchFilter(request, UnderWrite.class,
+				new SearchFilter("organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+		
+		List<UnderWrite> underwrites = qyglService.findByUnderWriteExample(specification, page);
+		
+		map.put("underwriteList", STATUS.values());
+		map.put("page", page);
+		map.put("underwrites", underwrites);
+		return UW_LIST;
+	}
+	
+	@RequiresPermissions("UnderWrite:view")
+	@RequestMapping(value="/underwritelist", method={RequestMethod.GET, RequestMethod.POST})
+	public String underWriteList(ServletRequest request, Page page, Map<String, Object> map) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		map.put("underwriteList", qyglService.getTODOUnderWriteList(shiroUser.getUser()));
+		return UNDERWRITE_LIST;
 	}
 	
 	// 使用初始化绑定器, 将参数自动转化为日期类型,即所有日期类型的数据都能自动转化为yyyy-MM-dd格式的Date类型

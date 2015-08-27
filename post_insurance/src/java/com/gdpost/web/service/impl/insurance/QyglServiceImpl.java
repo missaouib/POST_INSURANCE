@@ -15,9 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gdpost.web.dao.CheckRecordDAO;
 import com.gdpost.web.dao.CheckWriteDAO;
+import com.gdpost.web.dao.UnderWriteDAO;
 import com.gdpost.web.entity.main.CheckRecord;
 import com.gdpost.web.entity.main.CheckWrite;
 import com.gdpost.web.entity.main.Organization;
+import com.gdpost.web.entity.main.UnderWrite;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.exception.ExistedException;
 import com.gdpost.web.service.insurance.QyglService;
@@ -38,6 +40,9 @@ public class QyglServiceImpl implements QyglService {
 	
 	@Autowired
 	private CheckRecordDAO checkRecordDAO;
+	
+	@Autowired
+	private UnderWriteDAO uwDAO;
 	
 	/*
 	 * (non-Javadoc)
@@ -197,6 +202,72 @@ public class QyglServiceImpl implements QyglService {
 			if(tmpList != null && !tmpList.isEmpty()) {
 				issues.addAll(tmpList);
 			}
+		}
+		
+		return issues;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see com.gdpost.web.service.insurance.XqglService#getUnderWrite(java.lang.Long)
+	 */
+	@Override
+	public UnderWrite getUnderWrite(Long id) {
+		return uwDAO.findOne(id);
+	}
+
+	@Override
+	public void saveOrUpdateUnderWrite(UnderWrite uw) {
+		uwDAO.save(uw);
+	}
+
+	@Override
+	public void deleteUnderWrite(Long id) {
+		UnderWrite user = uwDAO.findOne(id);
+		uwDAO.delete(user.getId());
+	}
+
+	@Override
+	public List<UnderWrite> findAllUnderWrite(Page page) {
+		org.springframework.data.domain.Page<UnderWrite> springDataPage = uwDAO.findAll(PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
+	}
+
+	@Override
+	public List<UnderWrite> findByUnderWriteExample(Specification<UnderWrite> specification, Page page) {
+		org.springframework.data.domain.Page<UnderWrite> springDataPage = uwDAO.findAll(specification, PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
+	}
+
+	@Override
+	public UnderWrite getUnderWriteByPolicyNo(String policyNo) {
+		return uwDAO.getByPolicyNo(policyNo);
+	}
+
+	@Override
+	public UnderWrite getUnderWriteByFormNo(String formNo) {
+		return uwDAO.getByFormNo(formNo);
+	}
+
+	@Override
+	public List<UnderWrite> getTODOUnderWriteList(User user) {
+		Organization userOrg = user.getOrganization();
+		//默认返回未处理工单
+		Specification<UnderWrite> specification = null;
+		
+		specification = DynamicSpecifications.bySearchFilterWithoutRequest(UnderWrite.class,
+				new SearchFilter("signInputDate", Operator.NOTNULL, null),
+				new SearchFilter("organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+		Page page = new Page();
+		page.setNumPerPage(100);
+		page.setOrderField("ybtDate");
+		page.setOrderDirection("ASC");
+		
+		List<UnderWrite> issues = this.findByUnderWriteExample(specification, page);
+		if (issues == null || issues.isEmpty()) {
+			issues = new ArrayList<UnderWrite>();
 		}
 		
 		return issues;

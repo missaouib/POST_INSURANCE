@@ -12,4 +12,6 @@ import com.gdpost.web.entity.main.UnderWrite;
  */
 
 public interface UnderWriteDAO extends JpaRepository<UnderWrite, Long>, JpaSpecificationExecutor<UnderWrite> {
+	UnderWrite getByPolicyNo(String policyNo);
+	UnderWrite getByFormNo(String formNo);
 }

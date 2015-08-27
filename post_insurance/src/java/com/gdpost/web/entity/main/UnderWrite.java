@@ -1,7 +1,5 @@
 package com.gdpost.web.entity.main;
 
-import static javax.persistence.GenerationType.IDENTITY;
-
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -9,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -28,8 +27,8 @@ public class UnderWrite implements Idable<Long> {
 	// Fields
 
 	private Long id;
-	private Organization Organization;
-	private Prd Prd;
+	private Organization organization;
+	private Prd prd;
 	private String policyNo;
 	private String formNo;
 	private String holder;
@@ -65,13 +64,13 @@ public class UnderWrite implements Idable<Long> {
 	}
 
 	/** full constructor */
-	public UnderWrite(Organization Organization, Prd Prd, String policyNo, String formNo, String holder, String insured, String underwriteReason,
+	public UnderWrite(Organization organization, Prd prd, String policyNo, String formNo, String holder, String insured, String underwriteReason,
 			Date ybtDate, Timestamp sysDate, Timestamp checkDate, Short issueFlag, String errorDesc, String dealMan, Timestamp underwriteDate,
 			Boolean isLetter, Timestamp signDate, Date provReceiveDate, Date provSendDate, String provEmsNo, Date cityReceiveDate, Date citySendDate,
 			String cityEmsNo, Date areaReceiveDate, Date areaSendDate, String areaEmsNo, Date netReceiveDate, Date clientReceiveDate, Date signInputDate,
 			String remark) {
-		this.Organization = Organization;
-		this.Prd = Prd;
+		this.organization = organization;
+		this.prd = prd;
 		this.policyNo = policyNo;
 		this.formNo = formNo;
 		this.holder = holder;
@@ -103,7 +102,7 @@ public class UnderWrite implements Idable<Long> {
 
 	// Property accessors
 	@Id
-	@GeneratedValue(strategy = IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", unique = true, nullable = false)
 	public Long getId() {
 		return this.id;
@@ -116,21 +115,21 @@ public class UnderWrite implements Idable<Long> {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "organ_id")
 	public Organization getOrganization() {
-		return this.Organization;
+		return this.organization;
 	}
 
-	public void setOrganization(Organization Organization) {
-		this.Organization = Organization;
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "product_id")
 	public Prd getPrd() {
-		return this.Prd;
+		return this.prd;
 	}
 
-	public void setPrd(Prd Prd) {
-		this.Prd = Prd;
+	public void setPrd(Prd prd) {
+		this.prd = prd;
 	}
 
 	@Column(name = "policy_no", unique = true, length = 18)
