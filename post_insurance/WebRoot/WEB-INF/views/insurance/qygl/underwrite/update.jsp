@@ -1,239 +1,91 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 <div class="pageContent">
-<form method="post" action="${contextPath}/qygl/underwrite/update" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
-	<input type="hidden" name="id" value="${issue.id}"/>
+<form method="post" action="${contextPath }/qygl/underwrite/update" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
+	<input type="hidden" name="id" value="${underwrite.id }">
 	<div class="pageFormContent" layoutH="58">
-	<fieldset>
-		<legend>回访不成功件基本信息</legend>
-		<p>
-			<label>工单编号：</label>
-			<span class="unit">${issue.issueNo }</span>
-		</p>
-		<p>
-			<label>工单状态：</label>
-			<span class="unit">${issue.status }</span>
-		</p>
-		<p>
-			<label>保单号：</label>
-			<span class="unit">${issue.policy.policyNo }</span>
-		</p>
-		<p>
-			<label>险种名称：</label>
-			<span class="unit">${issue.policy.prodName }</span>
-		</p>
-		<p>
-			<label>客户电话：</label>
-			<span class="unit">${issue.holderPhone }</span>
-		</p>
-		<p>
-			<label>客户手机：</label>
-			<span class="unit">${issue.holderMobile }</span>
-		</p>
-		<p>
-			<label>客户姓名：</label>
-			<span class="unit">${issue.policy.holder }</span>
-		</p>
 		<p>
 			<label>所属机构：</label>
-			<span class="unit">${issue.organization.name }</span>
-		</p>
-		<p class="nowrap">
-			<label>出单网点：</label>
-			<span class="unit">${issue.bankName }</span>
+			<input name="organization.id" id="uw_orgId" type="hidden" value="${underwrite.organization.id }"/>
+					<input class="validate[required] required" name="organization.name" id="uw_orgName" type="text" readonly="readonly" style="width: 140px;" value="${underwrite.organization.name }"/>
+					<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="organization" title="选择机构" width="400">查找带回</a>
 		</p>
 		<p>
-			<label>回访日期：</label>
-			<span class="unit">${issue.callDate }</span>
+			<label>投保单号</label>
+			<input type="text" name="formNo" class="input-medium validate[required,maxSize[21] required" value="${underwrite.formNo }"/>
 		</p>
 		<p>
-			<label>不成功日期：</label>
-			<span class="unit">${issue.issueDate }</span>
+			<label>投保人：</label>
+			<input type="text" name="holder" class="input-medium validate[required,maxSize[14]] required" maxlength="32" value="${underwrite.holder }"/>
 		</p>
 		<p>
-			<label>下发日期：</label>
-			<span class="unit">${issue.issueTime }</span>
+			<label>被保人：</label>
+			<input type="text" name="insured" class="input-medium validate[required,maxSize[14]] required" maxlength="32" value="${underwrite.insured }"/>
 		</p>
 		<p>
-			<label>工单类型：</label>
-			<span class="unit">${issue.issueType }</span>
-		</p>
-		<p class="nowrap">
-			<label>工单内容：</label>
-			<span class="unit">${issue.issueContent }</span>
-		</p>
-	</fieldset>
-	<fieldset>
-		<p>
-			<label>重置电话为：</label>
-			<span class="unit">${issue.resetPhone }</span>
-		</p>
-	</fieldset>
-	<div class="divider"></div>
-	<fieldset>
-		<legend>回访不成功处理详情(仅记录最后结果)</legend>
-		<p>
-			<label>不成功类型：</label>
-			<form:select path="issue.dealType" onchange="javascript:$('#dealDesc').val($('#dealType').find('option:selected').text())">
-				<form:option value=""> -- </form:option>
-				<form:options items="${orgTypeList }" itemLabel="typeDesc" itemValue="typeName"/>
-			</form:select>
+			<label>投被保人关系：</label>
+			<input type="text" name="relation" class="input-medium validate[required,maxSize[14]] required" maxlength="32" value="${underwrite.relation }"/>
 		</p>
 		<p>
-			<label>不成功结果：</label>
-			<textarea name="dealDesc" id="dealDesc" cols="25" rows="2">${issue.dealDesc }</textarea>
-		</p>
-		<p>&nbsp;</p><p>&nbsp;</p>
-		<p>
-			<label>经办人：</label>
-			<input type="text" name="dealMan" class="input-medium" maxlength="32" value="${issue.dealMan }"/>
+			<label>转核原因：</label>
+			<input type="text" name="underwriteReason" class="input-medium validate[required,maxSize[64]] required" maxlength="64" value="${underwrite.underwriteReason }"/>
 		</p>
 		<p>
-			<label>经办日期：</label>
-			<input type="text" name="dealTime" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value="${issue.dealTime }" pattern="yyyy-MM-dd"/>"/>
-				<a class="inputDateButton" href="javascript:;">选择</a>
-		</p>
-	</fieldset>
-	<div class="divider"></div>
-	<fieldset>
-		<legend>省分二访中心第一次回访处理详情</legend>
-		<p>
-			<label>不成功类型：</label>
-			<span class="unit">${issue.hqDealType }</span>
+			<label>保险产品：</label>
+			<input type="hidden" name="prd.id" class="input-medium validate[required,maxSize[32]] required" value="${underwrite.prd.id }"/>
+			<input name="prd.prdName" type="text" postField="search_LIKE_prdName" suggestFields="prd" value="${underwrite.prd.prdName }"
+					suggestUrl="/common/lookupPolicysuggest" lookupGroup="prd"/>
 		</p>
 		<p>
-			<label>回访类型：</label>
-			<span class="unit">${issue.hqDealRst }</span>
+			<label>保费：</label>
+			<input type="text" name="policyFee" class="input-medium validate[required,maxSize[14]] required" maxlength="32"value="${underwrite.policyFee }"/>
 		</p>
 		<p>
-			<label>经办人：</label>
-			<span class="unit">${issue.hqDealMan }</span>
+			<label>邮保通录入日期：</label>
+			<input type="text" name="ybtDate" id="ybtDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value="${item.ybtDate }" pattern="yyyy-MM-dd"/>"/>
+					<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 		<p>
-			<label>回访日期：</label>
-			<span class="unit"><fmt:formatDate value='${issue.hqDealDate }' pattern='yyyy-MM-dd'/></span>
-		</p>
-	</fieldset>
-	<fieldset>
-		<legend>省分二访中心第二次回访处理详情</legend>
-		<p>
-			<label>不成功类型：</label>
-			<span class="unit">${issue.hqDealType2 }</span>
+			<label>核心录入日期：</label>
+			<input type="text" name="sysDate" id="sysDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value="${item.sysDate }" pattern="yyyy-MM-dd"/>"/>
+					<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 		<p>
-			<label>回访类型：</label>
-			<span class="unit">${issue.hqDealRst2 }</span>
+			<label>复核日期：</label>
+			<input type="text" name="checkDate" id="checkDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value="${item.checkDate }" pattern="yyyy-MM-dd"/>"/>
+					<a class="inputDateButton" href="javascript:;">选择</a>
+		</p>
+		<div class="divider"></div>
+		<p>
+			<label>是否下问题件：</label>
+			<form:radiobutton path="underwrite.issueFlag" value="1" onclick="javascript:$('#dispDiv').style.display='';"/>是
+			<form:radiobutton path="underwrite.issueFlag" value="0" onclick="javascript:$('#dispDiv').style.display='none';"/>否
+		</p>
+		<div id="dispDiv" <c:if test="${underwrite.issueFlag==0 }">style="display:none"</c:if>>
+		<p>
+			<label>问题件描述：</label>
+			<input type="text" name="errorDesc" class="input-medium validate[required,maxSize[14]] required" maxlength="32" value="${underwrite.errorDesc }"/>
+		</p>
+		</div>
+		<p>
+			<label>核保日期：</label>
+			<input type="text" name="underwriteDate" id="underwriteDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value="${item.underwriteDate }" pattern="yyyy-MM-dd"/>"/>
+					<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 		<p>
-			<label>经办人：</label>
-			<span class="unit">${issue.hqDealMan2 }</span>
+			<label>是否下通知书：</label>
+			<form:radiobutton path="underwrite.isLetter" value="1"/>是
+			<form:radiobutton path="underwrite.isLetter" value="0"/>否
 		</p>
 		<p>
-			<label>回访日期：</label>
-			<span class="unit"><fmt:formatDate value='${issue.hqDealDate2 }' pattern='yyyy-MM-dd'/></span>
+			<label>签单日期：</label>
+			<input type="text" name="signDate" id="signDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value="${item.signDate }" pattern="yyyy-MM-dd"/>"/>
+					<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
-	</fieldset>
-	<fieldset>
-		<legend>省分二访中心第三次回访处理详情</legend>
-		<p>
-			<label>不成功类型：</label>
-			<span class="unit">${issue.hqDealType3 }</span>
-		</p>
-		<p>
-			<label>回访类型：</label>
-			<span class="unit">${issue.hqDealRst3 }</span>
-		</p>
-		<p>
-			<label>经办人：</label>
-			<span class="unit">${issue.hqDealMan3 }</span>
-		</p>
-		<p>
-			<label>回访日期：</label>
-			<span class="unit"><fmt:formatDate value='${issue.hqDealDate3 }' pattern='yyyy-MM-dd'/></span>
-		</p>
-	</fieldset>
-	<fieldset>
-		<legend>省分二访中心第四次回访处理详情</legend>
-		<p>
-			<label>不成功类型：</label>
-			<span class="unit">${issue.hqDealType4 }</span>
-		</p>
-		<p>
-			<label>回访类型：</label>
-			<span class="unit">${issue.hqDealRst4 }</span>
-		</p>
-		<p>
-			<label>经办人：</label>
-			<span class="unit">${issue.hqDealMan4 }</span>
-		</p>
-		<p>
-			<label>回访日期：</label>
-			<span class="unit"><fmt:formatDate value='${issue.hqDealDate4 }' pattern='yyyy-MM-dd'/></span>
-		</p>
-	</fieldset>
-	<fieldset>
-		<legend>省分二访中心第五次回访处理详情</legend>
-		<p>
-			<label>不成功类型：</label>
-			<span class="unit">${issue.hqDealType5 }</span>
-		</p>
-		<p>
-			<label>回访类型：</label>
-			<span class="unit">${issue.hqDealRst5 }</span>
-		</p>
-		<p>
-			<label>经办人：</label>
-			<span class="unit">${issue.hqDealMan5 }</span>
-		</p>
-		<p>
-			<label>回访日期：</label>
-			<span class="unit"><fmt:formatDate value='${issue.hqDealDate5 }' pattern='yyyy-MM-dd'/></span>
-		</p>
-	</fieldset>
-	<fieldset>
-		<legend>省分二访中心第六次回访处理详情</legend>
-		<p>
-			<label>不成功类型：</label>
-			<span class="unit">${issue.hqDealType6 }</span>
-		</p>
-		<p>
-			<label>回访类型：</label>
-			<span class="unit">${issue.hqDealRst6 }</span>
-		</p>
-		<p>
-			<label>经办人：</label>
-			<span class="unit">${issue.hqDealMan6 }</span>
-		</p>
-		<p>
-			<label>回访日期：</label>
-			<span class="unit"><fmt:formatDate value='${issue.hqDealDate6 }' pattern='yyyy-MM-dd'/></span>
-		</p>
-	</fieldset>
-	<div class="divider"></div>
-	<fieldset>
-		<legend>分公司回访情况</legend>
-		<p class="nowrap">
-			<label>分公司回访产生问题记录：</label>
-			<span class="unit">${issue.provIssueType }</span>
-		</p>
-		<p class="nowrap">
-			<label>分公司回访结果：</label>
-			<span class="unit">${issue.provDealRst }</span>
-		</p>
-		<p class="nowrap">
-			<label>分公司回访日期：</label>
-			<span class="unit">${issue.provDealDate }</span>
-		</p>
-		<p class="nowrap">
-			<label>分公司回访备注：</label>
-			<span class="unit">${issue.provDealRemark }</span>
-		</p>
-	</fieldset>
 	</div>
-			
 	<div class="formBar">
 		<ul>
-			<li><div <c:if test='${issue.status eq "已结案" }'>class="buttonDisabled"</c:if> <c:if test='${issue.status ne "已结案" }'>class="button"</c:if>><div class="buttonContent"><button type="submit" <c:if test='${issue.status eq "已结案" }'>disabled=true</c:if>>提交回访结果</button></div></div></li>
+			<li><div class="button"><div class="buttonContent"><button type="submit">确定</button></div></div></li>
 			<li><div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div></li>
 		</ul>
 	</div>
