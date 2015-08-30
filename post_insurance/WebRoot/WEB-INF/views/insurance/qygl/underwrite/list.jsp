@@ -26,13 +26,6 @@
 					<input type="text" id="hfPolicyNo" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
 				</li>
 				<li>
-					<label>工单状态：</label>
-					<form:select path="issue.status" id="hfStatus" class="combox">
-						<form:option value=""> -- -- </form:option>
-						<form:options items="${hfStatusList }" itemLabel="desc" itemValue="desc"/>
-					</form:select>
-				</li>
-				<li>
 					<label>所属机构：</label>
 					<input name="policy.orgCode" id="xq_orgCode" type="hidden" value="${policy_orgCode }"/>
 					<input class="validate[required] required" name="policy.name" id="xq_orgName" type="text" readonly="readonly" style="width: 140px;" value="${policy_name }"/>
@@ -49,13 +42,6 @@
 					<label>待处理结束日期：</label>
 					<input type="text" name="search_LTE_ybtDate" id="hfDate2" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_ybtDate }"/>
 					<a class="inputDateButton" href="javascript:;">选择</a>
-				</li>
-				<li>
-					<label>已信函：</label>
-					<form:select path="issue.search_LIKE_hasLetter" id="hfHsLetter" class="combox">
-						<form:option value=""> -- -- </form:option>
-						<form:option value="信函已发"> 信函已发 </form:option>
-					</form:select>
 				</li>
 			</ul>
 			<div class="subBar">
@@ -75,18 +61,22 @@
 				<li><a iconClass="user_edit" target="dialog" rel="underwrite_edit" mask="true" width="850" height="580" href="${contextPath }/qygl/underwrite/view/{slt_uid}"><span>查看人核件</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="UnderWrite:edit">
+			<li class="line">line</li>
 				<li><a iconClass="user_edit" target="dialog" rel="underwrite_edit" mask="true" width="850" height="580" href="${contextPath }/qygl/underwrite/update/{slt_uid}"><span>更新人核件</span></a></li>
 				<li><a iconClass="user_go" href="${contextPath}/qygl/underwrite/signDate/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>回销登记</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="UnderWrite:provEdit">
-				<li><a iconClass="user_edit" target="dialog" rel="underwrite_edit" mask="true" width="850" height="620" href="${contextPath }/qygl/underwrite/create/{slt_uid}"><span>新建人核件</span></a></li>
+			<li class="line">line</li>
+				<li><a iconClass="user_edit" target="dialog" rel="underwrite_edit" mask="true" width="850" height="620" href="${contextPath }/qygl/underwrite/create"><span>新建人核件</span></a></li>
 				<li><a iconClass="user_go" href="${contextPath}/qygl/underwrite/proSend/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>省分寄出</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="UnderWrite:cityEdit">
+			<li class="line">line</li>
 				<li><a iconClass="user_go" href="${contextPath}/qygl/underwrite/cityRec/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>地市接收</span></a></li>
 				<li><a iconClass="user_go" href="${contextPath}/qygl/underwrite/citySend/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>地市寄出</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="UnderWrite:areaEdit">
+			<li class="line">line</li>
 				<li><a iconClass="user_go" href="${contextPath}/qygl/underwrite/areaRec/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>县区接收</span></a></li>
 				<li><a iconClass="user_go" href="${contextPath}/qygl/underwrite/areaSend/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>县区寄出</span></a></li>
 			</shiro:hasPermission>
@@ -95,7 +85,7 @@
 		</ul>
 	</div>
 	
-	<table class="table" layoutH="160" width="100%">
+	<table class="table" layoutH="160" width="120%">
 		<thead>
 			<tr>
 				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
@@ -117,7 +107,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach var="item" items="${issues}">
+			<c:forEach var="item" items="${underwrites}">
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
 				<td>${item.organization.name}</td>

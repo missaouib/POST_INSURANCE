@@ -360,7 +360,7 @@ public class QyglController {
 		
 		List<UnderWrite> underwrites = qyglService.findByUnderWriteExample(specification, page);
 		
-		map.put("underwriteList", STATUS.values());
+		map.put("UWStatusList", STATUS.values());
 		map.put("page", page);
 		map.put("underwrites", underwrites);
 		return UW_LIST;

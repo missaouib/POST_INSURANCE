@@ -1,6 +1,5 @@
 package com.gdpost.web.entity.main;
 
-import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -35,14 +34,14 @@ public class UnderWrite implements Idable<Long> {
 	private String insured;
 	private String underwriteReason;
 	private Date ybtDate;
-	private Timestamp sysDate;
-	private Timestamp checkDate;
+	private Date sysDate;
+	private Date checkDate;
 	private Short issueFlag;
 	private String errorDesc;
 	private String dealMan;
-	private Timestamp underwriteDate;
+	private Date underwriteDate;
 	private Boolean isLetter;
-	private Timestamp signDate;
+	private Date signDate;
 	private Date provReceiveDate;
 	private Date provSendDate;
 	private String provEmsNo;
@@ -86,8 +85,8 @@ public class UnderWrite implements Idable<Long> {
 
 	/** full constructor */
 	public UnderWrite(Organization organization, Prd prd, String policyNo, String formNo, String holder, String insured, String underwriteReason,
-			Date ybtDate, Timestamp sysDate, Timestamp checkDate, Short issueFlag, String errorDesc, String dealMan, Timestamp underwriteDate,
-			Boolean isLetter, Timestamp signDate, Date provReceiveDate, Date provSendDate, String provEmsNo, Date cityReceiveDate, Date citySendDate,
+			Date ybtDate, Date sysDate, Date checkDate, Short issueFlag, String errorDesc, String dealMan, Date underwriteDate,
+			Boolean isLetter, Date signDate, Date provReceiveDate, Date provSendDate, String provEmsNo, Date cityReceiveDate, Date citySendDate,
 			String cityEmsNo, Date areaReceiveDate, Date areaSendDate, String areaEmsNo, Date netReceiveDate, Date clientReceiveDate, Date signInputDate,
 			String remark) {
 		this.organization = organization;
@@ -208,20 +207,20 @@ public class UnderWrite implements Idable<Long> {
 	}
 
 	@Column(name = "sys_date", length = 19)
-	public Timestamp getSysDate() {
+	public Date getSysDate() {
 		return this.sysDate;
 	}
 
-	public void setSysDate(Timestamp sysDate) {
+	public void setSysDate(Date sysDate) {
 		this.sysDate = sysDate;
 	}
 
 	@Column(name = "check_date", length = 19)
-	public Timestamp getCheckDate() {
+	public Date getCheckDate() {
 		return this.checkDate;
 	}
 
-	public void setCheckDate(Timestamp checkDate) {
+	public void setCheckDate(Date checkDate) {
 		this.checkDate = checkDate;
 	}
 
@@ -253,11 +252,11 @@ public class UnderWrite implements Idable<Long> {
 	}
 
 	@Column(name = "underwrite_date", length = 19)
-	public Timestamp getUnderwriteDate() {
+	public Date getUnderwriteDate() {
 		return this.underwriteDate;
 	}
 
-	public void setUnderwriteDate(Timestamp underwriteDate) {
+	public void setUnderwriteDate(Date underwriteDate) {
 		this.underwriteDate = underwriteDate;
 	}
 
@@ -271,11 +270,11 @@ public class UnderWrite implements Idable<Long> {
 	}
 
 	@Column(name = "sign_date", length = 19)
-	public Timestamp getSignDate() {
+	public Date getSignDate() {
 		return this.signDate;
 	}
 
-	public void setSignDate(Timestamp signDate) {
+	public void setSignDate(Date signDate) {
 		this.signDate = signDate;
 	}
 
