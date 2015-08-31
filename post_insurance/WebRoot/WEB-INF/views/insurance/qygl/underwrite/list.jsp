@@ -85,7 +85,7 @@
 		</ul>
 	</div>
 	
-	<table class="table" layoutH="160" width="120%">
+	<table class="table" layoutH="160" width="130%">
 		<thead>
 			<tr>
 				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
@@ -100,6 +100,7 @@
 				<th orderField=ytbDate class="${page.orderField eq 'ytbDate' ? page.orderDirection : ''}">邮保通录入时间</th>
 				<th>核心录入时间</th>
 				<th>复核时间</th>
+				<th>核保日期</th>
 				<th>签单日期</th>
 				<th>省分收到合同日</th>
 				<th>合同签收日期</th>

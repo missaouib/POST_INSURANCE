@@ -132,7 +132,7 @@ public class UnderWrite implements Idable<Long> {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "organ_id")
 	public Organization getOrganization() {
 		return this.organization;
@@ -142,7 +142,7 @@ public class UnderWrite implements Idable<Long> {
 		this.organization = organization;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "product_id")
 	public Prd getPrd() {
 		return this.prd;

@@ -59,7 +59,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach var="item" items="${basedata}">
+			<c:forEach var="item" items="${prds}">
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
 				<td>${item.prdCode}</td>

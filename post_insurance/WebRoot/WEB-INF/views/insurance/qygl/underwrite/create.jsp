@@ -32,8 +32,8 @@
 		<p>
 			<label>保险产品：</label>
 			<input type="hidden" name="prd.id" class="input-medium validate[required,maxSize[32]] required" />
-			<input name="prd.prdName" type="text" postField="search_LIKE_prdName" suggestFields="prd" 
-					suggestUrl="/common/lookupPolicysuggest" lookupGroup="prd"/>
+			<input name="prd.prdName" type="text" postField="search_LIKE_prdName" suggestFields="prd" class="input-medium validate[required,maxSize[32]] required"
+					suggestUrl="/common/lookupPrdSuggest" lookupGroup="prd"/>
 		</p>
 		<p>
 			<label>保费：</label>

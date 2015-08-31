@@ -341,9 +341,15 @@ public class QyglController {
 	public @ResponseBody String updateUnderWrite(UnderWrite underwrite) {
 		UnderWrite src = qyglService.getUnderWrite(underwrite.getId());
 		src.setDealMan(underwrite.getDealMan());
+		src.setIsLetter(underwrite.getIsLetter());
+		src.setErrorDesc(underwrite.getErrorDesc());
+		src.setUnderwriteDate(underwrite.getUnderwriteDate());
+		src.setIssueFlag(underwrite.getIssueFlag());
+		src.setSignDate(underwrite.getSignDate());
+		
 		qyglService.saveOrUpdateUnderWrite(src);
 		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{underwrite.getPolicyNo()}));
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicyNo()}));
 		return	AjaxObject.newOk("回复新契约不合格件成功！").toString(); 
 	}
 	

@@ -42,17 +42,17 @@
 		</p>
 		<p>
 			<label>邮保通录入日期：</label>
-			<input type="text" name="ybtDate" id="ybtDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value="${item.ybtDate }" pattern="yyyy-MM-dd"/>"/>
+			<input type="text" name="ybtDate" id="ybtDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value="${underwrite.ybtDate }" pattern="yyyy-MM-dd"/>"/>
 					<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 		<p>
 			<label>核心录入日期：</label>
-			<input type="text" name="sysDate" id="sysDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value="${item.sysDate }" pattern="yyyy-MM-dd"/>"/>
+			<input type="text" name="sysDate" id="sysDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value="${underwrite.sysDate }" pattern="yyyy-MM-dd"/>"/>
 					<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 		<p>
 			<label>复核日期：</label>
-			<input type="text" name="checkDate" id="checkDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value="${item.checkDate }" pattern="yyyy-MM-dd"/>"/>
+			<input type="text" name="checkDate" id="checkDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value="${underwrite.checkDate }" pattern="yyyy-MM-dd"/>"/>
 					<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 		<div class="divider"></div>
@@ -69,7 +69,7 @@
 		</div>
 		<p>
 			<label>核保日期：</label>
-			<input type="text" name="underwriteDate" id="underwriteDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value="${item.underwriteDate }" pattern="yyyy-MM-dd"/>"/>
+			<input type="text" name="underwriteDate" id="underwriteDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value="${underwrite.underwriteDate }" pattern="yyyy-MM-dd"/>"/>
 					<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 		<p>
@@ -79,7 +79,7 @@
 		</p>
 		<p>
 			<label>签单日期：</label>
-			<input type="text" name="signDate" id="signDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value="${item.signDate }" pattern="yyyy-MM-dd"/>"/>
+			<input type="text" name="signDate" id="signDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value="${underwrite.signDate }" pattern="yyyy-MM-dd"/>"/>
 					<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 	</div>
