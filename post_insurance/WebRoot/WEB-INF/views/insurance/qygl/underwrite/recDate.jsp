@@ -6,13 +6,9 @@
 	<input type="hidden" name="flag" value="${flag }">
 	<div class="pageFormContent" layouth="58">
 		<p>
-			<label>人核件寄出日期：</label>
-			<input type="text" name="sendDate" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${underwrite.sendDate }"/>
+			<label>人核件收到日期：</label>
+			<input type="text" name="receiveDate" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${underwrite.receiveDate }"/>
 				<a class="inputDateButton" href="javascript:;">选择</a>
-		</p>
-		<p>
-			<label>EMS单号：</label>
-			<input type="text" name="emsNo" class="input-medium validate[required,maxSize[14]] required" maxlength="32"value="${underwrite.emsNo }"/>
 		</p>
 	</div>
 	<div class="formBar">

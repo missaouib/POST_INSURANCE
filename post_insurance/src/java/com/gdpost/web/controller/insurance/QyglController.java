@@ -15,6 +15,7 @@ import java.util.Map;
 import javax.servlet.ServletRequest;
 import javax.validation.Valid;
 
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,6 +72,9 @@ public class QyglController {
 	private static final String UW_UPDATE = "insurance/qygl/underwrite/update";
 	private static final String UW_LIST = "insurance/qygl/underwrite/list";
 	private static final String UW_CREATE = "insurance/qygl/underwrite/create";
+	private static final String UW_SIGNDATEUPDATE = "insurance/qygl/underwrite/signDateUpdate";
+	private static final String UW_MAIL_DATE = "insurance/qygl/underwrite/mailDate";
+	private static final String UW_REC_DATE = "insurance/qygl/underwrite/recDate";
 	
 	private static final String TO_HELP = "insurance/help/qygl";
 	
@@ -335,7 +339,7 @@ public class QyglController {
 		return UW_UPDATE;
 	}
 	
-	@Log(message="回复了{0}新契约不合格件的信息。")
+	@Log(message="更新了{0}人核件的信息。")
 	@RequiresPermissions("UnderWrite:edit")
 	@RequestMapping(value="/underwrite/update", method=RequestMethod.POST)
 	public @ResponseBody String updateUnderWrite(UnderWrite underwrite) {
@@ -350,7 +354,110 @@ public class QyglController {
 		qyglService.saveOrUpdateUnderWrite(src);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicyNo()}));
-		return	AjaxObject.newOk("回复新契约不合格件成功！").toString(); 
+		return	AjaxObject.newOk("更新人核件成功！").toString(); 
+	}
+	
+	@RequiresPermissions("UnderWrite:edit")
+	@RequestMapping(value="/underwrite/signDateUpdate/{id}", method=RequestMethod.GET)
+	public String preSignDateUpdate(@PathVariable Long id, Map<String, Object> map) {
+		UnderWrite underwrite = qyglService.getUnderWrite(id);
+		
+		map.put("underwrite", underwrite);
+		return UW_SIGNDATEUPDATE;
+	}
+		
+		
+	@Log(message="更新了{0}人核件的信息。")
+	@RequiresPermissions("UnderWrite:edit")
+	@RequestMapping(value="/underwrite/signDateUpdate", method=RequestMethod.POST)
+	public @ResponseBody String signDateUpdate(UnderWrite underwrite) {
+		UnderWrite src = qyglService.getUnderWrite(underwrite.getId());
+		src.setClientReceiveDate(underwrite.getClientReceiveDate());
+		src.setSignInputDate(underwrite.getSignInputDate());
+		
+		qyglService.saveOrUpdateUnderWrite(src);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicyNo()}));
+		return	AjaxObject.newOk("更新人核件成功！").toString(); 
+	}
+	
+	@RequiresPermissions(value={"UnderWrite:edit","UnderWrite:provEdit","UnderWrite:cityEdit","UnderWrite:areaEdit"}, logical=Logical.OR)
+	@RequestMapping(value="/underwrite/{flag}/{id}", method=RequestMethod.GET)
+	public String preSignDateUpdate(@PathVariable String flag, @PathVariable Long id, Map<String, Object> map) {
+		UnderWrite underwrite = qyglService.getUnderWrite(id);
+		
+		map.put("underwrite", underwrite);
+		map.put("flag", flag);
+		if(flag.contains("Send")) {
+			switch(flag) {
+			case "provSend":
+				underwrite.setSendDate(underwrite.getProvSendDate());
+				underwrite.setEmsNo(underwrite.getProvEmsNo());
+				break;
+			case "citySend":
+				underwrite.setSendDate(underwrite.getCitySendDate());
+				underwrite.setEmsNo(underwrite.getCityEmsNo());
+				break;
+			case "areaSend":
+				underwrite.setSendDate(underwrite.getAreaSendDate());
+				underwrite.setEmsNo(underwrite.getAreaEmsNo());
+				break;
+			}
+			return UW_MAIL_DATE;
+		} else {
+			switch(flag) {
+			case "provRec":
+				underwrite.setReceiveDate(underwrite.getProvReceiveDate());
+				break;
+			case "cityRec":
+				underwrite.setReceiveDate(underwrite.getCityReceiveDate());
+				break;
+			case "areaRec":
+				underwrite.setReceiveDate(underwrite.getAreaReceiveDate());
+				break;
+			}
+			return UW_REC_DATE;
+		}
+	}
+		
+		
+	@Log(message="更新了{0}人核件的信息。")
+	@RequiresPermissions(value={"UnderWrite:edit","UnderWrite:provEdit","UnderWrite:cityEdit","UnderWrite:areaEdit"}, logical=Logical.OR)
+	@RequestMapping(value="/underwrite/sendRecUpdate", method=RequestMethod.POST)
+	public @ResponseBody String mailDateUpdate(ServletRequest request, UnderWrite underwrite) {
+		UnderWrite src = qyglService.getUnderWrite(underwrite.getId());
+		String flag = request.getParameter("flag");
+		switch(flag) {
+		case "provSend":
+			src.setProvSendDate(underwrite.getProvSendDate());
+			src.setProvEmsNo(underwrite.getProvEmsNo());
+			break;
+		case "citySend":
+			src.setCitySendDate(underwrite.getCitySendDate());
+			src.setCityEmsNo(underwrite.getCityEmsNo());
+			break;
+		case "areaSend":
+			src.setAreaSendDate(underwrite.getAreaSendDate());
+			src.setAreaEmsNo(underwrite.getAreaEmsNo());
+			break;
+		case "provRec":
+			src.setProvReceiveDate(underwrite.getProvReceiveDate());
+			break;
+		case "cityRec":
+			src.setCityReceiveDate(underwrite.getCityReceiveDate());
+			break;
+		case "areaRec":
+			src.setAreaReceiveDate(underwrite.getAreaReceiveDate());
+			break;
+			default:
+				log.warn("-------------人核件的寄发标记缺失!");
+				break;
+		}
+		
+		qyglService.saveOrUpdateUnderWrite(src);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicyNo()}));
+		return	AjaxObject.newOk("更新人核件成功！").toString(); 
 	}
 	
 	@RequiresPermissions("UnderWrite:view")

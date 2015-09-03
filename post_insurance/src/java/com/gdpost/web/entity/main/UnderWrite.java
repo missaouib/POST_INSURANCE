@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
 import com.gdpost.web.entity.Idable;
@@ -59,8 +60,40 @@ public class UnderWrite implements Idable<Long> {
 	private String relation;
 	private Double policyFee;
 
+	@Transient
+	private Date receiveDate;
+	@Transient
+	private Date sendDate;
+	@Transient
+	private String emsNo;
+	
 	// Constructors
+	@Transient
+	public Date getReceiveDate() {
+		return receiveDate;
+	}
+	@Transient
+	public void setReceiveDate(Date receiveDate) {
+		this.receiveDate = receiveDate;
+	}
 
+	@Transient
+	public Date getSendDate() {
+		return sendDate;
+	}
+	@Transient
+	public void setSendDate(Date sendDate) {
+		this.sendDate = sendDate;
+	}
+	@Transient
+	public String getEmsNo() {
+		return emsNo;
+	}
+	@Transient
+	public void setEmsNo(String emsNo) {
+		this.emsNo = emsNo;
+	}
+	
 	@Column(name="relation")
 	public String getRelation() {
 		return relation;
