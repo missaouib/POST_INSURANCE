@@ -6,12 +6,12 @@
 	<div class="pageFormContent" layouth="58">
 		<p>
 			<label>客户签收日期：</label>
-			<input type="text" name="clientReceiveDate" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${underwrite.clientReceiveDate }"/>
+			<input type="text" name="clientReceiveDate" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value="${underwrite.clientReceiveDate }" pattern="yyyy-MM-dd"/>"/>
 				<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 		<p>
 			<label>核心回执回销日期：</label>
-			<input type="text" name="signInputDate" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${underwrite.signInputDate }"/>
+			<input type="text" name="signInputDate" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value="${underwrite.signInputDate }" pattern="yyyy-MM-dd"/>"/>
 				<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 	</div>

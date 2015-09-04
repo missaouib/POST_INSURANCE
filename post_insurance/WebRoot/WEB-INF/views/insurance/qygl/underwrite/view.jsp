@@ -1,242 +1,124 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 <div class="pageContent">
-<form method="post" id="issueForm" action="${contextPath}/qygl/underwrite/reopen" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
-	<input type="hidden" name="id" value="${issue.id}"/>
-	<input type="hidden" name="status" value="${issue.status}"/>
+<form method="post" id="underwriteForm" action="${contextPath}/qygl/underwrite/reopen" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
+	<input type="hidden" name="id" value="${underwrite.id}"/>
 	<div class="pageFormContent" layoutH="58">
 	<fieldset>
-		<legend>回访不成功件基本信息</legend>
+		<legend>人核件基本信息</legend>
 		<p>
-			<label>工单编号：</label>
-			<span class="unit">${issue.issueNo }</span>
+			<label>市县机构：</label>
+			<span class="unit">${underwrite.organization.name }</span>
 		</p>
 		<p>
-			<label>工单状态：</label>
-			<span class="unit">${issue.status }</span>
+			<label>投保单号：</label>
+			<span class="unit">${underwrite.formNo }</span>
 		</p>
 		<p>
 			<label>保单号：</label>
-			<span class="unit">${issue.policy.policyNo }</span>
+			<span class="unit">${underwrite.policyNo }</span>
 		</p>
 		<p>
-			<label>险种名称：</label>
-			<span class="unit">${issue.policy.prodName }</span>
+			<label>投保人：</label>
+			<span class="unit">${underwrite.holder }</span>
 		</p>
 		<p>
-			<label>客户姓名：</label>
-			<span class="unit">${issue.policy.holder }</span>
+			<label>被保险人：</label>
+			<span class="unit">${underwrite.insured }</span>
 		</p>
 		<p>
-			<label>客户电话：</label>
-			<span class="unit">${issue.holderPhone }</span>
+			<label>投被保人关系：</label>
+			<span class="unit">${underwrite.relation }</span>
 		</p>
 		<p>
-			<label>客户手机：</label>
-			<span class="unit">${issue.holderMobile }</span>
+			<label>转核原因：</label>
+			<span class="unit">${underwrite.underwriteReason }</span>
 		</p>
 		<p>
-			<label>所属机构：</label>
-			<span class="unit">${issue.organization.name }</span>
-		</p>
-		<p class="nowrap">
-			<label>出单网点：</label>
-			<span class="unit">${issue.bankName }</span>
+			<label>邮保通录入时间：</label>
+			<span class="unit"><fmt:formatDate value="${underwrite.ybtDate }" pattern="yyyy-MM-dd"/></span>
 		</p>
 		<p>
-			<label>回访日期：</label>
-			<span class="unit">${issue.callDate }</span>
+			<label>核心录入时间：</label>
+			<span class="unit"><fmt:formatDate value="${underwrite.sysDate }" pattern="yyyy-MM-dd"/></span>
 		</p>
 		<p>
-			<label>不成功日期：</label>
-			<span class="unit">${issue.issueDate }</span>
+			<label>复核时间：</label>
+			<span class="unit"><fmt:formatDate value="${underwrite.checkDate }" pattern="yyyy-MM-dd"/></span>
 		</p>
 		<p>
-			<label>下发日期：</label>
-			<span class="unit">${issue.issueTime }</span>
+			<label>是否下问题件：</label>
+			<span class="unit">${underwrite.issueFlag==1?"是":"否" }</span>
 		</p>
 		<p>
-			<label>工单类型：</label>
-			<span class="unit">${issue.issueType }</span>
-		</p>
-		<p class="nowrap">
-			<label>工单内容：</label>
-			<span class="unit">${issue.issueContent }</span>
-		</p>
-	</fieldset>
-	<fieldset>
-		<p>
-			<label>重置电话为：</label>
-			<span class="unit">${issue.resetPhone }</span>
-		</p>
-	</fieldset>
-	<fieldset>
-		<p>
-			<label>信函标记：</label>
-			<span class="unit">${issue.hasLetter }</span>
+			<label>问题描述：</label>
+			<span class="unit">${underwrite.errorDesc }</span>
 		</p>
 		<p>
-			<label>发信函时间：</label>
-			<span class="unit">${issue.letterDate }</span>
+			<label>核保时间：</label>
+			<span class="unit"><fmt:formatDate value="${underwrite.underwriteDate }" pattern="yyyy-MM-dd"/></span>
 		</p>
 		<p>
-			<label>二访结果：</label>
-			<span class="unit">${issue.hqIssueType }</span>
+			<label>是否下通知书：</label>
+			<span class="unit">${underwrite.isLetter?"是":"否" }</span>
 		</p>
 		<p>
-			<label>地市上门结果：</label>
-			<span class="unit">${issue.dealType }</span>
+			<label>签单日期：</label>
+			<span class="unit"><fmt:formatDate value="${underwrite.signDate }" pattern="yyyy-MM-dd"/></span>
+		</p>
+		<p>
+			<label>收到合同日：</label>
+			<span class="unit"><fmt:formatDate value="${underwrite.provReceiveDate }" pattern="yyyy-MM-dd"/></span>
+		</p>
+		<p>
+			<label>客户签收日：</label>
+			<span class="unit"><fmt:formatDate value="${underwrite.clientReceiveDate }" pattern="yyyy-MM-dd"/></span>
+		</p>
+		<p>
+			<label>回执回销日：</label>
+			<span class="unit"><fmt:formatDate value="${underwrite.signInputDate }" pattern="yyyy-MM-dd"/></span>
 		</p>
 	</fieldset>
 	<div class="divider"></div>
 	<fieldset>
-		<legend>省分二访中心第一次回访处理详情</legend>
+		<legend>省分人核件流转记录</legend>
 		<p>
-			<label>不成功类型：</label>
-			<span class="unit">${issue.hqDealType }</span>
+			<label>分公司寄出时间：</label>
+			<span class="unit"><fmt:formatDate value="${underwrite.provSendDate }" pattern="yyyy-MM-dd"/></span>
 		</p>
 		<p>
-			<label>回访详情：</label>
-			<span class="unit">${issue.hqDealRst }</span>
-		</p>
-		<p>
-			<label>经办人：</label>
-			<span class="unit">${issue.hqDealMan }</span>
-		</p>
-		<p>
-			<label>回访日期：</label>
-			<span class="unit"><fmt:formatDate value='${issue.hqDealDate }' pattern='yyyy-MM-dd'/></span>
+			<label>分公司寄出EMS：</label>
+			<span class="unit">${underwrite.provEmsNo }</span>
 		</p>
 	</fieldset>
 	<fieldset>
-		<legend>省分二访中心第二次回访处理详情</legend>
+		<legend>地市人核件流转记录</legend>
 		<p>
-			<label>不成功类型：</label>
-			<span class="unit">${issue.hqDealType2 }</span>
+			<label>地市收到日期：</label>
+			<span class="unit"><fmt:formatDate value="${underwrite.cityReceiveDate }" pattern="yyyy-MM-dd"/></span>
 		</p>
 		<p>
-			<label>回访详情：</label>
-			<span class="unit">${issue.hqDealRst2 }</span>
+			<label>地市寄出日期：</label>
+			<span class="unit"><fmt:formatDate value="${underwrite.citySendDate }" pattern="yyyy-MM-dd"/></span>
 		</p>
 		<p>
-			<label>经办人：</label>
-			<span class="unit">${issue.hqDealMan2 }</span>
-		</p>
-		<p>
-			<label>回访日期：</label>
-			<span class="unit"><fmt:formatDate value='${issue.hqDealDate2 }' pattern='yyyy-MM-dd'/></span>
+			<label>地市寄出EMS：</label>
+			<span class="unit">${underwrite.cityEmsNo }</span>
 		</p>
 	</fieldset>
 	<fieldset>
-		<legend>省分二访中心第三次回访处理详情</legend>
+		<legend>县区人核件流转记录</legend>
 		<p>
-			<label>不成功类型：</label>
-			<span class="unit">${issue.hqDealType3 }</span>
-		</p>
-		<p>
-			<label>回访详情：</label>
-			<span class="unit">${issue.hqDealRst3 }</span>
+			<label>县区收到日期：</label>
+			<span class="unit"><fmt:formatDate value="${underwrite.areaReceiveDate }" pattern="yyyy-MM-dd"/></span>
 		</p>
 		<p>
-			<label>经办人：</label>
-			<span class="unit">${issue.hqDealMan3 }</span>
+			<label>县区寄出日期：</label>
+			<span class="unit"><fmt:formatDate value="${underwrite.areaSendDate }" pattern="yyyy-MM-dd"/></span>
 		</p>
 		<p>
-			<label>回访日期：</label>
-			<span class="unit"><fmt:formatDate value='${issue.hqDealDate3 }' pattern='yyyy-MM-dd'/></span>
-		</p>
-	</fieldset>
-	<fieldset>
-		<legend>省分二访中心第四次回访处理详情</legend>
-		<p>
-			<label>不成功类型：</label>
-			<span class="unit">${issue.hqDealType4 }</span>
-		</p>
-		<p>
-			<label>回访详情：</label>
-			<span class="unit">${issue.hqDealRst4 }</span>
-		</p>
-		<p>
-			<label>经办人：</label>
-			<span class="unit">${issue.hqDealMan4 }</span>
-		</p>
-		<p>
-			<label>回访日期：</label>
-			<span class="unit"><fmt:formatDate value='${issue.hqDealDate4 }' pattern='yyyy-MM-dd'/></span>
-		</p>
-	</fieldset>
-	<fieldset>
-		<legend>省分二访中心第五次回访处理详情</legend>
-		<p>
-			<label>不成功类型：</label>
-			<span class="unit">${issue.hqDealType5 }</span>
-		</p>
-		<p>
-			<label>回访详情：</label>
-			<span class="unit">${issue.hqDealRst5 }</span>
-		</p>
-		<p>
-			<label>经办人：</label>
-			<span class="unit">${issue.hqDealMan5 }</span>
-		</p>
-		<p>
-			<label>回访日期：</label>
-			<span class="unit"><fmt:formatDate value='${issue.hqDealDate5 }' pattern='yyyy-MM-dd'/></span>
-		</p>
-	</fieldset>
-	<fieldset>
-		<legend>省分二访中心第六次回访处理详情</legend>
-		<p>
-			<label>不成功类型：</label>
-			<span class="unit">${issue.hqDealType6 }</span>
-		</p>
-		<p>
-			<label>回访详情：</label>
-			<span class="unit">${issue.hqDealRst6 }</span>
-		</p>
-		<p>
-			<label>经办人：</label>
-			<span class="unit">${issue.hqDealMan6 }</span>
-		</p>
-		<p>
-			<label>回访日期：</label>
-			<span class="unit"><fmt:formatDate value='${issue.hqDealDate6 }' pattern='yyyy-MM-dd'/></span>
-		</p>
-	</fieldset>
-	<div class="divider"></div>
-	<fieldset>
-		<legend>分公司回访情况</legend>
-		<p class="nowrap">
-			<label>分公司回访问题类型：</label>
-			<span class="unit">${issue.provIssueType }</span>
-		</p>
-		<p class="nowrap">
-			<label>分公司回访结果：</label>
-			<span class="unit">${issue.provDealRst }</span>
-		</p>
-		<p class="nowrap">
-			<label>分公司回访日期：</label>
-			<span class="unit">${issue.provDealDate }</span>
-		</p>
-		<p class="nowrap">
-			<label>分公司回访备注：</label>
-			<span class="unit">${issue.provDealRemark }</span>
-		</p>
-	</fieldset>
-	<div class="divider"></div>
-	<fieldset>
-		<legend>市县催收情况</legend>
-		<p class="nowrap">
-			<label>续期催收处理记录：</label>
-			<span class="unit">${issue.dealDesc }</span>
-		</p>
-		<p class="nowrap">
-			<label>经办人：</label>
-			<span class="unit">${issue.dealMan }</span>
-		</p>
-		<p class="nowrap">
-			<label>经办日期：</label>
-			<span class="unit">${issue.dealTime }</span>
+			<label>县区寄出EMS：</label>
+			<span class="unit">${underwrite.areaEmsNo }</span>
 		</p>
 	</fieldset>
 	</div>

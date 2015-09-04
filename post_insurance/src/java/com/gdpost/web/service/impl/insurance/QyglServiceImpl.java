@@ -4,6 +4,7 @@
 package	com.gdpost.web.service.impl.insurance;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -258,7 +259,7 @@ public class QyglServiceImpl implements QyglService {
 		Specification<UnderWrite> specification = null;
 		
 		specification = DynamicSpecifications.bySearchFilterWithoutRequest(UnderWrite.class,
-				new SearchFilter("signInputDate", Operator.NOTNULL, null),
+				new SearchFilter("signInputDate", Operator.ISNULL, new Date()),
 				new SearchFilter("organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
 		Page page = new Page();
 		page.setNumPerPage(100);

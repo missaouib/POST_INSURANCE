@@ -285,5 +285,52 @@
 		</div>
 	</div>
 	</shiro:hasPermission>
+	<shiro:hasPermission name="UnderWrite:view">
+	<div class="panel <c:if test='${fn:length(underwriteList)<=0}'>close</c:if> collapse" defH="100">
+		<h1><c:if test='${fn:length(underwriteList)>0}'><img alt="有新任务" src="/images/redpoint.png" height="12" width="12"></c:if>人核件跟进任务</h1>
+		<div>
+			<table class="list" width="98%">
+				<thead>
+					<tr>
+						<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
+						<th orderField=organization.name class="${page.orderField eq 'organization.name' ? page.orderDirection : ''}">市县机构</th>
+						<th orderField=formNo class="${page.orderField eq 'formNo' ? page.orderDirection : ''}">投保单号</th>
+						<th orderField=policyNo class="${page.orderField eq 'policyNo' ? page.orderDirection : ''}">保单号</th>
+						<th>投保人</th>
+						<th orderField=prd.prdName class="${page.orderField eq 'prd.prdName' ? page.orderDirection : ''}">产品</th>
+						<th orderField=ytbDate class="${page.orderField eq 'ytbDate' ? page.orderDirection : ''}">邮保通录入时间</th>
+						<th>核心录入时间</th>
+						<th>复核时间</th>
+						<th>核保日期</th>
+						<th>签单日期</th>
+						<th>合同签收日期</th>
+						<th>回执录入日期</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach var="item" items="${underwriteList}">
+					<tr target="slt_uid" rel="${item.id}">
+						<td><input name="ids" value="${item.id}" type="checkbox"></td>
+						<td>${item.organization.name}</td>
+						<td>
+						<a target="dialog" rel="lookup2organization_edit" mask="true" width="550" height="220" href="${contextPath }/qygl/underwrite/signDateUpdate/${item.id}"><span>${item.formNo}</span></a>
+						</td>
+						<td>${item.policyNo}</td>
+						<td>${item.holder}</td>
+						<td>${item.prd.prdName}</td>
+						<td><fmt:formatDate value="${item.ybtDate }" pattern="yyyy-MM-dd"/></td>
+						<td><fmt:formatDate value="${item.sysDate }" pattern="yyyy-MM-dd"/></td>
+						<td><fmt:formatDate value="${item.checkDate }" pattern="yyyy-MM-dd"/></td>
+						<td><fmt:formatDate value="${item.underwriteDate }" pattern="yyyy-MM-dd"/></td>
+						<td><fmt:formatDate value="${item.signDate }" pattern="yyyy-MM-dd"/></td>
+						<td><fmt:formatDate value="${item.clientReceiveDate }" pattern="yyyy-MM-dd"/></td>
+						<td><fmt:formatDate value="${item.signInputDate }" pattern="yyyy-MM-dd"/></td>
+					</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	</shiro:hasPermission>
 </fieldset>
 	</div>

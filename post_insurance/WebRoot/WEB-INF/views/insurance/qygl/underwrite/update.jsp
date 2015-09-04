@@ -58,13 +58,13 @@
 		<div class="divider"></div>
 		<p>
 			<label>是否下问题件：</label>
-			<form:radiobutton path="underwrite.issueFlag" value="1" onclick="javascript:$('#dispDiv').style.display='';"/>是
-			<form:radiobutton path="underwrite.issueFlag" value="0" onclick="javascript:$('#dispDiv').style.display='none';"/>否
+			<form:radiobutton path="underwrite.issueFlag" value="1" onclick="javascript:$('#dispDiv').css('display', 'block');"/>是
+			<form:radiobutton path="underwrite.issueFlag" value="0" onclick="javascript:$('#dispDiv').css('display', 'none');;"/>否
 		</p>
-		<div id="dispDiv" <c:if test="${underwrite.issueFlag==0 }">style="display:none"</c:if>>
+		<div id="dispDiv" <c:if test="${underwrite.issueFlag == 0 }">style="display:none"</c:if>>
 		<p>
 			<label>问题件描述：</label>
-			<input type="text" name="errorDesc" class="input-medium validate[required,maxSize[14]] required" maxlength="32" value="${underwrite.errorDesc }"/>
+			<input type="text" name="errorDesc" maxlength="32" value="${underwrite.errorDesc }"/>
 		</p>
 		</div>
 		<p>

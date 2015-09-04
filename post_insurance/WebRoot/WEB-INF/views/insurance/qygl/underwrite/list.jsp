@@ -68,7 +68,7 @@
 			<shiro:hasPermission name="UnderWrite:provEdit">
 			<li class="line">line</li>
 				<li><a iconClass="user_edit" target="dialog" rel="underwrite_edit" mask="true" width="850" height="620" href="${contextPath }/qygl/underwrite/create"><span>新建人核件</span></a></li>
-				<li><a iconClass="user_go" href="${contextPath}/qygl/underwrite/proSend/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>省分寄出</span></a></li>
+				<li><a iconClass="user_go" href="${contextPath}/qygl/underwrite/provSend/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>省分寄出</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="UnderWrite:cityEdit">
 			<li class="line">line</li>

@@ -383,7 +383,7 @@ public class QyglController {
 	
 	@RequiresPermissions(value={"UnderWrite:edit","UnderWrite:provEdit","UnderWrite:cityEdit","UnderWrite:areaEdit"}, logical=Logical.OR)
 	@RequestMapping(value="/underwrite/{flag}/{id}", method=RequestMethod.GET)
-	public String preSignDateUpdate(@PathVariable String flag, @PathVariable Long id, Map<String, Object> map) {
+	public String preMailRecDateUpdate(@PathVariable String flag, @PathVariable Long id, Map<String, Object> map) {
 		UnderWrite underwrite = qyglService.getUnderWrite(id);
 		
 		map.put("underwrite", underwrite);
@@ -429,25 +429,25 @@ public class QyglController {
 		String flag = request.getParameter("flag");
 		switch(flag) {
 		case "provSend":
-			src.setProvSendDate(underwrite.getProvSendDate());
-			src.setProvEmsNo(underwrite.getProvEmsNo());
+			src.setProvSendDate(underwrite.getSendDate());
+			src.setProvEmsNo(underwrite.getEmsNo());
 			break;
 		case "citySend":
-			src.setCitySendDate(underwrite.getCitySendDate());
-			src.setCityEmsNo(underwrite.getCityEmsNo());
+			src.setCitySendDate(underwrite.getSendDate());
+			src.setCityEmsNo(underwrite.getEmsNo());
 			break;
 		case "areaSend":
-			src.setAreaSendDate(underwrite.getAreaSendDate());
-			src.setAreaEmsNo(underwrite.getAreaEmsNo());
+			src.setAreaSendDate(underwrite.getSendDate());
+			src.setAreaEmsNo(underwrite.getEmsNo());
 			break;
 		case "provRec":
-			src.setProvReceiveDate(underwrite.getProvReceiveDate());
+			src.setProvReceiveDate(underwrite.getReceiveDate());
 			break;
 		case "cityRec":
-			src.setCityReceiveDate(underwrite.getCityReceiveDate());
+			src.setCityReceiveDate(underwrite.getReceiveDate());
 			break;
 		case "areaRec":
-			src.setAreaReceiveDate(underwrite.getAreaReceiveDate());
+			src.setAreaReceiveDate(underwrite.getReceiveDate());
 			break;
 			default:
 				log.warn("-------------人核件的寄发标记缺失!");

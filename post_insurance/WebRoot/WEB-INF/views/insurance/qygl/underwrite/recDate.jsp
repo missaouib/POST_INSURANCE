@@ -7,7 +7,7 @@
 	<div class="pageFormContent" layouth="58">
 		<p>
 			<label>人核件收到日期：</label>
-			<input type="text" name="receiveDate" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${underwrite.receiveDate }"/>
+			<input type="text" name="receiveDate" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value="${underwrite.receiveDate }" pattern="yyyy-MM-dd"/>"/>
 				<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 	</div>

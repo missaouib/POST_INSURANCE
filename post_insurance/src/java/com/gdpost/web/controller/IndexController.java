@@ -121,6 +121,8 @@ public class IndexController {
 		
 		map.put("hfIssueList", hfglService.getTODOIssueList(shiroUser.getUser()));
 		
+		map.put("underwriteList", qyglService.getTODOUnderWriteList(shiroUser.getUser()));
+		
 		if(shiroUser.getUserType().equals("member")) {
 			return WEBINDEX;
 		}
@@ -179,6 +181,8 @@ public class IndexController {
 		map.put("xqIssueList", xqglService.getTODOIssueList(shiroUser.getUser()));
 		
 		map.put("hfIssueList", hfglService.getTODOIssueList(shiroUser.getUser()));
+		
+		map.put("underwriteList", qyglService.getTODOUnderWriteList(shiroUser.getUser()));
 		
 		LOG.debug("------------- map: " + map);
 		

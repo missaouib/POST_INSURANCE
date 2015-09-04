@@ -7,7 +7,7 @@
 		<div class="tabsHeader">
 			<div class="tabsHeaderContent">
 				<ul>
-					<li><a href="/kfgl/issuelist" class="j-ajax"><span><img src="/images/redpoint.png" height="12" width="12">问题工单</span></a></li>
+					<li><a href="/kfgl/issuelist" class="j-ajax"><span>问题工单</span></a></li>
 					<shiro:hasPermission name="CheckWrite:view">
 					<li><a href="/qygl/issue/write/issuelist" class="j-ajax"><span>契约不合格件（填写）</span></a></li>
 					</shiro:hasPermission>

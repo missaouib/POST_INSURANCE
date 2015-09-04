@@ -407,7 +407,8 @@ public class DynamicSpecifications {
 
 						// 自动进行enum和date的转换。
 						Class clazz = expression.getJavaType();
-						if (Date.class.isAssignableFrom(clazz) && !filter.getValue().getClass().equals(clazz)) {
+						if (Date.class.isAssignableFrom(clazz) && !filter.getValue().getClass().equals(clazz) 
+								&& !filter.getOperator().toString().equalsIgnoreCase("isnull") && !filter.getOperator().toString().equalsIgnoreCase("notnull")) {
 							filter.setValue(convert2Date((String)filter.getValue()));
 						} else if (Enum.class.isAssignableFrom(clazz) && !filter.getValue().getClass().equals(clazz)) {
 							filter.setValue(convert2Enum(clazz, (String)filter.getValue()));
