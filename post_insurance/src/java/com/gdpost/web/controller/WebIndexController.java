@@ -79,6 +79,16 @@ public class WebIndexController {
 	
 	private static final String FFY1_YB = "insurance/web/prd/ffy1_yb";
 	private static final String FFY1_SELL = "insurance/web/prd/www/sell/fu1";
+	private static final String FFY3_YB = "insurance/web/prd/ffy3_yb";
+	private static final String FFY3_SELL = "insurance/web/prd/www/sell/fu3";
+	private static final String BBB_YB = "insurance/web/prd/bbb_yb";
+	private static final String BBB_SELL = "insurance/web/prd/www/sell/nian_bbb";
+	private static final String DDB_YB = "insurance/web/prd/ddb_yb";
+	private static final String DDB_SELL = "insurance/web/prd/www/sell/ddb";
+	private static final String NB_YB = "insurance/web/prd/nb_yb";
+	private static final String NB_SELL = "insurance/web/prd/www/sell/nian_b";
+	private static final String NB_PLUS_YB = "insurance/web/prd/nbplus_yb";
+	private static final String NB_PLUS_SELL = "insurance/web/prd/www/sell/nian_b_plus";
 	
 	@RequestMapping(value="/index", method=RequestMethod.GET)
 	public String index(ServletRequest request, Map<String, Object> map) {
@@ -123,15 +133,40 @@ public class WebIndexController {
 				return FFY1_SELL;
 			}
 		case "ffy3":
-			return FFY_3;
+			switch(func){
+			case "yb":
+				return FFY3_YB;
+			case "sell":
+				return FFY3_SELL;
+			}
 		case "ddb":
-			return DDB;
+			switch(func){
+			case "yb":
+				return DDB_YB;
+			case "sell":
+				return DDB_SELL;
+			}
 		case "bbb":
-			return BBB;
+			switch(func){
+			case "yb":
+				return BBB_YB;
+			case "sell":
+				return BBB_SELL;
+			}
 		case "nb":
-			return NB;
+			switch(func){
+			case "yb":
+				return NB_YB;
+			case "sell":
+				return NB_SELL;
+			}
 		case "nbplus":
-			return NB_PLUS;
+			switch(func){
+			case "yb":
+				return NB_PLUS_YB;
+			case "sell":
+				return NB_PLUS_SELL;
+			}
 			default:
 				return FFY_1;
 		}

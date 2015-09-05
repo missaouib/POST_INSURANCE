@@ -1,22 +1,18 @@
-<!DOCTYPE html> 
-<html>
-<head>
-	<title>中邮保险产品小助手</title>
-    <meta charset="utf-8" />
-    <meta name="format-detection" content="telephone=no" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<link rel="stylesheet" href="../css/jquery.mobile-1.3.2.min.css"  type="text/css" />
-    <link rel="stylesheet" href="../css/jqm-demos.css"  type="text/css"/>
-    <link rel="stylesheet" href="../css/products.css"  type="text/css"/>
-	<link rel="shortcut icon" href="../img/favicon.ico"  type="text/css"/>
-	<link type="text/css" rel="stylesheet" href="../css/demo.css" />
-	<link type="text/css" rel="stylesheet" href="../css/jquery.mmenu.css" />
-	<script src="../js/jquery-1.9.1.min.js" type="text/javascript"></script>
-	<script src="../js/index.js" type="text/javascript"></script>
-	<script src="../js/jquery.mobile-1.3.2.min.js" type="text/javascript"></script>
-	<script src="../js/func_all.js" type="text/javascript"></script>  
-	<script src="../js/hammer.js" type="text/javascript"></script>  
-	<script src="../js/hj.js" type="text/javascript"></script> 
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
+<script type="text/javascript">
+<!--
+$("#background,#progressBar").hide();
+//-->
+</script>
+	<link rel="stylesheet" href="/css/jquery.mobile-1.3.2.min.css"  type="text/css" />
+    <link rel="stylesheet" href="/css/jqm-demos.css"  type="text/css"/>
+    <link rel="stylesheet" href="/css/products.css"  type="text/css"/>	
+	<link rel="stylesheet" href="/css/demo.css"  type="text/css"/>
+	
+	<script src="/js/jquery-1.11.0.min.js" type="text/javascript"></script>	
+	<script src="/js/jquery.mobile-1.3.2.min.js" type="text/javascript"></script>
+	<script src="/js/func_all.js" type="text/javascript"></script> 
+	<script src="/js/hj.js" type="text/javascript"></script>
     <script language="javascript" type="text/javascript">
 			
 			 
@@ -219,6 +215,3 @@
 	</div>
 </div><!-- end of nian_a guarantee -->
 
-
-</body>
-</html>
