@@ -63,3 +63,9 @@ div.flicking_con a.on {background-position:0 -21px}
 .dataservices li span.n4{ color:#16b85b;}
 .dataservices li span.n5{ color:#da3939;}
 
+.my {
+	color: #030;font-size: 14px;font-weight: bold;line-height: 18px;
+}
+.myred {
+	color: #F00;font-size: 14px;font-weight: bold;line-height: 18px;
+}

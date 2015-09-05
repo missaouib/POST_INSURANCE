@@ -1,0 +1,27 @@
+@charset "utf-8";
+.my {
+	color: #030;
+}
+.myred {
+	color: #F00;
+}
+.myleft {
+	text-align: left;
+}.mycenter {
+	text-align: center;
+}
+.myheader{
+	background: #888;
+}
+.myimg{
+display:none;
+}
+.mybutton{
+	height:20px;
+	width:60px;
+}
+.mytextbox{
+	height:40px;
+	width:100px;
+	font-size: 12px;
+}

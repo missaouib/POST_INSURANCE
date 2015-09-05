@@ -5,58 +5,73 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>中邮保险广东分公司-运营管理平台</title>
-
+<link href="${contextPath}/styles/dwz/themes/default/style.css" rel="stylesheet" type="text/css" media="screen"/>
+<link href="${contextPath}/styles/dwz/themes/css/subcore.css" rel="stylesheet" type="text/css" media="screen"/>
+<link href="${contextPath}/styles/validationEngine/css/validationEngine.jquery.css" rel="stylesheet" type="text/css" media="screen"/>
+<link href="${contextPath}/styles/post/css/postinsurance.css" rel="stylesheet" type="text/css" />
+<!--[if IE]>
+<link href="${contextPath}/styles/dwz/themes/css/ieHack.css" rel="stylesheet" type="text/css" media="screen"/>
+<![endif]-->
+<!--[if lte IE 9]>
+<script src="${contextPath}/styles/dwz/js/speedup.js" type="text/javascript"></script>
+<![endif]-->
 <script src="${contextPath}/styles/jquery/jquery-1.7.2.min.js" type="text/javascript"></script>
-<script type="text/javascript" src="${contextPath}/js/jquery.event.drag-1.5.min.js"></script>
-<script type="text/javascript" src="${contextPath}/js/jquery.touchSlider.js"></script>
-<link href="${contextPath}/css/common.css" rel="stylesheet"/>
-<script type="text/javascript">
-$(document).ready(function () {
-	$(".main_visual").hover(function(){
-		$("#btn_prev,#btn_next").fadeIn()
-		},function(){
-		$("#btn_prev,#btn_next").fadeOut()
-		})
-	$dragBln = false;
+<script src="${contextPath}/styles/dwz/js/jquery.validate.js" type="text/javascript"></script>
+<script src="${contextPath}/styles/dwz/js/jquery.bgiframe.js" type="text/javascript"></script>
+<script src="${contextPath}/styles/treeTable/jquery.treeTable.min.js" type="text/javascript"></script>
+<%-- form验证 --%>
+<script src="${contextPath}/styles/validationEngine/js/languages/jquery.validationEngine-zh_CN.js" type="text/javascript" charset="utf-8"></script>
+<script src="${contextPath}/styles/validationEngine/js/jquery.validationEngine-2.6.4.js" type="text/javascript" charset="utf-8"></script>
 
-	$(".main_image").touchSlider({
-		flexible : true,
-		speed : 1000,
-		btn_prev : $("#btn_prev"),
-		btn_next : $("#btn_next"),
-		paging : $(".flicking_con a"),
-		counter : function (e) {
-			$(".flicking_con a").removeClass("on").eq(e.current-1).addClass("on");
+<script src="${contextPath}/styles/dwz/js/dwz.core.js" type="text/javascript"></script>
+<script src="${contextPath}/styles/dwz/js/dwz.util.date.js" type="text/javascript"></script>
+<script src="${contextPath}/styles/dwz/js/dwz.barDrag.js" type="text/javascript"></script>
+<script src="${contextPath}/styles/dwz/js/dwz.drag.js" type="text/javascript"></script>
+<script src="${contextPath}/styles/dwz/js/dwz.tree.js" type="text/javascript"></script>
+<script src="${contextPath}/styles/dwz/js/dwz.accordion.js" type="text/javascript"></script>
+<script src="${contextPath}/styles/dwz/js/dwz.ui.pt.js" type="text/javascript"></script>
+<script src="${contextPath}/styles/dwz/js/dwz.theme.js" type="text/javascript"></script>
+<script src="${contextPath}/styles/dwz/js/dwz.switchEnv.js" type="text/javascript"></script>
+<script src="${contextPath}/styles/dwz/js/dwz.alertMsg.js" type="text/javascript"></script>
+<script src="${contextPath}/styles/dwz/js/dwz.contextmenu.js" type="text/javascript"></script>
+<script src="${contextPath}/styles/dwz/js/dwz.navTab.js" type="text/javascript"></script>
+<script src="${contextPath}/styles/dwz/js/dwz.tab.js" type="text/javascript"></script>
+<script src="${contextPath}/styles/dwz/js/dwz.resize.js" type="text/javascript"></script>
+<script src="${contextPath}/styles/dwz/js/dwz.dialog.js" type="text/javascript"></script>
+<script src="${contextPath}/styles/dwz/js/dwz.dialogDrag.js" type="text/javascript"></script>
+<script src="${contextPath}/styles/dwz/js/dwz.sortDrag.js" type="text/javascript"></script>
+<script src="${contextPath}/styles/dwz/js/dwz.cssTable.js" type="text/javascript"></script>
+<script src="${contextPath}/styles/dwz/js/dwz.stable.js" type="text/javascript"></script>
+<script src="${contextPath}/styles/dwz/js/dwz.taskBar.js" type="text/javascript"></script>
+<script src="${contextPath}/styles/dwz/js/dwz.ajax.js" type="text/javascript"></script>
+<script src="${contextPath}/styles/dwz/js/dwz.effects.js" type="text/javascript"></script>
+<script src="${contextPath}/styles/dwz/js/dwz.panel.js" type="text/javascript"></script>
+<script src="${contextPath}/styles/dwz/js/dwz.history.js" type="text/javascript"></script>
+<script src="${contextPath}/styles/dwz/js/dwz.combox.js" type="text/javascript"></script>
+
+<script src="${contextPath}/styles/dwz/js/dwz.regional.zh.js" type="text/javascript"></script>
+<script src="${contextPath}/styles/dwz/js/customer.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+$("#background,#progressBar").hide();
+$(function(){	
+	DWZ.init("${contextPath}/styles/dwz/dwz.frag.xml", {
+		loginUrl:"${contextPath}/web/index", 
+		loginTitle:"登录",	// 弹出登录对话框
+		debug:false,	// 调试模式 【true|false】
+		callback:function(){
+			initEnv();
+			$("#themeList").theme({themeBase:"${contextPath}/styles/dwz/themes"});
 		}
 	});
-	$(".main_image").bind("mousedown", function() {
-		$dragBln = false;
-	})
-	$(".main_image").bind("dragstart", function() {
-		$dragBln = true;
-	})
-	$(".main_image a").click(function() {
-		if($dragBln) {
-			return false;
-		}
-	})
-	timer = setInterval(function() { $("#btn_next").click();}, 3000);
-	$(".main_visual").hover(function() {
-		clearInterval(timer);
-	}, function() {
-		timer = setInterval(function() { $("#btn_next").click();}, 3000);
-	})
-	$(".main_image").bind("touchstart", function() {
-		clearInterval(timer);
-	}).bind("touchend", function() {
-		timer = setInterval(function() { $("#btn_next").click();}, 3000);
-	});
-	$(".main_image").resize();
-});
+}); 
+
 </script>
+
+<link href="${contextPath}/css/common.css" rel="stylesheet"/>
 </head>
 
-<body>
+<body style="background-color: white;">
 <div class="top">
   <div class="top1">
     	<div class="logo"><a href="/web/index"><img src="${contextPath}/images/logo.png" width="202" height="80" style="margin-top:20px;" /></a>
@@ -67,9 +82,9 @@ $(document).ready(function () {
 <div class="dao">
 	<div class="daon">
 		<ul>
-        	<li class="daob"><a href="#">首页</a><span class="daobian"></span></li>
+        	<li><a href="/web/index">首页</a><span class="daobian"></span></li>
         	<li><a href="/web/todoList">待办任务</a><span class="daobian"></span></li>
-            <li><a href="/web/prdList">上线产品</a><span class="daobian"></span></li>
+            <li class="daob"><a href="/web/prdList">上线产品</a><span class="daobian"></span></li>
         	<li><a href="#">常见问题</a><span class="daobian"></span></li>
             <shiro:guest>
             <li><a href="/web/tologin">登录</a><span class="daobian"></span></li>
@@ -82,40 +97,92 @@ $(document).ready(function () {
 </div>
 </div>
 <div class="certen">
-  <div class="main_visual">
-                <div class="flicking_con">
-                	<div class="flicking_inner">
-                    <a href="#">1</a>
-                    <a href="#">2</a>
-                    <a href="#">3</a>
-               	 </div>
-            </div>
-			<div class="main_image">
-				<ul>					
-					<li><img src="${contextPath}/images/img_main_1.jpg" width="1920" height="450" /></li>
-					<li><img src="${contextPath}/images/img_main_2.jpg" width="1920" height="450" /></li>
-					<li><img src="${contextPath}/images/img_main_3.jpg" width="1920" height="450" /></li>
+<div class="main_visual">
+</div>
+
+<div id="layout">
+	<div id="container">
+		<div id="navTab" class="tabsPage">
+					<div class="navTab-panel tabsPageContent layoutBox">
+				<div class="page unitBox">
+    <!--  content  -->
+    <div class="pageContent sortDrag" selector="h1" layoutH="68">
+	<div class="tabs" currentIndex="0" eventType="click">
+		<div class="tabsHeader">
+			<div class="tabsHeaderContent">
+				<ul>
+					<li><a href="/web/prd/ffy1" class="j-ajax"><span>富富余1号</span></a></li>
+					<li><a href="/web/prd/ffy3" class="j-ajax"><span>富富余3号</span></a></li>
+					<li><a href="/web/prd/bbb" class="j-ajax"><span>百倍保</span></a></li>
+					<li><a href="/web/prd/nb" class="j-ajax"><span>重疾保障计划</span></a></li>
+					<li><a href="/web/prd/nbplus" class="j-ajax"><span>健康保障计划</span></a></li>
+					<li><a href="/web/prd/ddb" class="j-ajax"><span>多多保</span></a></li>
 				</ul>
-				<a href="javascript:;" id="btn_prev"></a>
-				<a href="javascript:;" id="btn_next"></a>
 			</div>
-             <div style=" width:100%; margin-top:1px; height:14px; background:url(${contextPath}/images/t2.jpg); float:left;"></div>
-			</div>
-<div class="c2" style="display:none;">
-	<dl>
-    	<dt><img src="${contextPath}/images/tu1.jpg" width="228" height="180" /></dt>
-        <dd><a href="/uploaddatamanage/uploaddata/toWebUpload"><span class="adian"></span>数据服务</a></dd>
-    </dl>
-    <dl>
-   	  <dt><img src="${contextPath}/images/tu2.jpg" width="228" height="180" /></dt>
-        <dd><a href="/uploaddatamanage/document/toWebList"><span class="adian"></span>行业报告</a></dd>
-    </dl>
-    <dl>
-    	<dt><img src="${contextPath}/images/tu3.jpg" width="228" height="180" /></dt>
-        <dd><a href="#"><span class="adian"></span>新闻动态</a></dd>
-    </dl>
+		</div>
+		<div class="tabsContent" style="height:70;">
+				<div class="tabs" currentIndex="0" eventType="click" style="width:800px">
+					<div class="tabsHeader">
+						<div class="tabsHeaderContent">
+							<ul>
+								<li><a href="javascript:;"><span>介绍</span></a></li>
+								<li><a href="javascript:;"><span>填单</span></a></li>
+								<li><a href="javascript:;"><span>核保</span></a></li>
+								<li><a href="javascript:;"><span>限额</span></a></li>
+								<li><a href="javascript:;"><span>销售</span></a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="tabsContent" style="height:300px;">
+						<div>
+						<div class="mytable">
+						<table class="mytable" layoutH="178" width="98%">
+						  <tr>
+						    <td colspan="2">
+						    	中邮富富余1号两全保险（分红型），是为了满足您对人身保障和资金保值增值的双重需求而推出的五年分红型两全保险产品。<br />
+						    </td>
+						  </tr>
+						  <tr>
+						    <td width="20%" rowspan="3">产品特色</td>
+						    <td width="80%"><span class="my">有保障，更安心</span><br />
+						   为了满足您对人身保障的需求，产品提供实用的人身保障服务，特别是被保险人意外身故或全残将最高得到2倍基本保险金额赔付.</p></td>
+						  </tr>
+						  <tr>
+						    <td><span class="my">抗风险，更放心 </span><br />
+						    为了有效的抵御风险，保险期届满时，您将会足额得到丰厚的满期保险金，使您的资产保值增值。</p></td>
+						  </tr>
+						  <tr>
+						    <td><span class="my">收益多，更划算 </span><br />
+						    除了可以得到全面的人身保障与丰厚的满期保险金之外，将更有机会享受保险期间内公司经营运作产生的红利。</p></td>
+						  </tr>
+						</table>
+						</div>
+						</div>
+						<div>
+						</div>
+						<div>内容3</div>
+						<div>内容4</div>
+						<div>内容5</div>
+						
+					</div>
+					<div class="tabsFooter">
+						<div class="tabsFooterContent"></div>
+					</div>
+				</div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
+		<div class="tabsFooter">
+			<div class="tabsFooterContent"></div>
+		</div>
+	</div>
 </div>
+	<%@ include file="../../webroot.inc.jsp" %>
 </div>
-<%@ include file="../../webroot.inc.jsp" %>
+</div></div></div></div></div>
+
 </body>
 </html>

@@ -1,0 +1,481 @@
+@charset "utf-8";
+/* CSS Document for zybx products*/
+html, body
+{
+	padding: 0;
+	margin: 0;
+}
+body {
+	background-color: #f9f9f9;
+	min-width:24em;
+	font-family: Arial, Helvetica, Verdana;	
+	line-height: 1.2em;
+	color: #333;
+	-webkit-text-size-adjust: none;
+}
+body *
+{
+	text-shadow: none;
+}
+a, a:link, a:active, a:visited, a:hover
+{
+	color: #333;
+	text-decoration: none;
+}
+pre
+{
+	font-size: 12px;
+	width: 100%;
+	overflow: auto;
+	-webkit-overflow-scrolling: touch;
+}
+hr{
+	borber:1px #d4d4d4 solid;
+}
+#page nav
+{
+	display: none;
+}
+#header,
+.header,
+#footer,
+.footer
+{
+	background: #adadad;
+	font-size: 1.5em;
+	font-weight: bold;	
+	text-align: center;
+	line-height: 50px;
+	height: 50px;
+	padding: 0 50px;
+	border:0px;
+}
+#header a,
+.header a
+{
+	background: center center no-repeat transparent;
+	display: block;
+	width: 40px;
+	height: 40px;
+	position: absolute;
+	top: 0;
+	left: 10px;
+}
+#header a.right,
+.header a.right
+{
+	left: auto;
+	right: 10px;
+}
+
+#content,
+.content
+{
+	padding: 20px;
+}
+.myheader{
+	background: #e7e7e7;
+	color:black;
+	border:none;
+}
+body img{
+	font-size:100%;
+}
+#cover img {
+	height:100%;
+	width:100%;	
+	margin:auto;
+}
+.headerbuttons{
+	/* margin:auto; */
+	margin-left:.0.5em;
+}
+.header{
+	overflow:hidden;
+	height:2.5em;	
+}
+.headertext{
+	font-size:2em;
+	text-align:center;
+	width:100%;
+}
+.footer{ 
+	/*position:fixed;*/
+	position:absolute;
+  	bottom:0;
+	width:100%;
+	text-align:center;	
+	height:1.8em;
+	background: #c2c2c2;
+}
+.footertext{
+	line-height:1.2em;
+	font-size:0.8em;
+	padding-top:6px;
+}
+.hotproducts{
+	margin:auto;
+	text-align:center;
+}
+.hotproducts  img{
+	padding-top:1em;
+}
+.hotproducts  a{
+	text-decoration:none;
+}
+.customerinfo{
+	font-size:1em;
+}
+.divage{
+	height:2em;
+}
+#age{
+	font-size:1.4em;
+}
+#age_f1{
+	font-size:1.4em;
+}
+#age_f3{
+	font-size:1.4em;
+}
+#age_m2{
+	font-size:1.4em;
+}
+#age_n_a{
+	font-size:1.4em;
+}
+#age_bbb{
+	font-size:1.4em;
+}
+.customertext{
+	font-size:1.2em;
+
+	margin-top:0.2em;
+	font-weight:bold;
+}
+.infoinput{text-indent:1em;}
+.smallinfoinput{
+	width:16em;
+	margin-left:1em;
+	font-size:1.6em;
+}
+.maininfotable{
+	padding-left:1em;
+	width:100%;
+}
+.butntd{
+	width:6em;
+}
+.manger{
+	width:18em;
+	padding-left:0.5em;
+	float:left;
+}
+#premium{
+	font-size:1.6em;
+}
+.premiumalert{
+	font:"黑体";
+	font-size:1.5em;
+	color:red;
+	display:none;
+}
+.premiumalert_1{
+	font:"黑体";
+	font-size:1.5em;
+	color:red;
+	display:none;
+}
+.premiumalert_ddb{
+	font:"黑体";
+	font-size:1.5em;
+	color:red;
+	display:none;
+}
+.premiumalert_add{
+	font:"黑体";
+	font-size:1.5em;
+	color:red;
+	display:none;
+}
+.premiumalert{
+	font:"黑体";
+	font-size:1.5em;
+	color:red;
+	display:none;
+}
+.premiumalert{
+	font:"黑体";
+	font-size:1.5em;
+	color:red;
+	display:none;
+}
+.echo_bbb_a{
+	display:none;
+}
+.echo_bbb_a_below{
+	display:none;
+}
+.echo_bbb_b_below{
+	display:none;
+}
+.echo_bbb_b_dun{
+	display:none;
+}
+.echo_bbb_a_dun{
+	display:none;
+}
+.echo_bbb_a_below_dun{
+	display:none;
+}
+.echo_bbb_b_below_dun{
+	display:none;
+}
+#oneblankdiv{
+	height:4em;
+}
+.getguaranteediv{
+	width:100%;
+}
+#getguarantee{
+	width:5em;
+	font-size:3em;
+	margin:auto;
+}
+#getguarantee_fu{
+	width:5em;
+	font-size:3em;
+	margin:auto;
+}
+#getguarantee_fu3{
+	width:5em;
+	font-size:3em;
+	margin:auto;
+}
+#getguarantee_mian2{
+	width:5em;
+	font-size:3em;
+	margin:auto;
+}
+#getguarantee_n_a{
+	width:5em;
+	font-size:3em;
+	margin:auto;
+}
+#getguarantee_bbb{
+	width:5em;
+	font-size:3em;
+	margin:auto;
+}
+.title{
+	color:red;
+	font:"黑体";
+	font-weight:bold;
+	padding-top:0.3em;
+}
+.title2{
+	font-weight:bold;
+	padding-top:0.5em;
+}
+.coveragetext{
+	text-indent:2em;
+	line-height:1.3em;
+}
+.coverage{
+	color:red;
+}
+.alert{
+	color:red;
+	text-indent:1em;
+}
+.alert_bbb{
+	color:red;
+	text-indent:1em;
+}
+.info{
+	font-size:1.2em;
+}
+.tablehead{
+	border-style: solid; 
+	border-width: 0.1em;
+	border-color:#003300;
+	height:1.8em;
+	line-height:1.7em;
+	text-align:center;
+	color:white;
+	font-weight:bold;
+	font-size:1em;
+	background-color:#CC66CC;
+}
+.table{
+	border-style: solid; 
+	border-width: 0.1em;
+	border-color:#000066;
+	height:3.2em;
+	/* line-height:2.0em; */
+	text-align:center;
+	font-size:0.8em;
+}
+.table_a{
+	border-style: solid; 
+	border-width: 0.1em;
+	border-color:#000066;
+	height:2.2em;
+	/* line-height:2.0em; */
+	text-align:center;
+	font-size:0.8em;
+}
+.tablecontent{
+	padding-top:0.5em;
+}
+.tablelastrow{
+	border-style: solid; 
+	border-width: 0.1em;
+	border-color:#003300;
+	height:2em;
+	line-height:2em;
+	text-align:center;
+	font-size:0.8em;
+}
+.parameter{
+	color::#003300;
+	font-weight:bold;
+}
+.prn{
+	width:3em;
+	font-size:3em;
+	margin:auto;
+}
+/* responesibleGrid Basic styles */
+	.responesibleGrid .ui-body {
+	    text-align: left;
+	    border-color: #ddd;
+	}
+	.responesibleGrid p {
+	    color: #777;
+	    line-height: 140%
+	}
+	/* Stack all blocks to start */
+	.responesibleGrid .ui-block-a,
+	.responesibleGrid .ui-block-b,
+	.responesibleGrid .ui-block-c,
+	.responesibleGrid .ui-block-d {
+	    width: 100%;
+	    float: none;
+	    line-height:1.5em;
+	}
+	/* Collapsing borders */
+	.responesibleGrid > div + div .ui-body {
+	    border-top-width: 0;
+	}
+	/* 1st breakpoint - Float B , C and D, leave A full width on top */
+	@media all and (min-width: 42em) {
+	    .responesibleGrid {
+	        overflow: hidden; /* Use this or a "clearfix" to give the container height */
+	    }
+	    .responesibleGrid .ui-body {
+	       min-height:11em;
+	    }
+	    .responesibleGrid .ui-block-b,
+	    .responesibleGrid .ui-block-c,
+	    .responesibleGrid .ui-block-d {
+	      float: left;
+	      width: 33.28%;
+	    }
+	    .responesibleGrid .ui-block-b p,
+	    .responesibleGrid .ui-block-c p,
+	    .responesibleGrid .ui-block-d p {
+	      font-size: .8em;
+	    }
+	    .responesibleGrid > div + div .ui-body {
+	        border-top-width: 1px;
+	    }
+	    .responesibleGrid > div:first-child .ui-body {
+	        border-bottom-width: 0;
+	    }
+	    .responesibleGrid > div:last-child .ui-body {
+	        border-left-width: 0;
+	    }
+	}
+	/* 2nd breakpoint - Float all, 40/20/20/20 */
+	@media all and (min-width: 55em) {
+	    .responesibleGrid .ui-body {
+	       min-height: 11em;
+	    }
+	    .responesibleGrid .ui-block-a{
+	      float: left;
+	      width: 39.95%;
+	    }
+	    .responesibleGrid .ui-block-b,
+	    .responesibleGrid .ui-block-c,
+	    .responesibleGrid .ui-block-d {
+	      float: left;
+	      width: 19.95%;
+	    }
+	    .responesibleGrid > div:first-child .ui-body {
+	        border-bottom-width: 1px;
+	    }
+	    .responesibleGrid > div + div .ui-body {
+	        border-left-width: 0;
+	    }
+	}
+	/* 3rd breakpoint - Bump up font size at very wide screens */
+	@media all and (min-width: 75em) {
+	    .responesibleGrid .ui-body {
+	      font-size: 125%;
+	    }
+	    .responesibleGrid .ui-block-a {
+	      float: left;
+	      width: 39.95%;
+	    }
+	    .responesibleGrid .ui-block-b,
+	    .responesibleGrid .ui-block-c,
+	    .responesibleGrid .ui-block-d {
+	      float: left;
+	      width: 19.75%;
+	    }
+	}
+/* end of .responesibleGrid for nian_b */
+
+/* Grid for ddb guarantee display */
+.ddbGrid .ui-body {
+	    text-align: left;
+	    border-color: #ddd;
+	}
+	.ddbGrid p {
+	    color: #777;
+	    line-height: 140%
+	}
+	/* Stack all blocks to start */
+	.ddbGrid .ui-block-a,
+	.ddbGrid .ui-block-b,
+	.ddbGrid .ui-block-c,
+	.ddbGrid .ui-block-d {
+	    width: 100%;
+	    float: none;
+	    line-height:1.5em;
+	}
+	/* Collapsing borders */
+	.ddbGrid > div + div .ui-body {
+	    border-top-width: 0;
+	}
+/* End of Grid for ddb guarantee display */
+
+/* less or bigger than 18 years old, get different guarante */
+.lessthan18{
+	display:none;
+}
+
+.insuranceheader
+{
+	background: #adadad;
+	font-size: 1.5em;
+	font-weight: bold;	
+	text-align: center;
+	line-height: 2em;	
+	width:100%;
+	height:2em;
+	
+	border:0px;
+	overflow:hidden;
+}

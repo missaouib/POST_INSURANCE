@@ -1,0 +1,52 @@
+body{
+	margin:0 auto;	
+	position:relative;
+	font-size:62.5%;
+	font-family: Times, TimesNR,Georgia, 'New York', serif;
+}
+h1{
+	font-size:2.5em;
+}
+#ageSelect{
+	background-color:white;
+	font-size:4em;
+	width:80%;
+	min-width: 720px;
+	height:2em;		
+	margin:auto;
+	position:relative;	
+	overflow: hidden;
+	float:left;
+}
+#ages {
+	position:absolute;
+	width:600em;	
+    left:-12em;    
+    color:blue;	
+}
+#ageInput{
+	width:2em;
+	display:inline;	
+	position:relative;	
+}
+.ageNumber{		
+	display:-moz-inline-box; 
+	display:inline-block; 
+	width:3em;		
+	line-height:2em;	
+	text-align:center;
+}
+.ageNumber>span{
+	margin:auto;
+}
+.ageNumberSelected{
+	font-style:bold;
+}
+#selectBox{	
+	position:absolute;	
+	height:100%;
+	width:3em;	
+	border-style: none solid none solid;
+	border-width:1px;
+	border-color:blue; 		
+}
