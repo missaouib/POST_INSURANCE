@@ -8,7 +8,6 @@
 <link href="${contextPath}/styles/dwz/themes/default/style.css" rel="stylesheet" type="text/css" media="screen"/>
 <link href="${contextPath}/styles/dwz/themes/css/subcore.css" rel="stylesheet" type="text/css" media="screen"/>
 <link href="${contextPath}/styles/validationEngine/css/validationEngine.jquery.css" rel="stylesheet" type="text/css" media="screen"/>
-<link href="${contextPath}/styles/post/css/postinsurance.css" rel="stylesheet" type="text/css" />
 <!--[if IE]>
 <link href="${contextPath}/styles/dwz/themes/css/ieHack.css" rel="stylesheet" type="text/css" media="screen"/>
 <![endif]-->
@@ -18,6 +17,7 @@
 <script src="${contextPath}/styles/jquery/jquery-1.7.2.min.js" type="text/javascript"></script>
 <script src="${contextPath}/styles/dwz/js/jquery.validate.js" type="text/javascript"></script>
 <script src="${contextPath}/styles/dwz/js/jquery.bgiframe.js" type="text/javascript"></script>
+<script src="${contextPath}/styles/jquery/jquery.messager.js"></script>
 <script src="${contextPath}/styles/treeTable/jquery.treeTable.min.js" type="text/javascript"></script>
 <%-- form验证 --%>
 <script src="${contextPath}/styles/validationEngine/js/languages/jquery.validationEngine-zh_CN.js" type="text/javascript" charset="utf-8"></script>
@@ -44,13 +44,20 @@
 <script src="${contextPath}/styles/dwz/js/dwz.stable.js" type="text/javascript"></script>
 <script src="${contextPath}/styles/dwz/js/dwz.taskBar.js" type="text/javascript"></script>
 <script src="${contextPath}/styles/dwz/js/dwz.ajax.js" type="text/javascript"></script>
+<script src="${contextPath}/styles/dwz/js/dwz.pagination.js" type="text/javascript"></script>
+<script src="${contextPath}/styles/dwz/js/dwz.database.js" type="text/javascript"></script>
+<script src="${contextPath}/styles/dwz/js/dwz.datepicker.js" type="text/javascript"></script>
 <script src="${contextPath}/styles/dwz/js/dwz.effects.js" type="text/javascript"></script>
 <script src="${contextPath}/styles/dwz/js/dwz.panel.js" type="text/javascript"></script>
+<script src="${contextPath}/styles/dwz/js/dwz.checkbox.js" type="text/javascript"></script>
 <script src="${contextPath}/styles/dwz/js/dwz.history.js" type="text/javascript"></script>
 <script src="${contextPath}/styles/dwz/js/dwz.combox.js" type="text/javascript"></script>
 
 <script src="${contextPath}/styles/dwz/js/dwz.regional.zh.js" type="text/javascript"></script>
+<%-- 自定义JS --%>
 <script src="${contextPath}/styles/dwz/js/customer.js" type="text/javascript"></script>
+<%-- upload --%>
+<script src="${contextPath}/js/DateFormat.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 $("#background,#progressBar").hide();
@@ -82,9 +89,9 @@ $(function(){
 <div class="dao">
 	<div class="daon">
 		<ul>
-        	<li><a href="/web/index">首页</a><span class="daobian"></span></li>
-        	<li><a href="/web/todoList">待办任务</a><span class="daobian"></span></li>
-            <li class="daob"><a href="/web/prdList">上线产品</a><span class="daobian"></span></li>
+        	<li><a href="/web/index" target="_top">首页</a><span class="daobian"></span></li>
+        	<li><a href="/web/todoList" target="_top">待办任务</a><span class="daobian"></span></li>
+            <li class="daob"><a href="/web/prdList" target="_top">上线产品</a><span class="daobian"></span></li>
         	<li><a href="#">常见问题</a><span class="daobian"></span></li>
             <shiro:guest>
             <li><a href="/web/tologin">登录</a><span class="daobian"></span></li>
@@ -111,6 +118,7 @@ $(function(){
 		<div class="tabsHeader">
 			<div class="tabsHeaderContent">
 				<ul>
+					<li><a href="javascript:;"><span>产品列表</span></a></li>
 					<li><a href="/web/prd/ffy1" class="j-ajax"><span>富富余1号</span></a></li>
 					<li><a href="/web/prd/ffy3" class="j-ajax"><span>富富余3号</span></a></li>
 					<li><a href="/web/prd/bbb" class="j-ajax"><span>百倍保</span></a></li>
@@ -129,41 +137,18 @@ $(function(){
 								<li><a href="javascript:;"><span>填单</span></a></li>
 								<li><a href="javascript:;"><span>核保</span></a></li>
 								<li><a href="javascript:;"><span>限额</span></a></li>
+								<li><a href="javascript:;"><span>样本</span></a></li>
 								<li><a href="javascript:;"><span>销售</span></a></li>
 							</ul>
 						</div>
 					</div>
 					<div class="tabsContent" style="height:300px;">
-						<div>
-						<div class="mytable">
-						<table class="mytable" layoutH="178" width="98%">
-						  <tr>
-						    <td colspan="2">
-						    	中邮富富余1号两全保险（分红型），是为了满足您对人身保障和资金保值增值的双重需求而推出的五年分红型两全保险产品。<br />
-						    </td>
-						  </tr>
-						  <tr>
-						    <td width="20%" rowspan="3">产品特色</td>
-						    <td width="80%"><span class="my">有保障，更安心</span><br />
-						   为了满足您对人身保障的需求，产品提供实用的人身保障服务，特别是被保险人意外身故或全残将最高得到2倍基本保险金额赔付.</p></td>
-						  </tr>
-						  <tr>
-						    <td><span class="my">抗风险，更放心 </span><br />
-						    为了有效的抵御风险，保险期届满时，您将会足额得到丰厚的满期保险金，使您的资产保值增值。</p></td>
-						  </tr>
-						  <tr>
-						    <td><span class="my">收益多，更划算 </span><br />
-						    除了可以得到全面的人身保障与丰厚的满期保险金之外，将更有机会享受保险期间内公司经营运作产生的红利。</p></td>
-						  </tr>
-						</table>
-						</div>
-						</div>
-						<div>
-						</div>
-						<div>内容3</div>
-						<div>内容4</div>
-						<div>内容5</div>
-						
+						<div>产品的介绍</div>
+						<div>填单的极少</div>
+						<div>核保介绍</div>
+						<div>限额介绍</div>
+						<div>弹出样本查看</div>
+						<div>技术部销售辅助工具</div>
 					</div>
 					<div class="tabsFooter">
 						<div class="tabsFooterContent"></div>

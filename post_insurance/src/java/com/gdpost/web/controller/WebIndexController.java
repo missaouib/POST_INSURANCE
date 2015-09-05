@@ -77,6 +77,9 @@ public class WebIndexController {
 	private static final String NB = "insurance/web/prd/nb";
 	private static final String NB_PLUS = "insurance/web/prd/nbplus";
 	
+	private static final String FFY1_YB = "insurance/web/prd/ffy1_yb";
+	private static final String FFY1_SELL = "insurance/web/prd/www/sell/fu1";
+	
 	@RequestMapping(value="/index", method=RequestMethod.GET)
 	public String index(ServletRequest request, Map<String, Object> map) {
 		return INDEX;
@@ -93,6 +96,32 @@ public class WebIndexController {
 		switch(prdName) {
 		case "ffy1":
 			return FFY_1;
+		case "ffy3":
+			return FFY_3;
+		case "ddb":
+			return DDB;
+		case "bbb":
+			return BBB;
+		case "nb":
+			return NB;
+		case "nbplus":
+			return NB_PLUS;
+			default:
+				return FFY_1;
+		}
+	}
+	
+	@RequestMapping(value="/prd/{prdName}/{func}", method=RequestMethod.GET)
+	public String toPrdFunc(@PathVariable String prdName, @PathVariable String func, ServletRequest request, Map<String, Object> map) {
+		LOG.debug("--------------prdName: " + prdName + ", func=" + func);
+		switch(prdName) {
+		case "ffy1":
+			switch(func){
+			case "yb":
+				return FFY1_YB;
+			case "sell":
+				return FFY1_SELL;
+			}
 		case "ffy3":
 			return FFY_3;
 		case "ddb":

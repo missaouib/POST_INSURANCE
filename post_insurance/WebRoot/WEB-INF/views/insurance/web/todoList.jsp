@@ -4,11 +4,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Pragma" contect="no-cache"/>
 <title>中邮保险广东分公司-运营管理平台</title>
 <link href="${contextPath}/styles/dwz/themes/default/style.css" rel="stylesheet" type="text/css" media="screen"/>
 <link href="${contextPath}/styles/dwz/themes/css/subcore.css" rel="stylesheet" type="text/css" media="screen"/>
 <link href="${contextPath}/styles/validationEngine/css/validationEngine.jquery.css" rel="stylesheet" type="text/css" media="screen"/>
-<link href="${contextPath}/styles/pico/css/pico.css" rel="stylesheet" type="text/css" />
 <!--[if IE]>
 <link href="${contextPath}/styles/dwz/themes/css/ieHack.css" rel="stylesheet" type="text/css" media="screen"/>
 <![endif]-->
@@ -45,7 +45,6 @@
 <script src="${contextPath}/styles/dwz/js/dwz.stable.js" type="text/javascript"></script>
 <script src="${contextPath}/styles/dwz/js/dwz.taskBar.js" type="text/javascript"></script>
 <script src="${contextPath}/styles/dwz/js/dwz.ajax.js" type="text/javascript"></script>
-<script src="${contextPath}/styles/dwz/js/dwz.pagination.js" type="text/javascript"></script>
 <script src="${contextPath}/styles/dwz/js/dwz.database.js" type="text/javascript"></script>
 <script src="${contextPath}/styles/dwz/js/dwz.datepicker.js" type="text/javascript"></script>
 <script src="${contextPath}/styles/dwz/js/dwz.effects.js" type="text/javascript"></script>
@@ -53,15 +52,11 @@
 <script src="${contextPath}/styles/dwz/js/dwz.checkbox.js" type="text/javascript"></script>
 <script src="${contextPath}/styles/dwz/js/dwz.history.js" type="text/javascript"></script>
 <script src="${contextPath}/styles/dwz/js/dwz.combox.js" type="text/javascript"></script>
-<script src="${contextPath}/styles/dwz/js/dwz.print.js" type="text/javascript"></script>
 
 <script src="${contextPath}/styles/dwz/js/dwz.regional.zh.js" type="text/javascript"></script>
 <%-- 自定义JS --%>
 <script src="${contextPath}/styles/dwz/js/customer.js" type="text/javascript"></script>
-<script src="${contextPath}/styles/pico/js/pico.js" type="text/javascript"></script>
 <%-- upload --%>
-<script src="${contextPath}/styles/uploadify/scripts/jquery.uploadify.min.js" type="text/javascript"></script>
-
 <script src="${contextPath}/js/DateFormat.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -75,7 +70,8 @@ $(function(){
 			$("#themeList").theme({themeBase:"${contextPath}/styles/dwz/themes"});
 		}
 	});
-}); 
+});
+
 </script>
 
 <link href="${contextPath}/css/common.css" rel="stylesheet"/>
@@ -92,9 +88,9 @@ $(function(){
 <div class="dao">
 	<div class="daon">
 		<ul>
-        	<li><a href="/web/index">首页</a><span class="daobian"></span></li>
-        	<li class="daob"><a href="/web/todoList">待办任务</a><span class="daobian"></span></li>
-            <li><a href="/web/prdList">上线产品</a><span class="daobian"></span></li>
+        	<li><a href="/web/index" target="_top">首页</a><span class="daobian"></span></li>
+        	<li class="daob"><a href="/web/todoList" target="_top">待办任务</a><span class="daobian"></span></li>
+            <li><a href="/web/prdList" target="_top">上线产品</a><span class="daobian"></span></li>
         	<li><a href="#">常见问题</a><span class="daobian"></span></li>
             <shiro:guest>
             <li><a href="/web/tologin">登录</a><span class="daobian"></span></li>
