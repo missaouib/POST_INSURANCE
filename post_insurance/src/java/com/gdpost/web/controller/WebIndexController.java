@@ -97,6 +97,8 @@ public class WebIndexController {
 	private static final String NB_PLUS_SELL = "insurance/web/prd/www/sell/nian_b_plus";
 	private static final String YHZZ = "insurance/web/prd/yyzh_yb";
 	
+	private static final String FFY1_XE = "insurance/web/prd/ffy1_xe";
+	
 	@RequestMapping(value="/index", method=RequestMethod.GET)
 	public String index(ServletRequest request, Map<String, Object> map) {
 		return INDEX;
@@ -140,6 +142,8 @@ public class WebIndexController {
 				return FFY12_YB;
 			case "sell":
 				return FFY1_SELL;
+			case "xe":
+				return FFY1_XE;
 			}
 		case "ffy3":
 			switch(func){

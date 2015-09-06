@@ -145,7 +145,7 @@ $(function(){
 					</div>
 					<div class="tabsContent" style="height:300px;">
 						<div>产品的介绍</div>
-						<div>填单的极少</div>
+						<div>填单要点要求等</div>
 						<div>核保介绍</div>
 						<div>限额介绍</div>
 						<div>弹出样本查看</div>
