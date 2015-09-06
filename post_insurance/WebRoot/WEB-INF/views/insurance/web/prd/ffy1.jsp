@@ -32,6 +32,8 @@ $("#background,#progressBar").hide();
 								<li><a href="javascript:;"><span>核保</span></a></li>
 								<li><a href="javascript:;"><span>限额</span></a></li>
 								<li><a href="/web/prd/ffy1/yb" target="dialog" max="true" rel="dlg_f1" width="800" height="480" ><span>样本</span></a></li>
+								<li><a href="/web/prd/ffy1/yb2" target="dialog" max="true" rel="dlg_f12" width="800" height="480" ><span>详细样本</span></a></li>
+								<li><a href="/web/prd/yhzz/yb" target="dialog" max="true" rel="dlg_yhzz" width="800" height="480" ><span>银行自动转账授权书样本</span></a></li>
 								<li><a href="/web/prd/ffy1/sell" target="_blank" max="true" rel="dlg_f2"><span>销售</span></a></li>
 							</ul>
 						</div>
@@ -252,8 +254,11 @@ $("#background,#progressBar").hide();
 						</div>
 						<!-- end of hb -->
 						</div>
-						<div>内容4</div>
-						<div>内容5</div>
+						<div>限额</div>
+						<div>样本</div>
+						<div>详细样本</div>
+						<div>银行转账授权书样本</div>
+						<div>销售辅助工具</div>
 					</div>
 				</div>
 		</div>

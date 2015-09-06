@@ -74,7 +74,6 @@ $(function(){
 }); 
 
 </script>
-
 <link href="${contextPath}/css/common.css" rel="stylesheet"/>
 </head>
 
@@ -138,6 +137,8 @@ $(function(){
 								<li><a href="javascript:;"><span>核保</span></a></li>
 								<li><a href="javascript:;"><span>限额</span></a></li>
 								<li><a href="javascript:;"><span>样本</span></a></li>
+								<li><a href="javascript:;"><span>详细样本</span></a></li>
+								<li><a href="javascript:;"><span>银行自动转账授权书样本</span></a></li>
 								<li><a href="javascript:;"><span>销售</span></a></li>
 							</ul>
 						</div>
@@ -148,12 +149,15 @@ $(function(){
 						<div>核保介绍</div>
 						<div>限额介绍</div>
 						<div>弹出样本查看</div>
+						<div>弹出样本查看</div>
+						<div>弹出样本查看</div>
 						<div>技术部销售辅助工具</div>
 					</div>
 					<div class="tabsFooter">
 						<div class="tabsFooterContent"></div>
 					</div>
 				</div>
+			<div></div>
 			<div></div>
 			<div></div>
 			<div></div>
