@@ -56,7 +56,7 @@ function mycount() {
 							</ul>
 						</div>
 					</div>
-					<div class="tabsContent" style="height:280px;">
+					<div class="tabsContent" style="height:345px;">
 						<div>
 						<div class="mytable">
 						<table width="100%" width="98%" layoutH="230">

@@ -123,7 +123,7 @@ public class IndexController {
 		
 		map.put("underwriteList", qyglService.getTODOUnderWriteList(shiroUser.getUser()));
 		
-		if(shiroUser.getUserType().equals("admin")) {
+		if(shiroUser.getUserType().equals("web")) {
 			return WEBINDEX;
 		}
 		return INDEX;

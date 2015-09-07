@@ -22,7 +22,7 @@ $("#background,#progressBar").hide();
 	.mytable p{}
 </style>
 <div class="pageContent">
-		<div class="tabsContent" style="height:70;">
+		<div class="tabsContent" style="height:98;">
 				<div class="tabs" currentIndex="0" eventType="click" style="width:760px">
 					<div class="tabsHeader">
 						<div class="tabsHeaderContent">
@@ -38,27 +38,27 @@ $("#background,#progressBar").hide();
 							</ul>
 						</div>
 					</div>
-					<div class="tabsContent" style="height:280px;">
+					<div class="tabsContent" style="height:345px;">
 						<div>
 						<div class="mytable">
 						<table class="mytable" layoutH="230" width="98%">
 						  <tr>
 						    <td colspan="2">
-						    	中邮富富余1号两全保险（分红型），是为了满足您对人身保障和资金保值增值的双重需求而推出的五年分红型两全保险产品。<br />
+						    	中邮富富余1号两全保险（分红型），是为了满足您对人身保障和资金保值增值的双重需求而推出的五年分红型两全保险产品。
 						    </td>
 						  </tr>
 						  <tr>
 						    <td width="20%" rowspan="3">产品特色</td>
-						    <td width="80%"><span class="my">有保障，更安心</span><br />
-						   为了满足您对人身保障的需求，产品提供实用的人身保障服务，特别是被保险人意外身故或全残将最高得到2倍基本保险金额赔付.</p></td>
+						    <td width="80%"><span class="my">有保障，更安心</span>
+						   为了满足您对人身保障的需求，产品提供实用的人身保障服务，特别是被保险人意外身故或全残将最高得到2倍基本保险金额赔付.</td>
 						  </tr>
 						  <tr>
-						    <td><span class="my">抗风险，更放心 </span><br />
-						    为了有效的抵御风险，保险期届满时，您将会足额得到丰厚的满期保险金，使您的资产保值增值。</p></td>
+						    <td><span class="my">抗风险，更放心 </span>
+						    为了有效的抵御风险，保险期届满时，您将会足额得到丰厚的满期保险金，使您的资产保值增值。</td>
 						  </tr>
 						  <tr>
-						    <td><span class="my">收益多，更划算 </span><br />
-						    除了可以得到全面的人身保障与丰厚的满期保险金之外，将更有机会享受保险期间内公司经营运作产生的红利。</p></td>
+						    <td><span class="my">收益多，更划算 </span>
+						    除了可以得到全面的人身保障与丰厚的满期保险金之外，将更有机会享受保险期间内公司经营运作产生的红利。</td>
 						  </tr>
 						</table>
 						</div>

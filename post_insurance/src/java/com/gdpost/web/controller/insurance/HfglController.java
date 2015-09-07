@@ -364,7 +364,7 @@ public class HfglController {
 		}
 		
 		String orgCode = request.getParameter("policy.orgCode");
-		if(orgCode == null) {
+		if(orgCode == null || orgCode.trim().length() <= 0) {
 			orgCode = user.getOrganization().getOrgCode();
 			if(orgCode.contains("11185")) {
 				orgCode = "8644";

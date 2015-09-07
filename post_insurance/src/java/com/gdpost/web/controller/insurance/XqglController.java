@@ -166,7 +166,7 @@ public class XqglController {
 		issue.setSearch_LIKE_feeStatus(feeStatus);
 		
 		String orgCode = request.getParameter("policy.orgCode");
-		if(orgCode == null) {
+		if(orgCode == null || orgCode.trim().length()<=0) {
 			orgCode = user.getOrganization().getOrgCode();
 		} else {
 			String orgName = request.getParameter("policy.name");

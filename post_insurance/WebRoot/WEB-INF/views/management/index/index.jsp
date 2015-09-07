@@ -323,7 +323,7 @@ $(document).ready(function(){
 										<a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/xqgl/issue/update/${item.id}"><span>${item.policy.policyNo}</span></a>
 										</c:if>
 										 <c:if test="${fn:length(login_user.organization.orgCode) <= 4}"> 
-									     <a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/xqfgl/issue/view/${item.id}"><span>${item.policy.policyNo}</span></a>
+									     <a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/xqgl/issue/view/${item.id}"><span>${item.policy.policyNo}</span></a>
 									    </c:if> 
 										</td>
 										<td>${item.policy.organization.name}</td>

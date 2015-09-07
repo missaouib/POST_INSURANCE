@@ -38,7 +38,7 @@ $("#background,#progressBar").hide();
 							</ul>
 						</div>
 					</div>
-					<div class="tabsContent" style="height:280px;">
+					<div class="tabsContent" style="height:345px;">
 						<div>
 						<div class="mytable">
 						<table class="mytable" layoutH="230" width="98%">

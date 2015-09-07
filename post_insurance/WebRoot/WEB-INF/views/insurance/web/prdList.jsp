@@ -102,17 +102,18 @@ $(function(){
 	</div>
 </div>
 </div>
-<div class="certen">
+
+<div class="certen" layoutH="78">
 <div class="main_visual">
 </div>
-
 <div id="layout">
 	<div id="container">
 		<div id="navTab" class="tabsPage">
 					<div class="navTab-panel tabsPageContent layoutBox">
 				<div class="page unitBox">
     <!--  content  -->
-    <div class="pageContent sortDrag" selector="h1" layoutH="68">
+    <div style="margin:0 auto; width: 70%">
+    <div class="pageContent sortDrag" selector="h1" layoutH="78">
 	<div class="tabs" currentIndex="0" eventType="click">
 		<div class="tabsHeader">
 			<div class="tabsHeaderContent">
@@ -143,7 +144,7 @@ $(function(){
 							</ul>
 						</div>
 					</div>
-					<div class="tabsContent" style="height:300px;">
+					<div class="tabsContent" style="height:350px;">
 						<div>产品的介绍</div>
 						<div>填单要点要求等</div>
 						<div>核保介绍</div>
@@ -169,9 +170,9 @@ $(function(){
 		</div>
 	</div>
 </div>
+</div>
 	<%@ include file="../../webroot.inc.jsp" %>
 </div>
 </div></div></div></div></div>
-
 </body>
 </html>

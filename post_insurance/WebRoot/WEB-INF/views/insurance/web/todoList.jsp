@@ -111,6 +111,7 @@ $(function(){
 		<div id="navTab" class="tabsPage">
 					<div class="navTab-panel tabsPageContent layoutBox">
 				<div class="page unitBox">
+	<div style="margin:0 auto; width: 85%">
     <div class="pageContent sortDrag" selector="h1" layoutH="72">
 	<fieldset>
 	<legend>待办任务</legend>
@@ -440,6 +441,7 @@ $(function(){
 	</div>
 	</shiro:hasPermission>
 </fieldset>
+	</div>
 	</div>
 	<%@ include file="../../webroot.inc.jsp" %>
 </div>
