@@ -62,9 +62,9 @@
 	</fieldset>
 	<div class="divider"></div>
 	<fieldset>
-		<legend>续期催收处理详情</legend>
+		<legend>续期催收登记</legend>
 		<p>
-			<label>催收类型：</label>
+			<label>催收工单类别：</label>
 			<form:select path="issue.dealType" onchange="javascript:$('#fixDesc').val($('#dealType').find('option:selected').text())">
 				<form:option value=""> -- </form:option>
 				<form:options items="${orgTypeList }" itemLabel="typeDesc" itemValue="typeName"/>
@@ -89,15 +89,15 @@
 	<fieldset>
 		<legend>总部催收情况</legend>
 		<p>
-			<label>总部催收工单子类：</label>
+			<label>催收工单类别：</label>
 			<span class="unit">${issue.hqIssueType }</span>
 		</p>
 		<p>
-			<label>总部催收详情：</label>
+			<label>催收详情：</label>
 			<span class="unit">${issue.hqDealRst }</span>
 		</p>
 		<p>
-			<label>总部催收日期：</label>
+			<label>催收日期：</label>
 			<span class="unit">${issue.hqDealDate }</span>
 		</p>
 		<p>

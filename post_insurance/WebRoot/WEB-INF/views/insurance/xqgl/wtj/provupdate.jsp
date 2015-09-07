@@ -62,7 +62,7 @@
 	</fieldset>
 	<div class="divider"></div>
 	<fieldset>
-		<legend>省分催收处理记录</legend>
+		<legend>省分续期催收登记</legend>
 		<p class="nowrap">
 			<label>省分催收结果：</label>
 			<textarea name="provDealRst" cols="50" rows="3">${issue.provDealRst }</textarea>
