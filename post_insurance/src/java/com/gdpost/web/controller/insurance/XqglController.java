@@ -94,6 +94,8 @@ public class XqglController {
 		RenewedList issue = xqglService.get(id);
 		
 		map.put("issue", issue);
+		List<RenewalType> cdtList = xqglService.getAllRenewedDealTypeList();
+		map.put("orgTypeList", cdtList);
 		return PROV_UPDATE;
 	}
 	
@@ -106,7 +108,7 @@ public class XqglController {
 		src.setDealMan(issue.getDealMan());
 		src.setDealTime(issue.getDealTime());
 		src.setFixDesc(issue.getFixDesc());
-		//src.setFixStatus(XQ_STATUS.DealStatus.getDesc());
+		src.setFixStatus(issue.getFixStatus());
 		xqglService.saveOrUpdate(src);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));
@@ -121,7 +123,8 @@ public class XqglController {
 		src.setProvDealRst(issue.getProvDealRst());
 		src.setProvDealDate(new Date());
 		src.setProvDealRemark(issue.getProvDealRemark());
-		//src.setFixStatus(XQ_STATUS.DealStatus.getDesc());
+		src.setProvDealMan(issue.getProvDealMan());
+		src.setProvIssueType(issue.getProvIssueType());
 		xqglService.saveOrUpdate(src);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));

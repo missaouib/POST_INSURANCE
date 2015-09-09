@@ -65,28 +65,29 @@
 		<legend>续期催收登记</legend>
 		<p>
 			<label>催收工单类别：</label>
-			<form:select path="issue.dealType" onchange="javascript:$('#fixDesc').val($('#dealType').find('option:selected').text())">
+			<form:select path="issue.dealType" id="up_dealType" onchange="javascript:$('#myfixStatus').val($('#up_dealType').find('option:selected').text())">
 				<form:option value=""> -- </form:option>
 				<form:options items="${orgTypeList }" itemLabel="typeDesc" itemValue="typeName"/>
 			</form:select>
 		</p>
-		<p>
-			<label>催收结果：</label>
-			<textarea name="fixDesc" id="fixDesc" cols="25" rows="2">${issue.fixDesc }</textarea>
+		<p class="nowrap">
+			<label>催收详情：</label>
+			<textarea name="fixStatus" id="myfixStatus" cols="25" rows="2">${issue.fixStatus }</textarea>
 		</p>
-		<p>&nbsp;</p><p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
 		<p>
 			<label>经办人：</label>
-			<input type="text" name="dealMan" id="hqDealMan" value="${issue.dealMan }"/>
+			<input type="text" name="dealMan" id="dealMan" value="${issue.dealMan }"/>
 		</p>
 		<p>
-			<label>催收日期：</label>
+			<label>经办日期：</label>
 			<input type="text" name="dealTime" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value='${issue.dealTime }' pattern='yyyy-MM-dd'/>"/>
 				<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 		<p>
 			<label>备注：</label>
-			<input type="text" name="dealMan" id="hqDealMan" value="${issue.dealMan }"/>
+			<input type="text" name="fixDesc" id="fixDesc" value="${issue.fixDesc }"/>
 		</p>
 	</fieldset>
 	<div class="divider"></div>
@@ -101,11 +102,11 @@
 			<span class="unit">${issue.hqDealRst }</span>
 		</p>
 		<p>
-			<label>催收日期：</label>
+			<label>经办日期：</label>
 			<span class="unit">${issue.hqDealDate }</span>
 		</p>
 		<p>
-			<label>总部催收备注：</label>
+			<label>备注：</label>
 			<span class="unit">${issue.hqDealRemark }</span>
 		</p>
 	</fieldset>
@@ -113,19 +114,23 @@
 	<fieldset>
 		<legend>分公司催收情况</legend>
 		<p>
-			<label>分公司催收工单子类：</label>
+			<label>催收工单类别：</label>
 			<span class="unit">${issue.provIssueType }</span>
 		</p>
 		<p>
-			<label>分公司催收结果：</label>
+			<label>催收详情：</label>
 			<span class="unit">${issue.provDealRst }</span>
 		</p>
 		<p>
-			<label>分公司催收日期：</label>
+			<label>经办日期：</label>
 			<span class="unit">${issue.provDealDate }</span>
 		</p>
 		<p>
-			<label>分公司催收备注：</label>
+			<label>经办人：</label>
+			<span class="unit">${issue.provDealMan }</span>
+		</p>
+		<p>
+			<label>备注：</label>
 			<span class="unit">${issue.provDealRemark }</span>
 		</p>
 	</fieldset>

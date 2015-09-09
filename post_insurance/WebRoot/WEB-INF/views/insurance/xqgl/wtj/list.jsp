@@ -104,6 +104,9 @@
 				<th orderField=feeFailReason class="${page.orderField eq 'feeFailReason' ? page.orderDirection : ''}">交费失败原因</th>
 				<th>账号</th>
 				<th>网点</th>
+				<th>总部催收情况</th>
+				<th>省分催收情况</th>
+				<th>市县催收情况</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -131,6 +134,9 @@
 					    </c:otherwise>  
 					</c:choose>
 				</td>
+				<td>${item.hqIssueType}</td>
+				<td>${item.provIssueType}</td>
+				<td>${item.dealType}</td>
 			</tr>
 			</c:forEach>
 		</tbody>

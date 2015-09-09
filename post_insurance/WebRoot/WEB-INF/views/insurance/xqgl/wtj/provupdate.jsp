@@ -15,7 +15,7 @@
 			<label>投保人：</label>
 			<span class="unit">${issue.holder }</span>
 		</p>
-		<p class="nowrap">
+		<p>
 			<label>出单网点：</label>
 			<span class="unit">${issue.netName }</span>
 		</p>
@@ -63,37 +63,50 @@
 	<div class="divider"></div>
 	<fieldset>
 		<legend>省分续期催收登记</legend>
-		<p class="nowrap">
-			<label>省分催收结果：</label>
-			<textarea name="provDealRst" cols="50" rows="3">${issue.provDealRst }</textarea>
+		<p>
+			<label>催收工单类别：</label>
+			<form:select path="issue.provIssueType" id="provIssueType" onchange="javascript:$('#provDealRst').val($('#provIssueType').find('option:selected').text())">
+				<form:option value=""> -- </form:option>
+				<form:options items="${orgTypeList }" itemLabel="typeDesc" itemValue="typeName"/>
+			</form:select>
 		</p>
 		<p class="nowrap">
+			<label>省分催收结果：</label>
+			<textarea name="provDealRst" id="provDealRst" cols="50" rows="2">${issue.provDealRst }</textarea>
+		</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>
 			<label>经办人：</label>
 			<input type="text" name="provDealMan" class="input-medium" maxlength="32" value="${issue.provDealMan }"/>
 		</p>
-		<p class="nowrap">
+		<p>
 			<label>经办日期：</label>
 			<input type="text" name="provDealDate" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${issue.provDealDate }"/>
 				<a class="inputDateButton" href="javascript:;">选择</a>
+		</p>
+		<p>
+			<label>备注：</label>
+			<input type="text" name="provDealRemark" class="input-medium" maxlength="32" value="${issue.provDealRemark }"/>
 		</p>
 	</fieldset>
 	<div class="divider"></div>
 	<fieldset>
 		<legend>总部催收情况</legend>
 		<p>
-			<label>总部催收工单子类：</label>
+			<label>催收工单类别：</label>
 			<span class="unit">${issue.hqIssueType }</span>
 		</p>
 		<p>
-			<label>总部催收详情：</label>
+			<label>催收详情：</label>
 			<span class="unit">${issue.hqDealRst }</span>
 		</p>
 		<p>
-			<label>总部催收日期：</label>
+			<label>经办日期：</label>
 			<span class="unit">${issue.hqDealDate }</span>
 		</p>
 		<p>
-			<label>总部催收备注：</label>
+			<label>备注：</label>
 			<span class="unit">${issue.hqDealRemark }</span>
 		</p>
 	</fieldset>
@@ -101,16 +114,23 @@
 	<fieldset>
 		<legend>地市催收情况</legend>
 		<p>
-			<label>地市催收产生问题记录：</label>
+			<label>催收工单类别：</label>
+			<span class="unit">${issue.dealType }</span>
+		</p>
+		<p>
+			<label>催收详情：</label>
 			<span class="unit">${issue.fixStatus }</span>
 		</p>
 		<p>
-			<label>地市催收结果：</label>
-			<span class="unit">${issue.fixDesc }</span>
+			<label>经办日期：</label>
+			<span class="unit">${issue.dealTime }</span>
 		</p>
 		<p>
-			<label>地市催收日期：</label>
-			<span class="unit">${issue.dealTime }</span>
+			<label>经办人：</label>
+			<span class="unit">${issue.dealMan }</span>
+		</p><p>
+			<label>备注：</label>
+			<span class="unit">${issue.fixDesc }</span>
 		</p>
 	</fieldset>
 	</div>

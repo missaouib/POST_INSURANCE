@@ -15,7 +15,7 @@
 			<label>投保人：</label>
 			<span class="unit">${issue.holder }</span>
 		</p>
-		<p class="nowrap">
+		<p>
 			<label>出单网点：</label>
 			<span class="unit">${issue.netName }</span>
 		</p>
@@ -64,7 +64,7 @@
 	<fieldset>
 		<legend>总部催收情况</legend>
 		<p>
-			<label>总部催收工单子类：</label>
+			<label>催收工单类别：</label>
 			<span class="unit">${issue.hqIssueType }</span>
 		</p>
 		<p>
@@ -84,7 +84,7 @@
 	<fieldset>
 		<legend>分公司催收情况</legend>
 		<p>
-			<label>分公司催收工单子类：</label>
+			<label>催收工单类别：</label>
 			<span class="unit">${issue.provIssueType }</span>
 		</p>
 		<p>
@@ -103,17 +103,21 @@
 	<div class="divider"></div>
 	<fieldset>
 		<legend>市县催收情况</legend>
-		<p class="nowrap">
-			<label>续期催收处理记录：</label>
+		<p>
+			<label>催收工单类别：</label>
 			<span class="unit">${issue.fixDesc }</span>
 		</p>
-		<p class="nowrap">
+		<p>
 			<label>经办人：</label>
 			<span class="unit">${issue.dealMan }</span>
 		</p>
-		<p class="nowrap">
+		<p>
 			<label>经办日期：</label>
 			<span class="unit">${issue.dealTime }</span>
+		</p>
+		<p>
+			<label>催收备注：</label>
+			<span class="unit">${issue.fixDesc }</span>
 		</p>
 	</fieldset>
 	</div>
