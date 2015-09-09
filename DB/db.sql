@@ -1,5 +1,5 @@
 /*==============================================================*/
-/* Database name:  picodb                                       */
+/* Database name:  postinsurance                                       */
 /* DBMS name:      MySQL 5.0                                    */
 /* Created on:     2015/5/2 16:30:07                            */
 /*==============================================================*/
@@ -7,8 +7,8 @@
 
 CREATE DATABASE postinsurance DEFAULT CHARACTER SET UTF8 COLLATE utf8_general_ci;
 FLUSH PRIVILEGES;
-CREATE user yunying@'localhost' identified by '123456';
-CREATE user yunying@'%' identified by '123456';
+CREATE user yunying@'localhost' identified by %√‹¬Î%;
+CREATE user yunying@'%' identified by %√‹¬Î%;
 grant all privileges on postinsurance.* to yunying;
 FLUSH PRIVILEGES;
 use postinsurance;

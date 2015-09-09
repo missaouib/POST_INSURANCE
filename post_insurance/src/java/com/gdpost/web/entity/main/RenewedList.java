@@ -51,6 +51,7 @@ public class RenewedList implements Idable<Long> {
 	private Long operateId;
 	private Date operateTime;
 
+	private String dealType;
 	private String fixStatus;
 	private String fixDesc;
 	private String dealMan;
@@ -66,7 +67,7 @@ public class RenewedList implements Idable<Long> {
 	
 	private String hqDealMan;
 	private String provDealMan;
-	private String dealType;
+	
 	
 	@Transient
 	private Integer lastDateNum;

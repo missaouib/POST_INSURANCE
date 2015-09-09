@@ -84,6 +84,10 @@
 			<input type="text" name="dealTime" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value='${issue.dealTime }' pattern='yyyy-MM-dd'/>"/>
 				<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
+		<p>
+			<label>备注：</label>
+			<input type="text" name="dealMan" id="hqDealMan" value="${issue.dealMan }"/>
+		</p>
 	</fieldset>
 	<div class="divider"></div>
 	<fieldset>
