@@ -34,7 +34,7 @@ public class RenewedHQListColumn {
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("工单子类");
+		column.setDisplayName("备注");
 		column.setColumnName("hq_issue_type");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
@@ -43,7 +43,7 @@ public class RenewedHQListColumn {
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("工单内容");
+		column.setDisplayName("工单子类");
 		column.setColumnName("hq_deal_rst");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
@@ -61,7 +61,7 @@ public class RenewedHQListColumn {
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("备注");
+		column.setDisplayName("工单内容");
 		column.setColumnName("hq_deal_remark");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);

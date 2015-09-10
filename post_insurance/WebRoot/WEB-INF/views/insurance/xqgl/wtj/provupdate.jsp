@@ -72,7 +72,7 @@
 		</p>
 		<p class="nowrap">
 			<label>省分催收结果：</label>
-			<textarea name="provDealRst" id="provDealRst" cols="50" rows="2">${issue.provDealRst }</textarea>
+			<textarea name="provDealRst" id="provDealRst" cols="25" rows="2">${issue.provDealRst }</textarea>
 		</p>
 		<p>&nbsp;</p>
 		<p>&nbsp;</p>
