@@ -5,8 +5,9 @@
 $("#background,#progressBar").hide();
 //-->
 </script>
+
 <div class="pageHeader">
-	<form rel="pagerForm" method="post" action="/web/ffy1/xe" onsubmit="return dwzSearch(this, 'dialog');">
+	<form id="pagerForm" rel="pagerForm" method="post" action="/web/prd/ffy1/xe" onsubmit="return dialogSearch(this);">
 	<div class="searchBar">
 		<ul class="searchContent">
 			<li>
@@ -44,6 +45,18 @@ $("#background,#progressBar").hide();
 	</form>
 </div>
 <div class="pageContent">
+	<table class="table" layoutH="68" targetType="dialog" width="100%">
+		<thead>
+			<tr>
+				<th orderfield="orgNum">限额查询结果</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>${rst }</td>
+			</tr>
+		</tbody>
+	</table>
 
-	tests
+	<dwz:pagination page="${page }" targetType="dialog"/>
 </div>

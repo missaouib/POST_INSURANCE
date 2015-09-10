@@ -31,8 +31,8 @@ public class PaginationTag extends SimpleTagSupport {
 		StringBuilder builder = new StringBuilder();
 		builder.append("<div class=\"panelBar\">\n");
 		builder.append("	<div class=\"pages\">\n");
-		builder.append("		<span style='display:none;'>每页显示</span>\n");
-		builder.append("		<select style='display:none;' name=\"numPerPage\" onchange=\"" + onchange + "\">\n");
+		builder.append("		<span>每页显示</span>\n");
+		builder.append("		<select name=\"numPerPage\" onchange=\"" + onchange + "\">\n");
 		
 		for (int i = begin; i <= end; i = i + step) {
 			if (page.getNumPerPage() == i) {

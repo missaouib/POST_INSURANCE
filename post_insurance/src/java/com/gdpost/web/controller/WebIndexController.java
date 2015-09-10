@@ -38,6 +38,7 @@ import com.gdpost.web.service.insurance.KfglService;
 import com.gdpost.web.service.insurance.QyglService;
 import com.gdpost.web.service.insurance.XqglService;
 import com.gdpost.web.shiro.ShiroUser;
+import com.gdpost.web.util.dwz.Page;
 
 /** 
  * 	
@@ -98,6 +99,11 @@ public class WebIndexController {
 	private static final String YHZZ = "insurance/web/prd/yyzh_yb";
 	
 	private static final String FFY1_XE = "insurance/web/prd/ffy1_xe";
+	private static final String FFY3_XE = "insurance/web/prd/ffy3_xe";
+	private static final String BBB_XE = "insurance/web/prd/bbb_xe";
+	private static final String DDB_XE = "insurance/web/prd/ddb_xe";
+	private static final String NB_XE = "insurance/web/prd/nb_xe";
+	private static final String NB_PLUS_XE = "insurance/web/prd/nb_plus_xe";
 	
 	@RequestMapping(value="/index", method=RequestMethod.GET)
 	public String index(ServletRequest request, Map<String, Object> map) {
@@ -130,9 +136,37 @@ public class WebIndexController {
 		}
 	}
 	
+	@RequestMapping(value="/prd/{prdName}/xe", method=RequestMethod.POST)
+	public String xe(@PathVariable String prdName, ServletRequest request, Map<String, Object> map, Page page) {
+		LOG.debug("--------------get the prd xe rst: " + prdName);
+		map.put("page", page);
+		String rst = null;
+		switch(prdName) {
+		case "ffy1":
+			rst = "ffy 1 xe rst";
+			request.setAttribute("rst", rst);
+			return FFY1_XE;
+		case "ffy3":
+			return FFY3_XE;
+		case "ddb":
+			return DDB_XE;
+		case "bbb":
+			return BBB_XE;
+		case "nb":
+			return NB_XE;
+		case "nbplus":
+			return NB_PLUS_XE;
+			default:
+				return YHZZ;
+		}
+	}
+	
 	@RequestMapping(value="/prd/{prdName}/{func}", method=RequestMethod.GET)
 	public String toPrdFunc(@PathVariable String prdName, @PathVariable String func, ServletRequest request, Map<String, Object> map) {
 		LOG.debug("--------------prdName: " + prdName + ", func=" + func);
+		Page page = new Page();
+		page.setPageNum(1);
+		page.setTotalPage(1);
 		switch(prdName) {
 		case "ffy1":
 			switch(func){
@@ -143,6 +177,7 @@ public class WebIndexController {
 			case "sell":
 				return FFY1_SELL;
 			case "xe":
+				map.put("page", page);
 				return FFY1_XE;
 			}
 		case "ffy3":
