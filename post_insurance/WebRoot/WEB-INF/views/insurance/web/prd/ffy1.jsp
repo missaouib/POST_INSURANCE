@@ -30,7 +30,7 @@ $("#background,#progressBar").hide();
 								<li><a href="javascript:;"><span>介绍</span></a></li>
 								<li><a href="javascript:;"><span>填单</span></a></li>
 								<li><a href="javascript:;"><span>核保</span></a></li>
-								<li><a href="/web/prd/ffy1/xe" target="dialog" width="400" height="480" title="富富余1号限额计算"><span>限额</span></a></li>
+								<li><a href="/web/prd/ffy1/xe" target="_blank" width="400" height="480" title="富富余1号限额计算"><span>限额</span></a></li>
 								<li><a href="/web/prd/ffy1/yb" target="dialog" max="true" rel="dlg_f1" width="800" height="480" ><span>样本</span></a></li>
 								<li><a href="/web/prd/ffy1/yb2" target="dialog" max="true" rel="dlg_f12" width="800" height="480" ><span>详细样本</span></a></li>
 								<li><a href="/web/prd/yhzz/yb" target="dialog" max="true" rel="dlg_yhzz" width="800" height="480" ><span>银行自动转账授权书样本</span></a></li>
