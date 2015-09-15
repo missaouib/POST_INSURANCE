@@ -137,7 +137,7 @@ public class HfglServiceImpl implements HfglService {
 					new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.ResetStatus.getDesc()),
 					new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.CallFailStatus.getDesc()),
 					new SearchFilter("lastDateNum", Operator.GTE, 3));
-		} else if (userOrg.getOrgCode().length() > 6) {
+		} else if (userOrg.getOrgCode().length() > 4) {
 			specification = DynamicSpecifications.bySearchFilterWithoutRequest(VCallFailList.class,
 					new SearchFilter("status", Operator.LIKE, HF_STATUS.CallFailStatus.getDesc()),
 					//new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.DealStatus.getDesc()),
