@@ -39,7 +39,7 @@
 			<c:forEach var="item" items="${issues}">
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
-				<td>${item.policy.organization.name}</td>
+				<td>${fn:replace(item.policy.organization.name,'邮政局中邮保险局','')}</td>
 				<td>${item.policy.policyNo}</td>
 				<td>${item.policy.policyDate}</td>
 				<td>
@@ -61,7 +61,16 @@
 				<td>${item.docMiss == "null"?"":item.docMiss}</td>
 				<td>${item.keyInfo=="null"?"":item.keyInfo}</td>
 				<td>${item.importanceInfo=="null"?"":item.importanceInfo}</td>
-				<td>${item.netName=="null"?"":item.netName}</td>
+				<td>
+				<c:choose>  
+					    <c:when test="${fn:length(item.netName) > 14}">  
+					        <c:out value="${fn:substring(item.netName, 14, 30)}" />  
+					    </c:when>  
+					   <c:otherwise>  
+					      <c:out value="${item.netName}" />  
+					    </c:otherwise>  
+					</c:choose>
+				</td>
 			</tr>
 			</c:forEach>
 		</tbody>

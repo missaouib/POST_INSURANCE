@@ -9,51 +9,51 @@
 		<legend>新契约填写不合格件基本信息</legend>
 		<p>
 			<label>保单号：</label>
-			<input type="text" name="policy.policyNo" readonly="readonly" class="input-medium" maxlength="32" value="${issue.policy.policyNo }"/>
+			<span class="unit">${issue.policy.policyNo }</span>
 		</p>
 		<p>
 			<label>投保单号：</label>
-			<input type="text" name="formNo" readonly="readonly" class="input-medium" maxlength="32" value="${issue.formNo }"/>
+			<span class="unit">${issue.formNo }</span>
 		</p>
 		<p>
 			<label>网点类型：</label>
-			<input type="text" name="netType" readonly="readonly" class="input-medium" maxlength="32" value="${issue.netType }"/>
+			<span class="unit">${issue.netType }</span>
 		</p>
-		<p class="nowrap">
+		<p>
 			<label>出单网点：</label>
-			<textarea name="netName" disabled="true" cols="20" rows="2">${issue.netName }</textarea>
+			<span class="unit">${fn:replace(issue.netName,'中国邮政储蓄银行股份有限公司','')}</span>
 		</p>
 		<p>
 			<label>抽检人：</label>
-			<input type="text" name="checker" readonly="readonly" class="input-medium" maxlength="32" value="${issue.checker }"/>
+			<span class="unit">${issue.checker }</span>
 		</p>
 		<p>
 			<label>抽检批次：</label>
-			<input type="text" name="checkBatch" readonly="readonly" class="input-medium" maxlength="32" value="${issue.checkBatch }"/>
+			<span class="unit">${issue.checkBatch }</span>
 		</p>
 		<p>
 			<label>险种名称：</label>
-			<input type="text" name="prdName" readonly="readonly" class="input-medium" maxlength="32" value="${issue.prdName }"/>
+			<span class="unit">${issue.prdName }</span>
 		</p>
 		<p class="nowrap">
 			<label>关键信息错误情况：</label>
-			<textarea name="keyInfo" disabled="true" cols="20" rows="2">${issue.keyInfo=="null"?"":issue.keyInfo }</textarea>
+			<span class="unit">${issue.keyInfo=="null"?"":issue.keyInfo }</span>
 		</p>
 		<p class="nowrap">
 			<label>重要信息错误情况：</label>
-			<textarea name="importanceInfo" disabled="true" cols="20" rows="2">${issue.importanceInfo=="null"?"":issue.importanceInfo }</textarea>
+			<span class="unit">${issue.importanceInfo=="null"?"":issue.importanceInfo }</span>
 		</p>
 		<p class="nowrap">
 			<label>其他信息错误情况：</label>
-			<textarea name="elseInfo" disabled="true" cols="20" rows="2">${issue.elseInfo=="null"?"":issue.elseInfo }</textarea>
+			<span class="unit">${issue.elseInfo=="null"?"":issue.elseInfo }</span>
 		</p>
 		<p>
-			<label>影像件扫描错误：</label>
-			<input type="text" name="docError" readonly="readonly" class="input-medium" maxlength="32" value="${issue.docError=='null'?'':issue.docError }"/>
+			<label>扫描错误：</label>
+			<span class="unit">${issue.docError=='null'?'':issue.docError }</span>
 		</p>
 		<p class="nowrap">
-			<label>投保资料扫描缺失情况：</label>
-			<textarea name="docMiss" disabled="true" cols="20" rows="2">${issue.elseInfo=="null"?"":issue.elseInfo }</textarea>
+			<label>扫描缺失情况：</label>
+			<span class="unit">${issue.docMiss=="null"?"":issue.docMiss }</span>
 		</p>
 	</fieldset>
 	<div class="divider"></div>
@@ -61,16 +61,15 @@
 		<legend>不合格件处理详情</legend>
 		<p class="nowrap">
 			<label>不合格件处理记录：</label>
-			<textarea name="fixDesc" cols="50" rows="3">${issue.fixDesc }</textarea>
+			<span class="unit">${issue.fixDesc }</span>
 		</p>
 		<p class="nowrap">
 			<label>经办人：</label>
-			<input type="text" name="dealMan" class="input-medium" maxlength="32" value="${issue.dealMan }"/>
+			<span class="unit">${issue.dealMan }</span>
 		</p>
 		<p class="nowrap">
 			<label>经办日期：</label>
-			<input type="text" name="dealTime" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${issue.dealTime }"/>
-				<a class="inputDateButton" href="javascript:;">选择</a>
+			<span class="unit">${issue.dealTime }"</span>
 		</p>
 	</fieldset>
 	<div class="divider"></div>

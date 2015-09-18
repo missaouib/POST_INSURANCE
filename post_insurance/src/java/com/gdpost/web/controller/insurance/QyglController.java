@@ -118,7 +118,7 @@ public class QyglController {
 		src.setFixStatus(STATUS.DealStatus.name());
 		qyglService.saveOrUpdateCheckWrite(src);
 		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issue.getPolicy().getPolicyNo()}));
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));
 		return	AjaxObject.newOk("回复新契约不合格件成功！").toString(); 
 	}
 	
@@ -134,7 +134,7 @@ public class QyglController {
 		src.setReopenDate(new Date());
 		qyglService.saveOrUpdateCheckWrite(src);
 		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issue.getPolicy().getPolicyNo()}));
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));
 		return	AjaxObject.newOk("重新打开新契约不合格件成功！").toString(); 
 	}
 	
@@ -147,7 +147,7 @@ public class QyglController {
 		src.setFixStatus(STATUS.CloseStatus.name());
 		qyglService.saveOrUpdateCheckWrite(src);
 		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issue.getPolicy().getPolicyNo()}));
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));
 		return	AjaxObject.newOk("结案新契约不合格件成功！").toString(); 
 	}
 	
@@ -224,7 +224,7 @@ public class QyglController {
 		src.setFixStatus(STATUS.DealStatus.name());
 		qyglService.saveOrUpdateCheckRecord(src);
 		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issue.getPolicy().getPolicyNo()}));
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));
 		return	AjaxObject.newOk("回复新契约不合格件成功！").toString(); 
 	}
 	
@@ -240,7 +240,7 @@ public class QyglController {
 		src.setReopenDate(new Date());
 		qyglService.saveOrUpdateCheckRecord(src);
 		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issue.getPolicy().getPolicyNo()}));
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));
 		return	AjaxObject.newOk("重新打开新契约不合格件成功！").toString(); 
 	}
 	
@@ -253,7 +253,7 @@ public class QyglController {
 		src.setFixStatus(STATUS.CloseStatus.name());
 		qyglService.saveOrUpdateCheckRecord(src);
 		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issue.getPolicy().getPolicyNo()}));
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));
 		return	AjaxObject.newOk("结案新契约不合格件成功！").toString(); 
 	}
 	

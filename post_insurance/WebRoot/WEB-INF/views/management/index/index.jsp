@@ -206,7 +206,7 @@ $(document).ready(function(){
 										<td><span style="color:red; height:50%; margin-bottom:-contentheight;">${item.lastDateNum }</span></td>
 										<td>${item.status}</td>
 										<td>${item.policy.policyNo}</td>
-										<td>${item.policy.organization.name}</td>
+										<td>${fn:replace(item.policy.organization.name,'中邮保险局','')}</td>
 										<td>${item.issueType}</td>
 										<td>${item.issueContent}</td>
 									</tr>
@@ -236,7 +236,7 @@ $(document).ready(function(){
 									<tr target="slt_uid" rel="${item.id}">
 										<td>${var.index+1 }</td>
 										<td>${item.policy.policyNo}</td>
-										<td>${item.policy.organization.name}</td>
+										<td>${fn:replace(item.policy.organization.name,'中邮保险局','')}</td>
 										<td>${item.csRst}</td>
 										<td>${item.csDate}</td>
 										<td>
@@ -288,7 +288,7 @@ $(document).ready(function(){
 										<td><span style="color:red; height:50%; margin-bottom:-contentheight;"><c:if test="${item.lastDateNum<0 }">0</c:if><c:if test="${item.lastDateNum>=0 }">${item.lastDateNum }</c:if></span></td>
 										<td>${item.status}</td>
 										<td>${item.policy.policyNo}</td>
-										<td>${item.policy.organization.name}</td>
+										<td>${fn:replace(item.policy.organization.name,'中邮保险局','')}</td>
 										<td>${item.issueType}</td>
 										<td>${item.issueContent}</td>
 									</tr>
@@ -326,7 +326,7 @@ $(document).ready(function(){
 									     <a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/xqgl/issue/view/${item.id}"><span>${item.policy.policyNo}</span></a>
 									    </c:if> 
 										</td>
-										<td>${item.policy.organization.name}</td>
+										<td>${fn:replace(item.policy.organization.name,'中邮保险局','')}</td>
 										<td><fmt:formatDate value="${item.feeDate }" pattern="yyyy-MM-dd"/></td>
 										<td><span style="color:red; height:50%; margin-bottom:-contentheight;">${item.lastDateNum }</span></td>
 										<td>${item.feeStatus}</td>
@@ -367,7 +367,7 @@ $(document).ready(function(){
 									     <a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/qygl/issue/write/view/${item.id}"><span>${item.policy.policyNo}</span></a>
 									    </c:if> 
 										</td>
-										<td>${item.policy.organization.name}</td>
+										<td>${fn:replace(item.policy.organization.name,'中邮保险局','')}</td>
 										<td>${item.policy.policyDate}</td>
 										<td>
 										<c:choose>
@@ -424,7 +424,7 @@ $(document).ready(function(){
 									     <a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/qygl/issue/record/view/${item.id}"><span>${item.policy.policyNo}</span></a>
 									    </c:if> 
 										</td>
-										<td>${item.policy.organization.name}</td>
+										<td>${fn:replace(item.policy.organization.name,'中邮保险局','')}</td>
 										<td>${item.policy.policyDate}</td>
 										<td>
 										<c:choose>
@@ -478,7 +478,7 @@ $(document).ready(function(){
 									<c:forEach var="item" items="${underwriteList}">
 									<tr target="slt_uid" rel="${item.id}">
 										<td><input name="ids" value="${item.id}" type="checkbox"></td>
-										<td>${item.organization.name}</td>
+										<td>${fn:replace(item.organization.name,'中邮保险局','')}</td>
 										<td>
 										<a target="dialog" rel="lookup2organization_edit" mask="true" width="450" height="220" href="${contextPath }/qygl/underwrite/signDateUpdate/${item.id}"><span>${item.formNo}</span></a>
 										</td>

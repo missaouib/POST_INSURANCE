@@ -17,12 +17,12 @@
 	</appender>
 
 	<!-- project default level -->
-	<logger name="com.gdpost" level="DEBUG" />
+	<logger name="com.gdpost" level="INFO" />
 
 	<!--log4jdbc -->
 	<!-- <logger name="jdbc.sqltiming" level="INFO"/> -->
 
-	<root level="DEBUG">
+	<root level="INFO">
 		<appender-ref ref="console" />
 		<appender-ref ref="rollingFile" />
 	</root>

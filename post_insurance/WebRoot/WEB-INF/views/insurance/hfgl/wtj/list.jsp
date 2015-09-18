@@ -127,7 +127,7 @@
 				<td>${item.policy.holder}</td>
 				<td>${item.holderMobile eq ""?item.holderPhone:item.holderMobile}</td>
 				<td>${item.policy.prodName}</td>
-				<td>${item.policy.organization.name}</td>
+				<td>${fn:replace(item.policy.organization.name,'邮政局中邮保险局','')}</td>
 				<td>
 					<c:choose>  
 					    <c:when test="${fn:length(item.bankName) > 14}">  
@@ -140,7 +140,7 @@
 				</td>
 				<td>${item.status}</td>
 				<td>${item.resetPhone}</td>
-				<td>${item.organization.name}</td>
+				<td>${fn:replace(item.organization.name,'邮政局中邮保险局','')}</td>
 				<shiro:hasPermission name="Callfail:provEdit">
 				<td>${item.hasLetter}</td>
 				</shiro:hasPermission>

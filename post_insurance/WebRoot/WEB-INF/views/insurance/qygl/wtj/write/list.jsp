@@ -13,10 +13,42 @@
 <form id="qyWriteForm" method="post" action="${contextPath }/qygl/issue/write/list" onsubmit="return navTabSearch(this)">
 	<div class="pageHeader">
 		<div class="searchBar">
+		<table class="searchContent">
+				<tr>
+					<td>
+						工单编号：<input type="text" id="qy_w_policyNo" name="search_LIKE_issueNo" value="${param.search_LIKE_issueNo }"/>
+					</td>
+					<td>
+						<label>工单状态：</label>
+						<form:select path="issue.fixStatus" id="qyRecordStatus" class="combox">
+							<form:option value=""> -- -- </form:option>
+							<form:options items="${qyRecordStatusList }" itemLabel="desc"/>
+						</form:select>
+					</td>
+					<td>
+						<label>所属机构：</label>
+						<input name="search_LIKE_organization.orgCode" id="qy_r_orgCode" type="hidden" value="${search_LIKE_organization_orgCode }"/>
+						<input class="validate[required] required" name="search_LIKE_organization.name" id="qy_r_orgName" type="text" readonly="readonly" style="width: 100px;" value="${search_LIKE_organization_name }"/><a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="search_LIKE_organization" title="选择机构" width="400">查</a>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>承保开始日期：</label>
+						<input type="text" name="search_GTE_policy.policyDate" id="qy_r_date1" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${search_GTE_policy_policyDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+					</td>
+					<td>
+						<label>承保结束日期：</label>
+						<input type="text" name="search_LTE_policy.policyDate" id="qy_r_date2" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${search_LTE_policy_policyDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+					</td>
+					<td>
+						&nbsp;
+					</td>
+				</tr>
+			</table>
 			<ul class="searchContent">
 				<li>
 					<label>问题件编号：</label>
-					<input type="text" id="qy_w_policyNo" name="search_LIKE_issueNo" value="${param.search_LIKE_issueNo }"/>
+					
 				</li>
 				<li>
 					<label>问题件状态：</label>
@@ -86,7 +118,7 @@
 			<c:forEach var="item" items="${issues}">
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
-				<td>${item.policy.organization.name}</td>
+				<td>${fn:replace(item.policy.organization.name,'邮政局中邮保险局','')}</td>
 				<td>${item.policy.policyNo}</td>
 				<td>${item.policy.policyDate}</td>
 				<td>
@@ -108,7 +140,16 @@
 				<td>${item.docMiss == "null"?"":item.docMiss}</td>
 				<td>${item.keyInfo=="null"?"":item.keyInfo}</td>
 				<td>${item.importanceInfo=="null"?"":item.importanceInfo}</td>
-				<td>${item.netName=="null"?"":item.netName}</td>
+				<td>
+				<c:choose>  
+					    <c:when test="${fn:length(item.netName) > 14}">  
+					        <c:out value="${fn:substring(item.netName, 14, 30)}" />  
+					    </c:when>  
+					   <c:otherwise>  
+					      <c:out value="${item.netName}" />  
+					    </c:otherwise>  
+					</c:choose>
+				</td>
 			</tr>
 			</c:forEach>
 		</tbody>

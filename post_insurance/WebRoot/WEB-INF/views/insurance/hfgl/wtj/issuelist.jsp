@@ -42,13 +42,13 @@
 			<c:forEach var="item" items="${issueList}">
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
-				<td>${item.organization.name}</td>
+				<td>${fn:replace(item.organization.name,'邮政局中邮保险局','')}</td>
 				<td>${item.issueNo}</td>
 				<td>${item.issueContent}</td>
 				<td><fmt:formatDate value="${item.shouldDate }" pattern="yyyy-MM-dd"/></td>
 				<td><span style="color:red; height:50%; margin-bottom:-contentheight;"><c:if test="${item.lastDateNum<0 }">0</c:if><c:if test="${item.lastDateNum>=0 }">${item.lastDateNum }</c:if></span></td>
 				<td>${item.policy.policyNo}</td>
-				<td>${item.policy.organization.name}</td>
+				<td>${fn:replace(item.policy.organization.name,'邮政局中邮保险局','')}</td>
 				<td>${item.status}</td>
 			</tr>
 			</c:forEach>

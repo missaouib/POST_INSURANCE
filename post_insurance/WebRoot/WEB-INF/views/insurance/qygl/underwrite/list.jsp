@@ -111,7 +111,7 @@
 			<c:forEach var="item" items="${underwrites}">
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
-				<td>${item.organization.name}</td>
+				<td>${fn:replace(item.organization.name,'邮政局中邮保险局','')}</td>
 				<td>${item.formNo}</td>
 				<td>${item.policyNo}</td>
 				<td>${item.holder}</td>

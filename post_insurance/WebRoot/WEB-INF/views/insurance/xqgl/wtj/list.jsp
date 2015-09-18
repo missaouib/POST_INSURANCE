@@ -88,7 +88,7 @@
 		</ul>
 	</div>
 	
-	<table class="table" layoutH="160" width="120%">
+	<table class="table" layoutH="160" width="150%">
 		<thead>
 			<tr>
 				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
@@ -113,7 +113,7 @@
 			<c:forEach var="item" items="${issues}">
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
-				<td>${item.policy.organization.name}</td>
+				<td>${fn:replace(item.policy.organization.name,'中邮保险局','')}</td>
 				<td>${item.policy.policyNo}</td>
 				<td>${item.prdName}</td>
 				<td>${item.holder}</td>

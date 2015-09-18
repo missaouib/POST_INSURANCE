@@ -121,7 +121,16 @@
 			<td>${item.policy.holder}</td>
 			<td>${item.issueType}</td>
 			<td>${item.issueContent}</td>
-			<td>${item.bankName}</td>
+			<td>
+			<c:choose>  
+			    <c:when test="${fn:length(item.bankName) > 14}">  
+			        <c:out value="${fn:substring(item.bankName, 14, 30)}" />  
+			    </c:when>  
+			   <c:otherwise>  
+			      <c:out value="${item.bankName}" />  
+			    </c:otherwise>  
+			</c:choose>
+			</td>
 			<td>${item.holderPhone}</td>
 			<td>${item.holderMobile}</td>
 			<td>${item.result}</td>
