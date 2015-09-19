@@ -3,14 +3,11 @@
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 
 <dwz:paginationForm action="${contextPath }/qygl/underwrite/list" page="${page }">
-	<input type="hidden" name="search_LIKE_issueNo" value="${param.search_LIKE_issueNo }"/>
-	<input type="hidden" name="policy.orgCode" value="${policy_orgCode }"/>
-	<input type="hidden" name="policy.name" value="${policy_name }"/>
+	<input type="hidden" name="search_LIKE_formNo" value="${search_LIKE_formNo }"/>
+	<input type="hidden" name="orgCode" value="${orgCode }"/>
+	<input type="hidden" name="name" value="${name }"/>
 	<input type="hidden" name="search_LTE_ybtDate" value="${param.search_LTE_ybtDate }"/>
 	<input type="hidden" name="search_GTE_ybtDate" value="${param.search_GTE_ybtDate }"/>
-	<input type="hidden" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
-	<input type="hidden" name="search_LIKE_hasLetter" value="${param.search_LIKE_hasLetter }"/>
-	<input type="hidden" name="status" value="${param.status }"/>
 </dwz:paginationForm>
 
 <form method="post" id="hfForm" action="${contextPath }/qygl/underwrite/list" onsubmit="return navTabSearch(this)">
@@ -18,30 +15,26 @@
 		<div class="searchBar">
 			<ul class="searchContent">
 				<li>
-					<label>工单编号：</label>
-					<input type="text" id="hfIssueNo" name="search_LIKE_issueNo" value="${param.search_LIKE_issueNo }"/>
-				</li>
-				<li>
 					<label>保单号：</label>
-					<input type="text" id="hfPolicyNo" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
+					<input type="text" id="uwFormNo" style="width: 100px;" name="search_LIKE_formNo" value="${param.search_LIKE_formNo }"/>
 				</li>
 				<li>
 					<label>所属机构：</label>
-					<input name="policy.orgCode" id="xq_orgCode" type="hidden" value="${policy_orgCode }"/>
-					<input class="validate[required] required" name="policy.name" id="xq_orgName" type="text" readonly="readonly" style="width: 140px;" value="${policy_name }"/>
-					<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="policy" title="选择机构" width="400">查找带回</a>
+					<input name="orgCode" id="uw_orgCode" type="hidden" value="${orgCode }"/>
+					<input class="validate[required] required" name="name" id="uw_orgName" type="text" readonly="readonly" style="width: 120px;" value="${name }"/>
+					<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="" title="选择机构" width="400">查</a>
 				</li>				
 			</ul>
 			<ul class="searchContent">
 				<li>
-					<label>待处理开始日期：</label>
-					<input type="text" name="search_GTE_ybtDate" id="hfDate1" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_ybtDate }"/>
-					<a class="inputDateButton" href="javascript:;">选择</a>
+					<label>邮保通日期起：</label>
+					<input type="text" name="search_GTE_ybtDate" id="uwDate1" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_ybtDate }"/>
+					<a class="inputDateButton" href="javascript:;">选</a>
 				</li>
 				<li>
-					<label>待处理结束日期：</label>
-					<input type="text" name="search_LTE_ybtDate" id="hfDate2" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_ybtDate }"/>
-					<a class="inputDateButton" href="javascript:;">选择</a>
+					<label>邮保通日期止：</label>
+					<input type="text" name="search_LTE_ybtDate" id="uwDate2" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_ybtDate }"/>
+					<a class="inputDateButton" href="javascript:;">选</a>
 				</li>
 			</ul>
 			<div class="subBar">
@@ -58,16 +51,16 @@
 	<div class="panelBar">
 		<ul class="toolBar">
 			<shiro:hasPermission name="UnderWrite:view">
-				<li><a iconClass="user_edit" target="dialog" rel="underwrite_edit" mask="true" width="850" height="580" href="${contextPath }/qygl/underwrite/view/{slt_uid}"><span>查看人核件</span></a></li>
+				<li><a iconClass="user_edit" target="dialog" rel="underwrite_edit" mask="true" width="800" height="440" href="${contextPath }/qygl/underwrite/view/{slt_uid}"><span>查看人核件</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="UnderWrite:edit">
 			<li class="line">line</li>
-				<li><a iconClass="user_edit" target="dialog" rel="underwrite_edit" mask="true" width="850" height="580" href="${contextPath }/qygl/underwrite/update/{slt_uid}"><span>更新人核件</span></a></li>
+				<li><a iconClass="user_edit" target="dialog" rel="underwrite_edit" mask="true" width="800" height="440" href="${contextPath }/qygl/underwrite/update/{slt_uid}"><span>更新人核件</span></a></li>
 				<li><a iconClass="user_go" href="${contextPath}/qygl/underwrite/signDateUpdate/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>回销登记</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="UnderWrite:provEdit">
 			<li class="line">line</li>
-				<li><a iconClass="user_edit" target="dialog" rel="underwrite_edit" mask="true" width="850" height="620" href="${contextPath }/qygl/underwrite/create"><span>新建人核件</span></a></li>
+				<li><a iconClass="user_edit" target="dialog" rel="underwrite_edit" mask="true" width="800" height="440" href="${contextPath }/qygl/underwrite/create"><span>新建人核件</span></a></li>
 				<li><a iconClass="user_go" href="${contextPath}/qygl/underwrite/provSend/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>省分寄出</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="UnderWrite:cityEdit">

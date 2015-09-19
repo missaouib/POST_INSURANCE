@@ -16,51 +16,53 @@
 <form id="xqForm" method="post" action="${contextPath }/xqgl/issue/list" onsubmit="return navTabSearch(this)">
 	<div class="pageHeader">
 		<div class="searchBar">
-			<ul class="searchContent">
-				<li>
-					<label>保单号：</label>
-					<input type="text" id="xq_policyno" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
-				</li>
-				<li>
-					<label>问题件状态：</label>
-					<form:select path="issue.search_LIKE_feeStatus" id="xqStatus" class="combox">
-						<form:option value=""> -- -- </form:option>
-						<form:options items="${xqStatusList }" itemLabel="desc" itemValue="desc"/>
-					</form:select>
-				</li>
-				<li>
-					<label>总部催收：</label>
-					<form:select path="issue.search_LIKE_hqDealRemark" id="xqDealStatus" class="combox">
-						<form:option value=""> -- -- </form:option>
-						<form:options items="${xqDealStatusList }" itemLabel="desc" itemValue="desc"/>
-					</form:select>
-				</li>
-				<li>
-					<label>市/县催收：</label>
-					<form:select path="issue.search_LIKE_dealType" id="dealType" class="combox">
-						<form:option value=""> -- </form:option>
-						<form:options items="${orgTypeList }" itemLabel="typeDesc" itemValue="typeName"/>
-					</form:select>
-				</li>
-			</ul>
-			<ul class="searchContent">
-				<li>
-					<label>所属机构：</label>
-					<input name="policy.orgCode" id="xq_orgCode" type="hidden" value="${policy_orgCode }"/>
-					<input class="validate[required] required" name="policy.name" id="xq_orgName" type="text" readonly="readonly" style="width: 140px;" value="${policy_name }"/>
-					<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="policy" title="选择机构" width="400">查找带回</a>
-				</li>
-				<li>
-					<label>交费日起：</label>
-					<input type="text" name="search_GTE_feeDate" class="date" id="xq_date1" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_feeDate }"/>
-					<a class="inputDateButton" href="javascript:;">选择</a>
-				</li>
-				<li>
-					<label>交费日止：</label>
-					<input type="text" name="search_LTE_feeDate" class="date" id="xq_date2" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_feeDate }"/>
-					<a class="inputDateButton" href="javascript:;">选择</a>
-				</li>
-			</ul>
+			<table class="searchContent">
+				<tr>
+					<td>
+						保单号：<input type="text" id="xq_policyno" name="search_LIKE_policy.policyNo" style="width: 100px;" value="${search_LIKE_policy_policyNo }"/>
+					</td>
+					<td>
+						<label>状态：</label>
+						<form:select path="issue.search_LIKE_feeStatus" id="xqStatus" class="combox">
+							<form:option value=""> -- -- </form:option>
+							<form:options items="${xqStatusList }" itemLabel="desc" itemValue="desc"/>
+						</form:select>
+					</td>
+					<td>
+						<label>所属机构：</label>
+						<input name="policy.orgCode" id="xq_orgCode" type="hidden" value="${policy_orgCode }"/>
+						<input class="validate[required] required" name="policy.name" id="xq_orgName" type="text" readonly="readonly" style="width: 100px;" value="${policy_name }"/>
+						<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="policy" title="选择机构" width="400">查</a>
+					</td>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td>
+						<label>总部催收：</label>
+						<form:select path="issue.search_LIKE_hqDealRemark" id="xqDealStatus" class="combox">
+							<form:option value=""> -- -- </form:option>
+							<form:options items="${xqDealStatusList }" itemLabel="desc" itemValue="desc"/>
+						</form:select>
+					</td>
+					<td>
+						<label>市/县催收：</label>
+						<form:select path="issue.search_LIKE_dealType" id="dealType" class="combox">
+							<form:option value=""> -- </form:option>
+							<form:options items="${orgTypeList }" itemLabel="typeDesc" itemValue="typeName"/>
+						</form:select>
+					</td>
+					<td>
+						<label>交费日起：</label>
+						<input type="text" name="search_GTE_feeDate" class="date" style="width: 80px;" id="xq_date1" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_feeDate }"/>
+						<a class="inputDateButton" href="javascript:;">选</a>
+					</td>
+					<td>
+						<label>交费日止：</label>
+						<input type="text" name="search_LTE_feeDate" class="date" style="width: 80px;" id="xq_date2" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_feeDate }"/>
+						<a class="inputDateButton" href="javascript:;">选择</a>
+					</td>
+				</tr>
+			</table>
 			<div class="subBar">
 				<ul>
 					<li><div class="button"><div class="buttonContent"><button type="submit">搜索</button></div></div></li>

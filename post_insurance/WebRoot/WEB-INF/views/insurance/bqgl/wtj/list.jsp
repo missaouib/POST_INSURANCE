@@ -4,7 +4,8 @@
 
 <dwz:paginationForm action="${contextPath }/bqgl/issue/list" page="${page }">
 	<input type="hidden" name="search_LIKE_policy.policyNo" value="${param.search_LIKE_policy_policyNo }"/>
-	<input type="hidden" name="search_LIKE_organization.orgCode" value="${param.search_LIKE_organization_orgCode }"/>
+	<input type="hidden" name="orgCode" value="${orgCode }"/>
+	<input type="hidden" name="name" value="${name }"/>
 	<input type="hidden" name="search_LTE_csDate" value="${param.search_LTE_csDate }"/>
 	<input type="hidden" name="search_GTE_csDate" value="${param.search_GTE_csDate }"/>
 	<input type="hidden" name="status" value="${param.status }"/>
@@ -13,37 +14,40 @@
 <form method="post" id="bqForm" action="${contextPath }/bqgl/issue/list" onsubmit="return navTabSearch(this)">
 	<div class="pageHeader">
 		<div class="searchBar">
-			<ul class="searchContent">
-				<li>
-					<label>保单号：</label>
-					<input type="text" id="bqPolicyNo" name="search_LIKE_policy.policyNo" value="${param.search_LIKE_policy_policyNo }"/>
-				</li>
-				<li>
-					<label>工单状态：</label>
-					<form:select path="issue.status" class="combox" id="bqStatus">
-						<form:option value=""> -- -- </form:option>
-						<form:options items="${baStatusList }" itemLabel="desc"/>
-					</form:select>
-				</li>
-				<li>
-					<label>所属机构：</label>
-					<input name="search_LIKE_organization.orgCode" id="bq_orgCode" type="hidden" value="${search_LIKE_organization_orgCode }"/>
-					<input class="validate[required] required" name="search_LIKE_organization.name" id="bq_orgName" type="text" readonly="readonly" style="width: 140px;" value="${search_LIKE_organization_name }"/>
-					<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="search_LIKE_organization" title="选择机构" width="400">查找带回</a>
-				</li>
-			</ul>
-			<ul class="searchContent">
-				<li>
-					<label>开始日期：</label>
-					<input type="text" id="bqCsDate1" name="search_GTE_csDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_csDate }"/>
-					<a class="inputDateButton" href="javascript:;">选择</a>
-				</li>
-				<li>
-					<label>结束日期：</label>
-					<input type="text" id="bqCsDate2" name="search_LTE_csDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_csDate }"/>
-					<a class="inputDateButton" href="javascript:;">选择</a>
-				</li>
-			</ul>
+			<table class="searchContent">
+				<tr>
+					<td>
+						保单号：<input type="text" style="width: 100px;" id="bqPolicyNo" name="search_LIKE_policy.policyNo" value="${param.search_LIKE_policy_policyNo }"/>
+					</td>
+					<td>
+						<label>状态：</label>
+						<form:select path="issue.status" class="combox" id="bqStatus">
+							<form:option value=""> -- -- </form:option>
+							<form:options items="${baStatusList }" itemLabel="desc"/>
+						</form:select>
+					</td>
+					<td>
+						<label>所属机构：</label>
+						<input name="orgCode" id="bq_orgCode" type="hidden" value="${orgCode }"/>
+						<input class="validate[required] required" name="name" id="bq_orgName" type="text" readonly="readonly" style="width: 100px;" value="${name }"/><a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="" title="选择机构" width="400">查</a>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>承保开始日期：</label>
+						<input type="text" id="bqCsDate1" name="search_GTE_csDate" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_csDate }"/>
+					<a class="inputDateButton" href="javascript:;">选</a>
+					</td>
+					<td>
+						<label>承保结束日期：</label>
+						<input type="text" id="bqCsDate2" name="search_LTE_csDate" class="date validate[required] required" style="width: 80px;"dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_csDate }"/>
+					<a class="inputDateButton" href="javascript:;">选</a>
+					</td>
+					<td>
+						&nbsp;
+					</td>
+				</tr>
+			</table>
 			<div class="subBar">
 				<ul>						
 					<li><div class="button"><div class="buttonContent"><button type="submit">搜索</button></div></div></li>

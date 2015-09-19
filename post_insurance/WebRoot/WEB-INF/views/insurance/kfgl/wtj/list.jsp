@@ -4,7 +4,9 @@
 
 <dwz:paginationForm action="${contextPath }/kfgl/issue/list" page="${page }">
 	<input type="hidden" name="search_LIKE_issueNo" value="${param.search_LIKE_issueNo }"/>
-	<input type="hidden" name="search_LIKE_organization.orgCode" value="${param.search_LIKE_organization_orgCode }"/>
+	<input type="hidden" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
+	<input type="hidden" name="orgCode" value="${orgCode }"/>
+	<input type="hidden" name="name" value="${name }"/>
 	<input type="hidden" name="status" value="${param.status }"/>
 	<input type="hidden" name="search_LTE_shouldDate" value="${param.search_LTE_shouldDate }"/>
 	<input type="hidden" name="search_GTE_shouldDate" value="${param.search_GTE_shouldDate }"/>
@@ -13,37 +15,40 @@
 <form method="post" id="kfForm" action="${contextPath }/kfgl/issue/list" onsubmit="return navTabSearch(this)">
 	<div class="pageHeader">
 		<div class="searchBar">
-			<ul class="searchContent">
-				<li>
-					<label>工单编号：</label>
-					<input type="text" id="kfPolicyNo" name="search_LIKE_issueNo" value="${param.search_LIKE_issueNo }"/>
-				</li>
-				<li>
-					<label>工单状态：</label>
-					<form:select path="issue.status" id="kfStatus" class="combox">
-						<form:option value=""> -- -- </form:option>
-						<form:options items="${statusList }" itemLabel="desc" itemValue="desc"/>
-					</form:select>
-				</li>
-				<li>
-					<label>所属机构：</label>
-					<input name="search_LIKE_organization.orgCode" id="kf_orgCode" type="hidden" value="${search_LIKE_organization_orgCode }"/>
-					<input class="validate[required] required" name="search_LIKE_organization.name" id="kf_orgName" type="text" readonly="readonly" style="width: 140px;" value="${search_LIKE_organization_name }"/>
-					<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="search_LIKE_organization" title="选择机构" width="400">查找带回</a>
-				</li>				
-			</ul>
-			<ul class="searchContent">
-				<li>
-					<label>工单开始日期：</label>
-					<input type="text" name="search_GTE_shouldDate" id="kfDate1" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_shouldDate }"/>
-					<a class="inputDateButton" href="javascript:;">选择</a>
-				</li>
-				<li>
-					<label>工单结束日期：</label>
-					<input type="text" name="search_LTE_shouldDate" id="kfDate2" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_shouldDate }"/>
-					<a class="inputDateButton" href="javascript:;">选择</a>
-				</li>
-			</ul>
+			<table class="searchContent">
+				<tr>
+					<td>
+						工单号：<input type="text" id="kfPolicyNo" name="search_LIKE_issueNo" style="width: 80px;" value="${param.search_LIKE_issueNo }"/>
+					</td>
+					<td>
+						<label>状态：</label>
+						<form:select path="issue.status" id="kfStatus" class="combox">
+							<form:option value=""> -- -- </form:option>
+							<form:options items="${statusList }" itemLabel="desc" itemValue="desc"/>
+						</form:select>
+					</td>
+					<td>
+						<label>所属机构：</label>
+						<input name="orgCode" id="bq_orgCode" type="hidden" value="${orgCode }"/>
+						<input class="validate[required] required" name="name" id="bq_orgName" type="text" readonly="readonly" style="width: 100px;" value="${name }"/><a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="" title="选择机构" width="400">查</a>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						保单号：<input type="text" id="kfPolicyNo" style="width: 80px;" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
+					</td>
+					<td>
+						<label>开始日期：</label>
+						<input type="text" name="search_GTE_shouldDate" id="kfDate1" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_shouldDate }"/>
+						<a class="inputDateButton" href="javascript:;">选</a>
+					</td>
+					<td>
+						<label>结束日期：</label>
+						<input type="text" name="search_LTE_shouldDate" id="kfDate2" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_shouldDate }"/>
+					<a class="inputDateButton" href="javascript:;">选</a>
+					</td>
+				</tr>
+			</table>
 			<div class="subBar">
 				<ul>						
 					<li><div class="button"><div class="buttonContent"><button type="submit">搜索</button></div></div></li>
@@ -58,13 +63,13 @@
 	<div class="panelBar">
 		<ul class="toolBar">
 			<shiro:hasPermission name="Wtgd:view">
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="580" href="${contextPath }/kfgl/issue/view/{slt_uid}"><span>查看问题工单</span></a></li>
+				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/kfgl/issue/view/{slt_uid}"><span>查看问题工单</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Wtgd:edit">
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/kfgl/issue/update/{slt_uid}"><span>回复问题工单</span></a></li>
+				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/kfgl/issue/update/{slt_uid}"><span>回复问题工单</span></a></li>
 			</shiro:hasPermission>
-			<li><a iconClass="user_edit" target="navTab" rel="printIssue" mask="true" width="850" height="680" href="${contextPath }/kfgl/issue/print/{slt_uid}"><span>打印问题工单</span></a></li>
-			<li><a iconClass="user_edit" target="navTab" rel="printIssueList" mask="true" width="850" height="680" href="${contextPath }/kfgl/issues/print"><span>批打问题列表</span></a></li>
+			<li><a iconClass="user_edit" target="navTab" rel="printIssue" mask="true" width="820" height="520" href="${contextPath }/kfgl/issue/print/{slt_uid}"><span>打印问题工单</span></a></li>
+			<li><a iconClass="user_edit" target="navTab" rel="printIssueList" mask="true" width="820" height="520" href="${contextPath }/kfgl/issues/print"><span>批打问题列表</span></a></li>
 			<li class="line">line</li>
 			<li><a class="icon" target="dialog" href="${contextPath }/kfgl/help" mask="true" width="530" height="430"><span>功能说明</span></a></li>
 		</ul>

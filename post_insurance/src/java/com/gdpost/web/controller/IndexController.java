@@ -155,7 +155,7 @@ public class IndexController {
 	}
 	
 	@RequiresPermissions("TODO:view")
-	@RequestMapping(value="/todolist", method=RequestMethod.GET)
+	@RequestMapping(value="/todolist", method={RequestMethod.GET, RequestMethod.POST})
 	public String todoList(HttpServletRequest request, Page page, Map<String, Object> map) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		LOG.debug(" ----------- INDEX to get the task");

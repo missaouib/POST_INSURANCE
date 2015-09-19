@@ -3,7 +3,9 @@
 
 <dwz:paginationForm action="${contextPath }/kfgl/issues/print" page="${page }">
 	<input type="hidden" name="search_LIKE_issueNo" value="${param.search_LIKE_issueNo }"/>
+	<input type="hidden" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
 	<input type="hidden" name="orgCode" value="${orgCode }"/>
+	<input type="hidden" name="name" value="${name }"/>
 	<input type="hidden" name="status" value="${param.status }"/>
 	<input type="hidden" name="search_LTE_shouldDate" value="${param.search_LTE_shouldDate }"/>
 	<input type="hidden" name="search_GTE_shouldDate" value="${param.search_GTE_shouldDate }"/>
@@ -12,37 +14,40 @@
 <form method="post" action="${contextPath }/kfgl/issues/print" class="required-validate pageForm" onsubmit="return navTabSearch(this)">
 	<div class="pageHeader">
 		<div class="searchBar">
-			<ul class="searchContent">
-				<li>
-					<label>工单编号：</label>
-					<input type="text" name="search_LIKE_issueNo" value="${param.search_LIKE_issueNo }"/>
-				</li>
-				<li>
-					<label>工单状态：</label>
-					<form:select path="issue.status" class="combox">
-						<form:option value=""> -- -- </form:option>
-						<form:options items="${statusList }" itemLabel="desc" itemValue="desc"/>
-					</form:select>
-				</li>
-				<li>
-					<label>所属机构：</label>
-					<input name="orgCode" type="hidden" value="${orgCode }"/>
-					<input class="validate[required] required" name="name" type="text" readonly="readonly" style="width: 140px;" value="${orgName }"/>
-					<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="" title="选择机构" width="400">查找带回</a>
-				</li>				
-			</ul>
-			<ul class="searchContent">
-				<li>
-					<label>工单开始日期：</label>
-					<input type="text" name="search_GTE_shouldDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_shouldDate }"/>
-					<a class="inputDateButton" href="javascript:;">选择</a>
-				</li>
-				<li>
-					<label>工单结束日期：</label>
-					<input type="text" name="search_LTE_shouldDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_shouldDate }"/>
-					<a class="inputDateButton" href="javascript:;">选择</a>
-				</li>
-			</ul>
+			<table class="searchContent">
+				<tr>
+					<td>
+						工单号：<input type="text" id="kfPolicyNo" name="search_LIKE_issueNo" style="width: 100px;" value="${param.search_LIKE_issueNo }"/>
+					</td>
+					<td>
+						<label>状态：</label>
+						<form:select path="issue.status" id="kfStatus" class="combox">
+							<form:option value=""> -- -- </form:option>
+							<form:options items="${statusList }" itemLabel="desc" itemValue="desc"/>
+						</form:select>
+					</td>
+					<td>
+						<label>所属机构：</label>
+						<input name="orgCode" id="bq_orgCode" type="hidden" value="${orgCode }"/>
+						<input class="validate[required] required" name="name" id="bq_orgName" type="text" readonly="readonly" style="width: 100px;" value="${name }"/><a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="" title="选择机构" width="400">查</a>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						保单号：<input type="text" id="kfPolicyNo" style="width: 100px;" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
+					</td>
+					<td>
+						<label>开始日期：</label>
+						<input type="text" name="search_GTE_shouldDate" id="kfDate1" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_shouldDate }"/>
+						<a class="inputDateButton" href="javascript:;">选</a>
+					</td>
+					<td>
+						<label>结束日期：</label>
+						<input type="text" name="search_LTE_shouldDate" id="kfDate2" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_shouldDate }"/>
+					<a class="inputDateButton" href="javascript:;">选</a>
+					</td>
+				</tr>
+			</table>
 			<div class="subBar">
 				<ul>						
 					<li><div class="button"><div class="buttonContent"><button type="submit">搜索</button></div></div></li>

@@ -16,48 +16,49 @@
 <form method="post" id="hfForm" action="${contextPath }/hfgl/issue/list" onsubmit="return navTabSearch(this)">
 	<div class="pageHeader">
 		<div class="searchBar">
-			<ul class="searchContent">
-				<li>
-					<label>工单编号：</label>
-					<input type="text" id="hfIssueNo" name="search_LIKE_issueNo" value="${param.search_LIKE_issueNo }"/>
-				</li>
-				<li>
-					<label>保单号：</label>
-					<input type="text" id="hfPolicyNo" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
-				</li>
-				<li>
-					<label>工单状态：</label>
-					<form:select path="issue.status" id="hfStatus" class="combox">
-						<form:option value=""> -- -- </form:option>
-						<form:options items="${hfStatusList }" itemLabel="desc" itemValue="desc"/>
-					</form:select>
-				</li>
-				<li>
-					<label>所属机构：</label>
-					<input name="policy.orgCode" id="xq_orgCode" type="hidden" value="${policy_orgCode }"/>
-					<input class="validate[required] required" name="policy.name" id="xq_orgName" type="text" readonly="readonly" style="width: 140px;" value="${policy_name }"/>
-					<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="policy" title="选择机构" width="400">查找带回</a>
-				</li>				
-			</ul>
-			<ul class="searchContent">
-				<li>
-					<label>待处理开始日期：</label>
-					<input type="text" name="search_GTE_shouldDate" id="hfDate1" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_shouldDate }"/>
-					<a class="inputDateButton" href="javascript:;">选择</a>
-				</li>
-				<li>
-					<label>待处理结束日期：</label>
-					<input type="text" name="search_LTE_shouldDate" id="hfDate2" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_shouldDate }"/>
-					<a class="inputDateButton" href="javascript:;">选择</a>
-				</li>
-				<li>
-					<label>已信函：</label>
-					<form:select path="issue.search_LIKE_hasLetter" id="hfHsLetter" class="combox">
-						<form:option value=""> -- -- </form:option>
-						<form:option value="信函已发"> 信函已发 </form:option>
-					</form:select>
-				</li>
-			</ul>
+			<table class="searchContent">
+				<tr>
+					<td>
+						工单号：<input type="text" id="hfIssueNo" style="width: 100px;" name="search_LIKE_issueNo" value="${param.search_LIKE_issueNo }"/>
+					</td>
+					<td>
+						<label>状态：</label>
+						<form:select path="issue.status" id="hfStatus" class="combox">
+							<form:option value=""> -- -- </form:option>
+							<form:options items="${hfStatusList }" itemLabel="desc" itemValue="desc"/>
+						</form:select>
+					</td>
+					<td>
+						<label>所属机构：</label>
+						<input name="policy.orgCode" id="xq_orgCode" type="hidden" value="${policy_orgCode }"/>
+						<input class="validate[required] required" name="policy.name" id="xq_orgName" type="text" readonly="readonly" style="width: 100px;" value="${policy_name }"/>
+						<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="policy" title="选择机构" width="400">查</a>
+					</td>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td>
+						保单号：<input type="text" id="hfPolicyNo" style="width: 100px;" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
+					</td>
+					<td>
+						<label>承保开始日期：</label>
+						<input type="text" name="search_GTE_shouldDate" id="hfDate1" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_shouldDate }"/>
+					<a class="inputDateButton" href="javascript:;">选</a>
+					</td>
+					<td>
+						<label>承保结束日期：</label>
+						<input type="text" name="search_LTE_shouldDate" id="hfDate2" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_shouldDate }"/>
+					<a class="inputDateButton" href="javascript:;">选</a>
+					</td>
+					<td>
+						<label>已信函：</label>
+						<form:select path="issue.search_LIKE_hasLetter" id="hfHsLetter" class="combox">
+							<form:option value=""> -- -- </form:option>
+							<form:option value="信函已发"> 信函已发 </form:option>
+						</form:select>
+					</td>
+				</tr>
+			</table>
 			<div class="subBar">
 				<ul>						
 					<li><div class="button"><div class="buttonContent"><button type="submit">搜索</button></div></div></li>
@@ -72,21 +73,21 @@
 	<div class="panelBar">
 		<ul class="toolBar">
 			<shiro:hasPermission name="Callfail:view">
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="580" href="${contextPath }/hfgl/issue/view/{slt_uid}"><span>查看回访不成功件</span></a></li>
+				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/hfgl/issue/view/{slt_uid}"><span>查看回访不成功件</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Callfail:edit">
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="620" href="${contextPath }/hfgl/issue/update/{slt_uid}"><span>回复回访不成功件</span></a></li>
+				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/hfgl/issue/update/{slt_uid}"><span>回复回访不成功件</span></a></li>
 				<li><a iconClass="user_go" href="${contextPath}/hfgl/updateResetStatus/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>电话重置</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Callfail:provEdit">
 			<li class="line">line</li>
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="720" href="${contextPath }/hfgl/issue/provUpdate/{slt_uid}"><span>省分回访登记</span></a></li>
+				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/hfgl/issue/provUpdate/{slt_uid}"><span>省分回访登记</span></a></li>
 				<li><a target="myDialog" rel="ids" href="${contextPath }/hfgl/issue/toSetMailDate" class="edit"><span>批量已发信函</span></a></li>
 				<li><a iconClass="user_go" target="ajaxTodo" href="${contextPath }/hfgl/issue/CloseStatus/{slt_uid}" title="确认办结案关闭?"><span>结案关闭</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Callfail:11185Edit">
 			<li class="line">line</li>
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="720" href="${contextPath }/hfgl/issue/hqUpdate/{slt_uid}"><span>二访中心回访登记</span></a></li>
+				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/hfgl/issue/hqUpdate/{slt_uid}"><span>二访中心回访登记</span></a></li>
 			</shiro:hasPermission>
 			<li class="line">line</li>
 			<li><a class="icon" target="dialog" href="${contextPath }/hfgl/help" mask="true" width="530" height="430"><span>功能说明</span></a></li>

@@ -3,7 +3,8 @@
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 <dwz:paginationForm action="${contextPath }/qygl/issue/record/list" page="${page }">
 	<input type="hidden" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
-	<input type="hidden" name="search_LIKE_policy.organization.orgCode" value="${search_LIKE_policy_organization_orgCode }"/>
+	<input type="hidden" name="orgCode" value="${orgCode }"/>
+	<input type="hidden" name="name" value="${name }"/>
 	<input type="hidden" name="search_LTE_policy.policyDate" value="${search_LTE_policy_policyDate }"/>
 	<input type="hidden" name="search_GTE_policy.policyDate" value="${search_GTE_policy_policyDate }"/>
 	<input type="hidden" name="status" value="${param.status }"/>
@@ -15,7 +16,7 @@
 			<table class="searchContent">
 				<tr>
 					<td>
-						保单号：<input type="text" id="qyRecordPolicyNo" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
+						保单号：<input type="text" id="qyRecordPolicyNo" style="width: 100px;" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
 					</td>
 					<td>
 						<label>工单状态：</label>
@@ -26,8 +27,8 @@
 					</td>
 					<td>
 						<label>所属机构：</label>
-						<input name="search_LIKE_policy.organization.orgCode" id="qy_r_orgCode" type="hidden" value="${search_LIKE_policy_organization_orgCode }"/>
-						<input class="validate[required] required" name="search_LIKE_policy.organization.namedd" id="qy_r_orgName" type="text" readonly="readonly" style="width: 100px;" value="${search_LIKE_policy_organization_namedd }"/><a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="search_LIKE_policy.organization" title="选择机构" width="400">查</a>
+						<input name="orgCode" id="qy_r_orgCode" type="hidden" value="${orgCode }"/>
+						<input class="validate[required] required" name="name" id="qy_r_orgName" type="text" readonly="readonly" style="width: 100px;" value="${name }"/><a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="" title="选择机构" width="400">查</a>
 					</td>
 				</tr>
 				<tr>
@@ -58,10 +59,10 @@
 	<div class="panelBar">
 		<ul class="toolBar">
 			<shiro:hasPermission name="CheckRecord:view">
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="680" href="${contextPath }/qygl/issue/record/view/{slt_uid}"><span>查看新契约不合格件</span></a></li>
+				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/qygl/issue/record/view/{slt_uid}"><span>查看新契约不合格件</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="CheckRecord:edit">
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/qygl/issue/record/update/{slt_uid}"><span>回复新契约不合格件</span></a></li>
+				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/qygl/issue/record/update/{slt_uid}"><span>回复新契约不合格件</span></a></li>
 			</shiro:hasPermission>
 			<li class="line">line</li>
 			<li><a class="icon" target="dialog" href="${contextPath }/qygl/help" mask="true" width="530" height="430"><span>功能说明</span></a></li>

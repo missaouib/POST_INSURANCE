@@ -93,7 +93,7 @@ public class BqglController {
 		return AjaxObject.newOk("添加保全复核问题成功！").toString();
 	}
 	
-	@ModelAttribute("preloadUser")
+	@ModelAttribute("preloadIssue")
 	public ConservationDtl preload(@RequestParam(value = "id", required = false) Long id) {
 		if (id != null) {
 			ConservationDtl issue = bqglService.get(id);
@@ -114,7 +114,7 @@ public class BqglController {
 	@Log(message="修改了{0}保全复核问题的信息。")
 	@RequiresPermissions("Cservice:edit")
 	@RequestMapping(value="/issue/update", method=RequestMethod.POST)
-	public @ResponseBody String update(@Valid @ModelAttribute("preloadUser")ConservationDtl issue) {
+	public @ResponseBody String update(@Valid @ModelAttribute("preloadIssue")ConservationDtl issue) {
 		bqglService.saveOrUpdate(issue);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issue.getPolicy().getPolicyNo()}));
@@ -195,6 +195,13 @@ public class BqglController {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
 		Organization userOrg = user.getOrganization();
+		String orgCode = request.getParameter("orgCode");
+		if(orgCode == null || orgCode.trim().length()<=0) {
+			orgCode = userOrg.getOrgCode();
+		}
+		String orgName = request.getParameter("name");
+		request.setAttribute("orgCode", orgCode);
+		request.setAttribute("name", orgName);
 		//默认返回未处理工单
 		String s = request.getParameter("status");
 		LOG.debug("-------------- status: " + s);
@@ -212,7 +219,7 @@ public class BqglController {
 		
 		Specification<ConservationDtl> specification = DynamicSpecifications.bySearchFilter(request, ConservationDtl.class,
 				new SearchFilter("status", Operator.LIKE, s),
-				new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+				new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 		
 		List<ConservationDtl> issues = bqglService.findByExample(specification, page);
 		

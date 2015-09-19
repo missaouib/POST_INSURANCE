@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 <div class="pageContent">
 <form method="post" action="${contextPath}/bqgl/issue/update" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
-	<input type="hidden" name="id" value="${user.id}"/>
+	<input type="hidden" name="id" value="${issue.id}"/>
 	<div class="pageFormContent" layoutH="58">
 		<p>
 			<label>保单号：</label>

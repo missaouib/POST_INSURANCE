@@ -114,7 +114,7 @@ public class KfglController {
 		
 		String searchOrg = request.getParameter("orgCode");
 		request.setAttribute("orgCode", searchOrg);
-		request.setAttribute("orgName", request.getParameter("name"));
+		request.setAttribute("name", request.getParameter("name"));
 		LOG.debug("------------orgCode:" + searchOrg + ", name=:" + request.getParameter("name"));
 		if(searchOrg != null && searchOrg.trim().length() <= 0) {
 			if(userOrg.getOrgCode().length()<=4) {
@@ -210,6 +210,13 @@ public class KfglController {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		User user = userService.get(shiroUser.getId());
 		Organization userOrg = user.getOrganization();
+		String orgCode = request.getParameter("orgCode");
+		if(orgCode == null || orgCode.trim().length()<=0) {
+			orgCode = userOrg.getOrgCode();
+		}
+		String orgName = request.getParameter("name");
+		request.setAttribute("orgCode", orgCode);
+		request.setAttribute("name", orgName);
 		//默认返回未处理工单
 		String status = request.getParameter("status");
 		LOG.debug("-------------- status: " + status);
@@ -233,12 +240,12 @@ public class KfglController {
 				specification = DynamicSpecifications.bySearchFilter(request, Issue.class,
 						new SearchFilter("status", Operator.OR_LIKE, STATUS.NewStatus.getDesc()),
 						new SearchFilter("status", Operator.OR_LIKE, STATUS.ReopenStatus.getDesc()),
-						new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+						new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 			} else {
 				LOG.debug("-------------- 222: " );
 				specification = DynamicSpecifications.bySearchFilter(request, Issue.class,
 					new SearchFilter("status", Operator.LIKE, status),
-					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+					new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 			}
 		} else {
 			if(status == null) {
@@ -246,12 +253,12 @@ public class KfglController {
 				issue.setStatus(STATUS.DealStatus.getDesc());
 				specification = DynamicSpecifications.bySearchFilter(request, Issue.class,
 						new SearchFilter("status", Operator.LIKE, STATUS.DealStatus.getDesc()),
-						new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+						new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 			} else {
 				LOG.debug("-------------- 444: " );
 				specification = DynamicSpecifications.bySearchFilter(request, Issue.class,
 					new SearchFilter("status", Operator.LIKE, status),
-					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+					new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 			}
 		}
 		

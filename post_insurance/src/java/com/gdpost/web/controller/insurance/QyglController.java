@@ -159,7 +159,14 @@ public class QyglController {
 		Organization userOrg = user.getOrganization();
 		//默认返回未处理工单
 		String status = request.getParameter("fixStatus");
-		log.debug("-------------- status: " + status);
+		String orgCode = request.getParameter("orgCode");
+		if(orgCode == null || orgCode.trim().length()<=0) {
+			orgCode = userOrg.getOrgCode();
+		}
+		String orgName = request.getParameter("name");
+		request.setAttribute("orgCode", orgCode);
+		request.setAttribute("name", orgName);
+		log.debug("-------------- orgCode: " + orgCode);
 		CheckWrite issue = new CheckWrite();
 		if(status == null) {
 			status = STATUS.NewStatus.name();
@@ -170,7 +177,8 @@ public class QyglController {
 		
 		Specification<CheckWrite> specification = DynamicSpecifications.bySearchFilter(request, CheckWrite.class,
 				new SearchFilter("fixStatus", Operator.LIKE, status),
-				new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+				new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+				//new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
 		
 		List<CheckWrite> issues = qyglService.findByCheckWriteExample(specification, page);
 		
@@ -265,7 +273,14 @@ public class QyglController {
 		Organization userOrg = user.getOrganization();
 		//默认返回未处理工单
 		String status = request.getParameter("fixStatus");
-		log.debug("-------------- status: " + status);
+		String orgCode = request.getParameter("orgCode");
+		if(orgCode == null || orgCode.trim().length()<=0) {
+			orgCode = userOrg.getOrgCode();
+		}
+		String orgName = request.getParameter("name");
+		request.setAttribute("orgCode", orgCode);
+		request.setAttribute("name", orgName);
+		log.debug("-------------- orgCode: " + orgCode);
 		CheckRecord issue = new CheckRecord();
 		if(status == null) {
 			status = STATUS.NewStatus.name();
@@ -276,7 +291,8 @@ public class QyglController {
 		
 		Specification<CheckRecord> specification = DynamicSpecifications.bySearchFilter(request, CheckRecord.class,
 				new SearchFilter("fixStatus", Operator.LIKE, status),
-				new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+				new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+				//new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
 		
 		List<CheckRecord> issues = qyglService.findByCheckRecordExample(specification, page);
 		
@@ -466,10 +482,17 @@ public class QyglController {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
 		Organization userOrg = user.getOrganization();
+		String orgCode = request.getParameter("orgCode");
+		if(orgCode == null || orgCode.trim().length()<=0) {
+			orgCode = userOrg.getOrgCode();
+		}
+		String orgName = request.getParameter("name");
+		request.setAttribute("orgCode", orgCode);
+		request.setAttribute("name", orgName);
 		//默认返回未处理工单
 		
 		Specification<UnderWrite> specification = DynamicSpecifications.bySearchFilter(request, UnderWrite.class,
-				new SearchFilter("organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+				new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
 		
 		List<UnderWrite> underwrites = qyglService.findByUnderWriteExample(specification, page);
 		
