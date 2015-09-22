@@ -1,23 +1,18 @@
 package com.gdpost.web.entity.basedata;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import com.gdpost.web.entity.Idable;
-import com.gdpost.web.entity.main.Policy;
 
 /**
  * TPrd entity. @author MyEclipse Persistence Tools
@@ -41,7 +36,7 @@ public class Prd implements Idable<Long>, Serializable {
 	private Integer prdPerm;
 	private Integer duration;
 	private Integer multiple;
-	private List<Policy> policies = new ArrayList<Policy>(0);
+	//private List<Policy> policies = new ArrayList<Policy>(0);
 
 	// Constructors
 
@@ -50,14 +45,14 @@ public class Prd implements Idable<Long>, Serializable {
 	}
 
 	/** full constructor */
-	public Prd(String prdCode, String prdName, Integer prdStatus, Integer prdPerMoney, Integer prdPerm, Integer duration, List<Policy> TPolicies) {
+	public Prd(String prdCode, String prdName, Integer prdStatus, Integer prdPerMoney, Integer prdPerm, Integer duration) {
 		this.prdCode = prdCode;
 		this.prdName = prdName;
 		this.prdStatus = prdStatus;
 		this.prdPerMoney = prdPerMoney;
 		this.prdPerm = prdPerm;
 		this.duration = duration;
-		this.policies = TPolicies;
+		//this.policies = TPolicies;
 	}
 
 	// Property accessors
@@ -134,13 +129,13 @@ public class Prd implements Idable<Long>, Serializable {
 		this.multiple = multiple;
 	}
 
-	@OneToMany(mappedBy="prd", cascade={CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval=true)
-	public List<Policy> getPolicies() {
-		return policies;
-	}
-
-	public void setPolicies(List<Policy> policies) {
-		this.policies = policies;
-	}
+//	@OneToMany(mappedBy="prd", cascade={CascadeType.REMOVE}, orphanRemoval=true)
+//	public List<Policy> getPolicies() {
+//		return policies;
+//	}
+//
+//	public void setPolicies(List<Policy> policies) {
+//		this.policies = policies;
+//	}
 
 }

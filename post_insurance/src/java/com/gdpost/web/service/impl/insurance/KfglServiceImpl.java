@@ -110,6 +110,7 @@ public class KfglServiceImpl implements KfglService {
 		if (user.getOrganization().getOrgCode().length() > 4) {
 			specification = DynamicSpecifications.bySearchFilterWithoutRequest(Issue.class,
 					new SearchFilter("status", Operator.OR_LIKE, STATUS.NewStatus.getDesc()),
+					new SearchFilter("status", Operator.OR_LIKE, STATUS.IngStatus.getDesc()),
 					new SearchFilter("status", Operator.OR_LIKE, STATUS.ReopenStatus.getDesc()),
 					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
 		} else {

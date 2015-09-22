@@ -239,6 +239,7 @@ public class KfglController {
 				LOG.debug("-------------- 111: " );
 				specification = DynamicSpecifications.bySearchFilter(request, Issue.class,
 						new SearchFilter("status", Operator.OR_LIKE, STATUS.NewStatus.getDesc()),
+						new SearchFilter("status", Operator.OR_LIKE, STATUS.IngStatus.getDesc()),
 						new SearchFilter("status", Operator.OR_LIKE, STATUS.ReopenStatus.getDesc()),
 						new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 			} else {
