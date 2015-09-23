@@ -31,8 +31,7 @@
 					<td>
 						<label>所属机构：</label>
 						<input name="policy.orgCode" id="xq_orgCode" type="hidden" value="${policy_orgCode }"/>
-						<input class="validate[required] required" name="policy.name" id="xq_orgName" type="text" readonly="readonly" style="width: 100px;" value="${policy_name }"/>
-						<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="policy" title="选择机构" width="400">查</a>
+						<input class="validate[required] required" name="policy.name" id="xq_orgName" type="text" readonly="readonly" style="width: 100px;" value="${policy_name }"/><a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="policy" title="选择机构" width="400">查</a>
 					</td>
 					<td>&nbsp;</td>
 				</tr>
@@ -53,13 +52,11 @@
 					</td>
 					<td>
 						<label>交费日起：</label>
-						<input type="text" name="search_GTE_feeDate" class="date" style="width: 80px;" id="xq_date1" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_feeDate }"/>
-						<a class="inputDateButton" href="javascript:;">选</a>
+						<input type="text" name="search_GTE_feeDate" class="date" style="width: 80px;" id="xq_date1" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_feeDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
 						<label>交费日止：</label>
-						<input type="text" name="search_LTE_feeDate" class="date" style="width: 80px;" id="xq_date2" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_feeDate }"/>
-						<a class="inputDateButton" href="javascript:;">选择</a>
+						<input type="text" name="search_LTE_feeDate" class="date" style="width: 80px;" id="xq_date2" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_feeDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 				</tr>
 			</table>

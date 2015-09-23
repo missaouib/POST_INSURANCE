@@ -28,13 +28,11 @@
 			<ul class="searchContent">
 				<li>
 					<label>邮保通日期起：</label>
-					<input type="text" name="search_GTE_ybtDate" id="uwDate1" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_ybtDate }"/>
-					<a class="inputDateButton" href="javascript:;">选</a>
+					<input type="text" name="search_GTE_ybtDate" id="uwDate1" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_ybtDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 				</li>
 				<li>
 					<label>邮保通日期止：</label>
-					<input type="text" name="search_LTE_ybtDate" id="uwDate2" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_ybtDate }"/>
-					<a class="inputDateButton" href="javascript:;">选</a>
+					<input type="text" name="search_LTE_ybtDate" id="uwDate2" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_ybtDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 				</li>
 			</ul>
 			<div class="subBar">
@@ -90,7 +88,7 @@
 				<th>关系</th>
 				<th orderField=prd.prdName class="${page.orderField eq 'prd.prdName' ? page.orderDirection : ''}">产品</th>
 				<th orderField=policyFee class="${page.orderField eq 'policyFee' ? page.orderDirection : ''}">保费</th>
-				<th orderField=ytbDate class="${page.orderField eq 'ytbDate' ? page.orderDirection : ''}">邮保通录入时间</th>
+				<th orderField=ybtDate class="${page.orderField eq 'ybtDate' ? page.orderDirection : ''}">邮保通录入时间</th>
 				<th>核心录入时间</th>
 				<th>复核时间</th>
 				<th>核保日期</th>

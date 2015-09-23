@@ -39,13 +39,11 @@
 					</td>
 					<td>
 						<label>开始日期：</label>
-						<input type="text" name="search_GTE_shouldDate" id="kfDate1" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_shouldDate }"/>
-						<a class="inputDateButton" href="javascript:;">选</a>
+						<input type="text" name="search_GTE_shouldDate" id="kfDate1" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_shouldDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
 						<label>结束日期：</label>
-						<input type="text" name="search_LTE_shouldDate" id="kfDate2" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_shouldDate }"/>
-					<a class="inputDateButton" href="javascript:;">选</a>
+						<input type="text" name="search_LTE_shouldDate" id="kfDate2" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_shouldDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 				</tr>
 			</table>

@@ -42,13 +42,11 @@
 					</td>
 					<td>
 						<label>承保开始日期：</label>
-						<input type="text" name="search_GTE_shouldDate" id="hfDate1" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_shouldDate }"/>
-					<a class="inputDateButton" href="javascript:;">选</a>
+						<input type="text" name="search_GTE_shouldDate" id="hfDate1" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_shouldDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
 						<label>承保结束日期：</label>
-						<input type="text" name="search_LTE_shouldDate" id="hfDate2" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_shouldDate }"/>
-					<a class="inputDateButton" href="javascript:;">选</a>
+						<input type="text" name="search_LTE_shouldDate" id="hfDate2" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_shouldDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
 						<label>已信函：</label>
@@ -94,7 +92,7 @@
 		</ul>
 	</div>
 	
-	<table class="table" layoutH="160" width="140%">
+	<table class="table" layoutH="178" width="140%">
 		<thead>
 			<tr>
 				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
