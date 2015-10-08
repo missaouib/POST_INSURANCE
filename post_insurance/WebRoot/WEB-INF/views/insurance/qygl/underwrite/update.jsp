@@ -57,6 +57,10 @@
 		</p>
 		<div class="divider"></div>
 		<p>
+			<label>保单号</label>
+			<input type="text" name="policyNo" class="input-medium" value="${underwrite.policyNo }"/>
+		</p>
+		<p>
 			<label>是否下问题件：</label>
 			<form:radiobutton path="underwrite.issueFlag" value="1" onclick="javascript:$('#dispDiv').css('display', 'block');"/>是
 			<form:radiobutton path="underwrite.issueFlag" value="0" onclick="javascript:$('#dispDiv').css('display', 'none');;"/>否
@@ -69,7 +73,7 @@
 		</div>
 		<p>
 			<label>核保日期：</label>
-			<input type="text" name="underwriteDate" id="underwriteDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value="${underwrite.underwriteDate }" pattern="yyyy-MM-dd"/>"/>
+			<input type="text" name="underwriteDate" id="underwriteDate" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value="${underwrite.underwriteDate }" pattern="yyyy-MM-dd"/>"/>
 					<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 		<p>
@@ -79,8 +83,17 @@
 		</p>
 		<p>
 			<label>签单日期：</label>
-			<input type="text" name="signDate" id="signDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value="${underwrite.signDate }" pattern="yyyy-MM-dd"/>"/>
+			<input type="text" name="signDate" id="signDate" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value="${underwrite.signDate }" pattern="yyyy-MM-dd"/>"/>
 					<a class="inputDateButton" href="javascript:;">选择</a>
+		</p>
+		<p>
+			<label>省分收到日期：</label>
+			<input type="text" name="provReceiveDate" id="provReceiveDate" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value="${underwrite.provReceiveDate }" pattern="yyyy-MM-dd"/>"/>
+					<a class="inputDateButton" href="javascript:;">选择</a>
+		</p>
+		<p>
+			<label>省分寄出EMS：</label>
+			<input type="text" name="provEmsNo" class="input-medium" value="${underwrite.provEmsNo }"/>
 		</p>
 	</div>
 	<div class="formBar">

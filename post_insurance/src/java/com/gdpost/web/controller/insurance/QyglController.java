@@ -366,6 +366,9 @@ public class QyglController {
 		src.setUnderwriteDate(underwrite.getUnderwriteDate());
 		src.setIssueFlag(underwrite.getIssueFlag());
 		src.setSignDate(underwrite.getSignDate());
+		src.setPolicyNo(underwrite.getPolicyNo());
+		src.setProvReceiveDate(underwrite.getProvReceiveDate());
+		src.setProvEmsNo(underwrite.getProvEmsNo());
 		
 		qyglService.saveOrUpdateUnderWrite(src);
 		

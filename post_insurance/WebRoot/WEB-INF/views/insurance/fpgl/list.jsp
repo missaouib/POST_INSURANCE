@@ -79,13 +79,14 @@
 				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
 				<th>保单号</th>
 				<th>投保人</th>
-				<th>保单所属机构</th>
+				<th>保单机构</th>
 				<th>发票标记</th>
 				<th>发票金额</th>
 				<th>发票缴费日期</th>
 				<th orderField=reqDate class="${page.orderField eq 'reqDate' ? page.orderDirection : ''}">申请日期</th>
 				<th orderField=status class="${page.orderField eq 'status' ? page.orderDirection : ''}">状态</th>
 				<th>EMS</th>
+				<th>申请接收人</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -116,6 +117,7 @@
 				</c:choose>
 				</td>
 				<td>${item.billNo}</td>
+				<td>${item.reqMan}</td>
 			</tr>
 			</c:forEach>
 		</tbody>
