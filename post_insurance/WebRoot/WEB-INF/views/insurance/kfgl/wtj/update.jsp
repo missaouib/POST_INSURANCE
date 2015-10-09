@@ -52,15 +52,15 @@
 		<legend>工单处理录入</legend>
 		<p class="nowrap">
 			<label>工单处理结果：</label>
-			<textarea name="result" cols="50" rows="3">${issue.result }</textarea>
+			<textarea name="result" cols="50" rows="3" class="input-medium validate[required,maxSize[64]] required">${issue.result }</textarea>
 		</p>
 		<p class="nowrap">
 			<label>经办人：</label>
-			<input type="text" name="dealMan" class="input-medium" maxlength="32" value="${issue.dealMan }"/>
+			<input type="text" name="dealMan" class="input-medium validate[required,maxSize[12]] required" maxlength="12" value="${issue.dealMan }"/>
 		</p>
 		<p class="nowrap">
 			<label>经办日期：</label>
-			<input type="text" name="dealTime" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${issue.dealTime }"/>
+			<input type="text" name="dealTime" class="date validate[required,maxSize[32]] required" dateFmt="yyyy-MM-dd" readonly="true" value="${issue.dealTime }"/>
 				<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 	</fieldset>
