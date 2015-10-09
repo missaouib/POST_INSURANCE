@@ -122,7 +122,7 @@ public class FpglController {
 	
 	@Log(message="修改了{0}发票申请的状态。")
 	@RequiresPermissions(value={"InvoiceReq:reset","InvoiceReq:deal"}, logical=Logical.OR)
-	@RequestMapping(value="/issue/{status}/{id}", method=RequestMethod.POST)
+	@RequestMapping(value="/{status}/{id}", method=RequestMethod.POST)
 	public @ResponseBody String updateStatus(ServletRequest request, @PathVariable("status") String status, @PathVariable("id") Long id) {
 		InvoiceReq req = fpglService.get(id);
 		String billNo = request.getParameter("billNo");
@@ -151,7 +151,10 @@ public class FpglController {
 		fpglService.saveOrUpdate(req);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{req.getPolicy().getPolicyNo()}));
-		return	AjaxObject.newOk("发票处理操作成功！").setCallbackType("").toString();
+		if(billNo != null && billNo.trim().length() > 0) {
+			return	AjaxObject.newOk("发票处理操作成功！").toString();
+		}
+		return	AjaxObject.newOk("发票状态更新成功！").setCallbackType("").toString();
 	}
 	
 	@Log(message="删除了{0}发票申请。")
@@ -207,11 +210,17 @@ public class FpglController {
 		} else if(s.trim().length()>0) {
 			req.setStatus(FP_STATUS.valueOf(s).name());
 		}
+		//orderField:policy.organization.orgCode
+		String orderField = request.getParameter("orderField");
+		if(orderField != null && orderField.trim().equals("policy.organization.orgCode")) {
+			req.setStatus(FP_STATUS.NewStatus.name());
+			s = FP_STATUS.NewStatus.name();
+		}
 		LOG.debug("-----------------status2:" + s);
 		page.setOrderField("policy.organization.orgCode");
 		page.setOrderDirection("ASC");
 		Specification<InvoiceReq> specification = DynamicSpecifications.bySearchFilter(request, InvoiceReq.class, 
-				new SearchFilter("status", Operator.EQ, s));
+				new SearchFilter("status", Operator.LIKE, s));
 		if(user.getOrganization().getOrgCode().length()>4) {
 			specification = DynamicSpecifications.bySearchFilter(request, InvoiceReq.class,
 					new SearchFilter("status", Operator.LIKE, s),
