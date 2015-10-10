@@ -91,7 +91,7 @@
 		<thead>
 			<tr>
 				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
-				<th orderField=organization.name class="${page.orderField eq 'organization.name' ? page.orderDirection : ''}">所属机构</th>
+				<th orderField=policy.organization.name class="${page.orderField eq 'policy.organization.name' ? page.orderDirection : ''}">所属机构</th>
 				<th orderField=policy.policyNo class="${page.orderField eq 'policy.policyNo' ? page.orderDirection : ''}">保单号</th>
 				<th orderField=prdName class="${page.orderField eq 'prdName' ? page.orderDirection : ''}">险种名称</th>
 				<th>姓名</th>

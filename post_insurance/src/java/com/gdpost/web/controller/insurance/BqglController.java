@@ -84,6 +84,9 @@ public class BqglController {
 			issue.setCsDate(new Date());
 			issue.setCsUserId(SecurityUtils.getShiroUser().getId());
 			issue.setStatus(BQ_STATUS.NewStatus.name());
+			if(issue.getCsRst().equals("审核通过")) {
+				issue.setStatus(BQ_STATUS.CloseStatus.name());
+			}
 			bqglService.saveOrUpdate(issue);
 		} catch (ExistedException e) {
 			return AjaxObject.newError("添加保全复核问题失败：" + e.getMessage()).setCallbackType("").toString();

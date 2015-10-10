@@ -90,6 +90,7 @@
 				<th orderField=dealNum class="${page.orderField eq 'dealNum' ? page.orderDirection : ''}">保全受理号</th>
 				<th>保全项目</th>
 				<th orderField=info class="${page.orderField eq 'info' ? page.orderDirection : ''}">复核修改问题</th>
+				<th>复核修改问题描述</th>
 				<th orderField=csDate class="${page.orderField eq 'csDate' ? page.orderDirection : ''}">问题产生日期</th>
 				<th orderField=status class="${page.orderField eq 'status' ? page.orderDirection : ''}">状态</th>
 			</tr>
@@ -103,6 +104,7 @@
 				<td>${item.dealNum}</td>
 				<td>${item.type}</td>
 				<td>${item.csRst}</td>
+				<td>${item.remark}</td>
 				<td>${item.csDate}</td>
 				<td>
 				<c:choose>
