@@ -72,25 +72,25 @@
 	<div class="divider"></div>
 	<fieldset>
 		<legend>回访不成功处理详情(仅记录最后结果)</legend>
-		<p>
+		<p class="nowrap">
 			<label>不成功类型：</label>
-			<form:select path="issue.dealType" onchange="javascript:$('#dealDesc').val($('#dealType').find('option:selected').text())">
+			<form:select path="issue.dealType" onchange="javascript:$('#dealDesc').val($('#dealType').find('option:selected').text())" class="combox validate[required] required">
 				<form:option value=""> -- </form:option>
 				<form:options items="${orgTypeList }" itemLabel="typeDesc" itemValue="typeName"/>
 			</form:select>
 		</p>
 		<p>
 			<label>不成功结果：</label>
-			<textarea name="dealDesc" id="dealDesc" cols="25" rows="2">${issue.dealDesc }</textarea>
+			<textarea name="dealDesc" id="dealDesc" cols="25" rows="2" class="input-medium validate[required,maxSize[64]] required">${issue.dealDesc }</textarea>
 		</p>
 		<p>&nbsp;</p><p>&nbsp;</p>
-		<p>
+		<p class="nowrap">
 			<label>经办人：</label>
-			<input type="text" name="dealMan" class="input-medium" maxlength="32" value="${issue.dealMan }"/>
+			<input type="text" name="dealMan" class="input-medium validate[required,maxSize[12]] required" maxlength="32" value="${issue.dealMan }"/>
 		</p>
 		<p>
 			<label>经办日期：</label>
-			<input type="text" name="dealTime" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value="${issue.dealTime }" pattern="yyyy-MM-dd"/>"/>
+			<input type="text" name="dealTime" class="date validate[required,maxSize[12]] required" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value="${issue.dealTime }" pattern="yyyy-MM-dd"/>"/>
 				<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 	</fieldset>

@@ -6,7 +6,7 @@
 	<div class="pageFormContent" layouth="58">
 		<p>
 			<label>回访函寄出日期：</label>
-			<input type="text" name="mailDate" class="date" dateFmt="yyyy-MM-dd" readonly="true" value=""/>
+			<input type="text" name="mailDate" class="date validate[required,maxSize[12]] required" dateFmt="yyyy-MM-dd" readonly="true" value=""/>
 				<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 	</div>

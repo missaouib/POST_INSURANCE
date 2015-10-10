@@ -64,25 +64,25 @@
 	<fieldset>
 		<legend>续期催收登记</legend>
 		<p>
-			<label>催收工单类别：</label>
-			<form:select path="issue.dealType" id="up_dealType" onchange="javascript:$('#myfixStatus').val($('#up_dealType').find('option:selected').text())">
+			<label>催收工单类别：</label><!-- onchange="javascript:$('#myfixStatus').val($('#up_dealType').find('option:selected').text())" -->
+			<form:select path="issue.dealType" id="up_dealType" class="combox validate[required] required">
 				<form:option value=""> -- </form:option>
-				<form:options items="${orgTypeList }" itemLabel="typeDesc" itemValue="typeName"/>
+				<form:options items="${orgTypeList }" itemLabel="typeName" itemValue="typeName"/>
 			</form:select>
 		</p>
 		<p class="nowrap">
 			<label>催收详情：</label>
-			<textarea name="fixStatus" id="myfixStatus" cols="25" rows="2">${issue.fixStatus }</textarea>
+			<textarea name="fixStatus" id="myfixStatus" cols="25" rows="2" class="input-medium validate[required,maxSize[64]] required">${issue.fixStatus }</textarea>
 		</p>
 		<p>&nbsp;</p>
 		<p>&nbsp;</p>
 		<p>
 			<label>经办人：</label>
-			<input type="text" name="dealMan" id="dealMan" value="${issue.dealMan }"/>
+			<input type="text" name="dealMan" id="dealMan" value="${issue.dealMan }" class="input-medium validate[required,maxSize[12]] required"/>
 		</p>
 		<p>
 			<label>经办日期：</label>
-			<input type="text" name="dealTime" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value='${issue.dealTime }' pattern='yyyy-MM-dd'/>"/>
+			<input type="text" name="dealTime" class="date validate[required,maxSize[12]] required" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value='${issue.dealTime }' pattern='yyyy-MM-dd'/>"/>
 				<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 		<p>

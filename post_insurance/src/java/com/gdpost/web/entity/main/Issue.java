@@ -91,12 +91,12 @@ public class Issue implements Idable<Long> {
 
 	@Transient
 	public Integer getLastDateNum() {
-		if(this.shouldDate != null) {
+		if(this.operateTime != null) {
 //			Calendar c1 = Calendar.getInstance();
 //			c1.setTime(this.shouldDate);
 //			Calendar now = Calendar.getInstance();
 //			now.setTime(new Date());
-			int check = StringUtil.getBetweenDay(this.shouldDate, new Date());
+			int check = StringUtil.getBetweenDay(this.operateTime, new Date());
 			int c = 5-check;
 			if(c < 0) {
 				return 0;

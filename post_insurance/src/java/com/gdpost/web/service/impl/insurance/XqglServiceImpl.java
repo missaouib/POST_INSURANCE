@@ -98,6 +98,9 @@ public class XqglServiceImpl implements XqglService {
 			specification = DynamicSpecifications.bySearchFilterWithoutRequest(RenewedList.class,
 					new SearchFilter("feeStatus", Operator.OR_LIKE, XQ_STATUS.NewStatus.getDesc()),
 					new SearchFilter("feeStatus", Operator.OR_LIKE, XQ_STATUS.FeeFailStatus.getDesc()),
+					new SearchFilter("feeStatus", Operator.OR_LIKE, XQ_STATUS.SuspendedStatus.getDesc()),
+					new SearchFilter("feeStatus", Operator.OR_LIKE, XQ_STATUS.BqSuspendedStatus.getDesc()),
+					new SearchFilter("feeFailReason", Operator.NEQ, "已终止"),
 					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
 		} else {
 			specification = DynamicSpecifications.bySearchFilterWithoutRequest(RenewedList.class,

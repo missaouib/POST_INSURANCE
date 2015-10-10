@@ -74,7 +74,7 @@
 		<legend>省分回访处理记录</legend>
 		<p class="nowrap">
 			<label>省分回访详情：</label>
-			<textarea name="provDealRst" cols="50" rows="3">${issue.provDealRst }</textarea>
+			<textarea name="provDealRst" cols="50" rows="3" class="input-medium validate[required,maxSize[64]] required">${issue.provDealRst }</textarea>
 		</p>
 		<p class="nowrap">
 			<label>回访结果：</label>
@@ -83,11 +83,11 @@
 		</p>
 		<p class="nowrap">
 			<label>经办人：</label>
-			<input type="text" name="provDealMan" class="input-medium" maxlength="32" value="${issue.provDealMan }"/>
+			<input type="text" name="provDealMan" class="input-medium validate[required,maxSize[12]] required" maxlength="32" value="${issue.provDealMan }"/>
 		</p>
 		<p class="nowrap">
 			<label>经办日期：</label>
-			<input type="text" name="provDealDate" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value='${issue.provDealDate }' pattern='yyyy-MM-dd'/>"/>
+			<input type="text" name="provDealDate" class="date validate[required,maxSize[12]] required" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value='${issue.provDealDate }' pattern='yyyy-MM-dd'/>"/>
 				<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 	</fieldset>

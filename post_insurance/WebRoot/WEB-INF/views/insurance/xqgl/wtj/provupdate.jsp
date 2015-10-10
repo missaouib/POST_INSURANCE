@@ -64,25 +64,25 @@
 	<fieldset>
 		<legend>省分续期催收登记</legend>
 		<p>
-			<label>催收工单类别：</label>
-			<form:select path="issue.provIssueType" id="provIssueType" onchange="javascript:$('#provDealRst').val($('#provIssueType').find('option:selected').text())">
+			<label>催收工单类别：</label><!-- onchange="javascript:$('#provDealRst').val($('#provIssueType').find('option:selected').text())" -->
+			<form:select path="issue.provIssueType" id="provIssueType" class="combox validate[required] required">
 				<form:option value=""> -- </form:option>
 				<form:options items="${orgTypeList }" itemLabel="typeDesc" itemValue="typeName"/>
 			</form:select>
 		</p>
 		<p class="nowrap">
 			<label>省分催收结果：</label>
-			<textarea name="provDealRst" id="provDealRst" cols="25" rows="2">${issue.provDealRst }</textarea>
+			<textarea name="provDealRst" id="provDealRst" cols="25" rows="2" class="input-medium validate[required,maxSize[64]] required">${issue.provDealRst }</textarea>
 		</p>
 		<p>&nbsp;</p>
 		<p>&nbsp;</p>
 		<p>
 			<label>经办人：</label>
-			<input type="text" name="provDealMan" class="input-medium" maxlength="32" value="${issue.provDealMan }"/>
+			<input type="text" name="provDealMan" class="input-medium validate[required,maxSize[12]] required" maxlength="32" value="${issue.provDealMan }"/>
 		</p>
 		<p>
 			<label>经办日期：</label>
-			<input type="text" name="provDealDate" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${issue.provDealDate }"/>
+			<input type="text" name="provDealDate" class="date validate[required,maxSize[12]] required" dateFmt="yyyy-MM-dd" readonly="true" value="${issue.provDealDate }"/>
 				<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 		<p>

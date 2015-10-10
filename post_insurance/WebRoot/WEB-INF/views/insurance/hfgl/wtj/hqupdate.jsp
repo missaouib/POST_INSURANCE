@@ -72,33 +72,33 @@
 	<div class="divider"></div>
 	<fieldset>
 		<legend>第一次回访处理详情</legend>
-		<p>
+		<p class="nowrap">
 			<label>不成功类型：</label>
-			<form:select path="issue.hqDealType" onchange="javascript:$('#hqDealRst').val($('#hqDealType').find('option:selected').text())">
+			<form:select path="issue.hqDealType" onchange="javascript:$('#hqDealRst').val($('#hqDealType').find('option:selected').text())" class="combox ivalidate[required] required">
 				<form:option value=""> -- </form:option>
 				<form:options items="${hqTypeList }" itemLabel="typeDesc" itemValue="typeName"/>
 			</form:select>
 		</p>
 		<p>
 			<label>不成功结果：</label>
-			<textarea name="hqDealRst" id="hqDealRst" cols="25" rows="2">${issue.hqDealRst }</textarea>
+			<textarea name="hqDealRst" id="hqDealRst" cols="25" rows="2" class="input-medium validate[required,maxSize[64]] required">${issue.hqDealRst }</textarea>
 		</p>
 		<p>&nbsp;</p><p>&nbsp;</p>
-		<p>
+		<p class="nowrap">
 			<label>经办人：</label>
-			<input type="text" name="hqDealMan" id="hqDealMan" value="${issue.hqDealMan }"/>
+			<input type="text" name="hqDealMan" id="hqDealMan" value="${issue.hqDealMan }" class="input-medium validate[required,maxSize[12]] required"/>
 		</p>
 		<p>
 			<label>回访日期：</label>
-			<input type="text" name="hqDealDate" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value='${issue.hqDealDate }' pattern='yyyy-MM-dd'/>"/>
+			<input type="text" name="hqDealDate" class="date validate[required,maxSize[12]] required" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value='${issue.hqDealDate }' pattern='yyyy-MM-dd'/>"/>
 				<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 	</fieldset>
 	<fieldset>
 		<legend>第二次回访处理详情</legend>
-		<p>
+		<p class="nowrap">
 			<label>不成功类型：</label>
-			<form:select path="issue.hqDealType2" onchange="javascript:$('#hqDealRst2').val($('#hqDealType2').find('option:selected').text())">
+			<form:select path="issue.hqDealType2" onchange="javascript:$('#hqDealRst2').val($('#hqDealType2').find('option:selected').text())" class="combox">
 				<form:option value=""> -- </form:option>
 				<form:options items="${hqTypeList }" itemLabel="typeDesc" itemValue="typeName"/>
 			</form:select>
@@ -108,7 +108,7 @@
 			<textarea name="hqDealRst2" id="hqDealRst2" cols="25" rows="2">${issue.hqDealRst2 }</textarea>
 		</p>
 		<p>&nbsp;</p><p>&nbsp;</p>
-		<p>
+		<p class="nowrap">
 			<label>经办人：</label>
 			<input type="text" name="hqDealMan2" id="hqDealMan2" value="${issue.hqDealMan2 }"/>
 		</p>
@@ -120,9 +120,9 @@
 	</fieldset>
 	<fieldset>
 		<legend>第三次回访处理详情</legend>
-		<p>
+		<p class="nowrap">
 			<label>不成功类型：</label>
-			<form:select path="issue.hqDealType3" onchange="javascript:$('#hqDealRst3').val($('#hqDealType3').find('option:selected').text())">
+			<form:select path="issue.hqDealType3" onchange="javascript:$('#hqDealRst3').val($('#hqDealType3').find('option:selected').text())" class="combox">
 				<form:option value=""> -- </form:option>
 				<form:options items="${hqTypeList }" itemLabel="typeDesc" itemValue="typeName"/>
 			</form:select>
@@ -132,7 +132,7 @@
 			<textarea name="hqDealRst3" id="hqDealRst3" cols="25" rows="2">${issue.hqDealRst3 }</textarea>
 		</p>
 		<p>&nbsp;</p><p>&nbsp;</p>
-		<p>
+		<p class="nowrap">
 			<label>经办人：</label>
 			<input type="text" name="hqDealMan3" id="hqDealMan3" value="${issue.hqDealMan3 }"/>
 		</p>
@@ -144,9 +144,9 @@
 	</fieldset>
 	<fieldset>
 		<legend>第四次回访处理详情</legend>
-		<p>
+		<p class="nowrap">
 			<label>不成功类型：</label>
-			<form:select path="issue.hqDealType4" onchange="javascript:$('#hqDealRst4').val($('#hqDealType4').find('option:selected').text())">
+			<form:select path="issue.hqDealType4" onchange="javascript:$('#hqDealRst4').val($('#hqDealType4').find('option:selected').text())" class="combox">
 				<form:option value=""> -- </form:option>
 				<form:options items="${hqTypeList }" itemLabel="typeDesc" itemValue="typeName"/>
 			</form:select>
@@ -156,7 +156,7 @@
 			<textarea name="hqDealRst4" id="hqDealRst4" cols="25" rows="2">${issue.hqDealRst4 }</textarea>
 		</p>
 		<p>&nbsp;</p><p>&nbsp;</p>
-		<p>
+		<p class="nowrap">
 			<label>经办人：</label>
 			<input type="text" name="hqDealMan4" id="hqDealMan4" value="${issue.hqDealMan4 }"/>
 		</p>
@@ -168,9 +168,9 @@
 	</fieldset>
 	<fieldset>
 		<legend>第五次回访处理详情</legend>
-		<p>
+		<p class="nowrap">
 			<label>不成功类型：</label>
-			<form:select path="issue.hqDealType5" onchange="javascript:$('#hqDealRst5').val($('#hqDealType5').find('option:selected').text())">
+			<form:select path="issue.hqDealType5" onchange="javascript:$('#hqDealRst5').val($('#hqDealType5').find('option:selected').text())" class="combox">
 				<form:option value=""> -- </form:option>
 				<form:options items="${hqTypeList }" itemLabel="typeDesc" itemValue="typeName"/>
 			</form:select>
@@ -180,7 +180,7 @@
 			<textarea name="hqDealRst5" id="hqDealRst5" cols="25" rows="2">${issue.hqDealRst5 }</textarea>
 		</p>
 		<p>&nbsp;</p><p>&nbsp;</p>
-		<p>
+		<p class="nowrap">
 			<label>经办人：</label>
 			<input type="text" name="hqDealMan5" id="hqDealMan5" value="${issue.hqDealMan5 }"/>
 		</p>
@@ -192,9 +192,9 @@
 	</fieldset>
 	<fieldset>
 		<legend>第六次回访处理详情</legend>
-		<p>
+		<p class="nowrap">
 			<label>不成功类型：</label>
-			<form:select path="issue.hqDealType6" onchange="javascript:$('#hqDealRst6').val($('#hqDealType6').find('option:selected').text())">
+			<form:select path="issue.hqDealType6" onchange="javascript:$('#hqDealRst6').val($('#hqDealType6').find('option:selected').text())" class="combox">
 				<form:option value=""> -- </form:option>
 				<form:options items="${hqTypeList }" itemLabel="typeDesc" itemValue="typeName"/>
 			</form:select>
@@ -204,7 +204,7 @@
 			<textarea name="hqDealRst6" id="hqDealRst6" cols="25" rows="2">${issue.hqDealRst6 }</textarea>
 		</p>
 		<p>&nbsp;</p><p>&nbsp;</p>
-		<p>
+		<p class="nowrap">
 			<label>经办人：</label>
 			<input type="text" name="hqDealMan6" id="hqDealMan6" value="${issue.hqDealMan6 }"/>
 		</p>
