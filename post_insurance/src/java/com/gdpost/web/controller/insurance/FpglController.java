@@ -60,6 +60,7 @@ public class FpglController {
 	private static final String LIST = "insurance/fpgl/list";
 	private static final String UPDATE_DEALSTATUS = "insurance/fpgl/setBillNo";
 	private static final String TO_HELP = "insurance/help/fpgl";
+	private static final String TO_XLS = "insurance/fpgl/toXls";
 	
 	@RequestMapping(value="/help", method=RequestMethod.GET)
 	public String toHelp() {
@@ -108,6 +109,38 @@ public class FpglController {
 		
 		map.put("req", req);
 		return UPDATE_DEALSTATUS;
+	}
+	
+	@RequiresPermissions("InvoiceReq:view")
+	@RequestMapping(value="/toXls", method=RequestMethod.GET)
+	public String toXls(ServletRequest request, Page page, Map<String, Object> map) {
+		User user = SecurityUtils.getShiroUser().getUser();
+		String s = request.getParameter("status");
+		if(s == null || s.trim().length()<=0) {
+			s = FP_STATUS.NewStatus.name();
+			if(user.getOrganization().getOrgCode().length()>4) {
+				s = FP_STATUS.DealStatus.name();
+			}
+		}
+		//orderField:policy.organization.orgCode
+		String orderField = request.getParameter("orderField");
+		if(orderField != null && orderField.trim().equals("policy.organization.orgCode")) {
+			s = FP_STATUS.NewStatus.name();
+		}
+		
+		page.setOrderField("policy.organization.orgCode");
+		page.setOrderDirection("ASC");
+		Specification<InvoiceReq> specification = DynamicSpecifications.bySearchFilter(request, InvoiceReq.class, 
+				new SearchFilter("status", Operator.LIKE, s));
+		if(user.getOrganization().getOrgCode().length()>4) {
+			specification = DynamicSpecifications.bySearchFilter(request, InvoiceReq.class,
+					new SearchFilter("status", Operator.LIKE, s),
+					new SearchFilter("policy.organization.orgCode", Operator.LIKE, user.getOrganization().getOrgCode()));
+		}
+		List<InvoiceReq> reqs = fpglService.findByExample(specification, page);
+
+		map.put("reqs", reqs);
+		return TO_XLS;
 	}
 	
 	@Log(message="修改了{0}发票申请的信息。")

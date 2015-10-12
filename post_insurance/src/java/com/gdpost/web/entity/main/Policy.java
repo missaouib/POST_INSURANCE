@@ -411,7 +411,7 @@ public class Policy implements Idable<Long>, Serializable{
 		this.customer_manager = customer_manager;
 	}
 
-	@OneToMany(mappedBy="policy", cascade={CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval=true)
+	@OneToMany(mappedBy="policy", cascade={CascadeType.REMOVE}, orphanRemoval=true)
 	public List<RenewalDtl> getRenewalDtls() {
 		return this.renewalDtls;
 	}
@@ -420,7 +420,7 @@ public class Policy implements Idable<Long>, Serializable{
 		this.renewalDtls = renewalDtls;
 	}
 
-	@OneToMany(mappedBy="policy", cascade={CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval=true)
+	@OneToMany(mappedBy="policy", cascade={CascadeType.REMOVE}, orphanRemoval=true)
 	public List<ConservationDtl> getConservationDtls() {
 		return this.conservationDtls;
 	}
@@ -429,7 +429,7 @@ public class Policy implements Idable<Long>, Serializable{
 		this.conservationDtls = conservationDtls;
 	}
 
-	@OneToMany(mappedBy="policy", cascade={CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval=true)
+	@OneToMany(mappedBy="policy", cascade={CascadeType.REMOVE}, orphanRemoval=true)
 	public List<RenewalFeeDtl> getRenewalFeeDtls() {
 		return this.renewalFeeDtls;
 	}
@@ -438,7 +438,7 @@ public class Policy implements Idable<Long>, Serializable{
 		this.renewalFeeDtls = renewalFeeDtls;
 	}
 
-	@OneToMany(mappedBy="policy", cascade={CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval=true)
+	@OneToMany(mappedBy="policy", cascade={CascadeType.REMOVE}, orphanRemoval=true)
 	public List<Issue> getIssues() {
 		return this.issues;
 	}
@@ -447,7 +447,7 @@ public class Policy implements Idable<Long>, Serializable{
 		this.issues = issues;
 	}
 
-	@OneToMany(mappedBy="policy", cascade={CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval=true)
+	@OneToMany(mappedBy="policy", cascade={CascadeType.REMOVE}, orphanRemoval=true)
 	public List<CheckRecordDtl> getCheckRecordDtls() {
 		return this.checkRecordDtls;
 	}
@@ -456,7 +456,7 @@ public class Policy implements Idable<Long>, Serializable{
 		this.checkRecordDtls = checkRecordDtls;
 	}
 
-	@OneToMany(mappedBy="policy", cascade={CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval=true)
+	@OneToMany(mappedBy="policy", cascade={CascadeType.REMOVE}, orphanRemoval=true)
 	public List<CheckWriteDtl> getCheckWriteDtls() {
 		return this.checkWriteDtls;
 	}
@@ -465,7 +465,7 @@ public class Policy implements Idable<Long>, Serializable{
 		this.checkWriteDtls = checkWriteDtls;
 	}
 
-	@OneToMany(mappedBy="policy", cascade={CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval=true)
+	@OneToMany(mappedBy="policy", cascade={CascadeType.REMOVE}, orphanRemoval=true)
 	public List<CallFail> getCallFails() {
 		return this.callFails;
 	}

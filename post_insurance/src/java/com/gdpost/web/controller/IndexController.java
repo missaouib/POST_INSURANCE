@@ -106,7 +106,7 @@ public class IndexController {
 		map.put(SecurityConstants.LOGIN_USER, shiroUser.getUser());
 		map.put("menuModule", menuModule);
 
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{shiroUser.getLoginName()}));
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{shiroUser.getUser().getRealname()}));
 		
 		LOG.debug(" ----------- INDEX to get the task");
 		map.put("issueList", kfglService.getTODOIssueList(shiroUser.getUser()));

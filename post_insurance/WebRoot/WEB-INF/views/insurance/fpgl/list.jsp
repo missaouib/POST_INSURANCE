@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 
 <dwz:paginationForm action="${contextPath }/fpgl/list" page="${page }">
-	<input type="hidden" name="search_LIKE_policy.policyNo" value="${param.search_LIKE_policy_policyNo }"/>
+	<input type="hidden" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
 	<input type="hidden" name="search_LTE_reqDate" value="${param.search_LTE_reqDate }"/>
 	<input type="hidden" name="search_GTE_reqDate" value="${param.search_GTE_reqDate }"/>
 	<input type="hidden" name="status" value="${param.status }"/>
@@ -68,6 +68,10 @@
 				<li><a iconClass="user_go" href="${contextPath}/fpgl/updateDealStatus/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>已寄出</span></a></li>
 				<li><a iconClass="user_go" target="ajaxTodo" href="${contextPath }/fpgl/CloseStatus/{slt_uid}" title="确认关闭?"><span>关闭</span></a></li>
 			</shiro:hasPermission>
+			<shiro:hasPermission name="InvoiceReq:view">
+				<li class="line">line</li>
+				<li><a class="icon" target="_blank" href="${contextPath }/fpgl/toXls?search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&search_LTE_reqDate=${param.search_LTE_reqDate}&search_GTE_reqDate=${param.search_GTE_reqDate}&status=${param.status}"><span>导出Excel</span></a></li>
+			</shiro:hasPermission>
 			<li class="line">line</li>
 			<li><a class="icon" target="dialog" href="${contextPath }/fpgl/help" mask="true" width="530" height="430"><span>功能说明</span></a></li>
 		</ul>
@@ -98,8 +102,8 @@
 				<td>${item.policy.organization.name}</td>
 				<td>${item.flag}</td>
 				<td>${item.fee}</td>
-				<td>${item.feeDate}</td>
-				<td>${item.reqDate}</td>
+				<td><fmt:formatDate value="${item.feeDate }" pattern="yyyy-MM-dd"/></td>
+				<td><fmt:formatDate value="${item.reqDate }" pattern="yyyy-MM-dd"/></td>
 				<td>
 				<c:choose>
 					<c:when test="${item.status eq 'NewStatus'}">
