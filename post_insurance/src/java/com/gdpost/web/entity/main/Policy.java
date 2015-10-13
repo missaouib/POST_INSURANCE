@@ -73,7 +73,6 @@ public class Policy implements Idable<Long>, Serializable{
 	private String customer_manager;
 	
 	private List<RenewalDtl> renewalDtls = new ArrayList<RenewalDtl>(0);
-	private List<ConservationDtl> conservationDtls = new ArrayList<ConservationDtl>(0);
 	private List<RenewalFeeDtl> renewalFeeDtls = new ArrayList<RenewalFeeDtl>(0);
 	private List<Issue> issues = new ArrayList<Issue>(0);
 	private List<CheckRecordDtl> checkRecordDtls = new ArrayList<CheckRecordDtl>(0);
@@ -89,7 +88,7 @@ public class Policy implements Idable<Long>, Serializable{
 	/** full constructor */
 	public Policy(String prodName, String bankName, String salesName,
 			String salesId, String status, Integer perm, String policyFee, String copies, String insuredAmount, String holder, String insured, Date policyDate, Integer renewalSucessFlag,
-			Integer resetValidFlag, List<RenewalDtl> TRenewalDtls, List<ConservationDtl> TConservationDtls, List<RenewalFeeDtl> TRenewalFeeDtls,
+			Integer resetValidFlag, List<RenewalDtl> TRenewalDtls, List<RenewalFeeDtl> TRenewalFeeDtls,
 			List<Issue> TIssues, List<CheckRecordDtl> TCheckRecordDtls, List<CheckWriteDtl> TCheckWriteDtls, List<CallFail> TCallFails) {
 		this.prodName = prodName;
 		this.bankName = bankName;
@@ -106,7 +105,6 @@ public class Policy implements Idable<Long>, Serializable{
 		this.renewalSucessFlag = renewalSucessFlag;
 		this.resetValidFlag = resetValidFlag;
 		this.renewalDtls = TRenewalDtls;
-		this.conservationDtls = TConservationDtls;
 		this.renewalFeeDtls = TRenewalFeeDtls;
 		this.issues = TIssues;
 		this.checkRecordDtls = TCheckRecordDtls;
@@ -418,15 +416,6 @@ public class Policy implements Idable<Long>, Serializable{
 
 	public void setRenewalDtls(List<RenewalDtl> renewalDtls) {
 		this.renewalDtls = renewalDtls;
-	}
-
-	@OneToMany(mappedBy="policy", cascade={CascadeType.REMOVE}, orphanRemoval=true)
-	public List<ConservationDtl> getConservationDtls() {
-		return this.conservationDtls;
-	}
-
-	public void setConservationDtls(List<ConservationDtl> conservationDtls) {
-		this.conservationDtls = conservationDtls;
 	}
 
 	@OneToMany(mappedBy="policy", cascade={CascadeType.REMOVE}, orphanRemoval=true)

@@ -31,6 +31,7 @@ import com.gdpost.utils.TemplateHelper.CheckColumn;
 import com.gdpost.utils.TemplateHelper.ColumnItem;
 import com.gdpost.utils.TemplateHelper.ColumnType;
 import com.gdpost.utils.TemplateHelper.IssueColumn;
+import com.gdpost.utils.TemplateHelper.PayFailListColumn;
 import com.gdpost.utils.TemplateHelper.PolicyColumn;
 import com.gdpost.utils.TemplateHelper.PolicyDtlColumn;
 import com.gdpost.utils.TemplateHelper.RemitMoneyColumn;
@@ -40,6 +41,7 @@ import com.gdpost.utils.TemplateHelper.RenewedStatusColumn;
 import com.gdpost.utils.TemplateHelper.Template.FileTemplate;
 import com.gdpost.utils.UploadDataHelper.UploadDataUtils;
 import com.gdpost.web.dao.uploaddatamanage.UploadDataDAO;
+import com.gdpost.web.entity.main.PayFailList;
 import com.gdpost.web.entity.main.Policy;
 import com.gdpost.web.service.uploaddatamanage.UploadDataService;
 import com.gdpost.web.util.StatusDefine.STATUS;
@@ -125,10 +127,12 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case RenewedHQList:
 			standardColumns = RenewedHQListColumn.getStandardColumns();
 			return false;
+		/*
 		case RemitMoney:
 			standardColumns = RemitMoneyColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_remit_money_list character set utf8 (";
 			break;
+			*/
 		case CheckWrite:
 			standardColumns = CheckColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_check_write character set utf8 (fix_status, ";
@@ -136,6 +140,14 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case CheckRecord:
 			standardColumns = CheckColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_check_record character set utf8 (fix_status, ";
+			break;
+		case PayToFailList:
+			standardColumns = PayFailListColumn.getStandardColumns();
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_pay_fail_list character set utf8 (pay_type, status, ";
+			break;
+		case PayFromFailList:
+			standardColumns = PayFailListColumn.getStandardColumns();
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_pay_fail_list character set utf8 (pay_type, status, ";
 			break;
 			default:
 				log.warn("------------reach the default FileTemplate?? oh no!!");
@@ -173,8 +185,16 @@ public class UploadDataServiceImpl implements UploadDataService{
     				//builder.append(null);
     	            builder.append('\t');
     			}
-    		} else if(ft.name().equals(FileTemplate.RemitMoney.name())) {
-    			//
+    		} else if(ft.name().equals(FileTemplate.PayToFailList.name())) {
+    			builder.append(PayFailList.PAY_TO);
+	            builder.append('\t');
+	            builder.append(1);
+	            builder.append('\t');
+    		} else if(ft.name().equals(FileTemplate.PayFromFailList.name())) {
+    			builder.append(PayFailList.PAY_FROM);
+	            builder.append('\t');
+	            builder.append(1);
+	            builder.append('\t');
     		}
         	for(ColumnItem item : standardColumns) {
         		
@@ -378,11 +398,13 @@ public class UploadDataServiceImpl implements UploadDataService{
 			log.debug("----------------hq update status batch sql : " + sql);
 			sql2 = "delete from t_renewed_list where holder is null";
 			break;
-		case RemitMoney:
-			return true;
 		case CheckWrite:
 			return true;
 		case CheckRecord:
+			return true;
+		case PayToFailList:
+			return true;
+		case PayFromFailList:
 			return true;
 		}
 
@@ -443,14 +465,17 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case RenewedHQList:
 			standardColumns = RenewedHQListColumn.getStandardColumns();
 			break;
-		case RemitMoney:
-			standardColumns = RemitMoneyColumn.getStandardColumns();
-			break;
 		case CheckWrite:
 			standardColumns = CheckColumn.getStandardColumns();
 			break;
 		case CheckRecord:
 			standardColumns = CheckColumn.getStandardColumns();
+			break;
+		case PayToFailList:
+			standardColumns = PayFailListColumn.getStandardColumns();
+			break;
+		case PayFromFailList:
+			standardColumns = PayFailListColumn.getStandardColumns();
 			break;
 			default:
 				standardColumns = PolicyColumn.getStandardColumns();

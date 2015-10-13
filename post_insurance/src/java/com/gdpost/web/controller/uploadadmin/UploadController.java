@@ -49,7 +49,7 @@ public class UploadController {
 	
 	String strError = "{\"jsonrpc\":\"2.0\",\"result\":\"error\",\"id\":\"id\",\"message\":\"操作失败。\"}";
 	
-	@RequiresPermissions(value={"UploadIssue:upload", "UploadData:upload", "UploadRenewed:upload", "UploadCallFail:upload", "UploadCheck:upload", "UploadRemit:upload", "UploadIssue:upload"}, logical=Logical.OR)
+	@RequiresPermissions(value={"UploadIssue:upload", "UploadData:upload", "UploadRenewed:upload", "UploadCallFail:upload", "UploadCheck:upload", "UploadPay:upload", "UploadIssue:upload"}, logical=Logical.OR)
 	@RequestMapping(value = "/upload", method = RequestMethod.GET)
 	public String preUpload(HttpServletRequest request, Map<String, Object> map) {
 		int ny = UploadDataUtils.getNianYue();
@@ -70,14 +70,17 @@ public class UploadController {
 			case "issue":
 				ft = FileTemplate.Issue;
 				break;
-			case "remit":
-				ft = FileTemplate.RemitMoney;
-				break;
 			case "renewed":
 				ft = FileTemplate.Renewed;
 				break;
 			case "check":
 				ft = FileTemplate.CheckWrite;
+				break;
+			case "payto":
+				ft = FileTemplate.PayToFailList;
+				break;
+			case "payfrom":
+				ft = FileTemplate.PayFromFailList;
 				break;
 			case "callfail":
 				ft = FileTemplate.CallFail;
@@ -95,7 +98,7 @@ public class UploadController {
 	}
 
 	@Log(message="上传了{0}。")
-	@RequiresPermissions(value={"UploadIssue:upload", "UploadData:upload", "UploadRenewed:upload", "UploadCallFail:upload", "UploadCheck:upload", "UploadRemit:upload", "UploadIssue:upload"}, logical=Logical.OR)
+	@RequiresPermissions(value={"UploadIssue:upload", "UploadData:upload", "UploadRenewed:upload", "UploadCallFail:upload", "UploadCheck:upload", "UploadPay:upload", "UploadIssue:upload"}, logical=Logical.OR)
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public @ResponseBody String upload(HttpServletRequest request, @RequestParam String name, @RequestParam(value = "file", required = true) MultipartFile file) {
         log.debug("-------------------------------------upload");
@@ -261,7 +264,7 @@ public class UploadController {
 		return (strError);
 	}
 	
-	@RequiresPermissions(value={"UploadIssue:upload", "UploadData:upload", "UploadRenewed:upload", "UploadCallFail:upload", "UploadCheck:upload", "UploadRemit:upload", "UploadIssue:upload"}, logical=Logical.OR)
+	@RequiresPermissions(value={"UploadIssue:upload", "UploadData:upload", "UploadRenewed:upload", "UploadCallFail:upload", "UploadCheck:upload", "UploadPay:upload", "UploadIssue:upload"}, logical=Logical.OR)
 	@RequestMapping(value = "/check", method = RequestMethod.POST)
 	public @ResponseBody String check(HttpServletRequest request) {
 		log.debug("-------------------------------------upload check");

@@ -49,6 +49,7 @@ public class XlsFileHandler extends AbstractFileHandler {
 			boolean bFlag = false;
 			int markRow = -1;
 			int skipRow = -1;
+			int lastRow = -1;
 			//List<CellRangeAddress> calist = new ArrayList<CellRangeAddress>();
 			// 如果是合并单元表格，略过
 			
@@ -63,7 +64,8 @@ public class XlsFileHandler extends AbstractFileHandler {
 					skipRow = sheet.getMergedRegion(sheetmergerCount-1).getLastRow();
 				}
 				//log.debug("--------------to skip i: " + skipRow + ", sheet last row: " + sheet.getLastRowNum());
-				for (int i = skipRow+1; i < sheet.getLastRowNum(); i++) {
+				lastRow = sheet.getLastRowNum();
+				for (int i = skipRow+1; i < lastRow; i++) {
 					log.debug("------------ row: " + i);
 					headerRow = (HSSFRow) sheet.getRow(i);
 					log.debug("------------ row: " + headerRow);
@@ -73,6 +75,17 @@ public class XlsFileHandler extends AbstractFileHandler {
 					}
 					log.debug("--------------headerRow : " + headerRow + ", and the cell num: " + headerRow.getLastCellNum() + ", template column size: " + this.m_column.size());
 					if (headerRow.getLastCellNum() > this.m_column.size() / 2) {
+						if(headerRow.getRowNum() < lastRow) {
+							try {
+								String check = headerRow.getCell(headerRow.getLastCellNum()-2).getStringCellValue();
+								if(check == null || check.trim().length() <=0) {
+									continue;
+								}
+							} catch (Exception ex) {
+								continue;
+							}
+						}
+							
 						markRow = i;
 						//log.debug("--------------get the header row num : " + markRow);
 						break;
@@ -93,7 +106,8 @@ public class XlsFileHandler extends AbstractFileHandler {
 
 				dt = new DataTable();
 				dt.TableName = sheet.getSheetName();
-
+				rowCount = sheet.getLastRowNum();
+				
 				for (int i = headerRow.getFirstCellNum(); i < cellCount; i++) {
 					if (cellCount < this.m_column.size()/2) {
 						continue;
@@ -102,16 +116,15 @@ public class XlsFileHandler extends AbstractFileHandler {
 					dt.Columns.Add(column);
 				}
 
-				rowCount = sheet.getLastRowNum();
-
 				for (int i = markRow + 1; i <= rowCount; i++) {
 					row = (HSSFRow) sheet.getRow(i);
-					if (row == null) { // 空行，跳过
-						continue;
+					if (row == null) { // 空行，不允许，退出
+						//continue;
+						break;
 					}
-					//如果row的列长度不够，跳过
+					//如果row的列长度不够，也退出
 					if(row.getLastCellNum() < this.m_column.size()/2) {
-						continue;
+						break;
 					}
 					dataRow = dt.NewRow();
 					bFlag = false;

@@ -200,7 +200,12 @@
 	<table name="v_call_fail_list" catalog="postinsurance">
 		<column name="id"></column>
 	</table>
-<table name="t_under_write" catalog="postinsurance">
+	<table name="t_under_write" catalog="postinsurance">
+		<primary-key>
+			<key-column name="id" type="Long" />
+		</primary-key>
+	</table>
+<table name="t_pay_fail_list" catalog="postinsurance">
 	<primary-key>
 		<key-column name="id" type="Long"/>
 	</primary-key>

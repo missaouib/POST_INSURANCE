@@ -79,6 +79,19 @@ public class StatusDefine {
 		}
 	};
 
+	public enum FEE_FAIL_STATUS {
+		NewStatus(1), CloseStatus(0);
+		private Integer desc;
+
+		FEE_FAIL_STATUS(Integer desc) {
+			this.desc = desc;
+		}
+
+		public Integer getDesc() {
+			return desc;
+		}
+	};
+	
 	public static void main(String[] args) {
 		STATUS[] s = StatusDefine.STATUS.values();
 		System.out.println(s[0].desc);

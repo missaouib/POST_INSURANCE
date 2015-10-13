@@ -57,6 +57,9 @@
 				<li><a iconClass="user_go" href="${contextPath}/qygl/underwrite/signDateUpdate/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>回销登记</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="UnderWrite:provEdit">
+			<shiro:hasPermission name="UnderWrite:delete">
+				<li><a iconClass="user_delete" target="selectedTodo" rel="ids" href="${contextPath }/qygl/underwrite/delete" title="确认要删除?"><span>删除</span></a></li>
+			</shiro:hasPermission>
 			<li class="line">line</li>
 				<li><a iconClass="user_edit" target="dialog" rel="underwrite_edit" mask="true" width="800" height="440" href="${contextPath }/qygl/underwrite/create"><span>新建人核件</span></a></li>
 				<li><a iconClass="user_go" href="${contextPath}/qygl/underwrite/provSend/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>省分寄出</span></a></li>

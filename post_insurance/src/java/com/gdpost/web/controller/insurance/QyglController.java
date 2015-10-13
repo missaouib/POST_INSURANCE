@@ -8,6 +8,7 @@
 package com.gdpost.web.controller.insurance;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +38,7 @@ import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.UnderWrite;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.exception.ExistedException;
+import com.gdpost.web.exception.ServiceException;
 import com.gdpost.web.log.Log;
 import com.gdpost.web.log.LogMessageObject;
 import com.gdpost.web.log.impl.LogUitls;
@@ -374,6 +376,26 @@ public class QyglController {
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicyNo()}));
 		return	AjaxObject.newOk("更新人核件成功！").toString(); 
+	}
+	
+	@Log(message="删除了{0}人核件记录申请。")
+	@RequiresPermissions("UnderWrite:delete")
+	@RequestMapping(value="/underwrite/delete", method=RequestMethod.POST)
+	public @ResponseBody String deleteMany(Long[] ids) {
+		String[] policys = new String[ids.length];
+		try {
+			for (int i = 0; i < ids.length; i++) {
+				UnderWrite issue = qyglService.getUnderWrite(ids[i]);
+				qyglService.deleteUnderWrite(issue.getId());
+				
+				policys[i] = issue.getFormNo();
+			}
+		} catch (ServiceException e) {
+			return AjaxObject.newError("删除人核件信息失败：" + e.getMessage()).setCallbackType("").toString();
+		}
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{Arrays.toString(policys)}));
+		return AjaxObject.newOk("成功删除人核件信息！").setCallbackType("").toString();
 	}
 	
 	@RequiresPermissions("UnderWrite:edit")
