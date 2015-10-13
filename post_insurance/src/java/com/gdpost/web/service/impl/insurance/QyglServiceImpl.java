@@ -14,9 +14,11 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gdpost.web.dao.CheckFixTypeDAO;
 import com.gdpost.web.dao.CheckRecordDAO;
 import com.gdpost.web.dao.CheckWriteDAO;
 import com.gdpost.web.dao.UnderWriteDAO;
+import com.gdpost.web.entity.basedata.CheckFixType;
 import com.gdpost.web.entity.main.CheckRecord;
 import com.gdpost.web.entity.main.CheckWrite;
 import com.gdpost.web.entity.main.Organization;
@@ -44,6 +46,9 @@ public class QyglServiceImpl implements QyglService {
 	
 	@Autowired
 	private UnderWriteDAO uwDAO;
+	
+	@Autowired
+	private CheckFixTypeDAO checkFixTypeDAO;
 	
 	/*
 	 * (non-Javadoc)
@@ -272,5 +277,10 @@ public class QyglServiceImpl implements QyglService {
 		}
 		
 		return issues;
+	}
+
+	@Override
+	public List<CheckFixType> getCheckFixTypeList() {
+		return checkFixTypeDAO.findAll();
 	}
 }

@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.domain.Specification;
 
+import com.gdpost.web.entity.basedata.CheckFixType;
 import com.gdpost.web.entity.main.CheckRecord;
 import com.gdpost.web.entity.main.CheckWrite;
 import com.gdpost.web.entity.main.UnderWrite;
@@ -64,4 +65,6 @@ public interface QyglService {
 	UnderWrite getUnderWriteByFormNo(String formNo);
 	
 	List<UnderWrite> getTODOUnderWriteList(User user);
+
+	List<CheckFixType> getCheckFixTypeList();
 }

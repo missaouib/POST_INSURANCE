@@ -59,16 +59,23 @@
 	<fieldset>
 		<legend>不合格件处理详情</legend>
 		<p class="nowrap">
+			<label>处理结果类型：</label>
+			<form:select path="issue.fixType" onchange="javascript:$('#fixDesc').val($('#fixType').find('option:selected').text())" class="combox validate[required] required">
+				<form:option value=""> -- </form:option>
+				<form:options items="${checkFixList }" itemLabel="typeDesc" itemValue="typeName"/>
+			</form:select>
+		</p>
+		<p class="nowrap">
 			<label>不合格件处理记录：</label>
-			<textarea name="fixDesc" cols="50" rows="3">${issue.fixDesc }</textarea>
+			<textarea name="fixDesc" id="fixDesc" cols="50" rows="3" class="input-medium validate[required,maxSize[64]] required">${issue.fixDesc }</textarea>
 		</p>
 		<p class="nowrap">
 			<label>经办人：</label>
-			<input type="text" name="dealMan" class="input-medium" maxlength="32" value="${issue.dealMan }"/>
+			<input type="text" name="dealMan" class="input-medium validate[required,maxSize[12]] required" maxlength="32" value="${issue.dealMan }"/>
 		</p>
 		<p class="nowrap">
 			<label>经办日期：</label>
-			<input type="text" name="dealTime" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${issue.dealTime }"/>
+			<input type="text" name="dealTime" class="date validate[required,maxSize[12]] required" dateFmt="yyyy-MM-dd" readonly="true" value="${issue.dealTime }"/>
 				<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 	</fieldset>

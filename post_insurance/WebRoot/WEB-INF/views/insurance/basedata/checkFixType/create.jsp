@@ -4,11 +4,11 @@
 <form method="post" action="${contextPath }/basedata/checkFixType/create" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
 	<div class="pageFormContent" layoutH="58">
 		<p>
-			<label>不合格件整改类型名称：</label>
+			<label>整改类型名称：</label>
 			<input type="text" name="typeName" class="input-medium validate[required,maxSize[32]] required" maxlength="32"/>
 		</p>
 		<p>
-			<label>不合格件整改类型描述：</label>
+			<label>整改类型描述：</label>
 			<input type="text" name="typeDesc" class="input-medium" maxlength="32" value="${basedata.typeDesc }"/>
 		</p>
 	</div>

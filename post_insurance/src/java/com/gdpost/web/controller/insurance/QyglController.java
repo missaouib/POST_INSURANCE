@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gdpost.utils.SecurityUtils;
+import com.gdpost.web.entity.basedata.CheckFixType;
 import com.gdpost.web.entity.main.CheckRecord;
 import com.gdpost.web.entity.main.CheckWrite;
 import com.gdpost.web.entity.main.Organization;
@@ -104,7 +105,8 @@ public class QyglController {
 	@RequestMapping(value="/issue/write/update/{id}", method=RequestMethod.GET)
 	public String preUpdateCheckWrite(@PathVariable Long id, Map<String, Object> map) {
 		CheckWrite issue = qyglService.getCheckWrite(id);
-		
+		List<CheckFixType> cftList = qyglService.getCheckFixTypeList();
+		map.put("checkFixList", cftList);
 		map.put("issue", issue);
 		return UPDATE_WRITE;
 	}
@@ -218,7 +220,8 @@ public class QyglController {
 	@RequestMapping(value="/issue/record/update/{id}", method=RequestMethod.GET)
 	public String preUpdateCheckRecord(@PathVariable Long id, Map<String, Object> map) {
 		CheckRecord issue = qyglService.getCheckRecord(id);
-		
+		List<CheckFixType> cftList = qyglService.getCheckFixTypeList();
+		map.put("checkFixList", cftList);
 		map.put("issue", issue);
 		return UPDATE_RECORD;
 	}

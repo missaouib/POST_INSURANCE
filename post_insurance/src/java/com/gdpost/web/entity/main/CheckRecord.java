@@ -56,6 +56,8 @@ public class CheckRecord implements Idable<Long> {
 	private User reopenUser;
 	private Date reopenDate;
 	
+	private String fixType;
+	
 	@Transient
 	private String tag = "录入错误";
 
@@ -310,6 +312,15 @@ public class CheckRecord implements Idable<Long> {
 
 	public void setReopenDate(Date reopenDate) {
 		this.reopenDate = reopenDate;
+	}
+
+	@Column(name="fix_type")
+	public String getFixType() {
+		return fixType;
+	}
+
+	public void setFixType(String fixType) {
+		this.fixType = fixType;
 	}
 
 	@Transient

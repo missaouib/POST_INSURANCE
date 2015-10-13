@@ -55,6 +55,7 @@ public class CheckWrite implements Idable<Long> {
 	private String reopenReason;
 	private User reopenUser;
 	private Date reopenDate;
+	private String fixType;
 
 	@Transient
 	private String tag = "填写错误";
@@ -281,6 +282,15 @@ public class CheckWrite implements Idable<Long> {
 
 	public void setReopenReason(String reopenReason) {
 		this.reopenReason = reopenReason;
+	}
+	
+	@Column(name="fix_type")
+	public String getFixType() {
+		return fixType;
+	}
+
+	public void setFixType(String fixType) {
+		this.fixType = fixType;
 	}
 	
 	@ManyToOne(optional=true)
