@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gdpost.web.entity.basedata.BankCode;
 import com.gdpost.web.entity.basedata.CallDealType;
+import com.gdpost.web.entity.basedata.CheckFixType;
 import com.gdpost.web.entity.basedata.ConservationError;
 import com.gdpost.web.entity.basedata.IssueType;
 import com.gdpost.web.entity.basedata.Prd;
@@ -72,6 +73,10 @@ public class BaseDataController {
 	private static final String PRD_CREATE = "insurance/basedata/product/create";
 	private static final String PRD_UPDATE = "insurance/basedata/product/update";
 	private static final String PRD_LIST = "insurance/basedata/product/list";
+	
+	private static final String CHECK_FIX_TYPE_CREATE = "insurance/basedata/checkFixType/create";
+	private static final String CHECK_FIX_TYPE_UPDATE = "insurance/basedata/checkFixType/update";
+	private static final String CHECK_FIX_TYPE_LIST = "insurance/basedata/checkFixType/list";
 	
 	/*
 	 * =======================================
@@ -624,5 +629,97 @@ public class BaseDataController {
 		map.put("page", page);
 		map.put("prds", prds);
 		return PRD_LIST;
+	}
+	
+	/*
+	 * =======================================
+	 * check fix type 新契约不合格整改类型
+	 * =======================================
+	 * 
+	 */
+	@RequiresPermissions("CheckFixType:save")
+	@RequestMapping(value="/checkFixType/create", method=RequestMethod.GET)
+	public String preCreateCheckFixType() {
+		return CHECK_FIX_TYPE_CREATE;
+	}
+	
+	@Log(message="添加了{0}新契约整改类型。")
+	@RequiresPermissions("CheckFixType:save")
+	@RequestMapping(value="/checkFixType/create", method=RequestMethod.POST)
+	public @ResponseBody String createCheckFixType(@Valid CheckFixType checkFixType) {	
+		try {
+			baseService.saveOrUpdateCheckFixType(checkFixType);
+		} catch (ExistedException e) {
+			return AjaxObject.newError("添加新契约整改类型失败：" + e.getMessage()).setCallbackType("").toString();
+		}
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{checkFixType.getTypeName()}));
+		return AjaxObject.newOk("添加新契约整改类型成功！").toString();
+	}
+	
+	@RequiresPermissions("CheckFixType:edit")
+	@RequestMapping(value="/checkFixType/update/{id}", method=RequestMethod.GET)
+	public String preUpdateCheckFixType(@PathVariable Long id, Map<String, Object> map) {
+		CheckFixType basedata = baseService.getCheckFixType(id);
+		
+		map.put("basedata", basedata);
+		return CHECK_FIX_TYPE_UPDATE;
+	}
+	
+	@Log(message="修改了{0}新契约整改类型的信息。")
+	@RequiresPermissions("CheckFixType:edit")
+	@RequestMapping(value="/checkFixType/update", method=RequestMethod.POST)
+	public @ResponseBody String updateCheckFixType(CheckFixType checkFixType) {
+		baseService.saveOrUpdateCheckFixType(checkFixType);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{checkFixType.getTypeName()}));
+		return	AjaxObject.newOk("修改新契约整改类型成功！").toString(); 
+	}
+	
+	@Log(message="删除了{0}新契约整改类型。")
+	@RequiresPermissions("CheckFixType:delete")
+	@RequestMapping(value="/checkFixType/delete/{id}", method=RequestMethod.POST)
+	public @ResponseBody String deleteCheckFixType(@PathVariable Long id) {
+		CheckFixType checkFixType = null;
+		try {
+			checkFixType = baseService.getCheckFixType(id);
+			baseService.deleteCheckFixType(checkFixType.getId());
+		} catch (ServiceException e) {
+			return AjaxObject.newError("删除新契约整改类型失败：" + e.getMessage()).setCallbackType("").toString();
+		}
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{checkFixType.getTypeName()}));
+		return AjaxObject.newOk("删除新契约整改类型成功！").setCallbackType("").toString();
+	}
+	
+	@Log(message="删除了{0}新契约整改类型。")
+	@RequiresPermissions("CheckFixType:delete")
+	@RequestMapping(value="/checkFixType/delete", method=RequestMethod.POST)
+	public @ResponseBody String deleteManyCheckFixType(Long[] ids) {
+		String[] checkFixTypes = new String[ids.length];
+		try {
+			for (int i = 0; i < ids.length; i++) {
+				CheckFixType checkFixType = baseService.getCheckFixType(ids[i]);
+				baseService.deleteCheckFixType(checkFixType.getId());
+				
+				checkFixTypes[i] = checkFixType.getTypeName();
+			}
+		} catch (ServiceException e) {
+			return AjaxObject.newError("删除新契约整改类型失败：" + e.getMessage()).setCallbackType("").toString();
+		}
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{Arrays.toString(checkFixTypes)}));
+		return AjaxObject.newOk("删除新契约整改类型成功！").setCallbackType("").toString();
+	}
+	
+	@RequiresPermissions("CheckFixType:view")
+	@RequestMapping(value="/checkFixType/list", method={RequestMethod.GET, RequestMethod.POST})
+	public String listCheckFixType(ServletRequest request, Page page, Map<String, Object> map) {
+		Specification<CheckFixType> specification = DynamicSpecifications.bySearchFilter(request, CheckFixType.class);
+		List<CheckFixType> basedata = baseService.findByCheckFixTypeExample(specification, page);
+
+		map.put("page", page);
+		map.put("basedata", basedata);
+		return CHECK_FIX_TYPE_LIST;
 	}
 }

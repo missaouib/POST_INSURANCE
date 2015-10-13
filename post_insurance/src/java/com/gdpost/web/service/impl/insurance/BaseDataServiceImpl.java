@@ -12,12 +12,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gdpost.web.dao.BankCodeDAO;
 import com.gdpost.web.dao.CallDealTypeDAO;
+import com.gdpost.web.dao.CheckFixTypeDAO;
 import com.gdpost.web.dao.ConservationErrorDAO;
 import com.gdpost.web.dao.IssueTypeDAO;
 import com.gdpost.web.dao.PrdDAO;
 import com.gdpost.web.dao.RenewalTypeDAO;
 import com.gdpost.web.entity.basedata.BankCode;
 import com.gdpost.web.entity.basedata.CallDealType;
+import com.gdpost.web.entity.basedata.CheckFixType;
 import com.gdpost.web.entity.basedata.ConservationError;
 import com.gdpost.web.entity.basedata.IssueType;
 import com.gdpost.web.entity.basedata.Prd;
@@ -46,6 +48,9 @@ public class BaseDataServiceImpl implements BaseDataService {
 	
 	@Autowired
 	private RenewalTypeDAO renewalTypeDAO;
+	
+	@Autowired
+	private CheckFixTypeDAO checkfixTypeDAO;
 	
 	@Autowired
 	private PrdDAO prdDAO;
@@ -325,5 +330,54 @@ public class BaseDataServiceImpl implements BaseDataService {
 	@Override
 	public Prd getByPrdCode(String prdCode) {
 		return prdDAO.getByPrdCode(prdCode);
+	}
+	
+	/*
+	 * ================
+	 * CheckFixType
+	 * ================
+	 * 
+	 */
+	@Override
+	public CheckFixType getCheckFixType(Long id) {
+		return checkfixTypeDAO.findOne(id);
+	}
+
+	@Override
+	public void saveOrUpdateCheckFixType(CheckFixType type) {
+		if (type.getId() == null) {
+			if (checkfixTypeDAO.getByTypeName(type.getTypeName()) != null) {
+				throw new ExistedException("类型 " + type.getTypeName() + "已存在。");
+			}
+		}
+		
+		checkfixTypeDAO.save(type);
+		
+	}
+
+	@Override
+	public void deleteCheckFixType(Long id) {
+		CheckFixType type = checkfixTypeDAO.findOne(id);
+		checkfixTypeDAO.delete(type);
+		
+	}
+
+	@Override
+	public List<CheckFixType> findAllCheckFixType(Page page) {
+		org.springframework.data.domain.Page<CheckFixType> springDataPage = checkfixTypeDAO.findAll(PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
+	}
+
+	@Override
+	public List<CheckFixType> findByCheckFixTypeExample(Specification<CheckFixType> specification, Page page) {
+		org.springframework.data.domain.Page<CheckFixType> springDataPage = checkfixTypeDAO.findAll(specification, PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
+	}
+
+	@Override
+	public CheckFixType getByCheckFixTypeName(String typeName) {
+		return checkfixTypeDAO.getByTypeName(typeName);
 	}
 }

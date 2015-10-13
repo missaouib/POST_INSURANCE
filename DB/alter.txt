@@ -297,3 +297,12 @@ create table t_pay_fail_list
    primary key (id)
 )
 engine=innodb auto_increment=1 default charset=utf8;
+
+create table t_check_fix_type
+(
+   id                   bigint not null auto_increment,
+   type_name            varchar(32),
+   type_desc            varchar(255),
+   primary key (id)
+)
+engine=innodb auto_increment=1 default charset=utf8;

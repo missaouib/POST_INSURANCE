@@ -13,6 +13,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 import com.gdpost.web.entity.basedata.BankCode;
 import com.gdpost.web.entity.basedata.CallDealType;
+import com.gdpost.web.entity.basedata.CheckFixType;
 import com.gdpost.web.entity.basedata.ConservationError;
 import com.gdpost.web.entity.basedata.IssueType;
 import com.gdpost.web.entity.basedata.Prd;
@@ -121,4 +122,21 @@ public interface BaseDataService {
 	List<Prd> findByPrdExample(Specification<Prd> specification, Page page);
 	
 	Prd getByPrdCode(String typeName);
+	
+	/*
+	 * ==============
+	 * CheckFixType
+	 * ==============
+	 */
+	CheckFixType getCheckFixType(Long id);
+
+	void saveOrUpdateCheckFixType(CheckFixType type);
+
+	void deleteCheckFixType(Long id);
+	
+	List<CheckFixType> findAllCheckFixType(Page page);
+	
+	List<CheckFixType> findByCheckFixTypeExample(Specification<CheckFixType> specification, Page page);
+	
+	CheckFixType getByCheckFixTypeName(String typeName);
 }

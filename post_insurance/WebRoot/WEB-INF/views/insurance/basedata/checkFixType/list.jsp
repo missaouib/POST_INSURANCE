@@ -2,16 +2,16 @@
 <%@page import="java.util.Date"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 
-<dwz:paginationForm action="${contextPath }/basedata/renewalType/list" page="${page }">
+<dwz:paginationForm action="${contextPath }/basedata/checkFixType/list" page="${page }">
 	<input type="hidden" name="search_LIKE_typeName" value="${param.search_LIKE_typeName }"/>
 </dwz:paginationForm>
 
-<form method="post" action="${contextPath }/basedata/renewalType/list" onsubmit="return navTabSearch(this)">
+<form method="post" action="${contextPath }/basedata/checkFixType/list" onsubmit="return navTabSearch(this)">
 	<div class="pageHeader">
 		<div class="searchBar">
 			<ul class="searchContent">
 				<li>
-					<label>续期催收类型名称：</label>
+					<label>不合格件整改类型名称：</label>
 					<input type="text" name="search_LIKE_typeName" value="${param.search_LIKE_typeName }"/>
 				</li>
 			</ul>
@@ -28,14 +28,14 @@
 
 	<div class="panelBar">
 		<ul class="toolBar">
-			<shiro:hasPermission name="RenewalType:save">
-				<li><a iconClass="user_add" target="dialog" rel="lookup2organization_add" mask="true" width="530" height="330" href="${contextPath }/basedata/renewalType/create"><span>添加续期催收类型</span></a></li>
+			<shiro:hasPermission name="CheckFixType:save">
+				<li><a iconClass="user_add" target="dialog" rel="lookup2organization_add" mask="true" width="530" height="330" href="${contextPath }/basedata/checkFixType/create"><span>添加不合格件整改类型</span></a></li>
 			</shiro:hasPermission>
-			<shiro:hasPermission name="RenewalType:edit">
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="330" href="${contextPath }/basedata/renewalType/update/{slt_uid}"><span>编辑续期催收类型</span></a></li>
+			<shiro:hasPermission name="CheckFixType:edit">
+				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="330" href="${contextPath }/basedata/checkFixType/update/{slt_uid}"><span>编辑不合格件整改类型</span></a></li>
 			</shiro:hasPermission>
-			<shiro:hasPermission name="RenewalType:delete">
-				<li><a iconClass="user_delete" target="selectedTodo" rel="ids" href="${contextPath }/basedata/renewalType/delete" title="确认要删除?"><span>删除续期催收类型</span></a></li>
+			<shiro:hasPermission name="CheckFixType:delete">
+				<li><a iconClass="user_delete" target="selectedTodo" rel="ids" href="${contextPath }/basedata/checkFixType/delete" title="确认要删除?"><span>删除不合格件整改类型</span></a></li>
 			</shiro:hasPermission>
 		</ul>
 	</div>
@@ -44,8 +44,8 @@
 		<thead>
 			<tr>
 				<th width="22"><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
-				<th width="100">续期催收类型名称</th>
-				<th width="100">续期催收类型描述</th>
+				<th width="100">不合格件整改类型名称</th>
+				<th width="100">不合格件整改类型描述</th>
 			</tr>
 		</thead>
 		<tbody>
