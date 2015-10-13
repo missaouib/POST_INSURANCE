@@ -30,11 +30,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gdpost.utils.SecurityUtils;
+import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.PayFailList;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.service.insurance.PayListService;
 import com.gdpost.web.util.StatusDefine.FEE_FAIL_STATUS;
-import com.gdpost.web.util.StatusDefine.FP_STATUS;
 import com.gdpost.web.util.dwz.AjaxObject;
 import com.gdpost.web.util.dwz.Page;
 import com.gdpost.web.util.persistence.DynamicSpecifications;
@@ -58,31 +58,37 @@ public class PayListController {
 		return TO_HELP;
 	}
 	
-	@RequiresPermissions(value={"ToFailList:edit", "FromFailList:edit"}, logical=Logical.OR)
+	@RequiresPermissions(value={"ToBQFailList:edit","ToQYFailList:edit","ToLPFailList:edit","ToXQFailList:edit","FromBQFailList:edit","FromQYFailList:edit","FromLPFailList:edit","FromXQFailList:edit"}, logical=Logical.OR)
 	@RequestMapping(value="/close/{id}", method=RequestMethod.POST)
 	public @ResponseBody String updateStatus(ServletRequest request, @PathVariable("id") Long id) {
 		PayFailList req = payListService.get(id);
-		req.setStatus(0);
+		req.setStatus(FEE_FAIL_STATUS.NewStatus.name());
 		payListService.saveOrUpdate(req);
 		
 		return	AjaxObject.newOk("记录关闭成功！").setCallbackType("").toString();
 	}
 	
-	@RequiresPermissions("ToFailList:view")
+	@RequiresPermissions(value={"ToBQFailList:view","ToQYFailList:view","ToLPFailList:view","ToXQFailList:view"}, logical=Logical.OR)
 	@RequestMapping(value="/to/list", method={RequestMethod.GET, RequestMethod.POST})
 	public String list(ServletRequest request, Page page, Map<String, Object> map) {
 		User user = SecurityUtils.getShiroUser().getUser();
-		String s = request.getParameter("status");
+		Organization userOrg = user.getOrganization();
+		String orgCode = request.getParameter("orgCode");
+		if(orgCode == null || orgCode.trim().length()<=0) {
+			orgCode = userOrg.getOrgCode();
+		}
+		String orgName = request.getParameter("name");
+		request.setAttribute("orgCode", orgCode);
+		request.setAttribute("name", orgName);
+		String status = request.getParameter("status");
 		String flag = request.getParameter("flag");
-		LOG.debug("-----------------status:" + s);
+		LOG.debug("-----------------status:" + status);
 		PayFailList req = new PayFailList();
-		Integer status = null;
-		if(s == null) {
-			req.setStatus(FEE_FAIL_STATUS.NewStatus.getDesc());
-			status = 1;
-		} else if(s.trim().length()>0) {
-			req.setStatus(FEE_FAIL_STATUS.valueOf(s).getDesc());
-			status = req.getStatus();
+		if(status == null) {
+			req.setStatus(FEE_FAIL_STATUS.NewStatus.name());
+			status = FEE_FAIL_STATUS.NewStatus.name();
+		} else if(status.trim().length()>0) {
+			req.setStatus(status);
 		}
 		String feeType = "";
 		switch(flag) {
@@ -98,28 +104,12 @@ public class PayListController {
 			default:
 				
 		}
-		Specification<PayFailList> specification = DynamicSpecifications.bySearchFilter(request, PayFailList.class, 
+		Specification<PayFailList> specification = DynamicSpecifications.bySearchFilter(request, PayFailList.class,
 				new SearchFilter("payType", Operator.EQ, PayFailList.PAY_TO),
-				new SearchFilter("feeType", Operator.EQ, feeType));
-		if(status != null) {
-			specification = DynamicSpecifications.bySearchFilter(request, PayFailList.class, 
-					new SearchFilter("payType", Operator.EQ, PayFailList.PAY_TO),
-					new SearchFilter("feeType", Operator.EQ, feeType),
-					new SearchFilter("status", Operator.EQ, status));
-		}
-		if(user.getOrganization().getOrgCode().length()>4) {
-			specification = DynamicSpecifications.bySearchFilter(request, PayFailList.class,
-					new SearchFilter("payType", Operator.EQ, PayFailList.PAY_TO),
-					new SearchFilter("feeType", Operator.EQ, feeType),
-					new SearchFilter("policy.organization.orgCode", Operator.LIKE, user.getOrganization().getOrgCode()));
-			if(status != null) {
-				specification = DynamicSpecifications.bySearchFilter(request, PayFailList.class, 
-						new SearchFilter("payType", Operator.EQ, PayFailList.PAY_TO),
-						new SearchFilter("feeType", Operator.EQ, feeType),
-						new SearchFilter("status", Operator.EQ, status),
-						new SearchFilter("policy.organization.orgCode", Operator.LIKE, user.getOrganization().getOrgCode()));
-			}
-		}
+				new SearchFilter("feeType", Operator.EQ, feeType),
+				new SearchFilter("status", Operator.LIKE, status),
+				new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		
 		List<PayFailList> reqs = payListService.findByExample(specification, page);
 
 		map.put("pay", req);
@@ -130,19 +120,27 @@ public class PayListController {
 		return PAY_TO_LIST;
 	}
 	
-	@RequiresPermissions("FromFailList:view")
+	@RequiresPermissions(value={"FromBQFailList:view","FromQYFailList:view","FromLPFailList:view","FromXQFailList:view"}, logical=Logical.OR)
 	@RequestMapping(value="/from/list", method={RequestMethod.GET, RequestMethod.POST})
 	public String fromlist(ServletRequest request, Page page, Map<String, Object> map) {
 		User user = SecurityUtils.getShiroUser().getUser();
-		String s = request.getParameter("status");
+		Organization userOrg = user.getOrganization();
+		String orgCode = request.getParameter("orgCode");
+		if(orgCode == null || orgCode.trim().length()<=0) {
+			orgCode = userOrg.getOrgCode();
+		}
+		String orgName = request.getParameter("name");
+		request.setAttribute("orgCode", orgCode);
+		request.setAttribute("name", orgName);
+		String status = request.getParameter("status");
 		String flag = request.getParameter("flag");
-		LOG.debug("-----------------status:" + s);
+		LOG.debug("-----------------status:" + status);
 		PayFailList req = new PayFailList();
-		if(s == null) {
-			req.setStatus(FEE_FAIL_STATUS.NewStatus.getDesc());
-			s = FP_STATUS.NewStatus.name();
-		} else if(s.trim().length()>0) {
-			req.setStatus(FEE_FAIL_STATUS.valueOf(s).getDesc());
+		if(status == null) {
+			req.setStatus(FEE_FAIL_STATUS.NewStatus.name());
+			status = FEE_FAIL_STATUS.NewStatus.name();
+		} else if(status.trim().length()>0) {
+			req.setStatus(status);
 		}
 		String feeType = "";
 		switch(flag) {
@@ -161,17 +159,12 @@ public class PayListController {
 			default:
 				
 		}
-		Specification<PayFailList> specification = DynamicSpecifications.bySearchFilter(request, PayFailList.class, 
+		Specification<PayFailList> specification = DynamicSpecifications.bySearchFilter(request, PayFailList.class,
 				new SearchFilter("payType", Operator.EQ, PayFailList.PAY_FROM),
 				new SearchFilter("feeType", Operator.EQ, feeType),
-				new SearchFilter("status", Operator.LIKE, s));
-		if(user.getOrganization().getOrgCode().length()>4) {
-			specification = DynamicSpecifications.bySearchFilter(request, PayFailList.class,
-					new SearchFilter("payType", Operator.EQ, PayFailList.PAY_FROM),
-					new SearchFilter("feeType", Operator.EQ, feeType),
-					new SearchFilter("status", Operator.LIKE, s),
-					new SearchFilter("policy.organization.orgCode", Operator.LIKE, user.getOrganization().getOrgCode()));
-		}
+				new SearchFilter("status", Operator.LIKE, status),
+				new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		
 		List<PayFailList> reqs = payListService.findByExample(specification, page);
 
 		map.put("pay", req);

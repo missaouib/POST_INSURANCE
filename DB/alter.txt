@@ -278,3 +278,22 @@ alter table t_under_write add constraint fk_uw_org foreign key (organ_id)
 
 alter table t_under_write add column relation varchar(16) after insured;
 alter table t_under_write add column policy_fee double after relation;
+
+create table t_pay_fail_list
+(
+   id                   bigint not null auto_increment,
+   account_name         varchar(32),
+   account              varchar(256),
+   money                varchar(12),
+   fail_desc            varchar(32),
+   back_date            date,
+   fee_type             varchar(16),
+   rel_no               varchar(32),
+   org_name             varchar(64),
+   pay_type             int,
+   status               varchar(12),
+   operate_id           bigint,
+   operate_time         datetime default current_timestamp,
+   primary key (id)
+)
+engine=innodb auto_increment=1 default charset=utf8;

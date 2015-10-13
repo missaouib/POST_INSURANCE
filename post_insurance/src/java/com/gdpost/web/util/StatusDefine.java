@@ -80,14 +80,14 @@ public class StatusDefine {
 	};
 
 	public enum FEE_FAIL_STATUS {
-		NewStatus(1), CloseStatus(0);
-		private Integer desc;
+		NewStatus("待关闭"), CloseStatus("已关闭");
+		private String desc;
 
-		FEE_FAIL_STATUS(Integer desc) {
+		FEE_FAIL_STATUS(String desc) {
 			this.desc = desc;
 		}
 
-		public Integer getDesc() {
+		public String getDesc() {
 			return desc;
 		}
 	};

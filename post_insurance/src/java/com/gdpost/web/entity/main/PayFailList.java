@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.ColumnTransformer;
@@ -33,9 +35,9 @@ public class PayFailList implements Idable<Long> {
 	private Date backDate;
 	private String feeType;
 	private String relNo;
-	private String orgName;
+	private Organization organization;
 	private Integer payType;
-	private Integer status;
+	private String status;
 	private Long operateId;
 	private Date operateTime;
 
@@ -48,7 +50,7 @@ public class PayFailList implements Idable<Long> {
 	/** full constructor */
 	public PayFailList(String accountName, String account,
 			String money, String failDesc, Date backDate, String feeType,
-			String relNo, String orgName, Integer payType, Long operateId,
+			String relNo, Integer payType, Long operateId,
 			Date operateTime) {
 		this.accountName = accountName;
 		this.account = account;
@@ -57,7 +59,6 @@ public class PayFailList implements Idable<Long> {
 		this.backDate = backDate;
 		this.feeType = feeType;
 		this.relNo = relNo;
-		this.orgName = orgName;
 		this.payType = payType;
 		this.operateId = operateId;
 		this.operateTime = operateTime;
@@ -141,14 +142,15 @@ public class PayFailList implements Idable<Long> {
 	public void setRelNo(String relNo) {
 		this.relNo = relNo;
 	}
-
-	@Column(name = "org_name", length = 64)
-	public String getOrgName() {
-		return this.orgName;
+	
+	@ManyToOne
+	@JoinColumn(name="org_name", referencedColumnName="name")
+	public Organization getOrganization() {
+		return organization;
 	}
 
-	public void setOrgName(String orgName) {
-		this.orgName = orgName;
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
 	}
 
 	@Column(name = "pay_type")
@@ -161,11 +163,11 @@ public class PayFailList implements Idable<Long> {
 	}
 
 	@Column(name = "status")
-	public Integer getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(Integer status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 

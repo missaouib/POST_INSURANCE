@@ -34,7 +34,6 @@ import com.gdpost.utils.TemplateHelper.IssueColumn;
 import com.gdpost.utils.TemplateHelper.PayFailListColumn;
 import com.gdpost.utils.TemplateHelper.PolicyColumn;
 import com.gdpost.utils.TemplateHelper.PolicyDtlColumn;
-import com.gdpost.utils.TemplateHelper.RemitMoneyColumn;
 import com.gdpost.utils.TemplateHelper.RenewedColumn;
 import com.gdpost.utils.TemplateHelper.RenewedHQListColumn;
 import com.gdpost.utils.TemplateHelper.RenewedStatusColumn;
@@ -44,6 +43,7 @@ import com.gdpost.web.dao.uploaddatamanage.UploadDataDAO;
 import com.gdpost.web.entity.main.PayFailList;
 import com.gdpost.web.entity.main.Policy;
 import com.gdpost.web.service.uploaddatamanage.UploadDataService;
+import com.gdpost.web.util.StatusDefine.FEE_FAIL_STATUS;
 import com.gdpost.web.util.StatusDefine.STATUS;
 import com.gdpost.web.util.StatusDefine.XQ_STATUS;
 import com.gdpost.web.util.dwz.Page;
@@ -188,12 +188,12 @@ public class UploadDataServiceImpl implements UploadDataService{
     		} else if(ft.name().equals(FileTemplate.PayToFailList.name())) {
     			builder.append(PayFailList.PAY_TO);
 	            builder.append('\t');
-	            builder.append(1);
+	            builder.append(FEE_FAIL_STATUS.NewStatus.name());
 	            builder.append('\t');
     		} else if(ft.name().equals(FileTemplate.PayFromFailList.name())) {
     			builder.append(PayFailList.PAY_FROM);
 	            builder.append('\t');
-	            builder.append(1);
+	            builder.append(FEE_FAIL_STATUS.NewStatus.name());
 	            builder.append('\t');
     		}
         	for(ColumnItem item : standardColumns) {

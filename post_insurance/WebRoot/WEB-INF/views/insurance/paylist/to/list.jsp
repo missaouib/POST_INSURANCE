@@ -9,9 +9,11 @@
 	<input type="hidden" name="search_LTE_backDate" value="${param.search_LTE_backDate }"/>
 	<input type="hidden" name="search_GTE_backDate" value="${param.search_GTE_backDate }"/>
 	<input type="hidden" name="status" value="${param.status }"/>
+	<input type="hidden" name="flag" value="bq">
 </dwz:paginationForm>
 
 <form method="post" id="payForm" action="${contextPath }/pay/to/list" onsubmit="return navTabSearch(this)">
+	<input type="hidden" name="flag" value="bq">
 	<div class="pageHeader">
 		<div class="searchBar">
 			<table class="searchContent">
@@ -72,26 +74,37 @@
 		<thead>
 			<tr>
 				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>
-				<th orderField=orgName class="${page.orderField eq 'orgName' ? page.orderDirection : ''}">管理机构</th>
+				<th orderField=organization.name class="${page.orderField eq 'organization.name' ? page.orderDirection : ''}">管理机构</th>
 				<th>账户名</th>
 				<th>账号</th>
 				<th>金额</th>
 				<th orderField=failDesc class="${page.orderField eq 'failDesc' ? page.orderDirection : ''}">状态描述</th>
 				<th orderField=backDate class="${page.orderField eq 'backDate' ? page.orderDirection : ''}">回盘日期</th>
 				<th orderField=relNo class="${page.orderField eq 'relNo' ? page.orderDirection : ''}">关联业务号码</th>
+				<th orderField=status class="${page.orderField eq 'status' ? page.orderDirection : ''}">状态</th>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach var="item" items="${paylists}">
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
-				<td>${item.orgName}</td>
+				<td>${item.organization.name}</td>
 				<td>${item.accountName}</td>
 				<td>${item.account}</td>
 				<td>${item.money}</td>
 				<td>${item.failDesc}</td>
 				<td>${item.backDate}</td>
 				<td>${item.relNo}</td>
+				<td>
+					<c:choose>
+					<c:when test="${item.status eq 'NewStatus'}">
+						待关闭
+					</c:when>
+					<c:otherwise>
+						已关闭
+					</c:otherwise>
+				</c:choose>
+				</td>
 			</tr>
 			</c:forEach>
 		</tbody>
