@@ -49,9 +49,12 @@ public class PayListController {
 	@Autowired
 	private PayListService payListService;
 
-	private static final String PAY_TO_LIST = "insurance/paylist/to/list";
-	private static final String PAY_FROM_LIST = "insurance/paylist/from/list";
-	private static final String TO_HELP = "insurance/help/fpgl";
+	private static final String BQ_PAY_TO_LIST = "insurance/bqgl/to/list";
+	private static final String BQ_PAY_FROM_LIST = "insurance/bqgl/from/list";
+	private static final String XQ_PAY_FROM_LIST = "insurance/xqgl/from/list";
+	private static final String QY_PAY_FROM_LIST = "insurance/qygl/from/list";
+	private static final String LP_PAY_TO_LIST = "insurance/lpgl/to/list";
+	private static final String TO_HELP = "insurance/help/feefailgl";
 	
 	@RequestMapping(value="/help", method=RequestMethod.GET)
 	public String toHelp() {
@@ -95,11 +98,8 @@ public class PayListController {
 		case "bq":
 			feeType = "保全受理号";
 			break;
-		case "qy":
-			feeType = "投保单印刷号";
-			break;
-		case "xq":
-			feeType = "保单合同号";
+		case "lq":
+			feeType = "案件号";
 			break;
 			default:
 				
@@ -117,7 +117,15 @@ public class PayListController {
 		
 		map.put("page", page);
 		map.put("paylists", reqs);
-		return PAY_TO_LIST;
+		
+		switch(flag) {
+		case "bq":
+			return BQ_PAY_TO_LIST;
+		case "lp":
+			return LP_PAY_TO_LIST;
+			default:
+				return null;
+		}
 	}
 	
 	@RequiresPermissions(value={"FromBQFailList:view","FromQYFailList:view","FromLPFailList:view","FromXQFailList:view"}, logical=Logical.OR)
@@ -153,9 +161,6 @@ public class PayListController {
 		case "xq":
 			feeType = "保单合同号";
 			break;
-		case "lq":
-			feeType = "案件号";
-			break;
 			default:
 				
 		}
@@ -172,7 +177,17 @@ public class PayListController {
 		
 		map.put("page", page);
 		map.put("paylists", reqs);
-		return PAY_FROM_LIST;
+		
+		switch(flag) {
+		case "bq":
+			return BQ_PAY_FROM_LIST;
+		case "qy":
+			return QY_PAY_FROM_LIST;
+		case "xq":
+			return XQ_PAY_FROM_LIST;
+			default:
+				return null;
+		}
 	}
 	
 	@InitBinder

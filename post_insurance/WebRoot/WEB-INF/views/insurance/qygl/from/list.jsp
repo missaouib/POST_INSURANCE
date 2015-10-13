@@ -9,39 +9,39 @@
 	<input type="hidden" name="search_LTE_backDate" value="${param.search_LTE_backDate }"/>
 	<input type="hidden" name="search_GTE_backDate" value="${param.search_GTE_backDate }"/>
 	<input type="hidden" name="status" value="${param.status }"/>
-	<input type="hidden" name="flag" value="bq">
+	<input type="hidden" name="flag" value="qy">
 </dwz:paginationForm>
 
-<form method="post" id="payForm" action="${contextPath }/pay/from/list" onsubmit="return navTabSearch(this)">
-<input type="hidden" name="flag" value="bq">
+<form method="post" id="payqyForm" action="${contextPath }/pay/from/list" onsubmit="return navTabSearch(this)">
+<input type="hidden" name="flag" value="qy">
 	<div class="pageHeader">
 		<div class="searchBar">
 			<table class="searchContent">
 				<tr>
 					<td>
-						业务单号：<input type="text" style="width: 100px;" id="frelNo" name="search_LIKE_relNo" value="${param.search_LIKE_policy_policyNo }"/>
+						业务单号：<input type="text" style="width: 100px;" id="qyfrelNo" name="search_LIKE_relNo" value="${param.search_LIKE_policy_policyNo }"/>
 					</td>
 					<td>
 						<label>状态：</label>
-						<form:select path="pay.status" class="combox" id="payFromStatus">
+						<form:select path="pay.status" class="combox" id="payqyFromStatus">
 							<form:option value=""> -- -- </form:option>
 							<form:options items="${ffStatusList }" itemLabel="desc"/>
 						</form:select>
 					</td>
 					<td>
 						<label>所属机构：</label>
-						<input name="orgCode" id="pay_forgCode" type="hidden" value="${orgCode }"/>
-						<input class="validate[required] required" name="name" id="pay_forgName" type="text" readonly="readonly" style="width: 100px;" value="${name }"/><a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="" title="选择机构" width="400">查</a>
+						<input name="orgCode" id="payqy_forgCode" type="hidden" value="${orgCode }"/>
+						<input class="validate[required] required" name="name" id="payqy_forgName" type="text" readonly="readonly" style="width: 100px;" value="${name }"/><a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="" title="选择机构" width="400">查</a>
 					</td>
 				</tr>
 				<tr>
 					<td>
 						<label>回盘开始日期：</label>
-						<input type="text" id="payfBackDate1" name="search_GTE_backDate" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_backDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+						<input type="text" id="payfqyBackDate1" name="search_GTE_backDate" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_backDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
 						<label>回盘结束日期：</label>
-						<input type="text" id="payfBackDate2" name="search_LTE_backDate" class="date validate[required] required" style="width: 80px;"dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_backDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+						<input type="text" id="payfqyBackDate2" name="search_LTE_backDate" class="date validate[required] required" style="width: 80px;"dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_backDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
 						&nbsp;
@@ -61,12 +61,12 @@
 
 	<div class="panelBar">
 		<ul class="toolBar">
-			<shiro:hasPermission name="Cservice:reset">
+			<shiro:hasPermission name="FromQYFailList:edit">
 				<li class="line">line</li>
 				<li><a iconClass="user_go" target="ajaxTodo" href="${contextPath }/pay/close/{slt_uid}" title="确认关闭?"><span>关闭</span></a></li>
 			</shiro:hasPermission>
 			<li class="line">line</li>
-			<li><a class="icon" target="dialog" href="${contextPath }/bqgl/help" mask="true" width="530" height="430"><span>功能说明</span></a></li>
+			<li><a class="icon" target="dialog" href="${contextPath }/pay/help" mask="true" width="530" height="430"><span>功能说明</span></a></li>
 		</ul>
 	</div>
 	<div id="w_list_print">
