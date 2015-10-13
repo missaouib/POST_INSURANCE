@@ -169,7 +169,7 @@ $(document).ready(function(){
 						<p><span>欢迎, ${login_user.realname } . 请及时处理待办任务。</p>
 					</div>
 					<div align="center"><%@ include file="../../msg.inc.jsp" %></div>
-					<div class="pageContent sortDrag" selector="h1" layoutH="12">
+					<div class="pageContent sortDrag" selector="h1" layoutH="88">
 					<fieldset>
 					<legend>待办任务</legend>
 					<shiro:hasPermission name="Wtgd:view">
@@ -180,19 +180,19 @@ $(document).ready(function(){
 								<thead>
 									<tr>
 										<th>序号</th>
-										<th orderField=issueNo class="${page.orderField eq 'issueNo' ? page.orderDirection : ''}">工单号</th>
-										<th orderField=shouldDate class="${page.orderField eq 'shouldDate' ? page.orderDirection : ''}">待处理时间</th>
-										<th>离结案还有（天）</th>
+										<th>工单号</th>
+										<th>导入时间</th>
+										<th>离结案（天）</th>
 										<th>工单状态</th>
-										<th orderField=policy.policyNo class="${page.orderField eq 'policy.policyNo' ? page.orderDirection : ''}">保单号</th>
+										<th>保单号</th>
 										<th>保单所属机构</th>
-										<th orderField=issueType class="${page.orderField eq 'issueType' ? page.orderDirection : ''}">工单子类型</th>
+										<th>工单子类型</th>
 										<th>工单内容</th>
 									</tr>
 								</thead>
 								<tbody>
 									<c:forEach var="item" items="${issueList}" varStatus="var">
-									<tr target="slt_uid" rel="${item.id}">
+									<tr>
 										<td>${var.index+1 }</td>
 										<td>
 										<c:if test="${fn:length(login_user.organization.orgCode) > 4}">
@@ -202,7 +202,7 @@ $(document).ready(function(){
 									     <a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/kfgl/issue/view/${item.id}"><span>${item.issueNo}</span></a>
 									    </c:if> 
 										</td>
-										<td>${item.shouldDate }</td>
+										<td>${item.operateTime }</td>
 										<td><span style="color:red; height:50%; margin-bottom:-contentheight;">${item.lastDateNum }</span></td>
 										<td>${item.status}</td>
 										<td>${item.policy.policyNo}</td>
@@ -233,7 +233,7 @@ $(document).ready(function(){
 								</thead>
 								<tbody>
 									<c:forEach var="item" items="${bqIssueList}" varStatus="var">
-									<tr target="slt_uid" rel="${item.id}">
+									<tr>
 										<td>${var.index+1 }</td>
 										<td>${item.policy.policyNo}</td>
 										<td>${fn:replace(item.policy.organization.name,'中邮保险局','')}</td>
@@ -264,7 +264,7 @@ $(document).ready(function(){
 										<th>序号</th>
 										<th>工单号</th>
 										<th>待处理时间</th>
-										<th>离犹豫期还有（天）</th>
+										<th>离犹豫期/天</th>
 										<th>工单状态</th>
 										<th>保单号</th>
 										<th>保单所属机构</th>
@@ -274,7 +274,7 @@ $(document).ready(function(){
 								</thead>
 								<tbody>
 									<c:forEach var="item" items="${hfIssueList}" varStatus="var">
-									<tr target="slt_uid" rel="${item.id}">
+									<tr>
 										<td>${var.index+1 }</td>
 										<td>
 										<c:if test="${fn:length(login_user.organization.orgCode) > 4}">
@@ -309,14 +309,14 @@ $(document).ready(function(){
 										<th>保单号</th>
 										<th>保单所属机构</th>
 										<th>交费对应日</th>
-										<th>宽限期还有（天）</th>
+										<th>离宽限期（天）</th>
 										<th>交费状态</th>
 										<th>交费失败原因</th>
 									</tr>
 								</thead>
 								<tbody>
 									<c:forEach var="item" items="${xqIssueList}" varStatus="var">
-									<tr target="slt_uid" rel="${item.id}">
+									<tr>
 										<td>${var.index+1 }</td>
 										<td>
 										<c:if test="${fn:length(login_user.organization.orgCode) > 4}">
@@ -357,7 +357,7 @@ $(document).ready(function(){
 								</thead>
 								<tbody>
 									<c:forEach var="item" items="${checkWriteIssueList}" varStatus="var">
-									<tr target="slt_uid" rel="${item.id}">
+									<tr>
 										<td>${var.index+1 }</td>
 										<td>
 										<c:if test="${fn:length(login_user.organization.orgCode) > 4}">
@@ -414,7 +414,7 @@ $(document).ready(function(){
 								</thead>
 								<tbody>
 									<c:forEach var="item" items="${checkRecordIssueList}" varStatus="var">
-									<tr target="slt_uid" rel="${item.id}">
+									<tr>
 										<td>${var.index+1 }</td>
 										<td>
 										<c:if test="${fn:length(login_user.organization.orgCode) > 4}">
@@ -459,28 +459,23 @@ $(document).ready(function(){
 							<table class="list" width="98%">
 								<thead>
 									<tr>
-										<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
-										<th orderField=organization.name class="${page.orderField eq 'organization.name' ? page.orderDirection : ''}">市县机构</th>
-										<th orderField=formNo class="${page.orderField eq 'formNo' ? page.orderDirection : ''}">投保单号</th>
-										<th orderField=policyNo class="${page.orderField eq 'policyNo' ? page.orderDirection : ''}">保单号</th>
+										<th>市县机构</th>
+										<th>投保单号</th>
+										<th>保单号</th>
 										<th>投保人</th>
-										<th orderField=prd.prdName class="${page.orderField eq 'prd.prdName' ? page.orderDirection : ''}">产品</th>
-										<th orderField=ytbDate class="${page.orderField eq 'ytbDate' ? page.orderDirection : ''}">邮保通录入时间</th>
+										<th>产品</th>
+										<th>邮保通录入时间</th>
 										<th>核心录入时间</th>
 										<th>复核时间</th>
-										<th>核保日期</th>
 										<th>签单日期</th>
-										<th>合同签收日期</th>
-										<th>回执录入日期</th>
 									</tr>
 								</thead>
 								<tbody>
 									<c:forEach var="item" items="${underwriteList}">
-									<tr target="slt_uid" rel="${item.id}">
-										<td><input name="ids" value="${item.id}" type="checkbox"></td>
+									<tr>
 										<td>${fn:replace(item.organization.name,'中邮保险局','')}</td>
 										<td>
-										<a target="dialog" rel="lookup2organization_edit" mask="true" width="450" height="220" href="${contextPath }/qygl/underwrite/signDateUpdate/${item.id}"><span>${item.formNo}</span></a>
+										<a target="dialog" rel="lookup2organization_edit" mask="true" width="550" height="220" href="${contextPath }/qygl/underwrite/signDateUpdate/${item.id}"><span>${item.formNo}</span></a>
 										</td>
 										<td>${item.policyNo}</td>
 										<td>${item.holder}</td>
@@ -488,10 +483,192 @@ $(document).ready(function(){
 										<td><fmt:formatDate value="${item.ybtDate }" pattern="yyyy-MM-dd"/></td>
 										<td><fmt:formatDate value="${item.sysDate }" pattern="yyyy-MM-dd"/></td>
 										<td><fmt:formatDate value="${item.checkDate }" pattern="yyyy-MM-dd"/></td>
-										<td><fmt:formatDate value="${item.underwriteDate }" pattern="yyyy-MM-dd"/></td>
 										<td><fmt:formatDate value="${item.signDate }" pattern="yyyy-MM-dd"/></td>
-										<td><fmt:formatDate value="${item.clientReceiveDate }" pattern="yyyy-MM-dd"/></td>
-										<td><fmt:formatDate value="${item.signInputDate }" pattern="yyyy-MM-dd"/></td>
+									</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="ToBQFailList:view">
+					<div class="panel <c:if test='${fn:length(bqtofaillist)<=0}'>close</c:if> collapse" defH="100">
+						<h1><c:if test='${fn:length(bqtofaillist)>0}'><img alt="有新任务" src="/images/redpoint.png" height="12" width="12"></c:if>保全付费失败清单</h1>
+						<div>
+							<table class="list" width="98%">
+								<thead>
+									<tr>
+										<th>管理机构</th>
+										<th>账户名</th>
+										<th>账号</th>
+										<th>金额</th>
+										<th>状态描述</th>
+										<th>回盘日期</th>
+										<th>关联业务号码</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="item" items="${bqtofaillist}">
+									<tr>
+										<td>${item.organization.name}</td>
+										<td>${item.accountName}</td>
+										<td>${item.account}</td>
+										<td>${item.money}</td>
+										<td>${item.failDesc}</td>
+										<td><fmt:formatDate value="${item.backDate }" pattern="yyyy-MM-dd"/></td>
+										<td>${item.relNo}</td>
+										<td>
+											<a target="ajaxTodo" href="${contextPath }/pay/close/${item.id}" title="确认关闭此保全付费失败记录?"><span>关闭</span></a>
+										</td>
+									</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="FromBQFailList:view">
+					<div class="panel <c:if test='${fn:length(bqfromfaillist)<=0}'>close</c:if> collapse" defH="100">
+						<h1><c:if test='${fn:length(bqfromfaillist)>0}'><img alt="有新任务" src="/images/redpoint.png" height="12" width="12"></c:if>保全收费失败清单</h1>
+						<div>
+							<table class="list" width="98%">
+								<thead>
+									<tr>
+										<th>管理机构</th>
+										<th>账户名</th>
+										<th>账号</th>
+										<th>金额</th>
+										<th>状态描述</th>
+										<th>回盘日期</th>
+										<th>关联业务号码</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="item" items="${bqfromfaillist}">
+									<tr>
+										<td>${item.organization.name}</td>
+										<td>${item.accountName}</td>
+										<td>${item.account}</td>
+										<td>${item.money}</td>
+										<td>${item.failDesc}</td>
+										<td><fmt:formatDate value="${item.backDate }" pattern="yyyy-MM-dd"/></td>
+										<td>${item.relNo}</td>
+										<td>
+											<a target="ajaxTodo" href="${contextPath }/pay/close/${item.id}" title="确认关闭此保全收费失败记录?"><span>关闭</span></a>
+										</td>
+									</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="FromXQFailList:view">
+					<div class="panel <c:if test='${fn:length(xqfromfaillist)<=0}'>close</c:if> collapse" defH="100">
+						<h1><c:if test='${fn:length(xqfromfaillist)>0}'><img alt="有新任务" src="/images/redpoint.png" height="12" width="12"></c:if>续期扣费失败清单</h1>
+						<div>
+							<table class="list" width="98%">
+								<thead>
+									<tr>
+										<th>管理机构</th>
+										<th>账户名</th>
+										<th>账号</th>
+										<th>金额</th>
+										<th>状态描述</th>
+										<th>回盘日期</th>
+										<th>关联业务号码</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="item" items="${xqfromfaillist}">
+									<tr>
+										<td>${item.organization.name}</td>
+										<td>${item.accountName}</td>
+										<td>${item.account}</td>
+										<td>${item.money}</td>
+										<td>${item.failDesc}</td>
+										<td><fmt:formatDate value="${item.backDate }" pattern="yyyy-MM-dd"/></td>
+										<td>${item.relNo}</td>
+										<td>
+											<a target="ajaxTodo" href="${contextPath }/pay/close/${item.id}" title="确认关闭此续期扣费失败记录?"><span>关闭</span></a>
+										</td>
+									</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="FromQYFailList:view">
+					<div class="panel <c:if test='${fn:length(qyfromfaillist)<=0}'>close</c:if> collapse" defH="100">
+						<h1><c:if test='${fn:length(qyfromfaillist)>0}'><img alt="有新任务" src="/images/redpoint.png" height="12" width="12"></c:if>人核件扣费失败清单</h1>
+						<div>
+							<table class="list" width="98%">
+								<thead>
+									<tr>
+										<th>管理机构</th>
+										<th>账户名</th>
+										<th>账号</th>
+										<th>金额</th>
+										<th>状态描述</th>
+										<th>回盘日期</th>
+										<th>关联业务号码</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="item" items="${qyfromfaillist}">
+									<tr>
+										<td>${item.organization.name}</td>
+										<td>${item.accountName}</td>
+										<td>${item.account}</td>
+										<td>${item.money}</td>
+										<td>${item.failDesc}</td>
+										<td><fmt:formatDate value="${item.backDate }" pattern="yyyy-MM-dd"/></td>
+										<td>${item.relNo}</td>
+										<td>
+											<a target="ajaxTodo" href="${contextPath }/pay/close/${item.id}" title="确认关闭此人核件扣费失败记录?"><span>关闭</span></a>
+										</td>
+									</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="ToLPFailList:view">
+					<div class="panel <c:if test='${fn:length(lptofaillist)<=0}'>close</c:if> collapse" defH="100">
+						<h1><c:if test='${fn:length(lptofaillist)>0}'><img alt="有新任务" src="/images/redpoint.png" height="12" width="12"></c:if>理赔付费失败清单</h1>
+						<div>
+							<table class="list" width="98%">
+								<thead>
+									<tr>
+										<th>管理机构</th>
+										<th>账户名</th>
+										<th>账号</th>
+										<th>金额</th>
+										<th>状态描述</th>
+										<th>回盘日期</th>
+										<th>关联业务号码</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="item" items="${lptofaillist}">
+									<tr>
+										<td>${item.organization.name}</td>
+										<td>${item.accountName}</td>
+										<td>${item.account}</td>
+										<td>${item.money}</td>
+										<td>${item.failDesc}</td>
+										<td><fmt:formatDate value="${item.backDate }" pattern="yyyy-MM-dd"/></td>
+										<td>${item.relNo}</td>
+										<td>
+											<a target="ajaxTodo" href="${contextPath }/pay/close/${item.id}" title="确认关闭此理赔付费失败记录?"><span>关闭</span></a>
+										</td>
 									</tr>
 									</c:forEach>
 								</tbody>

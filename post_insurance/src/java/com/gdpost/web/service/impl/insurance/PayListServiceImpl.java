@@ -3,6 +3,7 @@
  */
 package	com.gdpost.web.service.impl.insurance;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +12,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gdpost.web.dao.PayFailListDAO;
+import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.PayFailList;
+import com.gdpost.web.entity.main.User;
 import com.gdpost.web.service.insurance.PayListService;
+import com.gdpost.web.util.StatusDefine.BQ_STATUS;
 import com.gdpost.web.util.dwz.Page;
 import com.gdpost.web.util.dwz.PageUtils;
+import com.gdpost.web.util.persistence.DynamicSpecifications;
+import com.gdpost.web.util.persistence.SearchFilter;
+import com.gdpost.web.util.persistence.SearchFilter.Operator;
 
 @Service
 @Transactional
@@ -74,5 +81,105 @@ public class PayListServiceImpl implements PayListService {
 		org.springframework.data.domain.Page<PayFailList> springDataPage = payFailListqDAO.findAll(specification, PageUtils.createPageable(page));
 		page.setTotalCount(springDataPage.getTotalElements());
 		return springDataPage.getContent();
+	}
+	
+	@Override
+	public List<PayFailList> getBQToFailListTODOIssueList(User user) {
+		Organization userOrg = user.getOrganization();
+		//默认返回未处理工单
+		Specification<PayFailList> specification = DynamicSpecifications.bySearchFilterWithoutRequest(PayFailList.class,
+				new SearchFilter("payType", Operator.EQ, PayFailList.PAY_TO),
+				new SearchFilter("feeType", Operator.EQ, "保全受理号"),
+				new SearchFilter("status", Operator.LIKE, BQ_STATUS.NewStatus.name()),
+				new SearchFilter("organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+		
+		Page page = new Page();
+		page.setNumPerPage(100);
+		List<PayFailList> issues = this.findByExample(specification, page);
+		if (issues == null || issues.isEmpty()) {
+			issues = new ArrayList<PayFailList>();
+		}
+		
+		return issues;
+	}
+	
+	@Override
+	public List<PayFailList> getBQFromFailListTODOIssueList(User user) {
+		Organization userOrg = user.getOrganization();
+		//默认返回未处理工单
+		Specification<PayFailList> specification = DynamicSpecifications.bySearchFilterWithoutRequest(PayFailList.class,
+				new SearchFilter("payType", Operator.EQ, PayFailList.PAY_FROM),
+				new SearchFilter("feeType", Operator.EQ, "保全受理号"),
+				new SearchFilter("status", Operator.LIKE, BQ_STATUS.NewStatus.name()),
+				new SearchFilter("organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+		
+		Page page = new Page();
+		page.setNumPerPage(100);
+		List<PayFailList> issues = this.findByExample(specification, page);
+		if (issues == null || issues.isEmpty()) {
+			issues = new ArrayList<PayFailList>();
+		}
+		
+		return issues;
+	}
+	
+	@Override
+	public List<PayFailList> getXQFromFailListTODOIssueList(User user) {
+		Organization userOrg = user.getOrganization();
+		//默认返回未处理工单
+		Specification<PayFailList> specification = DynamicSpecifications.bySearchFilterWithoutRequest(PayFailList.class,
+				new SearchFilter("payType", Operator.EQ, PayFailList.PAY_FROM),
+				new SearchFilter("feeType", Operator.EQ, "保单合同号"),
+				new SearchFilter("status", Operator.LIKE, BQ_STATUS.NewStatus.name()),
+				new SearchFilter("organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+		
+		Page page = new Page();
+		page.setNumPerPage(100);
+		List<PayFailList> issues = this.findByExample(specification, page);
+		if (issues == null || issues.isEmpty()) {
+			issues = new ArrayList<PayFailList>();
+		}
+		
+		return issues;
+	}
+	
+	@Override
+	public List<PayFailList> getQYFromFailListTODOIssueList(User user) {
+		Organization userOrg = user.getOrganization();
+		//默认返回未处理工单
+		Specification<PayFailList> specification = DynamicSpecifications.bySearchFilterWithoutRequest(PayFailList.class,
+				new SearchFilter("payType", Operator.EQ, PayFailList.PAY_FROM),
+				new SearchFilter("feeType", Operator.EQ, "投保单印刷号"),
+				new SearchFilter("status", Operator.LIKE, BQ_STATUS.NewStatus.name()),
+				new SearchFilter("organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+		
+		Page page = new Page();
+		page.setNumPerPage(100);
+		List<PayFailList> issues = this.findByExample(specification, page);
+		if (issues == null || issues.isEmpty()) {
+			issues = new ArrayList<PayFailList>();
+		}
+		
+		return issues;
+	}
+	
+	@Override
+	public List<PayFailList> getLPToFailListTODOIssueList(User user) {
+		Organization userOrg = user.getOrganization();
+		//默认返回未处理工单
+		Specification<PayFailList> specification = DynamicSpecifications.bySearchFilterWithoutRequest(PayFailList.class,
+				new SearchFilter("payType", Operator.EQ, PayFailList.PAY_TO),
+				new SearchFilter("feeType", Operator.EQ, "案件号"),
+				new SearchFilter("status", Operator.LIKE, BQ_STATUS.NewStatus.name()),
+				new SearchFilter("organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+		
+		Page page = new Page();
+		page.setNumPerPage(100);
+		List<PayFailList> issues = this.findByExample(specification, page);
+		if (issues == null || issues.isEmpty()) {
+			issues = new ArrayList<PayFailList>();
+		}
+		
+		return issues;
 	}
 }

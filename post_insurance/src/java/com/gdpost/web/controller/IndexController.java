@@ -46,6 +46,7 @@ import com.gdpost.web.service.UserService;
 import com.gdpost.web.service.insurance.BqglService;
 import com.gdpost.web.service.insurance.HfglService;
 import com.gdpost.web.service.insurance.KfglService;
+import com.gdpost.web.service.insurance.PayListService;
 import com.gdpost.web.service.insurance.QyglService;
 import com.gdpost.web.service.insurance.XqglService;
 import com.gdpost.web.shiro.ShiroUser;
@@ -87,6 +88,9 @@ public class IndexController {
 	@Autowired
 	private HfglService hfglService;
 	
+	@Autowired
+	private PayListService paylistService;
+	
 	private static final String WEBINDEX = "index";
 	private static final String INDEX = "management/index/index";
 	private static final String UPDATE_PASSWORD = "management/index/updatePwd";
@@ -122,6 +126,16 @@ public class IndexController {
 		map.put("hfIssueList", hfglService.getTODOIssueList(shiroUser.getUser()));
 		
 		map.put("underwriteList", qyglService.getTODOUnderWriteList(shiroUser.getUser()));
+		
+		map.put("bqtofaillist", paylistService.getBQToFailListTODOIssueList(shiroUser.getUser()));
+		
+		map.put("bqfromfaillist", paylistService.getBQFromFailListTODOIssueList(shiroUser.getUser()));
+		
+		map.put("xqfromfaillist", paylistService.getXQFromFailListTODOIssueList(shiroUser.getUser()));
+		
+		map.put("qyfromfaillist", paylistService.getQYFromFailListTODOIssueList(shiroUser.getUser()));
+		
+		map.put("lptofaillist", paylistService.getLPToFailListTODOIssueList(shiroUser.getUser()));
 		
 		if(shiroUser.getUserType().equals("web")) {
 			return WEBINDEX;
@@ -183,6 +197,16 @@ public class IndexController {
 		map.put("hfIssueList", hfglService.getTODOIssueList(shiroUser.getUser()));
 		
 		map.put("underwriteList", qyglService.getTODOUnderWriteList(shiroUser.getUser()));
+		
+		map.put("bqtofaillist", paylistService.getBQToFailListTODOIssueList(shiroUser.getUser()));
+		
+		map.put("bqfromfaillist", paylistService.getBQFromFailListTODOIssueList(shiroUser.getUser()));
+		
+		map.put("xqfromfaillist", paylistService.getXQFromFailListTODOIssueList(shiroUser.getUser()));
+		
+		map.put("qyfromfaillist", paylistService.getQYFromFailListTODOIssueList(shiroUser.getUser()));
+		
+		map.put("lptofaillist", paylistService.getLPToFailListTODOIssueList(shiroUser.getUser()));
 		
 		LOG.debug("------------- map: " + map);
 		
