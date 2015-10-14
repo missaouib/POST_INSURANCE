@@ -61,13 +61,17 @@
 	<div class="panelBar">
 		<ul class="toolBar">
 			<shiro:hasPermission name="Wtgd:view">
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/kfgl/issue/view/{slt_uid}"><span>查看问题工单</span></a></li>
+				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/kfgl/issue/view/{slt_uid}"><span>查看</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Wtgd:edit">
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/kfgl/issue/update/{slt_uid}"><span>回复问题工单</span></a></li>
+				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/kfgl/issue/update/{slt_uid}"><span>回复</span></a></li>
 			</shiro:hasPermission>
-			<li><a iconClass="user_edit" target="navTab" rel="printIssue" mask="true" width="820" height="520" href="${contextPath }/kfgl/issue/print/{slt_uid}"><span>打印问题工单</span></a></li>
-			<li><a iconClass="user_edit" target="navTab" rel="printIssueList" mask="true" width="820" height="520" href="${contextPath }/kfgl/issues/print"><span>批打问题列表</span></a></li>
+			<li><a iconClass="user_edit" target="navTab" rel="printIssue" mask="true" width="820" height="520" href="${contextPath }/kfgl/issue/print/{slt_uid}"><span>打印工单</span></a></li>
+			<li><a iconClass="user_edit" target="navTab" rel="printIssueList" mask="true" width="820" height="520" href="${contextPath }/kfgl/issues/print"><span>批打工单</span></a></li>
+			<shiro:hasPermission name="Wtgd:view">
+				<li class="line">line</li>
+				<li><a class="icon" target="_blank" href="${contextPath }/kfgl/toXls?search_LIKE_issueNo=${param.search_LIKE_issueNo }&policy.orgCode=${policy_orgCode }&search_LTE_shouldDate=${param.search_LTE_shouldDate }&search_GTE_shouldDate=${param.search_GTE_shouldDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&search_LIKE_hasLetter=${param.search_LIKE_hasLetter }&status=${param.status }"><span>导出Excel</span></a></li>
+			</shiro:hasPermission>
 			<li class="line">line</li>
 			<li><a class="icon" target="dialog" href="${contextPath }/kfgl/help" mask="true" width="530" height="430"><span>功能说明</span></a></li>
 		</ul>

@@ -93,7 +93,7 @@
 				<td>${item.account}</td>
 				<td>${item.money}</td>
 				<td>${item.failDesc}</td>
-				<td>${item.backDate}</td>
+				<td><fmt:formatDate value="${item.backDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.relNo}</td>
 				<td>
 					<c:choose>

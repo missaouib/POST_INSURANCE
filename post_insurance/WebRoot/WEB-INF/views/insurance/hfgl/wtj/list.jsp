@@ -71,21 +71,26 @@
 	<div class="panelBar">
 		<ul class="toolBar">
 			<shiro:hasPermission name="Callfail:view">
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/hfgl/issue/view/{slt_uid}"><span>查看回访不成功件</span></a></li>
+				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/hfgl/issue/view/{slt_uid}"><span>查看</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Callfail:edit">
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/hfgl/issue/update/{slt_uid}"><span>回复回访不成功件</span></a></li>
+				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/hfgl/issue/update/{slt_uid}"><span>回复</span></a></li>
 				<li><a iconClass="user_go" href="${contextPath}/hfgl/updateResetStatus/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>电话重置</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Callfail:provEdit">
 			<li class="line">line</li>
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/hfgl/issue/provUpdate/{slt_uid}"><span>省分回访登记</span></a></li>
+				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/hfgl/issue/provUpdate/{slt_uid}"><span>省分登记</span></a></li>
 				<li><a target="myDialog" rel="ids" href="${contextPath }/hfgl/issue/toSetMailDate" class="edit"><span>批量已发信函</span></a></li>
-				<li><a iconClass="user_go" target="ajaxTodo" href="${contextPath }/hfgl/issue/CloseStatus/{slt_uid}" title="确认办结案关闭?"><span>结案关闭</span></a></li>
+				<!-- <li><a iconClass="user_go" target="ajaxTodo" href="${contextPath }/hfgl/issue/CloseStatus/{slt_uid}" title="确认办结案关闭?"><span>结案关闭</span></a></li> -->
+				<li><a iconClass="user_go" target="selectedTodo" rel="ids" href="${contextPath }/hfgl/issue/CloseStatus" title="确认要结案关闭?"><span>结案关闭</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Callfail:11185Edit">
 			<li class="line">line</li>
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/hfgl/issue/hqUpdate/{slt_uid}"><span>二访中心回访登记</span></a></li>
+				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/hfgl/issue/hqUpdate/{slt_uid}"><span>二访中心登记</span></a></li>
+			</shiro:hasPermission>
+			<shiro:hasPermission name="Callfail:view">
+				<li class="line">line</li>
+				<li><a class="icon" target="_blank" href="${contextPath }/hfgl/toXls?search_LIKE_issueNo=${param.search_LIKE_issueNo }&policy.orgCode=${policy_orgCode }&search_LTE_shouldDate=${param.search_LTE_shouldDate }&search_GTE_shouldDate=${param.search_GTE_shouldDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&search_LIKE_hasLetter=${param.search_LIKE_hasLetter }&status=${param.status }"><span>导出Excel</span></a></li>
 			</shiro:hasPermission>
 			<li class="line">line</li>
 			<li><a class="icon" target="dialog" href="${contextPath }/hfgl/help" mask="true" width="530" height="430"><span>功能说明</span></a></li>
@@ -95,16 +100,16 @@
 	<table class="table" layoutH="178" width="140%">
 		<thead>
 			<tr>
-				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
+				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>
+				<th>保单机构</th>
 				<th orderField=issueNo class="${page.orderField eq 'issueNo' ? page.orderDirection : ''}">工单编号</th>
 				<th>工单内容</th>
-				<th orderField=shouldDate class="${page.orderField eq 'shouldDate' ? page.orderDirection : ''}">待处理时间</th>
+				<th orderField=operateTime class="${page.orderField eq 'operateTime' ? page.orderDirection : ''}">系统导入</th>
 				<th>离犹豫期(天)</th>
 				<th orderField=policy.policyNo class="${page.orderField eq 'policy.policyNo' ? page.orderDirection : ''}">所属保单号</th>
 				<th>投保人</th>
 				<th>联系电话</th>
 				<th>险种名称</th>
-				<th>保单机构</th>
 				<th>出单网点</th>
 				<th orderField=status class="${page.orderField eq 'status' ? page.orderDirection : ''}">工单状态</th>
 				<th>重置电话</th>
@@ -118,15 +123,15 @@
 			<c:forEach var="item" items="${issues}">
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
+				<td>${fn:replace(item.policy.organization.name,'邮政局中邮保险局','')}</td>
 				<td>${item.issueNo}</td>
 				<td>${item.issueContent}</td>
-				<td><fmt:formatDate value="${item.shouldDate }" pattern="yyyy-MM-dd"/></td>
+				<td><fmt:formatDate value="${item.operateTime }" pattern="yyyy-MM-dd"/></td>
 				<td><span style="color:red; height:50%; margin-bottom:-contentheight;"><c:if test="${item.lastDateNum<0 }">0</c:if><c:if test="${item.lastDateNum>=0 }">${item.lastDateNum }</c:if></span></td>
 				<td>${item.policy.policyNo}</td>
 				<td>${item.policy.holder}</td>
 				<td>${item.holderMobile eq ""?item.holderPhone:item.holderMobile}</td>
 				<td>${item.policy.prodName}</td>
-				<td>${fn:replace(item.policy.organization.name,'邮政局中邮保险局','')}</td>
 				<td>
 					<c:choose>  
 					    <c:when test="${fn:length(item.bankName) > 14}">  

@@ -9,6 +9,7 @@ package com.gdpost.web.controller.insurance;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +37,7 @@ import com.gdpost.web.entity.component.VCallFailList;
 import com.gdpost.web.entity.main.CallFailList;
 import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.User;
+import com.gdpost.web.exception.ServiceException;
 import com.gdpost.web.log.Log;
 import com.gdpost.web.log.LogMessageObject;
 import com.gdpost.web.log.impl.LogUitls;
@@ -65,6 +67,32 @@ public class HfglController {
 	private static final String RESET = "insurance/hfgl/wtj/setPhone";
 	private static final String SET_MAIL_DATE = "insurance/hfgl/wtj/mailDate";
 	private static final String TO_HELP = "insurance/help/hfgl";
+	
+	private static final String TO_XLS = "insurance/hfgl/wtj/toXls";
+	
+	@RequiresPermissions("Callfail:view")
+	@RequestMapping(value="/toXls", method=RequestMethod.GET)
+	public String toXls(ServletRequest request, Page page, Map<String, Object> map) {
+		User user = SecurityUtils.getShiroUser().getUser();
+		String s = request.getParameter("status");
+		if(s == null) {
+			s = "";
+		}
+		
+		page.setOrderField("policy.organization.orgCode");
+		page.setOrderDirection("ASC");
+		String orgCode = request.getParameter("policy.orgCode");
+		if(orgCode == null || orgCode.trim().length()<0) {
+			orgCode = user.getOrganization().getOrgCode();
+		}
+		Specification<VCallFailList> specification = DynamicSpecifications.bySearchFilter(request, VCallFailList.class,
+				new SearchFilter("status", Operator.LIKE, s),
+				new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		List<VCallFailList> reqs = hfglService.findByExample(specification, page);
+
+		map.put("reqs", reqs);
+		return TO_XLS;
+	}
 	
 	@RequestMapping(value="/help", method=RequestMethod.GET)
 	public String toHelp() {
@@ -146,6 +174,8 @@ public class HfglController {
 		} else if(issue.getDealType().equals("成功件")) {
 			src.setStatus(HF_STATUS.DoorSuccessStatus.getDesc());
 			src.setOrgDealFlag(1);
+		} else {
+			src.setStatus(HF_STATUS.DealStatus.getDesc());
 		}
 		hfglService.saveOrUpdate(src);
 		
@@ -304,6 +334,28 @@ public class HfglController {
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{call.getPolicy().getPolicyNo(), desc}));
 		return	AjaxObject.newOk(desc).setCallbackType("").toString();
+	}
+	
+	@Log(message="对{0}回访不成结进行了结案关闭。")
+	@RequiresPermissions("Callfail:provEdit")
+	@RequestMapping(value="/issue/CloseStatus", method=RequestMethod.POST)
+	public @ResponseBody String closeMany(Long[] ids) {
+		String[] policys = new String[ids.length];
+		try {
+			CallFailList call = null;
+			for (int i = 0; i < ids.length; i++) {
+				call = hfglService.get(ids[i]);
+				call.setStatus(HF_STATUS.CloseStatus.getDesc());
+				hfglService.saveOrUpdate(call);
+				
+				policys[i] = call.getIssueNo();
+			}
+		} catch (ServiceException e) {
+			return AjaxObject.newError("结案关闭回访不成件失败：" + e.getMessage()).setCallbackType("").toString();
+		}
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{Arrays.toString(policys)}));
+		return AjaxObject.newOk("成功结案关闭！").setCallbackType("").toString();
 	}
 	
 	@Log(message="结案了{0}回访不成功件的信息。")

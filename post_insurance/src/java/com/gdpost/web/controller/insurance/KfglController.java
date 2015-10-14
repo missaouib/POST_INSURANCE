@@ -69,6 +69,32 @@ public class KfglController {
 	private static final String ISSUE_LIST = "insurance/kfgl/wtj/issuelist";
 	private static final String TO_HELP = "insurance/help/kfgl";
 	
+	private static final String TO_XLS = "insurance/kfgl/wtj/toXls";
+	
+	@RequiresPermissions("Wtgd:view")
+	@RequestMapping(value="/toXls", method=RequestMethod.GET)
+	public String toXls(ServletRequest request, Page page, Map<String, Object> map) {
+		User user = SecurityUtils.getShiroUser().getUser();
+		String s = request.getParameter("status");
+		if(s == null) {
+			s = "";
+		}
+		
+		page.setOrderField("policy.organization.orgCode");
+		page.setOrderDirection("ASC");
+		String orgCode = request.getParameter("policy.orgCode");
+		if(orgCode == null || orgCode.trim().length()<0) {
+			orgCode = user.getOrganization().getOrgCode();
+		}
+		Specification<Issue> specification = DynamicSpecifications.bySearchFilter(request, Issue.class,
+				new SearchFilter("status", Operator.LIKE, s),
+				new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		List<Issue> reqs = kfglService.findByExample(specification, page);
+
+		map.put("reqs", reqs);
+		return TO_XLS;
+	}
+	
 	@RequestMapping(value="/help", method=RequestMethod.GET)
 	public String toHelp() {
 		return TO_HELP;

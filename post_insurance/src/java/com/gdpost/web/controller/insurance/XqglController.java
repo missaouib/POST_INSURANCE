@@ -62,6 +62,32 @@ public class XqglController {
 	private static final String ISSUE_LIST = "insurance/xqgl/wtj/issuelist";
 	private static final String TO_HELP = "insurance/help/xqgl";
 	
+	private static final String TO_XLS = "insurance/xqgl/wtj/toXls";
+	
+	@RequiresPermissions("Renewed:view")
+	@RequestMapping(value="/toXls", method=RequestMethod.GET)
+	public String toXls(ServletRequest request, Page page, Map<String, Object> map) {
+		User user = SecurityUtils.getShiroUser().getUser();
+		String s = request.getParameter("status");
+		if(s == null) {
+			s = "";
+		}
+		
+		page.setOrderField("policy.organization.orgCode");
+		page.setOrderDirection("ASC");
+		String orgCode = request.getParameter("policy.orgCode");
+		if(orgCode == null || orgCode.trim().length()<0) {
+			orgCode = user.getOrganization().getOrgCode();
+		}
+		Specification<RenewedList> specification = DynamicSpecifications.bySearchFilter(request, RenewedList.class,
+				new SearchFilter("status", Operator.LIKE, s),
+				new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		List<RenewedList> reqs = xqglService.findByExample(specification, page);
+
+		map.put("reqs", reqs);
+		return TO_XLS;
+	}
+	
 	@RequestMapping(value="/help", method=RequestMethod.GET)
 	public String toHelp() {
 		return TO_HELP;

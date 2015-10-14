@@ -63,7 +63,7 @@
 		</ul>
 	</div>
 <div id="IssueListPrintContent">
-<table width="95%" border="0" align="center" cellpadding="0" cellspacing="0">
+<table width="95%" border="0" align="center" cellpadding="0" cellspacing="0" layoutH="140">
   <tr>
     <td align="center"><p>___<u>${fn:substring(orgName, 0, 2)}</u>___中邮保险局问题件清单</p></td>
   </tr>
