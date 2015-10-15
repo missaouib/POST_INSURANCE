@@ -309,3 +309,8 @@ engine=innodb auto_increment=1 default charset=utf8;
 
 alter table t_check_write add column fix_type varchar(64) after fix_status;
 alter table t_check_record add column fix_type varchar(64) after fix_status;
+
+--------------- SQL ---------------
+
+ALTER TABLE `t_pay_fail_list` MODIFY COLUMN `rel_no` VARCHAR(32) COLLATE utf8_general_ci NOT NULL UNIQUE;
+

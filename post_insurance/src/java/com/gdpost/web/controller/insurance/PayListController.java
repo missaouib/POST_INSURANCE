@@ -65,7 +65,7 @@ public class PayListController {
 	@RequestMapping(value="/close/{id}", method=RequestMethod.POST)
 	public @ResponseBody String updateStatus(ServletRequest request, @PathVariable("id") Long id) {
 		PayFailList req = payListService.get(id);
-		req.setStatus(FEE_FAIL_STATUS.NewStatus.name());
+		req.setStatus(FEE_FAIL_STATUS.CloseStatus.name());
 		payListService.saveOrUpdate(req);
 		
 		return	AjaxObject.newOk("记录关闭成功！").setCallbackType("").toString();

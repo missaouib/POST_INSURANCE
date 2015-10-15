@@ -81,6 +81,7 @@ public class HfglController {
 		
 		page.setOrderField("policy.organization.orgCode");
 		page.setOrderDirection("ASC");
+		page.setNumPerPage(65564);
 		String orgCode = request.getParameter("policy.orgCode");
 		if(orgCode == null || orgCode.trim().length()<0) {
 			orgCode = user.getOrganization().getOrgCode();

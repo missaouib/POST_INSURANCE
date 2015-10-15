@@ -122,6 +122,7 @@ public class FpglController {
 				s = FP_STATUS.DealStatus.name();
 			}
 		}
+		page.setNumPerPage(65564);
 		//orderField:policy.organization.orgCode
 		String orderField = request.getParameter("orderField");
 		if(orderField != null && orderField.trim().equals("policy.organization.orgCode")) {

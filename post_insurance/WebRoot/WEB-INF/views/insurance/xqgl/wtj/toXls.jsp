@@ -21,7 +21,9 @@ response.setHeader("Content-Disposition", "inline; filename=XQ_Xls.xls");
 				<th>网点</th>
 				<th>总部催收情况</th>
 				<th>省分催收情况</th>
+				<th>省分催收详情</th>
 				<th>市县催收情况</th>
+				<th>省分催收详情</th>
 			</tr>
 			<c:forEach var="item" items="${reqs}">
 			<tr>
@@ -48,7 +50,9 @@ response.setHeader("Content-Disposition", "inline; filename=XQ_Xls.xls");
 				</td>
 				<td>${item.hqIssueType}</td>
 				<td>${item.provIssueType}</td>
+				<td>${item.provDealRst}</td>
 				<td>${item.dealType}</td>
+				<td>${item.fixStatus}</td>
 			</tr>
 			</c:forEach>
 	</table>
