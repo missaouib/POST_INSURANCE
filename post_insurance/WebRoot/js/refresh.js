@@ -11,7 +11,7 @@
     $.ajaxSettings.global = true;
 }
 
-window.setInterval("doRefresh()", 6 * 60 * 1000);
+window.setInterval("doRefresh()", 10 * 60 * 1000);
 
 function checkMessage() {
 	$.ajaxSettings.global = false;
@@ -52,7 +52,7 @@ function checkMessage() {
 				var info = "您还有" + str + "等未完成处理，请及时跟进！"
 				if(flag == 1) {
 					$.messager.anim('fade', 2000); 
-					$.messager.show('<font color=red>待办任务提醒</font>',info,10000);
+					$.messager.show('<font color=red>待办任务提醒</font>',info,8000);
 				}
 			} 
 		} 
