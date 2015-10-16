@@ -2,7 +2,7 @@
 <%@page import="java.util.Date"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 
-<dwz:paginationForm action="${contextPath }/hfgl/issue/list" page="${page }" onsubmit="return dwzSearch(this, 'dialog');">
+<dwz:paginationForm action="${contextPath }/hfgl/issue/maxlist" page="${page }" onsubmit="return dwzSearch(this, 'dialog');">
 	<input type="hidden" name="search_LIKE_issueNo" value="${param.search_LIKE_issueNo }"/>
 	<input type="hidden" name="policy.orgCode" value="${policy_orgCode }"/>
 	<input type="hidden" name="policy.name" value="${policy_name }"/>
@@ -13,7 +13,7 @@
 	<input type="hidden" name="status" value="${param.status }"/>
 </dwz:paginationForm>
 
-<form method="post" rel="hfForm" action="${contextPath }/hfgl/issue/list" onsubmit="return dwzSearch(this, 'dialog');">
+<form method="post" rel="hfForm" action="${contextPath }/hfgl/issue/maxlist" onsubmit="return dwzSearch(this, 'dialog');">
 	<div class="pageHeader">
 		<div class="searchBar">
 			<table class="searchContent">
@@ -94,7 +94,7 @@
 		</ul>
 	</div>
 	
-	<table class="table" layoutH="178" width="140%">
+	<table class="table" layoutH="178" width="100%">
 		<thead>
 			<tr>
 				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>
