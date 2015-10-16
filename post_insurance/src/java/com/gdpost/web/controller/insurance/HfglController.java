@@ -63,6 +63,7 @@ public class HfglController {
 	private static final String PROV_UPDATE = "insurance/hfgl/wtj/provupdate";
 	private static final String HQ_UPDATE = "insurance/hfgl/wtj/hqupdate";
 	private static final String LIST = "insurance/hfgl/wtj/list";
+	private static final String MAX_LIST = "insurance/hfgl/wtj/maxlist";
 	private static final String ISSUE_LIST = "insurance/hfgl/wtj/issuelist";
 	private static final String RESET = "insurance/hfgl/wtj/setPhone";
 	private static final String SET_MAIL_DATE = "insurance/hfgl/wtj/mailDate";
@@ -83,7 +84,7 @@ public class HfglController {
 		page.setOrderDirection("ASC");
 		page.setNumPerPage(65564);
 		String orgCode = request.getParameter("policy.orgCode");
-		if(orgCode == null || orgCode.trim().length()<0) {
+		if(orgCode == null || orgCode.trim().length()<=0) {
 			orgCode = user.getOrganization().getOrgCode();
 		}
 		Specification<VCallFailList> specification = DynamicSpecifications.bySearchFilter(request, VCallFailList.class,
@@ -482,6 +483,101 @@ public class HfglController {
 		map.put("page", page);
 		map.put("issues", issues);
 		return LIST;
+	}
+	
+	@RequiresPermissions("Callfail:view")
+	@RequestMapping(value="/issue/maxlist", method={RequestMethod.GET, RequestMethod.POST})
+	public String maxList(ServletRequest request, Page page, Map<String, Object> map) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
+		//默认返回未处理工单
+		String status = request.getParameter("status");
+		LOG.debug("-------------- status: " + status + ", user org code:" + userOrg.getOrgCode());
+		CallFailList issue = new CallFailList();
+		String hasLetter = request.getParameter("search_LIKE_hasLetter");
+		if(hasLetter == null) {
+			hasLetter = "";
+		}
+		issue.setSearch_LIKE_hasLetter(hasLetter);
+//		if(status == null) {
+//			status = HF_STATUS.NewStatus.getDesc();
+//		} else if(status.trim().length()>0) {
+//			issue.setStatus(status);
+//		}
+		issue.setStatus(status);
+		
+		if(page.getOrderField() == null) {
+			page.setOrderField("policy.policyDate");
+			page.setOrderDirection("ASC");
+		}
+		
+		String orgCode = request.getParameter("policy.orgCode");
+		if(orgCode == null || orgCode.trim().length() <= 0) {
+			orgCode = user.getOrganization().getOrgCode();
+			if(orgCode.contains("11185")) {
+				orgCode = "8644";
+			}
+		} else {
+			String orgName = request.getParameter("policy.name");
+			request.setAttribute("policy_orgCode", orgCode);
+			request.setAttribute("policy_name", orgName);
+		}
+		
+		Specification<VCallFailList> specification = null;
+		
+		if(user.getOrganization().getOrgCode().contains("11185")) {
+			if(status == null) {
+				specification = DynamicSpecifications.bySearchFilter(request, VCallFailList.class,
+						new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.NewStatus.getDesc()),
+						new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.ResetStatus.getDesc()),
+						new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.CallFailStatus.getDesc()),
+						new SearchFilter("lastDateNum", Operator.GTE, 3),
+						new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+			} else {
+				specification = DynamicSpecifications.bySearchFilter(request, VCallFailList.class,
+						new SearchFilter("status", Operator.LIKE, status),
+						new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+			}
+		} else if (user.getOrganization().getOrgCode().length() > 4) {
+			if(status == null) {
+				LOG.debug("-------------- 111: " );
+				specification = DynamicSpecifications.bySearchFilter(request, VCallFailList.class,
+						new SearchFilter("status", Operator.LIKE, HF_STATUS.CallFailStatus.getDesc()),
+						new SearchFilter("lastDateNum", Operator.LTE, 3),
+						new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+			} else {
+				LOG.debug("-------------- 222: " );
+				specification = DynamicSpecifications.bySearchFilter(request, VCallFailList.class,
+					new SearchFilter("status", Operator.LIKE, status),
+					new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+			}
+		} else {
+			if(status == null) {
+				LOG.debug("-------------- 333: " );
+				specification = DynamicSpecifications.bySearchFilter(request, VCallFailList.class,
+						new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.NewStatus.getDesc()),
+						new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.ResetStatus.getDesc()),
+						new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.DoorSuccessStatus.getDesc()),
+						new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.DoorFailStatus.getDesc()),
+						new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.CallSuccessStatus.getDesc()),
+						new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.CallFailStatus.getDesc()),
+						new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+			} else {
+				LOG.debug("-------------- 444: " );
+				specification = DynamicSpecifications.bySearchFilter(request, VCallFailList.class,
+					new SearchFilter("status", Operator.LIKE, status),
+					new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+			}
+		}
+		List<VCallFailList> issues = hfglService.findByExample(specification, page);
+		
+		map.put("issue", issue);
+		map.put("hfStatusList", HF_STATUS.values());
+		LOG.debug("---111--" + issues);
+		map.put("page", page);
+		map.put("issues", issues);
+		return MAX_LIST;
 	}
 	
 	@RequiresPermissions("Callfail:view")

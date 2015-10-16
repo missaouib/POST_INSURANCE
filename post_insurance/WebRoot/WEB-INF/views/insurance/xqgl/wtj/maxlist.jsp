@@ -2,7 +2,7 @@
 <%@page import="java.util.Date"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 
-<dwz:paginationForm action="${contextPath }/xqgl/issue/list" page="${page }">
+<dwz:paginationForm action="${contextPath }/xqgl/issue/maxlist" page="${page }" onsubmit="return dwzSearch(this, 'dialog');">
 	<input type="hidden" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
 	<input type="hidden" name="policy.orgCode" value="${policy_orgCode }"/>
 	<input type="hidden" name="policy.name" value="${policy_name }"/>
@@ -13,7 +13,7 @@
 	<input type="hidden" name="search_LIKE_dealType" value="${param.search_LIKE_dealType }"/>
 </dwz:paginationForm>
 
-<form id="xqForm" method="post" action="${contextPath }/xqgl/issue/list" onsubmit="return navTabSearch(this)">
+<form rel="xqForm" method="post" action="${contextPath }/xqgl/issue/maxlist" onsubmit="return dwzSearch(this, 'dialog');">
 	<div class="pageHeader">
 		<div class="searchBar">
 			<table class="searchContent">
@@ -83,16 +83,13 @@
 				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/xqgl/issue/provUpdate/{slt_uid}"><span>省分续期催登记</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Renewed:view">
-				<li><a class="icon" href="${contextPath }/xqgl/issue/maxlist?search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&policy.orgCode=${policy_orgCode }&search_LTE_feeDate=${param.search_LTE_feeDate }&search_GTE_feeDate=${param.search_GTE_feeDate }&search_LIKE_feeStatus=${param.search_LIKE_feeStatus }&search_LIKE_hqDealRemark=${param.search_LIKE_hqDealRemark }&search_LIKE_dealType=${param.search_LIKE_dealType }" target="dialog" rel="dlg_page1" max="true" title="续期催收列表" width="800" height="480"><span>全屏查看</span></a></li>
 				<li class="line">line</li>
 				<li><a class="icon" target="_blank" href="${contextPath }/xqgl/toXls?search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&policy.orgCode=${policy_orgCode }&search_LTE_feeDate=${param.search_LTE_feeDate }&search_GTE_feeDate=${param.search_GTE_feeDate }&search_LIKE_feeStatus=${param.search_LIKE_feeStatus }&search_LIKE_hqDealRemark=${param.search_LIKE_hqDealRemark }&search_LIKE_dealType=${param.search_LIKE_dealType }"><span>导出Excel</span></a></li>
 			</shiro:hasPermission>
-			<li class="line">line</li>
-			<li><a class="icon" target="dialog" href="${contextPath }/xqgl/help" mask="true" width="530" height="430"><span>功能说明</span></a></li>
 		</ul>
 	</div>
 	
-	<table class="table" layoutH="160" width="150%">
+	<table class="table" layoutH="160" width="105%">
 		<thead>
 			<tr>
 				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
@@ -103,7 +100,7 @@
 				<th>联系电话</th>
 				<th orderField=policyFee class="${page.orderField eq 'policyFee' ? page.orderDirection : ''}">保费</th>
 				<th orderField=feeDate class="${page.orderField eq 'feeDate' ? page.orderDirection : ''}">交费对应日</th>
-				<th>宽限期还有（天）</th>
+				<th>宽限期（天）</th>
 				<th orderField=feeStatus class="${page.orderField eq 'feeStatus' ? page.orderDirection : ''}">状态</th>
 				<th orderField=feeFailReason class="${page.orderField eq 'feeFailReason' ? page.orderDirection : ''}">交费失败原因</th>
 				<th>账号</th>
@@ -146,5 +143,5 @@
 		</tbody>
 	</table>
 	<!-- 分页 -->
-	<dwz:pagination page="${page }"/>
+	<dwz:pagination page="${page }" targetType="dialog"/>
 </div>

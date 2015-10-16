@@ -59,6 +59,7 @@ public class XqglController {
 	private static final String UPDATE = "insurance/xqgl/wtj/update";
 	private static final String PROV_UPDATE = "insurance/xqgl/wtj/provupdate";
 	private static final String LIST = "insurance/xqgl/wtj/list";
+	private static final String MAX_LIST = "insurance/xqgl/wtj/maxlist";
 	private static final String ISSUE_LIST = "insurance/xqgl/wtj/issuelist";
 	private static final String TO_HELP = "insurance/help/xqgl";
 	
@@ -72,7 +73,7 @@ public class XqglController {
 		page.setOrderDirection("ASC");
 		page.setNumPerPage(65564);
 		String orgCode = request.getParameter("policy.orgCode");
-		if(orgCode == null || orgCode.trim().length()<0) {
+		if(orgCode == null || orgCode.trim().length()<=0) {
 			orgCode = user.getOrganization().getOrgCode();
 		}
 		Specification<RenewedList> specification = DynamicSpecifications.bySearchFilter(request, RenewedList.class,
@@ -218,6 +219,61 @@ public class XqglController {
 		map.put("page", page);
 		map.put("issues", issues);
 		return LIST;
+	}
+	
+	@RequiresPermissions("Renewed:view")
+	@RequestMapping(value="/issue/maxlist", method={RequestMethod.GET, RequestMethod.POST})
+	public String maxlist(ServletRequest request, Page page, Map<String, Object> map) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
+		RenewedList issue = new RenewedList();
+		//默认返回未处理工单
+		String feeStatus = request.getParameter("search_LIKE_feeStatus");
+		String hqDealRemark = request.getParameter("search_LIKE_hqDealRemark");
+		String dealType = request.getParameter("search_LIKE_dealType");
+		if(hqDealRemark == null) {
+			hqDealRemark = "";
+		}
+		issue.setSearch_LIKE_hqDealRemark(hqDealRemark);
+		if(dealType == null) {
+			dealType = "";
+		}
+		issue.setSearch_LIKE_dealType(dealType);
+		LOG.debug("-------------- feeStatus: " + feeStatus);
+		if(feeStatus == null) {
+			feeStatus = "";
+		}
+		issue.setSearch_LIKE_feeStatus(feeStatus);
+		
+		String orgCode = request.getParameter("policy.orgCode");
+		if(orgCode == null || orgCode.trim().length()<=0) {
+			orgCode = user.getOrganization().getOrgCode();
+		} else {
+			String orgName = request.getParameter("policy.name");
+			request.setAttribute("policy_orgCode", orgCode);
+			request.setAttribute("policy_name", orgName);
+		}
+		
+		if(page.getOrderField() == null) {
+			page.setOrderField("policy.policyDate");
+			page.setOrderDirection("ASC");
+		}
+		
+		Specification<RenewedList> specification = null;
+		
+		specification = DynamicSpecifications.bySearchFilter(request, RenewedList.class,
+				new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		
+		List<RenewedList> issues = xqglService.findByExample(specification, page);
+		
+		map.put("issue", issue);
+		map.put("xqStatusList", XQ_STATUS.values());
+		map.put("xqDealStatusList", XQ_DEAL_STATUS.values());
+		List<RenewalType> cdtList = xqglService.getAllRenewedDealTypeList();
+		map.put("orgTypeList", cdtList);
+		map.put("page", page);
+		map.put("issues", issues);
+		return MAX_LIST;
 	}
 	
 	@RequiresPermissions("Renewed:view")

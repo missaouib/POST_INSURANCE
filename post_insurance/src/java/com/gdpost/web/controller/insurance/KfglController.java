@@ -84,7 +84,7 @@ public class KfglController {
 		page.setOrderDirection("ASC");
 		page.setNumPerPage(65564);
 		String orgCode = request.getParameter("policy.orgCode");
-		if(orgCode == null || orgCode.trim().length()<0) {
+		if(orgCode == null || orgCode.trim().length()<=0) {
 			orgCode = user.getOrganization().getOrgCode();
 		}
 		Specification<Issue> specification = DynamicSpecifications.bySearchFilter(request, Issue.class,

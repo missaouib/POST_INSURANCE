@@ -20,7 +20,7 @@
 }
 </style>
 <div id="MsgContainer">
-    <div id="MsgContent">运营管理系统正在试运行，具有问题件工单、回访不成功件、续期催缴、新契约不合格件、发票申请等的管理。登录可以使用核心业务系统工号，默认密码可联系省分运营管理部。 请在试用过程中积极反馈意见和建议，谢谢。 </div>
+    <div id="MsgContent">运营管理系统正式启用，建议使用Chrome、360浏览器、搜狗或QQ浏览器（极速模式）或者IE9以上版本。登录可以使用核心业务系统工号，默认密码可联系省分运营管理部。 请在使用过程中积极反馈意见和建议，谢谢。 </div>
 </div>
 <script type="text/javascript">
 if(!window.rollWord){
