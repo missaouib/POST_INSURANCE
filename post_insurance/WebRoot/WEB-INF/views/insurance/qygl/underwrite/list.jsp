@@ -50,6 +50,7 @@
 		<ul class="toolBar">
 			<shiro:hasPermission name="UnderWrite:view">
 				<li><a iconClass="user_edit" target="dialog" rel="underwrite_edit" mask="true" width="800" height="440" href="${contextPath }/qygl/underwrite/view/{slt_uid}"><span>查看</span></a></li>
+				<li><a class="icon" target="_blank" href="${contextPath }/qygl/underwrite/toXls?search_LIKE_formNo=${param.search_LIKE_formNo }&orgCode=${orgCode }&search_LTE_ybtDate=${param.search_LTE_ybtDate }&search_GTE_ybtDate=${param.search_LTE_ybtDate }"><span>导出Excel</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="UnderWrite:edit">
 			<li class="line">line</li>

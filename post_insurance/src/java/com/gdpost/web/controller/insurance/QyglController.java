@@ -79,6 +79,8 @@ public class QyglController {
 	private static final String UW_MAIL_DATE = "insurance/qygl/underwrite/mailDate";
 	private static final String UW_REC_DATE = "insurance/qygl/underwrite/recDate";
 	
+	private static final String TO_XLS = "insurance/qygl/underwrite/toXls";
+	
 	private static final String TO_HELP = "insurance/help/qygl";
 	
 	@RequestMapping(value="/help", method=RequestMethod.GET)
@@ -321,6 +323,26 @@ public class QyglController {
 	 * UNDER WRITE
 	 * =====================================
 	 */
+	
+	@RequiresPermissions("UnderWrite:view")
+	@RequestMapping(value="/underwrite/toXls", method=RequestMethod.GET)
+	public String toXls(ServletRequest request, Page page, Map<String, Object> map) {
+		User user = SecurityUtils.getShiroUser().getUser();
+		
+		page.setOrderField("organization.orgCode");
+		page.setOrderDirection("ASC");
+		page.setNumPerPage(65564);
+		String orgCode = request.getParameter("orgCode");
+		if(orgCode == null || orgCode.trim().length()<=0) {
+			orgCode = user.getOrganization().getOrgCode();
+		}
+		Specification<UnderWrite> specification = DynamicSpecifications.bySearchFilter(request, UnderWrite.class,
+				new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		List<UnderWrite> reqs = qyglService.findByUnderWriteExample(specification, page);
+
+		map.put("reqs", reqs);
+		return TO_XLS;
+	}
 	
 	@RequiresPermissions("UnderWrite:save")
 	@RequestMapping(value="/underwrite/create", method=RequestMethod.GET)

@@ -28,7 +28,7 @@ public class PaginationTag extends SimpleTagSupport {
 	 */
 	@Override
 	public void doTag() throws JspException, IOException {
-		if(this.targetType != null && this.targetType.trim().length()>0) {
+		if(this.targetType != null && this.targetType.trim().equals("dialog")) {
 			onchange = "dialogPageBreak({numPerPage:this.value})";
 		}
 		StringBuilder builder = new StringBuilder();
