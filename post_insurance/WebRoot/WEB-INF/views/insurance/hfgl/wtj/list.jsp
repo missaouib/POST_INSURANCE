@@ -71,16 +71,20 @@
 	<div class="panelBar">
 		<ul class="toolBar">
 			<shiro:hasPermission name="Callfail:view">
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/hfgl/issue/view/{slt_uid}"><span>查看</span></a></li>
+				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/hfgl/issue/view/{slt_uid}"><span>查看详情</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Callfail:edit">
+				<li class="line">line</li>
 				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/hfgl/issue/update/{slt_uid}"><span>回复</span></a></li>
+				<li class="line">line</li>
 				<li><a iconClass="user_go" href="${contextPath}/hfgl/updateResetStatus/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>电话重置</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Callfail:provEdit">
 			<li class="line">line</li>
 				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/hfgl/issue/provUpdate/{slt_uid}"><span>省分登记</span></a></li>
+				<li class="line">line</li>
 				<li><a target="myDialog" rel="ids" href="${contextPath }/hfgl/issue/toSetMailDate" class="edit"><span>批量已发信函</span></a></li>
+				<li class="line">line</li>
 				<!-- <li><a iconClass="user_go" target="ajaxTodo" href="${contextPath }/hfgl/issue/CloseStatus/{slt_uid}" title="确认办结案关闭?"><span>结案关闭</span></a></li> -->
 				<li><a iconClass="user_go" target="selectedTodo" rel="ids" href="${contextPath }/hfgl/issue/CloseStatus" title="确认要结案关闭?"><span>结案关闭</span></a></li>
 			</shiro:hasPermission>
@@ -89,6 +93,7 @@
 				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/hfgl/issue/hqUpdate/{slt_uid}"><span>二访中心登记</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Callfail:view">
+				<li class="line">line</li>
 				<li><a class="icon" href="${contextPath }/xqgl/issue/maxlist?search_LIKE_issueNo=${param.search_LIKE_issueNo }&policy.orgCode=${policy_orgCode }&search_LTE_shouldDate=${param.search_LTE_shouldDate }&search_GTE_shouldDate=${param.search_GTE_shouldDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&search_LIKE_hasLetter=${param.search_LIKE_hasLetter }&status=${param.status }" target="dialog" rel="dlg_page1" max="true" title="续期催收列表" width="800" height="480"><span>全屏查看</span></a></li>
 				<li class="line">line</li>
 				<li><a class="icon" target="_blank" href="${contextPath }/hfgl/toXls?search_LIKE_issueNo=${param.search_LIKE_issueNo }&policy.orgCode=${policy_orgCode }&search_LTE_shouldDate=${param.search_LTE_shouldDate }&search_GTE_shouldDate=${param.search_GTE_shouldDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&search_LIKE_hasLetter=${param.search_LIKE_hasLetter }&status=${param.status }"><span>导出Excel</span></a></li>

@@ -61,12 +61,15 @@
 	<div class="panelBar">
 		<ul class="toolBar">
 			<shiro:hasPermission name="Wtgd:view">
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/kfgl/issue/view/{slt_uid}"><span>查看</span></a></li>
+				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/kfgl/issue/view/{slt_uid}"><span>查看详情</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Wtgd:edit">
+				<li class="line">line</li>
 				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/kfgl/issue/update/{slt_uid}"><span>回复</span></a></li>
 			</shiro:hasPermission>
+			<li class="line">line</li>
 			<li><a iconClass="user_edit" target="navTab" rel="printIssue" mask="true" width="820" height="520" href="${contextPath }/kfgl/issue/print/{slt_uid}"><span>打印工单</span></a></li>
+			<li class="line">line</li>
 			<li><a iconClass="user_edit" target="navTab" rel="printIssueList" mask="true" width="820" height="520" href="${contextPath }/kfgl/issues/print"><span>批打工单</span></a></li>
 			<shiro:hasPermission name="Wtgd:view">
 				<li class="line">line</li>

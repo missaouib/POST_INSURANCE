@@ -74,15 +74,18 @@
 	<div class="panelBar">
 		<ul class="toolBar">
 			<shiro:hasPermission name="Renewed:view">
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="580" href="${contextPath }/xqgl/issue/view/{slt_uid}"><span>查看续期催收件详情</span></a></li>
+				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="580" href="${contextPath }/xqgl/issue/view/{slt_uid}"><span>查看详情</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Renewed:edit">
+				<li class="line">line</li>
 				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/xqgl/issue/update/{slt_uid}"><span>市/县续期催收登记</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Renewed:provEdit">
+				<li class="line">line</li>
 				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/xqgl/issue/provUpdate/{slt_uid}"><span>省分续期催登记</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Renewed:view">
+				<li class="line">line</li>
 				<li><a class="icon" href="${contextPath }/xqgl/issue/maxlist?search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&policy.orgCode=${policy_orgCode }&search_LTE_feeDate=${param.search_LTE_feeDate }&search_GTE_feeDate=${param.search_GTE_feeDate }&search_LIKE_feeStatus=${param.search_LIKE_feeStatus }&search_LIKE_hqDealRemark=${param.search_LIKE_hqDealRemark }&search_LIKE_dealType=${param.search_LIKE_dealType }" target="dialog" rel="dlg_page1" max="true" title="续期催收列表" width="800" height="480"><span>全屏查看</span></a></li>
 				<li class="line">line</li>
 				<li><a class="icon" target="_blank" href="${contextPath }/xqgl/toXls?search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&policy.orgCode=${policy_orgCode }&search_LTE_feeDate=${param.search_LTE_feeDate }&search_GTE_feeDate=${param.search_GTE_feeDate }&search_LIKE_feeStatus=${param.search_LIKE_feeStatus }&search_LIKE_hqDealRemark=${param.search_LIKE_hqDealRemark }&search_LIKE_dealType=${param.search_LIKE_dealType }"><span>导出Excel</span></a></li>

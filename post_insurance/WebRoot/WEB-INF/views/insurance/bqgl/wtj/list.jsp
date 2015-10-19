@@ -60,13 +60,15 @@
 	<div class="panelBar">
 		<ul class="toolBar">
 			<shiro:hasPermission name="Cservice:save">
-				<li><a iconClass="user_add" target="dialog" rel="lookup2organization_add" mask="true" width="530" height="330" href="${contextPath }/bqgl/issue/create"><span>添加保全复核问题</span></a></li>
+				<li><a iconClass="user_add" target="dialog" rel="lookup2organization_add" mask="true" width="530" height="330" href="${contextPath }/bqgl/issue/create"><span>登记保全复核问题</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Cservice:edit">
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="330" href="${contextPath }/bqgl/issue/update/{slt_uid}"><span>编辑保全复核问题</span></a></li>
+				<li class="line">line</li>
+				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="330" href="${contextPath }/bqgl/issue/update/{slt_uid}"><span>编辑</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Cservice:delete">
-				<li><a iconClass="user_delete" target="selectedTodo" rel="ids" href="${contextPath }/bqgl/issue/delete" title="确认要删除?"><span>删除保全复核问题</span></a></li>
+				<li class="line">line</li>
+				<li><a iconClass="user_delete" target="selectedTodo" rel="ids" href="${contextPath }/bqgl/issue/delete" title="确认要删除?"><span>删除</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Cservice:deal">
 				<li class="line">line</li>

@@ -51,13 +51,15 @@
 	<div class="panelBar">
 		<ul class="toolBar">
 			<shiro:hasPermission name="InvoiceReq:save">
-				<li><a iconClass="user_add" target="dialog" rel="lookup2organization_add" mask="true" width="530" height="430" href="${contextPath }/fpgl/create"><span>添加发票申请</span></a></li>
+				<li><a iconClass="user_add" target="dialog" rel="lookup2organization_add" mask="true" width="530" height="430" href="${contextPath }/fpgl/create"><span>添加申请</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="InvoiceReq:edit">
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="430" href="${contextPath }/fpgl/update/{slt_uid}"><span>编辑发票申请</span></a></li>
+				<li class="line">line</li>
+				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="430" href="${contextPath }/fpgl/update/{slt_uid}"><span>编辑</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="InvoiceReq:delete">
-				<li><a iconClass="user_delete" target="selectedTodo" rel="ids" href="${contextPath }/fpgl/delete" title="确认要删除?"><span>删除发票申请</span></a></li>
+				<li class="line">line</li>
+				<li><a iconClass="user_delete" target="selectedTodo" rel="ids" href="${contextPath }/fpgl/delete" title="确认要删除?"><span>删除申请</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="InvoiceReq:deal">
 				<li class="line">line</li>

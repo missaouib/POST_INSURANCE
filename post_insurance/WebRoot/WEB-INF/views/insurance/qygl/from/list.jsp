@@ -19,7 +19,7 @@
 			<table class="searchContent">
 				<tr>
 					<td>
-						业务单号：<input type="text" style="width: 100px;" id="qyfrelNo" name="search_LIKE_relNo" value="${param.search_LIKE_policy_policyNo }"/>
+						业务单号：<input type="text" style="width: 100px;" id="qyfrelNo" name="search_LIKE_relNo" value="${param.search_LIKE_relNo }"/>
 					</td>
 					<td>
 						<label>状态：</label>

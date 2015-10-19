@@ -60,6 +60,10 @@
 	<fieldset>
 		<legend>不合格件处理详情</legend>
 		<p class="nowrap">
+			<label>不合格件处理类型：</label>
+			<span class="unit">${issue.fixType }</span>
+		</p>
+		<p class="nowrap">
 			<label>不合格件处理记录：</label>
 			<span class="unit">${issue.fixDesc }</span>
 		</p>

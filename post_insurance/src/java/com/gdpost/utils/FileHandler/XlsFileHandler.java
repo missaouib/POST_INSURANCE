@@ -2,6 +2,7 @@ package com.gdpost.utils.FileHandler;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,11 +31,12 @@ public class XlsFileHandler extends AbstractFileHandler {
 	public DataTable[] readFile(String strFilePath, String strFileName) {
 		List<DataTable> list = new ArrayList<DataTable>();
 		log.debug("--------------ready to read xls file in handler");
+		HSSFWorkbook workbook = null;
 		try {
 			// 设置访问密码
 			// Biff8EncryptionKey.setCurrentUserPassword(this.m_strPassword);
 
-			HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(strFilePath + File.separator + strFileName));
+			workbook = new HSSFWorkbook(new FileInputStream(strFilePath + File.separator + strFileName));
 			HSSFSheet sheet = null;
 			HSSFRow headerRow = null;
 			int iSheets = workbook.getNumberOfSheets();// 一共有几个sheet
@@ -66,11 +68,8 @@ public class XlsFileHandler extends AbstractFileHandler {
 				//log.debug("--------------to skip i: " + skipRow + ", sheet last row: " + sheet.getLastRowNum());
 				lastRow = sheet.getLastRowNum();
 				for (int i = skipRow+1; i < lastRow; i++) {
-					log.debug("------------ row: " + i);
 					headerRow = (HSSFRow) sheet.getRow(i);
-					log.debug("------------ row: " + headerRow);
 					if (headerRow == null) {
-						log.debug("--------------------headerRow is null");
 						continue;
 					}
 					log.debug("--------------headerRow : " + headerRow + ", and the cell num: " + headerRow.getLastCellNum() + ", template column size: " + this.m_column.size());
@@ -160,11 +159,15 @@ public class XlsFileHandler extends AbstractFileHandler {
 				list.add(dt);
 			}
 
-			workbook.close();
-			workbook = null;
 		} catch (Exception e) {
 			e.printStackTrace();
 			log.error(e.getMessage());
+		} finally {
+			try {
+				workbook.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 
 		DataTable[] ds = new DataTable[list.size()];

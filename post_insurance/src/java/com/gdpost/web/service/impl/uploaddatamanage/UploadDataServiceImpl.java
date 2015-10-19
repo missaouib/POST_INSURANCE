@@ -88,7 +88,6 @@ public class UploadDataServiceImpl implements UploadDataService{
 			statement = (com.mysql.jdbc.Statement)connection.createStatement();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
 		}
 		
 		// AES Encrypt key
@@ -175,9 +174,7 @@ public class UploadDataServiceImpl implements UploadDataService{
         
         StringBuilder builder = new StringBuilder();
         Object cell = null;
-        //boolean isBreak = false;
         for (DataRow row : dt.Rows) {
-        	//isBreak = false;
         	// 从处理后的行中，取出标准列数据
         	//log.debug("--------------" + row.toString());
         	if(ft.name().equals(FileTemplate.CheckWrite.name()) || ft.name().equals(FileTemplate.CheckRecord.name())) {
@@ -185,7 +182,6 @@ public class UploadDataServiceImpl implements UploadDataService{
     				builder.append(STATUS.NewStatus.name());
     	            builder.append('\t');
     			} else {
-    				//builder.append(null);
     	            builder.append('\t');
     			}
     		} else if(ft.name().equals(FileTemplate.PayToFailList.name())) {
@@ -200,7 +196,6 @@ public class UploadDataServiceImpl implements UploadDataService{
 	            builder.append('\t');
     		}
         	for(ColumnItem item : standardColumns) {
-        		
         		cell = StringUtil.trimStr(row.getValue(item.getDisplayName()));
         		if(ft.name().equals(FileTemplate.CallFail.name()) || ft.name().equals(FileTemplate.Issue.name())) {
         			if(item.getDisplayName().equals("结案时间") && cell != null && cell.toString().length()<=0) {
@@ -230,11 +225,17 @@ public class UploadDataServiceImpl implements UploadDataService{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-        statement.setLocalInfileInputStream(is);
+        //先删除
         try {
         	if(delSql != null) {
         		statement.execute(delSql);
         	}
+        } catch (SQLException e) {
+			e.printStackTrace();
+		}
+        //再执行
+        statement.setLocalInfileInputStream(is);
+        try {
 			statement.execute(strStatementText);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -277,7 +278,6 @@ public class UploadDataServiceImpl implements UploadDataService{
 			statement = (com.mysql.jdbc.Statement)connection.createStatement();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
 		}
 		
 		List<ColumnItem> standardColumns = null;
