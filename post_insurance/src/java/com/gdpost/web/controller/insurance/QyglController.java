@@ -120,6 +120,7 @@ public class QyglController {
 		CheckWrite src = qyglService.getCheckWrite(issue.getId());
 		src.setDealMan(issue.getDealMan());
 		src.setDealTime(issue.getDealTime());
+		src.setFixType(issue.getFixType());
 		src.setFixDesc(issue.getFixDesc());
 		src.setFixStatus(STATUS.DealStatus.name());
 		qyglService.saveOrUpdateCheckWrite(src);
@@ -236,6 +237,7 @@ public class QyglController {
 		src.setDealMan(issue.getDealMan());
 		src.setDealTime(issue.getDealTime());
 		src.setFixDesc(issue.getFixDesc());
+		src.setFixType(issue.getFixType());
 		src.setFixStatus(STATUS.DealStatus.name());
 		qyglService.saveOrUpdateCheckRecord(src);
 		
@@ -360,7 +362,7 @@ public class QyglController {
 			return AjaxObject.newError("添加人核件信息失败：" + e.getMessage()).setCallbackType("").toString();
 		}
 		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{underwrite.getPolicyNo()}));
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{underwrite.getFormNo()}));
 		return AjaxObject.newOk("添加人核件信息成功！").toString();
 	}
 	

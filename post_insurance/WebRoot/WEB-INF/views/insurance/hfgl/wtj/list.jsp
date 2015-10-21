@@ -31,8 +31,7 @@
 					<td>
 						<label>所属机构：</label>
 						<input name="policy.orgCode" id="xq_orgCode" type="hidden" value="${policy_orgCode }"/>
-						<input class="validate[required] required" name="policy.name" id="xq_orgName" type="text" readonly="readonly" style="width: 100px;" value="${policy_name }"/>
-						<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="policy" title="选择机构" width="400">查</a>
+						<input class="validate[required] required" name="policy.name" id="xq_orgName" type="text" readonly="readonly" style="width: 100px;" value="${policy_name }"/><a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="policy" title="选择机构" width="400">查</a>
 					</td>
 					<td>&nbsp;</td>
 				</tr>
@@ -109,6 +108,7 @@
 				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>
 				<th>保单机构</th>
 				<th orderField=issueNo class="${page.orderField eq 'issueNo' ? page.orderDirection : ''}">工单编号</th>
+				<th orderField=status class="${page.orderField eq 'status' ? page.orderDirection : ''}">工单状态</th>
 				<th>工单内容</th>
 				<th orderField=operateTime class="${page.orderField eq 'operateTime' ? page.orderDirection : ''}">系统导入</th>
 				<th>离犹豫期(天)</th>
@@ -117,7 +117,6 @@
 				<th>联系电话</th>
 				<th>险种名称</th>
 				<th>出单网点</th>
-				<th orderField=status class="${page.orderField eq 'status' ? page.orderDirection : ''}">工单状态</th>
 				<th>重置电话</th>
 				<th orderField=organization.name class="${page.orderField eq 'organization.name' ? page.orderDirection : ''}">所属机构</th>
 				<shiro:hasPermission name="Callfail:provEdit">
@@ -131,6 +130,7 @@
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
 				<td>${fn:replace(item.policy.organization.name,'邮政局中邮保险局','')}</td>
 				<td>${item.issueNo}</td>
+				<td>${item.status}</td>
 				<td>${item.issueContent}</td>
 				<td><fmt:formatDate value="${item.operateTime }" pattern="yyyy-MM-dd"/></td>
 				<td><span style="color:red; height:50%; margin-bottom:-contentheight;"><c:if test="${item.lastDateNum<0 }">0</c:if><c:if test="${item.lastDateNum>=0 }">${item.lastDateNum }</c:if></span></td>
@@ -148,7 +148,6 @@
 					    </c:otherwise>  
 					</c:choose>
 				</td>
-				<td>${item.status}</td>
 				<td>${item.resetPhone}</td>
 				<td>${fn:replace(item.organization.name,'邮政局中邮保险局','')}</td>
 				<shiro:hasPermission name="Callfail:provEdit">

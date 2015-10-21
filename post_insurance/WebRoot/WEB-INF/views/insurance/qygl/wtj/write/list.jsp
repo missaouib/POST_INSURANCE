@@ -98,7 +98,7 @@
 						<span style="color:red; height:50%; margin-bottom:-contentheight;">待处理</span>
 					</c:when>
 					<c:when test="${item.fixStatus eq 'DealStatus'}">
-						已处理
+						已回复
 					</c:when>
 					<c:when test="${item.fixStatus eq 'ReopenStatus'}">
 						重打开

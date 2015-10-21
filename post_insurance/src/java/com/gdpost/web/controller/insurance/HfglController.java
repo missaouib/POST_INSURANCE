@@ -167,17 +167,12 @@ public class HfglController {
 		src.setDealNum((issue.getDealNum()==null?0:issue.getDealNum()) + 1);
 		//src.setStatus(issue.getStatus());
 		src.setDealType(issue.getDealType());
-		if(issue.getDealType().equals("不成功件")) {
-//			if(issue.getStatus().equals(HF_STATUS.DoorSuccessStatus.getDesc())) {
-//				src.setOrgDealFlag(1);
-//			}
-			src.setStatus(HF_STATUS.DoorFailStatus.getDesc());
-			//src.setOrgDealFlag(1);
-		} else if(issue.getDealType().equals("成功件")) {
+		if(issue.getDealType().contains("成功")) {
 			src.setStatus(HF_STATUS.DoorSuccessStatus.getDesc());
 			src.setOrgDealFlag(1);
 		} else {
-			src.setStatus(HF_STATUS.DealStatus.getDesc());
+			src.setStatus(HF_STATUS.DoorFailStatus.getDesc());
+			//src.setOrgDealFlag(1);
 		}
 		hfglService.saveOrUpdate(src);
 		
@@ -412,7 +407,7 @@ public class HfglController {
 //		}
 		issue.setStatus(status);
 		
-		if(page.getOrderField() == null) {
+		if(page.getOrderField() == null || page.getOrderField().trim().length() <= 0) {
 			page.setOrderField("policy.policyDate");
 			page.setOrderDirection("ASC");
 		}
@@ -448,7 +443,9 @@ public class HfglController {
 			if(status == null) {
 				LOG.debug("-------------- 111: " );
 				specification = DynamicSpecifications.bySearchFilter(request, VCallFailList.class,
-						new SearchFilter("status", Operator.LIKE, HF_STATUS.CallFailStatus.getDesc()),
+						new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.NewStatus.getDesc()),
+						new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.ResetStatus.getDesc()),
+						new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.CallFailStatus.getDesc()),
 						new SearchFilter("lastDateNum", Operator.LTE, 3),
 						new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 			} else {
@@ -543,7 +540,9 @@ public class HfglController {
 			if(status == null) {
 				LOG.debug("-------------- 111: " );
 				specification = DynamicSpecifications.bySearchFilter(request, VCallFailList.class,
-						new SearchFilter("status", Operator.LIKE, HF_STATUS.CallFailStatus.getDesc()),
+						new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.NewStatus.getDesc()),
+						new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.ResetStatus.getDesc()),
+						new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.CallFailStatus.getDesc()),
 						new SearchFilter("lastDateNum", Operator.LTE, 3),
 						new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 			} else {

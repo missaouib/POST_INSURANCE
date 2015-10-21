@@ -98,7 +98,7 @@ public class PayListController {
 		case "bq":
 			feeType = "保全受理号";
 			break;
-		case "lq":
+		case "lp":
 			feeType = "案件号";
 			break;
 			default:
@@ -108,7 +108,8 @@ public class PayListController {
 				new SearchFilter("payType", Operator.EQ, PayFailList.PAY_TO),
 				new SearchFilter("feeType", Operator.EQ, feeType),
 				new SearchFilter("status", Operator.LIKE, status),
-				new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+				new SearchFilter("relNo", Operator.OR_LIKE, orgCode),
+				new SearchFilter("organization.orgCode", Operator.OR_LIKE, orgCode));
 		
 		List<PayFailList> reqs = payListService.findByExample(specification, page);
 
@@ -168,7 +169,8 @@ public class PayListController {
 				new SearchFilter("payType", Operator.EQ, PayFailList.PAY_FROM),
 				new SearchFilter("feeType", Operator.EQ, feeType),
 				new SearchFilter("status", Operator.LIKE, status),
-				new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+				new SearchFilter("relNo", Operator.OR_LIKE, orgCode),
+				new SearchFilter("organization.orgCode", Operator.OR_LIKE, orgCode));
 		
 		List<PayFailList> reqs = payListService.findByExample(specification, page);
 

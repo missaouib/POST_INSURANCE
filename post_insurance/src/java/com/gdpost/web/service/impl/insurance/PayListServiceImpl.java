@@ -171,7 +171,8 @@ public class PayListServiceImpl implements PayListService {
 				new SearchFilter("payType", Operator.EQ, PayFailList.PAY_TO),
 				new SearchFilter("feeType", Operator.EQ, "案件号"),
 				new SearchFilter("status", Operator.LIKE, BQ_STATUS.NewStatus.name()),
-				new SearchFilter("organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+				new SearchFilter("relNo", Operator.OR_LIKE, userOrg.getOrgCode()),
+				new SearchFilter("organization.orgCode", Operator.OR_LIKE, userOrg.getOrgCode()));
 		
 		Page page = new Page();
 		page.setNumPerPage(100);

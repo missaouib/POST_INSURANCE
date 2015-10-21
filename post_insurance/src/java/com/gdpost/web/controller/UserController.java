@@ -181,7 +181,7 @@ public class UserController {
 		return RESET_PASSWORD;
 	}
 	
-	@Log(message="{0}用户{1}")
+	@Log(message="{0}用户{1}。")
 	@RequiresPermissions("User:reset:User拥有的资源")
 	@RequestMapping(value="/reset/{type}/{userId}", method=RequestMethod.POST)
 	public @ResponseBody String reset(ServletRequest request, @PathVariable String type, @PathVariable Long userId) {

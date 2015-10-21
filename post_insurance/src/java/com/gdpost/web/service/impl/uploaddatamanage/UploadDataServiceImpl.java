@@ -142,12 +142,12 @@ public class UploadDataServiceImpl implements UploadDataService{
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_check_record character set utf8 (fix_status, ";
 			break;
 		case PayToFailList:
-			delSql = "delete from t_pay_fail_list where pay_type=" + PayFailList.PAY_TO;
+			delSql = "delete from t_pay_fail_list where pay_type=" + PayFailList.PAY_TO + " and operate_time<CURRENT_DATE";
 			standardColumns = PayFailListColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_pay_fail_list character set utf8 (pay_type, status, ";
 			break;
 		case PayFromFailList:
-			delSql = "delete from t_pay_fail_list where pay_type=" + PayFailList.PAY_FROM;
+			delSql = "delete from t_pay_fail_list where pay_type=" + PayFailList.PAY_FROM + " and operate_time<CURRENT_DATE;";
 			standardColumns = PayFailListColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_pay_fail_list character set utf8 (pay_type, status, ";
 			break;
