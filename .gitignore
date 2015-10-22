@@ -53,3 +53,5 @@ post_insurance/.classpath
 post_insurance/.classpath
 post_insurance/.classpath
 *.classpath
+post_insurance/src/resources/applicationContext.xml
+*.classpath

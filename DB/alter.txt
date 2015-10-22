@@ -314,3 +314,26 @@ alter table t_check_record add column fix_type varchar(64) after fix_status;
 
 ALTER TABLE `t_pay_fail_list` MODIFY COLUMN `rel_no` VARCHAR(32) COLLATE utf8_general_ci NOT NULL UNIQUE;
 
+create table t_notice
+(
+   id                   bigint not null auto_increment,
+   sender               bigint,
+   send_date            datetime default current_timestamp,
+   receiver             bigint,
+   receive_org          bigint,
+   receive_role         bigint,
+   invalid_date         date,
+   notice_title         varchar(64),
+   notice_content       text,
+   primary key (id)
+);
+
+create table t_notice_att
+(
+   id                   bigint not null,
+   notice_id            bigint,
+   attr_link            varchar(128),
+   primary key (id)
+);
+alter table t_notice_att add constraint fk_notice_attr foreign key (notice_id)
+      references t_notice (id) on delete restrict on update restrict;

@@ -11,7 +11,7 @@
 
 <body>
 <div>
-	<div><h1>页面不存在.</h1></div>
+	<div><h1>404 Page Not Found，啦啦啦...页面不存在.</h1></div>
 	<div><a href="<c:url value="/management/index"/>" target="_top">返回首页</a></div>
 </div>
 </body>
