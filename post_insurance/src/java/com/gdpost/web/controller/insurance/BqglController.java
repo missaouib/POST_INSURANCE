@@ -156,6 +156,43 @@ public class BqglController {
 		return	AjaxObject.newOk("修改保全复核问题成功！").setCallbackType("").toString();
 	}
 	
+	@Log(message="批量修改了{0}保全复核问题的{1}状态。")
+	@RequiresPermissions(value={"Cservice:reset","Cservice:deal"}, logical=Logical.OR)
+	@RequestMapping(value="/issue/{status}", method=RequestMethod.POST)
+	public @ResponseBody String batchUpdateStatus(@PathVariable("status") String status, Long[] ids) {
+		ConservationDtl issue = null;
+		BQ_STATUS bs = BQ_STATUS.DealStatus;
+		try {
+			bs = BQ_STATUS.valueOf(status);
+		}catch (Exception ex) {
+			return	AjaxObject.newError("状态不对！").setCallbackType("").toString();
+		}
+		String[] policys = new String[ids.length];
+		for(int i = 0; i<ids.length; i++) {
+			issue = bqglService.get(ids[i]);
+			switch (bs) {
+			case DealStatus:
+				issue.setDealUserId(SecurityUtils.getShiroUser().getId());
+				break;
+			case CancelStatus:
+				issue.setCancelDate(new Date());
+				issue.setCancelFlag(true);
+				issue.setCancelMan(SecurityUtils.getShiroUser().getId());
+				break;
+			case CloseStatus:
+				break;
+				default:
+					break;
+			}
+			issue.setStatus(status);
+			bqglService.saveOrUpdate(issue);
+			policys[i] = issue.getPolicy().getPolicyNo();
+		}
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{Arrays.toString(policys), status}));
+		return	AjaxObject.newOk("批量" + status + "保全复核问题成功！").setCallbackType("").toString();
+	}
+	
 	@Log(message="删除了{0}保全复核问题。")
 	@RequiresPermissions("Cservice:delete")
 	@RequestMapping(value="/issue/delete/{id}", method=RequestMethod.POST)

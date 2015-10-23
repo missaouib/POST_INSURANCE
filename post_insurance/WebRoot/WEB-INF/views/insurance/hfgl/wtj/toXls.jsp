@@ -71,23 +71,23 @@ response.setHeader("Content-Disposition", "inline; filename=call_fail_dtl.xls");
 				<td>${item.dealType}</td>
 				<td>${item.dealDesc}</td>
 				<td>${item.dealMan}</td>
-				<td>${item.dealTime}</td>
+				<td><fmt:formatDate value="${item.dealTime }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.hqDealType}</td>
 				<td>${item.hqDealRst}</td>
 				<td>${item.hqDealMan}</td>
-				<td>${item.hqDealDate}</td>
+				<td><fmt:formatDate value="${item.hqDealDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.hqDealType2}</td>
 				<td>${item.hqDealRst2}</td>
 				<td>${item.hqDealMan2}</td>
-				<td>${item.hqDealDate2}</td>
+				<td><fmt:formatDate value="${item.hqDealDate2 }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.hqDealType3}</td>
 				<td>${item.hqDealRst3}</td>
 				<td>${item.hqDealMan3}</td>
-				<td>${item.hqDealDate3}</td>
+				<td><fmt:formatDate value="${item.hqDealDate3 }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.hqDealType4}</td>
 				<td>${item.hqDealRst4}</td>
 				<td>${item.hqDealMan4}</td>
-				<td>${item.hqDealDate4}</td>
+				<td><fmt:formatDate value="${item.hqDealDate4 }" pattern="yyyy-MM-dd"/></td>
 				<shiro:hasPermission name="Callfail:provEdit">
 				<td>${item.hasLetter}</td>
 				</shiro:hasPermission>

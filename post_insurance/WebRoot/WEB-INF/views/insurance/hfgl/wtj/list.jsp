@@ -85,7 +85,7 @@
 				<li><a target="myDialog" rel="ids" href="${contextPath }/hfgl/issue/toSetMailDate" class="edit"><span>批量已发信函</span></a></li>
 				<li class="line">line</li>
 				<!-- <li><a iconClass="user_go" target="ajaxTodo" href="${contextPath }/hfgl/issue/CloseStatus/{slt_uid}" title="确认办结案关闭?"><span>结案关闭</span></a></li> -->
-				<li><a iconClass="user_go" target="selectedTodo" rel="ids" href="${contextPath }/hfgl/issue/CloseStatus" title="确认要结案关闭?"><span>结案关闭</span></a></li>
+				<li><a iconClass="user_go" target="selectedTodo" rel="ids" href="${contextPath }/hfgl/issue/CloseStatus" title="确认要结案关闭?"><span>批量结案关闭</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Callfail:11185Edit">
 			<li class="line">line</li>
