@@ -2,12 +2,12 @@
 <%@page import="java.util.Date"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 
-<dwz:paginationForm action="${contextPath }/basedata/callDealType/list" page="${page }">
+<dwz:paginationForm action="${contextPath }/notice/list" page="${page }">
 	<input type="hidden" name="search_LIKE_typeName" value="${param.search_LIKE_typeName }"/>
 	<input type="hidden" name="search_EQ_flag" value="${param.search_EQ_flag }"/>
 </dwz:paginationForm>
 
-<form method="post" action="${contextPath }/basedata/callDealType/list" onsubmit="return navTabSearch(this)">
+<form method="post" action="${contextPath }/notice/list" onsubmit="return navTabSearch(this)">
 	<div class="pageHeader">
 		<div class="searchBar">
 			<ul class="searchContent">
@@ -35,13 +35,13 @@
 	<div class="panelBar">
 		<ul class="toolBar">
 			<shiro:hasPermission name="CallDealType:save">
-				<li><a iconClass="user_add" target="dialog" rel="lookup2organization_add" mask="true" width="530" height="330" href="${contextPath }/basedata/callDealType/create"><span>添加回访类型</span></a></li>
+				<li><a iconClass="user_add" target="dialog" rel="lookup2organization_add" mask="true" width="530" height="330" href="${contextPath }/notice/create"><span>添加回访类型</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="CallDealType:edit">
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="330" href="${contextPath }/basedata/callDealType/update/{slt_uid}"><span>编辑回访类型</span></a></li>
+				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="330" href="${contextPath }/notice/update/{slt_uid}"><span>编辑回访类型</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="CallDealType:delete">
-				<li><a iconClass="user_delete" target="selectedTodo" rel="ids" href="${contextPath }/basedata/callDealType/delete" title="确认要删除?"><span>删除回访类型</span></a></li>
+				<li><a iconClass="user_delete" target="selectedTodo" rel="ids" href="${contextPath }/notice/delete" title="确认要删除?"><span>删除回访类型</span></a></li>
 			</shiro:hasPermission>
 		</ul>
 	</div>

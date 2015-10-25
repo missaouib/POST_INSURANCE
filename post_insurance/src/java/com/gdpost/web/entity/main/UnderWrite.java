@@ -59,6 +59,9 @@ public class UnderWrite implements Idable<Long> {
 	
 	private String relation;
 	private Double policyFee;
+	private Integer hasRecord;
+	private String recordDesc;
+	private String status;
 
 	@Transient
 	private Date receiveDate;
@@ -427,5 +430,29 @@ public class UnderWrite implements Idable<Long> {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-
+	
+	@Column(name="has_record")
+	public Integer getHasRecord() {
+		return hasRecord;
+	}
+	
+	public void setHasRecord(Integer hasRecord) {
+		this.hasRecord = hasRecord;
+	}
+	
+	@Column(name="record_desc")
+	public String getRecordDesc() {
+		return recordDesc;
+	}
+	public void setRecordDesc(String recordDesc) {
+		this.recordDesc = recordDesc;
+	}
+	
+	@Column(name="status")
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 }

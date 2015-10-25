@@ -6,8 +6,9 @@
 	<input type="hidden" name="search_LIKE_formNo" value="${search_LIKE_formNo }"/>
 	<input type="hidden" name="orgCode" value="${orgCode }"/>
 	<input type="hidden" name="name" value="${name }"/>
-	<input type="hidden" name="search_LTE_ybtDate" value="${param.search_LTE_ybtDate }"/>
-	<input type="hidden" name="search_GTE_ybtDate" value="${param.search_GTE_ybtDate }"/>
+	<input type="hidden" name="status" value="${param.status }"/>
+	<input type="hidden" name="search_LTE_sysDate" value="${param.search_LTE_sysDate }"/>
+	<input type="hidden" name="search_GTE_sysDate" value="${param.search_GTE_sysDate }"/>
 </dwz:paginationForm>
 
 <form method="post" id="hfForm" action="${contextPath }/qygl/underwrite/list" onsubmit="return navTabSearch(this)">
@@ -27,12 +28,19 @@
 			</ul>
 			<ul class="searchContent">
 				<li>
-					<label>邮保通日期起：</label>
-					<input type="text" name="search_GTE_ybtDate" id="uwDate1" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_ybtDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+					<label>录入日期起：</label>
+					<input type="text" name="search_GTE_sysDate" id="uwDate1" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_sysDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 				</li>
 				<li>
-					<label>邮保通日期止：</label>
-					<input type="text" name="search_LTE_ybtDate" id="uwDate2" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_ybtDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+					<label>录入日期止：</label>
+					<input type="text" name="search_LTE_sysDate" id="uwDate2" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_sysDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+				</li>
+				<li>
+					<label>状态</label>
+					<form:select path="underwrite.status" id="uwStatus" class="combox">
+						<form:option value=""> -- -- </form:option>
+						<form:options items="${UWStatusList }" itemLabel="desc"/>
+					</form:select>
 				</li>
 			</ul>
 			<div class="subBar">
@@ -51,7 +59,7 @@
 			<shiro:hasPermission name="UnderWrite:view">
 				<li><a iconClass="user_edit" target="dialog" rel="underwrite_edit" mask="true" width="800" height="440" href="${contextPath }/qygl/underwrite/view/{slt_uid}"><span>查看详情</span></a></li>
 				<li class="line">line</li>
-				<li><a class="icon" target="_blank" href="${contextPath }/qygl/underwrite/toXls?search_LIKE_formNo=${param.search_LIKE_formNo }&orgCode=${orgCode }&search_LTE_ybtDate=${param.search_LTE_ybtDate }&search_GTE_ybtDate=${param.search_LTE_ybtDate }"><span>导出Excel</span></a></li>
+				<li><a class="icon" target="_blank" href="${contextPath }/qygl/underwrite/toXls?search_LIKE_formNo=${param.search_LIKE_formNo }&orgCode=${orgCode }&search_LTE_sysDate=${param.search_LTE_sysDate }&search_GTE_sysDate=${param.search_GTE_sysDate }"><span>导出Excel</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="UnderWrite:edit">
 			<li class="line">line</li>

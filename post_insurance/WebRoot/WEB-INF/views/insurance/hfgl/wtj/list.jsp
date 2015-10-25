@@ -93,7 +93,7 @@
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Callfail:view">
 				<li class="line">line</li>
-				<li><a class="icon" href="${contextPath }/xqgl/issue/maxlist?search_LIKE_issueNo=${param.search_LIKE_issueNo }&policy.orgCode=${policy_orgCode }&search_LTE_shouldDate=${param.search_LTE_shouldDate }&search_GTE_shouldDate=${param.search_GTE_shouldDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&search_LIKE_hasLetter=${param.search_LIKE_hasLetter }&status=${param.status }" target="dialog" rel="dlg_page1" max="true" title="续期催收列表" width="800" height="480"><span>全屏查看</span></a></li>
+				<li><a class="icon" href="${contextPath }/hfgl/issue/maxlist?search_LIKE_issueNo=${param.search_LIKE_issueNo }&policy.orgCode=${policy_orgCode }&search_LTE_shouldDate=${param.search_LTE_shouldDate }&search_GTE_shouldDate=${param.search_GTE_shouldDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&search_LIKE_hasLetter=${param.search_LIKE_hasLetter }&status=${param.status }" target="dialog" rel="dlg_page1" max="true" title="回访不成功列表" width="800" height="480"><span>全屏查看</span></a></li>
 				<li class="line">line</li>
 				<li><a class="icon" target="_blank" href="${contextPath }/hfgl/toXls?search_LIKE_issueNo=${param.search_LIKE_issueNo }&policy.orgCode=${policy_orgCode }&search_LTE_shouldDate=${param.search_LTE_shouldDate }&search_GTE_shouldDate=${param.search_GTE_shouldDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&search_LIKE_hasLetter=${param.search_LIKE_hasLetter }&status=${param.status }"><span>导出Excel</span></a></li>
 			</shiro:hasPermission>
@@ -102,7 +102,7 @@
 		</ul>
 	</div>
 	
-	<table class="table" layoutH="178" width="140%">
+	<table class="table" layoutH="160" width="140%">
 		<thead>
 			<tr>
 				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>

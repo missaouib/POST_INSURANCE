@@ -14,6 +14,19 @@ public class StatusDefine {
 		}
 	};
 	
+	public enum UW_STATUS {
+		NewStatus("新建"), SendStatus("已寄出"), CloseStatus("已回销");
+		private String desc;
+
+		UW_STATUS(String desc) {
+			this.desc = desc;
+		}
+
+		public String getDesc() {
+			return desc;
+		}
+	};
+	
 	public enum HF_STATUS {
 		NewStatus("待处理"), /*DealStatus("已回复"),*/ ResetStatus("已重置"), DoorSuccessStatus("上门成功"), DoorFailStatus("上门失败"), CallSuccessStatus("二访成功"), CallFailStatus("二访失败"), CloseStatus("已结案");
 		private String desc;

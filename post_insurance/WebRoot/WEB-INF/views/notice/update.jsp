@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 <div class="pageContent">
-<form method="post" action="${contextPath}/basedata/callDealType/update" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
+<form method="post" action="${contextPath}/notice/update" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
 	<input type="hidden" name="id" value="${basedata.id}"/>
 	<div class="pageFormContent" layoutH="58">
 		<p>

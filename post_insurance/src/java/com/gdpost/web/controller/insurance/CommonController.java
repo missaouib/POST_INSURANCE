@@ -32,11 +32,38 @@ import com.gdpost.web.service.insurance.BaseDataService;
 import com.gdpost.web.service.insurance.CommonService;
 import com.gdpost.web.util.dwz.Page;
 import com.gdpost.web.util.persistence.DynamicSpecifications;
+import com.gdpost.web.util.persistence.SearchFilter;
+import com.gdpost.web.util.persistence.SearchFilter.Operator;
 
 @Controller
 @RequestMapping("/common")
 public class CommonController {
 	private static final Logger LOG = LoggerFactory.getLogger(CommonController.class);
+	
+	public static final Map<String, String> ORG_TIPS = new HashMap<String, String>();
+	
+	static {
+		ORG_TIPS.put("gz", "864401");
+		ORG_TIPS.put("sg", "864402");
+		ORG_TIPS.put("zh", "864404");
+		ORG_TIPS.put("st", "864405");
+		ORG_TIPS.put("fs", "864406");
+		ORG_TIPS.put("jm", "864407");
+		ORG_TIPS.put("zj", "864408");
+		ORG_TIPS.put("mm", "864409");
+		ORG_TIPS.put("zq", "864412");
+		ORG_TIPS.put("hz", "864413");
+		ORG_TIPS.put("mz", "864414");
+		ORG_TIPS.put("sw", "864415");
+		ORG_TIPS.put("hy", "864416");
+		ORG_TIPS.put("yj", "864417");
+		ORG_TIPS.put("qy", "864418");
+		ORG_TIPS.put("dg", "864419");
+		ORG_TIPS.put("zs", "864420");
+		ORG_TIPS.put("cz", "864451");
+		ORG_TIPS.put("jy", "864452");
+		ORG_TIPS.put("yf", "864453");
+	}
 	
 	@Autowired
 	private CommonService commonService;
@@ -48,7 +75,15 @@ public class CommonController {
 	
 	@RequestMapping(value="/lookupPolicysuggest", method={RequestMethod.POST})
 	public @ResponseBody String lookupPolicySuggest(ServletRequest request, Map<String, Object> map) {
-		Specification<Policy> specification = DynamicSpecifications.bySearchFilter(request, Policy.class);
+		String policyNo = request.getParameter("policyNo");
+		if(policyNo.trim().length() < 4) {
+			return "{}";
+		}
+		String pre = ORG_TIPS.get(policyNo.trim().toLowerCase().substring(0, 2)) + "%";
+		policyNo = "%" + policyNo.trim().toLowerCase().substring(2);
+		Specification<Policy> specification = DynamicSpecifications.bySearchFilterWithoutRequest(Policy.class, 
+				new SearchFilter("policyNo", Operator.LIKE, pre),
+				new SearchFilter("policyNo", Operator.LIKE, policyNo));
 		Page page = new Page();
 		page.setNumPerPage(10);
 		List<Policy> org = commonService.findByPolicyExample(specification, page);

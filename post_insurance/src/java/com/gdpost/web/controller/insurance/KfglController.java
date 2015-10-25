@@ -8,6 +8,7 @@
 package com.gdpost.web.controller.insurance;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +37,7 @@ import com.gdpost.utils.SecurityUtils;
 import com.gdpost.web.entity.main.Issue;
 import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.User;
+import com.gdpost.web.exception.ServiceException;
 import com.gdpost.web.log.Log;
 import com.gdpost.web.log.LogMessageObject;
 import com.gdpost.web.log.impl.LogUitls;
@@ -66,6 +68,7 @@ public class KfglController {
 	private static final String PRINT_LIST = "insurance/kfgl/wtj/issues";
 	private static final String UPDATE = "insurance/kfgl/wtj/update";
 	private static final String LIST = "insurance/kfgl/wtj/list";
+	private static final String MAX_LIST = "insurance/kfgl/wtj/maxlist";
 	private static final String ISSUE_LIST = "insurance/kfgl/wtj/issuelist";
 	private static final String TO_HELP = "insurance/help/kfgl";
 	
@@ -231,6 +234,41 @@ public class KfglController {
 		return	AjaxObject.newOk("结案问题工单成功！").toString(); 
 	}
 	
+	@Log(message="结案了{0}问题工单的信息。")
+	@RequiresPermissions("Wtgd:edit")
+	@RequestMapping(value="/issue/close/{id}", method=RequestMethod.POST)
+	public @ResponseBody String closeSingleIssue(@PathVariable Long id) {
+		//ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		Issue src = kfglService.get(id);
+		src.setStatus(STATUS.CloseStatus.getDesc());
+		kfglService.saveOrUpdate(src);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getIssueNo()}));
+		return	AjaxObject.newOk("结案问题工单成功！").setCallbackType("").toString(); 
+	}
+	
+	@Log(message="对{0}问题工单进行了结案关闭。")
+	@RequiresPermissions("Wtgd:provEdit")
+	@RequestMapping(value="/issue/CloseStatus", method=RequestMethod.POST)
+	public @ResponseBody String closeMany(Long[] ids) {
+		String[] policys = new String[ids.length];
+		try {
+			Issue issue = null;
+			for (int i = 0; i < ids.length; i++) {
+				issue = kfglService.get(ids[i]);
+				issue.setStatus(STATUS.CloseStatus.getDesc());
+				kfglService.saveOrUpdate(issue);
+				
+				policys[i] = issue.getIssueNo();
+			}
+		} catch (ServiceException e) {
+			return AjaxObject.newError("结案关闭工单失败：" + e.getMessage()).setCallbackType("").toString();
+		}
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{Arrays.toString(policys)}));
+		return AjaxObject.newOk("成功结案关闭！").setCallbackType("").toString();
+	}
+	
 	@RequiresPermissions("Wtgd:view")
 	@RequestMapping(value="/issue/list", method={RequestMethod.GET, RequestMethod.POST})
 	public String list(ServletRequest request, Page page, Map<String, Object> map) {
@@ -316,6 +354,70 @@ public class KfglController {
 		map.put("page", page);
 		map.put("issues", issues);
 		return LIST;
+	}
+	
+	@RequiresPermissions("Wtgd:view")
+	@RequestMapping(value="/issue/maxlist", method={RequestMethod.GET, RequestMethod.POST})
+	public String maxlist(ServletRequest request, Page page, Map<String, Object> map) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
+		String orgCode = request.getParameter("orgCode");
+		if(orgCode == null || orgCode.trim().length()<=0) {
+			orgCode = userOrg.getOrgCode();
+		}
+		String orgName = request.getParameter("name");
+		request.setAttribute("orgCode", orgCode);
+		request.setAttribute("name", orgName);
+		//默认返回未处理工单
+		String status = request.getParameter("status");
+		Issue issue = new Issue();
+		issue.setStatus(status);
+		
+		if(page.getOrderField() == null) {
+			page.setOrderField("shouldDate");
+			page.setOrderDirection("ASC");
+		}
+		
+		Specification<Issue> specification = null;
+		
+		//如果是县区局登录的机构号为8位，需要根据保单的所在机构进行筛选
+		if (user.getOrganization().getOrgCode().length() > 4) {
+			if(status == null) {
+				LOG.debug("-------------- 111: " );
+				specification = DynamicSpecifications.bySearchFilter(request, Issue.class,
+						new SearchFilter("status", Operator.OR_LIKE, STATUS.NewStatus.getDesc()),
+						new SearchFilter("status", Operator.OR_LIKE, STATUS.IngStatus.getDesc()),
+						new SearchFilter("status", Operator.OR_LIKE, STATUS.ReopenStatus.getDesc()),
+						new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+			} else {
+				LOG.debug("-------------- 222: " );
+				specification = DynamicSpecifications.bySearchFilter(request, Issue.class,
+					new SearchFilter("status", Operator.LIKE, status),
+					new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+			}
+		} else {
+			if(status == null) {
+				LOG.debug("-------------- 333: " );
+				issue.setStatus(STATUS.DealStatus.getDesc());
+				specification = DynamicSpecifications.bySearchFilter(request, Issue.class,
+						new SearchFilter("status", Operator.LIKE, STATUS.DealStatus.getDesc()),
+						new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+			} else {
+				LOG.debug("-------------- 444: " );
+				specification = DynamicSpecifications.bySearchFilter(request, Issue.class,
+					new SearchFilter("status", Operator.LIKE, status),
+					new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+			}
+		}
+		
+		List<Issue> issues = kfglService.findByExample(specification, page);
+		
+		map.put("issue", issue);
+		map.put("statusList", STATUS.values());
+		map.put("page", page);
+		map.put("issues", issues);
+		return MAX_LIST;
 	}
 	
 	@RequiresPermissions("Wtgd:view")

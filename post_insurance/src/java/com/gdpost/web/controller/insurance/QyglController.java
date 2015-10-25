@@ -46,6 +46,7 @@ import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.insurance.QyglService;
 import com.gdpost.web.shiro.ShiroUser;
 import com.gdpost.web.util.StatusDefine.STATUS;
+import com.gdpost.web.util.StatusDefine.UW_STATUS;
 import com.gdpost.web.util.dwz.AjaxObject;
 import com.gdpost.web.util.dwz.Page;
 import com.gdpost.web.util.persistence.DynamicSpecifications;
@@ -113,7 +114,7 @@ public class QyglController {
 		return UPDATE_WRITE;
 	}
 	
-	@Log(message="回复了{0}新契约不合格件的信息。")
+	@Log(message="回复了{0}新契约填写不合格件的信息。")
 	@RequiresPermissions("CheckWrite:edit")
 	@RequestMapping(value="/issue/write/update", method=RequestMethod.POST)
 	public @ResponseBody String updateCheckWrite(CheckWrite issue) {
@@ -126,10 +127,10 @@ public class QyglController {
 		qyglService.saveOrUpdateCheckWrite(src);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));
-		return	AjaxObject.newOk("回复新契约不合格件成功！").toString(); 
+		return	AjaxObject.newOk("回复新契约填写不合格件成功！").toString(); 
 	}
 	
-	@Log(message="重新打开了{0}新契约不合格件的信息。")
+	@Log(message="重新打开了{0}新契约填写不合格件的信息。")
 	@RequiresPermissions("CheckWrite:edit")
 	@RequestMapping(value="/issue/write/reopen", method=RequestMethod.POST)
 	public @ResponseBody String reopenCheckWrite(CheckWrite issue) {
@@ -142,10 +143,10 @@ public class QyglController {
 		qyglService.saveOrUpdateCheckWrite(src);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));
-		return	AjaxObject.newOk("重新打开新契约不合格件成功！").toString(); 
+		return	AjaxObject.newOk("重新打开新契约填写不合格件成功！").toString(); 
 	}
 	
-	@Log(message="结案了{0}新契约不合格件的信息。")
+	@Log(message="结案了{0}新契约填写不合格件的信息。")
 	@RequiresPermissions("CheckWrite:edit")
 	@RequestMapping(value="/issue/write/close", method=RequestMethod.POST)
 	public @ResponseBody String closeCheckWrite(CheckWrite issue) {
@@ -155,7 +156,7 @@ public class QyglController {
 		qyglService.saveOrUpdateCheckWrite(src);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));
-		return	AjaxObject.newOk("结案新契约不合格件成功！").toString(); 
+		return	AjaxObject.newOk("结案新契约填写不合格件成功！").toString(); 
 	}
 	
 	@RequiresPermissions("CheckWrite:view")
@@ -229,7 +230,7 @@ public class QyglController {
 		return UPDATE_RECORD;
 	}
 	
-	@Log(message="回复了{0}新契约不合格件的信息。")
+	@Log(message="回复了{0}新契约录入不合格件的信息。")
 	@RequiresPermissions("CheckRecord:edit")
 	@RequestMapping(value="/issue/record/update", method=RequestMethod.POST)
 	public @ResponseBody String updateCheckRecord(CheckRecord issue) {
@@ -242,10 +243,10 @@ public class QyglController {
 		qyglService.saveOrUpdateCheckRecord(src);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));
-		return	AjaxObject.newOk("回复新契约不合格件成功！").toString(); 
+		return	AjaxObject.newOk("回复新契约录入不合格件成功！").toString(); 
 	}
 	
-	@Log(message="重新打开了{0}新契约不合格件的信息。")
+	@Log(message="重新打开了{0}新契约录入不合格件的信息。")
 	@RequiresPermissions("CheckRecord:edit")
 	@RequestMapping(value="/issue/record/reopen", method=RequestMethod.POST)
 	public @ResponseBody String reopenCheckRecord(CheckRecord issue) {
@@ -258,10 +259,10 @@ public class QyglController {
 		qyglService.saveOrUpdateCheckRecord(src);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));
-		return	AjaxObject.newOk("重新打开新契约不合格件成功！").toString(); 
+		return	AjaxObject.newOk("重新打开新契约录入不合格件成功！").toString(); 
 	}
 	
-	@Log(message="结案了{0}新契约不合格件的信息。")
+	@Log(message="结案了{0}新契约录入不合格件的信息。")
 	@RequiresPermissions("CheckRecord:edit")
 	@RequestMapping(value="/issue/record/close", method=RequestMethod.POST)
 	public @ResponseBody String closeCheckRecord(CheckRecord issue) {
@@ -271,7 +272,7 @@ public class QyglController {
 		qyglService.saveOrUpdateCheckRecord(src);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));
-		return	AjaxObject.newOk("结案新契约不合格件成功！").toString(); 
+		return	AjaxObject.newOk("结案新契约录入不合格件成功！").toString(); 
 	}
 	
 	@RequiresPermissions("CheckRecord:view")
@@ -356,7 +357,10 @@ public class QyglController {
 	@RequiresPermissions("UnderWrite:save")
 	@RequestMapping(value="/underwrite/create", method=RequestMethod.POST)
 	public @ResponseBody String create(@Valid UnderWrite underwrite) {	
+		User user = SecurityUtils.getShiroUser().getUser();
 		try {
+			underwrite.setStatus(UW_STATUS.NewStatus.name());
+			underwrite.setDealMan(user.getRealname());
 			qyglService.saveOrUpdateUnderWrite(underwrite);
 		} catch (ExistedException e) {
 			return AjaxObject.newError("添加人核件信息失败：" + e.getMessage()).setCallbackType("").toString();
@@ -391,14 +395,12 @@ public class QyglController {
 		UnderWrite src = qyglService.getUnderWrite(underwrite.getId());
 		src.setDealMan(underwrite.getDealMan());
 		src.setIsLetter(underwrite.getIsLetter());
-		src.setErrorDesc(underwrite.getErrorDesc());
 		src.setUnderwriteDate(underwrite.getUnderwriteDate());
-		src.setIssueFlag(underwrite.getIssueFlag());
 		src.setSignDate(underwrite.getSignDate());
 		src.setPolicyNo(underwrite.getPolicyNo());
 		src.setProvReceiveDate(underwrite.getProvReceiveDate());
 		src.setProvEmsNo(underwrite.getProvEmsNo());
-		
+		src.setStatus(UW_STATUS.SendStatus.name());
 		qyglService.saveOrUpdateUnderWrite(src);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicyNo()}));
@@ -442,7 +444,7 @@ public class QyglController {
 		UnderWrite src = qyglService.getUnderWrite(underwrite.getId());
 		src.setClientReceiveDate(underwrite.getClientReceiveDate());
 		src.setSignInputDate(underwrite.getSignInputDate());
-		
+		src.setStatus(UW_STATUS.CloseStatus.name());
 		qyglService.saveOrUpdateUnderWrite(src);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicyNo()}));
@@ -542,13 +544,21 @@ public class QyglController {
 		request.setAttribute("orgCode", orgCode);
 		request.setAttribute("name", orgName);
 		//默认返回未处理工单
+		String status = request.getParameter("status");
+		if(status == null) {
+			status = "";
+		}
+		UnderWrite uw = new UnderWrite();
+		uw.setStatus(status);
 		
 		Specification<UnderWrite> specification = DynamicSpecifications.bySearchFilter(request, UnderWrite.class,
+				new SearchFilter("status", Operator.LIKE, status),
 				new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
 		
 		List<UnderWrite> underwrites = qyglService.findByUnderWriteExample(specification, page);
 		
-		map.put("UWStatusList", STATUS.values());
+		map.put("UWStatusList", UW_STATUS.values());
+		map.put("underwrite", uw);
 		map.put("page", page);
 		map.put("underwrites", underwrites);
 		return UW_LIST;

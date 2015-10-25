@@ -2,7 +2,7 @@
 <%@page import="java.util.Date"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 
-<dwz:paginationForm action="${contextPath }/kfgl/issue/list" page="${page }">
+<dwz:paginationForm action="${contextPath }/kfgl/issue/maxlist" page="${page }" onsubmit="return dwzSearch(this, 'dialog');">
 	<input type="hidden" name="search_LIKE_issueNo" value="${param.search_LIKE_issueNo }"/>
 	<input type="hidden" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
 	<input type="hidden" name="orgCode" value="${orgCode }"/>
@@ -12,7 +12,7 @@
 	<input type="hidden" name="search_GTE_shouldDate" value="${param.search_GTE_shouldDate }"/>
 </dwz:paginationForm>
 
-<form method="post" id="kfForm" action="${contextPath }/kfgl/issue/list" onsubmit="return navTabSearch(this)">
+<form method="post" rel="kfForm" action="${contextPath }/kfgl/issue/maxlist" onsubmit="return dwzSearch(this, 'dialog');">
 	<div class="pageHeader">
 		<div class="searchBar">
 			<table class="searchContent">
@@ -69,15 +69,13 @@
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Wtgd:provEdit">
 				<li class="line">line</li>
-				<li><a iconClass="user_go" target="selectedTodo" rel="ids" href="${contextPath }/kfgl/issue/CloseStatus" title="确认要结案关闭?"><span>批量结案关闭</span></a></li>
+				<li><a iconClass="user_go" target="ajaxTodo" href="${contextPath }/kfgl/issue/close/{slt_uid}" title="确认要结案关闭?"><span>单个结案关闭</span></a></li>
 			</shiro:hasPermission>
 			<li class="line">line</li>
 			<li><a iconClass="user_edit" target="navTab" rel="printIssue" mask="true" width="820" height="520" href="${contextPath }/kfgl/issue/print/{slt_uid}"><span>打印工单</span></a></li>
 			<li class="line">line</li>
 			<li><a iconClass="user_edit" target="navTab" rel="printIssueList" mask="true" width="820" height="520" href="${contextPath }/kfgl/issues/print"><span>批打工单</span></a></li>
 			<shiro:hasPermission name="Wtgd:view">
-				<li class="line">line</li>
-				<li><a class="icon" href="${contextPath }/kfgl/issue/maxlist?search_LIKE_issueNo=${param.search_LIKE_issueNo }&policy.orgCode=${policy_orgCode }&search_LTE_shouldDate=${param.search_LTE_shouldDate }&search_GTE_shouldDate=${param.search_GTE_shouldDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&search_LIKE_hasLetter=${param.search_LIKE_hasLetter }&status=${param.status }" target="dialog" rel="dlg_page1" max="true" title="客服工单列表" width="800" height="480"><span>全屏查看</span></a></li>
 				<li class="line">line</li>
 				<li><a class="icon" target="_blank" href="${contextPath }/kfgl/toXls?search_LIKE_issueNo=${param.search_LIKE_issueNo }&policy.orgCode=${policy_orgCode }&search_LTE_shouldDate=${param.search_LTE_shouldDate }&search_GTE_shouldDate=${param.search_GTE_shouldDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&search_LIKE_hasLetter=${param.search_LIKE_hasLetter }&status=${param.status }"><span>导出Excel</span></a></li>
 			</shiro:hasPermission>
@@ -86,15 +84,15 @@
 		</ul>
 	</div>
 	
-	<table class="table" layoutH="160" width="115%">
+	<table class="table" layoutH="160" width="100%">
 		<thead>
 			<tr>
-				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
+				<th><input type="checkbox" group="kfIds" class="checkboxCtrl"></th>			
 				<th orderField=organization.name class="${page.orderField eq 'organization.name' ? page.orderDirection : ''}">所属机构</th>
 				<th orderField=issueNo class="${page.orderField eq 'issueNo' ? page.orderDirection : ''}">工单编号</th>
 				<th>工单内容</th>
-				<th orderField=operateTime class="${page.orderField eq 'operateTime' ? page.orderDirection : ''}">开始处理时间</th>
-				<th>离结案还有（天）</th>
+				<th orderField=operateTime class="${page.orderField eq 'operateTime' ? page.orderDirection : ''}">导入时间</th>
+				<th>离结案（天）</th>
 				<th orderField=policy.policyNo class="${page.orderField eq 'policy.policyNo' ? page.orderDirection : ''}">所属保单号</th>
 				<th>保单所属机构</th>
 				<th orderField=status class="${page.orderField eq 'status' ? page.orderDirection : ''}">工单状态</th>
@@ -106,7 +104,7 @@
 		<tbody>
 			<c:forEach var="item" items="${issues}">
 			<tr target="slt_uid" rel="${item.id}">
-				<td><input name="ids" value="${item.id}" type="checkbox"></td>
+				<td><input name="kfIds" value="${item.id}" type="checkbox"></td>
 				<td>${fn:replace(item.organization.name,'邮政局中邮保险局','')}</td>
 				<td>${item.issueNo}</td>
 				<td>${item.issueContent}</td>
@@ -123,5 +121,5 @@
 		</tbody>
 	</table>
 	<!-- 分页 -->
-	<dwz:pagination page="${page }"/>
+	<dwz:pagination page="${page }" targetType="dialog"/>
 </div>

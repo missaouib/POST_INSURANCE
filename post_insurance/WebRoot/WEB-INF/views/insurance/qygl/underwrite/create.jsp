@@ -54,6 +54,29 @@
 			<input type="text" name="checkDate" id="hfDate1" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value=""/>
 					<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
+		<div class="divider"></div>
+		<p>
+			<label>是否下问题件：</label>
+			<form:radiobutton path="underwrite.issueFlag" value="1" onclick="javascript:$('#dispDiv').css('display', 'block');"/>是
+			<form:radiobutton path="underwrite.issueFlag" value="0" onclick="javascript:$('#dispDiv').css('display', 'none');"/>否
+		</p>
+		<div id="dispDiv" <c:if test="${underwrite.issueFlag == 0 }">style="display:none"</c:if>>
+		<p>
+			<label>问题件描述：</label>
+			<input type="text" name="errorDesc" maxlength="32" value="${underwrite.errorDesc }"/>
+		</p>
+		</div>
+		<p>
+			<label>双录是否通过：</label>
+			<form:radiobutton path="underwrite.hasRecord" value="1" onclick="javascript:$('#recordDiv').css('display', 'block');"/>是
+			<form:radiobutton path="underwrite.hasRecord" value="0" onclick="javascript:$('#recordDiv').css('display', 'none');"/>否
+		</p>
+		<div id="recordDiv" <c:if test="${underwrite.hasRecord == 0 }">style="display:none"</c:if>>
+		<p>
+			<label>问题件描述：</label>
+			<input type="text" name="recordDesc" maxlength="32" value="${underwrite.recordDesc }"/>
+		</p>
+		</div>
 	</div>
 			
 	<div class="formBar">

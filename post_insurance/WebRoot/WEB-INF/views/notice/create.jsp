@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 <div class="pageContent">
-<form method="post" action="${contextPath }/basedata/callDealType/create" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
+<form method="post" action="${contextPath }/notice/create" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
 	<div class="pageFormContent" layoutH="58">
 		<p>
 			<label>标题：</label>
