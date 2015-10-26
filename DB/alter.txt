@@ -338,7 +338,6 @@ create table t_notice_att
 alter table t_notice_att add constraint fk_notice_attr foreign key (notice_id)
       references t_notice (id) on delete restrict on update restrict;
 
---------------- SQL ---------------
 
 ALTER TABLE `t_under_write` ADD COLUMN `has_record` TINYINT(1) DEFAULT 1 AFTER `error_desc`;
 

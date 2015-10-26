@@ -1,4 +1,4 @@
-package com.gdpost.web.entity.main;
+package com.gdpost.web.entity.nouse;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,6 +22,9 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import com.gdpost.web.entity.Idable;
 import com.gdpost.web.entity.basedata.CallDealType;
+import com.gdpost.web.entity.main.CallFeedback;
+import com.gdpost.web.entity.main.ConvictedInfo;
+import com.gdpost.web.entity.main.Policy;
 
 /**
  * TCallFail entity. @author MyEclipse Persistence Tools

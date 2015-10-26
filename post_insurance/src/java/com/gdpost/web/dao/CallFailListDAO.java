@@ -13,7 +13,7 @@ import com.gdpost.web.entity.main.Policy;
  * manually added to each of these methods for data to be persisted to the JPA
  * datastore.
  * 
- * @see com.gdpost.web.entity.main.CallFail
+ * @see com.gdpost.web.entity.nouse.CallFail
  * @author MyEclipse Persistence Tools
  */
 public interface CallFailListDAO extends JpaRepository<CallFailList, Long>, JpaSpecificationExecutor<CallFailList> {

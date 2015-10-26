@@ -3,7 +3,7 @@ package com.gdpost.web.dao;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-import com.gdpost.web.entity.main.ComponentResource;
+import com.gdpost.web.entity.component.ComponentResource;
 
 /**
  * A data access object (DAO) providing persistence and search support for
@@ -12,7 +12,7 @@ import com.gdpost.web.entity.main.ComponentResource;
  * must be manually added to each of these methods for data to be persisted to
  * the JPA datastore.
  * 
- * @see com.gdpost.web.entity.main.ComponentResource
+ * @see com.gdpost.web.entity.component.ComponentResource
  * @author MyEclipse Persistence Tools
  */
 public interface ComponentResourceDAO extends JpaRepository<ComponentResource, Long>, JpaSpecificationExecutor<ComponentResource> {

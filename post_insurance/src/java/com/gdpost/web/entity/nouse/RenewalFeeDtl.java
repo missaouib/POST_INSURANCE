@@ -1,4 +1,4 @@
-package com.gdpost.web.entity.main;
+package com.gdpost.web.entity.nouse;
 
 import java.util.Date;
 
@@ -18,6 +18,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import com.gdpost.web.entity.Idable;
+import com.gdpost.web.entity.main.Policy;
 
 /**
  * TRenewalFeeDtl entity. @author MyEclipse Persistence Tools

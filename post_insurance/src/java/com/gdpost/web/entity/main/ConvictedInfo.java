@@ -17,6 +17,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import com.gdpost.web.entity.Idable;
+import com.gdpost.web.entity.nouse.CallFail;
 
 /**
  * TConvictedInfo entity. @author MyEclipse Persistence Tools

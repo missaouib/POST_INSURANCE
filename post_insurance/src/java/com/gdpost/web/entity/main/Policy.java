@@ -24,6 +24,7 @@ import org.hibernate.annotations.ColumnTransformer;
 
 import com.gdpost.web.entity.Idable;
 import com.gdpost.web.entity.basedata.Prd;
+import com.gdpost.web.entity.nouse.CallFail;
 
 /**
  * policy entity. @author MyEclipse Persistence Tools
@@ -72,8 +73,6 @@ public class Policy implements Idable<Long>, Serializable{
 	private String customerManagerCode;
 	private String customer_manager;
 	
-	private List<RenewalDtl> renewalDtls = new ArrayList<RenewalDtl>(0);
-	private List<RenewalFeeDtl> renewalFeeDtls = new ArrayList<RenewalFeeDtl>(0);
 	private List<Issue> issues = new ArrayList<Issue>(0);
 	private List<CheckRecordDtl> checkRecordDtls = new ArrayList<CheckRecordDtl>(0);
 	private List<CheckWriteDtl> checkWriteDtls = new ArrayList<CheckWriteDtl>(0);
@@ -88,8 +87,7 @@ public class Policy implements Idable<Long>, Serializable{
 	/** full constructor */
 	public Policy(String prodName, String bankName, String salesName,
 			String salesId, String status, Integer perm, String policyFee, String copies, String insuredAmount, String holder, String insured, Date policyDate, Integer renewalSucessFlag,
-			Integer resetValidFlag, List<RenewalDtl> TRenewalDtls, List<RenewalFeeDtl> TRenewalFeeDtls,
-			List<Issue> TIssues, List<CheckRecordDtl> TCheckRecordDtls, List<CheckWriteDtl> TCheckWriteDtls, List<CallFail> TCallFails) {
+			Integer resetValidFlag, List<Issue> TIssues, List<CheckRecordDtl> TCheckRecordDtls, List<CheckWriteDtl> TCheckWriteDtls, List<CallFail> TCallFails) {
 		this.prodName = prodName;
 		this.bankName = bankName;
 		this.salesName = salesName;
@@ -104,8 +102,6 @@ public class Policy implements Idable<Long>, Serializable{
 		this.policyDate = policyDate;
 		this.renewalSucessFlag = renewalSucessFlag;
 		this.resetValidFlag = resetValidFlag;
-		this.renewalDtls = TRenewalDtls;
-		this.renewalFeeDtls = TRenewalFeeDtls;
 		this.issues = TIssues;
 		this.checkRecordDtls = TCheckRecordDtls;
 		this.checkWriteDtls = TCheckWriteDtls;
@@ -407,24 +403,6 @@ public class Policy implements Idable<Long>, Serializable{
 
 	public void setCustomer_manager(String customer_manager) {
 		this.customer_manager = customer_manager;
-	}
-
-	@OneToMany(mappedBy="policy", cascade={CascadeType.REMOVE}, orphanRemoval=true)
-	public List<RenewalDtl> getRenewalDtls() {
-		return this.renewalDtls;
-	}
-
-	public void setRenewalDtls(List<RenewalDtl> renewalDtls) {
-		this.renewalDtls = renewalDtls;
-	}
-
-	@OneToMany(mappedBy="policy", cascade={CascadeType.REMOVE}, orphanRemoval=true)
-	public List<RenewalFeeDtl> getRenewalFeeDtls() {
-		return this.renewalFeeDtls;
-	}
-
-	public void setRenewalFeeDtls(List<RenewalFeeDtl> renewalFeeDtls) {
-		this.renewalFeeDtls = renewalFeeDtls;
 	}
 
 	@OneToMany(mappedBy="policy", cascade={CascadeType.REMOVE}, orphanRemoval=true)

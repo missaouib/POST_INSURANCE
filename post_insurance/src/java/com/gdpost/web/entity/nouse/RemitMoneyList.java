@@ -1,4 +1,4 @@
-package com.gdpost.web.entity.main;
+package com.gdpost.web.entity.nouse;
 
 import java.util.Date;
 

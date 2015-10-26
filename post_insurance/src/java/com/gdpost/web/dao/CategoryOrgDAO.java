@@ -3,7 +3,7 @@ package com.gdpost.web.dao;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-import com.gdpost.web.entity.main.CategoryOrg;
+import com.gdpost.web.entity.nouse.CategoryOrg;
 
 /**
  * A data access object (DAO) providing persistence and search support for
@@ -12,7 +12,7 @@ import com.gdpost.web.entity.main.CategoryOrg;
  * must be manually added to each of these methods for data to be persisted to
  * the JPA datastore.
  * 
- * @see com.gdpost.web.entity.main.CategoryOrg
+ * @see com.gdpost.web.entity.nouse.CategoryOrg
  * @author MyEclipse Persistence Tools
  */
 public interface CategoryOrgDAO extends JpaRepository<CategoryOrg, Long>, JpaSpecificationExecutor<CategoryOrg> {

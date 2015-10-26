@@ -3,7 +3,7 @@ package com.gdpost.web.dao;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-import com.gdpost.web.entity.main.RemitMoneyList;
+import com.gdpost.web.entity.nouse.RemitMoneyList;
 
 /**
  * A data access object (DAO) providing persistence and search support for
