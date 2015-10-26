@@ -25,11 +25,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.JavaBeanSerializer;
 import com.alibaba.fastjson.serializer.SerializeConfig;
+import com.gdpost.utils.SecurityUtils;
 import com.gdpost.web.entity.basedata.ConservationError;
 import com.gdpost.web.entity.basedata.Prd;
+import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.Policy;
+import com.gdpost.web.entity.main.User;
 import com.gdpost.web.service.insurance.BaseDataService;
 import com.gdpost.web.service.insurance.CommonService;
+import com.gdpost.web.shiro.ShiroUser;
 import com.gdpost.web.util.dwz.Page;
 import com.gdpost.web.util.persistence.DynamicSpecifications;
 import com.gdpost.web.util.persistence.SearchFilter;
@@ -75,17 +79,24 @@ public class CommonController {
 	
 	@RequestMapping(value="/lookupPolicysuggest", method={RequestMethod.POST})
 	public @ResponseBody String lookupPolicySuggest(ServletRequest request, Map<String, Object> map) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();
+		Organization userOrg = user.getOrganization();
+		Specification<Policy> specification = DynamicSpecifications.bySearchFilter(request, Policy.class, 
+				new SearchFilter("organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+		
 		String policyNo = request.getParameter("policyNo");
-		if(policyNo.trim().length() < 4) {
+		if(policyNo != null && policyNo.trim().length() <= 3) {
 			return "{}";
+		} if(policyNo != null && policyNo.trim().length() > 3) {
+			String pre = ORG_TIPS.get(policyNo.trim().toLowerCase().substring(0, 2)) + "%";
+			policyNo = "%" + policyNo.trim().toLowerCase().substring(2);
+			specification = DynamicSpecifications.bySearchFilterWithoutRequest(Policy.class, 
+					new SearchFilter("policyNo", Operator.LIKE, pre),
+					new SearchFilter("policyNo", Operator.LIKE, policyNo));
 		}
-		String pre = ORG_TIPS.get(policyNo.trim().toLowerCase().substring(0, 2)) + "%";
-		policyNo = "%" + policyNo.trim().toLowerCase().substring(2);
-		Specification<Policy> specification = DynamicSpecifications.bySearchFilterWithoutRequest(Policy.class, 
-				new SearchFilter("policyNo", Operator.LIKE, pre),
-				new SearchFilter("policyNo", Operator.LIKE, policyNo));
 		Page page = new Page();
-		page.setNumPerPage(10);
+		page.setNumPerPage(15);
 		List<Policy> org = commonService.findByPolicyExample(specification, page);
 		SerializeConfig mapping = new SerializeConfig();
 		HashMap<String, String> fm = new HashMap<String, String>();

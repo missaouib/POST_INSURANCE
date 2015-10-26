@@ -73,7 +73,7 @@
 		</p>
 		<div id="recordDiv" <c:if test="${underwrite.hasRecord == 0 }">style="display:none"</c:if>>
 		<p>
-			<label>问题件描述：</label>
+			<label>双录问题描述：</label>
 			<input type="text" name="recordDesc" maxlength="32" value="${underwrite.recordDesc }"/>
 		</p>
 		</div>

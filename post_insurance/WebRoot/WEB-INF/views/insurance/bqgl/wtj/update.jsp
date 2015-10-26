@@ -7,7 +7,7 @@
 		<p>
 			<label>保单号：</label>
 			<input type="hidden" name="policy.id" value="${issue.policy.id }" class="input-medium validate[required,maxSize[32]] required" />
-			<input name="policy.policyNo" type="text" postField="search_LIKE_policyNo" suggestFields="policyNo" 
+			<input name="policy.policyNo" type="text" postField="policyNo" suggestFields="policyNo" 
 					suggestUrl="/common/lookupPolicysuggest" lookupGroup="policy" value="${issue.policy.policyNo }"/>
 		</p>
 		<p>

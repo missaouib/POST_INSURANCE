@@ -349,7 +349,10 @@ public class QyglController {
 	
 	@RequiresPermissions("UnderWrite:save")
 	@RequestMapping(value="/underwrite/create", method=RequestMethod.GET)
-	public String preCreate() {
+	public String preCreate(Map<String, Object> map) {
+		UnderWrite underwrite = new UnderWrite();
+		
+		map.put("underwrite", underwrite);
 		return UW_CREATE;
 	}
 	
@@ -401,6 +404,12 @@ public class QyglController {
 		src.setProvReceiveDate(underwrite.getProvReceiveDate());
 		src.setProvEmsNo(underwrite.getProvEmsNo());
 		src.setStatus(UW_STATUS.SendStatus.name());
+		src.setFormNo(underwrite.getFormNo());
+		src.setHolder(underwrite.getHolder());
+		src.setInsured(underwrite.getInsured());
+		src.setRelation(underwrite.getRelation());
+		src.setUnderwriteReason(underwrite.getUnderwriteReason());
+		src.setPolicyFee(underwrite.getPolicyFee());
 		qyglService.saveOrUpdateUnderWrite(src);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicyNo()}));
