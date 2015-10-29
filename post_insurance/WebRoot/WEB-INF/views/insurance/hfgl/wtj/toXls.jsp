@@ -13,13 +13,13 @@ response.setHeader("Content-Disposition", "inline; filename=call_fail_dtl.xls");
 				<th>系统导入</th>
 				<th>离犹豫期(天)</th>
 				<th>所属保单号</th>
+				<th>所属机构</th>
 				<th>投保人</th>
 				<th>联系电话</th>
 				<th>险种名称</th>
 				<th>出单网点</th>
 				<th>工单状态</th>
 				<th>重置电话</th>
-				<th>所属机构</th>
 				<th>市县回访类型</th>
 				<th>市县回访详情</th>
 				<th>市县回访经办</th>
@@ -52,6 +52,7 @@ response.setHeader("Content-Disposition", "inline; filename=call_fail_dtl.xls");
 				<td><fmt:formatDate value="${item.operateTime }" pattern="yyyy-MM-dd"/></td>
 				<td><span style="color:red; height:50%; margin-bottom:-contentheight;"><c:if test="${item.lastDateNum<0 }">0</c:if><c:if test="${item.lastDateNum>=0 }">${item.lastDateNum }</c:if></span></td>
 				<td>${item.policy.policyNo}</td>
+				<td>${fn:replace(item.organization.name,'邮政局中邮保险局','')}</td>
 				<td>${item.policy.holder}</td>
 				<td>${item.holderMobile eq ""?item.holderPhone:item.holderMobile}</td>
 				<td>${item.policy.prodName}</td>
@@ -67,7 +68,6 @@ response.setHeader("Content-Disposition", "inline; filename=call_fail_dtl.xls");
 				</td>
 				<td>${item.status}</td>
 				<td>${item.resetPhone}</td>
-				<td>${fn:replace(item.organization.name,'邮政局中邮保险局','')}</td>
 				<td>${item.dealType}</td>
 				<td>${item.dealDesc}</td>
 				<td>${item.dealMan}</td>

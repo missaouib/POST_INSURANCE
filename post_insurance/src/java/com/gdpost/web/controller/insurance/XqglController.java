@@ -68,19 +68,43 @@ public class XqglController {
 	@RequiresPermissions("Renewed:view")
 	@RequestMapping(value="/toXls", method=RequestMethod.GET)
 	public String toXls(ServletRequest request, Page page, Map<String, Object> map) {
-		User user = SecurityUtils.getShiroUser().getUser();
-		page.setOrderField("policy.organization.orgCode");
-		page.setOrderDirection("ASC");
-		page.setNumPerPage(65564);
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
+		RenewedList issue = new RenewedList();
+		//默认返回未处理工单
+		String feeStatus = request.getParameter("search_LIKE_feeStatus");
+		String hqDealRemark = request.getParameter("search_LIKE_hqDealRemark");
+		String dealType = request.getParameter("search_LIKE_dealType");
+		if(hqDealRemark == null) {
+			hqDealRemark = "";
+		}
+		issue.setSearch_LIKE_hqDealRemark(hqDealRemark);
+		if(dealType == null) {
+			dealType = "";
+		}
+		issue.setSearch_LIKE_dealType(dealType);
+		LOG.debug("-------------- feeStatus: " + feeStatus);
+		if(feeStatus == null) {
+			feeStatus = "";
+		}
+		issue.setSearch_LIKE_feeStatus(feeStatus);
+		
 		String orgCode = request.getParameter("policy.orgCode");
 		if(orgCode == null || orgCode.trim().length()<=0) {
 			orgCode = user.getOrganization().getOrgCode();
 		}
+		
+		if(page.getOrderField() == null) {
+			page.setOrderField("policy.policyDate");
+			page.setOrderDirection("ASC");
+		}
+		
 		Specification<RenewedList> specification = DynamicSpecifications.bySearchFilter(request, RenewedList.class,
 				new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
-		List<RenewedList> reqs = xqglService.findByExample(specification, page);
-
-		map.put("reqs", reqs);
+		
+		List<RenewedList> issues = xqglService.findByExample(specification, page);
+		
+		map.put("reqs", issues);
 		return TO_XLS;
 	}
 	

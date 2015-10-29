@@ -38,9 +38,9 @@ public class NoticeAtt implements Idable<Long> {
 	}
 
 	/** full constructor */
-	public NoticeAtt(Long id, Notice TNotice, String attrLink) {
+	public NoticeAtt(Long id, Notice notice, String attrLink) {
 		this.id = id;
-		this.notice = TNotice;
+		this.notice = notice;
 		this.attrLink = attrLink;
 	}
 

@@ -113,12 +113,12 @@
 				<th orderField=operateTime class="${page.orderField eq 'operateTime' ? page.orderDirection : ''}">系统导入</th>
 				<th>离犹豫期(天)</th>
 				<th orderField=policy.policyNo class="${page.orderField eq 'policy.policyNo' ? page.orderDirection : ''}">所属保单号</th>
+				<th orderField=organization.name class="${page.orderField eq 'organization.name' ? page.orderDirection : ''}">所属机构</th>
 				<th>投保人</th>
 				<th>联系电话</th>
 				<th>险种名称</th>
 				<th>出单网点</th>
 				<th>重置电话</th>
-				<th orderField=organization.name class="${page.orderField eq 'organization.name' ? page.orderDirection : ''}">所属机构</th>
 				<shiro:hasPermission name="Callfail:provEdit">
 				<th orderField=hasLetter class="${page.orderField eq 'hasLetter' ? page.orderDirection : ''}">信函记录</th>
 				</shiro:hasPermission>
@@ -135,6 +135,7 @@
 				<td><fmt:formatDate value="${item.operateTime }" pattern="yyyy-MM-dd"/></td>
 				<td><span style="color:red; height:50%; margin-bottom:-contentheight;"><c:if test="${item.lastDateNum<0 }">0</c:if><c:if test="${item.lastDateNum>=0 }">${item.lastDateNum }</c:if></span></td>
 				<td>${item.policy.policyNo}</td>
+				<td>${fn:replace(item.organization.name,'邮政局中邮保险局','')}</td>
 				<td>${item.policy.holder}</td>
 				<td>${item.holderMobile eq ""?item.holderPhone:item.holderMobile}</td>
 				<td>${item.policy.prodName}</td>
@@ -149,7 +150,6 @@
 					</c:choose>
 				</td>
 				<td>${item.resetPhone}</td>
-				<td>${fn:replace(item.organization.name,'邮政局中邮保险局','')}</td>
 				<shiro:hasPermission name="Callfail:provEdit">
 				<td>${item.hasLetter}</td>
 				</shiro:hasPermission>
