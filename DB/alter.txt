@@ -344,3 +344,43 @@ ALTER TABLE `t_under_write` ADD COLUMN `has_record` TINYINT(1) DEFAULT 1 AFTER `
 ALTER TABLE `t_under_write` ADD COLUMN `record_desc` VARCHAR(254) DEFAULT 1 AFTER `has_record`;
 
 ALTER TABLE `t_under_write` ADD COLUMN `status` VARCHAR(16) DEFAULT 1 AFTER `deal_man`;
+
+
+create table t_offsite_conservation
+(
+   id                   bigint not null auto_increment,
+   org_code             varchar(16),
+   transactor           varchar(16),
+   deal_date            date,
+   policy_no            varchar(18),
+   orgin_prov           varchar(12),
+   client               varchar(12),
+   conservation_type    varchar(12),
+   linker               varchar(12),
+   prov_deal_date       date,
+   express_bill_no      varchar(16),
+   mail_addr            varchar(128),
+   remark               varchar(256),
+   operator_id          bigint,
+   operate_time         datetime,
+   primary key (id)
+)
+engine=innodb auto_increment=4 default charset=utf8;
+
+create table t_prov_org_code
+(
+   id                   bigint not null auto_increment,
+   org_code             varchar(8),
+   org_name             varchar(12),
+   primary key (id)
+)
+engine=innodb auto_increment=4 default charset=utf8;
+
+create table t_conservation_type
+(
+   id                   bigint not null auto_increment,
+   cs_type              varchar(4),
+   cs_name              varchar(16),
+   primary key (id)
+)
+engine=innodb auto_increment=4 default charset=utf8;
