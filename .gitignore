@@ -55,3 +55,6 @@ post_insurance/.classpath
 *.classpath
 post_insurance/src/resources/applicationContext.xml
 *.classpath
+post_insurance/.classpath
+*.jsdtscope
+post_insurance/.tern-project
