@@ -101,6 +101,7 @@
 				<th>投保人</th>
 				<th>被保人</th>
 				<th>关系</th>
+				<th orderField=underwriteReason class="${page.orderField eq 'underwriteReason' ? page.orderDirection : ''}">转核原因</th>
 				<th orderField=prd.prdName class="${page.orderField eq 'prd.prdName' ? page.orderDirection : ''}">产品</th>
 				<th orderField=policyFee class="${page.orderField eq 'policyFee' ? page.orderDirection : ''}">保费</th>
 				<th orderField=ybtDate class="${page.orderField eq 'ybtDate' ? page.orderDirection : ''}">邮保通录入时间</th>
@@ -117,12 +118,25 @@
 			<c:forEach var="item" items="${underwrites}">
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
-				<td>${fn:replace(item.organization.name,'邮政局中邮保险局','')}</td>
+				<td>
+				<c:choose>  
+				    <c:when test="${fn:contains(item.organization.name, '直属')}">  
+				        <c:out value="${fn:replace(item.organization.name,'邮政局直属中邮保险局','直属')}" />  
+				    </c:when>
+				    <c:when test="${fn:contains(item.organization.name, '营业本部')}">  
+				        <c:out value="营业本部" />  
+				    </c:when>
+				   <c:otherwise>
+				      <c:out value="${fn:replace(item.organization.name,'邮政局中邮保险局','')}" />  
+				    </c:otherwise>  
+				</c:choose>
+				</td>
 				<td>${item.formNo}</td>
-				<td>${item.policyNo}</td>
-				<td>${item.holder}</td>
-				<td>${item.insured}</td>
+				<td title="${item.policyNo}">${item.policyNo}</td>
+				<td title="${item.holder}">${fn:substring(item.holder, 0, 4)}</td>
+				<td title="${item.insured}">${fn:substring(item.insured, 0, 4)}</td>
 				<td>${item.relation}</td>
+				<td>${item.underwriteReason}</td>
 				<td>${item.prd.prdName}</td>
 				<td>${item.policyFee}</td>
 				<td><fmt:formatDate value="${item.ybtDate }" pattern="yyyy-MM-dd"/></td>
