@@ -18,6 +18,8 @@ import com.gdpost.web.entity.basedata.ConservationError;
 import com.gdpost.web.entity.basedata.IssueType;
 import com.gdpost.web.entity.basedata.Prd;
 import com.gdpost.web.entity.basedata.RenewalType;
+import com.gdpost.web.entity.main.ConservationType;
+import com.gdpost.web.entity.main.ProvOrgCode;
 import com.gdpost.web.util.dwz.Page;
 
 public interface BaseDataService {
@@ -139,4 +141,38 @@ public interface BaseDataService {
 	List<CheckFixType> findByCheckFixTypeExample(Specification<CheckFixType> specification, Page page);
 	
 	CheckFixType getByCheckFixTypeName(String typeName);
+	
+	/*
+	 * ==============
+	 * ConservationType
+	 * ==============
+	 */
+	ConservationType getConservationType(Long id);
+
+	void saveOrUpdateConservationType(ConservationType type);
+
+	void deleteConservationType(Long id);
+	
+	List<ConservationType> findAllConservationType(Page page);
+	
+	List<ConservationType> findByConservationTypeExample(Specification<ConservationType> specification, Page page);
+	
+	ConservationType getByConservationTypeName(String typeName);
+	
+	/*
+	 * ==============
+	 * ProvOrgCode
+	 * ==============
+	 */
+	ProvOrgCode getProvOrgCode(Long id);
+
+	void saveOrUpdateProvOrgCode(ProvOrgCode type);
+
+	void deleteProvOrgCode(Long id);
+	
+	List<ProvOrgCode> findAllProvOrgCode(Page page);
+	
+	List<ProvOrgCode> findByProvOrgCodeExample(Specification<ProvOrgCode> specification, Page page);
+	
+	ProvOrgCode getByProvOrgCodeOrgName(String typeName);
 }

@@ -32,6 +32,8 @@ import com.gdpost.web.entity.basedata.ConservationError;
 import com.gdpost.web.entity.basedata.IssueType;
 import com.gdpost.web.entity.basedata.Prd;
 import com.gdpost.web.entity.basedata.RenewalType;
+import com.gdpost.web.entity.main.ConservationType;
+import com.gdpost.web.entity.main.ProvOrgCode;
 import com.gdpost.web.exception.ExistedException;
 import com.gdpost.web.exception.ServiceException;
 import com.gdpost.web.log.Log;
@@ -78,6 +80,13 @@ public class BaseDataController {
 	private static final String CHECK_FIX_TYPE_UPDATE = "insurance/basedata/checkFixType/update";
 	private static final String CHECK_FIX_TYPE_LIST = "insurance/basedata/checkFixType/list";
 	
+	private static final String CONSERVATION_TYPE_CREATE = "insurance/basedata/ConservationType/create";
+	private static final String CONSERVATION_TYPE_UPDATE = "insurance/basedata/ConservationType/update";
+	private static final String CONSERVATION_TYPE_LIST = "insurance/basedata/ConservationType/list";
+	
+	private static final String PROV_ORG_CODE_CREATE = "insurance/basedata/provOrgCode/create";
+	private static final String PROV_ORG_CODE_UPDATE = "insurance/basedata/provOrgCode/update";
+	private static final String PROV_ORG_CODE_LIST = "insurance/basedata/provOrgCode/list";
 	/*
 	 * =======================================
 	 * call deal type 回访类型
@@ -721,5 +730,189 @@ public class BaseDataController {
 		map.put("page", page);
 		map.put("basedata", basedata);
 		return CHECK_FIX_TYPE_LIST;
+	}
+	
+	/*
+	 * =======================================
+	 * ConservationType 保全业务类型
+	 * =======================================
+	 * 
+	 */
+	@RequiresPermissions("ConservationType:save")
+	@RequestMapping(value="/conservationType/create", method=RequestMethod.GET)
+	public String preCreateConservationType() {
+		return CONSERVATION_TYPE_CREATE;
+	}
+	
+	@Log(message="添加了{0}保全业务类型。")
+	@RequiresPermissions("ConservationType:save")
+	@RequestMapping(value="/conservationType/create", method=RequestMethod.POST)
+	public @ResponseBody String createConservationType(@Valid ConservationType conservationType) {	
+		try {
+			baseService.saveOrUpdateConservationType(conservationType);
+		} catch (ExistedException e) {
+			return AjaxObject.newError("添加保全业务类型失败：" + e.getMessage()).setCallbackType("").toString();
+		}
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{conservationType.getCsName()}));
+		return AjaxObject.newOk("添加保全业务类型成功！").toString();
+	}
+	
+	@RequiresPermissions("ConservationType:edit")
+	@RequestMapping(value="/conservationType/update/{id}", method=RequestMethod.GET)
+	public String preUpdateConservationType(@PathVariable Long id, Map<String, Object> map) {
+		ConservationType basedata = baseService.getConservationType(id);
+		
+		map.put("basedata", basedata);
+		return CONSERVATION_TYPE_UPDATE;
+	}
+	
+	@Log(message="修改了{0}保全业务类型的信息。")
+	@RequiresPermissions("ConservationType:edit")
+	@RequestMapping(value="/conservationType/update", method=RequestMethod.POST)
+	public @ResponseBody String updateConservationType(ConservationType conservationType) {
+		baseService.saveOrUpdateConservationType(conservationType);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{conservationType.getCsName()}));
+		return	AjaxObject.newOk("修改保全业务类型成功！").toString(); 
+	}
+	
+	@Log(message="删除了{0}保全业务类型。")
+	@RequiresPermissions("ConservationType:delete")
+	@RequestMapping(value="/conservationType/delete/{id}", method=RequestMethod.POST)
+	public @ResponseBody String deleteConservationType(@PathVariable Long id) {
+		ConservationType conservationType = null;
+		try {
+			conservationType = baseService.getConservationType(id);
+			baseService.deleteConservationType(conservationType.getId());
+		} catch (ServiceException e) {
+			return AjaxObject.newError("删除保全业务类型失败：" + e.getMessage()).setCallbackType("").toString();
+		}
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{conservationType.getCsName()}));
+		return AjaxObject.newOk("删除保全业务类型成功！").setCallbackType("").toString();
+	}
+	
+	@Log(message="删除了{0}保全业务类型。")
+	@RequiresPermissions("ConservationType:delete")
+	@RequestMapping(value="/conservationType/delete", method=RequestMethod.POST)
+	public @ResponseBody String deleteManyConservationType(Long[] ids) {
+		String[] conservationTypes = new String[ids.length];
+		try {
+			for (int i = 0; i < ids.length; i++) {
+				ConservationType conservationType = baseService.getConservationType(ids[i]);
+				baseService.deleteConservationType(conservationType.getId());
+				
+				conservationTypes[i] = conservationType.getCsName();
+			}
+		} catch (ServiceException e) {
+			return AjaxObject.newError("删除保全业务类型失败：" + e.getMessage()).setCallbackType("").toString();
+		}
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{Arrays.toString(conservationTypes)}));
+		return AjaxObject.newOk("删除保全业务类型成功！").setCallbackType("").toString();
+	}
+	
+	@RequiresPermissions("ConservationType:view")
+	@RequestMapping(value="/conservationType/list", method={RequestMethod.GET, RequestMethod.POST})
+	public String listConservationType(ServletRequest request, Page page, Map<String, Object> map) {
+		Specification<ConservationType> specification = DynamicSpecifications.bySearchFilter(request, ConservationType.class);
+		List<ConservationType> basedata = baseService.findByConservationTypeExample(specification, page);
+
+		map.put("page", page);
+		map.put("basedata", basedata);
+		return CONSERVATION_TYPE_LIST;
+	}
+	
+	/*
+	 * =======================================
+	 * Prov Org Code 省分机构代码建议对照表
+	 * =======================================
+	 * 
+	 */
+	@RequiresPermissions("ProvOrgCode:save")
+	@RequestMapping(value="/provOrgCode/create", method=RequestMethod.GET)
+	public String preCreateProvOrgCode() {
+		return PROV_ORG_CODE_CREATE;
+	}
+	
+	@Log(message="添加了{0}省分机构代码对照。")
+	@RequiresPermissions("ProvOrgCode:save")
+	@RequestMapping(value="/provOrgCode/create", method=RequestMethod.POST)
+	public @ResponseBody String createProvOrgCode(@Valid ProvOrgCode provOrgCode) {	
+		try {
+			baseService.saveOrUpdateProvOrgCode(provOrgCode);
+		} catch (ExistedException e) {
+			return AjaxObject.newError("添加省分机构代码对照失败：" + e.getMessage()).setCallbackType("").toString();
+		}
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{provOrgCode.getOrgName()}));
+		return AjaxObject.newOk("添加省分机构代码对照成功！").toString();
+	}
+	
+	@RequiresPermissions("ProvOrgCode:edit")
+	@RequestMapping(value="/provOrgCode/update/{id}", method=RequestMethod.GET)
+	public String preUpdateProvOrgCode(@PathVariable Long id, Map<String, Object> map) {
+		ProvOrgCode basedata = baseService.getProvOrgCode(id);
+		
+		map.put("basedata", basedata);
+		return PROV_ORG_CODE_UPDATE;
+	}
+	
+	@Log(message="修改了{0}省分机构代码对照的信息。")
+	@RequiresPermissions("ProvOrgCode:edit")
+	@RequestMapping(value="/provOrgCode/update", method=RequestMethod.POST)
+	public @ResponseBody String updateProvOrgCode(ProvOrgCode provOrgCode) {
+		baseService.saveOrUpdateProvOrgCode(provOrgCode);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{provOrgCode.getOrgName()}));
+		return	AjaxObject.newOk("修改省分机构代码对照成功！").toString(); 
+	}
+	
+	@Log(message="删除了{0}省分机构代码对照。")
+	@RequiresPermissions("ProvOrgCode:delete")
+	@RequestMapping(value="/provOrgCode/delete/{id}", method=RequestMethod.POST)
+	public @ResponseBody String deleteProvOrgCode(@PathVariable Long id) {
+		ProvOrgCode provOrgCode = null;
+		try {
+			provOrgCode = baseService.getProvOrgCode(id);
+			baseService.deleteProvOrgCode(provOrgCode.getId());
+		} catch (ServiceException e) {
+			return AjaxObject.newError("删除省分机构代码对照失败：" + e.getMessage()).setCallbackType("").toString();
+		}
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{provOrgCode.getOrgName()}));
+		return AjaxObject.newOk("删除省分机构代码对照成功！").setCallbackType("").toString();
+	}
+	
+	@Log(message="删除了{0}省分机构代码对照。")
+	@RequiresPermissions("ProvOrgCode:delete")
+	@RequestMapping(value="/provOrgCode/delete", method=RequestMethod.POST)
+	public @ResponseBody String deleteManyProvOrgCode(Long[] ids) {
+		String[] provOrgCodes = new String[ids.length];
+		try {
+			for (int i = 0; i < ids.length; i++) {
+				ProvOrgCode provOrgCode = baseService.getProvOrgCode(ids[i]);
+				baseService.deleteProvOrgCode(provOrgCode.getId());
+				
+				provOrgCodes[i] = provOrgCode.getOrgName();
+			}
+		} catch (ServiceException e) {
+			return AjaxObject.newError("删除省分机构代码对照失败：" + e.getMessage()).setCallbackType("").toString();
+		}
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{Arrays.toString(provOrgCodes)}));
+		return AjaxObject.newOk("删除省分机构代码对照成功！").setCallbackType("").toString();
+	}
+	
+	@RequiresPermissions("ProvOrgCode:view")
+	@RequestMapping(value="/provOrgCode/list", method={RequestMethod.GET, RequestMethod.POST})
+	public String listProvOrgCode(ServletRequest request, Page page, Map<String, Object> map) {
+		Specification<ProvOrgCode> specification = DynamicSpecifications.bySearchFilter(request, ProvOrgCode.class);
+		List<ProvOrgCode> basedata = baseService.findByProvOrgCodeExample(specification, page);
+
+		map.put("page", page);
+		map.put("basedata", basedata);
+		return PROV_ORG_CODE_LIST;
 	}
 }

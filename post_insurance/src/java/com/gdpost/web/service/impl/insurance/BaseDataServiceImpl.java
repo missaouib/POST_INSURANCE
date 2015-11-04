@@ -14,8 +14,10 @@ import com.gdpost.web.dao.BankCodeDAO;
 import com.gdpost.web.dao.CallDealTypeDAO;
 import com.gdpost.web.dao.CheckFixTypeDAO;
 import com.gdpost.web.dao.ConservationErrorDAO;
+import com.gdpost.web.dao.ConservationTypeDAO;
 import com.gdpost.web.dao.IssueTypeDAO;
 import com.gdpost.web.dao.PrdDAO;
+import com.gdpost.web.dao.ProvOrgCodeDAO;
 import com.gdpost.web.dao.RenewalTypeDAO;
 import com.gdpost.web.entity.basedata.BankCode;
 import com.gdpost.web.entity.basedata.CallDealType;
@@ -24,6 +26,8 @@ import com.gdpost.web.entity.basedata.ConservationError;
 import com.gdpost.web.entity.basedata.IssueType;
 import com.gdpost.web.entity.basedata.Prd;
 import com.gdpost.web.entity.basedata.RenewalType;
+import com.gdpost.web.entity.main.ConservationType;
+import com.gdpost.web.entity.main.ProvOrgCode;
 import com.gdpost.web.exception.ExistedException;
 import com.gdpost.web.service.insurance.BaseDataService;
 import com.gdpost.web.util.dwz.Page;
@@ -54,6 +58,12 @@ public class BaseDataServiceImpl implements BaseDataService {
 	
 	@Autowired
 	private PrdDAO prdDAO;
+	
+	@Autowired
+	private ConservationTypeDAO csTypeDAO;
+	
+	@Autowired
+	private ProvOrgCodeDAO provOrgCodeDAO;
 	
 	/*
 	 * (non-Javadoc)
@@ -379,5 +389,103 @@ public class BaseDataServiceImpl implements BaseDataService {
 	@Override
 	public CheckFixType getByCheckFixTypeName(String typeName) {
 		return checkfixTypeDAO.getByTypeName(typeName);
+	}
+	
+	/*
+	 * ================
+	 * ConservationType
+	 * ================
+	 * 
+	 */
+	@Override
+	public ConservationType getConservationType(Long id) {
+		return csTypeDAO.findOne(id);
+	}
+
+	@Override
+	public void saveOrUpdateConservationType(ConservationType type) {
+		if (type.getId() == null) {
+			if (csTypeDAO.getByCsName(type.getCsName()) != null) {
+				throw new ExistedException("类型 " + type.getCsName() + "已存在。");
+			}
+		}
+		
+		csTypeDAO.save(type);
+		
+	}
+
+	@Override
+	public void deleteConservationType(Long id) {
+		ConservationType type = csTypeDAO.findOne(id);
+		csTypeDAO.delete(type);
+		
+	}
+
+	@Override
+	public List<ConservationType> findAllConservationType(Page page) {
+		org.springframework.data.domain.Page<ConservationType> springDataPage = csTypeDAO.findAll(PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
+	}
+
+	@Override
+	public List<ConservationType> findByConservationTypeExample(Specification<ConservationType> specification, Page page) {
+		org.springframework.data.domain.Page<ConservationType> springDataPage = csTypeDAO.findAll(specification, PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
+	}
+
+	@Override
+	public ConservationType getByConservationTypeName(String typeName) {
+		return csTypeDAO.getByCsName(typeName);
+	}
+	
+	/*
+	 * ================
+	 * ProvOrgCode
+	 * ================
+	 * 
+	 */
+	@Override
+	public ProvOrgCode getProvOrgCode(Long id) {
+		return provOrgCodeDAO.findOne(id);
+	}
+
+	@Override
+	public void saveOrUpdateProvOrgCode(ProvOrgCode type) {
+		if (type.getId() == null) {
+			if (provOrgCodeDAO.getByOrgName(type.getOrgName()) != null) {
+				throw new ExistedException("类型 " + type.getOrgName() + "已存在。");
+			}
+		}
+		
+		provOrgCodeDAO.save(type);
+		
+	}
+
+	@Override
+	public void deleteProvOrgCode(Long id) {
+		ProvOrgCode type = provOrgCodeDAO.findOne(id);
+		provOrgCodeDAO.delete(type);
+		
+	}
+
+	@Override
+	public List<ProvOrgCode> findAllProvOrgCode(Page page) {
+		org.springframework.data.domain.Page<ProvOrgCode> springDataPage = provOrgCodeDAO.findAll(PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
+	}
+
+	@Override
+	public List<ProvOrgCode> findByProvOrgCodeExample(Specification<ProvOrgCode> specification, Page page) {
+		org.springframework.data.domain.Page<ProvOrgCode> springDataPage = provOrgCodeDAO.findAll(specification, PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
+	}
+
+	@Override
+	public ProvOrgCode getByProvOrgCodeOrgName(String orgName) {
+		return provOrgCodeDAO.getByOrgName(orgName);
 	}
 }

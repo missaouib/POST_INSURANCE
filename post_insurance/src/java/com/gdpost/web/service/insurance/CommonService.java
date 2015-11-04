@@ -11,8 +11,6 @@ import java.util.List;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.gdpost.web.entity.basedata.ConservationError;
-import com.gdpost.web.entity.basedata.Prd;
 import com.gdpost.web.entity.main.Policy;
 import com.gdpost.web.util.dwz.Page;
 
@@ -24,8 +22,9 @@ public interface CommonService {
 	
 	List<Policy> findByPolicyExample(Specification<Policy> specification, Page page);
 
+	/*
 	List<ConservationError> findByConservationErrorExample(Specification<ConservationError> specification, Page page);
 
 	List<Prd> findByPrdExample(Specification<Prd> specification, Page page);
-
+	*/
 }

@@ -114,7 +114,7 @@ public class CommonController {
 		Specification<ConservationError> specification = DynamicSpecifications.bySearchFilter(request, ConservationError.class);
 		Page page = new Page();
 		page.setNumPerPage(60);
-		List<ConservationError> org = commonService.findByConservationErrorExample(specification, page);
+		List<ConservationError> org = basedataService.findByConservationErrorExample(specification, page);
 		SerializeConfig mapping = new SerializeConfig();
 		HashMap<String, String> fm = new HashMap<String, String>();
 		fm.put("id", "id");
@@ -140,7 +140,7 @@ public class CommonController {
 		Specification<Prd> specification = DynamicSpecifications.bySearchFilter(request, Prd.class);
 		Page page = new Page();
 		page.setNumPerPage(60);
-		List<Prd> org = commonService.findByPrdExample(specification, page);
+		List<Prd> org = basedataService.findByPrdExample(specification, page);
 		SerializeConfig mapping = new SerializeConfig();
 		HashMap<String, String> fm = new HashMap<String, String>();
 		fm.put("id", "id");
