@@ -81,6 +81,8 @@
 				<li><a iconClass="user_go" target="selectedTodo" rel="ids" href="${contextPath }/bqgl/issue/CloseStatus" title="确认批量关闭?"><span>批量关闭</span></a></li>
 			</shiro:hasPermission>
 			<li class="line">line</li>
+			<li><a class="icon" target="_blank" href="${contextPath }/bqgl/toXls?search_LIKE_policy.policyNo=${param.search_LIKE_policy_policyNo }&orgCode=${orgCode }&search_LTE_csDate=${param.search_LTE_csDate }&search_GTE_csDate=${param.search_GTE_csDate }&status=${param.status }"><span>导出Excel</span></a></li>
+			<li class="line">line</li>
 			<li><a class="icon" target="dialog" href="${contextPath }/bqgl/help" mask="true" width="530" height="430"><span>功能说明</span></a></li>
 		</ul>
 	</div>
@@ -104,7 +106,16 @@
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
 				<td>${item.policy.policyNo}</td>
-				<td>${item.policy.organization.name}</td>
+				<td>
+				<c:choose>  
+				    <c:when test="${fn:contains(item.policy.organization.name, '直属')}">  
+				        <c:out value="${fn:replace(item.policy.organization.name,'邮政局直属中邮保险局','直属')}" />  
+				    </c:when>  
+				   <c:otherwise>  
+				      <c:out value="${fn:replace(item.policy.organization.name,'邮政局中邮保险局','')}" />  
+				    </c:otherwise>  
+				</c:choose>
+				</td>
 				<td>${item.dealNum}</td>
 				<td>${item.type}</td>
 				<td>${item.csRst}</td>
