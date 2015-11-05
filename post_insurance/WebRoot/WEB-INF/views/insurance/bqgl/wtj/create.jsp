@@ -19,12 +19,12 @@
 		</p>		
 		<p class="nowrap">
             <label>保全受理项目：</label>
-            <input type="text" name="info" class="input-medium" maxlength="32" value="CT"/> 
+            <input type="text" name="type" class="input-medium" maxlength="32" value="CT"/> 
             <span class="info">如果不是退保项目请删掉CT</span>
         </p>
 		<p>
 			<label>保全复核问题：</label>
-			<input name="csRst" type="text" postField="search_LIKE_errorCode" suggestFields="csRst" 
+			<input name="info" type="text" postField="search_LIKE_errorCode" suggestFields="info" 
 					suggestUrl="/common/lookupBQIssusSuggest" lookupGroup="" class="input-medium validate[required,maxSize[32]] required"/>
 			<a class="btnLook" target="dialog" width="500" height="500"  href="/common/lookup2BQIssuesDefine" lookupGroup="">查找带回</a>
 		</p>

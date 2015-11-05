@@ -64,6 +64,8 @@ public class BqglController {
 	private static final String LIST = "insurance/bqgl/wtj/list";
 	private static final String ISSUE_LIST = "insurance/bqgl/wtj/issuelist";
 	private static final String TO_HELP = "insurance/help/bqgl";
+
+	private static final String TO_XLS = "insurance/bqgl/wtj/toXls";
 	
 	@RequiresPermissions("Cservice:save")
 	@RequestMapping(value="/issue/create", method=RequestMethod.GET)
@@ -84,7 +86,7 @@ public class BqglController {
 			issue.setCsDate(new Date());
 			issue.setCsUserId(SecurityUtils.getShiroUser().getId());
 			issue.setStatus(BQ_STATUS.NewStatus.name());
-			if(issue.getCsRst().equals("审核通过")) {
+			if(issue.getInfo().equals("审核通过")) {
 				issue.setStatus(BQ_STATUS.CloseStatus.name());
 			}
 			bqglService.saveOrUpdate(issue);
@@ -268,6 +270,41 @@ public class BqglController {
 		map.put("page", page);
 		map.put("issues", issues);
 		return LIST;
+	}
+	
+	@RequiresPermissions("Cservice:view")
+	@RequestMapping(value="/toXls", method=RequestMethod.GET)
+	public String toXls(ServletRequest request, Page page, Map<String, Object> map) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
+		String orgCode = request.getParameter("orgCode");
+		if(orgCode == null || orgCode.trim().length()<=0) {
+			orgCode = userOrg.getOrgCode();
+		}
+		//默认返回未处理工单
+		String s = request.getParameter("status");
+		LOG.debug("-------------- status: " + s);
+		ConservationDtl issue = new ConservationDtl();
+		if(s == null) {
+			issue.setStatus(BQ_STATUS.NewStatus.name());
+			s = BQ_STATUS.NewStatus.name();
+			if (userOrg.getOrgCode().length()<=4) {
+				issue.setStatus(BQ_STATUS.DealStatus.name());
+				s = BQ_STATUS.DealStatus.name();
+			}
+		} else if(s.trim().length()>0) {
+			issue.setStatus(BQ_STATUS.valueOf(s).name());
+		}
+		
+		Specification<ConservationDtl> specification = DynamicSpecifications.bySearchFilter(request, ConservationDtl.class,
+				new SearchFilter("status", Operator.LIKE, s),
+				new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		
+		List<ConservationDtl> reqs = bqglService.findByExample(specification, page);
+		
+		map.put("reqs", reqs);
+		return TO_XLS;
 	}
 	
 	@RequiresPermissions("Cservice:view")

@@ -64,6 +64,8 @@ public class Issue implements Idable<Long> {
 	private String holderPhone;
 	private String holderMobile;
 	
+	private String addr;
+	
 	@Transient
 	private Date readyDate1;
 	@Transient
@@ -463,5 +465,11 @@ public class Issue implements Idable<Long> {
 	public void setHolderMobile(String holderMobile) {
 		this.holderMobile = holderMobile;
 	}
-
+	@Column(name="addr")
+	public String getAddr() {
+		return addr;
+	}
+	public void setAddr(String addr) {
+		this.addr = addr;
+	}
 }

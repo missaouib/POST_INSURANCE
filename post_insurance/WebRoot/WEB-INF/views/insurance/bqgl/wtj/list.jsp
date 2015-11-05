@@ -118,7 +118,7 @@
 				</td>
 				<td>${item.dealNum}</td>
 				<td>${item.type}</td>
-				<td>${item.csRst}</td>
+				<td>${item.info}</td>
 				<td>${item.remark}</td>
 				<td>${item.csDate}</td>
 				<td>

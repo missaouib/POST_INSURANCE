@@ -384,3 +384,13 @@ create table t_conservation_type
    primary key (id)
 )
 engine=innodb auto_increment=4 default charset=utf8;
+
+ALTER TABLE `t_conservation_dtl` MODIFY COLUMN `type` VARCHAR(8) DEFAULT NULL;
+
+update t_conservation_dtl set type=info;
+update t_conservation_dtl set info=cs_rst;
+update t_conservation_dtl set cs_rst=null;
+
+ALTER TABLE `t_call_fail_list` ADD COLUMN `addr` VARCHAR(256) DEFAULT NULL AFTER `result`;
+ALTER TABLE `t_issue` ADD COLUMN `addr` VARCHAR(20) DEFAULT NULL AFTER `issue_content`;
+

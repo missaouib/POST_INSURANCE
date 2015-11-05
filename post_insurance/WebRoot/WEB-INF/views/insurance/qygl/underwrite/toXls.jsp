@@ -5,7 +5,7 @@
 response.setContentType("application/vnd.ms-excel");  
 response.setHeader("Content-Disposition", "inline; filename=underwrite.xls");
 %>
-	<table>
+	<table border="1" cellspacing="1" cellpadding="0">
 			<tr>
 				<th>市县机构</th>
 				<th>投保单号</th>
@@ -13,6 +13,7 @@ response.setHeader("Content-Disposition", "inline; filename=underwrite.xls");
 				<th>投保人</th>
 				<th>被保人</th>
 				<th>关系</th>
+				<th>转核原因</th>
 				<th>产品</th>
 				<th>保费</th>
 				<th>邮保通录入时间</th>
@@ -29,11 +30,12 @@ response.setHeader("Content-Disposition", "inline; filename=underwrite.xls");
 			<c:forEach var="item" items="${reqs}">
 			<tr>
 				<td>${fn:replace(item.organization.name,'邮政局中邮保险局','')}</td>
-				<td>${item.formNo}</td>
-				<td>${item.policyNo}</td>
+				<td style="vnd.ms-excel.numberformat:@">${item.formNo}</td>
+				<td style="vnd.ms-excel.numberformat:@">${item.policyNo}</td>
 				<td>${item.holder}</td>
 				<td>${item.insured}</td>
 				<td>${item.relation}</td>
+				<td>${item.underwriteReason}</td>
 				<td>${item.prd.prdName}</td>
 				<td>${item.policyFee}</td>
 				<td><fmt:formatDate value="${item.ybtDate }" pattern="yyyy-MM-dd"/></td>

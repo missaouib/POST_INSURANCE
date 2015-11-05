@@ -118,7 +118,7 @@ public class CommonController {
 		SerializeConfig mapping = new SerializeConfig();
 		HashMap<String, String> fm = new HashMap<String, String>();
 		fm.put("id", "id");
-		fm.put("errorCode", "csRst");
+		fm.put("errorCode", "info");
 		mapping.put(ConservationError.class, new JavaBeanSerializer(ConservationError.class, fm));
 		String str = JSON.toJSONString(org, mapping);
 		LOG.debug("---------------- bq issue suggest: " + str);

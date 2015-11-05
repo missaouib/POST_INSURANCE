@@ -32,6 +32,7 @@ public class CallFailList implements Idable<Long> {
 	private String issueDesc;
 	private String issueType;
 	private String issueContent;
+	private String addr;
 	private String result;
 	private Date readyDate;
 	private Date finishDate;
@@ -843,5 +844,13 @@ public class CallFailList implements Idable<Long> {
 	
 	public void setHqDealMan6(String hqDealMan6) {
 		this.hqDealMan6 = hqDealMan6;
+	}
+	
+	@Column(name="addr")
+	public String getAddr() {
+		return addr;
+	}
+	public void setAddr(String addr) {
+		this.addr = addr;
 	}
 }

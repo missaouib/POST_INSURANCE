@@ -73,14 +73,23 @@
 	<fieldset>
 		<legend>省分回访处理记录</legend>
 		<p class="nowrap">
-			<label>省分回访详情：</label>
-			<textarea name="provDealRst" cols="50" rows="3" class="input-medium validate[required,maxSize[64]] required">${issue.provDealRst }</textarea>
+			<label>不成功类型：</label>
+			<form:select path="issue.provIssueType" onchange="javascript:$('#provDealRst').val($('#provIssueType').find('option:selected').text())" class="combox ivalidate[required] required">
+				<form:option value=""> -- </form:option>
+				<form:options items="${hqTypeList }" itemLabel="typeDesc" itemValue="typeName"/>
+			</form:select>
 		</p>
+		<p class="nowrap">
+			<label>省分回访详情：</label>
+			<textarea name="provDealRst" id="provDealRst" cols="50" rows="3" class="input-medium validate[required,maxSize[64]] required">${issue.provDealRst }</textarea>
+		</p>
+		<!-- 
 		<p class="nowrap">
 			<label>回访结果：</label>
 			<form:radiobutton path="issue.status" value="二访失败"/>二访失败&nbsp;&nbsp;
 			<form:radiobutton path="issue.status" value="已结案"/>已结案
 		</p>
+		 -->
 		<p class="nowrap">
 			<label>经办人：</label>
 			<input type="text" name="provDealMan" class="input-medium validate[required,maxSize[12]] required" maxlength="32" value="${issue.provDealMan }"/>

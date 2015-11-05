@@ -5,7 +5,7 @@
 response.setContentType("application/vnd.ms-excel");  
 response.setHeader("Content-Disposition", "inline; filename=InvoiceReq.xls");
 %>
-	<table>
+	<table border="1" cellspacing="1" cellpadding="0">
 			<tr>
 				<td>保单号</td>
 				<td>投保人</td>
@@ -20,14 +20,14 @@ response.setHeader("Content-Disposition", "inline; filename=InvoiceReq.xls");
 			</tr>
 			<c:forEach var="item" items="${reqs}">
 			<tr>
-				<td>'${item.policy.policyNo}</td>
+				<td style="vnd.ms-excel.numberformat:@">${item.policy.policyNo}</td>
 				<td>${item.policy.holder}</td>
 				<td>${item.policy.organization.name}</td>
 				<td>${item.flag}</td>
 				<td>${item.fee}</td>
 				<td><fmt:formatDate value="${item.feeDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.reqDate }" pattern="yyyy-MM-dd"/></td>
-				<td>${item.billNo}</td>
+				<td style="vnd.ms-excel.numberformat:@">${item.billNo}</td>
 				<td>${item.reqMan}</td>
 				<td>
 				<c:choose>

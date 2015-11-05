@@ -111,6 +111,12 @@ public class IssueColumn {
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
+		column.setDisplayName("通信地址");
+		column.setColumnName("addr");
+		column.setColumnType(ColumnType.string);
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
 		column.setDisplayName("待处理时间");
 		column.setColumnName("should_date");
 		column.setColumnType(ColumnType.string);

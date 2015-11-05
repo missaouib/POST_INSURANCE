@@ -5,7 +5,7 @@
 response.setContentType("application/vnd.ms-excel");  
 response.setHeader("Content-Disposition", "inline; filename=call_fail_dtl.xls");
 %>
-	<table>
+	<table border="1" cellspacing="1" cellpadding="0">
 			<tr>
 				<th>保单机构</th>
 				<th>工单编号</th>
@@ -51,7 +51,7 @@ response.setHeader("Content-Disposition", "inline; filename=call_fail_dtl.xls");
 				<td>${item.issueContent}</td>
 				<td><fmt:formatDate value="${item.operateTime }" pattern="yyyy-MM-dd"/></td>
 				<td><span style="color:red; height:50%; margin-bottom:-contentheight;"><c:if test="${item.lastDateNum<0 }">0</c:if><c:if test="${item.lastDateNum>=0 }">${item.lastDateNum }</c:if></span></td>
-				<td>${item.policy.policyNo}</td>
+				<td style="vnd.ms-excel.numberformat:@">${item.policy.policyNo}</td>
 				<td>${fn:replace(item.organization.name,'邮政局中邮保险局','')}</td>
 				<td>${item.policy.holder}</td>
 				<td>${item.holderMobile eq ""?item.holderPhone:item.holderMobile}</td>

@@ -116,6 +116,7 @@
 				<th orderField=organization.name class="${page.orderField eq 'organization.name' ? page.orderDirection : ''}">所属机构</th>
 				<th>投保人</th>
 				<th>联系电话</th>
+				<th>联系地址</th>
 				<th>险种名称</th>
 				<th>出单网点</th>
 				<th>重置电话</th>
@@ -138,6 +139,7 @@
 				<td>${fn:replace(item.organization.name,'邮政局中邮保险局','')}</td>
 				<td>${item.policy.holder}</td>
 				<td>${item.holderMobile eq ""?item.holderPhone:item.holderMobile}</td>
+				<td>${item.addr}</td>
 				<td>${item.policy.prodName}</td>
 				<td>
 					<c:choose>  

@@ -5,7 +5,7 @@
 response.setContentType("application/vnd.ms-excel");  
 response.setHeader("Content-Disposition", "inline; filename=XQ_Xls.xls");
 %>
-	<table>
+	<table border="1" cellspacing="1" cellpadding="0">
 			<tr>
 				<th>所属机构</th>
 				<th>保单号</th>
@@ -28,7 +28,7 @@ response.setHeader("Content-Disposition", "inline; filename=XQ_Xls.xls");
 			<c:forEach var="item" items="${reqs}">
 			<tr>
 				<td>${fn:replace(item.policy.organization.name,'中邮保险局','')}</td>
-				<td>${item.policy.policyNo}</td>
+				<td style="vnd.ms-excel.numberformat:@">${item.policy.policyNo}</td>
 				<td>${item.prdName}</td>
 				<td>${item.holder}</td>
 				<td>${item.mobile eq ""?item.phone:item.mobile}</td>
