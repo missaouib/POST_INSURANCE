@@ -392,5 +392,7 @@ update t_conservation_dtl set info=cs_rst;
 update t_conservation_dtl set cs_rst=null;
 
 ALTER TABLE `t_call_fail_list` ADD COLUMN `addr` VARCHAR(256) DEFAULT NULL AFTER `result`;
-ALTER TABLE `t_issue` ADD COLUMN `addr` VARCHAR(20) DEFAULT NULL AFTER `issue_content`;
+ALTER TABLE `t_issue` ADD COLUMN `addr` VARCHAR(256) DEFAULT NULL AFTER `issue_content`;
 
+ALTER TABLE `t_call_fail_list` ADD COLUMN `id_card` VARCHAR(256) DEFAULT NULL AFTER `result`;
+ALTER TABLE `t_issue` ADD COLUMN `id_card` VARCHAR(256) DEFAULT NULL AFTER `issue_content`;

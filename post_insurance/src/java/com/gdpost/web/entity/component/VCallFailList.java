@@ -115,6 +115,8 @@ public class VCallFailList implements Idable<Long>, java.io.Serializable {
 	private String hqDealMan6;
 	
 	private String provDealMan;
+	private String addr;
+	private String idCard;
 
 	// Constructors
 
@@ -800,5 +802,29 @@ public class VCallFailList implements Idable<Long>, java.io.Serializable {
 	}
 	public void setProvDealMan(String provDealMan) {
 		this.provDealMan = provDealMan;
+	}
+	
+	@Column(name = "addr")
+	@ColumnTransformer(
+			forColumn="addr",
+			read="cast(aes_decrypt(unhex(addr), '" + com.gdpost.web.MySQLAESKey.AESKey + "') as char(100))", 
+			write="hex(aes_encrypt(?,'" + com.gdpost.web.MySQLAESKey.AESKey + "'))")
+	public String getAddr() {
+		return addr;
+	}
+	public void setAddr(String addr) {
+		this.addr = addr;
+	}
+	
+	@Column(name = "id_card")
+	@ColumnTransformer(
+			forColumn="id_card",
+			read="cast(aes_decrypt(unhex(id_card), '" + com.gdpost.web.MySQLAESKey.AESKey + "') as char(100))", 
+			write="hex(aes_encrypt(?,'" + com.gdpost.web.MySQLAESKey.AESKey + "'))")
+	public String getIdCard() {
+		return idCard;
+	}
+	public void setIdCard(String idCard) {
+		this.idCard = idCard;
 	}
 }

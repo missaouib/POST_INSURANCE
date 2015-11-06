@@ -111,9 +111,17 @@ public class IssueColumn {
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
+		column.setDisplayName("证件号码");
+		column.setColumnName("id_card");
+		column.setColumnType(ColumnType.string);
+		column.setNeedEncrypt(true);
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
 		column.setDisplayName("通信地址");
 		column.setColumnName("addr");
 		column.setColumnType(ColumnType.string);
+		column.setNeedEncrypt(true);
 		standardColumns.add(column);
 		
 		column = new ColumnItem();

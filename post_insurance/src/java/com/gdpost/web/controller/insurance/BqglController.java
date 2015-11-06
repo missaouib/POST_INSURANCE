@@ -266,6 +266,7 @@ public class BqglController {
 		List<ConservationDtl> issues = bqglService.findByExample(specification, page);
 		
 		map.put("issue", issue);
+		map.put("status", s);
 		map.put("baStatusList", BQ_STATUS.values());
 		map.put("page", page);
 		map.put("issues", issues);
@@ -282,6 +283,7 @@ public class BqglController {
 		if(orgCode == null || orgCode.trim().length()<=0) {
 			orgCode = userOrg.getOrgCode();
 		}
+		page.setNumPerPage(65564);
 		//默认返回未处理工单
 		String s = request.getParameter("status");
 		LOG.debug("-------------- status: " + s);

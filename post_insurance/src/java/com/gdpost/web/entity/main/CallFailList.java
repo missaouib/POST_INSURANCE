@@ -99,6 +99,7 @@ public class CallFailList implements Idable<Long> {
 	
 	private String hasLetter;
 	private Date letterDate;
+	private String idCard;
 	
 	@Transient
 	private String search_LIKE_hasLetter;
@@ -846,11 +847,27 @@ public class CallFailList implements Idable<Long> {
 		this.hqDealMan6 = hqDealMan6;
 	}
 	
-	@Column(name="addr")
+	@Column(name = "addr")
+	@ColumnTransformer(
+			forColumn="addr",
+			read="cast(aes_decrypt(unhex(addr), '" + com.gdpost.web.MySQLAESKey.AESKey + "') as char(100))", 
+			write="hex(aes_encrypt(?,'" + com.gdpost.web.MySQLAESKey.AESKey + "'))")
 	public String getAddr() {
 		return addr;
 	}
 	public void setAddr(String addr) {
 		this.addr = addr;
+	}
+	
+	@Column(name = "id_card")
+	@ColumnTransformer(
+			forColumn="id_card",
+			read="cast(aes_decrypt(unhex(id_card), '" + com.gdpost.web.MySQLAESKey.AESKey + "') as char(100))", 
+			write="hex(aes_encrypt(?,'" + com.gdpost.web.MySQLAESKey.AESKey + "'))")
+	public String getIdCard() {
+		return idCard;
+	}
+	public void setIdCard(String idCard) {
+		this.idCard = idCard;
 	}
 }

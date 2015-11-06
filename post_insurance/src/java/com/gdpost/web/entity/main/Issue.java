@@ -65,6 +65,7 @@ public class Issue implements Idable<Long> {
 	private String holderMobile;
 	
 	private String addr;
+	private String idCard;
 	
 	@Transient
 	private Date readyDate1;
@@ -465,11 +466,28 @@ public class Issue implements Idable<Long> {
 	public void setHolderMobile(String holderMobile) {
 		this.holderMobile = holderMobile;
 	}
-	@Column(name="addr")
+
+	@Column(name = "addr")
+	@ColumnTransformer(
+			forColumn="addr",
+			read="cast(aes_decrypt(unhex(addr), '" + com.gdpost.web.MySQLAESKey.AESKey + "') as char(100))", 
+			write="hex(aes_encrypt(?,'" + com.gdpost.web.MySQLAESKey.AESKey + "'))")
 	public String getAddr() {
 		return addr;
 	}
 	public void setAddr(String addr) {
 		this.addr = addr;
+	}
+	
+	@Column(name = "id_card")
+	@ColumnTransformer(
+			forColumn="id_card",
+			read="cast(aes_decrypt(unhex(id_card), '" + com.gdpost.web.MySQLAESKey.AESKey + "') as char(100))", 
+			write="hex(aes_encrypt(?,'" + com.gdpost.web.MySQLAESKey.AESKey + "'))")
+	public String getIdCard() {
+		return idCard;
+	}
+	public void setIdCard(String idCard) {
+		this.idCard = idCard;
 	}
 }
