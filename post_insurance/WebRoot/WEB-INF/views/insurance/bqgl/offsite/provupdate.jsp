@@ -7,6 +7,7 @@
 		<p>
 			<label>地市：</label>
 			<input name="organization.id" id="uw_orgId" type="hidden" value="${offsite.organization.id }"/>
+			<input name="organization.orgCode" id="uw_orgCode" type="hidden" value="${offsite.organization.orgCode }"/>
 					<input class="validate[required] required" name="organization.name" id="uw_orgName" type="text" readonly="readonly" style="width: 140px;" value="${offsite.organization.name }"/>
 					<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="organization" title="选择机构" width="400">查找带回</a>
 		</p>		
@@ -36,6 +37,20 @@
 			<label>保全业务：</label>
 			<input name="conservationType" id="conservationType" class="input-medium validate[required] required" type="text" postField="search_LIKE_csName" suggestFields="conservationType" 
 					suggestUrl="/common/lookup2BQTypeSuggest" lookupGroup="" value="${offsite.conservationType }"/>
+		</p>
+		<div class="divider"></div>
+		<p>
+			<label>省分转办日期：</label>
+			<input type="text" name="provDealDate" class="date validate[required,maxSize[12]] required" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value='${offsite.provDealDate }' pattern='yyyy-MM-dd'/>"/>
+				<a class="inputDateButton" href="javascript:;">选择</a>
+		</p>
+		<p>
+			<label>异地联系人</label>
+			<input type="text" class="input-medium validate[required] required" name="linker" value="${offsite.linker }" />
+		</p>
+		<p class="nowrap">
+			<label>寄送地址：</label>
+			<textarea type="text" name="mailAddr" class="input-medium validate[required] required">${offsite.mailAddr}</textarea>
 		</p>
 	</div>
 			

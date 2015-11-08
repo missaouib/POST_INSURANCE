@@ -52,8 +52,8 @@
 				<td>${item.policy.policyNo}</td>
 				<td>${item.policy.organization.name}</td>
 				<td>${item.dealNum}</td>
-				<td>${item.type}</td>
-				<td>${item.csRst}</td>
+				<td>${item.conservationCode}</td>
+				<td>${item.info}</td>
 				<td>${item.csDate}</td>
 				<td>
 				<c:choose>

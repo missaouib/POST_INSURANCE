@@ -117,7 +117,7 @@
 				</c:choose>
 				</td>
 				<td>${item.dealNum}</td>
-				<td>${item.type}</td>
+				<td>${item.conservationCode}</td>
 				<td>${item.info}</td>
 				<td>${item.remark}</td>
 				<td>${item.csDate}</td>

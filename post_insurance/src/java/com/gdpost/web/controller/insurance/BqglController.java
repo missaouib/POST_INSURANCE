@@ -26,15 +26,14 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gdpost.utils.SecurityUtils;
 import com.gdpost.web.entity.main.ConservationDtl;
+import com.gdpost.web.entity.main.OffsiteConservation;
 import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.exception.ExistedException;
@@ -67,6 +66,13 @@ public class BqglController {
 
 	private static final String TO_XLS = "insurance/bqgl/wtj/toXls";
 	
+	private static final String CREATE_OC = "insurance/bqgl/offsite/create";
+	private static final String UPDATE_OC = "insurance/bqgl/offsite/update";
+	private static final String PROV_UPDATE_OC = "insurance/bqgl/offsite/provupdate";
+	private static final String LIST_OC = "insurance/bqgl/offsite/list";
+
+	private static final String OC_TO_XLS = "insurance/bqgl/offsite/toXls";
+	
 	@RequiresPermissions("Cservice:save")
 	@RequestMapping(value="/issue/create", method=RequestMethod.GET)
 	public String preCreate() {
@@ -98,15 +104,6 @@ public class BqglController {
 		return AjaxObject.newOk("添加保全复核问题成功！").toString();
 	}
 	
-	@ModelAttribute("preloadIssue")
-	public ConservationDtl preload(@RequestParam(value = "id", required = false) Long id) {
-		if (id != null) {
-			ConservationDtl issue = bqglService.get(id);
-			return issue;
-		}
-		return null;
-	}
-	
 	@RequiresPermissions("Cservice:edit")
 	@RequestMapping(value="/issue/update/{id}", method=RequestMethod.GET)
 	public String preUpdate(@PathVariable Long id, Map<String, Object> map) {
@@ -119,7 +116,7 @@ public class BqglController {
 	@Log(message="修改了{0}保全复核问题的信息。")
 	@RequiresPermissions("Cservice:edit")
 	@RequestMapping(value="/issue/update", method=RequestMethod.POST)
-	public @ResponseBody String update(@Valid @ModelAttribute("preloadIssue")ConservationDtl issue) {
+	public @ResponseBody String update(ConservationDtl issue) {
 		bqglService.saveOrUpdate(issue);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issue.getPolicy().getPolicyNo()}));
@@ -316,6 +313,238 @@ public class BqglController {
 		map.put("issueList", bqglService.getTODOIssueList(shiroUser.getUser()));
 		return ISSUE_LIST;
 	}
+	
+	/*
+	 * ===========================================
+	 * 异地保全管理
+	 * ===========================================
+	 */
+	
+	@RequiresPermissions("OffsiteConservation:save")
+	@RequestMapping(value="/offsite/create", method=RequestMethod.GET)
+	public String preCreateOffsiteConservation() {
+		return CREATE_OC;
+	}
+	
+	@Log(message="添加了{0}异地保全。")
+	@RequiresPermissions("OffsiteConservation:save")
+	@RequestMapping(value="/offsite/create", method=RequestMethod.POST)
+	public @ResponseBody String createOffsiteConservation(@Valid OffsiteConservation offsite) {	
+		try {
+			offsite.setOperateTime(new Date());
+			offsite.setOperatorId(SecurityUtils.getShiroUser().getId());
+			offsite.setStatus(BQ_STATUS.NewStatus.name());
+			bqglService.saveOrUpdateOffsiteConservation(offsite);
+		} catch (ExistedException e) {
+			return AjaxObject.newError("添加异地保全失败：" + e.getMessage()).setCallbackType("").toString();
+		}
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{offsite.getPolicyNo()}));
+		return AjaxObject.newOk("添加异地保全成功！").toString();
+	}
+	
+	@RequiresPermissions("OffsiteConservation:edit")
+	@RequestMapping(value="/offsite/update/{id}", method=RequestMethod.GET)
+	public String preUpdateOffsiteConservation(@PathVariable Long id, Map<String, Object> map) {
+		OffsiteConservation offsite = bqglService.getOffsiteConservation(id);
+		
+		map.put("offsite", offsite);
+		return UPDATE_OC;
+	}
+	
+	@RequiresPermissions("OffsiteConservation:provEdit")
+	@RequestMapping(value="/offsite/provupdate/{id}", method=RequestMethod.GET)
+	public String preProvUpdateOffsiteConservation(@PathVariable Long id, Map<String, Object> map) {
+		OffsiteConservation offsite = bqglService.getOffsiteConservation(id);
+		
+		map.put("offsite", offsite);
+		return PROV_UPDATE_OC;
+	}
+	
+	@Log(message="修改了{0}异地保全的信息。")
+	@RequiresPermissions("OffsiteConservation:edit")
+	@RequestMapping(value="/offsite/update", method=RequestMethod.POST)
+	public @ResponseBody String updateOffsiteConservation(OffsiteConservation offsite) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();
+		Organization userOrg = user.getOrganization();
+		if(userOrg.getOrgCode().length()>4) {
+			offsite.setStatus(BQ_STATUS.NewStatus.name());
+		} else {
+			offsite.setStatus(BQ_STATUS.DealStatus.name());
+		}
+		bqglService.saveOrUpdateOffsiteConservation(offsite);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{offsite.getPolicyNo()}));
+		return	AjaxObject.newOk("修改异地保全成功！").toString(); 
+	}
+	
+	@Log(message="修改了{0}异地保全的状态。")
+	@RequiresPermissions(value={"OffsiteConservation:reset","OffsiteConservation:deal"}, logical=Logical.OR)
+	@RequestMapping(value="/offsite/{status}/{id}", method=RequestMethod.POST)
+	public @ResponseBody String updateOffsiteConservationStatus(@PathVariable("status") String status, @PathVariable("id") Long id) {
+		OffsiteConservation offsite = bqglService.getOffsiteConservation(id);
+		BQ_STATUS bs = BQ_STATUS.DealStatus;
+		try {
+			bs = BQ_STATUS.valueOf(status);
+		}catch (Exception ex) {
+			return	AjaxObject.newError("状态不对！").setCallbackType("").toString();
+		}
+		switch (bs) {
+		case CloseStatus:
+			break;
+			default:
+				break;
+		}
+		offsite.setStatus(status);
+		bqglService.saveOrUpdateOffsiteConservation(offsite);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{offsite.getPolicyNo()}));
+		return	AjaxObject.newOk("修改异地保全成功！").setCallbackType("").toString();
+	}
+	
+	@Log(message="批量修改了{0}异地保全的{1}状态。")
+	@RequiresPermissions(value={"OffsiteConservation:reset","OffsiteConservation:deal"}, logical=Logical.OR)
+	@RequestMapping(value="/offsite/{status}", method=RequestMethod.POST)
+	public @ResponseBody String batchUpdateOffsiteConservationStatus(@PathVariable("status") String status, Long[] ids) {
+		OffsiteConservation offsite = null;
+		BQ_STATUS bs = BQ_STATUS.DealStatus;
+		try {
+			bs = BQ_STATUS.valueOf(status);
+		}catch (Exception ex) {
+			return	AjaxObject.newError("状态不对！").setCallbackType("").toString();
+		}
+		String[] policys = new String[ids.length];
+		for(int i = 0; i<ids.length; i++) {
+			offsite = bqglService.getOffsiteConservation(ids[i]);
+			switch (bs) {
+			case CloseStatus:
+				break;
+				default:
+					break;
+			}
+			offsite.setStatus(status);
+			bqglService.saveOrUpdateOffsiteConservation(offsite);
+			policys[i] = offsite.getPolicyNo();
+		}
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{Arrays.toString(policys), status}));
+		return	AjaxObject.newOk("批量" + status + "异地保全成功！").setCallbackType("").toString();
+	}
+	
+	@Log(message="删除了{0}异地保全。")
+	@RequiresPermissions("OffsiteConservation:delete")
+	@RequestMapping(value="/offsite/delete/{id}", method=RequestMethod.POST)
+	public @ResponseBody String deleteOffsiteConservation(@PathVariable Long id) {
+		OffsiteConservation offsite = null;
+		try {
+			offsite = bqglService.getOffsiteConservation(id);
+			bqglService.deleteOffsiteConservation(offsite.getId());
+		} catch (ServiceException e) {
+			return AjaxObject.newError("删除异地保全失败：" + e.getMessage()).setCallbackType("").toString();
+		}
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{offsite.getPolicyNo()}));
+		return AjaxObject.newOk("删除异地保全成功！").setCallbackType("").toString();
+	}
+	
+	@Log(message="删除了{0}异地保全。")
+	@RequiresPermissions("OffsiteConservation:delete")
+	@RequestMapping(value="/offsite/delete", method=RequestMethod.POST)
+	public @ResponseBody String deleteManyOffsiteConservation(Long[] ids) {
+		String[] policys = new String[ids.length];
+		try {
+			for (int i = 0; i < ids.length; i++) {
+				OffsiteConservation offsite = bqglService.getOffsiteConservation(ids[i]);
+				bqglService.deleteOffsiteConservation(offsite.getId());
+				
+				policys[i] = offsite.getPolicyNo();
+			}
+		} catch (ServiceException e) {
+			return AjaxObject.newError("删除异地保全失败：" + e.getMessage()).setCallbackType("").toString();
+		}
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{Arrays.toString(policys)}));
+		return AjaxObject.newOk("删除异地保全成功！").setCallbackType("").toString();
+	}
+	
+	@RequiresPermissions("OffsiteConservation:view")
+	@RequestMapping(value="/offsite/list", method={RequestMethod.GET, RequestMethod.POST})
+	public String listOffsiteConservation(ServletRequest request, Page page, Map<String, Object> map) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
+		String orgCode = request.getParameter("orgCode");
+		if(orgCode == null || orgCode.trim().length()<=0) {
+			orgCode = userOrg.getOrgCode();
+		}
+		String orgName = request.getParameter("name");
+		request.setAttribute("orgCode", orgCode);
+		request.setAttribute("name", orgName);
+		//默认返回未处理工单
+		String s = request.getParameter("status");
+		LOG.debug("-------------- status: " + s + "  orgCode:" + orgCode);
+		OffsiteConservation offsite = new OffsiteConservation();
+		if(s == null) {
+			offsite.setStatus(BQ_STATUS.DealStatus.name());
+			s = BQ_STATUS.DealStatus.name();
+			if (userOrg.getOrgCode().length()<=4) {
+				offsite.setStatus(BQ_STATUS.NewStatus.name());
+				s = BQ_STATUS.NewStatus.name();
+			}
+		} else if(s.trim().length()>0) {
+			offsite.setStatus(BQ_STATUS.valueOf(s).name());
+		}
+		
+		Specification<OffsiteConservation> specification = DynamicSpecifications.bySearchFilter(request, OffsiteConservation.class,
+				new SearchFilter("status", Operator.LIKE, s));
+		
+		List<OffsiteConservation> offsites = bqglService.findByOffsiteConservationExample(specification, page);
+		
+		map.put("offsite", offsite);
+		map.put("status", s);
+		map.put("baStatusList", BQ_STATUS.values());
+		map.put("page", page);
+		map.put("offsites", offsites);
+		return LIST_OC;
+	}
+	
+	@RequiresPermissions("OffsiteConservation:view")
+	@RequestMapping(value="/offsite/toXls", method=RequestMethod.GET)
+	public String ocToXls(ServletRequest request, Page page, Map<String, Object> map) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
+		String orgCode = request.getParameter("orgCode");
+		if(orgCode == null || orgCode.trim().length()<=0) {
+			orgCode = userOrg.getOrgCode();
+		}
+		page.setNumPerPage(65564);
+		//默认返回未处理工单
+		String s = request.getParameter("status");
+		LOG.debug("-------------- status: " + s);
+		OffsiteConservation offsite = new OffsiteConservation();
+		if(s == null) {
+			offsite.setStatus(BQ_STATUS.NewStatus.name());
+			s = BQ_STATUS.NewStatus.name();
+			if (userOrg.getOrgCode().length()<=4) {
+				offsite.setStatus(BQ_STATUS.DealStatus.name());
+				s = BQ_STATUS.DealStatus.name();
+			}
+		} else if(s.trim().length()>0) {
+			offsite.setStatus(BQ_STATUS.valueOf(s).name());
+		}
+		
+		Specification<OffsiteConservation> specification = DynamicSpecifications.bySearchFilter(request, OffsiteConservation.class,
+				new SearchFilter("status", Operator.LIKE, s),
+				new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		
+		List<OffsiteConservation> reqs = bqglService.findByOffsiteConservationExample(specification, page);
+		
+		map.put("reqs", reqs);
+		return OC_TO_XLS;
+	}
+	
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(

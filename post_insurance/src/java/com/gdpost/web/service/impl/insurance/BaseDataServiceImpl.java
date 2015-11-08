@@ -485,7 +485,7 @@ public class BaseDataServiceImpl implements BaseDataService {
 	}
 
 	@Override
-	public ProvOrgCode getByProvOrgCodeOrgName(String orgName) {
-		return provOrgCodeDAO.getByOrgName(orgName);
+	public ProvOrgCode getByProvOrgCodeOrgCode(String orgCode) {
+		return provOrgCodeDAO.getByOrgCode(orgCode);
 	}
 }

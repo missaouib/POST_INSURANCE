@@ -18,4 +18,6 @@ import com.gdpost.web.entity.main.ProvOrgCode;
 public interface ProvOrgCodeDAO extends JpaRepository<ProvOrgCode, Long>, JpaSpecificationExecutor<ProvOrgCode> {
 	ProvOrgCode getByOrgName(String orgName);
 
+	ProvOrgCode getByOrgCode(String orgCode);
+
 }

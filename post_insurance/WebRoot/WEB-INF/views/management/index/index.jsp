@@ -237,7 +237,7 @@ $(document).ready(function(){
 										<td>${var.index+1 }</td>
 										<td>${item.policy.policyNo}</td>
 										<td>${fn:replace(item.policy.organization.name,'中邮保险局','')}</td>
-										<td>${item.csRst}</td>
+										<td>${item.info}</td>
 										<td>${item.csDate}</td>
 										<td>
 										<c:if test="${fn:length(login_user.organization.orgCode) > 4}">

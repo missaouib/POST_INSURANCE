@@ -19,7 +19,8 @@
 		</p>		
 		<p class="nowrap">
             <label>保全受理项目：</label>
-            <input type="text" name="type" class="input-medium" maxlength="32" value="CT"/> 
+            <input name="conservationCode" id="conservationCode" type="text" postField="search_LIKE_csType" suggestFields="conservationCode" 
+					suggestUrl="/common/lookup2BQTypeSuggest" lookupGroup="" value="CT"/>
             <span class="info">如果不是退保项目请删掉CT</span>
         </p>
 		<p>

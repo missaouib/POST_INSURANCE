@@ -1,14 +1,15 @@
 package com.gdpost.web.entity.main;
 
-import static javax.persistence.GenerationType.IDENTITY;
-
 import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.gdpost.web.entity.Idable;
@@ -23,7 +24,7 @@ public class OffsiteConservation implements Idable<Long> {
 	// Fields
 
 	private Long id;
-	private String orgCode;
+	private Organization organization;
 	private String transactor;
 	private Date dealDate;
 	private String policyNo;
@@ -37,6 +38,8 @@ public class OffsiteConservation implements Idable<Long> {
 	private String remark;
 	private Long operatorId;
 	private Date operateTime;
+	
+	private String status;
 
 	// Constructors
 
@@ -45,12 +48,12 @@ public class OffsiteConservation implements Idable<Long> {
 	}
 
 	/** full constructor */
-	public OffsiteConservation(String orgCode, String transactor,
+	public OffsiteConservation(Organization organization, String transactor,
 			Date dealDate, String policyNo, String orginProv, String client,
 			String conservationType, String linker, Date provDealDate,
 			String expressBillNo, String mailAddr, String remark,
 			Long operatorId, Timestamp operateTime) {
-		this.orgCode = orgCode;
+		this.organization = organization;
 		this.transactor = transactor;
 		this.dealDate = dealDate;
 		this.policyNo = policyNo;
@@ -68,7 +71,7 @@ public class OffsiteConservation implements Idable<Long> {
 
 	// Property accessors
 	@Id
-	@GeneratedValue(strategy = IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", unique = true, nullable = false)
 	public Long getId() {
 		return this.id;
@@ -78,13 +81,14 @@ public class OffsiteConservation implements Idable<Long> {
 		this.id = id;
 	}
 
-	@Column(name = "org_code", length = 16)
-	public String getOrgCode() {
-		return this.orgCode;
+	@ManyToOne
+	@JoinColumn(name = "org_code", referencedColumnName="org_code")
+	public Organization getOrganization() {
+		return organization;
 	}
 
-	public void setOrgCode(String orgCode) {
-		this.orgCode = orgCode;
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
 	}
 
 	@Column(name = "transactor", length = 16)
@@ -184,6 +188,15 @@ public class OffsiteConservation implements Idable<Long> {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	@Column(name="status")
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	@Column(name = "operator_id")

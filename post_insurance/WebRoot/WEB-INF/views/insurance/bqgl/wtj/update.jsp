@@ -20,7 +20,7 @@
 		</p>		
 		<p>
 			<label>保全受理项目：</label>
-			<input type="text" name="type" class="input-medium" maxlength="32" value="${issue.type }"/>
+			<input type="text" name="conservationCode" class="input-medium" maxlength="32" value="${issue.conservationCode }"/>
 		</p>
 		<p>
 			<label>保全复核问题：</label>

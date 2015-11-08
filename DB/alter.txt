@@ -396,3 +396,11 @@ ALTER TABLE `t_issue` ADD COLUMN `addr` VARCHAR(256) DEFAULT NULL AFTER `issue_c
 
 ALTER TABLE `t_call_fail_list` ADD COLUMN `id_card` VARCHAR(256) DEFAULT NULL AFTER `result`;
 ALTER TABLE `t_issue` ADD COLUMN `id_card` VARCHAR(256) DEFAULT NULL AFTER `issue_content`;
+
+--------------- SQL ---------------
+
+ALTER TABLE `t_offsite_conservation` ADD COLUMN `status` VARCHAR(12) DEFAULT NULL AFTER `remark`;
+
+--------------- SQL ---------------
+
+ALTER TABLE `t_conservation_dtl` CHANGE COLUMN `type` `conservation_type` VARCHAR(8) COLLATE utf8_general_ci DEFAULT NULL;

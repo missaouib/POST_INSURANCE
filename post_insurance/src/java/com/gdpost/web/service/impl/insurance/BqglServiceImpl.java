@@ -14,7 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gdpost.web.dao.ConservationDtlDAO;
+import com.gdpost.web.dao.OffsiteConservationDAO;
 import com.gdpost.web.entity.main.ConservationDtl;
+import com.gdpost.web.entity.main.OffsiteConservation;
 import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.service.insurance.BqglService;
@@ -32,6 +34,9 @@ public class BqglServiceImpl implements BqglService {
 	
 	@Autowired
 	private ConservationDtlDAO conservationDAO;
+	
+	@Autowired
+	private OffsiteConservationDAO ocDAO;
 	
 	/*
 	 * (non-Javadoc)
@@ -117,4 +122,67 @@ public class BqglServiceImpl implements BqglService {
 		
 		return issues;
 	}
+	
+	/*
+	 * ======================================================
+	 * Offsite Conservation
+	 * ======================================================
+	 */
+	
+	@Override
+	public OffsiteConservation getOffsiteConservation(Long id) {
+		return ocDAO.findOne(id);
+	}
+
+	/*
+	 * (non-Javadoc) 
+	 * @see com.gdpost.web.service.UserService#saveOrUpdate(com.gdpost.web.entity.main.OffsiteConservation)  
+	 */
+	@Override
+	public void saveOrUpdateOffsiteConservation(OffsiteConservation oc) {
+		
+		ocDAO.save(oc);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.gdpost.web.service.UserService#delete(java.lang.Long)  
+	 */
+	@Override
+	public void deleteOffsiteConservation(Long id) {
+		OffsiteConservation user = ocDAO.findOne(id);
+		ocDAO.delete(user.getId());
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see com.gdpost.web.service.UserService#findAll(com.gdpost.web.util.dwz.Page)  
+	 */
+	@Override
+	public List<OffsiteConservation> findAllOffsiteConservation(Page page) {
+		org.springframework.data.domain.Page<OffsiteConservation> springDataPage = ocDAO.findAll(PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see com.gdpost.web.service.UserService#findByExample(org.springframework.data.jpa.domain.Specification, com.gdpost.web.util.dwz.Page)	
+	 */
+	@Override
+	public List<OffsiteConservation> findByOffsiteConservationExample(
+			Specification<OffsiteConservation> specification, Page page) {
+		org.springframework.data.domain.Page<OffsiteConservation> springDataPage = ocDAO.findAll(specification, PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.gdpost.web.service.UserService#getByOffsiteConservationNo(java.lang.String)
+	 */
+	@Override
+	public OffsiteConservation getOffsiteConservationByPolicyNo(String policyNo) {
+		return ocDAO.getByPolicyNo(policyNo);
+	}
+	
 }

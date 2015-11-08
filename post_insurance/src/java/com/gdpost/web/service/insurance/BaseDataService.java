@@ -174,5 +174,5 @@ public interface BaseDataService {
 	
 	List<ProvOrgCode> findByProvOrgCodeExample(Specification<ProvOrgCode> specification, Page page);
 	
-	ProvOrgCode getByProvOrgCodeOrgName(String typeName);
+	ProvOrgCode getByProvOrgCodeOrgCode(String orgCode);
 }

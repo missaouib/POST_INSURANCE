@@ -30,7 +30,7 @@ public class ConservationDtl implements Idable<Long> {
 
 	private Long id;
 	private Policy policy;
-	private String type;
+	private String conservationCode;
 	private String dealNum;
 	private String info;
 	private Date csDate;
@@ -50,10 +50,10 @@ public class ConservationDtl implements Idable<Long> {
 	}
 
 	/** full constructor */
-	public ConservationDtl(Policy TPolicy, String type, String dealNum, String info, Date csDate, Long csUserId, String csRst, Long dealUserId,
+	public ConservationDtl(Policy TPolicy, String code, String dealNum, String info, Date csDate, Long csUserId, String csRst, Long dealUserId,
 			String status, Boolean cancelFlag, Long cancelMan, Date cancelDate, String remark) {
 		this.policy = TPolicy;
-		this.type = type;
+		this.conservationCode = code;
 		this.dealNum = dealNum;
 		this.info = info;
 		this.csDate = csDate;
@@ -88,13 +88,13 @@ public class ConservationDtl implements Idable<Long> {
 		this.policy = policy;
 	}
 
-	@Column(name = "type")
-	public String getType() {
-		return this.type;
+	@Column(name="conservation_code")
+	public String getConservationCode() {
+		return conservationCode;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setConservationCode(String conservationCode) {
+		this.conservationCode = conservationCode;
 	}
 
 	@Column(name = "deal_num", length = 32)
