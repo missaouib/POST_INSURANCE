@@ -23,17 +23,16 @@ color: inherit;
 
 .btn-default {
 width: 80px;
-line-height: 25px;
+line-height: 20px;
 text-align: center;
 color: #fff;
-text-shadow:1px 1px 1px #333;
 border-radius: 5px;
 margin:0 20px 20px 0;
 position: relative;
 overflow: hidden;
 }
 .btn {
-border:1px solid #1e7db9;
+border:0px solid #1e7db9;
 box-shadow: 0 1px 2px #8fcaee inset,0 -1px 0 #497897 inset,0 -2px 3px #8fcaee inset;
 background: -webkit-linear-gradient(top,#42a4e0,#2e88c0);
 background: -moz-linear-gradient(top,#42a4e0,#2e88c0);
