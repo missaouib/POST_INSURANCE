@@ -9,6 +9,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +19,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,14 +28,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.gdpost.utils.SecurityUtils;
-import com.gdpost.utils.TemplateHelper.Template;
 import com.gdpost.utils.TemplateHelper.Template.FileTemplate;
 import com.gdpost.utils.UploadDataHelper.UploadDataUtils;
+import com.gdpost.web.entity.component.Notice;
+import com.gdpost.web.entity.main.User;
 import com.gdpost.web.log.Log;
 import com.gdpost.web.log.LogMessageObject;
 import com.gdpost.web.log.impl.LogUitls;
+import com.gdpost.web.service.insurance.NoticeService;
 import com.gdpost.web.service.uploaddatamanage.UploadDataService;
 import com.gdpost.web.shiro.ShiroUser;
+import com.gdpost.web.util.dwz.Page;
+import com.gdpost.web.util.persistence.DynamicSpecifications;
 
 @Controller
 @RequestMapping("/notice")
@@ -43,12 +49,25 @@ public class NoticeController {
 	@Autowired
 	private UploadDataService uploadDataService;
 	
+	@Autowired
+	private NoticeService noticeService;
+	
 	private static final String CREATE = "notice/create";
-	private static final String UPDATE = "notice/update";
 	private static final String LIST = "notice/list";
 	
 	String strError = "{\"jsonrpc\":\"2.0\",\"result\":\"error\",\"id\":\"id\",\"message\":\"操作失败。\"}";
 	
+	@RequiresPermissions(value={"Notice:view"}, logical=Logical.OR)
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public String list(HttpServletRequest request, Map<String, Object> map, Page page) {
+		Specification<Notice> specification = DynamicSpecifications.bySearchFilter(request, Notice.class);
+		List<Notice> basedata = noticeService.findByNoticeExample(specification, page);
+
+		map.put("page", page);
+		map.put("basedata", basedata);
+		return LIST;
+	}
+
 	@RequiresPermissions(value={"Notice:add"}, logical=Logical.OR)
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public String preUpload(HttpServletRequest request, Map<String, Object> map) {
@@ -223,6 +242,60 @@ public class NoticeController {
 		return (strError);
 	}
 	
+	@Log(message="{0}")
+	@RequiresPermissions(value={"UploadIssue:upload", "UploadData:upload", "UploadRenewed:upload", "UploadCallFail:upload", "UploadCheck:upload", "UploadPay:upload", "UploadIssue:upload"}, logical=Logical.OR)
+	@RequestMapping(value = "/import", method = RequestMethod.POST)
+	public @ResponseBody String doImport(HttpServletRequest request, @RequestParam String strFileGroup, @RequestParam int ny, @RequestParam String template, @RequestParam String memo) {
+		log.debug("-----------------------------------import data by use template: " + template);
+		com.gdpost.utils.UploadDataHelper.SessionChunk sessionChunk = new com.gdpost.utils.UploadDataHelper.SessionChunk();
+		com.gdpost.utils.UploadDataHelper.FileChunk fileChunk = sessionChunk.getSessionChunk(request);
+		if(fileChunk == null) {
+			return(strError);
+		}
+		
+	    ShiroUser shiroUser = SecurityUtils.getShiroUser();
+	    User member = shiroUser.getUser();
+	    long member_id = member.getId();
+	    //int currentNY = UploadDataUtils.getNianYue();
+	    //int lastNY = UploadDataUtils.getLastNianYue();
+	    int currentNY = ny;
+	    int lastNY = UploadDataUtils.getLastNianYue();
+	    String strMessage = ""; // 返回客户端的详细信息
+	    boolean bFlag = false;
+	    StringBuilder builder = new StringBuilder();
+	    //log.debug("----------------" + strFileGroup);
+	    //log.debug("----------------" + fileChunk.getFileGroup());
+		if(fileChunk.getFileGroup().equals(strFileGroup)) {
+			log.debug("--------------- do import:" + strFileGroup);
+			List<String> listFiles = fileChunk.getListFileName();
+			log.debug("------------------" + listFiles);
+			FileTemplate ft = FileTemplate.valueOf(template);
+			log.debug("--------------- do import template:" + ft);
+			bFlag = uploadDataService.handleData(ft, request, member_id, listFiles, currentNY, lastNY, shiroUser.getId(), shiroUser.getLoginName(), 0, builder, memo);
+		}
+		
+	    // 请SessionChunk
+	    sessionChunk.clear(request);
+	    strMessage = builder.toString();
+	    
+	    if(bFlag) {
+		    
+	    	LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{"导入了" + template + "的" + currentNY + "数据。"}));
+	    	
+	    	if(!strMessage.equals("")) {
+				// 如有数据检查提示，则提示，如确认不导入，则提交request执行清除
+	    		return("{\"jsonrpc\":\"2.0\",\"result\":\"confirm\",\"id\":\"id\",\"message\":\"" + strMessage + "\"}");
+	    	} else {
+	    		return("{\"jsonrpc\":\"2.0\",\"result\":\"success\",\"id\":\"id\",\"message\":\"" + strMessage + "\"}");
+	    	}
+	    } else {
+	    	LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{"导入" + template + "的数据出错，" + strMessage + "。"}));
+	    	
+	    	uploadDataService.setImportDone(request, member_id, currentNY, shiroUser.getId(), shiroUser.getLoginName(), 0, memo);
+
+	    	return("{\"jsonrpc\":\"2.0\",\"result\":\"error\",\"id\":\"id\",\"message\":\"" + strMessage + "\"}");
+	    }
+	}
 	
 }
 

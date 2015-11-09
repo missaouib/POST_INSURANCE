@@ -58,7 +58,7 @@ public class UploadDataController {
 	public String preUpload(HttpServletRequest request, Map<String, Object> map) {
 		int ny = UploadDataUtils.getNianYue();
 		int lastNY = UploadDataUtils.getLastNianYue();
-		int nextNY = UploadDataUtils.getNextNianYue();
+		//int nextNY = UploadDataUtils.getNextNianYue();
 		int lastNY2 = UploadDataUtils.getLastNianYue(lastNY);
 		
 		List<Integer> listNY = new ArrayList<Integer>();
@@ -92,7 +92,7 @@ public class UploadDataController {
 	public String toWebUpload(HttpServletRequest request, Map<String, Object> map) {
 		int ny = UploadDataUtils.getNianYue();
 		int lastNY = UploadDataUtils.getLastNianYue();
-		int nextNY = UploadDataUtils.getNextNianYue();
+		//int nextNY = UploadDataUtils.getNextNianYue();
 		int lastNY2 = UploadDataUtils.getLastNianYue(lastNY);
 		
 		List<Integer> listNY = new ArrayList<Integer>();
@@ -327,18 +327,18 @@ public class UploadDataController {
 	@RequiresPermissions(value={"UploadIssue:upload", "UploadData:upload", "UploadRenewed:upload", "UploadCallFail:upload", "UploadCheck:upload", "UploadPay:upload", "UploadIssue:upload"}, logical=Logical.OR)
 	@RequestMapping(value = "/cancelupload", method = RequestMethod.POST)
 	public @ResponseBody String cancelUpload(HttpServletRequest request, @RequestParam String strFileGroup, @RequestParam int ny) {
-	    ShiroUser shiroUser = SecurityUtils.getShiroUser();
+	    //ShiroUser shiroUser = SecurityUtils.getShiroUser();
 	    //long member_id = shiroUser.getId();
-	    User member = shiroUser.getUser();
-	    long member_id = member.getId();
+	    //User member = shiroUser.getUser();
+	    //long member_id = member.getId();
 	    
 	    //int currentNY = UploadDataUtils.getNianYue();
 	    int currentNY = ny;
 	    String strMessage = "取消导入成功。"; // 返回客户端的详细信息
-	    boolean bFlag = true;
+	    //boolean bFlag = true;
 	    
-	    bFlag = uploadDataService.clearImport(request, member_id, currentNY);
-	    bFlag = uploadDataService.clearImportDone(request, member_id, currentNY);
+	    //bFlag = uploadDataService.clearImport(request, member_id, currentNY);
+	    //bFlag = uploadDataService.clearImportDone(request, member_id, currentNY);
 	    
 	    LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{currentNY}));
 	    return("{\"jsonrpc\":\"2.0\",\"result\":\"success\",\"id\":\"id\",\"message\":\"" + strMessage + "\"}");
@@ -348,18 +348,18 @@ public class UploadDataController {
 	@RequiresPermissions(value={"UploadIssue:upload", "UploadData:upload", "UploadRenewed:upload", "UploadCallFail:upload", "UploadCheck:upload", "UploadPay:upload", "UploadIssue:upload"}, logical=Logical.OR)
 	@RequestMapping(value = "/cancelimport", method = RequestMethod.POST)
 	public @ResponseBody String clearImport(HttpServletRequest request, @RequestParam String strFileGroup, @RequestParam int ny) {
-	    ShiroUser shiroUser = SecurityUtils.getShiroUser();
+	    //ShiroUser shiroUser = SecurityUtils.getShiroUser();
 	    //long member_id = shiroUser.getId();
-	    User member = shiroUser.getUser();
-	    long member_id = member.getId();
+	    //User member = shiroUser.getUser();
+	    //long member_id = member.getId();
 	    
 	    //int currentNY = UploadDataUtils.getNianYue();
 	    int currentNY = ny;
 	    String strMessage = "取消导入成功。"; // 返回客户端的详细信息
-	    boolean bFlag = true;
+	    //boolean bFlag = true;
 	    
-	    bFlag = uploadDataService.clearImport(request, member_id, currentNY);
-	    bFlag = uploadDataService.clearImportDone(request, member_id, currentNY);
+	    //bFlag = uploadDataService.clearImport(request, member_id, currentNY);
+	    //bFlag = uploadDataService.clearImportDone(request, member_id, currentNY);
 	    
 	    LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{currentNY}));
 	    return("{\"jsonrpc\":\"2.0\",\"result\":\"success\",\"id\":\"id\",\"message\":\"" + strMessage + "\"}");

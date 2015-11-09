@@ -110,7 +110,7 @@ p, h4 {
 	<div class="pageFormContent" layoutH="58" style="margin: 0 10px">
 		<p>
 			<label>标题：</label>
-			<input type="text" name="typeName" class="input-medium validate[required,maxSize[32]] required" maxlength="32"/>
+			<input type="text" name="noticeTitle" class="input-medium validate[required,maxSize[32]] required" maxlength="32"/>
 		</p>
 		<p>
 			<label>接收人：</label>
@@ -167,11 +167,11 @@ jQuery(function() {
         // swf文件路径
         swf: '${contextPath}/styles/webuploader/Uploader.swf',
         // 文件接收服务端。
-        server: '/management/uploaddata/upload',
+        server: '/notice/upload',
         // 选择文件的按钮。可选。
         accept: {
             title: '请选择数据文件',
-            extensions: 'csv,xls'
+            extensions: 'csv,xls,zip,rar,doc,et,wps,ppt'
         },
         formData:{
             fileGroup: strFileGroup
@@ -179,7 +179,7 @@ jQuery(function() {
         // 内部根据当前运行是创建，可能是input元素，也可能是flash.
         pick: '#picker',
        	disableGlobalDnd: true,
-        fileNumLimit: 3,
+        fileNumLimit: 2,
         fileSizeLimit: 200 * 1024 * 1024,    // 200 M
         fileSingleSizeLimit: 50 * 1024 * 1024    // 50 M
     });

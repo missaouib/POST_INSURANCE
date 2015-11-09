@@ -114,6 +114,73 @@ public class UploadDataUtils {
 		return(strPath);
 	}
 	
+	public static String getNoticeFileStorePath(HttpServletRequest request, int iMonth) {
+		java.util.Calendar.getInstance();
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		//long lID = shiroUser.getMemberUser() != null ? shiroUser.getMemberUser().getId() : shiroUser.getUser().getId();
+		String strID = shiroUser.getUser().getId().toString();
+		String strPath = request.getSession().getServletContext().getRealPath("/");
+		if(strPath.endsWith(File.separator)) {
+			strPath = strPath.substring(0, strPath.length() - 1);
+		}
+
+		strPath = strPath + STORE_DIR;
+		if(!(new File(strPath )).isDirectory()) {
+			new File(strPath).mkdir();
+		}
+		
+		strPath = strPath + File.separator + iMonth;
+		
+		if(!(new File(strPath)).isDirectory()) {
+			new File(strPath).mkdir();
+		}
+		
+		//strPath = strPath + File.separator + lID;
+		strPath = strPath + File.separator + strID;
+		
+		if(!(new File(strPath)).isDirectory()) {
+			new File(strPath).mkdir();
+		}
+		
+		return(strPath);
+	}
+	
+	public static String getNoticeFileStorePath(HttpServletRequest request) {
+		java.util.Calendar.getInstance();
+		// 按月、用户ID存放
+		Date date = new Date();
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		int iMonth = calendar.get(Calendar.MONTH) + 1;
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		//long lID = shiroUser.getMemberUser() != null ? shiroUser.getMemberUser().getId() : shiroUser.getUser().getId();
+		String strID = shiroUser.getUser().getId().toString();
+		String strPath = request.getSession().getServletContext().getRealPath("/");
+		if(strPath.endsWith(File.separator)) {
+			strPath = strPath.substring(0, strPath.length() - 1);
+		}
+
+		strPath = strPath + STORE_DIR;
+		if(!(new File(strPath )).isDirectory()) {
+			new File(strPath).mkdir();
+		}
+		
+		strPath = strPath + File.separator + iMonth;
+		
+		if(!(new File(strPath)).isDirectory()) {
+			new File(strPath).mkdir();
+		}
+		
+		//strPath = strPath + File.separator + lID;
+		strPath = strPath + File.separator + strID;
+		
+		if(!(new File(strPath)).isDirectory()) {
+			new File(strPath).mkdir();
+		}
+		
+		return(strPath);
+	}
+	
 	public static String getFileStoreTempPath(HttpServletRequest request) {
 		String strPath = request.getSession().getServletContext().getRealPath("/");
 		if(strPath.endsWith(File.separator)) {
