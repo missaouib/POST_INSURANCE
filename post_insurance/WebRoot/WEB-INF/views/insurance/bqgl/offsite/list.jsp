@@ -60,7 +60,7 @@
 	<div class="panelBar">
 		<ul class="toolBar">
 			<shiro:hasPermission name="OffsiteConservation:save">
-				<li><a iconClass="user_add" target="dialog" rel="lookup2organization_add" mask="true" width="530" height="330" href="${contextPath }/bqgl/offsite/create"><span>登记异地保全</span></a></li>
+				<li><a iconClass="user_add" target="dialog" rel="lookup2organization_add" mask="true" width="530" height="430" href="${contextPath }/bqgl/offsite/create"><span>登记异地保全</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="OffsiteConservation:edit">
 				<li class="line">line</li>
@@ -98,6 +98,7 @@
 				<th orderField=organization.name class="${page.orderField eq 'organization.name' ? page.orderDirection : ''}">地市</th>
 				<th>经办人</th>
 				<th orderField=dealDate class="${page.orderField eq 'dealDate' ? page.orderDirection : ''}">转办日期</th>
+				<th>快递单号</th>
 				<th>保单号</th>
 				<th orderField=orginProv class="${page.orderField eq 'orginProv' ? page.orderDirection : ''}">出单省</th>
 				<th>客户姓名</th>
@@ -124,6 +125,7 @@
 				</td>
 				<td>${item.transactor}</td>
 				<td><fmt:formatDate value='${item.dealDate }' pattern='yyyy-MM-dd'/></td>
+				<td>${item.expressBillNo}</td>
 				<td>${item.policyNo}</td>
 				<td>${item.orginProv}</td>
 				<td>${item.client}</td>

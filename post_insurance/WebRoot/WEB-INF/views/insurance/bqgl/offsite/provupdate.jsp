@@ -40,6 +40,10 @@
 		</p>
 		<div class="divider"></div>
 		<p>
+			<label>快递单号：</label>
+			<input type="text" name="expressBillNo" class="input-medium" maxlength="32" value="${offsite.expressBillNo }"/>
+		</p>
+		<p>
 			<label>省分转办日期：</label>
 			<input type="text" name="provDealDate" class="date validate[required,maxSize[12]] required" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value='${offsite.provDealDate }' pattern='yyyy-MM-dd'/>"/>
 				<a class="inputDateButton" href="javascript:;">选择</a>

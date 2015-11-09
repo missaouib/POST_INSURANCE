@@ -5,7 +5,6 @@
 response.setContentType("application/vnd.ms-excel");  
 response.setHeader("Content-Disposition", "inline; filename=BQ_RECORD.xls");
 %>
-</style>
 	<table border="1" cellspacing="1" cellpadding="0">
 			<tr>
 				<th>保单号</th>

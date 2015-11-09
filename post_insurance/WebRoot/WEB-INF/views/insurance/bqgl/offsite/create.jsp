@@ -6,6 +6,7 @@
 		<p>
 			<label>地市：</label>
 			<input name="organization.id" id="uw_orgId" type="hidden" value=""/>
+			<input name="organization.orgCode" id="uw_orgCode" type="hidden" value="${offsite.organization.orgCode }"/>
 					<input class="validate[required] required" name="organization.name" id="uw_orgName" type="text" readonly="readonly" style="width: 140px;" value=""/>
 					<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="organization" title="选择机构" width="400">查找带回</a>
 		</p>		
@@ -19,6 +20,10 @@
 				<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 		<p>
+			<label>快递单号：</label>
+			<input type="text" name="expressBillNo" class="input-medium" maxlength="32" value="${offsite.expressBillNo }"/>
+		</p>
+		<p>
 			<label>保单号：</label>
 			<input name="policyNo" type="text" class="input-medium validate[required] required" postField="policyNo" suggestFields="policyNo" 
 					suggestUrl="/common/lookupPolicyProvsuggest" lookupGroup="" value=""/>
@@ -26,6 +31,10 @@
 		<p>
 			<label>出单省</label>
 			<input type="text" name="orginProv" id="orginProv" class="input-medium validate[required] required"/>
+		</p>
+		<p>
+			<label>外省经办人：</label>
+			<input type="text" class="input-medium" name="linker" value="${offsite.linker }" />
 		</p>
 		<p>
 			<label>客户姓名：</label>

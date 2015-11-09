@@ -5,36 +5,43 @@
 response.setContentType("application/vnd.ms-excel");  
 response.setHeader("Content-Disposition", "inline; filename=BQ_RECORD.xls");
 %>
-</style>
 	<table border="1" cellspacing="1" cellpadding="0">
 			<tr>
+				<th>地市</th>
+				<th>经办人</th>
+				<th>转办日期</th>
+				<th>快递单号</th>
 				<th>保单号</th>
-				<th>保单所属机构</th>
-				<th>保全受理号</th>
-				<th>保全项目</th>
-				<th>复核修改问题</th>
-				<th>复核修改问题描述</th>
-				<th>问题产生日期</th>
+				<th>出单省</th>
+				<th>客户姓名</th>
+				<th>保全业务</th>
+				<th>联系人</th>
+				<th>寄件地址</th>
+				<th>省分转办日期</th>
 				<th>状态</th>
 			</tr>
 			<c:forEach var="item" items="${reqs}">
 			<tr>
-				<td style="vnd.ms-excel.numberformat:@">${item.policy.policyNo}	</td>
 				<td>
 				<c:choose>  
-				    <c:when test="${fn:contains(item.policy.organization.name, '直属')}">  
-				        <c:out value="${fn:replace(item.policy.organization.name,'邮政局直属中邮保险局','直属')}" />  
+				    <c:when test="${fn:contains(item.organization.name, '直属')}">  
+				        <c:out value="${fn:replace(item.organization.name,'邮政局直属中邮保险局','直属')}" />  
 				    </c:when>  
 				   <c:otherwise>  
-				      <c:out value="${fn:replace(item.policy.organization.name,'邮政局中邮保险局','')}" />  
+				      <c:out value="${fn:replace(item.organization.name,'邮政局中邮保险局','')}" />  
 				    </c:otherwise>  
 				</c:choose>
 				</td>
-				<td>${item.dealNum}</td>
-				<td>${item.conservationCode}</td>
-				<td>${item.info}</td>
-				<td>${item.remark}</td>
-				<td>${item.csDate}</td>
+				<td>${item.transactor}</td>
+				<td><fmt:formatDate value='${item.dealDate }' pattern='yyyy-MM-dd'/></td>
+				<td>${item.expressBillNo}</td>
+				<td style="vnd.ms-excel.numberformat:@">${item.policyNo}</td>
+				<td>${item.orginProv}</td>
+				<td>${item.client}</td>
+				<td>${item.conservationType}</td>
+				<td>${item.linker}</td>
+				<td>${item.mailAddr}</td>
+				<td><fmt:formatDate value='${item.provDealDate }' pattern='yyyy-MM-dd'/></td>
 				<td>
 				<c:choose>
 					<c:when test="${item.status eq 'NewStatus'}">
