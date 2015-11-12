@@ -437,7 +437,7 @@ public class HfglController {
 		
 		if(page.getOrderField() == null || page.getOrderField().trim().length() <= 0) {
 			page.setOrderField("policy.policyDate");
-			page.setOrderDirection("ASC");
+			page.setOrderDirection("DESC");
 		}
 		
 		String orgCode = request.getParameter("policy.orgCode");
@@ -534,7 +534,7 @@ public class HfglController {
 		
 		if(page.getOrderField() == null) {
 			page.setOrderField("policy.policyDate");
-			page.setOrderDirection("ASC");
+			page.setOrderDirection("DESC");
 		}
 		
 		String orgCode = request.getParameter("policy.orgCode");

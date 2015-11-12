@@ -106,7 +106,7 @@ public class HfglServiceImpl implements HfglService {
 		Page page = new Page();
 		page.setNumPerPage(100);
 		page.setOrderField("policy.policyDate");
-		page.setOrderDirection("ASC");
+		page.setOrderDirection("DESC");
 		Specification<VCallFailList> spec = DynamicSpecifications.bySearchFilterWithoutRequest(VCallFailList.class,
 					new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.NewStatus.getDesc()),
 					new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.CallFailStatus.getDesc()),
@@ -156,7 +156,7 @@ public class HfglServiceImpl implements HfglService {
 		Page page = new Page();
 		page.setNumPerPage(100);
 		page.setOrderField("policy.policyDate");
-		page.setOrderDirection("ASC");
+		page.setOrderDirection("DESC");
 		//LOG.debug("------------ ready to search:");
 		List<VCallFailList> issues = this.findByExample(specification, page);
 		if (issues == null || issues.isEmpty()) {

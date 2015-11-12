@@ -15,7 +15,9 @@ response.setHeader("Content-Disposition", "inline; filename=call_fail_dtl.xls");
 				<th>所属保单号</th>
 				<th>所属机构</th>
 				<th>投保人</th>
+				<th>证件号码</th>
 				<th>联系电话</th>
+				<th>联系地址</th>
 				<th>险种名称</th>
 				<th>出单网点</th>
 				<th>工单状态</th>
@@ -54,7 +56,9 @@ response.setHeader("Content-Disposition", "inline; filename=call_fail_dtl.xls");
 				<td style="vnd.ms-excel.numberformat:@">${item.policy.policyNo}</td>
 				<td>${fn:replace(item.organization.name,'邮政局中邮保险局','')}</td>
 				<td>${item.policy.holder}</td>
+				<td>${item.idCard}</td>
 				<td>${item.holderMobile eq ""?item.holderPhone:item.holderMobile}</td>
+				<td>${item.addr}</td>
 				<td>${item.policy.prodName}</td>
 				<td>
 					<c:choose>  

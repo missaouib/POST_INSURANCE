@@ -246,12 +246,7 @@ public class BqglController {
 		LOG.debug("-------------- status: " + s);
 		ConservationDtl issue = new ConservationDtl();
 		if(s == null) {
-			issue.setStatus(BQ_STATUS.NewStatus.name());
-			s = BQ_STATUS.NewStatus.name();
-			if (userOrg.getOrgCode().length()<=4) {
-				issue.setStatus(BQ_STATUS.DealStatus.name());
-				s = BQ_STATUS.DealStatus.name();
-			}
+			s = "";
 		} else if(s.trim().length()>0) {
 			issue.setStatus(BQ_STATUS.valueOf(s).name());
 		}
@@ -486,12 +481,7 @@ public class BqglController {
 		LOG.debug("-------------- status: " + s + "  orgCode:" + orgCode);
 		OffsiteConservation offsite = new OffsiteConservation();
 		if(s == null) {
-			offsite.setStatus(BQ_STATUS.DealStatus.name());
-			s = BQ_STATUS.DealStatus.name();
-			if (userOrg.getOrgCode().length()<=4) {
-				offsite.setStatus(BQ_STATUS.NewStatus.name());
-				s = BQ_STATUS.NewStatus.name();
-			}
+			s = "";
 		} else if(s.trim().length()>0) {
 			offsite.setStatus(BQ_STATUS.valueOf(s).name());
 		}

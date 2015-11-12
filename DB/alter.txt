@@ -403,4 +403,4 @@ ALTER TABLE `t_offsite_conservation` ADD COLUMN `status` VARCHAR(12) DEFAULT NUL
 
 --------------- SQL ---------------
 
-ALTER TABLE `t_conservation_dtl` CHANGE COLUMN `type` `conservation_type` VARCHAR(8) COLLATE utf8_general_ci DEFAULT NULL;
+ALTER TABLE `t_conservation_dtl` CHANGE COLUMN `type` `conservation_code` VARCHAR(8) COLLATE utf8_general_ci DEFAULT NULL;
