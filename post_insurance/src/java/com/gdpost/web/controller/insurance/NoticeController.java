@@ -9,6 +9,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -28,9 +29,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.gdpost.utils.SecurityUtils;
-import com.gdpost.utils.TemplateHelper.Template.FileTemplate;
 import com.gdpost.utils.UploadDataHelper.UploadDataUtils;
 import com.gdpost.web.entity.component.Notice;
+import com.gdpost.web.entity.component.NoticeAtt;
+import com.gdpost.web.entity.main.Organization;
+import com.gdpost.web.entity.main.Role;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.log.Log;
 import com.gdpost.web.log.LogMessageObject;
@@ -77,7 +80,7 @@ public class NoticeController {
 
 	@Log(message="上传了{0}。")
 	@RequiresPermissions(value={"Notice:add"}, logical=Logical.OR)
-	@RequestMapping(value = "/create", method = RequestMethod.POST)
+	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public @ResponseBody String upload(HttpServletRequest request, @RequestParam String name, @RequestParam(value = "file", required = true) MultipartFile file) {
         log.debug("-------------------------------------upload");
         try
@@ -245,8 +248,8 @@ public class NoticeController {
 	@Log(message="{0}")
 	@RequiresPermissions(value={"UploadIssue:upload", "UploadData:upload", "UploadRenewed:upload", "UploadCallFail:upload", "UploadCheck:upload", "UploadPay:upload", "UploadIssue:upload"}, logical=Logical.OR)
 	@RequestMapping(value = "/import", method = RequestMethod.POST)
-	public @ResponseBody String doImport(HttpServletRequest request, @RequestParam String strFileGroup, @RequestParam int ny, @RequestParam String template, @RequestParam String memo) {
-		log.debug("-----------------------------------import data by use template: " + template);
+	public @ResponseBody String doImport(HttpServletRequest request, @RequestParam String strFileGroup, @RequestParam String noticeTitle, @RequestParam User receiver, @RequestParam Organization receiverOrg, @RequestParam Role receiverRole, @RequestParam String noticeContent ) {
+		log.debug("-----------------------------------import data by use template: ");
 		com.gdpost.utils.UploadDataHelper.SessionChunk sessionChunk = new com.gdpost.utils.UploadDataHelper.SessionChunk();
 		com.gdpost.utils.UploadDataHelper.FileChunk fileChunk = sessionChunk.getSessionChunk(request);
 		if(fileChunk == null) {
@@ -256,10 +259,6 @@ public class NoticeController {
 	    ShiroUser shiroUser = SecurityUtils.getShiroUser();
 	    User member = shiroUser.getUser();
 	    long member_id = member.getId();
-	    //int currentNY = UploadDataUtils.getNianYue();
-	    //int lastNY = UploadDataUtils.getLastNianYue();
-	    int currentNY = ny;
-	    int lastNY = UploadDataUtils.getLastNianYue();
 	    String strMessage = ""; // 返回客户端的详细信息
 	    boolean bFlag = false;
 	    StringBuilder builder = new StringBuilder();
@@ -269,9 +268,19 @@ public class NoticeController {
 			log.debug("--------------- do import:" + strFileGroup);
 			List<String> listFiles = fileChunk.getListFileName();
 			log.debug("------------------" + listFiles);
-			FileTemplate ft = FileTemplate.valueOf(template);
-			log.debug("--------------- do import template:" + ft);
-			bFlag = uploadDataService.handleData(ft, request, member_id, listFiles, currentNY, lastNY, shiroUser.getId(), shiroUser.getLoginName(), 0, builder, memo);
+			Notice notice = new Notice();
+			notice.setNoticeTitle(noticeTitle);
+			notice.setNoticeContent(noticeContent);
+			notice.setReceiver(receiver);
+			notice.setReceiveOrg(receiverOrg);
+			notice.setReceiveRole(receiverRole);
+			notice.setNoticeContent(noticeContent);
+			notice.setSender(member_id);
+			notice.setSendDate(new Date());
+			NoticeAtt attr = new NoticeAtt();
+			attr.setAttrLink(strFileGroup);
+			attr.setNotice(notice);
+			noticeService.saveOrUpdateNotice(notice);
 		}
 		
 	    // 请SessionChunk
@@ -280,7 +289,7 @@ public class NoticeController {
 	    
 	    if(bFlag) {
 		    
-	    	LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{"导入了" + template + "的" + currentNY + "数据。"}));
+	    	LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{"发布了公告。"}));
 	    	
 	    	if(!strMessage.equals("")) {
 				// 如有数据检查提示，则提示，如确认不导入，则提交request执行清除
@@ -289,9 +298,8 @@ public class NoticeController {
 	    		return("{\"jsonrpc\":\"2.0\",\"result\":\"success\",\"id\":\"id\",\"message\":\"" + strMessage + "\"}");
 	    	}
 	    } else {
-	    	LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{"导入" + template + "的数据出错，" + strMessage + "。"}));
+	    	LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{"发布了公告。"}));
 	    	
-	    	uploadDataService.setImportDone(request, member_id, currentNY, shiroUser.getId(), shiroUser.getLoginName(), 0, memo);
 
 	    	return("{\"jsonrpc\":\"2.0\",\"result\":\"error\",\"id\":\"id\",\"message\":\"" + strMessage + "\"}");
 	    }

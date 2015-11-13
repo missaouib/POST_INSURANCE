@@ -3,8 +3,8 @@ package com.gdpost.web.entity.component;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -13,10 +13,15 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.gdpost.web.entity.Idable;
+import com.gdpost.web.entity.main.Organization;
+import com.gdpost.web.entity.main.Role;
+import com.gdpost.web.entity.main.User;
 
 /**
  * TNotice entity. @author MyEclipse Persistence Tools
@@ -30,9 +35,9 @@ public class Notice implements Idable<Long> {
 	private Long id;
 	private Long sender;
 	private Date sendDate;
-	private Long receiver;
-	private Long receiveOrg;
-	private Long receiveRole;
+	private User receiver;
+	private Organization receiveOrg;
+	private Role receiveRole;
 	private Date invalidDate;
 	private String noticeTitle;
 	private String noticeContent;
@@ -45,7 +50,7 @@ public class Notice implements Idable<Long> {
 	}
 
 	/** full constructor */
-	public Notice(Long sender, Timestamp sendDate, Long receiver, Long receiveOrg, Long receiveRole, Date invalidDate, String noticeTitle,
+	public Notice(Long sender, Timestamp sendDate, User receiver, Organization receiveOrg, Role receiveRole, Date invalidDate, String noticeTitle,
 			String noticeContent, List<NoticeAtt> TNoticeAtts) {
 		this.sender = sender;
 		this.sendDate = sendDate;
@@ -88,30 +93,33 @@ public class Notice implements Idable<Long> {
 		this.sendDate = sendDate;
 	}
 
-	@Column(name = "receiver")
-	public Long getReceiver() {
+	@ManyToOne
+	@JoinColumn(name = "receiver", referencedColumnName="id")
+	public User getReceiver() {
 		return this.receiver;
 	}
 
-	public void setReceiver(Long receiver) {
+	public void setReceiver(User receiver) {
 		this.receiver = receiver;
 	}
 
-	@Column(name = "receive_org")
-	public Long getReceiveOrg() {
+	@ManyToOne
+	@JoinColumn(name = "receive_org", referencedColumnName="id")
+	public Organization getReceiveOrg() {
 		return this.receiveOrg;
 	}
 
-	public void setReceiveOrg(Long receiveOrg) {
+	public void setReceiveOrg(Organization receiveOrg) {
 		this.receiveOrg = receiveOrg;
 	}
 
-	@Column(name = "receive_role")
-	public Long getReceiveRole() {
+	@ManyToOne
+	@JoinColumn(name = "receive_role", referencedColumnName="id")
+	public Role getReceiveRole() {
 		return this.receiveRole;
 	}
 
-	public void setReceiveRole(Long receiveRole) {
+	public void setReceiveRole(Role receiveRole) {
 		this.receiveRole = receiveRole;
 	}
 
