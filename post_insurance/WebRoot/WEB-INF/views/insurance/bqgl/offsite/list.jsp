@@ -4,6 +4,7 @@
 
 <dwz:paginationForm action="${contextPath }/bqgl/offsite/list" page="${page }">
 	<input type="hidden" name="search_LIKE_policyNo" value="${param.search_LIKE_policyNo }"/>
+	<input type="hidden" name="search_LIKE_client" value="${param.search_LIKE_client }"/>
 	<input type="hidden" name="orgCode" value="${orgCode }"/>
 	<input type="hidden" name="name" value="${name }"/>
 	<input type="hidden" name="search_LTE_dealDate" value="${param.search_LTE_dealDate }"/>
@@ -34,15 +35,15 @@
 				</tr>
 				<tr>
 					<td>
+						客户姓名：<input type="text" style="width: 100px;" id="bqPolicyNo" name="search_LIKE_client" value="${param.search_LIKE_client }"/>
+					</td>
+					<td>
 						<label>转办日期：</label>
 						<input type="text" id="dealDate1" name="search_GTE_dealDate" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_dealDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
 						<label>转办日期：</label>
 						<input type="text" id="dealDate2" name="search_LTE_dealDate" class="date validate[required] required" style="width: 80px;"dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_dealDate }"/><a class="inputDateButton" href="javascript:;">选</a>
-					</td>
-					<td>
-						&nbsp;
 					</td>
 				</tr>
 			</table>
