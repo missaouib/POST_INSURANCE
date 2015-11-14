@@ -106,7 +106,7 @@ p, h4 {
 -->
 </style>
 <div class="pageContent">
-<form method="post" action="${contextPath }/notice/create" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
+<form method="post" action="${contextPath }/notice/upload" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
 	<div class="pageFormContent" layoutH="58" style="margin: 0 10px">
 		<p>
 			<label>标题：</label>
@@ -120,9 +120,13 @@ p, h4 {
 			<label>接收机构：</label>
 			<input type="text" name="receiveOrg" class="input-medium validate[required,maxSize[32]] required" maxlength="32"/>
 		</p>
+		<p>
+			<label>接收角色：</label>
+			<input type="text" name="receiveRole" class="input-medium validate[required,maxSize[32]] required" maxlength="32"/>
+		</p>
 		<p class="nowrap">
-			<label>接收机构：</label>
-			<textarea name="content" class="required" rows="7" cols="80"></textarea>
+			<label>发布内容：</label>
+			<textarea name="content" class="required" rows="4" cols="80"></textarea>
 		</p>
 		<p>
 			<div id="uploader" class="wu-example">
@@ -179,7 +183,7 @@ jQuery(function() {
         // 内部根据当前运行是创建，可能是input元素，也可能是flash.
         pick: '#picker',
        	disableGlobalDnd: true,
-        fileNumLimit: 2,
+        fileNumLimit: 1,
         fileSizeLimit: 200 * 1024 * 1024,    // 200 M
         fileSingleSizeLimit: 50 * 1024 * 1024    // 50 M
     });
@@ -216,37 +220,20 @@ jQuery(function() {
             var tImport = setInterval(function () {
                 $("#console").html("正在导入数据......");
             }, 1000);
-            template = $("#template").val();
             //alert(template);
             $.ajax({
                 type: 'post',
-                url: "/uploaddatamanage/uploaddata/import",
+                url: "/notice/create",
                 dataType: "text",
-                data: { "strFileGroup": strFileGroup, "ny": "${ny}", "template": template, "memo": "" },
+                data: { "strFileGroup": strFileGroup, "noticeTitle": "${noticeTitle}", "receiver": "${receiver}", "receiverOrg": "${receiverOrg}", "receiverRole": "${receiverRole}", "noticeContent": "${noticeContent}" },
                 success: function (data) {
                     clearInterval(tImport);
                     var response = $.parseJSON(data);
                     if(response.result == "confirm") {
                     	if(window.confirm(response.message + "，是否继续导入？")) {
-                    		$("#console").html("导入数据成功。");
+                    		$("#console").html("发布成功。");
                     	} else {
-		                        $.ajax({
-	                            type: 'post',
-	                            url: "/uploaddatamanage/uploaddata/cancelimport",
-	                            dataType: "text",
-	                            data: { strFileGroup: strFileGroup, "ny": 1 },
-	                            success: function (data) {
-	                                var response = $.parseJSON(data);
-									if (response.result == "success") {
-	                                    $("#console").html("取消导入数据。");
-	                                } else {
-	                                    $("#console").html("取消导入数据失败！");
-	                                    if (response.message != null) {
-	                                        alert(response.message);
-	                                    }
-	                                }
-	                            }
-	                        });
+		                    $("#console").html("发布失败。");
                     	}
                     } else if (response.result == "success") {
                         $("#console").html("导入数据成功。");
@@ -254,18 +241,7 @@ jQuery(function() {
                         if (response.message != null) {
                             alert(response.message);
                         }
-                        if(window.confirm("数据已上传，但由于格式问题未能入库,是否以该文件为准？")) {
-                        	$("#console").html("数据已上传，但由于格式问题未能入库，将对后续的数据分析产生影响。");
-                        } else {
-                        	$.ajax({
-	                            type: 'post',
-	                            url: "/uploaddatamanage/uploaddata/cancelupload",
-	                            dataType: "text",
-	                            data: { strFileGroup: strFileGroup, "ny": ny },
-	                            success: function (data) {
-	                            }
-	                        });
-                        }
+                        $("#console").html("发布出现问题。");
                     }
                 }
             });
