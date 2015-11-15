@@ -54,7 +54,7 @@
 		</p>
 		<p class="nowrap">
 			<label>寄送地址：</label>
-			<textarea type="text" name="mailAddr" class="input-medium validate[required] required">${offsite.mailAddr}</textarea>
+			<textarea type="text" name="mailAddr" class="input-medium">${offsite.mailAddr}</textarea>
 		</p>
 	</div>
 			
