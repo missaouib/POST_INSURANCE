@@ -1,8 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
-
-<script type="text/javascript" src="${contextPath}/styles/webuploader/webuploader.js"></script>
+<link rel="stylesheet" type="text/css" href="${contextPath}/styles/webuploader/webuploader.css">
 <link rel="stylesheet" type="text/css" href="${contextPath}/styles/upload/upload.css">
+<script type="text/javascript" src="${contextPath}/styles/webuploader/webuploader.js"></script>
 
 <style>
 <!--
@@ -106,7 +106,6 @@ p, h4 {
 -->
 </style>
 <div class="pageContent">
-<form method="post" action="${contextPath }/notice/upload" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
 	<div class="pageFormContent" layoutH="58" style="margin: 0 10px">
 		<p>
 			<label>标题：</label>
@@ -145,13 +144,6 @@ p, h4 {
 		</p>
 	</div>
 			
-	<div class="formBar">
-		<ul>
-			<li><div class="button"><div class="buttonContent"><button type="submit">确定</button></div></div></li>
-			<li><div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div></li>
-		</ul>
-	</div>
-</form>
 </div>
 
 <script type="text/javascript"> 
@@ -223,7 +215,7 @@ jQuery(function() {
             //alert(template);
             $.ajax({
                 type: 'post',
-                url: "/notice/create",
+                url: "/notice/import",
                 dataType: "text",
                 data: { "strFileGroup": strFileGroup, "noticeTitle": "${noticeTitle}", "receiver": "${receiver}", "receiverOrg": "${receiverOrg}", "receiverRole": "${receiverRole}", "noticeContent": "${noticeContent}" },
                 success: function (data) {

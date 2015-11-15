@@ -249,7 +249,7 @@ public class NoticeController {
 	@RequiresPermissions(value={"UploadIssue:upload", "UploadData:upload", "UploadRenewed:upload", "UploadCallFail:upload", "UploadCheck:upload", "UploadPay:upload", "UploadIssue:upload"}, logical=Logical.OR)
 	@RequestMapping(value = "/import", method = RequestMethod.POST)
 	public @ResponseBody String doImport(HttpServletRequest request, @RequestParam String strFileGroup, @RequestParam String noticeTitle, @RequestParam User receiver, @RequestParam Organization receiverOrg, @RequestParam Role receiverRole, @RequestParam String noticeContent ) {
-		log.debug("-----------------------------------import data by use template: ");
+		log.debug("-----------------------------------import data by use template: " + strFileGroup);
 		com.gdpost.utils.UploadDataHelper.SessionChunk sessionChunk = new com.gdpost.utils.UploadDataHelper.SessionChunk();
 		com.gdpost.utils.UploadDataHelper.FileChunk fileChunk = sessionChunk.getSessionChunk(request);
 		if(fileChunk == null) {
