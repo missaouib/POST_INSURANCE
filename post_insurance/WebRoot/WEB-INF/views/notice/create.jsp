@@ -217,7 +217,7 @@ jQuery(function() {
                 type: 'post',
                 url: "/notice/import",
                 dataType: "text",
-                data: { "strFileGroup": strFileGroup, "noticeTitle": "${noticeTitle}", "receiver": "${receiver}", "receiverOrg": "${receiverOrg}", "receiverRole": "${receiverRole}", "noticeContent": "${noticeContent}" },
+                data: { "strFileGroup": strFileGroup, "noticeTitle": "${noticeTitle}", "receiver.id": "${receiver}", "receiverOrg.id": "${receiverOrg}", "receiverRole.id": "${receiverRole}", "noticeContent": "${noticeContent}" },
                 success: function (data) {
                     clearInterval(tImport);
                     var response = $.parseJSON(data);

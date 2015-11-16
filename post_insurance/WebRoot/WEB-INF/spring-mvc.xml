@@ -49,6 +49,7 @@
 			<mvc:mapping path="/basedata/**" />
 			<mvc:mapping path="/insurance/**" />
 			<mvc:mapping path="/uploaddatamanage/**" />
+			<mvc:mapping path="/notice/**" />
 			<bean class="com.gdpost.web.log.spring.LogInterceptor" >
 				<property name="logAPI" ref="log4JDBCImpl"/>
 			</bean>

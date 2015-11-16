@@ -82,7 +82,7 @@ public class NoticeController {
 	@RequiresPermissions(value={"Notice:add"}, logical=Logical.OR)
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public @ResponseBody String upload(HttpServletRequest request, @RequestParam String name, @RequestParam(value = "file", required = true) MultipartFile file) {
-        log.debug("-------------------------------------upload");
+        log.debug("-------------------------------------upload:" + name);
         try
         {
             Long lFileSize = Long.parseLong(request.getParameter("size"));
@@ -212,6 +212,7 @@ public class NoticeController {
 
             } else { 
                 // 单个文件直接保存
+            	log.debug("-------------single file name:" + strOriginalFileName);
             	uploadedFile = new File(strTempPath, strNewFileName);
             	try {
     				org.apache.commons.io.FileUtils.writeByteArrayToFile(uploadedFile, file.getBytes());
