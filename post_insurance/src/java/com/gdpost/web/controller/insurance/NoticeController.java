@@ -32,8 +32,6 @@ import com.gdpost.utils.SecurityUtils;
 import com.gdpost.utils.UploadDataHelper.UploadDataUtils;
 import com.gdpost.web.entity.component.Notice;
 import com.gdpost.web.entity.component.NoticeAtt;
-import com.gdpost.web.entity.main.Organization;
-import com.gdpost.web.entity.main.Role;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.log.Log;
 import com.gdpost.web.log.LogMessageObject;
@@ -249,7 +247,7 @@ public class NoticeController {
 	@Log(message="{0}")
 	@RequiresPermissions(value={"UploadIssue:upload", "UploadData:upload", "UploadRenewed:upload", "UploadCallFail:upload", "UploadCheck:upload", "UploadPay:upload", "UploadIssue:upload"}, logical=Logical.OR)
 	@RequestMapping(value = "/import", method = RequestMethod.POST)
-	public @ResponseBody String doImport(HttpServletRequest request, @RequestParam String strFileGroup, @RequestParam String noticeTitle, @RequestParam User receiver, @RequestParam Organization receiverOrg, @RequestParam Role receiverRole, @RequestParam String noticeContent ) {
+	public @ResponseBody String doImport(HttpServletRequest request, @RequestParam String strFileGroup, Notice notice ) {
 		log.debug("-----------------------------------import data by use template: " + strFileGroup);
 		com.gdpost.utils.UploadDataHelper.SessionChunk sessionChunk = new com.gdpost.utils.UploadDataHelper.SessionChunk();
 		com.gdpost.utils.UploadDataHelper.FileChunk fileChunk = sessionChunk.getSessionChunk(request);
@@ -269,19 +267,25 @@ public class NoticeController {
 			log.debug("--------------- do import:" + strFileGroup);
 			List<String> listFiles = fileChunk.getListFileName();
 			log.debug("------------------" + listFiles);
+			/*
 			Notice notice = new Notice();
 			notice.setNoticeTitle(noticeTitle);
 			notice.setNoticeContent(noticeContent);
-			notice.setReceiver(receiver);
-			notice.setReceiveOrg(receiverOrg);
-			notice.setReceiveRole(receiverRole);
+			notice.setUser(user);
+			notice.setOrganization(organization);
+			notice.setRole(role);
 			notice.setNoticeContent(noticeContent);
+			*/
 			notice.setSender(member_id);
 			notice.setSendDate(new Date());
 			NoticeAtt attr = new NoticeAtt();
 			attr.setAttrLink(strFileGroup);
 			attr.setNotice(notice);
+			//List<NoticeAtt> list = new ArrayList<NoticeAtt>();
+			//list.add(attr);
+			//notice.setNoticeAtts(list);
 			noticeService.saveOrUpdateNotice(notice);
+			noticeService.saveOrUpdateNoticeAtt(attr);
 		}
 		
 	    // 请SessionChunk
