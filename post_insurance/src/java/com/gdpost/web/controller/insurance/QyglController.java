@@ -555,7 +555,7 @@ public class QyglController {
 		//默认返回未处理工单
 		String status = request.getParameter("status");
 		if(status == null) {
-			status = "";
+			status = UW_STATUS.NewStatus.name();
 		}
 		UnderWrite uw = new UnderWrite();
 		uw.setStatus(status);
@@ -568,6 +568,7 @@ public class QyglController {
 		
 		map.put("UWStatusList", UW_STATUS.values());
 		map.put("underwrite", uw);
+		map.put("status", status);
 		map.put("page", page);
 		map.put("underwrites", underwrites);
 		return UW_LIST;

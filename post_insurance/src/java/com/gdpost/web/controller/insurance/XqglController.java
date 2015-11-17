@@ -261,12 +261,13 @@ public class XqglController {
 		RenewedList issue = new RenewedList();
 		//默认返回未处理工单
 		String feeStatus = request.getParameter("search_LIKE_feeStatus");
-		String hqDealRemark = request.getParameter("search_LIKE_hqDealRemark");
+		String hqIssueType = request.getParameter("search_LIKE_hqIssueType");
 		String dealType = request.getParameter("search_LIKE_dealType");
-		if(hqDealRemark == null) {
-			hqDealRemark = "";
+		String feeFailReason = request.getParameter("search_LIKE_feeFailReason");
+		if(hqIssueType == null) {
+			hqIssueType = "";
 		}
-		issue.setSearch_LIKE_hqDealRemark(hqDealRemark);
+		issue.setSearch_LIKE_hqIssueType(hqIssueType);
 		if(dealType == null) {
 			dealType = "";
 		}
@@ -276,6 +277,11 @@ public class XqglController {
 			feeStatus = "";
 		}
 		issue.setSearch_LIKE_feeStatus(feeStatus);
+		LOG.debug("-------------- feeFailReason: " + feeFailReason);
+		if(feeFailReason == null) {
+			feeFailReason = "";
+		}
+		issue.setSearch_LIKE_feeFailReason(feeFailReason);
 		
 		String orgCode = request.getParameter("policy.orgCode");
 		if(orgCode == null || orgCode.trim().length()<=0) {

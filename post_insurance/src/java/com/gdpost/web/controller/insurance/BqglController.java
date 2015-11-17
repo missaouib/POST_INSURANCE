@@ -251,6 +251,12 @@ public class BqglController {
 			issue.setStatus(BQ_STATUS.valueOf(s).name());
 		}
 		
+		String orderField = request.getParameter("orderField");
+		if(orderField == null || orderField.trim().length()<=0) {
+			page.setOrderField("csDate");
+			page.setOrderDirection("DESC");
+		}
+		
 		Specification<ConservationDtl> specification = DynamicSpecifications.bySearchFilter(request, ConservationDtl.class,
 				new SearchFilter("status", Operator.LIKE, s),
 				new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
@@ -289,6 +295,12 @@ public class BqglController {
 			}
 		} else if(s.trim().length()>0) {
 			issue.setStatus(BQ_STATUS.valueOf(s).name());
+		}
+		
+		String orderField = request.getParameter("orderField");
+		if(orderField == null || orderField.trim().length()<=0) {
+			page.setOrderField("csDate");
+			page.setOrderDirection("DESC");
 		}
 		
 		Specification<ConservationDtl> specification = DynamicSpecifications.bySearchFilter(request, ConservationDtl.class,
@@ -485,7 +497,11 @@ public class BqglController {
 		} else if(s.trim().length()>0) {
 			offsite.setStatus(BQ_STATUS.valueOf(s).name());
 		}
-		
+		String orderField = request.getParameter("orderField");
+		if(orderField == null || orderField.trim().length()<=0) {
+			page.setOrderField("operateTime");
+			page.setOrderDirection("DESC");
+		}
 		Specification<OffsiteConservation> specification = DynamicSpecifications.bySearchFilter(request, OffsiteConservation.class,
 				new SearchFilter("status", Operator.LIKE, s));
 		
@@ -523,6 +539,12 @@ public class BqglController {
 			}
 		} else if(s.trim().length()>0) {
 			offsite.setStatus(BQ_STATUS.valueOf(s).name());
+		}
+		
+		String orderField = request.getParameter("orderField");
+		if(orderField == null || orderField.trim().length()<=0) {
+			page.setOrderField("operateTime");
+			page.setOrderDirection("DESC");
 		}
 		
 		Specification<OffsiteConservation> specification = DynamicSpecifications.bySearchFilter(request, OffsiteConservation.class,

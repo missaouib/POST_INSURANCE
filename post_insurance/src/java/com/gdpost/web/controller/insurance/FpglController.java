@@ -127,10 +127,11 @@ public class FpglController {
 		String orderField = request.getParameter("orderField");
 		if(orderField != null && orderField.trim().equals("policy.organization.orgCode")) {
 			s = FP_STATUS.NewStatus.name();
-		}
+		} else {
 		
-		page.setOrderField("policy.organization.orgCode");
-		page.setOrderDirection("ASC");
+			page.setOrderField("policy.organization.orgCode");
+			page.setOrderDirection("ASC");
+		}
 		Specification<InvoiceReq> specification = DynamicSpecifications.bySearchFilter(request, InvoiceReq.class, 
 				new SearchFilter("status", Operator.LIKE, s));
 		if(user.getOrganization().getOrgCode().length()>4) {
@@ -251,8 +252,8 @@ public class FpglController {
 			s = FP_STATUS.NewStatus.name();
 		}
 		LOG.debug("-----------------status2:" + s);
-		page.setOrderField("policy.organization.orgCode");
-		page.setOrderDirection("ASC");
+		page.setOrderField("reqDate");
+		page.setOrderDirection("DESC");
 		Specification<InvoiceReq> specification = DynamicSpecifications.bySearchFilter(request, InvoiceReq.class, 
 				new SearchFilter("status", Operator.LIKE, s));
 		if(user.getOrganization().getOrgCode().length()>4) {
