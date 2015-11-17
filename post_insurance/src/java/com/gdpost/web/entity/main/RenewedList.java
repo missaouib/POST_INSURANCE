@@ -78,6 +78,10 @@ public class RenewedList implements Idable<Long> {
 	private String search_LIKE_hqDealRemark;
 	@Transient
 	private String search_LIKE_dealType;
+	@Transient
+	private String search_LIKE_feeFailReason;
+	@Transient
+	private String search_LIKE_hqIssueType;
 	
 	@Transient
 	public Integer getLastDateNum() {
@@ -125,6 +129,26 @@ public class RenewedList implements Idable<Long> {
 	@Transient
 	public void setSearch_LIKE_dealType(String search_LIKE_dealType) {
 		this.search_LIKE_dealType = search_LIKE_dealType;
+	}
+
+	@Transient
+	public String getSearch_LIKE_feeFailReason() {
+		return search_LIKE_feeFailReason;
+	}
+
+	@Transient
+	public void setSearch_LIKE_feeFailReason(String search_LIKE_feeFailReason) {
+		this.search_LIKE_feeFailReason = search_LIKE_feeFailReason;
+	}
+
+	@Transient
+	public String getSearch_LIKE_hqIssueType() {
+		return search_LIKE_hqIssueType;
+	}
+
+	@Transient
+	public void setSearch_LIKE_hqIssueType(String search_LIKE_hqIssueType) {
+		this.search_LIKE_hqIssueType = search_LIKE_hqIssueType;
 	}
 
 	/** default constructor */

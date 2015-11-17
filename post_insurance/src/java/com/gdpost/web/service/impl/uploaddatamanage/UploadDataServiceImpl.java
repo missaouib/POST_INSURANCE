@@ -284,6 +284,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 		StringBuffer sql = null;
 		StringBuffer line = null;
 		String sql2 = null;
+		String sql3 = null;
+		String sql4 = null;
 		boolean isFail = false;
 		boolean updateRst = true;
 		Object val = null;
@@ -353,7 +355,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        		if(item.getDisplayName().equals("交费失败原因") && isFail) {
 	        			val = row.getValue(item.getDisplayName());
 	        			if(val == null || val.toString().length() <= 0) {
-	        				line.append("\"已终止\",");
+	        				line.append("\"" + XQ_STATUS.DeadStatus.getDesc() + "\",");
 	        			} else {
 	        				line.append("\"" + StringUtil.trimStr(val) + "\",");
 	        			}
@@ -370,6 +372,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql.append("fee_status=VALUES(fee_status), fee_fail_reason=VALUES(fee_fail_reason);");
 			log.debug("----------------batch update : " + sql);
 			sql2 = "delete from t_renewed_list where holder is null";
+			sql3 = "update t_renewed_list set fee_status=\"" + XQ_STATUS.DeadStatus.getDesc() + "\" where fee_fail_reason=\"" + XQ_STATUS.DeadStatus.getDesc() + "\"";
+			sql4 = "update t_renewed_list set fee_status=\"" + XQ_STATUS.FeeFailStatus.getDesc() + "\" where fee_status=\"挂起\"";
 			break;
 		case RenewedHQList://总部的催收
 			standardColumns = RenewedHQListColumn.getStandardColumns();
@@ -418,6 +422,12 @@ public class UploadDataServiceImpl implements UploadDataService{
         	statement.execute(sql.toString());
 			if(sql2 != null) {
 				statement.execute(sql2);
+			}
+			if(sql3 != null) {
+				statement.execute(sql3);
+			}
+			if(sql4 != null) {
+				statement.execute(sql4);
 			}
 			log.info("------------renewed status update result:" + updateRst);
 		} catch (SQLException e) {

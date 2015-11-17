@@ -40,6 +40,7 @@ import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.insurance.XqglService;
 import com.gdpost.web.shiro.ShiroUser;
 import com.gdpost.web.util.StatusDefine.XQ_DEAL_STATUS;
+import com.gdpost.web.util.StatusDefine.XQ_FEE_STATUS;
 import com.gdpost.web.util.StatusDefine.XQ_STATUS;
 import com.gdpost.web.util.dwz.AjaxObject;
 import com.gdpost.web.util.dwz.Page;
@@ -198,12 +199,13 @@ public class XqglController {
 		RenewedList issue = new RenewedList();
 		//默认返回未处理工单
 		String feeStatus = request.getParameter("search_LIKE_feeStatus");
-		String hqDealRemark = request.getParameter("search_LIKE_hqDealRemark");
+		String hqIssueType = request.getParameter("search_LIKE_hqIssueType");
 		String dealType = request.getParameter("search_LIKE_dealType");
-		if(hqDealRemark == null) {
-			hqDealRemark = "";
+		String feeFailReason = request.getParameter("search_LIKE_feeFailReason");
+		if(hqIssueType == null) {
+			hqIssueType = "";
 		}
-		issue.setSearch_LIKE_hqDealRemark(hqDealRemark);
+		issue.setSearch_LIKE_hqIssueType(hqIssueType);
 		if(dealType == null) {
 			dealType = "";
 		}
@@ -213,6 +215,11 @@ public class XqglController {
 			feeStatus = "";
 		}
 		issue.setSearch_LIKE_feeStatus(feeStatus);
+		LOG.debug("-------------- feeFailReason: " + feeFailReason);
+		if(feeFailReason == null) {
+			feeFailReason = "";
+		}
+		issue.setSearch_LIKE_feeFailReason(feeFailReason);
 		
 		String orgCode = request.getParameter("policy.orgCode");
 		if(orgCode == null || orgCode.trim().length()<=0) {
@@ -238,6 +245,7 @@ public class XqglController {
 		map.put("issue", issue);
 		map.put("xqStatusList", XQ_STATUS.values());
 		map.put("xqDealStatusList", XQ_DEAL_STATUS.values());
+		map.put("xqFailReasonList", XQ_FEE_STATUS.values());
 		List<RenewalType> cdtList = xqglService.getAllRenewedDealTypeList();
 		map.put("orgTypeList", cdtList);
 		map.put("page", page);

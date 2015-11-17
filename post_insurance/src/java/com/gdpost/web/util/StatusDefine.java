@@ -54,10 +54,23 @@ public class StatusDefine {
 	};
 	
 	public enum XQ_STATUS {
-		NewStatus("未收"), FeeFailStatus("交费失败"), SuspendedStatus("挂起"), BqSuspendedStatus("保全挂起"), CloseStatus("交费成功");
+		NewStatus("未收"), FeeFailStatus("交费失败"), /*SuspendedStatus("挂起"), */BqSuspendedStatus("保全挂起"), CloseStatus("交费成功"), DeadStatus("已终止");
 		private String desc;
 
 		XQ_STATUS(String desc) {
+			this.desc = desc;
+		}
+
+		public String getDesc() {
+			return desc;
+		}
+	};
+	
+	public enum XQ_FEE_STATUS {
+		NoFee("可用余额不足"), NotExist("账号不存在"), InValid("卡号无效"), ElseError("其他系统错误"), Else("其他"), Dead("已终止");
+		private String desc;
+
+		XQ_FEE_STATUS(String desc) {
 			this.desc = desc;
 		}
 

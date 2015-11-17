@@ -9,8 +9,9 @@
 	<input type="hidden" name="search_LTE_feeDate" value="${param.search_LTE_feeDate }"/>
 	<input type="hidden" name="search_GTE_feeDate" value="${param.search_GTE_feeDate }"/>
 	<input type="hidden" name="search_LIKE_feeStatus" value="${param.search_LIKE_feeStatus }"/>
-	<input type="hidden" name="search_LIKE_hqDealRemark" value="${param.search_LIKE_hqDealRemark }"/>
+	<input type="hidden" name="search_LIKE_hqIssueType" value="${param.search_LIKE_hqIssueType }"/>
 	<input type="hidden" name="search_LIKE_dealType" value="${param.search_LIKE_dealType }"/>
+	<input type="hidden" name="search_LIKE_feeFailReason" value="${param.search_LIKE_feeFailReason }"/>
 </dwz:paginationForm>
 
 <form id="xqForm" method="post" action="${contextPath }/xqgl/issue/list" onsubmit="return navTabSearch(this)">
@@ -33,12 +34,18 @@
 						<input name="policy.orgCode" id="xq_orgCode" type="hidden" value="${policy_orgCode }"/>
 						<input class="validate[required] required" name="policy.name" id="xq_orgName" type="text" readonly="readonly" style="width: 100px;" value="${policy_name }"/><a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="policy" title="选择机构" width="400">查</a>
 					</td>
-					<td>&nbsp;</td>
+					<td>
+						<label>失败原因：</label>
+						<form:select path="issue.search_LIKE_feeFailReason" id="xqFeeFailStatus" class="combox">
+							<form:option value=""> -- -- </form:option>
+							<form:options items="${xqFailReasonList }" itemLabel="desc" itemValue="desc"/>
+						</form:select>
+					</td>
 				</tr>
 				<tr>
 					<td>
 						<label>总部催收：</label>
-						<form:select path="issue.search_LIKE_hqDealRemark" id="xqDealStatus" class="combox">
+						<form:select path="issue.search_LIKE_hqIssueType" id="xqDealStatus" class="combox">
 							<form:option value=""> -- -- </form:option>
 							<form:options items="${xqDealStatusList }" itemLabel="desc" itemValue="desc"/>
 						</form:select>
