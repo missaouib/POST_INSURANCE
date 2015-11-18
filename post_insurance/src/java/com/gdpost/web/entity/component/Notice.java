@@ -35,9 +35,9 @@ public class Notice implements Idable<Long> {
 	private Long id;
 	private Long sender;
 	private Date sendDate;
-	private User receiver;
-	private Organization receiveOrg;
-	private Role receiveRole;
+	private User user;
+	private Organization organization;
+	private Role role;
 	private Date invalidDate;
 	private String noticeTitle;
 	private String noticeContent;
@@ -54,9 +54,9 @@ public class Notice implements Idable<Long> {
 			String noticeContent, List<NoticeAtt> TNoticeAtts) {
 		this.sender = sender;
 		this.sendDate = sendDate;
-		this.receiver = receiver;
-		this.receiveOrg = receiveOrg;
-		this.receiveRole = receiveRole;
+		this.user = receiver;
+		this.organization = receiveOrg;
+		this.role = receiveRole;
 		this.invalidDate = invalidDate;
 		this.noticeTitle = noticeTitle;
 		this.noticeContent = noticeContent;
@@ -95,32 +95,32 @@ public class Notice implements Idable<Long> {
 
 	@ManyToOne
 	@JoinColumn(name = "receiver", referencedColumnName="id")
-	public User getReceiver() {
-		return this.receiver;
+	public User getUser() {
+		return this.user;
 	}
 
-	public void setReceiver(User receiver) {
-		this.receiver = receiver;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	@ManyToOne
 	@JoinColumn(name = "receive_org", referencedColumnName="id")
-	public Organization getReceiveOrg() {
-		return this.receiveOrg;
+	public Organization getOrganization() {
+		return this.organization;
 	}
 
-	public void setReceiveOrg(Organization receiveOrg) {
-		this.receiveOrg = receiveOrg;
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
 	}
 
 	@ManyToOne
 	@JoinColumn(name = "receive_role", referencedColumnName="id")
-	public Role getReceiveRole() {
-		return this.receiveRole;
+	public Role getRole() {
+		return this.role;
 	}
 
-	public void setReceiveRole(Role receiveRole) {
-		this.receiveRole = receiveRole;
+	public void setRole(Role role) {
+		this.role = role;
 	}
 
 	@Column(name = "invalid_date", length = 10)
