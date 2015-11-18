@@ -10,10 +10,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gdpost.web.dao.NoticeAttDAO;
 import com.gdpost.web.dao.NoticeDAO;
 import com.gdpost.web.entity.component.Notice;
-import com.gdpost.web.entity.component.NoticeAtt;
 import com.gdpost.web.service.insurance.NoticeService;
 import com.gdpost.web.util.dwz.Page;
 import com.gdpost.web.util.dwz.PageUtils;
@@ -25,9 +23,6 @@ public class NoticeServiceImpl implements NoticeService {
 	
 	@Autowired
 	private NoticeDAO noticeDAO;
-	
-	@Autowired
-	private NoticeAttDAO noticeAttDAO;
 		
 	/*
 	 * (non-Javadoc)
@@ -77,54 +72,6 @@ public class NoticeServiceImpl implements NoticeService {
 	public List<Notice> findByNoticeExample(
 			Specification<Notice> specification, Page page) {
 		org.springframework.data.domain.Page<Notice> springDataPage = noticeDAO.findAll(specification, PageUtils.createPageable(page));
-		page.setTotalCount(springDataPage.getTotalElements());
-		return springDataPage.getContent();
-	}
-	
-	@Override
-	public NoticeAtt getNoticeAtt(Long id) {
-		return noticeAttDAO.findOne(id);
-	}
-
-	/*
-	 * (non-Javadoc) 
-	 * @see com.gdpost.web.service.UserService#saveOrUpdate(com.gdpost.web.entity.main.Policy)  
-	 */
-	@Override
-	public void saveOrUpdateNoticeAtt(NoticeAtt noticeAtt) {
-		
-		noticeAttDAO.save(noticeAtt);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see com.gdpost.web.service.UserService#delete(java.lang.Long)  
-	 */
-	@Override
-	public void deleteNoticeAtt(Long id) {
-		NoticeAtt type = noticeAttDAO.findOne(id);
-		noticeAttDAO.delete(type.getId());
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see com.gdpost.web.service.UserService#findAll(com.gdpost.web.util.dwz.Page)  
-	 */
-	@Override
-	public List<NoticeAtt> findAllNoticeAtt(Page page) {
-		org.springframework.data.domain.Page<NoticeAtt> springDataPage = noticeAttDAO.findAll(PageUtils.createPageable(page));
-		page.setTotalCount(springDataPage.getTotalElements());
-		return springDataPage.getContent();
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see com.gdpost.web.service.UserService#findByExample(org.springframework.data.jpa.domain.Specification, com.gdpost.web.util.dwz.Page)	
-	 */
-	@Override
-	public List<NoticeAtt> findByNoticeAttExample(
-			Specification<NoticeAtt> specification, Page page) {
-		org.springframework.data.domain.Page<NoticeAtt> springDataPage = noticeAttDAO.findAll(specification, PageUtils.createPageable(page));
 		page.setTotalCount(springDataPage.getTotalElements());
 		return springDataPage.getContent();
 	}
