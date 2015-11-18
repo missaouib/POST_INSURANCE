@@ -1,7 +1,5 @@
 package com.gdpost.web.entity.component;
 
-import static javax.persistence.GenerationType.IDENTITY;
-
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -65,7 +64,7 @@ public class Notice implements Idable<Long> {
 
 	// Property accessors
 	@Id
-	@GeneratedValue(strategy = IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", unique = true, nullable = false)
 	public Long getId() {
 		return this.id;
@@ -157,6 +156,15 @@ public class Notice implements Idable<Long> {
 
 	public void setNoticeAtts(List<NoticeAtt> noticeAtts) {
 		this.noticeAtts = noticeAtts;
+	}
+
+	@Override
+	public String toString() {
+		return "Notice [id=" + id + ", sender=" + sender + ", sendDate="
+				+ sendDate + ", user=" + user + ", organization="
+				+ organization + ", role=" + role + ", invalidDate="
+				+ invalidDate + ", noticeTitle=" + noticeTitle
+				+ ", noticeContent=" + noticeContent + "]";
 	}
 
 }
