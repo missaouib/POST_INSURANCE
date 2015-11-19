@@ -78,11 +78,11 @@ public class NoticeController {
 	@RequiresPermissions(value={"Notice:add"}, logical=Logical.OR)
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	public @ResponseBody String upload(HttpServletRequest request, @RequestParam(value = "file", required = true) MultipartFile file, Notice notice) {
-        log.debug("-------------------------------------upload:" + file.getName());
+        log.debug("-------------------------------------upload:" + file.getOriginalFilename());
         try
         {
-        	String name = file.getName();
-            Long lFileSize = Long.parseLong(request.getParameter("size"));
+        	String name = file.getOriginalFilename();
+            Long lFileSize = file.getSize();
             int iNY = UploadDataUtils.getNianYue();
             String strPath = UploadDataUtils.getFileStorePath(request, iNY);
     		String strTempPath = UploadDataUtils.getFileStoreTempPath(request);

@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 <div class="pageContent">
-<form method="post" action="${contextPath }/notice/create" enctype="multipart/form-data" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
+<form method="post" action="${contextPath }/notice/create" enctype="multipart/form-data" class="required-validate pageForm" onsubmit="return iframeCallback(this);">
 	<div class="pageFormContent" layoutH="58">
 		<p>
 			<label>机构：</label>
@@ -36,7 +36,7 @@
 			<input type="file" name="file">
 		</p>
 	</div>
-			
+	<iframe name="hidden_frame" id="hidden_frame" src="message.html" style="display:none"></iframe>
 	<div class="formBar">
 		<ul>
 			<li><div class="button"><div class="buttonContent"><button type="submit">确定</button></div></div></li>
