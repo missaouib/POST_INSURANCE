@@ -242,6 +242,7 @@ public class FpglController {
 				req.setStatus(FP_STATUS.DealStatus.name());
 				s = FP_STATUS.DealStatus.name();
 			}
+			request.setAttribute("status", s);
 		} else if(s.trim().length()>0) {
 			req.setStatus(FP_STATUS.valueOf(s).name());
 		}
@@ -250,6 +251,7 @@ public class FpglController {
 		if(orderField != null && orderField.trim().equals("policy.organization.orgCode")) {
 			req.setStatus(FP_STATUS.NewStatus.name());
 			s = FP_STATUS.NewStatus.name();
+			request.setAttribute("status", s);
 		}
 		LOG.debug("-----------------status2:" + s);
 		page.setOrderField("reqDate");

@@ -6,7 +6,7 @@
 	<input type="hidden" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
 	<input type="hidden" name="search_LTE_reqDate" value="${param.search_LTE_reqDate }"/>
 	<input type="hidden" name="search_GTE_reqDate" value="${param.search_GTE_reqDate }"/>
-	<input type="hidden" name="status" value="${param.status }"/>
+	<input type="hidden" name="status" value="${status }"/>
 </dwz:paginationForm>
 
 <form method="post" id="fpForm" action="${contextPath }/fpgl/list" onsubmit="return navTabSearch(this)">
@@ -72,7 +72,7 @@
 			</shiro:hasPermission>
 			<shiro:hasPermission name="InvoiceReq:view">
 				<li class="line">line</li>
-				<li><a class="icon" target="_blank" href="${contextPath }/fpgl/toXls?search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&search_LTE_reqDate=${param.search_LTE_reqDate}&search_GTE_reqDate=${param.search_GTE_reqDate}&status=${param.status}"><span>导出Excel</span></a></li>
+				<li><a class="icon" target="_blank" href="${contextPath }/fpgl/toXls?search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&search_LTE_reqDate=${param.search_LTE_reqDate}&search_GTE_reqDate=${param.search_GTE_reqDate}&status=${status}"><span>导出Excel</span></a></li>
 			</shiro:hasPermission>
 			<li class="line">line</li>
 			<li><a class="icon" target="dialog" href="${contextPath }/fpgl/help" mask="true" width="530" height="430"><span>功能说明</span></a></li>

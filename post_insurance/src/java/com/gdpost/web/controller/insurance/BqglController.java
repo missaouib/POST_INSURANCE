@@ -237,6 +237,8 @@ public class BqglController {
 		String orgCode = request.getParameter("orgCode");
 		if(orgCode == null || orgCode.trim().length()<=0) {
 			orgCode = userOrg.getOrgCode();
+		} else if(!orgCode.contains(userOrg.getOrgCode())){
+			orgCode = userOrg.getOrgCode();
 		}
 		String orgName = request.getParameter("name");
 		request.setAttribute("orgCode", orgCode);
@@ -280,6 +282,8 @@ public class BqglController {
 		String orgCode = request.getParameter("orgCode");
 		if(orgCode == null || orgCode.trim().length()<=0) {
 			orgCode = userOrg.getOrgCode();
+		} else if(!orgCode.contains(userOrg.getOrgCode())){
+			orgCode = userOrg.getOrgCode();
 		}
 		page.setNumPerPage(65564);
 		//默认返回未处理工单
@@ -287,12 +291,15 @@ public class BqglController {
 		LOG.debug("-------------- status: " + s);
 		ConservationDtl issue = new ConservationDtl();
 		if(s == null) {
+			/*
 			issue.setStatus(BQ_STATUS.NewStatus.name());
 			s = BQ_STATUS.NewStatus.name();
 			if (userOrg.getOrgCode().length()<=4) {
 				issue.setStatus(BQ_STATUS.DealStatus.name());
 				s = BQ_STATUS.DealStatus.name();
 			}
+			*/
+			s = "";
 		} else if(s.trim().length()>0) {
 			issue.setStatus(BQ_STATUS.valueOf(s).name());
 		}
@@ -484,6 +491,8 @@ public class BqglController {
 		String orgCode = request.getParameter("orgCode");
 		if(orgCode == null || orgCode.trim().length()<=0) {
 			orgCode = userOrg.getOrgCode();
+		} else if(!orgCode.contains(user.getOrganization().getOrgCode())){
+			orgCode = user.getOrganization().getOrgCode();
 		}
 		String orgName = request.getParameter("name");
 		request.setAttribute("orgCode", orgCode);
@@ -524,6 +533,8 @@ public class BqglController {
 		String orgCode = request.getParameter("orgCode");
 		if(orgCode == null || orgCode.trim().length()<=0) {
 			orgCode = userOrg.getOrgCode();
+		} else if(!orgCode.contains(user.getOrganization().getOrgCode())){
+			orgCode = user.getOrganization().getOrgCode();
 		}
 		page.setNumPerPage(65564);
 		//默认返回未处理工单
@@ -531,12 +542,15 @@ public class BqglController {
 		LOG.debug("-------------- status: " + s);
 		OffsiteConservation offsite = new OffsiteConservation();
 		if(s == null) {
+			s = "";
+			/*
 			offsite.setStatus(BQ_STATUS.NewStatus.name());
 			s = BQ_STATUS.NewStatus.name();
 			if (userOrg.getOrgCode().length()<=4) {
 				offsite.setStatus(BQ_STATUS.DealStatus.name());
 				s = BQ_STATUS.DealStatus.name();
 			}
+			*/
 		} else if(s.trim().length()>0) {
 			offsite.setStatus(BQ_STATUS.valueOf(s).name());
 		}

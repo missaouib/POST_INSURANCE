@@ -93,8 +93,9 @@ public class XqglController {
 		String orgCode = request.getParameter("policy.orgCode");
 		if(orgCode == null || orgCode.trim().length()<=0) {
 			orgCode = user.getOrganization().getOrgCode();
+		} else if(!orgCode.contains(user.getOrganization().getOrgCode())){
+			orgCode = user.getOrganization().getOrgCode();
 		}
-		
 		if(page.getOrderField() == null) {
 			page.setOrderField("policy.policyDate");
 			page.setOrderDirection("ASC");
@@ -225,6 +226,9 @@ public class XqglController {
 		if(orgCode == null || orgCode.trim().length()<=0) {
 			orgCode = user.getOrganization().getOrgCode();
 		} else {
+			if(!orgCode.contains(user.getOrganization().getOrgCode())){
+				orgCode = user.getOrganization().getOrgCode();
+			}
 			String orgName = request.getParameter("policy.name");
 			request.setAttribute("policy_orgCode", orgCode);
 			request.setAttribute("policy_name", orgName);
@@ -287,6 +291,9 @@ public class XqglController {
 		if(orgCode == null || orgCode.trim().length()<=0) {
 			orgCode = user.getOrganization().getOrgCode();
 		} else {
+			if(!orgCode.contains(user.getOrganization().getOrgCode())){
+				orgCode = user.getOrganization().getOrgCode();
+			}
 			String orgName = request.getParameter("policy.name");
 			request.setAttribute("policy_orgCode", orgCode);
 			request.setAttribute("policy_name", orgName);

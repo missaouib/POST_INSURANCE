@@ -8,7 +8,7 @@
 	<input type="hidden" name="name" value="${name }"/>
 	<input type="hidden" name="search_LTE_policy.policyDate" value="${search_LTE_policy_policyDate }"/>
 	<input type="hidden" name="search_GTE_policy.policyDate" value="${search_GTE_policy_policyDate }"/>
-	<input type="hidden" name="status" value="${param.status }"/>
+	<input type="hidden" name="status" value="${status }"/>
 </dwz:paginationForm>
 
 <form id="qyWriteForm" method="post" action="${contextPath }/qygl/issue/write/list" onsubmit="return navTabSearch(this)">

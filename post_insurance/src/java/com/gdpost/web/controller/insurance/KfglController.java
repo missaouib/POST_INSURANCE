@@ -89,6 +89,8 @@ public class KfglController {
 		String orgCode = request.getParameter("policy.orgCode");
 		if(orgCode == null || orgCode.trim().length()<=0) {
 			orgCode = user.getOrganization().getOrgCode();
+		} else if(!orgCode.contains(user.getOrganization().getOrgCode())){
+			orgCode = user.getOrganization().getOrgCode();
 		}
 		Specification<Issue> specification = DynamicSpecifications.bySearchFilter(request, Issue.class,
 				new SearchFilter("status", Operator.LIKE, s),
@@ -278,6 +280,8 @@ public class KfglController {
 		String orgCode = request.getParameter("orgCode");
 		if(orgCode == null || orgCode.trim().length()<=0) {
 			orgCode = userOrg.getOrgCode();
+		} else if(!orgCode.contains(user.getOrganization().getOrgCode())){
+			orgCode = user.getOrganization().getOrgCode();
 		}
 		String orgName = request.getParameter("name");
 		request.setAttribute("orgCode", orgCode);
@@ -365,6 +369,8 @@ public class KfglController {
 		String orgCode = request.getParameter("orgCode");
 		if(orgCode == null || orgCode.trim().length()<=0) {
 			orgCode = userOrg.getOrgCode();
+		} else if(!orgCode.contains(user.getOrganization().getOrgCode())){
+			orgCode = user.getOrganization().getOrgCode();
 		}
 		String orgName = request.getParameter("name");
 		request.setAttribute("orgCode", orgCode);

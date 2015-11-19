@@ -170,6 +170,8 @@ public class QyglController {
 		String orgCode = request.getParameter("orgCode");
 		if(orgCode == null || orgCode.trim().length()<=0) {
 			orgCode = userOrg.getOrgCode();
+		} else if(!orgCode.contains(userOrg.getOrgCode())){
+			orgCode = userOrg.getOrgCode();
 		}
 		String orgName = request.getParameter("name");
 		request.setAttribute("orgCode", orgCode);
@@ -178,6 +180,7 @@ public class QyglController {
 		CheckWrite issue = new CheckWrite();
 		if(status == null) {
 			status = STATUS.NewStatus.name();
+			request.setAttribute("status", status);
 		} else if(status.trim().length()>0) {
 			issue.setFixStatus(STATUS.valueOf(status).name());
 		}
@@ -286,6 +289,8 @@ public class QyglController {
 		String orgCode = request.getParameter("orgCode");
 		if(orgCode == null || orgCode.trim().length()<=0) {
 			orgCode = userOrg.getOrgCode();
+		} else if(!orgCode.contains(userOrg.getOrgCode())){
+			orgCode = userOrg.getOrgCode();
 		}
 		String orgName = request.getParameter("name");
 		request.setAttribute("orgCode", orgCode);
@@ -294,6 +299,7 @@ public class QyglController {
 		CheckRecord issue = new CheckRecord();
 		if(status == null) {
 			status = STATUS.NewStatus.name();
+			request.setAttribute("status", status);
 		} else if(status.trim().length()>0) {
 			issue.setFixStatus(STATUS.valueOf(status).name());
 		}
@@ -337,6 +343,8 @@ public class QyglController {
 		page.setNumPerPage(65564);
 		String orgCode = request.getParameter("orgCode");
 		if(orgCode == null || orgCode.trim().length()<=0) {
+			orgCode = user.getOrganization().getOrgCode();
+		} else if(!orgCode.contains(user.getOrganization().getOrgCode())){
 			orgCode = user.getOrganization().getOrgCode();
 		}
 		Specification<UnderWrite> specification = DynamicSpecifications.bySearchFilter(request, UnderWrite.class,
@@ -548,6 +556,8 @@ public class QyglController {
 		String orgCode = request.getParameter("orgCode");
 		if(orgCode == null || orgCode.trim().length()<=0) {
 			orgCode = userOrg.getOrgCode();
+		} else if(!orgCode.contains(userOrg.getOrgCode())){
+			orgCode = userOrg.getOrgCode();
 		}
 		String orgName = request.getParameter("name");
 		request.setAttribute("orgCode", orgCode);
@@ -556,6 +566,7 @@ public class QyglController {
 		String status = request.getParameter("status");
 		if(status == null) {
 			status = UW_STATUS.NewStatus.name();
+			request.setAttribute("status", status);
 		}
 		UnderWrite uw = new UnderWrite();
 		uw.setStatus(status);

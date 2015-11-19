@@ -86,6 +86,8 @@ public class HfglController {
 		String orgCode = request.getParameter("policy.orgCode");
 		if(orgCode == null || orgCode.trim().length()<=0) {
 			orgCode = user.getOrganization().getOrgCode();
+		} else if(!orgCode.contains(user.getOrganization().getOrgCode())){
+			orgCode = user.getOrganization().getOrgCode();
 		}
 		Specification<VCallFailList> specification = DynamicSpecifications.bySearchFilter(request, VCallFailList.class,
 				new SearchFilter("status", Operator.LIKE, s),
@@ -447,6 +449,9 @@ public class HfglController {
 				orgCode = "8644";
 			}
 		} else {
+			if(!orgCode.contains(user.getOrganization().getOrgCode())){
+				orgCode = user.getOrganization().getOrgCode();
+			}
 			String orgName = request.getParameter("policy.name");
 			request.setAttribute("policy_orgCode", orgCode);
 			request.setAttribute("policy_name", orgName);
@@ -544,6 +549,9 @@ public class HfglController {
 				orgCode = "8644";
 			}
 		} else {
+			if(!orgCode.contains(user.getOrganization().getOrgCode())){
+				orgCode = user.getOrganization().getOrgCode();
+			}
 			String orgName = request.getParameter("policy.name");
 			request.setAttribute("policy_orgCode", orgCode);
 			request.setAttribute("policy_name", orgName);
