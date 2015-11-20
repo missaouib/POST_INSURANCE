@@ -68,15 +68,15 @@
 			<span class="unit">${issue.hqIssueType }</span>
 		</p>
 		<p>
-			<label>总部催收详情：</label>
+			<label>催收详情：</label>
 			<span class="unit">${issue.hqDealRst }</span>
 		</p>
 		<p>
-			<label>总部催收日期：</label>
+			<label>催收日期：</label>
 			<span class="unit">${issue.hqDealDate }</span>
 		</p>
 		<p>
-			<label>总部催收备注：</label>
+			<label>催收备注：</label>
 			<span class="unit">${issue.hqDealRemark }</span>
 		</p>
 	</fieldset>
@@ -88,15 +88,15 @@
 			<span class="unit">${issue.provIssueType }</span>
 		</p>
 		<p>
-			<label>分公司催收结果：</label>
+			<label>催收详情：</label>
 			<span class="unit">${issue.provDealRst }</span>
 		</p>
 		<p>
-			<label>分公司催收日期：</label>
+			<label>催收日期：</label>
 			<span class="unit">${issue.provDealDate }</span>
 		</p>
 		<p>
-			<label>分公司催收备注：</label>
+			<label>催收备注：</label>
 			<span class="unit">${issue.provDealRemark }</span>
 		</p>
 	</fieldset>
@@ -108,16 +108,20 @@
 			<span class="unit">${issue.fixDesc }</span>
 		</p>
 		<p>
-			<label>经办人：</label>
-			<span class="unit">${issue.dealMan }</span>
+			<label>催收详情：</label>
+			<span class="unit">${issue.fixStatus }</span>
 		</p>
 		<p>
-			<label>经办日期：</label>
+			<label>催收日期：</label>
 			<span class="unit">${issue.dealTime }</span>
 		</p>
 		<p>
 			<label>催收备注：</label>
 			<span class="unit">${issue.fixDesc }</span>
+		</p>
+		<p>
+			<label>催收人：</label>
+			<span class="unit">${issue.dealMan }</span>
 		</p>
 	</fieldset>
 	</div>

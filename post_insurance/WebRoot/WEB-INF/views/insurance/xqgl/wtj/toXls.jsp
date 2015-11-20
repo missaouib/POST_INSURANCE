@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@page import="java.util.Date"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
+<meta http-equiv=”X-UA-Compatible” content=”IE=edge,chrome=1″ />
 <%
 response.setContentType("application/vnd.ms-excel");  
 response.setHeader("Content-Disposition", "inline; filename=XQ_Xls.xls");
@@ -20,6 +21,7 @@ response.setHeader("Content-Disposition", "inline; filename=XQ_Xls.xls");
 				<th>账号</th>
 				<th>网点</th>
 				<th>总部催收情况</th>
+				<th>总部催收详情</th>
 				<th>省分催收情况</th>
 				<th>省分催收详情</th>
 				<th>市县催收情况</th>
@@ -37,7 +39,7 @@ response.setHeader("Content-Disposition", "inline; filename=XQ_Xls.xls");
 				<td><span style="color:red; height:50%; margin-bottom:-contentheight;">${item.lastDateNum }</span></td>
 				<td>${item.feeStatus }</td>
 				<td>${item.feeFailReason}</td>
-				<td>${item.account}</td>
+				<td style="vnd.ms-excel.numberformat:@">${item.account}</td>
 				<td>
 					<c:choose>  
 					    <c:when test="${fn:length(item.netName) > 14}">  
@@ -49,6 +51,7 @@ response.setHeader("Content-Disposition", "inline; filename=XQ_Xls.xls");
 					</c:choose>
 				</td>
 				<td>${item.hqIssueType}</td>
+				<td>${item.hqDealRst}</td>
 				<td>${item.provIssueType}</td>
 				<td>${item.provDealRst}</td>
 				<td>${item.dealType}</td>
