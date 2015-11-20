@@ -74,21 +74,28 @@ public class XqglController {
 		RenewedList issue = new RenewedList();
 		//默认返回未处理工单
 		String feeStatus = request.getParameter("search_LIKE_feeStatus");
-		String hqDealRemark = request.getParameter("search_LIKE_hqDealRemark");
-		String dealType = request.getParameter("search_LIKE_dealType");
-		if(hqDealRemark == null) {
-			hqDealRemark = "";
-		}
-		issue.setSearch_LIKE_hqDealRemark(hqDealRemark);
-		if(dealType == null) {
-			dealType = "";
-		}
-		issue.setSearch_LIKE_dealType(dealType);
 		LOG.debug("-------------- feeStatus: " + feeStatus);
 		if(feeStatus == null) {
 			feeStatus = "";
 		}
-		issue.setSearch_LIKE_feeStatus(feeStatus);
+		issue.setSearch_EQ_feeStatus(feeStatus);
+		String hqIssueType = request.getParameter("hqIssueType");
+		String dealType = request.getParameter("dealType");
+		String feeFailReason = request.getParameter("feeFailReason");
+		if(hqIssueType == null) {
+			hqIssueType = "";
+		}
+		issue.setHqIssueType(hqIssueType);
+		if(dealType == null) {
+			dealType = "";
+		}
+		issue.setDealType(dealType);
+		
+		LOG.debug("-------------- feeFailReason: " + feeFailReason);
+		if(feeFailReason == null) {
+			feeFailReason = "";
+		}
+		issue.setFeeFailReason(feeFailReason);
 		
 		String orgCode = request.getParameter("policy.orgCode");
 		if(orgCode == null || orgCode.trim().length()<=0) {
@@ -100,8 +107,11 @@ public class XqglController {
 			page.setOrderField("policy.policyDate");
 			page.setOrderDirection("ASC");
 		}
-		
+		page.setNumPerPage(65564);
 		Specification<RenewedList> specification = DynamicSpecifications.bySearchFilter(request, RenewedList.class,
+				hqIssueType.length()<=0?new SearchFilter("hqIssueType", Operator.LIKE, ""):new SearchFilter("hqIssueType", Operator.EQ, hqIssueType),
+				dealType.length()<=0?new SearchFilter("dealType", Operator.LIKE, ""):new SearchFilter("dealType", Operator.EQ, hqIssueType),
+				feeFailReason.length()<=0?new SearchFilter("feeFailReason", Operator.LIKE, ""):new SearchFilter("feeFailReason", Operator.EQ, hqIssueType),
 				new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 		
 		List<RenewedList> issues = xqglService.findByExample(specification, page);
@@ -200,27 +210,28 @@ public class XqglController {
 		RenewedList issue = new RenewedList();
 		//默认返回未处理工单
 		String feeStatus = request.getParameter("search_LIKE_feeStatus");
-		String hqIssueType = request.getParameter("search_LIKE_hqIssueType");
-		String dealType = request.getParameter("search_LIKE_dealType");
-		String feeFailReason = request.getParameter("search_LIKE_feeFailReason");
-		if(hqIssueType == null) {
-			hqIssueType = "";
-		}
-		issue.setSearch_LIKE_hqIssueType(hqIssueType);
-		if(dealType == null) {
-			dealType = "";
-		}
-		issue.setSearch_LIKE_dealType(dealType);
 		LOG.debug("-------------- feeStatus: " + feeStatus);
 		if(feeStatus == null) {
 			feeStatus = "";
 		}
-		issue.setSearch_LIKE_feeStatus(feeStatus);
+		issue.setSearch_EQ_feeStatus(feeStatus);
+		String hqIssueType = request.getParameter("hqIssueType");
+		String dealType = request.getParameter("dealType");
+		String feeFailReason = request.getParameter("feeFailReason");
+		if(hqIssueType == null) {
+			hqIssueType = "";
+		}
+		issue.setHqIssueType(hqIssueType);
+		if(dealType == null) {
+			dealType = "";
+		}
+		issue.setDealType(dealType);
+		
 		LOG.debug("-------------- feeFailReason: " + feeFailReason);
 		if(feeFailReason == null) {
 			feeFailReason = "";
 		}
-		issue.setSearch_LIKE_feeFailReason(feeFailReason);
+		issue.setFeeFailReason(feeFailReason);
 		
 		String orgCode = request.getParameter("policy.orgCode");
 		if(orgCode == null || orgCode.trim().length()<=0) {
@@ -242,6 +253,9 @@ public class XqglController {
 		Specification<RenewedList> specification = null;
 		
 		specification = DynamicSpecifications.bySearchFilter(request, RenewedList.class,
+				hqIssueType.length()<=0?new SearchFilter("hqIssueType", Operator.LIKE, ""):new SearchFilter("hqIssueType", Operator.EQ, hqIssueType),
+				dealType.length()<=0?new SearchFilter("dealType", Operator.LIKE, ""):new SearchFilter("dealType", Operator.EQ, hqIssueType),
+				feeFailReason.length()<=0?new SearchFilter("feeFailReason", Operator.LIKE, ""):new SearchFilter("feeFailReason", Operator.EQ, hqIssueType),
 				new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 		
 		List<RenewedList> issues = xqglService.findByExample(specification, page);
@@ -264,28 +278,29 @@ public class XqglController {
 		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
 		RenewedList issue = new RenewedList();
 		//默认返回未处理工单
-		String feeStatus = request.getParameter("search_LIKE_feeStatus");
-		String hqIssueType = request.getParameter("search_LIKE_hqIssueType");
-		String dealType = request.getParameter("search_LIKE_dealType");
-		String feeFailReason = request.getParameter("search_LIKE_feeFailReason");
-		if(hqIssueType == null) {
-			hqIssueType = "";
-		}
-		issue.setSearch_LIKE_hqIssueType(hqIssueType);
-		if(dealType == null) {
-			dealType = "";
-		}
-		issue.setSearch_LIKE_dealType(dealType);
+		String feeStatus = request.getParameter("search_EQ_feeStatus");
 		LOG.debug("-------------- feeStatus: " + feeStatus);
 		if(feeStatus == null) {
 			feeStatus = "";
 		}
-		issue.setSearch_LIKE_feeStatus(feeStatus);
+		String hqIssueType = request.getParameter("hqIssueType");
+		String dealType = request.getParameter("dealType");
+		String feeFailReason = request.getParameter("feeFailReason");
+		if(hqIssueType == null) {
+			hqIssueType = "";
+		}
+		issue.setHqIssueType(hqIssueType);
+		if(dealType == null) {
+			dealType = "";
+		}
+		issue.setDealType(dealType);
+		
+		issue.setSearch_EQ_feeStatus(feeStatus);
 		LOG.debug("-------------- feeFailReason: " + feeFailReason);
 		if(feeFailReason == null) {
 			feeFailReason = "";
 		}
-		issue.setSearch_LIKE_feeFailReason(feeFailReason);
+		issue.setFeeFailReason(feeFailReason);
 		
 		String orgCode = request.getParameter("policy.orgCode");
 		if(orgCode == null || orgCode.trim().length()<=0) {
@@ -307,6 +322,9 @@ public class XqglController {
 		Specification<RenewedList> specification = null;
 		
 		specification = DynamicSpecifications.bySearchFilter(request, RenewedList.class,
+				hqIssueType.length()<=0?new SearchFilter("hqIssueType", Operator.LIKE, ""):new SearchFilter("hqIssueType", Operator.EQ, hqIssueType),
+				dealType.length()<=0?new SearchFilter("dealType", Operator.LIKE, ""):new SearchFilter("dealType", Operator.EQ, hqIssueType),
+				feeFailReason.length()<=0?new SearchFilter("feeFailReason", Operator.LIKE, ""):new SearchFilter("feeFailReason", Operator.EQ, hqIssueType),
 				new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 		
 		List<RenewedList> issues = xqglService.findByExample(specification, page);

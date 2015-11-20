@@ -72,16 +72,19 @@ public class RenewedList implements Idable<Long> {
 	@Transient
 	private Integer lastDateNum;
 	
+	
 	@Transient
-	private String search_LIKE_feeStatus;
+	private String search_EQ_feeStatus;
+	/*
 	@Transient
-	private String search_LIKE_hqDealRemark;
+	private String search_EQ_hqDealRemark;
 	@Transient
-	private String search_LIKE_dealType;
+	private String search_EQ_dealType;
 	@Transient
-	private String search_LIKE_feeFailReason;
+	private String search_EQ_feeFailReason;
 	@Transient
-	private String search_LIKE_hqIssueType;
+	private String search_EQ_hqIssueType;
+	*/
 	
 	@Transient
 	public Integer getLastDateNum() {
@@ -107,50 +110,51 @@ public class RenewedList implements Idable<Long> {
 	// Constructors
 
 	@Transient
-	public String getSearch_LIKE_feeStatus() {
-		return search_LIKE_feeStatus;
+	public String getSearch_EQ_feeStatus() {
+		return search_EQ_feeStatus;
 	}
 	@Transient
-	public void setSearch_LIKE_feeStatus(String search_LIKE_feeStatus) {
-		this.search_LIKE_feeStatus = search_LIKE_feeStatus;
+	public void setSearch_EQ_feeStatus(String search_EQ_feeStatus) {
+		this.search_EQ_feeStatus = search_EQ_feeStatus;
+	}
+	/*
+	@Transient
+	public String getSearch_EQ_hqDealRemark() {
+		return search_EQ_hqDealRemark;
 	}
 	@Transient
-	public String getSearch_LIKE_hqDealRemark() {
-		return search_LIKE_hqDealRemark;
+	public void setSearch_EQ_hqDealRemark(String search_EQ_hqDealRemark) {
+		this.search_EQ_hqDealRemark = search_EQ_hqDealRemark;
 	}
 	@Transient
-	public void setSearch_LIKE_hqDealRemark(String search_LIKE_hqDealRemark) {
-		this.search_LIKE_hqDealRemark = search_LIKE_hqDealRemark;
+	public String getSearch_EQ_dealType() {
+		return search_EQ_dealType;
 	}
 	@Transient
-	public String getSearch_LIKE_dealType() {
-		return search_LIKE_dealType;
-	}
-	@Transient
-	public void setSearch_LIKE_dealType(String search_LIKE_dealType) {
-		this.search_LIKE_dealType = search_LIKE_dealType;
+	public void setSearch_EQ_dealType(String search_EQ_dealType) {
+		this.search_EQ_dealType = search_EQ_dealType;
 	}
 
 	@Transient
-	public String getSearch_LIKE_feeFailReason() {
-		return search_LIKE_feeFailReason;
+	public String getSearch_EQ_feeFailReason() {
+		return search_EQ_feeFailReason;
+	}
+	
+	@Transient
+	public void setSearch_EQ_feeFailReason(String search_EQ_feeFailReason) {
+		this.search_EQ_feeFailReason = search_EQ_feeFailReason;
 	}
 
 	@Transient
-	public void setSearch_LIKE_feeFailReason(String search_LIKE_feeFailReason) {
-		this.search_LIKE_feeFailReason = search_LIKE_feeFailReason;
+	public String getSearch_EQ_hqIssueType() {
+		return search_EQ_hqIssueType;
 	}
 
 	@Transient
-	public String getSearch_LIKE_hqIssueType() {
-		return search_LIKE_hqIssueType;
+	public void setSearch_EQ_hqIssueType(String search_EQ_hqIssueType) {
+		this.search_EQ_hqIssueType = search_EQ_hqIssueType;
 	}
-
-	@Transient
-	public void setSearch_LIKE_hqIssueType(String search_LIKE_hqIssueType) {
-		this.search_LIKE_hqIssueType = search_LIKE_hqIssueType;
-	}
-
+	*/
 	/** default constructor */
 	public RenewedList() {
 	}

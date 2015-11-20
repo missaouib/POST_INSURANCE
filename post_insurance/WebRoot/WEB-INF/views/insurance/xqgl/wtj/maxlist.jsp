@@ -54,7 +54,7 @@
 						<label>市/县催收：</label>
 						<form:select path="issue.search_LIKE_dealType" id="dealType" class="combox">
 							<form:option value=""> -- </form:option>
-							<form:options items="${orgTypeList }" itemLabel="typeDesc" itemValue="typeName"/>
+							<form:options items="${orgTypeList }" itemLabel="typeName" itemValue="typeName"/>
 						</form:select>
 					</td>
 					<td>

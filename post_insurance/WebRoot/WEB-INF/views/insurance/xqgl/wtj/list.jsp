@@ -9,9 +9,9 @@
 	<input type="hidden" name="search_LTE_feeDate" value="${param.search_LTE_feeDate }"/>
 	<input type="hidden" name="search_GTE_feeDate" value="${param.search_GTE_feeDate }"/>
 	<input type="hidden" name="search_LIKE_feeStatus" value="${param.search_LIKE_feeStatus }"/>
-	<input type="hidden" name="search_LIKE_hqIssueType" value="${param.search_LIKE_hqIssueType }"/>
-	<input type="hidden" name="search_LIKE_dealType" value="${param.search_LIKE_dealType }"/>
-	<input type="hidden" name="search_LIKE_feeFailReason" value="${param.search_LIKE_feeFailReason }"/>
+	<input type="hidden" name="hqIssueType" value="${param.hqIssueType }"/>
+	<input type="hidden" name="dealType" value="${param.dealType }"/>
+	<input type="hidden" name="feeFailReason" value="${param.feeFailReason }"/>
 </dwz:paginationForm>
 
 <form id="xqForm" method="post" action="${contextPath }/xqgl/issue/list" onsubmit="return navTabSearch(this)">
@@ -24,7 +24,7 @@
 					</td>
 					<td>
 						<label>状态：</label>
-						<form:select path="issue.search_LIKE_feeStatus" id="xqStatus" class="combox">
+						<form:select path="issue.search_EQ_feeStatus" id="xqStatus" class="combox">
 							<form:option value=""> -- -- </form:option>
 							<form:options items="${xqStatusList }" itemLabel="desc" itemValue="desc"/>
 						</form:select>
@@ -36,7 +36,7 @@
 					</td>
 					<td>
 						<label>失败原因：</label>
-						<form:select path="issue.search_LIKE_feeFailReason" id="xqFeeFailStatus" class="combox">
+						<form:select path="issue.feeFailReason" id="xqFeeFailStatus" class="combox">
 							<form:option value=""> -- -- </form:option>
 							<form:options items="${xqFailReasonList }" itemLabel="desc" itemValue="desc"/>
 						</form:select>
@@ -45,16 +45,16 @@
 				<tr>
 					<td>
 						<label>总部催收：</label>
-						<form:select path="issue.search_LIKE_hqIssueType" id="xqDealStatus" class="combox">
+						<form:select path="issue.hqIssueType" id="xqDealStatus" class="combox">
 							<form:option value=""> -- -- </form:option>
 							<form:options items="${xqDealStatusList }" itemLabel="desc" itemValue="desc"/>
 						</form:select>
 					</td>
 					<td>
 						<label>市/县催收：</label>
-						<form:select path="issue.search_LIKE_dealType" id="dealType" class="combox">
+						<form:select path="issue.dealType" id="dealType" class="combox">
 							<form:option value=""> -- </form:option>
-							<form:options items="${orgTypeList }" itemLabel="typeDesc" itemValue="typeName"/>
+							<form:options items="${orgTypeList }" itemLabel="typeName" itemValue="typeName"/>
 						</form:select>
 					</td>
 					<td>
