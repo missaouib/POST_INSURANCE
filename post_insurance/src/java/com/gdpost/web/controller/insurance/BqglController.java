@@ -508,7 +508,7 @@ public class BqglController {
 		}
 		String orderField = request.getParameter("orderField");
 		if(orderField == null || orderField.trim().length()<=0) {
-			page.setOrderField("operateTime");
+			page.setOrderField("dealDate");
 			page.setOrderDirection("DESC");
 		}
 		Specification<OffsiteConservation> specification = DynamicSpecifications.bySearchFilter(request, OffsiteConservation.class,

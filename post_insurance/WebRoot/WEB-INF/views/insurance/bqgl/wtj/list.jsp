@@ -34,11 +34,11 @@
 				</tr>
 				<tr>
 					<td>
-						<label>承保开始日期：</label>
+						<label>录入开始日期：</label>
 						<input type="text" id="bqCsDate1" name="search_GTE_csDate" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_csDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
-						<label>承保结束日期：</label>
+						<label>录入结束日期：</label>
 						<input type="text" id="bqCsDate2" name="search_LTE_csDate" class="date validate[required] required" style="width: 80px;"dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_csDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
