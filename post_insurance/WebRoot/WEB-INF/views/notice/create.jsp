@@ -1,7 +1,22 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
+<script type="text/javascript">
+<!--
+function customAjaxDone(json){
+	alert(json.statusCode);
+    if (json.statusCode == DWZ.statusCode.ok){
+    	DWZ.ajaxDone(json);
+    	dialogReloadNavTab(json);
+    	$.pdialog.closeCurrent(); 
+    }
+    else{
+        DWZ.ajaxDone(json);
+    }
+}
+//-->
+</script>
 <div class="pageContent">
-<form method="post" action="${contextPath }/notice/create" enctype="multipart/form-data" class="required-validate pageForm" onsubmit="return iframeCallback(this);">
+<form method="post" action="${contextPath }/notice/create" enctype="multipart/form-data" class="required-validate pageForm" onsubmit="return iframeCallback(this, customAjaxDone);">
 	<div class="pageFormContent" layoutH="58">
 		<p>
 			<label>机构：</label>

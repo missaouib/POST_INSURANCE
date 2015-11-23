@@ -57,7 +57,7 @@ public class NoticeController {
 	String strError = "{\"jsonrpc\":\"2.0\",\"result\":\"error\",\"id\":\"id\",\"message\":\"操作失败。\"}";
 	
 	@RequiresPermissions(value={"Notice:view"}, logical=Logical.OR)
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/list", method = {RequestMethod.GET, RequestMethod.POST})
 	public String list(HttpServletRequest request, Map<String, Object> map, Page page) {
 		Specification<Notice> specification = DynamicSpecifications.bySearchFilter(request, Notice.class);
 		List<Notice> basedata = noticeService.findByNoticeExample(specification, page);
@@ -79,6 +79,7 @@ public class NoticeController {
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	public @ResponseBody String upload(HttpServletRequest request, @RequestParam(value = "file", required = true) MultipartFile file, Notice notice) {
         log.debug("-------------------------------------upload:" + file.getOriginalFilename());
+        log.debug("------------" + notice.toString());
         try
         {
         	String name = file.getOriginalFilename();
