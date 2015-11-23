@@ -109,9 +109,9 @@ public class XqglController {
 		}
 		page.setNumPerPage(65564);
 		Specification<RenewedList> specification = DynamicSpecifications.bySearchFilter(request, RenewedList.class,
-				hqIssueType.length()<=0?new SearchFilter("hqIssueType", Operator.LIKE, ""):new SearchFilter("hqIssueType", Operator.EQ, hqIssueType),
-						dealType.length()<=0?new SearchFilter("dealType", Operator.LIKE, ""):new SearchFilter("dealType", Operator.EQ, dealType),
-								feeFailReason.length()<=0?new SearchFilter("feeFailReason", Operator.LIKE, ""):new SearchFilter("feeFailReason", Operator.EQ, feeFailReason),
+				hqIssueType.length()<=0?new SearchFilter("hqIssueType", Operator.LIKE, "%%"):new SearchFilter("hqIssueType", Operator.EQ, hqIssueType),
+						dealType.length()<=0?new SearchFilter("dealType", Operator.LIKE, "%%"):new SearchFilter("dealType", Operator.EQ, dealType),
+								feeFailReason.length()<=0?new SearchFilter("feeFailReason", Operator.LIKE, "%%"):new SearchFilter("feeFailReason", Operator.EQ, feeFailReason),
 				new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 		
 		List<RenewedList> issues = xqglService.findByExample(specification, page);
@@ -250,9 +250,7 @@ public class XqglController {
 			page.setOrderDirection("ASC");
 		}
 		
-		Specification<RenewedList> specification = null;
-		
-		specification = DynamicSpecifications.bySearchFilter(request, RenewedList.class,
+		Specification<RenewedList> specification = DynamicSpecifications.bySearchFilter(request, RenewedList.class,
 				hqIssueType.length()<=0?new SearchFilter("hqIssueType", Operator.LIKE, ""):new SearchFilter("hqIssueType", Operator.EQ, hqIssueType),
 				dealType.length()<=0?new SearchFilter("dealType", Operator.LIKE, ""):new SearchFilter("dealType", Operator.EQ, dealType),
 				feeFailReason.length()<=0?new SearchFilter("feeFailReason", Operator.LIKE, ""):new SearchFilter("feeFailReason", Operator.EQ, feeFailReason),
@@ -322,9 +320,9 @@ public class XqglController {
 		Specification<RenewedList> specification = null;
 		
 		specification = DynamicSpecifications.bySearchFilter(request, RenewedList.class,
-				hqIssueType.length()<=0?new SearchFilter("hqIssueType", Operator.LIKE, ""):new SearchFilter("hqIssueType", Operator.EQ, hqIssueType),
-						dealType.length()<=0?new SearchFilter("dealType", Operator.LIKE, ""):new SearchFilter("dealType", Operator.EQ, dealType),
-								feeFailReason.length()<=0?new SearchFilter("feeFailReason", Operator.LIKE, ""):new SearchFilter("feeFailReason", Operator.EQ, feeFailReason),
+				hqIssueType.length()<=0?new SearchFilter("hqIssueType", Operator.LIKE, "%%"):new SearchFilter("hqIssueType", Operator.EQ, hqIssueType),
+						dealType.length()<=0?new SearchFilter("dealType", Operator.LIKE, "%%"):new SearchFilter("dealType", Operator.EQ, dealType),
+								feeFailReason.length()<=0?new SearchFilter("feeFailReason", Operator.LIKE, "%%"):new SearchFilter("feeFailReason", Operator.EQ, feeFailReason),
 				new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 		
 		List<RenewedList> issues = xqglService.findByExample(specification, page);

@@ -67,7 +67,7 @@ public class StatusDefine {
 	};
 	
 	public enum XQ_FEE_STATUS {
-		NoFee("可用余额不足"), NotExist("账号不存在"), InValid("卡号无效"), ElseError("其他系统错误"), Else("其他"), Dead("已终止");
+		NoFee("可用余额不足"), NotExist("帐号不存在"), InValid("卡号无效"), ElseError("其他系统错误"), Else("其他"), Dead("已终止");
 		private String desc;
 
 		XQ_FEE_STATUS(String desc) {
