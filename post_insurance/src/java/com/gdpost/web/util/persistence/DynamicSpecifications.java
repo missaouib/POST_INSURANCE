@@ -462,6 +462,11 @@ public class DynamicSpecifications {
 							//opredicates.add(builder.or(p));
 							opredicates.add(builder.or(p));
 							break;
+						case OR_ISNULL:
+							hasOr = true;
+							p = builder.isNull(expression);
+							opredicates.add(builder.or(p));
+							break;
 						}
 					}
 					if (!hasOr) {

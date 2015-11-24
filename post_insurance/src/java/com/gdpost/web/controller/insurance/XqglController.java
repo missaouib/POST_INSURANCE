@@ -8,7 +8,9 @@
 package com.gdpost.web.controller.insurance;
 
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -65,60 +67,6 @@ public class XqglController {
 	private static final String TO_HELP = "insurance/help/xqgl";
 	
 	private static final String TO_XLS = "insurance/xqgl/wtj/toXls";
-	
-	@RequiresPermissions("Renewed:view")
-	@RequestMapping(value="/toXls", method=RequestMethod.GET)
-	public String toXls(ServletRequest request, Page page, Map<String, Object> map) {
-		ShiroUser shiroUser = SecurityUtils.getShiroUser();
-		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
-		RenewedList issue = new RenewedList();
-		//默认返回未处理工单
-		String feeStatus = request.getParameter("search_LIKE_feeStatus");
-		LOG.debug("-------------- feeStatus: " + feeStatus);
-		if(feeStatus == null) {
-			feeStatus = "";
-		}
-		issue.setSearch_EQ_feeStatus(feeStatus);
-		String hqIssueType = request.getParameter("hqIssueType");
-		String dealType = request.getParameter("dealType");
-		String feeFailReason = request.getParameter("feeFailReason");
-		if(hqIssueType == null) {
-			hqIssueType = "";
-		}
-		issue.setHqIssueType(hqIssueType);
-		if(dealType == null) {
-			dealType = "";
-		}
-		issue.setDealType(dealType);
-		
-		LOG.debug("-------------- feeFailReason: " + feeFailReason);
-		if(feeFailReason == null) {
-			feeFailReason = "";
-		}
-		issue.setFeeFailReason(feeFailReason);
-		
-		String orgCode = request.getParameter("policy.orgCode");
-		if(orgCode == null || orgCode.trim().length()<=0) {
-			orgCode = user.getOrganization().getOrgCode();
-		} else if(!orgCode.contains(user.getOrganization().getOrgCode())){
-			orgCode = user.getOrganization().getOrgCode();
-		}
-		if(page.getOrderField() == null) {
-			page.setOrderField("policy.policyDate");
-			page.setOrderDirection("ASC");
-		}
-		page.setNumPerPage(65564);
-		Specification<RenewedList> specification = DynamicSpecifications.bySearchFilter(request, RenewedList.class,
-				hqIssueType.length()<=0?new SearchFilter("hqIssueType", Operator.LIKE, "%%"):new SearchFilter("hqIssueType", Operator.EQ, hqIssueType),
-						dealType.length()<=0?new SearchFilter("dealType", Operator.LIKE, "%%"):new SearchFilter("dealType", Operator.EQ, dealType),
-								feeFailReason.length()<=0?new SearchFilter("feeFailReason", Operator.LIKE, "%%"):new SearchFilter("feeFailReason", Operator.EQ, feeFailReason),
-				new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
-		
-		List<RenewedList> issues = xqglService.findByExample(specification, page);
-		
-		map.put("reqs", issues);
-		return TO_XLS;
-	}
 	
 	@RequestMapping(value="/help", method=RequestMethod.GET)
 	public String toHelp() {
@@ -218,19 +166,9 @@ public class XqglController {
 		String hqIssueType = request.getParameter("hqIssueType");
 		String dealType = request.getParameter("dealType");
 		String feeFailReason = request.getParameter("feeFailReason");
-		if(hqIssueType == null) {
-			hqIssueType = "";
-		}
 		issue.setHqIssueType(hqIssueType);
-		if(dealType == null) {
-			dealType = "";
-		}
 		issue.setDealType(dealType);
-		
 		LOG.debug("-------------- feeFailReason: " + feeFailReason);
-		if(feeFailReason == null) {
-			feeFailReason = "";
-		}
 		issue.setFeeFailReason(feeFailReason);
 		
 		String orgCode = request.getParameter("policy.orgCode");
@@ -250,11 +188,19 @@ public class XqglController {
 			page.setOrderDirection("ASC");
 		}
 		
-		Specification<RenewedList> specification = DynamicSpecifications.bySearchFilter(request, RenewedList.class,
-				hqIssueType.length()<=0?new SearchFilter("hqIssueType", Operator.LIKE, ""):new SearchFilter("hqIssueType", Operator.EQ, hqIssueType),
-				dealType.length()<=0?new SearchFilter("dealType", Operator.LIKE, ""):new SearchFilter("dealType", Operator.EQ, dealType),
-				feeFailReason.length()<=0?new SearchFilter("feeFailReason", Operator.LIKE, ""):new SearchFilter("feeFailReason", Operator.EQ, feeFailReason),
-				new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		if (hqIssueType != null && hqIssueType.length() > 0) {
+			csf.add(new SearchFilter("hqIssueType", Operator.EQ, hqIssueType));
+		}
+		if (dealType != null && dealType.length() > 0) {
+			csf.add(new SearchFilter("dealType", Operator.EQ, dealType));
+		}
+		if (feeFailReason != null && feeFailReason.length() > 0) {
+			csf.add(new SearchFilter("feeFailReason", Operator.EQ, feeFailReason));
+		}
+		
+		Specification<RenewedList> specification = DynamicSpecifications.bySearchFilter(request, RenewedList.class, csf);
 		
 		List<RenewedList> issues = xqglService.findByExample(specification, page);
 		
@@ -278,26 +224,13 @@ public class XqglController {
 		//默认返回未处理工单
 		String feeStatus = request.getParameter("search_EQ_feeStatus");
 		LOG.debug("-------------- feeStatus: " + feeStatus);
-		if(feeStatus == null) {
-			feeStatus = "";
-		}
+		issue.setSearch_EQ_feeStatus(feeStatus);
 		String hqIssueType = request.getParameter("hqIssueType");
 		String dealType = request.getParameter("dealType");
 		String feeFailReason = request.getParameter("feeFailReason");
-		if(hqIssueType == null) {
-			hqIssueType = "";
-		}
 		issue.setHqIssueType(hqIssueType);
-		if(dealType == null) {
-			dealType = "";
-		}
 		issue.setDealType(dealType);
-		
-		issue.setSearch_EQ_feeStatus(feeStatus);
 		LOG.debug("-------------- feeFailReason: " + feeFailReason);
-		if(feeFailReason == null) {
-			feeFailReason = "";
-		}
 		issue.setFeeFailReason(feeFailReason);
 		
 		String orgCode = request.getParameter("policy.orgCode");
@@ -317,13 +250,19 @@ public class XqglController {
 			page.setOrderDirection("ASC");
 		}
 		
-		Specification<RenewedList> specification = null;
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		if (hqIssueType != null && hqIssueType.length() > 0) {
+			csf.add(new SearchFilter("hqIssueType", Operator.EQ, hqIssueType));
+		}
+		if (dealType != null && dealType.length() > 0) {
+			csf.add(new SearchFilter("dealType", Operator.EQ, dealType));
+		}
+		if (feeFailReason != null && feeFailReason.length() > 0) {
+			csf.add(new SearchFilter("feeFailReason", Operator.EQ, feeFailReason));
+		}
 		
-		specification = DynamicSpecifications.bySearchFilter(request, RenewedList.class,
-				hqIssueType.length()<=0?new SearchFilter("hqIssueType", Operator.LIKE, "%%"):new SearchFilter("hqIssueType", Operator.EQ, hqIssueType),
-						dealType.length()<=0?new SearchFilter("dealType", Operator.LIKE, "%%"):new SearchFilter("dealType", Operator.EQ, dealType),
-								feeFailReason.length()<=0?new SearchFilter("feeFailReason", Operator.LIKE, "%%"):new SearchFilter("feeFailReason", Operator.EQ, feeFailReason),
-				new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		Specification<RenewedList> specification = DynamicSpecifications.bySearchFilter(request, RenewedList.class, csf);
 		
 		List<RenewedList> issues = xqglService.findByExample(specification, page);
 		
@@ -337,6 +276,48 @@ public class XqglController {
 		return MAX_LIST;
 	}
 	
+	@RequiresPermissions("Renewed:view")
+	@RequestMapping(value="/toXls", method=RequestMethod.GET)
+	public String toXls(ServletRequest request, Page page, Map<String, Object> map) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
+		//默认返回未处理工单
+		String hqIssueType = request.getParameter("hqIssueType");
+		String dealType = request.getParameter("dealType");
+		String feeFailReason = request.getParameter("feeFailReason");
+		
+		String orgCode = request.getParameter("policy.orgCode");
+		if(orgCode == null || orgCode.trim().length()<=0) {
+			orgCode = user.getOrganization().getOrgCode();
+		} else if(!orgCode.contains(user.getOrganization().getOrgCode())){
+			orgCode = user.getOrganization().getOrgCode();
+		}
+		if(page.getOrderField() == null) {
+			page.setOrderField("policy.policyDate");
+			page.setOrderDirection("ASC");
+		}
+		page.setNumPerPage(65564);
+		
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		if (hqIssueType != null && hqIssueType.length() > 0) {
+			csf.add(new SearchFilter("hqIssueType", Operator.EQ, hqIssueType));
+		}
+		if (dealType != null && dealType.length() > 0) {
+			csf.add(new SearchFilter("dealType", Operator.EQ, dealType));
+		}
+		if (feeFailReason != null && feeFailReason.length() > 0) {
+			csf.add(new SearchFilter("feeFailReason", Operator.EQ, feeFailReason));
+		}
+		
+		Specification<RenewedList> specification = DynamicSpecifications.bySearchFilter(request, RenewedList.class, csf);
+		
+		List<RenewedList> issues = xqglService.findByExample(specification, page);
+		
+		map.put("reqs", issues);
+		return TO_XLS;
+	}
+
 	@RequiresPermissions("Renewed:view")
 	@RequestMapping(value="/issuelist", method={RequestMethod.GET, RequestMethod.POST})
 	public String issueList(ServletRequest request, Page page, Map<String, Object> map) {

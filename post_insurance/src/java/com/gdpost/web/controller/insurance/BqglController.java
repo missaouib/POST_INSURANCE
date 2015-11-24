@@ -9,7 +9,9 @@ package com.gdpost.web.controller.insurance;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -244,13 +246,13 @@ public class BqglController {
 		request.setAttribute("orgCode", orgCode);
 		request.setAttribute("name", orgName);
 		//默认返回未处理工单
-		String s = request.getParameter("status");
-		LOG.debug("-------------- status: " + s);
+		String status = request.getParameter("status");
+		LOG.debug("-------------- status: " + status);
 		ConservationDtl issue = new ConservationDtl();
-		if(s == null) {
-			s = "";
-		} else if(s.trim().length()>0) {
-			issue.setStatus(BQ_STATUS.valueOf(s).name());
+		if(status == null) {
+			status = "";
+		} else if(status.trim().length()>0) {
+			issue.setStatus(BQ_STATUS.valueOf(status).name());
 		}
 		
 		String orderField = request.getParameter("orderField");
@@ -259,14 +261,18 @@ public class BqglController {
 			page.setOrderDirection("DESC");
 		}
 		
-		Specification<ConservationDtl> specification = DynamicSpecifications.bySearchFilter(request, ConservationDtl.class,
-				new SearchFilter("status", Operator.LIKE, s),
-				new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		if (status.length() > 0) {
+			csf.add(new SearchFilter("status", Operator.EQ, status));
+		}
+		
+		Specification<ConservationDtl> specification = DynamicSpecifications.bySearchFilter(request, ConservationDtl.class, csf);
 		
 		List<ConservationDtl> issues = bqglService.findByExample(specification, page);
 		
 		map.put("issue", issue);
-		map.put("status", s);
+		map.put("status", status);
 		map.put("baStatusList", BQ_STATUS.values());
 		map.put("page", page);
 		map.put("issues", issues);
@@ -287,10 +293,10 @@ public class BqglController {
 		}
 		page.setNumPerPage(65564);
 		//默认返回未处理工单
-		String s = request.getParameter("status");
-		LOG.debug("-------------- status: " + s);
+		String status = request.getParameter("status");
+		LOG.debug("-------------- status: " + status);
 		ConservationDtl issue = new ConservationDtl();
-		if(s == null) {
+		if(status == null) {
 			/*
 			issue.setStatus(BQ_STATUS.NewStatus.name());
 			s = BQ_STATUS.NewStatus.name();
@@ -299,9 +305,9 @@ public class BqglController {
 				s = BQ_STATUS.DealStatus.name();
 			}
 			*/
-			s = "";
-		} else if(s.trim().length()>0) {
-			issue.setStatus(BQ_STATUS.valueOf(s).name());
+			status = "";
+		} else if(status.trim().length()>0) {
+			issue.setStatus(BQ_STATUS.valueOf(status).name());
 		}
 		
 		String orderField = request.getParameter("orderField");
@@ -310,9 +316,13 @@ public class BqglController {
 			page.setOrderDirection("DESC");
 		}
 		
-		Specification<ConservationDtl> specification = DynamicSpecifications.bySearchFilter(request, ConservationDtl.class,
-				new SearchFilter("status", Operator.LIKE, s),
-				new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		if (status.length() > 0) {
+			csf.add(new SearchFilter("status", Operator.EQ, status));
+		}
+		
+		Specification<ConservationDtl> specification = DynamicSpecifications.bySearchFilter(request, ConservationDtl.class, csf);
 		
 		List<ConservationDtl> reqs = bqglService.findByExample(specification, page);
 		
@@ -498,26 +508,31 @@ public class BqglController {
 		request.setAttribute("orgCode", orgCode);
 		request.setAttribute("name", orgName);
 		//默认返回未处理工单
-		String s = request.getParameter("status");
-		LOG.debug("-------------- status: " + s + "  orgCode:" + orgCode);
+		String status = request.getParameter("status");
+		LOG.debug("-------------- status: " + status + "  orgCode:" + orgCode);
 		OffsiteConservation offsite = new OffsiteConservation();
-		if(s == null) {
-			s = "";
-		} else if(s.trim().length()>0) {
-			offsite.setStatus(BQ_STATUS.valueOf(s).name());
+		if(status == null) {
+			status = "";
+		} else if(status.trim().length()>0) {
+			offsite.setStatus(BQ_STATUS.valueOf(status).name());
 		}
 		String orderField = request.getParameter("orderField");
 		if(orderField == null || orderField.trim().length()<=0) {
 			page.setOrderField("dealDate");
 			page.setOrderDirection("DESC");
 		}
-		Specification<OffsiteConservation> specification = DynamicSpecifications.bySearchFilter(request, OffsiteConservation.class,
-				new SearchFilter("status", Operator.LIKE, s));
+		
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		if (status.length() > 0) {
+			csf.add(new SearchFilter("status", Operator.EQ, status));
+		}
+		Specification<OffsiteConservation> specification = DynamicSpecifications.bySearchFilter(request, OffsiteConservation.class, csf);
 		
 		List<OffsiteConservation> offsites = bqglService.findByOffsiteConservationExample(specification, page);
 		
 		map.put("offsite", offsite);
-		map.put("status", s);
+		map.put("status", status);
 		map.put("baStatusList", BQ_STATUS.values());
 		map.put("page", page);
 		map.put("offsites", offsites);
@@ -538,11 +553,11 @@ public class BqglController {
 		}
 		page.setNumPerPage(65564);
 		//默认返回未处理工单
-		String s = request.getParameter("status");
-		LOG.debug("-------------- status: " + s);
+		String status = request.getParameter("status");
+		LOG.debug("-------------- status: " + status);
 		OffsiteConservation offsite = new OffsiteConservation();
-		if(s == null) {
-			s = "";
+		if(status == null) {
+			status = "";
 			/*
 			offsite.setStatus(BQ_STATUS.NewStatus.name());
 			s = BQ_STATUS.NewStatus.name();
@@ -551,8 +566,8 @@ public class BqglController {
 				s = BQ_STATUS.DealStatus.name();
 			}
 			*/
-		} else if(s.trim().length()>0) {
-			offsite.setStatus(BQ_STATUS.valueOf(s).name());
+		} else if(status.trim().length()>0) {
+			offsite.setStatus(BQ_STATUS.valueOf(status).name());
 		}
 		
 		String orderField = request.getParameter("orderField");
@@ -561,9 +576,12 @@ public class BqglController {
 			page.setOrderDirection("DESC");
 		}
 		
-		Specification<OffsiteConservation> specification = DynamicSpecifications.bySearchFilter(request, OffsiteConservation.class,
-				new SearchFilter("status", Operator.LIKE, s),
-				new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		if (status.length() > 0) {
+			csf.add(new SearchFilter("status", Operator.EQ, status));
+		}
+		Specification<OffsiteConservation> specification = DynamicSpecifications.bySearchFilter(request, OffsiteConservation.class, csf);
 		
 		List<OffsiteConservation> reqs = bqglService.findByOffsiteConservationExample(specification, page);
 		

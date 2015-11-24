@@ -107,7 +107,7 @@ public class PayListController {
 		Specification<PayFailList> specification = DynamicSpecifications.bySearchFilter(request, PayFailList.class,
 				new SearchFilter("payType", Operator.EQ, PayFailList.PAY_TO),
 				new SearchFilter("feeType", Operator.EQ, feeType),
-				new SearchFilter("status", Operator.LIKE, status),
+				new SearchFilter("status", Operator.EQ, status),
 				new SearchFilter("relNo", Operator.OR_LIKE, orgCode),
 				new SearchFilter("organization.orgCode", Operator.OR_LIKE, orgCode));
 		
@@ -168,7 +168,7 @@ public class PayListController {
 		Specification<PayFailList> specification = DynamicSpecifications.bySearchFilter(request, PayFailList.class,
 				new SearchFilter("payType", Operator.EQ, PayFailList.PAY_FROM),
 				new SearchFilter("feeType", Operator.EQ, feeType),
-				new SearchFilter("status", Operator.LIKE, status),
+				new SearchFilter("status", Operator.EQ, status),
 				new SearchFilter("relNo", Operator.OR_LIKE, orgCode),
 				new SearchFilter("organization.orgCode", Operator.OR_LIKE, orgCode));
 		

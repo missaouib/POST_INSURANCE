@@ -9,7 +9,9 @@ package com.gdpost.web.controller.insurance;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -186,10 +188,13 @@ public class QyglController {
 		}
 		issue.setFixStatus(status);
 		
-		Specification<CheckWrite> specification = DynamicSpecifications.bySearchFilter(request, CheckWrite.class,
-				new SearchFilter("fixStatus", Operator.LIKE, status),
-				new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
-				//new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		if(status.trim().length()>0) {
+			csf.add(new SearchFilter("fixStatus", Operator.EQ, status));
+		}
+		
+		Specification<CheckWrite> specification = DynamicSpecifications.bySearchFilter(request, CheckWrite.class, csf);
 		
 		List<CheckWrite> issues = qyglService.findByCheckWriteExample(specification, page);
 		
@@ -305,10 +310,13 @@ public class QyglController {
 		}
 		issue.setFixStatus(status);
 		
-		Specification<CheckRecord> specification = DynamicSpecifications.bySearchFilter(request, CheckRecord.class,
-				new SearchFilter("fixStatus", Operator.LIKE, status),
-				new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
-				//new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		if(status.trim().length()>0) {
+			csf.add(new SearchFilter("fixStatus", Operator.EQ, status));
+		}
+		
+		Specification<CheckRecord> specification = DynamicSpecifications.bySearchFilter(request, CheckRecord.class, csf);
 		
 		List<CheckRecord> issues = qyglService.findByCheckRecordExample(specification, page);
 		

@@ -14,7 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 public class SearchFilter {
 
 	public enum Operator {
-		EQ, LIKE, GT, LT, GTE, LTE, IN, NEQ, ISNULL, NOTNULL, OR_EQ, OR_LIKE, OR_NEQ
+		EQ, LIKE, GT, LT, GTE, LTE, IN, NEQ, ISNULL, NOTNULL, OR_EQ, OR_LIKE, OR_NEQ, OR_ISNULL
 	}
 
 	private String fieldName;
@@ -129,6 +129,8 @@ public class SearchFilter {
 			return new SearchFilter(field, Operator.OR_LIKE, value);
 		} else if(OP.equalsIgnoreCase("or_neq")) {
 			return new SearchFilter(field, Operator.OR_NEQ, value);
+		} else if(OP.equalsIgnoreCase("or_isnull")) {
+			return new SearchFilter(field, Operator.OR_ISNULL, value);
 		}
 		
 		return null;

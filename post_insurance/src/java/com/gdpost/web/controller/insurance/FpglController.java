@@ -9,7 +9,9 @@ package com.gdpost.web.controller.insurance;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -111,40 +113,6 @@ public class FpglController {
 		return UPDATE_DEALSTATUS;
 	}
 	
-	@RequiresPermissions("InvoiceReq:view")
-	@RequestMapping(value="/toXls", method=RequestMethod.GET)
-	public String toXls(ServletRequest request, Page page, Map<String, Object> map) {
-		User user = SecurityUtils.getShiroUser().getUser();
-		String s = request.getParameter("status");
-		if(s == null || s.trim().length()<=0) {
-			s = FP_STATUS.NewStatus.name();
-			if(user.getOrganization().getOrgCode().length()>4) {
-				s = FP_STATUS.DealStatus.name();
-			}
-		}
-		page.setNumPerPage(65564);
-		//orderField:policy.organization.orgCode
-		String orderField = request.getParameter("orderField");
-		if(orderField != null && orderField.trim().equals("policy.organization.orgCode")) {
-			s = FP_STATUS.NewStatus.name();
-		} else {
-		
-			page.setOrderField("policy.organization.orgCode");
-			page.setOrderDirection("ASC");
-		}
-		Specification<InvoiceReq> specification = DynamicSpecifications.bySearchFilter(request, InvoiceReq.class, 
-				new SearchFilter("status", Operator.LIKE, s));
-		if(user.getOrganization().getOrgCode().length()>4) {
-			specification = DynamicSpecifications.bySearchFilter(request, InvoiceReq.class,
-					new SearchFilter("status", Operator.LIKE, s),
-					new SearchFilter("policy.organization.orgCode", Operator.LIKE, user.getOrganization().getOrgCode()));
-		}
-		List<InvoiceReq> reqs = fpglService.findByExample(specification, page);
-
-		map.put("reqs", reqs);
-		return TO_XLS;
-	}
-	
 	@Log(message="修改了{0}发票申请的信息。")
 	@RequiresPermissions("InvoiceReq:edit")
 	@RequestMapping(value="/update", method=RequestMethod.POST)
@@ -232,37 +200,38 @@ public class FpglController {
 	@RequestMapping(value="/list", method={RequestMethod.GET, RequestMethod.POST})
 	public String list(ServletRequest request, Page page, Map<String, Object> map) {
 		User user = SecurityUtils.getShiroUser().getUser();
-		String s = request.getParameter("status");
-		LOG.debug("-----------------status:" + s);
+		String status = request.getParameter("status");
+		LOG.debug("-----------------status:" + status);
 		InvoiceReq req = new InvoiceReq();
-		if(s == null) {
+		if(status == null) {
 			req.setStatus(FP_STATUS.NewStatus.name());
-			s = FP_STATUS.NewStatus.name();
+			status = FP_STATUS.NewStatus.name();
 			if(user.getOrganization().getOrgCode().length()>4) {
 				req.setStatus(FP_STATUS.DealStatus.name());
-				s = FP_STATUS.DealStatus.name();
+				status = FP_STATUS.DealStatus.name();
 			}
-			request.setAttribute("status", s);
-		} else if(s.trim().length()>0) {
-			req.setStatus(FP_STATUS.valueOf(s).name());
+			request.setAttribute("status", status);
+		} else if(status.trim().length()>0) {
+			req.setStatus(FP_STATUS.valueOf(status).name());
 		}
 		//orderField:policy.organization.orgCode
 		String orderField = request.getParameter("orderField");
 		if(orderField != null && orderField.trim().equals("policy.organization.orgCode")) {
 			req.setStatus(FP_STATUS.NewStatus.name());
-			s = FP_STATUS.NewStatus.name();
-			request.setAttribute("status", s);
+			status = FP_STATUS.NewStatus.name();
+			request.setAttribute("status", status);
 		}
-		LOG.debug("-----------------status2:" + s);
+		LOG.debug("-----------------status2:" + status);
 		page.setOrderField("reqDate");
 		page.setOrderDirection("DESC");
-		Specification<InvoiceReq> specification = DynamicSpecifications.bySearchFilter(request, InvoiceReq.class, 
-				new SearchFilter("status", Operator.LIKE, s));
-		if(user.getOrganization().getOrgCode().length()>4) {
-			specification = DynamicSpecifications.bySearchFilter(request, InvoiceReq.class,
-					new SearchFilter("status", Operator.LIKE, s),
-					new SearchFilter("policy.organization.orgCode", Operator.LIKE, user.getOrganization().getOrgCode()));
+		
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, user.getOrganization().getOrgCode()));
+		if(status.trim().length() > 0) {
+			csf.add(new SearchFilter("status", Operator.EQ, status));
 		}
+		
+		Specification<InvoiceReq> specification = DynamicSpecifications.bySearchFilter(request, InvoiceReq.class, csf);
 		List<InvoiceReq> reqs = fpglService.findByExample(specification, page);
 
 		map.put("req", req);
@@ -273,6 +242,40 @@ public class FpglController {
 		return LIST;
 	}
 	
+	@RequiresPermissions("InvoiceReq:view")
+	@RequestMapping(value="/toXls", method=RequestMethod.GET)
+	public String toXls(ServletRequest request, Page page, Map<String, Object> map) {
+		User user = SecurityUtils.getShiroUser().getUser();
+		String status = request.getParameter("status");
+		if(status == null || status.trim().length()<=0) {
+			status = FP_STATUS.NewStatus.name();
+			if(user.getOrganization().getOrgCode().length()>4) {
+				status = FP_STATUS.DealStatus.name();
+			}
+		}
+		page.setNumPerPage(65564);
+		//orderField:policy.organization.orgCode
+		String orderField = request.getParameter("orderField");
+		if(orderField != null && orderField.trim().equals("policy.organization.orgCode")) {
+			status = FP_STATUS.NewStatus.name();
+		} else {
+		
+			page.setOrderField("policy.organization.orgCode");
+			page.setOrderDirection("ASC");
+		}
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, user.getOrganization().getOrgCode()));
+		if(status.trim().length() > 0) {
+			csf.add(new SearchFilter("status", Operator.EQ, status));
+		}
+		
+		Specification<InvoiceReq> specification = DynamicSpecifications.bySearchFilter(request, InvoiceReq.class, csf);
+		List<InvoiceReq> reqs = fpglService.findByExample(specification, page);
+	
+		map.put("reqs", reqs);
+		return TO_XLS;
+	}
+
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(
