@@ -264,6 +264,7 @@ public class KfglController {
 		//默认返回未处理工单
 		String status = request.getParameter("status");
 		LOG.debug("-------------- status: " + status);
+		request.setAttribute("status", status);
 		Issue issue = new Issue();
 //		if(status == null) {
 //			status = "待处理";
@@ -292,6 +293,7 @@ public class KfglController {
 			if(status == null) {
 				LOG.debug("-------------- 333: " );
 				issue.setStatus(STATUS.DealStatus.getDesc());
+				request.setAttribute("status", STATUS.DealStatus.getDesc());
 				csf.add(new SearchFilter("status", Operator.EQ, STATUS.DealStatus.getDesc()));
 			} else if(status.trim().length() > 0) {
 				csf.add(new SearchFilter("status", Operator.EQ, status));
@@ -343,8 +345,13 @@ public class KfglController {
 		request.setAttribute("name", orgName);
 		//默认返回未处理工单
 		String status = request.getParameter("status");
+		LOG.debug("---------kf max list status" + status);
+		if(status != null && status.trim().equals("null")) {
+			status = null;
+		}
 		Issue issue = new Issue();
 		issue.setStatus(status);
+		request.setAttribute("status", status);
 		
 		if(page.getOrderField() == null) {
 			page.setOrderField("shouldDate");
@@ -368,6 +375,7 @@ public class KfglController {
 			if(status == null) {
 				LOG.debug("-------------- 333: " );
 				issue.setStatus(STATUS.DealStatus.getDesc());
+				request.setAttribute("status", STATUS.DealStatus.getDesc());
 				csf.add(new SearchFilter("status", Operator.EQ, STATUS.DealStatus.getDesc()));
 			} else if(status.trim().length() > 0) {
 				csf.add(new SearchFilter("status", Operator.EQ, status));
@@ -395,7 +403,7 @@ public class KfglController {
 		page.setOrderField("policy.organization.orgCode");
 		page.setOrderDirection("ASC");
 		page.setNumPerPage(65564);
-		String orgCode = request.getParameter("policy.orgCode");
+		String orgCode = request.getParameter("orgCode");
 		if(orgCode == null || orgCode.trim().length()<=0) {
 			orgCode = user.getOrganization().getOrgCode();
 		} else if(!orgCode.contains(user.getOrganization().getOrgCode())){

@@ -20,50 +20,50 @@
 			<table class="searchContent">
 				<tr>
 					<td>
-						保单号：<input type="text" id="xq_policyno" name="search_LIKE_policy.policyNo" style="width: 100px;" value="${search_LIKE_policy_policyNo }"/>
+						保单号：<input type="text" id="mxxq_policyno" name="search_LIKE_policy.policyNo" style="width: 100px;" value="${search_LIKE_policy_policyNo }"/>
 					</td>
 					<td>
 						<label>状态：</label>
-						<form:select path="issue.search_EQ_feeStatus" id="xqStatus" class="combox">
+						<form:select path="mxissue.search_EQ_feeStatus" id="mxxqStatus" class="combox">
 							<form:option value=""> -- -- </form:option>
-							<form:options items="${xqStatusList }" itemLabel="desc" itemValue="desc"/>
+							<form:options items="${mxxqStatusList }" itemLabel="desc" itemValue="desc"/>
 						</form:select>
 					</td>
 					<td>
 						<label>所属机构：</label>
-						<input name="policy.orgCode" id="xq_orgCode" type="hidden" value="${policy_orgCode }"/>
-						<input class="validate[required] required" name="policy.name" id="xq_orgName" type="text" readonly="readonly" style="width: 100px;" value="${policy_name }"/><a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="policy" title="选择机构" width="400">查</a>
+						<input name="policy.orgCode" id="mxxq_orgCode" type="hidden" value="${policy_orgCode }"/>
+						<input class="validate[required] required" name="policy.name" id="mxxq_orgName" type="text" readonly="readonly" style="width: 100px;" value="${policy_name }"/><a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="policy" title="选择机构" width="400">查</a>
 					</td>
 					<td>
 						<label>失败原因：</label>
-						<form:select path="issue.feeFailReason" id="xqFeeFailStatus" class="combox">
+						<form:select path="mxissue.feeFailReason" id="mxxqFeeFailStatus" class="combox">
 							<form:option value=""> -- -- </form:option>
-							<form:options items="${xqFailReasonList }" itemLabel="desc" itemValue="desc"/>
+							<form:options items="${mxxqFailReasonList }" itemLabel="desc" itemValue="desc"/>
 						</form:select>
 					</td>
 				</tr>
 				<tr>
 					<td>
 						<label>总部催收：</label>
-						<form:select path="issue.hqIssueType" id="xqDealStatus" class="combox">
+						<form:select path="mxissue.hqIssueType" id="mxxqDealStatus" class="combox">
 							<form:option value=""> -- -- </form:option>
-							<form:options items="${xqDealStatusList }" itemLabel="desc" itemValue="desc"/>
+							<form:options items="${mxxqDealStatusList }" itemLabel="desc" itemValue="desc"/>
 						</form:select>
 					</td>
 					<td>
 						<label>市/县催收：</label>
-						<form:select path="issue.dealType" id="dealType" class="combox">
+						<form:select path="mxissue.dealType" id="mxdealType" class="combox">
 							<form:option value=""> -- </form:option>
-							<form:options items="${orgTypeList }" itemLabel="typeName" itemValue="typeName"/>
+							<form:options items="${mxorgTypeList }" itemLabel="typeName" itemValue="typeName"/>
 						</form:select>
 					</td>
 					<td>
 						<label>交费日起：</label>
-						<input type="text" name="search_GTE_feeDate" class="date" style="width: 80px;" id="xq_date1" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_feeDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+						<input type="text" name="search_GTE_feeDate" class="date" style="width: 80px;" id="mxxq_date1" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_feeDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
 						<label>交费日止：</label>
-						<input type="text" name="search_LTE_feeDate" class="date" style="width: 80px;" id="xq_date2" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_feeDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+						<input type="text" name="search_LTE_feeDate" class="date" style="width: 80px;" id="mxxq_date2" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_feeDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 				</tr>
 			</table>
@@ -91,7 +91,7 @@
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Renewed:view">
 				<li class="line">line</li>
-				<li><a class="icon" target="_blank" href="${contextPath }/xqgl/toXls?search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&policy.orgCode=${policy_orgCode }&search_LTE_feeDate=${param.search_LTE_feeDate }&search_GTE_feeDate=${param.search_GTE_feeDate }&search_LIKE_feeStatus=${param.search_LIKE_feeStatus }&search_LIKE_hqDealRemark=${param.search_LIKE_hqDealRemark }&search_LIKE_dealType=${param.search_LIKE_dealType }"><span>导出Excel</span></a></li>
+				<li><a class="icon" target="_blank" href="${contextPath }/xqgl/toXls?search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&policy.orgCode=${policy_orgCode }&search_LTE_feeDate=${param.search_LTE_feeDate }&search_GTE_feeDate=${param.search_GTE_feeDate }&search_LIKE_feeStatus=${param.search_LIKE_feeStatus }&&hqDealRemark=${param.hqDealRemark }&dealType=${param.dealType }&feeFailReason=${param.feeFailReason }"><span>导出Excel</span></a></li>
 			</shiro:hasPermission>
 		</ul>
 	</div>

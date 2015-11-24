@@ -266,11 +266,12 @@ public class XqglController {
 		
 		List<RenewedList> issues = xqglService.findByExample(specification, page);
 		
-		map.put("issue", issue);
-		map.put("xqStatusList", XQ_STATUS.values());
-		map.put("xqDealStatusList", XQ_DEAL_STATUS.values());
+		map.put("mxissue", issue);
+		map.put("mxxqStatusList", XQ_STATUS.values());
+		map.put("mxxqDealStatusList", XQ_DEAL_STATUS.values());
+		map.put("mxxqFailReasonList", XQ_FEE_STATUS.values());
 		List<RenewalType> cdtList = xqglService.getAllRenewedDealTypeList();
-		map.put("orgTypeList", cdtList);
+		map.put("mxorgTypeList", cdtList);
 		map.put("page", page);
 		map.put("issues", issues);
 		return MAX_LIST;

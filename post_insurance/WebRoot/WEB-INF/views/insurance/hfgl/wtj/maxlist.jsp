@@ -31,8 +31,7 @@
 					<td>
 						<label>所属机构：</label>
 						<input name="policy.orgCode" id="xq_orgCode" type="hidden" value="${policy_orgCode }"/>
-						<input class="validate[required] required" name="policy.name" id="xq_orgName" type="text" readonly="readonly" style="width: 100px;" value="${policy_name }"/>
-						<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="policy" title="选择机构" width="400">查</a>
+						<input class="validate[required] required" name="policy.name" id="xq_orgName" type="text" readonly="readonly" style="width: 100px;" value="${policy_name }"/><a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="policy" title="选择机构" width="400">查</a>
 					</td>
 					<td>&nbsp;</td>
 				</tr>

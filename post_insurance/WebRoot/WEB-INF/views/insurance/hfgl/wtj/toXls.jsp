@@ -57,7 +57,7 @@ response.setHeader("Content-Disposition", "inline; filename=call_fail_dtl.xls");
 				<td style="vnd.ms-excel.numberformat:@">${item.policy.policyNo}</td>
 				<td>${fn:replace(item.organization.name,'邮政局中邮保险局','')}</td>
 				<td>${item.policy.holder}</td>
-				<td>${item.idCard}</td>
+				<td style="vnd.ms-excel.numberformat:@">${item.idCard}</td>
 				<td>${item.holderMobile eq ""?item.holderPhone:item.holderMobile}</td>
 				<td>${item.addr}</td>
 				<td>${item.policy.prodName}</td>

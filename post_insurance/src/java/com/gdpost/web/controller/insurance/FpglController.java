@@ -210,18 +210,12 @@ public class FpglController {
 				req.setStatus(FP_STATUS.DealStatus.name());
 				status = FP_STATUS.DealStatus.name();
 			}
-			request.setAttribute("status", status);
 		} else if(status.trim().length()>0) {
 			req.setStatus(FP_STATUS.valueOf(status).name());
 		}
-		//orderField:policy.organization.orgCode
-		String orderField = request.getParameter("orderField");
-		if(orderField != null && orderField.trim().equals("policy.organization.orgCode")) {
-			req.setStatus(FP_STATUS.NewStatus.name());
-			status = FP_STATUS.NewStatus.name();
-			request.setAttribute("status", status);
-		}
 		LOG.debug("-----------------status2:" + status);
+		request.setAttribute("status", status);
+		
 		page.setOrderField("reqDate");
 		page.setOrderDirection("DESC");
 		
@@ -254,15 +248,9 @@ public class FpglController {
 			}
 		}
 		page.setNumPerPage(65564);
-		//orderField:policy.organization.orgCode
-		String orderField = request.getParameter("orderField");
-		if(orderField != null && orderField.trim().equals("policy.organization.orgCode")) {
-			status = FP_STATUS.NewStatus.name();
-		} else {
+		page.setOrderField("policy.organization.orgCode");
+		page.setOrderDirection("ASC");
 		
-			page.setOrderField("policy.organization.orgCode");
-			page.setOrderDirection("ASC");
-		}
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, user.getOrganization().getOrgCode()));
 		if(status.trim().length() > 0) {
