@@ -149,7 +149,7 @@ public class Notice implements Idable<Long> {
 		this.noticeContent = noticeContent;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "notice")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "notice")
 	public List<NoticeAtt> getNoticeAtts() {
 		return this.noticeAtts;
 	}

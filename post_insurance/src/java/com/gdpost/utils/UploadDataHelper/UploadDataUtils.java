@@ -124,7 +124,35 @@ public class UploadDataUtils {
 			strPath = strPath.substring(0, strPath.length() - 1);
 		}
 
-		strPath = strPath + STORE_DIR;
+		strPath = strPath + File.separator + STORE_DIR;
+		if(!(new File(strPath )).isDirectory()) {
+			new File(strPath).mkdir();
+		}
+		
+		strPath = strPath + File.separator + iMonth;
+		
+		if(!(new File(strPath)).isDirectory()) {
+			new File(strPath).mkdir();
+		}
+		
+		//strPath = strPath + File.separator + lID;
+		strPath = strPath + File.separator + strID;
+		
+		if(!(new File(strPath)).isDirectory()) {
+			new File(strPath).mkdir();
+		}
+		
+		return(strPath);
+	}
+	
+	public static String getNoticeRelateFileStorePath(HttpServletRequest request, int iMonth) {
+		java.util.Calendar.getInstance();
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		//long lID = shiroUser.getMemberUser() != null ? shiroUser.getMemberUser().getId() : shiroUser.getUser().getId();
+		String strID = shiroUser.getUser().getId().toString();
+		String strPath = "/";
+		
+		strPath = strPath + File.separator  + STORE_DIR;
 		if(!(new File(strPath )).isDirectory()) {
 			new File(strPath).mkdir();
 		}

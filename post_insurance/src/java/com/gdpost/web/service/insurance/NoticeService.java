@@ -19,7 +19,7 @@ public interface NoticeService {
 	
 	Notice getNotice(Long id);
 
-	void saveOrUpdateNotice(Notice type);
+	Notice saveOrUpdateNotice(Notice type);
 
 	void deleteNotice(Long id);
 	

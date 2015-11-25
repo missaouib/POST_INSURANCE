@@ -71,13 +71,17 @@
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
 				<td>${item.noticeTitle}</td>
-				<td>${item.receiver}</td>
-				<td>${item.receiverRole}</td>
-				<td>${item.receiverOrg}</td>
+				<td>${item.user.realname}</td>
+				<td>${item.role.name}</td>
+				<td>${item.organization.name}</td>
 				<td>${item.noticeTitle}</td>
 				<td>${item.sendDate}</td>
 				<td>${item.invalidDate}</td>
-				<td></td>
+				<td>
+				<c:forEach var="subList" items="${item.noticeAtts}">
+		            ${subList.noticeAtt.attrLink}
+		        </c:forEach>
+				</td>
 			</tr>			
 			</c:forEach>
 		</tbody>

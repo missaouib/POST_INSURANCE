@@ -35,7 +35,7 @@ function customAjaxDone(json){
 		</p>
 		<p>
 			<label>失效日期：</label>
-			<input type="text" name="dealDate" class="date validate[required,maxSize[12]] required" dateFmt="yyyy-MM-dd" readonly="true" value=""/>
+			<input type="text" name="invalidDate" class="date validate[required,maxSize[12]] required" dateFmt="yyyy-MM-dd" readonly="true" value=""/>
 				<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 		<p>

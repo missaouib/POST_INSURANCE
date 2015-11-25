@@ -74,4 +74,10 @@ public class NoticeAtt implements Idable<Long> {
 		this.attrLink = attrLink;
 	}
 
+	@Override
+	public String toString() {
+		return "NoticeAtt [id=" + id + ", notice=" + notice + ", attrLink="
+				+ attrLink + "]";
+	}
+
 }

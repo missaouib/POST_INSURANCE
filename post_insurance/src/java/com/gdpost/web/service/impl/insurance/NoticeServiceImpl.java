@@ -43,9 +43,9 @@ public class NoticeServiceImpl implements NoticeService {
 	 * @see com.gdpost.web.service.UserService#saveOrUpdate(com.gdpost.web.entity.main.Policy)  
 	 */
 	@Override
-	public void saveOrUpdateNotice(Notice bankCode) {
+	public Notice saveOrUpdateNotice(Notice bankCode) {
 		
-		noticeDAO.save(bankCode);
+		return noticeDAO.save(bankCode);
 	}
 
 	/*
