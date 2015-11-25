@@ -46,6 +46,7 @@
 				/Captcha.jpg = anon
 				/styles/** = anon
 				/images/** = anon
+				/uploaddata/** = anon
 				/css/** = anon
 				/js/** = anon
 				/login/timeout = anon

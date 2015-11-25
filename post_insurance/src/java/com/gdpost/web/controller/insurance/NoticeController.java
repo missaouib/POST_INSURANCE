@@ -230,7 +230,7 @@ public class NoticeController {
         NoticeAtt att = new NoticeAtt();
         log.debug("-----------save notice finish:" + notice.toString());
         att.setNotice(notice);
-        att.setAttrLink(updatePath + File.separator + strNewFileName);
+        att.setAttrLink(updatePath + "/" + strNewFileName);
         log.debug("-----notice attr:" + att.toString());
         noticeService.saveOrUpdateNoticeAtt(att);
         

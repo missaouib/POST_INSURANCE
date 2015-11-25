@@ -151,25 +151,9 @@ public class UploadDataUtils {
 		//long lID = shiroUser.getMemberUser() != null ? shiroUser.getMemberUser().getId() : shiroUser.getUser().getId();
 		String strID = shiroUser.getUser().getId().toString();
 		String strPath = "/";
-		
-		strPath = strPath + File.separator  + STORE_DIR;
-		if(!(new File(strPath )).isDirectory()) {
-			new File(strPath).mkdir();
-		}
-		
-		strPath = strPath + File.separator + iMonth;
-		
-		if(!(new File(strPath)).isDirectory()) {
-			new File(strPath).mkdir();
-		}
-		
-		//strPath = strPath + File.separator + lID;
-		strPath = strPath + File.separator + strID;
-		
-		if(!(new File(strPath)).isDirectory()) {
-			new File(strPath).mkdir();
-		}
-		
+		strPath = strPath + STORE_DIR;
+		strPath = strPath + "/" + iMonth;
+		strPath = strPath + "/" + strID;
 		return(strPath);
 	}
 	

@@ -79,7 +79,7 @@
 				<td>${item.invalidDate}</td>
 				<td>
 				<c:forEach var="subList" items="${item.noticeAtts}">
-		            ${subList.noticeAtt.attrLink}
+		            <a href="${subList.attrLink}">${subList.attrLink}</a>
 		        </c:forEach>
 				</td>
 			</tr>			

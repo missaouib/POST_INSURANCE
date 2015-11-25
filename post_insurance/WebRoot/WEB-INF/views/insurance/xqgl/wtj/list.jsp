@@ -8,10 +8,10 @@
 	<input type="hidden" name="policy.name" value="${policy_name }"/>
 	<input type="hidden" name="search_LTE_feeDate" value="${param.search_LTE_feeDate }"/>
 	<input type="hidden" name="search_GTE_feeDate" value="${param.search_GTE_feeDate }"/>
-	<input type="hidden" name="search_LIKE_feeStatus" value="${param.search_LIKE_feeStatus }"/>
-	<input type="hidden" name="hqIssueType" value="${param.hqIssueType }"/>
-	<input type="hidden" name="dealType" value="${param.dealType }"/>
-	<input type="hidden" name="feeFailReason" value="${param.feeFailReason }"/>
+	<input type="hidden" name="search_EQ_feeStatus" value="${param.search_EQ_feeStatus }"/>
+	<input type="hidden" name="hqIssueType" value="${hqIssueType }"/>
+	<input type="hidden" name="dealType" value="${dealType }"/>
+	<input type="hidden" name="feeFailReason" value="${feeFailReason }"/>
 </dwz:paginationForm>
 
 <form id="xqForm" method="post" action="${contextPath }/xqgl/issue/list" onsubmit="return navTabSearch(this)">

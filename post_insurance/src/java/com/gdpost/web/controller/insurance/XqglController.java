@@ -157,8 +157,9 @@ public class XqglController {
 		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
 		RenewedList issue = new RenewedList();
 		//默认返回未处理工单
-		String feeStatus = request.getParameter("search_LIKE_feeStatus");
+		String feeStatus = request.getParameter("search_EQ_feeStatus");
 		LOG.debug("-------------- feeStatus: " + feeStatus);
+		
 		if(feeStatus == null) {
 			feeStatus = "";
 		}
@@ -166,6 +167,9 @@ public class XqglController {
 		String hqIssueType = request.getParameter("hqIssueType");
 		String dealType = request.getParameter("dealType");
 		String feeFailReason = request.getParameter("feeFailReason");
+		request.setAttribute("hqIssueType", hqIssueType);
+		request.setAttribute("dealType", dealType);
+		request.setAttribute("feeFailReason", feeFailReason);
 		issue.setHqIssueType(hqIssueType);
 		issue.setDealType(dealType);
 		LOG.debug("-------------- feeFailReason: " + feeFailReason);
