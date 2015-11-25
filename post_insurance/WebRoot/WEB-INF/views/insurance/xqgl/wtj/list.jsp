@@ -93,9 +93,9 @@
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Renewed:view">
 				<li class="line">line</li>
-				<li><a class="icon" href="${contextPath }/xqgl/issue/maxlist?search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&policy.orgCode=${policy_orgCode }&search_LTE_feeDate=${param.search_LTE_feeDate }&search_GTE_feeDate=${param.search_GTE_feeDate }&search_LIKE_feeStatus=${param.search_LIKE_feeStatus }&hqDealRemark=${param.hqDealRemark }&dealType=${param.dealType }&feeFailReason=${param.feeFailReason }" target="dialog" rel="dlg_page1" max="true" title="续期催收列表" width="800" height="480"><span>全屏查看</span></a></li>
+				<li><a class="icon" href="${contextPath }/xqgl/issue/maxlist?search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&policy.orgCode=${policy_orgCode }&search_LTE_feeDate=${param.search_LTE_feeDate }&search_GTE_feeDate=${param.search_GTE_feeDate }&search_EQ_feeStatus=${param.search_EQ_feeStatus }&hqDealRemark=${param.hqDealRemark }&dealType=${param.dealType }&feeFailReason=${param.feeFailReason }" target="dialog" rel="dlg_page1" max="true" title="续期催收列表" width="800" height="480"><span>全屏查看</span></a></li>
 				<li class="line">line</li>
-				<li><a class="icon" target="_blank" href="${contextPath }/xqgl/toXls?search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&policy.orgCode=${policy_orgCode }&search_LTE_feeDate=${param.search_LTE_feeDate }&search_GTE_feeDate=${param.search_GTE_feeDate }&search_LIKE_feeStatus=${param.search_LIKE_feeStatus }&hqDealRemark=${param.hqDealRemark }&dealType=${param.dealType }&feeFailReason=${param.feeFailReason }"><span>导出Excel</span></a></li>
+				<li><a class="icon" target="_blank" href="${contextPath }/xqgl/toXls?search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&policy.orgCode=${policy_orgCode }&search_LTE_feeDate=${param.search_LTE_feeDate }&search_GTE_feeDate=${param.search_GTE_feeDate }&search_EQ_feeStatus=${param.search_EQ_feeStatus }&hqDealRemark=${param.hqDealRemark }&dealType=${param.dealType }&feeFailReason=${param.feeFailReason }"><span>导出Excel</span></a></li>
 			</shiro:hasPermission>
 			<li class="line">line</li>
 			<li><a class="icon" target="dialog" href="${contextPath }/xqgl/help" mask="true" width="530" height="430"><span>功能说明</span></a></li>

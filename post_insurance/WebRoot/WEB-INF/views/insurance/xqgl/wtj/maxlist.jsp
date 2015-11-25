@@ -8,7 +8,7 @@
 	<input type="hidden" name="policy.name" value="${policy_name }"/>
 	<input type="hidden" name="search_LTE_feeDate" value="${param.search_LTE_feeDate }"/>
 	<input type="hidden" name="search_GTE_feeDate" value="${param.search_GTE_feeDate }"/>
-	<input type="hidden" name="search_LIKE_feeStatus" value="${param.search_LIKE_feeStatus }"/>
+	<input type="hidden" name="search_EQ_feeStatus" value="${param.search_EQ_feeStatus }"/>
 	<input type="hidden" name="hqIssueType" value="${param.hqIssueType }"/>
 	<input type="hidden" name="dealType" value="${param.dealType }"/>
 	<input type="hidden" name="feeFailReason" value="${param.feeFailReason }"/>
@@ -91,7 +91,7 @@
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Renewed:view">
 				<li class="line">line</li>
-				<li><a class="icon" target="_blank" href="${contextPath }/xqgl/toXls?search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&policy.orgCode=${policy_orgCode }&search_LTE_feeDate=${param.search_LTE_feeDate }&search_GTE_feeDate=${param.search_GTE_feeDate }&search_LIKE_feeStatus=${param.search_LIKE_feeStatus }&&hqDealRemark=${param.hqDealRemark }&dealType=${param.dealType }&feeFailReason=${param.feeFailReason }"><span>导出Excel</span></a></li>
+				<li><a class="icon" target="_blank" href="${contextPath }/xqgl/toXls?search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&policy.orgCode=${policy_orgCode }&search_LTE_feeDate=${param.search_LTE_feeDate }&search_GTE_feeDate=${param.search_GTE_feeDate }&search_EQ_feeStatus=${param.search_EQ_feeStatus }&&hqDealRemark=${param.hqDealRemark }&dealType=${param.dealType }&feeFailReason=${param.feeFailReason }"><span>导出Excel</span></a></li>
 			</shiro:hasPermission>
 		</ul>
 	</div>
