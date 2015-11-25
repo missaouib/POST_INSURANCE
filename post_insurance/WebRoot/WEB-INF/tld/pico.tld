@@ -16,4 +16,12 @@
     <function-class>com.gdpost.utils.StringUtil</function-class>
     <function-signature>java.lang.String getUtfStr(byte[])</function-signature>
   </function>
+  <function>
+    <description>
+      urlEncode
+    </description>
+    <name>urlEncode</name>
+    <function-class>com.gdpost.utils.StringUtil</function-class>
+    <function-signature>java.lang.String urlEncode(java.lang.String)</function-signature>
+  </function>
 </taglib>

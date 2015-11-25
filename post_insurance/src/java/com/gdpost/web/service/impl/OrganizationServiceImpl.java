@@ -50,6 +50,11 @@ public class OrganizationServiceImpl implements OrganizationService {
 	public Organization getByName(String name) {
 		return organizationDAO.getByName(name);
 	}
+	
+	@Override
+	public Organization getByOrgCode(String orgCode) {
+		return organizationDAO.getByOrgCode(orgCode);
+	}
 
 	/*
 	 * (non-Javadoc) 

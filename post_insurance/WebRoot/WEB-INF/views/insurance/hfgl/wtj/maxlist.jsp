@@ -9,8 +9,8 @@
 	<input type="hidden" name="search_LTE_shouldDate" value="${param.search_LTE_shouldDate }"/>
 	<input type="hidden" name="search_GTE_shouldDate" value="${param.search_GTE_shouldDate }"/>
 	<input type="hidden" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
-	<input type="hidden" name="search_LIKE_hasLetter" value="${param.search_LIKE_hasLetter }"/>
-	<input type="hidden" name="status" value="${param.status }"/>
+	<input type="hidden" name="hasLetter" value="${hasLetter }"/>
+	<input type="hidden" name="status" value="${status }"/>
 </dwz:paginationForm>
 
 <form method="post" rel="hfForm" action="${contextPath }/hfgl/issue/maxlist" onsubmit="return dwzSearch(this, 'dialog');">
@@ -19,37 +19,37 @@
 			<table class="searchContent">
 				<tr>
 					<td>
-						工单号：<input type="text" id="hfIssueNo" style="width: 100px;" name="search_LIKE_issueNo" value="${param.search_LIKE_issueNo }"/>
+						工单号：<input type="text" id="mxhfIssueNo" style="width: 100px;" name="search_LIKE_issueNo" value="${param.search_LIKE_issueNo }"/>
 					</td>
 					<td>
 						<label>状态：</label>
-						<form:select path="issue.status" id="hfStatus" class="combox">
+						<form:select path="issue.status" id="mxhfStatus" class="combox">
 							<form:option value=""> -- -- </form:option>
 							<form:options items="${hfStatusList }" itemLabel="desc" itemValue="desc"/>
 						</form:select>
 					</td>
 					<td>
 						<label>所属机构：</label>
-						<input name="policy.orgCode" id="xq_orgCode" type="hidden" value="${policy_orgCode }"/>
-						<input class="validate[required] required" name="policy.name" id="xq_orgName" type="text" readonly="readonly" style="width: 100px;" value="${policy_name }"/><a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="policy" title="选择机构" width="400">查</a>
+						<input name="policy.orgCode" id="mxhf_orgCode" type="hidden" value="${policy_orgCode }"/>
+						<input class="validate[required] required" name="policy.name" id="mxhf_orgName" type="text" readonly="readonly" style="width: 100px;" value="${policy_name }"/><a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="policy" title="选择机构" width="400">查</a>
 					</td>
 					<td>&nbsp;</td>
 				</tr>
 				<tr>
 					<td>
-						保单号：<input type="text" id="hfPolicyNo" style="width: 100px;" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
+						保单号：<input type="text" id="mxhfPolicyNo" style="width: 100px;" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
 					</td>
 					<td>
 						<label>承保开始日期：</label>
-						<input type="text" name="search_GTE_shouldDate" id="hfDate1" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_shouldDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+						<input type="text" name="search_GTE_shouldDate" id="mxhfDate1" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_shouldDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
 						<label>承保结束日期：</label>
-						<input type="text" name="search_LTE_shouldDate" id="hfDate2" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_shouldDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+						<input type="text" name="search_LTE_shouldDate" id="mxhfDate2" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_shouldDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
 						<label>已信函：</label>
-						<form:select path="issue.search_LIKE_hasLetter" id="hfHsLetter" class="combox">
+						<form:select path="issue.hasLetter" id="mxhfHsLetter" class="combox">
 							<form:option value=""> -- -- </form:option>
 							<form:option value="信函已发"> 信函已发 </form:option>
 						</form:select>
@@ -88,7 +88,7 @@
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Callfail:view">
 				<li class="line">line</li>
-				<li><a class="icon" target="_blank" href="${contextPath }/hfgl/toXls?search_LIKE_issueNo=${param.search_LIKE_issueNo }&policy.orgCode=${policy_orgCode }&search_LTE_shouldDate=${param.search_LTE_shouldDate }&search_GTE_shouldDate=${param.search_GTE_shouldDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&search_LIKE_hasLetter=${param.search_LIKE_hasLetter }&status=${param.status }"><span>导出Excel</span></a></li>
+				<li><a class="icon" target="_blank" href="${contextPath }/hfgl/toXls?search_LIKE_issueNo=${param.search_LIKE_issueNo }&policy.orgCode=${policy_orgCode }&search_LTE_shouldDate=${param.search_LTE_shouldDate }&search_GTE_shouldDate=${param.search_GTE_shouldDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&hasLetter=${encodeHasLetter }&status=${encodeStatus == null?'null':encodeStatus }"><span>导出Excel</span></a></li>
 			</shiro:hasPermission>
 		</ul>
 	</div>

@@ -7,6 +7,9 @@
  */
 package com.gdpost.web.controller.insurance;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
@@ -24,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Base64Utils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -39,6 +43,7 @@ import com.gdpost.web.entity.main.User;
 import com.gdpost.web.log.Log;
 import com.gdpost.web.log.LogMessageObject;
 import com.gdpost.web.log.impl.LogUitls;
+import com.gdpost.web.service.OrganizationService;
 import com.gdpost.web.service.insurance.XqglService;
 import com.gdpost.web.shiro.ShiroUser;
 import com.gdpost.web.util.StatusDefine.XQ_DEAL_STATUS;
@@ -57,6 +62,9 @@ public class XqglController {
 	
 	@Autowired
 	private XqglService xqglService;
+	
+	@Autowired
+	private OrganizationService orgService;
 
 	private static final String VIEW = "insurance/xqgl/wtj/view";
 	private static final String UPDATE = "insurance/xqgl/wtj/update";
@@ -163,6 +171,23 @@ public class XqglController {
 		if(feeStatus == null) {
 			feeStatus = "";
 		}
+		
+		String encodeStatus = request.getParameter("encodeStatus");
+		request.setAttribute("encodeStatus", encodeStatus);
+		if((feeStatus != null && feeStatus.trim().equals("null")) || (encodeStatus!= null && encodeStatus.equals("null"))) {
+			feeStatus = null;
+		}
+		if(encodeStatus != null && encodeStatus.trim().length() > 0 ){
+			feeStatus = new String(Base64Utils.decodeFromString(encodeStatus));
+		} else if(feeStatus != null && feeStatus.trim().length()>0) {
+			try {
+				encodeStatus = Base64Utils.encodeToString(URLEncoder.encode(feeStatus, "UTF-8").getBytes());
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			request.setAttribute("encodeStatus", encodeStatus);
+		}
+		
 		issue.setSearch_EQ_feeStatus(feeStatus);
 		String hqIssueType = request.getParameter("hqIssueType");
 		String dealType = request.getParameter("dealType");
@@ -174,6 +199,22 @@ public class XqglController {
 		issue.setDealType(dealType);
 		LOG.debug("-------------- feeFailReason: " + feeFailReason);
 		issue.setFeeFailReason(feeFailReason);
+		
+		if(hqIssueType != null && hqIssueType.trim().length()>0) {
+			request.setAttribute("encodeHqIssueType", Base64Utils.encodeToString(hqIssueType.getBytes()));
+		}
+		if(dealType != null && dealType.trim().length()>0) {
+			request.setAttribute("encodeDealType", Base64Utils.encodeToString(dealType.getBytes()));
+		}
+		if(feeFailReason != null && feeFailReason.trim().length()>0) {
+			String encodeFeeReason = null;
+			try {
+				encodeFeeReason = Base64Utils.encodeToString(URLEncoder.encode(feeFailReason, "UTF-8").getBytes());
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			request.setAttribute("encodeFeeFailReason", encodeFeeReason);
+		}
 		
 		String orgCode = request.getParameter("policy.orgCode");
 		if(orgCode == null || orgCode.trim().length()<=0) {
@@ -226,25 +267,88 @@ public class XqglController {
 		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
 		RenewedList issue = new RenewedList();
 		//默认返回未处理工单
-		String feeStatus = request.getParameter("search_EQ_feeStatus");
-		LOG.debug("-------------- feeStatus: " + feeStatus);
-		issue.setSearch_EQ_feeStatus(feeStatus);
+		String feeStatus = request.getParameter("feeStatus");
+		request.setAttribute("feeStatus", feeStatus);
+		String encodeStatus = request.getParameter("encodeStatus");
+		request.setAttribute("encodeStatus", encodeStatus);
+		if(encodeStatus != null && encodeStatus.trim().length() > 0 ){
+			feeStatus = new String(Base64Utils.decodeFromString(encodeStatus));
+			try {
+				feeStatus = URLDecoder.decode(feeStatus, "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+		} else if(feeStatus != null && feeStatus.trim().length()>0) {
+			try {
+				encodeStatus = Base64Utils.encodeToString(URLEncoder.encode(feeStatus, "UTF-8").getBytes());
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			request.setAttribute("encodeStatus", encodeStatus);
+		}
+		
 		String hqIssueType = request.getParameter("hqIssueType");
 		String dealType = request.getParameter("dealType");
 		String feeFailReason = request.getParameter("feeFailReason");
+		if(hqIssueType != null && hqIssueType.trim().length()>0) {
+			request.setAttribute("encodeHqIssueType", Base64Utils.encodeToString(hqIssueType.getBytes()));
+		}
+		if(dealType != null && dealType.trim().length()>0) {
+			request.setAttribute("encodeDealType", Base64Utils.encodeToString(dealType.getBytes()));
+		}
+		if(feeFailReason != null && feeFailReason.trim().length()>0) {
+			String encodeFeeReason = null;
+			try {
+				encodeFeeReason = Base64Utils.encodeToString(URLEncoder.encode(feeFailReason, "UTF-8").getBytes());
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			request.setAttribute("encodeFeeFailReason", encodeFeeReason);
+		}
+		
+		String encodeHqIssueType = request.getParameter("encodeHqIssueType");
+		String encodeDealType = request.getParameter("encodeDealType");
+		String encodeFeeFailReason = request.getParameter("encodeFeeFailReason");
+		if(encodeHqIssueType != null && encodeHqIssueType.trim().length()>0) {
+			hqIssueType = new String(Base64Utils.decodeFromString(encodeHqIssueType));
+			request.setAttribute("encodeHqIssueType", encodeHqIssueType);
+		}
+		if(encodeDealType != null && encodeDealType.trim().length()>0) {
+			dealType = new String(Base64Utils.decodeFromString(encodeDealType));
+			request.setAttribute("encodeDealType", encodeDealType);
+		}
+		if(encodeFeeFailReason != null && encodeFeeFailReason.trim().length()>0) {
+			try {
+				feeFailReason = URLDecoder.decode(new String(Base64Utils.decodeFromString(encodeFeeFailReason)), "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			request.setAttribute("encodeFeeFailReason", encodeFeeFailReason);
+		}
+		
+		LOG.debug("-------------- feeStatus: " + feeStatus);
+		issue.setFeeStatus(feeStatus);
 		issue.setHqIssueType(hqIssueType);
 		issue.setDealType(dealType);
 		LOG.debug("-------------- feeFailReason: " + feeFailReason);
 		issue.setFeeFailReason(feeFailReason);
+		request.setAttribute("feeStatus", feeStatus);
+		request.setAttribute("hqIssueType", hqIssueType);
+		request.setAttribute("dealType", dealType);
+		request.setAttribute("feeFailReason", feeFailReason);
 		
 		String orgCode = request.getParameter("policy.orgCode");
+		boolean hasOrg = true;
 		if(orgCode == null || orgCode.trim().length()<=0) {
 			orgCode = user.getOrganization().getOrgCode();
+			hasOrg = false;
 		} else {
 			if(!orgCode.contains(user.getOrganization().getOrgCode())){
 				orgCode = user.getOrganization().getOrgCode();
 			}
-			String orgName = request.getParameter("policy.name");
+		}
+		if(hasOrg) {
+			String orgName = orgService.getByOrgCode(orgCode).getName();
 			request.setAttribute("policy_orgCode", orgCode);
 			request.setAttribute("policy_name", orgName);
 		}
@@ -256,6 +360,9 @@ public class XqglController {
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		if (feeStatus != null && feeStatus.length() > 0) {
+			csf.add(new SearchFilter("feeStatus", Operator.EQ, feeStatus));
+		}
 		if (hqIssueType != null && hqIssueType.length() > 0) {
 			csf.add(new SearchFilter("hqIssueType", Operator.EQ, hqIssueType));
 		}
@@ -287,9 +394,32 @@ public class XqglController {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
 		//默认返回未处理工单
-		String hqIssueType = request.getParameter("hqIssueType");
-		String dealType = request.getParameter("dealType");
-		String feeFailReason = request.getParameter("feeFailReason");
+		String feeStatus = request.getParameter("encodeStatus");
+		String hqIssueType = request.getParameter("encodeHqIssueType");
+		String dealType = request.getParameter("encodeDealType");
+		String feeFailReason = request.getParameter("encodeFeeFailReason");
+		
+		if(feeStatus != null && feeStatus.trim().length() > 0 ){
+			feeStatus = new String(Base64Utils.decodeFromString(feeStatus));
+			try {
+				feeStatus = URLDecoder.decode(feeStatus, "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+		}
+		if(hqIssueType != null && hqIssueType.trim().length()>0) {
+			hqIssueType = new String(Base64Utils.decodeFromString(hqIssueType));
+		}
+		if(dealType != null && dealType.trim().length()>0) {
+			dealType = new String(Base64Utils.decodeFromString(dealType));
+		}
+		if(feeFailReason != null && feeFailReason.trim().length()>0) {
+			try {
+				feeFailReason = URLDecoder.decode(new String(Base64Utils.decodeFromString(feeFailReason)), "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+		}
 		
 		String orgCode = request.getParameter("policy.orgCode");
 		if(orgCode == null || orgCode.trim().length()<=0) {
@@ -305,6 +435,9 @@ public class XqglController {
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		if (feeStatus != null && feeStatus.length() > 0) {
+			csf.add(new SearchFilter("feeStatus", Operator.EQ, feeStatus));
+		}
 		if (hqIssueType != null && hqIssueType.length() > 0) {
 			csf.add(new SearchFilter("hqIssueType", Operator.EQ, hqIssueType));
 		}

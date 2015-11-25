@@ -62,6 +62,7 @@
 				<th>接收机构</th>
 				<th>内容</th>
 				<th>发布日期</th>
+				<th>发布者</th>
 				<th>失效日期</th>
 				<th>附件</th>
 			</tr>
@@ -75,6 +76,7 @@
 				<td>${item.role.name}</td>
 				<td>${item.organization.name}</td>
 				<td>${item.noticeTitle}</td>
+				<td>${item.sendDate}</td>
 				<td>${item.sendDate}</td>
 				<td>${item.invalidDate}</td>
 				<td>

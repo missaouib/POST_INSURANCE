@@ -37,4 +37,6 @@ public interface OrganizationDAO extends JpaRepository<Organization, Long>, JpaS
 	List<Organization> findById(Long id);
 	
 	Organization getByName(String name);
+
+	Organization getByOrgCode(String orgCode);
 }

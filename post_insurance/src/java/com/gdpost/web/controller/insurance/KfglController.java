@@ -26,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Base64Utils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -43,6 +44,7 @@ import com.gdpost.web.exception.ServiceException;
 import com.gdpost.web.log.Log;
 import com.gdpost.web.log.LogMessageObject;
 import com.gdpost.web.log.impl.LogUitls;
+import com.gdpost.web.service.OrganizationService;
 import com.gdpost.web.service.UserService;
 import com.gdpost.web.service.insurance.KfglService;
 import com.gdpost.web.shiro.ShiroUser;
@@ -64,6 +66,9 @@ public class KfglController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private OrganizationService orgService;
 
 	private static final String VIEW = "insurance/kfgl/wtj/view";
 	private static final String PRINT = "insurance/kfgl/wtj/issue";
@@ -253,17 +258,26 @@ public class KfglController {
 		User user = userService.get(shiroUser.getId());
 		Organization userOrg = user.getOrganization();
 		String orgCode = request.getParameter("orgCode");
+		boolean hasCon = true;
 		if(orgCode == null || orgCode.trim().length()<=0) {
 			orgCode = userOrg.getOrgCode();
+			hasCon = false;
 		} else if(!orgCode.contains(user.getOrganization().getOrgCode())){
 			orgCode = user.getOrganization().getOrgCode();
 		}
-		String orgName = request.getParameter("name");
-		request.setAttribute("orgCode", orgCode);
-		request.setAttribute("name", orgName);
+		
+		if(hasCon) {
+			String orgName = request.getParameter("name");
+			request.setAttribute("orgCode", orgCode);
+			request.setAttribute("name", orgName);
+		}
+		
 		//默认返回未处理工单
 		String status = request.getParameter("status");
 		LOG.debug("-------------- status: " + status);
+		if(status != null) {
+			request.setAttribute("encodeStatus", Base64Utils.encodeToString(status.getBytes()));
+		}
 		request.setAttribute("status", status);
 		Issue issue = new Issue();
 //		if(status == null) {
@@ -294,6 +308,7 @@ public class KfglController {
 				LOG.debug("-------------- 333: " );
 				issue.setStatus(STATUS.DealStatus.getDesc());
 				request.setAttribute("status", STATUS.DealStatus.getDesc());
+				request.setAttribute("encodeStatus", Base64Utils.encodeToString(STATUS.DealStatus.getDesc().getBytes()));
 				csf.add(new SearchFilter("status", Operator.EQ, STATUS.DealStatus.getDesc()));
 			} else if(status.trim().length() > 0) {
 				csf.add(new SearchFilter("status", Operator.EQ, status));
@@ -335,20 +350,34 @@ public class KfglController {
 		User user = userService.get(shiroUser.getId());
 		Organization userOrg = user.getOrganization();
 		String orgCode = request.getParameter("orgCode");
+		boolean hasConf = true;
 		if(orgCode == null || orgCode.trim().length()<=0) {
 			orgCode = userOrg.getOrgCode();
+			hasConf = false;
 		} else if(!orgCode.contains(user.getOrganization().getOrgCode())){
 			orgCode = user.getOrganization().getOrgCode();
 		}
-		String orgName = request.getParameter("name");
-		request.setAttribute("orgCode", orgCode);
-		request.setAttribute("name", orgName);
+		
+		if(hasConf) {
+			Organization org = orgService.getByOrgCode(orgCode);
+			//String orgName = request.getParameter("name");
+			request.setAttribute("orgCode", orgCode);
+			request.setAttribute("name", org.getName());
+		}
 		//默认返回未处理工单
 		String status = request.getParameter("status");
-		LOG.debug("---------kf max list status" + status);
-		if(status != null && status.trim().equals("null")) {
+		String encodeStatus = request.getParameter("encodeStatus");
+		request.setAttribute("encodeStatus", encodeStatus);
+		if((status != null && status.trim().equals("null")) || (encodeStatus!= null && encodeStatus.equals("null"))) {
 			status = null;
 		}
+		if(encodeStatus != null && encodeStatus.trim().length() > 0 ){
+			status = new String(Base64Utils.decodeFromString(encodeStatus));
+		} else if(status != null && status.trim().length()>0) {
+			encodeStatus = Base64Utils.encodeToString(status.getBytes());
+			request.setAttribute("encodeStatus", encodeStatus);
+		}
+		LOG.debug("---------kf max list status" + status);
 		Issue issue = new Issue();
 		issue.setStatus(status);
 		request.setAttribute("status", status);
@@ -396,8 +425,13 @@ public class KfglController {
 	public String toXls(ServletRequest request, Page page, Map<String, Object> map) {
 		User user = SecurityUtils.getShiroUser().getUser();
 		String status = request.getParameter("status");
-		if(status == null) {
+		if(status == null || (status != null && status.trim().equals("null"))) {
 			status = "";
+		} else if(status != null && status.trim().length() > 0 ){
+			status = new String(Base64Utils.decodeFromString(status));
+			if(status.equals("null")) {
+				status = "";
+			}
 		}
 		
 		page.setOrderField("policy.organization.orgCode");

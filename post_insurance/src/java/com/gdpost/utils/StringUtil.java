@@ -1,10 +1,15 @@
 package com.gdpost.utils;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.springframework.util.Base64Utils;
 
 import System.Data.DataRow;
 
@@ -32,6 +37,10 @@ public class StringUtil {
 		return days;
 	}
 	
+	public static String decode(String str) {
+		return Base64Utils.encodeToString(str.getBytes());
+	}
+	
 	public static String trimStr(Object obj) {
 		if(obj == null) {
 			return "";
@@ -46,6 +55,24 @@ public class StringUtil {
 	public static Object getValue(Object obj, String columnName) {
 		DataRow dr = (DataRow)obj;
 		return(dr.getValue(columnName));
+	}
+	
+	public static String urlEncode(String url) {
+		try {
+			return URLEncoder.encode(url, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return url;
+	}
+	
+	public static String urlDecode(String url) {
+		try {
+			return URLDecoder.decode(url, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return url;
 	}
 	
 	/**
@@ -273,8 +300,28 @@ public class StringUtil {
 	}
 	
 	public static void main(String[] args) {
+		/*
 		String str = "search.id";
 		System.out.println(str.indexOf("."));
 		System.out.println(str.replaceAll("\\.", "_"));
+		*？
+		*/
+		String src = "信函已发";
+		String str = Base64Utils.encodeToString(src.getBytes());
+		System.out.println(str);
+		try {
+			str = URLEncoder.encode(str, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		System.out.println(str);
+		try {
+			String dstr = URLDecoder.decode(str, "UTF-8");
+			System.out.println(dstr);
+			System.out.println(new String(Base64Utils.decodeFromString(dstr)));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
 	}
 }

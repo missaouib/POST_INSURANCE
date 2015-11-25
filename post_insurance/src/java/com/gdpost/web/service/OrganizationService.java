@@ -24,6 +24,8 @@ public interface OrganizationService {
 
 	Organization getByName(String name);
 	
+	Organization getByOrgCode(String orgCode);
+	
 	Organization getTree();
 	
 	Organization getTree(User user);

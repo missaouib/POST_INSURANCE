@@ -18,32 +18,32 @@
 			<table class="searchContent">
 				<tr>
 					<td>
-						工单号：<input type="text" id="kfPolicyNo" name="search_LIKE_issueNo" style="width: 80px;" value="${param.search_LIKE_issueNo }"/>
+						工单号：<input type="text" id="mxkfPolicyNo" name="search_LIKE_issueNo" style="width: 80px;" value="${param.search_LIKE_issueNo }"/>
 					</td>
 					<td>
 						<label>状态：</label>
-						<form:select path="issue.status" id="kfStatus" class="combox">
+						<form:select path="issue.status" id="mxkfStatus" class="combox">
 							<form:option value=""> -- -- </form:option>
 							<form:options items="${statusList }" itemLabel="desc" itemValue="desc"/>
 						</form:select>
 					</td>
 					<td>
 						<label>所属机构：</label>
-						<input name="orgCode" id="bq_orgCode" type="hidden" value="${orgCode }"/>
-						<input class="validate[required] required" name="name" id="bq_orgName" type="text" readonly="readonly" style="width: 100px;" value="${name }"/><a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="" title="选择机构" width="400">查</a>
+						<input name="orgCode" id="mxkf_orgCode" type="hidden" value="${orgCode }"/>
+						<input class="validate[required] required" name="name" id="mxkf_orgName" type="text" readonly="readonly" style="width: 100px;" value="${name }"/><a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="" title="选择机构" width="400">查</a>
 					</td>
 				</tr>
 				<tr>
 					<td>
-						保单号：<input type="text" id="kfPolicyNo" style="width: 80px;" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
+						保单号：<input type="text" id="mxkfPolicyNo" style="width: 80px;" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
 					</td>
 					<td>
 						<label>开始日期：</label>
-						<input type="text" name="search_GTE_shouldDate" id="kfDate1" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_shouldDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+						<input type="text" name="search_GTE_shouldDate" id="mxkfDate1" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_shouldDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
 						<label>结束日期：</label>
-						<input type="text" name="search_LTE_shouldDate" id="kfDate2" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_shouldDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+						<input type="text" name="search_LTE_shouldDate" id="mxkfDate2" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_shouldDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 				</tr>
 			</table>
@@ -77,7 +77,7 @@
 			<li><a iconClass="user_edit" target="navTab" rel="printIssueList" mask="true" width="820" height="520" href="${contextPath }/kfgl/issues/print"><span>批打工单</span></a></li>
 			<shiro:hasPermission name="Wtgd:view">
 				<li class="line">line</li>
-				<li><a class="icon" target="_blank" href="${contextPath }/kfgl/toXls?search_LIKE_issueNo=${param.search_LIKE_issueNo }&orgCode=${orgCode }&search_LTE_shouldDate=${param.search_LTE_shouldDate }&search_GTE_shouldDate=${param.search_GTE_shouldDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&status=${status }"><span>导出Excel</span></a></li>
+				<li><a class="icon" target="_blank" href="${contextPath }/kfgl/toXls?search_LIKE_issueNo=${param.search_LIKE_issueNo }&orgCode=${orgCode }&search_LTE_shouldDate=${param.search_LTE_shouldDate }&search_GTE_shouldDate=${param.search_GTE_shouldDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&status=${encodeStatus==null?'null':encodeStatus }"><span>导出Excel</span></a></li>
 			</shiro:hasPermission>
 			<li class="line">line</li>
 			<li><a class="icon" target="dialog" href="${contextPath }/kfgl/help" mask="true" width="530" height="430"><span>功能说明</span></a></li>

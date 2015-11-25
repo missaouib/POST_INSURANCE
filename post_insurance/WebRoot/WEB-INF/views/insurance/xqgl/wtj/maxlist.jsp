@@ -8,10 +8,10 @@
 	<input type="hidden" name="policy.name" value="${policy_name }"/>
 	<input type="hidden" name="search_LTE_feeDate" value="${param.search_LTE_feeDate }"/>
 	<input type="hidden" name="search_GTE_feeDate" value="${param.search_GTE_feeDate }"/>
-	<input type="hidden" name="search_EQ_feeStatus" value="${param.search_EQ_feeStatus }"/>
-	<input type="hidden" name="hqIssueType" value="${param.hqIssueType }"/>
-	<input type="hidden" name="dealType" value="${param.dealType }"/>
-	<input type="hidden" name="feeFailReason" value="${param.feeFailReason }"/>
+	<input type="hidden" name="feeStatus" value="${feeStatus }"/>
+	<input type="hidden" name="hqIssueType" value="${hqIssueType }"/>
+	<input type="hidden" name="dealType" value="${dealType }"/>
+	<input type="hidden" name="feeFailReason" value="${feeFailReason }"/>
 </dwz:paginationForm>
 
 <form rel="xqForm" method="post" action="${contextPath }/xqgl/issue/maxlist" onsubmit="return dwzSearch(this, 'dialog');">
@@ -24,7 +24,7 @@
 					</td>
 					<td>
 						<label>状态：</label>
-						<form:select path="mxissue.search_EQ_feeStatus" id="mxxqStatus" class="combox">
+						<form:select path="mxissue.feeStatus" id="mxxqStatus" class="combox">
 							<form:option value=""> -- -- </form:option>
 							<form:options items="${mxxqStatusList }" itemLabel="desc" itemValue="desc"/>
 						</form:select>
@@ -91,7 +91,7 @@
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Renewed:view">
 				<li class="line">line</li>
-				<li><a class="icon" target="_blank" href="${contextPath }/xqgl/toXls?search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&policy.orgCode=${policy_orgCode }&search_LTE_feeDate=${param.search_LTE_feeDate }&search_GTE_feeDate=${param.search_GTE_feeDate }&search_EQ_feeStatus=${param.search_EQ_feeStatus }&&hqDealRemark=${param.hqDealRemark }&dealType=${param.dealType }&feeFailReason=${param.feeFailReason }"><span>导出Excel</span></a></li>
+				<li><a class="icon" target="_blank" href="${contextPath }/xqgl/toXls?search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&policy.orgCode=${policy_orgCode }&search_LTE_feeDate=${param.search_LTE_feeDate }&search_GTE_feeDate=${param.search_GTE_feeDate }&encodeStatus=${encodeStatus }&encodeHqIssueType=${encodeHqIssueType }&encodeDealType=${encodeDealType }&encodeFeeFailReason=${encodeFeeFailReason }"><span>导出Excel</span></a></li>
 			</shiro:hasPermission>
 		</ul>
 	</div>
