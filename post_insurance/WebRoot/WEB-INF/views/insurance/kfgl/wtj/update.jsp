@@ -52,7 +52,7 @@
 		<legend>工单处理录入</legend>
 		<p class="nowrap">
 			<label>工单处理结果：</label>
-			<textarea name="result" cols="50" rows="3" class="input-medium validate[required,maxSize[64]] required">${issue.result }</textarea>
+			<textarea name="result" cols="50" rows="4" class="required">${issue.result }</textarea>
 		</p>
 		<p class="nowrap">
 			<label>经办人：</label>

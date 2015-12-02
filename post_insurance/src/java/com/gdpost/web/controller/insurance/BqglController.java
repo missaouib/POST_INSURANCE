@@ -22,6 +22,7 @@ import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.data.jpa.domain.Specification;
@@ -33,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.gdpost.utils.BeanValidators;
 import com.gdpost.utils.SecurityUtils;
 import com.gdpost.web.entity.main.ConservationDtl;
 import com.gdpost.web.entity.main.OffsiteConservation;
@@ -388,8 +390,20 @@ public class BqglController {
 	@Log(message="修改了{0}异地保全的信息。")
 	@RequiresPermissions("OffsiteConservation:edit")
 	@RequestMapping(value="/offsite/update", method=RequestMethod.POST)
-	public @ResponseBody String updateOffsiteConservation(OffsiteConservation offsite) {
+	public @ResponseBody String updateOffsiteConservation(OffsiteConservation src) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		OffsiteConservation offsite = bqglService.getOffsiteConservation(src.getId());
+		/*
+		offsite.setOrganization(src.getOrganization());
+		offsite.setTransactor(src.getTransactor());
+		offsite.setDealDate(src.getDealDate());
+		offsite.setExpressBillNo(src.getExpressBillNo());
+		offsite.setPolicyNo(src.getPolicyNo());
+		offsite.setOrginProv(src.getOrginProv());
+		offsite.setClient(src.getClient());
+		offsite.setConservationType(src.getConservationType());
+		*/
+		BeanUtils.copyProperties(src, offsite, BeanValidators.getNullPropertyNames(src));
 		User user = shiroUser.getUser();
 		Organization userOrg = user.getOrganization();
 		if(userOrg.getOrgCode().length()>4) {

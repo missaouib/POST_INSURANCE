@@ -67,7 +67,7 @@
 		</p>
 		<p class="nowrap">
 			<label>不合格件处理记录：</label>
-			<textarea name="fixDesc" id="fixDesc" cols="50" rows="3" class="input-medium validate[required,maxSize[64]] required">${issue.fixDesc }</textarea>
+			<textarea name="fixDesc" id="fixDesc" cols="50" rows="3" class="required">${issue.fixDesc }</textarea>
 		</p>
 		<p class="nowrap">
 			<label>经办人：</label>
