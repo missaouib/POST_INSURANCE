@@ -27,6 +27,7 @@ import com.gdpost.web.entity.main.User;
 import com.gdpost.web.exception.ExistedException;
 import com.gdpost.web.service.insurance.QyglService;
 import com.gdpost.web.util.StatusDefine.STATUS;
+import com.gdpost.web.util.StatusDefine.UW_STATUS;
 import com.gdpost.web.util.dwz.Page;
 import com.gdpost.web.util.dwz.PageUtils;
 import com.gdpost.web.util.persistence.DynamicSpecifications;
@@ -265,6 +266,7 @@ public class QyglServiceImpl implements QyglService {
 		
 		specification = DynamicSpecifications.bySearchFilterWithoutRequest(UnderWrite.class,
 				new SearchFilter("signInputDate", Operator.ISNULL, new Date()),
+				new SearchFilter("status", Operator.NEQ, UW_STATUS.DelStatus.name()),
 				new SearchFilter("organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
 		Page page = new Page();
 		page.setNumPerPage(100);

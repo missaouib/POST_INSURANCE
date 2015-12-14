@@ -15,7 +15,7 @@ public class StatusDefine {
 	};
 	
 	public enum UW_STATUS {
-		NewStatus("新建"), SendStatus("已寄出"), CloseStatus("已回销");
+		NewStatus("新建"), SendStatus("已寄出"), CloseStatus("已回销"), DelStatus("已作废");
 		private String desc;
 
 		UW_STATUS(String desc) {

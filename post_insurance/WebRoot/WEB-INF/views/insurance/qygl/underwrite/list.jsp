@@ -16,7 +16,7 @@
 		<div class="searchBar">
 			<ul class="searchContent">
 				<li>
-					<label>保单号：</label>
+					<label>投保单号：</label>
 					<input type="text" id="uwFormNo" style="width: 100px;" name="search_LIKE_formNo" value="${param.search_LIKE_formNo }"/>
 				</li>
 				<li>
@@ -63,6 +63,10 @@
 			</shiro:hasPermission>
 			<shiro:hasPermission name="UnderWrite:edit">
 			<li class="line">line</li>
+			<li><a iconClass="user_edit" target="dialog" rel="underwrite_edit" mask="true" width="800" height="440" href="${contextPath }/qygl/underwrite/create"><span>新建</span></a></li>
+			<li class="line">line</li>
+			<li><a iconClass="user_edit" target="ajaxTodo" href="${contextPath }/underwrite/DelStatus/{slt_uid}" title="确认作废此人核件?"><span>作废</span></a></li>
+			<li class="line">line</li>
 				<li><a iconClass="user_edit" target="dialog" rel="underwrite_edit" mask="true" width="800" height="440" href="${contextPath }/qygl/underwrite/update/{slt_uid}"><span>更新</span></a></li>
 				<li><a iconClass="user_go" href="${contextPath}/qygl/underwrite/signDateUpdate/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>回销登记</span></a></li>
 			</shiro:hasPermission>
@@ -71,8 +75,6 @@
 					<li class="line">line</li>
 					<li><a iconClass="user_delete" target="selectedTodo" rel="ids" href="${contextPath }/qygl/underwrite/delete" title="确认要删除?"><span>删除</span></a></li>
 				</shiro:hasPermission>
-				<li class="line">line</li>
-				<li><a iconClass="user_edit" target="dialog" rel="underwrite_edit" mask="true" width="800" height="440" href="${contextPath }/qygl/underwrite/create"><span>新建</span></a></li>
 				<li class="line">line</li>
 				<li><a iconClass="user_go" href="${contextPath}/qygl/underwrite/provSend/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>省分寄出</span></a></li>
 			</shiro:hasPermission>
@@ -107,6 +109,7 @@
 				<th orderField=ybtDate class="${page.orderField eq 'ybtDate' ? page.orderDirection : ''}">邮保通录入时间</th>
 				<th>核心录入时间</th>
 				<th>复核时间</th>
+				<th>问题件</th>
 				<th>核保日期</th>
 				<th>签单日期</th>
 				<th>省分收到合同日</th>
@@ -142,6 +145,7 @@
 				<td><fmt:formatDate value="${item.ybtDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.sysDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.checkDate }" pattern="yyyy-MM-dd"/></td>
+				<td>${item.issueFlag}</td>
 				<td><fmt:formatDate value="${item.underwriteDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.signDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.provReceiveDate }" pattern="yyyy-MM-dd"/></td>

@@ -433,6 +433,22 @@ public class QyglController {
 		return	AjaxObject.newOk("更新人核件成功！").toString(); 
 	}
 	
+	@Log(message="作废了人核件{0}。")
+	@RequiresPermissions("UnderWrite:edit")
+	@RequestMapping(value="/underwrite/DelStatus/{id}", method=RequestMethod.POST)
+	public @ResponseBody String delStatus(ServletRequest request, @PathVariable Long id) {
+		UnderWrite uw = qyglService.getUnderWrite(id);
+		uw.setStatus(UW_STATUS.DelStatus.name());
+		AjaxObject ajaxObject = new AjaxObject();
+		ajaxObject.setCallbackType("");
+		ajaxObject.setMessage("作废" + uw.getFormNo() + "成功！");
+		
+		qyglService.saveOrUpdateUnderWrite(uw);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{uw.getFormNo()}));
+		return ajaxObject.toString();
+	}
+	
 	@Log(message="删除了{0}人核件记录申请。")
 	@RequiresPermissions("UnderWrite:delete")
 	@RequestMapping(value="/underwrite/delete", method=RequestMethod.POST)
