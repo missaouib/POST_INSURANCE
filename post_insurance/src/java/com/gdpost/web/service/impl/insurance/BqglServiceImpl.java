@@ -14,8 +14,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gdpost.web.dao.ConservationDtlDAO;
+import com.gdpost.web.dao.CsReissueDAO;
 import com.gdpost.web.dao.OffsiteConservationDAO;
 import com.gdpost.web.entity.main.ConservationDtl;
+import com.gdpost.web.entity.main.CsReissue;
 import com.gdpost.web.entity.main.OffsiteConservation;
 import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.User;
@@ -37,6 +39,9 @@ public class BqglServiceImpl implements BqglService {
 	
 	@Autowired
 	private OffsiteConservationDAO ocDAO;
+	
+	@Autowired
+	private CsReissueDAO reissueDAO;
 	
 	/*
 	 * (non-Javadoc)
@@ -184,5 +189,35 @@ public class BqglServiceImpl implements BqglService {
 	public OffsiteConservation getOffsiteConservationByPolicyNo(String policyNo) {
 		return ocDAO.getByPolicyNo(policyNo);
 	}
+
+	@Override
+	public CsReissue getCsReissue(Long id) {
+		return reissueDAO.getOne(id);
+	}
 	
+	@Override
+	public List<CsReissue> getAllCsReissue(Page page) {
+		org.springframework.data.domain.Page<CsReissue> springDataPage = reissueDAO.findAll(PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
+	}
+
+	@Override
+	public List<CsReissue> getByCsReissueExample(
+			Specification<CsReissue> specification, Page page) {
+		org.springframework.data.domain.Page<CsReissue> springDataPage = reissueDAO.findAll(specification, PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
+	}
+	
+	@Override
+	public void updateCsReissue(CsReissue reissue) {
+		reissueDAO.save(reissue);
+		
+	}
+
+	@Override
+	public CsReissue getCsReissueByPolicyNo(String policyNo) {
+		return reissueDAO.getByConservationDtlPolicyPolicyNo(policyNo);
+	}
 }

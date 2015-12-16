@@ -12,6 +12,7 @@ import java.util.List;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.gdpost.web.entity.main.ConservationDtl;
+import com.gdpost.web.entity.main.CsReissue;
 import com.gdpost.web.entity.main.OffsiteConservation;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.util.dwz.Page;
@@ -42,4 +43,14 @@ public interface BqglService {
 	List<OffsiteConservation> findByOffsiteConservationExample(Specification<OffsiteConservation> specification, Page page);
 	
 	OffsiteConservation getOffsiteConservationByPolicyNo(String policyNo);
+	
+	List<CsReissue> getAllCsReissue(Page page);
+	
+	List<CsReissue> getByCsReissueExample(Specification<CsReissue> specification, Page page);
+	
+	CsReissue getCsReissue(Long id);
+	
+	CsReissue getCsReissueByPolicyNo(String policyNo);
+	
+	void updateCsReissue(CsReissue reissue);
 }

@@ -32,7 +32,11 @@ import com.gdpost.web.entity.main.ConservationType;
 import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.Policy;
 import com.gdpost.web.entity.main.ProvOrgCode;
+import com.gdpost.web.entity.main.Role;
 import com.gdpost.web.entity.main.User;
+import com.gdpost.web.service.OrganizationService;
+import com.gdpost.web.service.RoleService;
+import com.gdpost.web.service.UserService;
 import com.gdpost.web.service.insurance.BaseDataService;
 import com.gdpost.web.service.insurance.CommonService;
 import com.gdpost.web.shiro.ShiroUser;
@@ -76,8 +80,23 @@ public class CommonController {
 	
 	@Autowired
 	private BaseDataService basedataService;
+	
+	@Autowired
+	private UserService userService;
+	
+	@Autowired
+	private RoleService roleService;
+	
+	@Autowired
+	private OrganizationService orgService;
 
 	private static final String LOOK_CVE = "insurance/common/lookup_cve";
+	
+	private static final String LOOK_USER = "insurance/common/lookup_user";
+	
+	private static final String LOOK_ORG = "insurance/common/lookup_org";
+	
+	private static final String LOOK_ROLE = "insurance/common/lookup_role";
 	
 	@RequestMapping(value="/lookupPolicysuggest", method={RequestMethod.POST})
 	public @ResponseBody String lookupPolicySuggest(ServletRequest request, Map<String, Object> map) {
@@ -159,6 +178,36 @@ public class CommonController {
 		map.put("cvelist", org);
 		map.put("page", page);
 		return LOOK_CVE;
+	}
+	
+	@RequestMapping(value="/lookup4User", method={RequestMethod.GET})
+	public String lookupUser(ServletRequest request, Map<String, Object> map, Page page) {
+		page.setNumPerPage(60);
+		Specification<User> specification = DynamicSpecifications.bySearchFilter(request, User.class);
+		List<User> org = userService.findByExample(specification, page);
+		map.put("userlist", org);
+		map.put("page", page);
+		return LOOK_USER;
+	}
+	
+	@RequestMapping(value="/lookup4Org", method={RequestMethod.GET})
+	public String lookupOrg(ServletRequest request, Map<String, Object> map, Page page) {
+		page.setNumPerPage(60);
+		Specification<Organization> specification = DynamicSpecifications.bySearchFilter(request, Organization.class);
+		List<Organization> org = orgService.findByExample(specification, page);
+		map.put("orglist", org);
+		map.put("page", page);
+		return LOOK_ORG;
+	}
+	
+	@RequestMapping(value="/lookup4Role", method={RequestMethod.GET})
+	public String lookupRole(ServletRequest request, Map<String, Object> map, Page page) {
+		page.setNumPerPage(60);
+		Specification<Role> specification = DynamicSpecifications.bySearchFilter(request, Role.class);
+		List<Role> org = roleService.findByExample(specification, page);
+		map.put("rolelist", org);
+		map.put("page", page);
+		return LOOK_ROLE;
 	}
 	
 	@RequestMapping(value="/lookup2BQTypeSuggest", method={RequestMethod.POST})
