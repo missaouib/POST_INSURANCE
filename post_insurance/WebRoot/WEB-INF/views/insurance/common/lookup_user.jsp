@@ -13,19 +13,20 @@
 	<table class="table" layoutH="118" targetType="dialog" width="100%">
 		<thead>
 			<tr>
-				<th orderfield="errorCode">常见错误</th>
-				<th width="80">查找带回</th>
+				<th orderfield="loginName">登录名</th>
+				<th orderfield="realName">姓名名</th>
+				<th>所属机构</th>
+				<th>查找带回</th>
 			</tr>
 		</thead>
 		<tbody>
-		<c:forEach items="${cvelist}" var="cve">
+		<c:forEach items="${userlist}" var="user">
 			<tr>
-				<td>${cve.errorCode}</td>
+				<td>${user.loginName}</td>
+				<td>${user.realName}</td>
+				<td>${user.organization.name}</td>
 				<td>
-					<a class="btnSelect" href="javascript:$.bringBack({csRst:'${cve.errorCode}'})" title="查找带回">选择</a>
-				</td>
-				<td>
-					<input type="checkbox" name="cve" value="{csRst:'${cve.errorCode}'}" /> 
+					<a class="btnSelect" href="javascript:$.bringBack({id:'${user.id }', realName:'${user.realName }'})" title="查找带回">选择</a>
 				</td>
 			</tr>
 		</c:forEach>
@@ -36,7 +37,7 @@
 	<dwz:pagination page="${page }"/>
 	<div class="formBar">  
         <ul>  
-            <li><div class="buttonActive"><div class="buttonContent"><button type="button" multLookup="cve" >选择</button></div></div></li>  
+            <li><div class="button"><div class="buttonContent"><button class="close" type="button" onclick="$.bringBack({id:'', realName:''})">清空</button></div></div></li>
             <li><div class="button"><div class="buttonContent"><button class="close" type="button">关闭</button></div></div></li>  
         </ul>  
     </div>
