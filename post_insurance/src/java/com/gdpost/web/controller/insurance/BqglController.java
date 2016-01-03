@@ -37,6 +37,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.gdpost.utils.BeanValidators;
 import com.gdpost.utils.SecurityUtils;
 import com.gdpost.web.entity.main.ConservationDtl;
+import com.gdpost.web.entity.main.CsReissue;
 import com.gdpost.web.entity.main.OffsiteConservation;
 import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.User;
@@ -598,6 +599,210 @@ public class BqglController {
 		Specification<OffsiteConservation> specification = DynamicSpecifications.bySearchFilter(request, OffsiteConservation.class, csf);
 		
 		List<OffsiteConservation> reqs = bqglService.findByOffsiteConservationExample(specification, page);
+		
+		map.put("reqs", reqs);
+		return OC_TO_XLS;
+	}
+	
+	/*
+	 * =============================================================
+	 *  re issue
+	 * =============================================================
+	 */
+
+	@RequiresPermissions("CsReissue:edit")
+	@RequestMapping(value="/reissue/update/{id}", method=RequestMethod.GET)
+	public String preUpdateCsReissue(@PathVariable Long id, Map<String, Object> map) {
+		CsReissue reissue = bqglService.getCsReissue(id);
+		
+		map.put("reissue", reissue);
+		return UPDATE_OC;
+	}
+
+	@RequiresPermissions("CsReissue:provEdit")
+	@RequestMapping(value="/reissue/provupdate/{id}", method=RequestMethod.GET)
+	public String preProvUpdateCsReissue(@PathVariable Long id, Map<String, Object> map) {
+		CsReissue reissue = bqglService.getCsReissue(id);
+		
+		map.put("reissue", reissue);
+		return PROV_UPDATE_OC;
+	}
+
+	@Log(message="修改了{0}异地保全的信息。")
+	@RequiresPermissions("CsReissue:edit")
+	@RequestMapping(value="/reissue/update", method=RequestMethod.POST)
+	public @ResponseBody String updateCsReissue(CsReissue src) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		CsReissue reissue = bqglService.getCsReissue(src.getId());
+		/*
+		reissue.setOrganization(src.getOrganization());
+		reissue.setTransactor(src.getTransactor());
+		reissue.setDealDate(src.getDealDate());
+		reissue.setExpressBillNo(src.getExpressBillNo());
+		reissue.setPolicyNo(src.getPolicyNo());
+		reissue.setOrginProv(src.getOrginProv());
+		reissue.setClient(src.getClient());
+		reissue.setConservationType(src.getConservationType());
+		*/
+		BeanUtils.copyProperties(src, reissue, BeanValidators.getNullPropertyNames(src));
+		User user = shiroUser.getUser();
+		Organization userOrg = user.getOrganization();
+		if(userOrg.getOrgCode().length()>4) {
+			reissue.setStatus(BQ_STATUS.NewStatus.name());
+		} else {
+			reissue.setStatus(BQ_STATUS.DealStatus.name());
+		}
+		bqglService.saveOrUpdateCsReissue(reissue);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{reissue.getPolicyNo()}));
+		return	AjaxObject.newOk("修改异地保全成功！").toString(); 
+	}
+
+	@Log(message="修改了{0}异地保全的状态。")
+	@RequiresPermissions(value={"CsReissue:reset","CsReissue:deal"}, logical=Logical.OR)
+	@RequestMapping(value="/reissue/{status}/{id}", method=RequestMethod.POST)
+	public @ResponseBody String updateCsReissueStatus(@PathVariable("status") String status, @PathVariable("id") Long id) {
+		CsReissue reissue = bqglService.getCsReissue(id);
+		BQ_STATUS bs = BQ_STATUS.DealStatus;
+		try {
+			bs = BQ_STATUS.valueOf(status);
+		}catch (Exception ex) {
+			return	AjaxObject.newError("状态不对！").setCallbackType("").toString();
+		}
+		switch (bs) {
+		case CloseStatus:
+			break;
+			default:
+				break;
+		}
+		reissue.setStatus(status);
+		bqglService.saveOrUpdateCsReissue(reissue);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{reissue.getPolicyNo()}));
+		return	AjaxObject.newOk("修改异地保全成功！").setCallbackType("").toString();
+	}
+
+	@Log(message="批量修改了{0}异地保全的{1}状态。")
+	@RequiresPermissions(value={"CsReissue:reset","CsReissue:deal"}, logical=Logical.OR)
+	@RequestMapping(value="/reissue/{status}", method=RequestMethod.POST)
+	public @ResponseBody String batchUpdateCsReissueStatus(@PathVariable("status") String status, Long[] ids) {
+		CsReissue reissue = null;
+		BQ_STATUS bs = BQ_STATUS.DealStatus;
+		try {
+			bs = BQ_STATUS.valueOf(status);
+		}catch (Exception ex) {
+			return	AjaxObject.newError("状态不对！").setCallbackType("").toString();
+		}
+		String[] policys = new String[ids.length];
+		for(int i = 0; i<ids.length; i++) {
+			reissue = bqglService.getCsReissue(ids[i]);
+			switch (bs) {
+			case CloseStatus:
+				break;
+				default:
+					break;
+			}
+			reissue.setStatus(status);
+			bqglService.saveOrUpdateCsReissue(reissue);
+			policys[i] = reissue.getPolicyNo();
+		}
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{Arrays.toString(policys), status}));
+		return	AjaxObject.newOk("批量" + status + "异地保全成功！").setCallbackType("").toString();
+	}
+
+	@RequiresPermissions("CsReissue:view")
+	@RequestMapping(value="/reissue/list", method={RequestMethod.GET, RequestMethod.POST})
+	public String listCsReissue(ServletRequest request, Page page, Map<String, Object> map) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
+		String orgCode = request.getParameter("orgCode");
+		if(orgCode == null || orgCode.trim().length()<=0) {
+			orgCode = userOrg.getOrgCode();
+		} else if(!orgCode.contains(user.getOrganization().getOrgCode())){
+			orgCode = user.getOrganization().getOrgCode();
+		}
+		String orgName = request.getParameter("name");
+		request.setAttribute("orgCode", orgCode);
+		request.setAttribute("name", orgName);
+		//默认返回未处理工单
+		String status = request.getParameter("status");
+		LOG.debug("-------------- status: " + status + "  orgCode:" + orgCode);
+		CsReissue reissue = new CsReissue();
+		if(status == null) {
+			status = "";
+		} else if(status.trim().length()>0) {
+			reissue.setStatus(BQ_STATUS.valueOf(status).name());
+		}
+		String orderField = request.getParameter("orderField");
+		if(orderField == null || orderField.trim().length()<=0) {
+			page.setOrderField("dealDate");
+			page.setOrderDirection("DESC");
+		}
+		
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		if (status.length() > 0) {
+			csf.add(new SearchFilter("status", Operator.EQ, status));
+		}
+		Specification<CsReissue> specification = DynamicSpecifications.bySearchFilter(request, CsReissue.class, csf);
+		
+		List<CsReissue> reissues = bqglService.findByCsReissueExample(specification, page);
+		
+		map.put("reissue", reissue);
+		map.put("status", status);
+		map.put("baStatusList", BQ_STATUS.values());
+		map.put("page", page);
+		map.put("reissues", reissues);
+		return LIST_OC;
+	}
+
+	@RequiresPermissions("CsReissue:view")
+	@RequestMapping(value="/reissue/toXls", method=RequestMethod.GET)
+	public String reissueToXls(ServletRequest request, Page page, Map<String, Object> map) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
+		String orgCode = request.getParameter("orgCode");
+		if(orgCode == null || orgCode.trim().length()<=0) {
+			orgCode = userOrg.getOrgCode();
+		} else if(!orgCode.contains(user.getOrganization().getOrgCode())){
+			orgCode = user.getOrganization().getOrgCode();
+		}
+		page.setNumPerPage(65564);
+		//默认返回未处理工单
+		String status = request.getParameter("status");
+		LOG.debug("-------------- status: " + status);
+		CsReissue reissue = new CsReissue();
+		if(status == null) {
+			status = "";
+			/*
+			reissue.setStatus(BQ_STATUS.NewStatus.name());
+			s = BQ_STATUS.NewStatus.name();
+			if (userOrg.getOrgCode().length()<=4) {
+				reissue.setStatus(BQ_STATUS.DealStatus.name());
+				s = BQ_STATUS.DealStatus.name();
+			}
+			*/
+		} else if(status.trim().length()>0) {
+			reissue.setStatus(BQ_STATUS.valueOf(status).name());
+		}
+		
+		String orderField = request.getParameter("orderField");
+		if(orderField == null || orderField.trim().length()<=0) {
+			page.setOrderField("operateTime");
+			page.setOrderDirection("DESC");
+		}
+		
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		if (status.length() > 0) {
+			csf.add(new SearchFilter("status", Operator.EQ, status));
+		}
+		Specification<CsReissue> specification = DynamicSpecifications.bySearchFilter(request, CsReissue.class, csf);
+		
+		List<CsReissue> reqs = bqglService.findByCsReissueExample(specification, page);
 		
 		map.put("reqs", reqs);
 		return OC_TO_XLS;
