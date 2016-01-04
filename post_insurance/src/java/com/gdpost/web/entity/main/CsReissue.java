@@ -28,7 +28,7 @@ public class CsReissue implements Idable<Long> {
 	private String provExpressNo;
 	private Date provReceiveDate;
 	private Date provSentDate;
-	private Integer status;
+	private String status;
 	private Date cityReceiveDate;
 	private String cityReceiver;
 	private String remark;
@@ -47,7 +47,7 @@ public class CsReissue implements Idable<Long> {
 	/** full constructor */
 	public CsReissue(Long id, ConservationDtl ConservationDtl,
 			String provExpressNo, Date provReceiveDate, Date provSentDate,
-			Integer status, Date cityReceiveDate, String cityReceiver,
+			String status, Date cityReceiveDate, String cityReceiver,
 			String remark) {
 		this.id = id;
 		this.conservationDtl = ConservationDtl;
@@ -110,11 +110,11 @@ public class CsReissue implements Idable<Long> {
 	}
 
 	@Column(name = "status")
-	public Integer getStatus() {
+	public String getStatus() {
 		return this.status;
 	}
 
-	public void setStatus(Integer status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 

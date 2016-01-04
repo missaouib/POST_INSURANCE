@@ -49,6 +49,7 @@ import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.insurance.BqglService;
 import com.gdpost.web.shiro.ShiroUser;
 import com.gdpost.web.util.StatusDefine.BQ_STATUS;
+import com.gdpost.web.util.StatusDefine.FP_STATUS;
 import com.gdpost.web.util.dwz.AjaxObject;
 import com.gdpost.web.util.dwz.Page;
 import com.gdpost.web.util.persistence.DynamicSpecifications;
@@ -628,7 +629,7 @@ public class BqglController {
 		return PROV_UPDATE_OC;
 	}
 
-	@Log(message="修改了{0}异地保全的信息。")
+	@Log(message="修改了{0}合同补发的信息。")
 	@RequiresPermissions("CsReissue:edit")
 	@RequestMapping(value="/reissue/update", method=RequestMethod.POST)
 	public @ResponseBody String updateCsReissue(CsReissue src) {
@@ -648,17 +649,17 @@ public class BqglController {
 		User user = shiroUser.getUser();
 		Organization userOrg = user.getOrganization();
 		if(userOrg.getOrgCode().length()>4) {
-			reissue.setStatus(BQ_STATUS.NewStatus.name());
+			reissue.setStatus(FP_STATUS.DealStatus.name());
 		} else {
-			reissue.setStatus(BQ_STATUS.DealStatus.name());
+			reissue.setStatus(FP_STATUS.ReceiveStatus.name());
 		}
-		bqglService.saveOrUpdateCsReissue(reissue);
+		bqglService.updateCsReissue(reissue);
 		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{reissue.getPolicyNo()}));
-		return	AjaxObject.newOk("修改异地保全成功！").toString(); 
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{reissue.getConservationDtl().getPolicy().getPolicyNo()}));
+		return	AjaxObject.newOk("修改合同补发成功！").toString(); 
 	}
 
-	@Log(message="修改了{0}异地保全的状态。")
+	@Log(message="修改了{0}合同补发的状态。")
 	@RequiresPermissions(value={"CsReissue:reset","CsReissue:deal"}, logical=Logical.OR)
 	@RequestMapping(value="/reissue/{status}/{id}", method=RequestMethod.POST)
 	public @ResponseBody String updateCsReissueStatus(@PathVariable("status") String status, @PathVariable("id") Long id) {
@@ -676,13 +677,13 @@ public class BqglController {
 				break;
 		}
 		reissue.setStatus(status);
-		bqglService.saveOrUpdateCsReissue(reissue);
+		bqglService.updateCsReissue(reissue);
 		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{reissue.getPolicyNo()}));
-		return	AjaxObject.newOk("修改异地保全成功！").setCallbackType("").toString();
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{reissue.getConservationDtl().getPolicy().getPolicyNo()}));
+		return	AjaxObject.newOk("修改合同补发成功！").setCallbackType("").toString();
 	}
 
-	@Log(message="批量修改了{0}异地保全的{1}状态。")
+	@Log(message="批量修改了{0}合同补发的{1}状态。")
 	@RequiresPermissions(value={"CsReissue:reset","CsReissue:deal"}, logical=Logical.OR)
 	@RequestMapping(value="/reissue/{status}", method=RequestMethod.POST)
 	public @ResponseBody String batchUpdateCsReissueStatus(@PathVariable("status") String status, Long[] ids) {
@@ -703,12 +704,12 @@ public class BqglController {
 					break;
 			}
 			reissue.setStatus(status);
-			bqglService.saveOrUpdateCsReissue(reissue);
-			policys[i] = reissue.getPolicyNo();
+			bqglService.updateCsReissue(reissue);
+			policys[i] = reissue.getConservationDtl().getPolicy().getPolicyNo();
 		}
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{Arrays.toString(policys), status}));
-		return	AjaxObject.newOk("批量" + status + "异地保全成功！").setCallbackType("").toString();
+		return	AjaxObject.newOk("批量" + status + "合同补发成功！").setCallbackType("").toString();
 	}
 
 	@RequiresPermissions("CsReissue:view")
@@ -748,7 +749,7 @@ public class BqglController {
 		}
 		Specification<CsReissue> specification = DynamicSpecifications.bySearchFilter(request, CsReissue.class, csf);
 		
-		List<CsReissue> reissues = bqglService.findByCsReissueExample(specification, page);
+		List<CsReissue> reissues = bqglService.getByCsReissueExample(specification, page);
 		
 		map.put("reissue", reissue);
 		map.put("status", status);
@@ -802,7 +803,7 @@ public class BqglController {
 		}
 		Specification<CsReissue> specification = DynamicSpecifications.bySearchFilter(request, CsReissue.class, csf);
 		
-		List<CsReissue> reqs = bqglService.findByCsReissueExample(specification, page);
+		List<CsReissue> reqs = bqglService.getByCsReissueExample(specification, page);
 		
 		map.put("reqs", reqs);
 		return OC_TO_XLS;
