@@ -198,13 +198,14 @@ public class CommonController {
 		Page page = new Page();
 		page.setNumPerPage(60);
 		List<ConservationType> org = basedataService.findByConservationTypeExample(specification, page);
+		LOG.debug("---------------- bq cvType suggest: " + org);
 		SerializeConfig mapping = new SerializeConfig();
 		HashMap<String, String> fm = new HashMap<String, String>();
 		fm.put("csType", "conservationCode");
 		fm.put("csName", "conservationType");
 		mapping.put(ConservationType.class, new JavaBeanSerializer(ConservationType.class, fm));
 		String str = JSON.toJSONString(org, mapping);
-		LOG.debug("---------------- bq issue suggest: " + str);
+		LOG.debug("---------------- bq cvType suggest: " + str);
 		return str;
 	}
 	

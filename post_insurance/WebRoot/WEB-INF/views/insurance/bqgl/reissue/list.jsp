@@ -22,7 +22,7 @@
 					</td>
 					<td>
 						<label>状态：</label>
-						<form:select path="offsite.status" class="combox" id="bqStatus">
+						<form:select path="reissue.status" class="combox" id="bqStatus">
 							<form:option value=""> -- -- </form:option>
 							<form:options items="${baStatusList }" itemLabel="desc"/>
 						</form:select>
@@ -38,12 +38,12 @@
 						客户姓名：<input type="text" style="width: 100px;" id="bqPolicyNo" name="search_LIKE_client" value="${param.search_LIKE_client }"/>
 					</td>
 					<td>
-						<label>转办日期：</label>
-						<input type="text" id="dealDate1" name="search_GTE_dealDate" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_dealDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+						<label>申请日期：</label>
+						<input type="text" id="dealDate1" name="search_GTE_csDate" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_csDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
-						<label>转办日期：</label>
-						<input type="text" id="dealDate2" name="search_LTE_dealDate" class="date validate[required] required" style="width: 80px;"dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_dealDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+						<label>申请日期：</label>
+						<input type="text" id="dealDate2" name="search_LTE_csDate" class="date validate[required] required" style="width: 80px;"dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_csDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 				</tr>
 			</table>
@@ -60,33 +60,28 @@
 
 	<div class="panelBar">
 		<ul class="toolBar">
-			<shiro:hasPermission name="OffsiteConservation:save">
+		<!-- 
+			<shiro:hasPermission name="CsReissue:save">
 				<li><a iconClass="user_add" target="dialog" rel="lookup2organization_add" mask="true" width="530" height="430" href="${contextPath }/bqgl/reissue/create"><span>登记合同补发</span></a></li>
 			</shiro:hasPermission>
-			<shiro:hasPermission name="OffsiteConservation:edit">
+		 -->
+			<shiro:hasPermission name="CsReissue:provEdit">
+			<!-- 
+				<shiro:hasPermission name="CsReissue:delete">
+					<li class="line">line</li>
+					<li><a iconClass="user_delete" target="selectedTodo" rel="ids" href="${contextPath }/bqgl/reissue/delete" title="确认要删除?"><span>删除</span></a></li>
+				</shiro:hasPermission>
+			-->
 				<li class="line">line</li>
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="430" href="${contextPath }/bqgl/reissue/update/{slt_uid}"><span>编辑</span></a></li>
-			</shiro:hasPermission>
-			<shiro:hasPermission name="OffsiteConservation:provEdit">
-				<li class="line">line</li>
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="430" href="${contextPath }/bqgl/reissue/provupdate/{slt_uid}"><span>省分更新</span></a></li>
-			</shiro:hasPermission>
-			<shiro:hasPermission name="OffsiteConservation:delete">
-				<li class="line">line</li>
-				<li><a iconClass="user_delete" target="selectedTodo" rel="ids" href="${contextPath }/bqgl/reissue/delete" title="确认要删除?"><span>删除</span></a></li>
-			</shiro:hasPermission>
-			<shiro:hasPermission name="OffsiteConservation:deal">
-				<li class="line">line</li>
-				<li><a iconClass="user_go" target="ajaxTodo" href="${contextPath }/bqgl/reissue/DealStatus/{slt_uid}" title="确认更新状态?"><span>已处理</span></a></li>
-			</shiro:hasPermission>
-			<shiro:hasPermission name="OffsiteConservation:reset">
-				<li class="line">line</li>
-				<li><a iconClass="user_go" target="ajaxTodo" href="${contextPath }/bqgl/reissue/CloseStatus/{slt_uid}" title="确认关闭?"><span>关闭</span></a></li>
-				<li class="line">line</li>
+				<li><a iconClass="user_go" href="${contextPath}/bqgl/reissue/provSend/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>省分寄出</span></a></li>
 				<li><a iconClass="user_go" target="selectedTodo" rel="ids" href="${contextPath }/bqgl/reissue/CloseStatus" title="确认批量关闭?"><span>批量关闭</span></a></li>
 			</shiro:hasPermission>
+			<shiro:hasPermission name="CsReissue:cityEdit">
 			<li class="line">line</li>
-			<li><a class="icon" target="_blank" href="${contextPath }/bqgl/reissue/toXls?search_LIKE_policyNo=${param.search_LIKE_policyNo }&orgCode=${orgCode }&search_LTE_dealDate=${param.search_LTE_dealDate }&search_GTE_dealDate=${param.search_GTE_dealDate }&status=${param.status }"><span>导出Excel</span></a></li>
+				<li><a iconClass="user_go" href="${contextPath}/bqgl/reissue/cityRec/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>地市接收</span></a></li>
+			</shiro:hasPermission>
+			<li class="line">line</li>
+			<li><a class="icon" target="_blank" href="${contextPath }/bqgl/reissue/toXls?search_LIKE_policyNo=${param.search_LIKE_policyNo }&orgCode=${orgCode }&search_LTE_csDate=${param.search_LTE_csDate }&search_GTE_csDate=${param.search_GTE_csDate }&status=${param.status }"><span>导出Excel</span></a></li>
 			<li class="line">line</li>
 			<li><a class="icon" target="dialog" href="${contextPath }/bqgl/help" mask="true" width="530" height="430"><span>功能说明</span></a></li>
 		</ul>
@@ -97,21 +92,18 @@
 			<tr>
 				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
 				<th orderField=organization.name class="${page.orderField eq 'organization.name' ? page.orderDirection : ''}">地市</th>
-				<th>经办人</th>
-				<th orderField=dealDate class="${page.orderField eq 'dealDate' ? page.orderDirection : ''}">转办日期</th>
-				<th>快递单号</th>
-				<th>保单号</th>
-				<th orderField=orginProv class="${page.orderField eq 'orginProv' ? page.orderDirection : ''}">出单省</th>
 				<th>客户姓名</th>
-				<th>保全业务</th>
-				<th>联系人</th>
-				<th>寄件地址</th>
-				<th>省分转办日期</th>
+				<th>保单号</th>
+				<th orderField=dealDate class="${page.orderField eq 'dealDate' ? page.orderDirection : ''}">申请日期</th>
+				<th>快递单号</th>
+				<th>省分收到日期</th>
+				<th>省分寄出日期</th>
+				<th>地市接收日期</th>
 				<th orderField=status class="${page.orderField eq 'status' ? page.orderDirection : ''}">状态</th>
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach var="item" items="${offsites}">
+			<c:forEach var="item" items="${reissues}">
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
 				<td>
@@ -124,29 +116,26 @@
 				    </c:otherwise>  
 				</c:choose>
 				</td>
-				<td>${item.transactor}</td>
-				<td><fmt:formatDate value='${item.dealDate }' pattern='yyyy-MM-dd'/></td>
-				<td>${item.expressBillNo}</td>
-				<td>${item.policyNo}</td>
-				<td>${item.orginProv}</td>
-				<td>${item.client}</td>
-				<td>${item.conservationType}</td>
-				<td>${item.linker}</td>
-				<td>${item.mailAddr}</td>
-				<td><fmt:formatDate value='${item.provDealDate }' pattern='yyyy-MM-dd'/></td>
+				<td>${item.conservationDtl.policy.holder}</td>
+				<td>${item.conservationDtl.policy.policyNo}</td>
+				<td><fmt:formatDate value='${item.csDate }' pattern='yyyy-MM-dd'/></td>
+				<td>${item.provExpressNo}</td>
+				<td>${item.provReceiveDate}</td>
+				<td>${item.provSentDate}</td>
+				<td>${item.cityReceiveDate}</td>
 				<td>
 				<c:choose>
-					<c:when test="${item.status eq 'NewStatus'}">
-						 <span style="color:red; height:50%; margin-bottom:-contentheight;">待处理</span>
+					<c:when test="${item.status eq 'CloseStatus'}">
+						 已关闭
 					</c:when>
 					<c:when test="${item.status eq 'DealStatus'}">
-						已处理
+						已寄出
 					</c:when>
-					<c:when test="${item.status eq 'CancelStatus'}">
-						已撤销
+					<c:when test="${item.status eq 'ReceiveStatus'}">
+						已接收
 					</c:when>
 					<c:otherwise>
-						已关闭
+						<span style="color:red; height:50%; margin-bottom:-contentheight;">待处理</span>
 					</c:otherwise>
 				</c:choose>
 				</td>

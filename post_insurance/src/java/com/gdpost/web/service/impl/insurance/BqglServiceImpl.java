@@ -57,9 +57,9 @@ public class BqglServiceImpl implements BqglService {
 	 * @see com.gdpost.web.service.UserService#saveOrUpdate(com.gdpost.web.entity.main.ConservationDtl)  
 	 */
 	@Override
-	public void saveOrUpdate(ConservationDtl policy) {
+	public ConservationDtl saveOrUpdate(ConservationDtl policy) {
 		
-		conservationDAO.save(policy);
+		return conservationDAO.save(policy);
 	}
 
 	/*

@@ -20,7 +20,7 @@ import com.gdpost.web.util.dwz.Page;
 public interface BqglService {
 	ConservationDtl get(Long id);
 
-	void saveOrUpdate(ConservationDtl user);
+	ConservationDtl saveOrUpdate(ConservationDtl user);
 
 	void delete(Long id);
 	
