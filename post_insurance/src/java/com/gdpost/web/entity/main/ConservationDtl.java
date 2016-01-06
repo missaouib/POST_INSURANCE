@@ -197,4 +197,14 @@ public class ConservationDtl implements Idable<Long> {
 		this.remark = remark;
 	}
 
+	@Override
+	public String toString() {
+		return "ConservationDtl [id=" + id + ", conservationCode="
+				+ conservationCode + ", dealNum=" + dealNum + ", info=" + info
+				+ ", csDate=" + csDate + ", csUserId=" + csUserId + ", csRst="
+				+ csRst + ", dealUserId=" + dealUserId + ", status=" + status
+				+ ", cancelFlag=" + cancelFlag + ", cancelMan=" + cancelMan
+				+ ", cancelDate=" + cancelDate + ", remark=" + remark + "]";
+	}
+
 }

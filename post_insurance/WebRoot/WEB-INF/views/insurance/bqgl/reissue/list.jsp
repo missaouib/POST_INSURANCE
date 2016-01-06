@@ -3,12 +3,12 @@
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 
 <dwz:paginationForm action="${contextPath }/bqgl/reissue/list" page="${page }">
-	<input type="hidden" name="search_LIKE_policyNo" value="${param.search_LIKE_policyNo }"/>
-	<input type="hidden" name="search_LIKE_client" value="${param.search_LIKE_client }"/>
+	<input type="hidden" name="search_LIKE_conservationDtl.policy.policyNo" value="${param.search_LIKE_policyNo }"/>
+	<input type="hidden" name="search_LIKE_conservationDtl.policy.holder" value="${search_LIKE_conservationDtl_policy_holder }"/>
 	<input type="hidden" name="orgCode" value="${orgCode }"/>
 	<input type="hidden" name="name" value="${name }"/>
-	<input type="hidden" name="search_LTE_dealDate" value="${param.search_LTE_dealDate }"/>
-	<input type="hidden" name="search_GTE_dealDate" value="${param.search_GTE_dealDate }"/>
+	<input type="hidden" name="search_LTE_conservationDtl.csDate" value="${search_LTE_conservationDtl_csDate }"/>
+	<input type="hidden" name="search_GTE_conservationDtl.csDate" value="${search_GTE_conservationDtl_csDate }"/>
 	<input type="hidden" name="status" value="${param.status }"/>
 </dwz:paginationForm>
 
@@ -18,13 +18,13 @@
 			<table class="searchContent">
 				<tr>
 					<td>
-						保单号：<input type="text" style="width: 100px;" id="bqPolicyNo" name="search_LIKE_policyNo" value="${param.search_LIKE_policyNo }"/>
+						保单号：<input type="text" style="width: 100px;" id="bqPolicyNo" name="search_LIKE_conservationDtl.policy.policyNo" value="${search_LIKE_conservationDtl_policy_policyNo }"/>
 					</td>
 					<td>
 						<label>状态：</label>
 						<form:select path="reissue.status" class="combox" id="bqStatus">
 							<form:option value=""> -- -- </form:option>
-							<form:options items="${baStatusList }" itemLabel="desc"/>
+							<form:options items="${crStatusList }" itemLabel="desc"/>
 						</form:select>
 					</td>
 					<td>
@@ -35,15 +35,15 @@
 				</tr>
 				<tr>
 					<td>
-						客户姓名：<input type="text" style="width: 100px;" id="bqPolicyNo" name="search_LIKE_client" value="${param.search_LIKE_client }"/>
+						客户姓名：<input type="text" style="width: 100px;" id="bqPolicyNo" name="search_LIKE_conservationDtl.policy.holder" value="${search_LIKE_conservationDtl_policy_holder }"/>
 					</td>
 					<td>
 						<label>申请日期：</label>
-						<input type="text" id="dealDate1" name="search_GTE_csDate" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_csDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+						<input type="text" id="csDate1" name="search_GTE_conservationDtl.csDate" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${search_GTE_conservationDtl_csDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
 						<label>申请日期：</label>
-						<input type="text" id="dealDate2" name="search_LTE_csDate" class="date validate[required] required" style="width: 80px;"dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_csDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+						<input type="text" id="csDate2" name="search_LTE_conservationDtl.csDate" class="date validate[required] required" style="width: 80px;"dateFmt="yyyy-MM-dd" readonly="true" value="${search_LTE_conservationDtl_csDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 				</tr>
 			</table>
@@ -81,7 +81,7 @@
 				<li><a iconClass="user_go" href="${contextPath}/bqgl/reissue/cityRec/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>地市接收</span></a></li>
 			</shiro:hasPermission>
 			<li class="line">line</li>
-			<li><a class="icon" target="_blank" href="${contextPath }/bqgl/reissue/toXls?search_LIKE_policyNo=${param.search_LIKE_policyNo }&orgCode=${orgCode }&search_LTE_csDate=${param.search_LTE_csDate }&search_GTE_csDate=${param.search_GTE_csDate }&status=${param.status }"><span>导出Excel</span></a></li>
+			<li><a class="icon" target="_blank" href="${contextPath }/bqgl/reissue/toXls?search_LIKE_conservationDtl.policy.policyNo=${search_LIKE_conservationDtl_policy_policyNo }&orgCode=${orgCode }&search_LTE_conservationDtl.csDate=${search_LTE_conservationDtl_csDate }&search_GTE_conservationDtl.csDate=${search_GTE_conservationDtl_csDate }&status=${param.status }"><span>导出Excel</span></a></li>
 			<li class="line">line</li>
 			<li><a class="icon" target="dialog" href="${contextPath }/bqgl/help" mask="true" width="530" height="430"><span>功能说明</span></a></li>
 		</ul>
@@ -94,7 +94,7 @@
 				<th orderField=organization.name class="${page.orderField eq 'organization.name' ? page.orderDirection : ''}">地市</th>
 				<th>客户姓名</th>
 				<th>保单号</th>
-				<th orderField=dealDate class="${page.orderField eq 'dealDate' ? page.orderDirection : ''}">申请日期</th>
+				<th orderField=conservationDtl.csDate class="${page.orderField eq 'conservationDtl.csDate' ? page.orderDirection : ''}">申请日期</th>
 				<th>快递单号</th>
 				<th>省分收到日期</th>
 				<th>省分寄出日期</th>
@@ -108,17 +108,17 @@
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
 				<td>
 				<c:choose>  
-				    <c:when test="${fn:contains(item.organization.name, '直属')}">  
-				        <c:out value="${fn:replace(item.organization.name,'邮政局直属中邮保险局','直属')}" />  
+				    <c:when test="${fn:contains(item.conservationDtl.policy.organization.name, '直属')}">  
+				        <c:out value="${fn:replace(item.conservationDtl.policy.organization.name,'邮政局直属中邮保险局','直属')}" />  
 				    </c:when>  
 				   <c:otherwise>  
-				      <c:out value="${fn:replace(item.organization.name,'邮政局中邮保险局','')}" />  
+				      <c:out value="${fn:replace(item.conservationDtl.policy.organization.name,'邮政局中邮保险局','')}" />  
 				    </c:otherwise>  
 				</c:choose>
 				</td>
 				<td>${item.conservationDtl.policy.holder}</td>
 				<td>${item.conservationDtl.policy.policyNo}</td>
-				<td><fmt:formatDate value='${item.csDate }' pattern='yyyy-MM-dd'/></td>
+				<td><fmt:formatDate value='${item.conservationDtl.csDate }' pattern='yyyy-MM-dd'/></td>
 				<td>${item.provExpressNo}</td>
 				<td>${item.provReceiveDate}</td>
 				<td>${item.provSentDate}</td>

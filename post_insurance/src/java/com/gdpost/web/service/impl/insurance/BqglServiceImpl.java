@@ -192,7 +192,7 @@ public class BqglServiceImpl implements BqglService {
 
 	@Override
 	public CsReissue getCsReissue(Long id) {
-		return reissueDAO.getOne(id);
+		return reissueDAO.findOne(id);
 	}
 	
 	@Override

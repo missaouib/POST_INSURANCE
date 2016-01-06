@@ -1,16 +1,18 @@
 package com.gdpost.web.entity.main;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.gdpost.web.entity.Idable;
 
@@ -62,7 +64,7 @@ public class CsReissue implements Idable<Long> {
 
 	// Property accessors
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "id", unique = true, nullable = false)
 	public Long getId() {
 		return this.id;
@@ -72,8 +74,8 @@ public class CsReissue implements Idable<Long> {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "cs_id")
+	@ManyToOne
+	@JoinColumn(name = "cs_id", referencedColumnName="id")
 	public ConservationDtl getConservationDtl() {
 		return this.conservationDtl;
 	}
@@ -91,6 +93,7 @@ public class CsReissue implements Idable<Long> {
 		this.provExpressNo = provExpressNo;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "prov_receive_date", length = 10)
 	public Date getProvReceiveDate() {
 		return this.provReceiveDate;
@@ -100,6 +103,7 @@ public class CsReissue implements Idable<Long> {
 		this.provReceiveDate = provReceiveDate;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "prov_sent_date", length = 10)
 	public Date getProvSentDate() {
 		return this.provSentDate;
@@ -118,6 +122,7 @@ public class CsReissue implements Idable<Long> {
 		this.status = status;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "city_receive_date", length = 10)
 	public Date getCityReceiveDate() {
 		return this.cityReceiveDate;
@@ -143,6 +148,14 @@ public class CsReissue implements Idable<Long> {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	@Override
+	public String toString() {
+		return "CsReissue [id=" + id + ", provExpressNo=" + provExpressNo + ", provReceiveDate="
+				+ provReceiveDate + ", provSentDate=" + provSentDate
+				+ ", status=" + status + ", cityReceiveDate=" + cityReceiveDate
+				+ ", cityReceiver=" + cityReceiver + ", remark=" + remark + "]";
 	}
 
 }

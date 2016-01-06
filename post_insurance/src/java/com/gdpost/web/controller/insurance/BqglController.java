@@ -109,10 +109,12 @@ public class BqglController {
 				issue.setStatus(BQ_STATUS.CloseStatus.name());
 			}
 			issue = bqglService.saveOrUpdate(issue);
-			if(issue.getConservationCode().equalsIgnoreCase("bqbf")) {
+			if(issue.getConservationCode().equalsIgnoreCase("htbf")) {
 				CsReissue cr = new CsReissue();
 				cr.setConservationDtl(issue);
 				cr.setStatus(FP_STATUS.NewStatus.name());
+				LOG.debug("---------cs reissue: " + cr.toString());
+				bqglService.updateCsReissue(cr);
 			}
 		} catch (ExistedException e) {
 			return AjaxObject.newError("添加保全复核问题失败：" + e.getMessage()).setCallbackType("").toString();
@@ -765,7 +767,7 @@ public class BqglController {
 		
 		map.put("reissue", reissue);
 		map.put("status", status);
-		map.put("baStatusList", BQ_STATUS.values());
+		map.put("crStatusList", FP_STATUS.values());
 		map.put("page", page);
 		map.put("reissues", reissues);
 		return LIST_RI;
@@ -779,21 +781,8 @@ public class BqglController {
 		map.put("reissue", reissue);
 		map.put("flag", flag);
 		if(flag.contains("Send")) {
-			switch(flag) {
-			case "provSend":
-				reissue.setProvSentDate(reissue.getProvSentDate());
-				reissue.setProvExpressNo(reissue.getProvExpressNo());
-				reissue.setProvReceiveDate(reissue.getProvReceiveDate());
-				break;
-			}
 			return RI_MAIL_DATE;
 		} else {
-			switch(flag) {
-			case "cityRec":
-				reissue.setCityReceiveDate(reissue.getCityReceiveDate());
-				reissue.setCityReceiver(reissue.getCityReceiver());
-				break;
-			}
 			return RI_REC_DATE;
 		}
 	}
@@ -803,26 +792,31 @@ public class BqglController {
 	@RequiresPermissions(value={"CsReissue:edit","CsReissue:provEdit","CsReissue:cityEdit","CsReissue:areaEdit"}, logical=Logical.OR)
 	@RequestMapping(value="/reissue/sendRecUpdate", method=RequestMethod.POST)
 	public @ResponseBody String mailDateUpdate(ServletRequest request, CsReissue reissue) {
-		CsReissue src = bqglService.getCsReissue(reissue.getId());
+		LOG.debug("ready to update re issue : " + reissue.toString());
+		CsReissue cssrc = bqglService.getCsReissue(reissue.getId());
+		LOG.debug("get the re issue src id : " + cssrc.getId());
 		String flag = request.getParameter("flag");
 		switch(flag) {
 		case "provSend":
-			src.setProvSentDate(reissue.getProvSentDate());
-			src.setProvExpressNo(reissue.getProvExpressNo());
-			src.setProvReceiveDate(reissue.getProvReceiveDate());
+			LOG.debug("----------" + cssrc.getProvSentDate());
+			cssrc.setProvSentDate(reissue.getProvSentDate());
+			cssrc.setProvExpressNo(reissue.getProvExpressNo());
+			cssrc.setProvReceiveDate(reissue.getProvReceiveDate());
+			cssrc.setStatus(FP_STATUS.DealStatus.name());
 			break;
 		case "cityRec":
-			reissue.setCityReceiveDate(reissue.getCityReceiveDate());
-			reissue.setCityReceiver(reissue.getCityReceiver());
+			cssrc.setCityReceiveDate(reissue.getCityReceiveDate());
+			cssrc.setCityReceiver(reissue.getCityReceiver());
+			cssrc.setStatus(FP_STATUS.CloseStatus.name());
 			break;
 			default:
 				LOG.warn("-------------保全补发的寄发标记缺失!");
 				break;
 		}
 		
-		bqglService.updateCsReissue(src);
+		bqglService.updateCsReissue(cssrc);
 		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getConservationDtl().getPolicy().getPolicyNo()}));
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{cssrc.getConservationDtl().getPolicy().getPolicyNo()}));
 		return	AjaxObject.newOk("更新合同补发成功！").toString(); 
 	}
 
@@ -859,12 +853,12 @@ public class BqglController {
 		
 		String orderField = request.getParameter("orderField");
 		if(orderField == null || orderField.trim().length()<=0) {
-			page.setOrderField("operateTime");
-			page.setOrderDirection("DESC");
+			page.setOrderField("conservationDtl.csDate");
+			page.setOrderDirection("ASC");
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("conservationDtl.policy.organization.orgCode", Operator.LIKE, orgCode));
 		if (status.length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
 		}

@@ -419,7 +419,7 @@ create table t_cs_reissue
    prov_express_no      varchar(32),
    prov_receive_date    date,
    prov_sent_date       date,
-   status               int,
+   status               varchar(12),
    city_receive_date    date,
    city_receiver        varchar(16),
    remark               varchar(255),
