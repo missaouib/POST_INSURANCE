@@ -8,6 +8,7 @@ response.setHeader("Content-Disposition", "inline; filename=XQ_Xls.xls");
 %>
 	<table border="1" cellspacing="1" cellpadding="0">
 			<tr>
+				<th>序号</th>
 				<th>所属机构</th>
 				<th>保单号</th>
 				<th>险种名称</th>
@@ -27,8 +28,9 @@ response.setHeader("Content-Disposition", "inline; filename=XQ_Xls.xls");
 				<th>市县催收情况</th>
 				<th>市县催收详情</th>
 			</tr>
-			<c:forEach var="item" items="${reqs}">
+			<c:forEach var="item" items="${reqs}" varStatus="status">
 			<tr>
+				<td><c:out value="${status.index+1}"/></td>
 				<td>${fn:replace(item.policy.organization.name,'中邮保险局','')}</td>
 				<td style="vnd.ms-excel.numberformat:@">${item.policy.policyNo}</td>
 				<td>${item.prdName}</td>

@@ -8,6 +8,7 @@ response.setHeader("Content-Disposition", "inline; filename=underwrite.xls");
 %>
 	<table border="1" cellspacing="1" cellpadding="0">
 			<tr>
+				<th>序号</th>
 				<th>市县机构</th>
 				<th>投保单号</th>
 				<th>保单号</th>
@@ -28,8 +29,9 @@ response.setHeader("Content-Disposition", "inline; filename=underwrite.xls");
 				<th>合同签收日期</th>
 				<th>回执录入日期</th>
 			</tr>
-			<c:forEach var="item" items="${reqs}">
+			<c:forEach var="item" items="${reqs}" varStatus="status">
 			<tr>
+				<td><c:out value="${status.index+1}"/></td>
 				<td>${fn:replace(item.organization.name,'邮政局中邮保险局','')}</td>
 				<td style="vnd.ms-excel.numberformat:@">${item.formNo}</td>
 				<td style="vnd.ms-excel.numberformat:@">${item.policyNo}</td>

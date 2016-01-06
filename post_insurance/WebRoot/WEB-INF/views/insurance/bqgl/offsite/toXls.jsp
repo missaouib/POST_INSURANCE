@@ -8,6 +8,7 @@ response.setHeader("Content-Disposition", "inline; filename=BQ_RECORD.xls");
 %>
 	<table border="1" cellspacing="1" cellpadding="0">
 			<tr>
+				<th>序号</th>
 				<th>地市</th>
 				<th>经办人</th>
 				<th>转办日期</th>
@@ -21,8 +22,9 @@ response.setHeader("Content-Disposition", "inline; filename=BQ_RECORD.xls");
 				<th>省分转办日期</th>
 				<th>状态</th>
 			</tr>
-			<c:forEach var="item" items="${reqs}">
+			<c:forEach var="item" items="${reqs}" varStatus="status">
 			<tr>
+				<td><c:out value="${status.index+1}"/></td>
 				<td>
 				<c:choose>  
 				    <c:when test="${fn:contains(item.organization.name, '直属')}">  

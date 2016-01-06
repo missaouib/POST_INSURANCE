@@ -8,6 +8,7 @@ response.setHeader("Content-Disposition", "inline; filename=InvoiceReq.xls");
 %>
 	<table border="1" cellspacing="1" cellpadding="0">
 			<tr>
+				<th>序号</th>
 				<td>保单号</td>
 				<td>投保人</td>
 				<td>保单机构</td>
@@ -19,8 +20,9 @@ response.setHeader("Content-Disposition", "inline; filename=InvoiceReq.xls");
 				<td>申请接收人</td>
 				<td>状态</td>
 			</tr>
-			<c:forEach var="item" items="${reqs}">
+			<c:forEach var="item" items="${reqs}" varStatus="status">
 			<tr>
+				<td><c:out value="${status.index+1}"/></td>
 				<td style="vnd.ms-excel.numberformat:@">${item.policy.policyNo}</td>
 				<td>${item.policy.holder}</td>
 				<td>${item.policy.organization.name}</td>

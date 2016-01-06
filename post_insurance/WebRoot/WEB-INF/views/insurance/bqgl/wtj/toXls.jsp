@@ -8,6 +8,7 @@ response.setHeader("Content-Disposition", "inline; filename=BQ_RECORD.xls");
 %>
 	<table border="1" cellspacing="1" cellpadding="0">
 			<tr>
+				<th>序号</th>
 				<th>保单号</th>
 				<th>保单所属机构</th>
 				<th>保全受理号</th>
@@ -17,8 +18,9 @@ response.setHeader("Content-Disposition", "inline; filename=BQ_RECORD.xls");
 				<th>问题产生日期</th>
 				<th>状态</th>
 			</tr>
-			<c:forEach var="item" items="${reqs}">
+			<c:forEach var="item" items="${reqs}" varStatus="status">
 			<tr>
+				<td><c:out value="${status.index+1}"/></td>
 				<td style="vnd.ms-excel.numberformat:@">${item.policy.policyNo}	</td>
 				<td>
 				<c:choose>  
