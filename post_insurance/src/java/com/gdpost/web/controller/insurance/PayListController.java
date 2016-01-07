@@ -117,6 +117,7 @@ public class PayListController {
 		
 		List<PayFailList> reqs = payListService.findByExample(specification, page);
 
+		request.setAttribute("status", status);
 		map.put("pay", req);
 		map.put("ffStatusList", FEE_FAIL_STATUS.values());
 		
@@ -229,6 +230,7 @@ public class PayListController {
 		
 		List<PayFailList> reqs = payListService.findByExample(specification, page);
 
+		request.setAttribute("status", status);
 		map.put("pay", req);
 		map.put("ffStatusList", FEE_FAIL_STATUS.values());
 		

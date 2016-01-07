@@ -27,6 +27,7 @@ import System.Data.DataTable;
 
 import com.gdpost.utils.StringUtil;
 import com.gdpost.utils.TemplateHelper.CallFailHQListColumn;
+import com.gdpost.utils.TemplateHelper.CallFailHQMiniListColumn;
 import com.gdpost.utils.TemplateHelper.CheckColumn;
 import com.gdpost.utils.TemplateHelper.ColumnItem;
 import com.gdpost.utils.TemplateHelper.ColumnType;
@@ -116,6 +117,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 			break;
 		case CallFailStatus:
 			standardColumns = CallFailHQListColumn.getStandardColumns();
+			return false;
+		case MiniCallFailStatus:
 			return false;
 		case Renewed:
 			standardColumns = RenewedColumn.getStandardColumns();
@@ -309,7 +312,16 @@ public class UploadDataServiceImpl implements UploadDataService{
 			for (DataRow row : dt.Rows) {
 				line = new StringBuffer("(");
 	        	for(ColumnItem item : standardColumns) {
-	        		line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        		if(item.getDisplayName().contains("回访日期")) {
+	        			val = row.getValue(item.getDisplayName());
+	        			if(val == null || val.toString().trim().length() <= 0) {
+	        				line.append("null,");
+	        			} else {
+	        				line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        			}
+	        		} else {
+	        			line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        		}
 	        	}
 	        	line.deleteCharAt(line.length() - 1);
 	        	line.append("),");
@@ -330,7 +342,38 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql.append("hq_deal_type5=VALUES(hq_deal_type5), hq_deal_rst5=VALUES(hq_deal_rst5), ");
 			sql.append("hq_deal_date6=VALUES(hq_deal_date6), hq_deal_man6=VALUES(hq_deal_man6), ");
 			sql.append("hq_deal_type6=VALUES(hq_deal_type6), hq_deal_rst6=VALUES(hq_deal_rst6);");
-			//log.debug("----------------batch update : " + sql);
+			log.debug("----------------batch update : " + sql);
+			sql2 = "delete from t_call_fail_list where issue_no is null";
+			break;
+		case MiniCallFailStatus:
+			standardColumns = CallFailHQMiniListColumn.getStandardColumns();
+			sql = new StringBuffer("INSERT INTO t_call_fail_list(policy_no, issue_desc, status, issue_type, issue_content, "
+					+ "hq_deal_date, hq_deal_man, hq_deal_type, hq_deal_rst) VALUES ");
+			line = null;
+			for (DataRow row : dt.Rows) {
+				line = new StringBuffer("(");
+	        	for(ColumnItem item : standardColumns) {
+	        		if(item.getDisplayName().contains("二访日期")) {
+	        			val = row.getValue(item.getDisplayName());
+	        			if(val == null || val.toString().trim().length() <= 0) {
+	        				line.append("null,");
+	        			} else {
+	        				line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        			}
+	        		} else {
+	        			line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        		}
+	        	}
+	        	line.deleteCharAt(line.length() - 1);
+	        	line.append("),");
+	        	sql.append(line);
+	        }
+			sql.deleteCharAt(sql.length() - 1);
+			sql.append(" ON DUPLICATE KEY UPDATE policy_no=VALUES(policy_no), issue_desc=VALUES(issue_desc), status=VALUES(status), ");
+			sql.append("issue_type=VALUES(issue_type), issue_content=VALUES(issue_content), ");
+			sql.append("hq_deal_date=VALUES(hq_deal_date), hq_deal_man=VALUES(hq_deal_man), ");
+			sql.append("hq_deal_type=VALUES(hq_deal_type), hq_deal_rst=VALUES(hq_deal_rst);");
+			log.debug("----------------batch update : " + sql);
 			sql2 = "delete from t_call_fail_list where issue_no is null";
 			break;
 		case Renewed:
@@ -390,6 +433,13 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        			val = row.getValue(item.getDisplayName());
 	        			if(val == null || val.toString().length() <= 0) {
 	        				line.append("\"已告知\",");
+	        			} else {
+	        				line.append("\"" + StringUtil.trimStr(val) + "\",");
+	        			}
+	        		} else if(item.getDisplayName().equals("回访日期")) {
+	        			val = row.getValue(item.getDisplayName());
+	        			if(val == null || val.toString().length() <= 0) {
+	        				line.append("null,");
 	        			} else {
 	        				line.append("\"" + StringUtil.trimStr(val) + "\",");
 	        			}
@@ -472,6 +522,12 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case CallFail:
 			standardColumns = IssueColumn.getStandardColumns();
 			break;
+		case CallFailStatus:
+			standardColumns = CallFailHQListColumn.getStandardColumns();
+			break;
+		case MiniCallFailStatus:
+			standardColumns = CallFailHQMiniListColumn.getStandardColumns();
+			break;
 		case Renewed:
 			standardColumns = RenewedColumn.getStandardColumns();
 			break;
@@ -538,7 +594,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 			for(DataTable dt : dataSet) {
 				if(t.name().equals(FileTemplate.RenewedStatus.name())
 						|| t.name().equals((FileTemplate.RenewedHQList.name())) 
-						|| t.name().equals((FileTemplate.CallFailStatus.name()))) {
+						|| t.name().equals((FileTemplate.CallFailStatus.name()))
+						|| t.name().equals(FileTemplate.MiniCallFailStatus.name())) {
 					bFlag = updateStatusData(t, request, dt);
 				} else {
 					bFlag = importData(t, request, dt, member_id, currentNY);

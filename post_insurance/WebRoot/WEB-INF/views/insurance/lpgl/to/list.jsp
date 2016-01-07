@@ -8,7 +8,7 @@
 	<input type="hidden" name="name" value="${name }"/>
 	<input type="hidden" name="search_LTE_backDate" value="${param.search_LTE_backDate }"/>
 	<input type="hidden" name="search_GTE_backDate" value="${param.search_GTE_backDate }"/>
-	<input type="hidden" name="status" value="${param.status }"/>
+	<input type="hidden" name="status" value="${status }"/>
 	<input type="hidden" name="flag" value="lp">
 </dwz:paginationForm>
 
