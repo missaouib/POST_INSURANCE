@@ -6,8 +6,8 @@
 	<input type="hidden" name="search_LIKE_issueNo" value="${param.search_LIKE_issueNo }"/>
 	<input type="hidden" name="policy.orgCode" value="${policy_orgCode }"/>
 	<input type="hidden" name="policy.name" value="${policy_name }"/>
-	<input type="hidden" name="search_LTE_shouldDate" value="${param.search_LTE_shouldDate }"/>
-	<input type="hidden" name="search_GTE_shouldDate" value="${param.search_GTE_shouldDate }"/>
+	<input type="hidden" name="search_LTE_readyDate" value="${param.search_LTE_readyDate }"/>
+	<input type="hidden" name="search_GTE_readyDate" value="${param.search_GTE_readyDate }"/>
 	<input type="hidden" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
 	<input type="hidden" name="hasLetter" value="${hasLetter }"/>
 	<input type="hidden" name="status" value="${status }"/>
@@ -41,11 +41,11 @@
 					</td>
 					<td>
 						<label>承保开始日期：</label>
-						<input type="text" name="search_GTE_shouldDate" id="mxhfDate1" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_shouldDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+						<input type="text" name="search_GTE_readyDate" id="mxhfDate1" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_readyDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
 						<label>承保结束日期：</label>
-						<input type="text" name="search_LTE_shouldDate" id="mxhfDate2" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_shouldDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+						<input type="text" name="search_LTE_readyDate" id="mxhfDate2" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_readyDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
 						<label>已信函：</label>
@@ -88,7 +88,7 @@
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Callfail:view">
 				<li class="line">line</li>
-				<li><a class="icon" target="_blank" href="${contextPath }/hfgl/toXls?search_LIKE_issueNo=${param.search_LIKE_issueNo }&policy.orgCode=${policy_orgCode }&search_LTE_shouldDate=${param.search_LTE_shouldDate }&search_GTE_shouldDate=${param.search_GTE_shouldDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&hasLetter=${encodeHasLetter }&status=${encodeStatus == null?'null':encodeStatus }"><span>导出Excel</span></a></li>
+				<li><a class="icon" target="_blank" href="${contextPath }/hfgl/toXls?search_LIKE_issueNo=${param.search_LIKE_issueNo }&policy.orgCode=${policy_orgCode }&search_LTE_readyDate=${param.search_LTE_readyDate }&search_GTE_readyDate=${param.search_GTE_readyDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&hasLetter=${encodeHasLetter }&status=${encodeStatus == null?'null':encodeStatus }"><span>导出Excel</span></a></li>
 			</shiro:hasPermission>
 		</ul>
 	</div>

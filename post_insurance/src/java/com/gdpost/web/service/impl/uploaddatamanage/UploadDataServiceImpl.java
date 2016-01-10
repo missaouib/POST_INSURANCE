@@ -26,6 +26,7 @@ import System.Data.DataRow;
 import System.Data.DataTable;
 
 import com.gdpost.utils.StringUtil;
+import com.gdpost.utils.TemplateHelper.CallFailCityMiniListColumn;
 import com.gdpost.utils.TemplateHelper.CallFailHQListColumn;
 import com.gdpost.utils.TemplateHelper.CallFailHQMiniListColumn;
 import com.gdpost.utils.TemplateHelper.CheckColumn;
@@ -44,6 +45,7 @@ import com.gdpost.web.dao.uploaddatamanage.UploadDataDAO;
 import com.gdpost.web.entity.main.PayFailList;
 import com.gdpost.web.entity.main.Policy;
 import com.gdpost.web.service.uploaddatamanage.UploadDataService;
+import com.gdpost.web.util.DoRst;
 import com.gdpost.web.util.StatusDefine.FEE_FAIL_STATUS;
 import com.gdpost.web.util.StatusDefine.STATUS;
 import com.gdpost.web.util.StatusDefine.XQ_STATUS;
@@ -75,8 +77,9 @@ public class UploadDataServiceImpl implements UploadDataService{
 
 	@SuppressWarnings("resource")
 	@Override
-	public boolean importData(FileTemplate ft, HttpServletRequest request, DataTable dt, long member_id, int ny) {		
+	public DoRst importData(FileTemplate ft, HttpServletRequest request, DataTable dt, long member_id, int ny) {		
 		log.debug("---------   into import data");
+		DoRst dr = new DoRst();
 		java.sql.Connection connection = null;
 		com.mysql.jdbc.Statement statement = null;
 		com.alibaba.druid.pool.DruidDataSource basic = null;
@@ -89,6 +92,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 			statement = (com.mysql.jdbc.Statement)connection.createStatement();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			dr.setFlag(false);
+			dr.setMsg(e.getMessage());
 		}
 		
 		// AES Encrypt key
@@ -117,19 +122,21 @@ public class UploadDataServiceImpl implements UploadDataService{
 			break;
 		case CallFailStatus:
 			standardColumns = CallFailHQListColumn.getStandardColumns();
-			return false;
+			return dr;
 		case MiniCallFailStatus:
-			return false;
+			return dr;
+		case CallFailCityStatus:
+			return dr;
 		case Renewed:
 			standardColumns = RenewedColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_renewed_list character set utf8 (";
 			break;
 		case RenewedStatus:
 			standardColumns = RenewedStatusColumn.getStandardColumns();
-			return false;
+			return dr;
 		case RenewedHQList:
 			standardColumns = RenewedHQListColumn.getStandardColumns();
-			return false;
+			return dr;
 		/*
 		case RemitMoney:
 			standardColumns = RemitMoneyColumn.getStandardColumns();
@@ -153,6 +160,10 @@ public class UploadDataServiceImpl implements UploadDataService{
 			delSql = "delete from t_pay_fail_list where pay_type=" + PayFailList.PAY_FROM + " and operate_time<CURRENT_DATE;";
 			standardColumns = PayFailListColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_pay_fail_list character set utf8 (pay_type, status, ";
+			break;
+		case PaySuccessList:
+			standardColumns = PayFailListColumn.getStandardColumns();
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_pay_success_list character set utf8 (pay_type, status, ";
 			break;
 			default:
 				log.warn("------------reach the default FileTemplate?? oh no!!");
@@ -192,6 +203,11 @@ public class UploadDataServiceImpl implements UploadDataService{
 	            builder.append('\t');
 	            builder.append(FEE_FAIL_STATUS.NewStatus.name());
 	            builder.append('\t');
+    		} else if(ft.name().equals(FileTemplate.PaySuccessList.name())) {
+    			builder.append(PayFailList.PAY_TO);
+	            builder.append('\t');
+	            builder.append(FEE_FAIL_STATUS.NewStatus.name());
+	            builder.append('\t');
     		} else if(ft.name().equals(FileTemplate.PayFromFailList.name())) {
     			builder.append(PayFailList.PAY_FROM);
 	            builder.append('\t');
@@ -227,6 +243,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 			is = IOUtils.toInputStream(builder.toString(), "UTF-8");
 		} catch (IOException e) {
 			e.printStackTrace();
+			dr.setFlag(false);
+			dr.setMsg(e.getMessage());
 		}
         //先删除
         try {
@@ -235,6 +253,8 @@ public class UploadDataServiceImpl implements UploadDataService{
         	}
         } catch (SQLException e) {
 			e.printStackTrace();
+			dr.setFlag(false);
+			dr.setMsg(e.getMessage());
 		}
         //再执行
         statement.setLocalInfileInputStream(is);
@@ -242,6 +262,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 			statement.execute(strStatementText);
 		} catch (SQLException e) {
 			e.printStackTrace();
+			dr.setFlag(false);
+			dr.setMsg(e.getMessage());
 		} finally {
 			if(statement != null) {
 				try {
@@ -261,14 +283,15 @@ public class UploadDataServiceImpl implements UploadDataService{
 			builder.delete(0, builder.length());
 			builder = null;
 		}
-        
-		return(true);
+        dr.setFlag(true);
+		return(dr);
 	}
 	
 	@SuppressWarnings("resource")
 	@Override
-	public boolean updateStatusData(FileTemplate ft, HttpServletRequest request, DataTable dt) {	
+	public DoRst updateStatusData(FileTemplate ft, HttpServletRequest request, DataTable dt) {	
 		log.debug("---------  into update status data");
+		DoRst dr = new DoRst();
 		java.sql.Connection connection = null;
 		com.mysql.jdbc.Statement statement = null;
 		com.alibaba.druid.pool.DruidDataSource basic = null;
@@ -281,6 +304,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 			statement = (com.mysql.jdbc.Statement)connection.createStatement();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			dr.setFlag(false);
+			dr.setMsg(e.getMessage());
 		}
 		
 		List<ColumnItem> standardColumns = null;
@@ -294,13 +319,13 @@ public class UploadDataServiceImpl implements UploadDataService{
 		Object val = null;
 		switch(ft) {
 		case Policy:
-			return true;
+			return dr;
 		case PolicyDtl:
-			return true;
+			return dr;
 		case Issue:
-			return true;
+			return dr;
 		case CallFail:
-			return true;
+			return dr;
 		case CallFailStatus:
 			standardColumns = CallFailHQListColumn.getStandardColumns();
 			sql = new StringBuffer("INSERT INTO t_call_fail_list(policy_no, issue_desc, status, issue_type, issue_content, "
@@ -375,9 +400,42 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql.append("hq_deal_type=VALUES(hq_deal_type), hq_deal_rst=VALUES(hq_deal_rst);");
 			log.debug("----------------batch update : " + sql);
 			sql2 = "delete from t_call_fail_list where issue_no is null";
+			sql3 = "update t_call_fail_list set hq_deal_flag = 1 where status='二访成功';";
+			break;
+		case CallFailCityStatus:
+			standardColumns = CallFailCityMiniListColumn.getStandardColumns();
+			sql = new StringBuffer("INSERT INTO t_call_fail_list(policy_no, issue_desc, status, issue_type, issue_content, "
+					+ "deal_time, deal_man, deal_type, deal_desc) VALUES ");
+			line = null;
+			for (DataRow row : dt.Rows) {
+				line = new StringBuffer("(");
+	        	for(ColumnItem item : standardColumns) {
+	        		if(item.getDisplayName().contains("上门回访日期")) {
+	        			val = row.getValue(item.getDisplayName());
+	        			if(val == null || val.toString().trim().length() <= 0) {
+	        				line.append("null,");
+	        			} else {
+	        				line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        			}
+	        		} else {
+	        			line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        		}
+	        	}
+	        	line.deleteCharAt(line.length() - 1);
+	        	line.append("),");
+	        	sql.append(line);
+	        }
+			sql.deleteCharAt(sql.length() - 1);
+			sql.append(" ON DUPLICATE KEY UPDATE policy_no=VALUES(policy_no), issue_desc=VALUES(issue_desc), status=VALUES(status), ");
+			sql.append("issue_type=VALUES(issue_type), issue_content=VALUES(issue_content), ");
+			sql.append("deal_time=VALUES(deal_time), deal_man=VALUES(deal_man), ");
+			sql.append("deal_type=VALUES(deal_type), deal_desc=VALUES(deal_desc);");
+			log.debug("----------------batch update : " + sql);
+			sql2 = "delete from t_call_fail_list where issue_no is null";
+			sql3 = "update t_call_fail_list set org_deal_flag = 1 where status='上门成功';";
 			break;
 		case Renewed:
-			return true;
+			return dr;
 		case RenewedStatus://继续率清单
 			standardColumns = RenewedStatusColumn.getStandardColumns();
 			sql = new StringBuffer("INSERT INTO t_renewed_list(policy_no, prd_name, fee_status, fee_fail_reason) VALUES ");
@@ -459,13 +517,15 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql2 = "delete from t_renewed_list where holder is null";
 			break;
 		case CheckWrite:
-			return true;
+			return dr;
 		case CheckRecord:
-			return true;
+			return dr;
 		case PayToFailList:
-			return true;
+			return dr;
 		case PayFromFailList:
-			return true;
+			return dr;
+		case PaySuccessList:
+			return dr;
 		}
 
         try {
@@ -481,8 +541,9 @@ public class UploadDataServiceImpl implements UploadDataService{
 			}
 			log.info("------------renewed status update result:" + updateRst);
 		} catch (SQLException e) {
-			updateRst = false;
 			e.printStackTrace();
+			dr.setFlag(false);
+			dr.setMsg(e.getMessage());
 		} finally {
 			if(statement != null) {
 				try {
@@ -493,8 +554,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 				}
 			}
 		}
-        
-		return updateRst;
+        dr.setFlag(true);
+		return dr;
 	}
 	
 	/**
@@ -590,19 +651,21 @@ public class UploadDataServiceImpl implements UploadDataService{
 		}
 		
 		// 导入数据库
+		DoRst dr = null;
 		for(DataTable[] dataSet : listDataSet.values()) {
 			for(DataTable dt : dataSet) {
 				if(t.name().equals(FileTemplate.RenewedStatus.name())
 						|| t.name().equals((FileTemplate.RenewedHQList.name())) 
 						|| t.name().equals((FileTemplate.CallFailStatus.name()))
-						|| t.name().equals(FileTemplate.MiniCallFailStatus.name())) {
-					bFlag = updateStatusData(t, request, dt);
+						|| t.name().equals(FileTemplate.MiniCallFailStatus.name())
+						|| t.name().equals(FileTemplate.CallFailCityStatus.name())) {
+					dr = updateStatusData(t, request, dt);
 				} else {
-					bFlag = importData(t, request, dt, member_id, currentNY);
+					dr = importData(t, request, dt, member_id, currentNY);
 				}
 				dt = null;
-				if(!bFlag) {
-					builder.append("导入数据出错。");
+				if(!dr.isFlag()) {
+					builder.append("导入数据出错。" + dr.getMsg());
 					break;
 				}
 			}

@@ -10,15 +10,16 @@ import System.Data.DataTable;
 
 import com.gdpost.utils.TemplateHelper.Template.FileTemplate;
 import com.gdpost.web.entity.main.Policy;
+import com.gdpost.web.util.DoRst;
 
 public interface UploadDataService {
 	
 	boolean handleData(FileTemplate template, HttpServletRequest request, long member_id, List<String> listFiles, 
 			int currentNY, int lastNY, long operator_id, String operator_name, int operator_type, StringBuilder builder, String memo);
 	
-	boolean importData(FileTemplate template, HttpServletRequest request, DataTable dt, long member_id, int ny);
+	DoRst importData(FileTemplate template, HttpServletRequest request, DataTable dt, long member_id, int ny);
 	
-	boolean updateStatusData(FileTemplate template, HttpServletRequest request, DataTable dt);
+	DoRst updateStatusData(FileTemplate template, HttpServletRequest request, DataTable dt);
 	
 	boolean clearImport(HttpServletRequest request, long member_id, int ny);
 	

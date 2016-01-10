@@ -12,6 +12,7 @@ import java.util.List;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.gdpost.web.entity.main.PayFailList;
+import com.gdpost.web.entity.main.PaySuccessList;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.util.dwz.Page;
 
@@ -35,5 +36,26 @@ public interface PayListService {
 	List<PayFailList> getLPToFailListTODOIssueList(User user);
 
 	List<PayFailList> getXQFromFailListTODOIssueList(User user);
-	
+
+	PaySuccessList getSuccessDtl(Long id);
+
+	void saveOrUpdateSuccessDtl(PaySuccessList policy);
+
+	void deleteSuccessDtl(Long id);
+
+	List<PaySuccessList> findAllSuccessList(Page page);
+
+	List<PaySuccessList> findBySuccessDtlExample(
+			Specification<PaySuccessList> specification, Page page);
+
+	List<PaySuccessList> getBQToSuccessListTODOIssueList(User user);
+
+	List<PaySuccessList> getBQFromSuccessListTODOIssueList(User user);
+
+	List<PaySuccessList> getXQFromSuccessListTODOIssueList(User user);
+
+	List<PaySuccessList> getQYFromSuccessListTODOIssueList(User user);
+
+	List<PaySuccessList> getLPToSuccessListTODOIssueList(User user);
+
 }

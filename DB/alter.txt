@@ -428,3 +428,23 @@ create table t_cs_reissue
 
 alter table t_cs_reissue add constraint fk_reference_28 foreign key (cs_id)
       references t_conservation_dtl (id) on delete restrict on update restrict;
+
+
+create table t_pay_success_list
+(
+   id                   bigint not null auto_increment,
+   account_name         varchar(32),
+   account              varchar(256),
+   money                varchar(12),
+   fail_desc            varchar(32),
+   back_date            date,
+   fee_type             varchar(16),
+   rel_no               varchar(32),
+   org_name             varchar(64),
+   pay_type             int,
+   status               int,
+   operate_id           bigint,
+   operate_time         datetime default current_timestamp,
+   primary key (id)
+)
+engine=innodb auto_increment=1 default charset=utf8;

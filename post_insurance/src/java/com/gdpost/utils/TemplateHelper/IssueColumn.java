@@ -126,7 +126,7 @@ public class IssueColumn {
 		
 		column = new ColumnItem();
 		column.setDisplayName("待处理时间");
-		column.setColumnName("should_date");
+		column.setColumnName("ready_date");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		column.setNeedOutput(true);

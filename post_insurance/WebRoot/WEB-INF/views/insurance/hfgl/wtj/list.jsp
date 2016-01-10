@@ -6,8 +6,8 @@
 	<input type="hidden" name="search_LIKE_issueNo" value="${param.search_LIKE_issueNo }"/>
 	<input type="hidden" name="policy.orgCode" value="${policy_orgCode }"/>
 	<input type="hidden" name="policy.name" value="${policy_name }"/>
-	<input type="hidden" name="search_LTE_shouldDate" value="${param.search_LTE_shouldDate }"/>
-	<input type="hidden" name="search_GTE_shouldDate" value="${param.search_GTE_shouldDate }"/>
+	<input type="hidden" name="search_LTE_readyDate" value="${param.search_LTE_readyDate }"/>
+	<input type="hidden" name="search_GTE_readyDate" value="${param.search_GTE_readyDate }"/>
 	<input type="hidden" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
 	<input type="hidden" name="search_LIKE_hasLetter" value="${param.search_LIKE_hasLetter }"/>
 	<input type="hidden" name="status" value="${param.status }"/>
@@ -41,11 +41,11 @@
 					</td>
 					<td>
 						<label>工单开始日期：</label>
-						<input type="text" name="search_GTE_shouldDate" id="hfDate1" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_shouldDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+						<input type="text" name="search_GTE_readyDate" id="hfDate1" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_readyDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
 						<label>工单结束日期：</label>
-						<input type="text" name="search_LTE_shouldDate" id="hfDate2" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_shouldDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+						<input type="text" name="search_LTE_readyDate" id="hfDate2" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_readyDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
 						<label>已信函：</label>
@@ -93,9 +93,9 @@
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Callfail:view">
 				<li class="line">line</li>
-				<li><a class="icon" href="${contextPath }/hfgl/issue/maxlist?search_LIKE_issueNo=${param.search_LIKE_issueNo }&policy.orgCode=${policy_orgCode }&policy.name=${policy_name }&search_LTE_shouldDate=${param.search_LTE_shouldDate }&search_GTE_shouldDate=${param.search_GTE_shouldDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&hasLetter=${encodeHasLetter }&encodeStatus=${encodeStatus == null?'null':encodeStatus }" target="dialog" rel="dlg_page1" max="true" title="回访不成功列表" width="800" height="480"><span>全屏查看</span></a></li>
+				<li><a class="icon" href="${contextPath }/hfgl/issue/maxlist?search_LIKE_issueNo=${param.search_LIKE_issueNo }&policy.orgCode=${policy_orgCode }&policy.name=${policy_name }&search_LTE_readyDate=${param.search_LTE_readyDate }&search_GTE_readyDate=${param.search_GTE_readyDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&hasLetter=${encodeHasLetter }&encodeStatus=${encodeStatus == null?'null':encodeStatus }" target="dialog" rel="dlg_page1" max="true" title="回访不成功列表" width="800" height="480"><span>全屏查看</span></a></li>
 				<li class="line">line</li>
-				<li><a class="icon" target="_blank" href="${contextPath }/hfgl/toXls?search_LIKE_issueNo=${param.search_LIKE_issueNo }&policy.orgCode=${policy_orgCode }&search_LTE_shouldDate=${param.search_LTE_shouldDate }&search_GTE_shouldDate=${param.search_GTE_shouldDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&hasLetter=${encodeHasLetter }&status=${encodeStatus == null?'null':encodeStatus }"><span>导出Excel</span></a></li>
+				<li><a class="icon" target="_blank" href="${contextPath }/hfgl/toXls?search_LIKE_issueNo=${param.search_LIKE_issueNo }&policy.orgCode=${policy_orgCode }&search_LTE_readyDate=${param.search_LTE_readyDate }&search_GTE_readyDate=${param.search_GTE_readyDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&hasLetter=${encodeHasLetter }&status=${encodeStatus == null?'null':encodeStatus }"><span>导出Excel</span></a></li>
 			</shiro:hasPermission>
 			<li class="line">line</li>
 			<li><a class="icon" target="dialog" href="${contextPath }/hfgl/help" mask="true" width="530" height="430"><span>功能说明</span></a></li>
@@ -110,7 +110,7 @@
 				<th orderField=issueNo class="${page.orderField eq 'issueNo' ? page.orderDirection : ''}">工单编号</th>
 				<th orderField=status class="${page.orderField eq 'status' ? page.orderDirection : ''}">工单状态</th>
 				<th>工单内容</th>
-				<th orderField=shouldDate class="${page.orderField eq 'shouldDate' ? page.orderDirection : ''}">工单下发日期</th>
+				<th orderField=readyDate class="${page.orderField eq 'readyDate' ? page.orderDirection : ''}">工单下发日期</th>
 				<th>离犹豫期(天)</th>
 				<th orderField=policy.policyNo class="${page.orderField eq 'policy.policyNo' ? page.orderDirection : ''}">所属保单号</th>
 				<th orderField=organization.name class="${page.orderField eq 'organization.name' ? page.orderDirection : ''}">所属机构</th>
@@ -142,7 +142,7 @@
 				<td>${item.issueNo}</td>
 				<td>${item.status}</td>
 				<td>${item.issueContent}</td>
-				<td><fmt:formatDate value="${item.shouldDate }" pattern="yyyy-MM-dd"/></td>
+				<td><fmt:formatDate value="${item.readyDate }" pattern="yyyy-MM-dd"/></td>
 				<td><span style="color:red; height:50%; margin-bottom:-contentheight;"><c:if test="${item.lastDateNum<0 }">0</c:if><c:if test="${item.lastDateNum>=0 }">${item.lastDateNum }</c:if></span></td>
 				<td>${item.policy.policyNo}</td>
 				<td>${fn:replace(item.organization.name,'邮政局中邮保险局','')}</td>

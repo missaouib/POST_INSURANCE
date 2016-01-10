@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.gdpost.utils.SecurityUtils;
 import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.PayFailList;
+import com.gdpost.web.entity.main.PaySuccessList;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.service.insurance.PayListService;
 import com.gdpost.web.util.StatusDefine.FEE_FAIL_STATUS;
@@ -56,6 +57,7 @@ public class PayListController {
 	private static final String XQ_PAY_FROM_LIST = "insurance/xqgl/from/list";
 	private static final String QY_PAY_FROM_LIST = "insurance/qygl/from/list";
 	private static final String LP_PAY_TO_LIST = "insurance/lpgl/to/list";
+	private static final String BQ_PAY_TO_SUCCESS_LIST = "insurance/bqgl/success/list";
 	private static final String TO_HELP = "insurance/help/feefailgl";
 	
 	private static final String TO_TOXLS = "insurance/bqgl/to/toXls";
@@ -131,6 +133,65 @@ public class PayListController {
 			return LP_PAY_TO_LIST;
 			default:
 				return null;
+		}
+	}
+	
+	@RequiresPermissions(value={"ToBQSuccessList:view","ToQYSuccessList:view","ToLPSuccessList:view","ToXQSuccessList:view"}, logical=Logical.OR)
+	@RequestMapping(value="/success/list", method={RequestMethod.GET, RequestMethod.POST})
+	public String toSuccesslist(ServletRequest request, Page page, Map<String, Object> map) {
+		User user = SecurityUtils.getShiroUser().getUser();
+		Organization userOrg = user.getOrganization();
+		String orgCode = request.getParameter("orgCode");
+		if(orgCode == null || orgCode.trim().length()<=0) {
+			orgCode = userOrg.getOrgCode();
+		}
+		String orgName = request.getParameter("name");
+		request.setAttribute("orgCode", orgCode);
+		request.setAttribute("name", orgName);
+		String status = request.getParameter("status");
+		String flag = request.getParameter("flag");
+		LOG.debug("-----------------status:" + status);
+		PayFailList req = new PayFailList();
+		if(status == null) {
+			req.setStatus(FEE_FAIL_STATUS.NewStatus.name());
+			status = FEE_FAIL_STATUS.NewStatus.name();
+		} else if(status.trim().length()>0) {
+			req.setStatus(status);
+		}
+		String feeType = "";
+		switch(flag) {
+		case "bq":
+			feeType = "保全受理号";
+			break;
+		case "lp":
+			feeType = "案件号";
+			break;
+			default:
+				
+		}
+		Specification<PaySuccessList> specification = DynamicSpecifications.bySearchFilter(request, PaySuccessList.class,
+				new SearchFilter("payType", Operator.EQ, PayFailList.PAY_TO),
+				new SearchFilter("feeType", Operator.EQ, feeType),
+				new SearchFilter("status", Operator.EQ, status),
+				new SearchFilter("relNo", Operator.OR_LIKE, orgCode),
+				new SearchFilter("organization.orgCode", Operator.OR_LIKE, orgCode));
+		
+		List<PaySuccessList> reqs = payListService.findBySuccessDtlExample(specification, page);
+
+		request.setAttribute("status", status);
+		map.put("pay", req);
+		map.put("ffStatusList", FEE_FAIL_STATUS.values());
+		
+		map.put("page", page);
+		map.put("paylists", reqs);
+		
+		switch(flag) {
+		case "bq":
+			return BQ_PAY_TO_SUCCESS_LIST;
+		case "lp":
+			return LP_PAY_TO_LIST;
+			default:
+				return BQ_PAY_TO_SUCCESS_LIST;
 		}
 	}
 	
