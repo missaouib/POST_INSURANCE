@@ -610,6 +610,9 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case PayFromFailList:
 			standardColumns = PayFailListColumn.getStandardColumns();
 			break;
+		case PaySuccessList:
+			standardColumns = PayFailListColumn.getStandardColumns();
+			break;
 			default:
 				standardColumns = PolicyColumn.getStandardColumns();
 		}

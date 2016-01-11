@@ -7,7 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.ColumnTransformer;
 
 import com.gdpost.web.entity.Idable;
 
@@ -30,9 +34,9 @@ public class PaySuccessList implements Idable<Long> {
 	private Date backDate;
 	private String feeType;
 	private String relNo;
-	private String orgName;
+	private Organization organization;
 	private Integer payType;
-	private Integer status;
+	private String status;
 	private Long operateId;
 	private Date operateTime;
 
@@ -45,7 +49,7 @@ public class PaySuccessList implements Idable<Long> {
 	/** full constructor */
 	public PaySuccessList(String accountName, String account, String money,
 			String failDesc, Date backDate, String feeType, String relNo,
-			String orgName, Integer payType, Integer status, Long operateId,
+			Organization organization, Integer payType, String status, Long operateId,
 			Date operateTime) {
 		this.accountName = accountName;
 		this.account = account;
@@ -54,7 +58,7 @@ public class PaySuccessList implements Idable<Long> {
 		this.backDate = backDate;
 		this.feeType = feeType;
 		this.relNo = relNo;
-		this.orgName = orgName;
+		this.organization = organization;
 		this.payType = payType;
 		this.status = status;
 		this.operateId = operateId;
@@ -83,6 +87,10 @@ public class PaySuccessList implements Idable<Long> {
 	}
 
 	@Column(name = "account", length = 256)
+	@ColumnTransformer(
+			forColumn="account",
+			read="cast(aes_decrypt(unhex(account), '" + com.gdpost.web.MySQLAESKey.AESKey + "') as char(100))", 
+			write="hex(aes_encrypt(?,'" + com.gdpost.web.MySQLAESKey.AESKey + "'))")
 	public String getAccount() {
 		return this.account;
 	}
@@ -136,13 +144,14 @@ public class PaySuccessList implements Idable<Long> {
 		this.relNo = relNo;
 	}
 
-	@Column(name = "org_name", length = 64)
-	public String getOrgName() {
-		return this.orgName;
+	@ManyToOne
+	@JoinColumn(name="org_name", referencedColumnName="name")
+	public Organization getOrganization() {
+		return organization;
 	}
 
-	public void setOrgName(String orgName) {
-		this.orgName = orgName;
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
 	}
 
 	@Column(name = "pay_type")
@@ -155,11 +164,11 @@ public class PaySuccessList implements Idable<Long> {
 	}
 
 	@Column(name = "status")
-	public Integer getStatus() {
+	public String getStatus() {
 		return this.status;
 	}
 
-	public void setStatus(Integer status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 

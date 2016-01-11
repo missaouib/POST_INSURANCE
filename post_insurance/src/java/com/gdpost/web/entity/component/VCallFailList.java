@@ -1,6 +1,5 @@
 package com.gdpost.web.entity.component;
 
-import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -48,8 +47,8 @@ public class VCallFailList implements Idable<Long>, java.io.Serializable {
 	private String issueType;
 	private String issueContent;
 	private String result;
-	private Timestamp readyDate;
-	private Timestamp finishDate;
+	private Date readyDate;
+	private Date finishDate;
 	private String bankCode;
 	private String bankName;
 	private Date shouldDate;
@@ -85,7 +84,7 @@ public class VCallFailList implements Idable<Long>, java.io.Serializable {
 	private String provDealRemark;
 	private Date provDealDate;
 	private Long operateId;
-	private Timestamp operateTime;
+	private Date operateTime;
 	private String resetPhone;
 	private String organName;
 	private Integer hqDealNum;
@@ -210,20 +209,20 @@ public class VCallFailList implements Idable<Long>, java.io.Serializable {
 	}
 
 	@Column(name = "ready_date", nullable = false, length = 19)
-	public Timestamp getReadyDate() {
+	public Date getReadyDate() {
 		return this.readyDate;
 	}
 
-	public void setReadyDate(Timestamp readyDate) {
+	public void setReadyDate(Date readyDate) {
 		this.readyDate = readyDate;
 	}
 
 	@Column(name = "finish_date", nullable = false, length = 19)
-	public Timestamp getFinishDate() {
+	public Date getFinishDate() {
 		return this.finishDate;
 	}
 
-	public void setFinishDate(Timestamp finishDate) {
+	public void setFinishDate(Date finishDate) {
 		this.finishDate = finishDate;
 	}
 
@@ -543,11 +542,11 @@ public class VCallFailList implements Idable<Long>, java.io.Serializable {
 	}
 
 	@Column(name = "operate_time", length = 19)
-	public Timestamp getOperateTime() {
+	public Date getOperateTime() {
 		return this.operateTime;
 	}
 
-	public void setOperateTime(Timestamp operateTime) {
+	public void setOperateTime(Date operateTime) {
 		this.operateTime = operateTime;
 	}
 

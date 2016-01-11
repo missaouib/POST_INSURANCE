@@ -57,10 +57,12 @@ public class PayListController {
 	private static final String XQ_PAY_FROM_LIST = "insurance/xqgl/from/list";
 	private static final String QY_PAY_FROM_LIST = "insurance/qygl/from/list";
 	private static final String LP_PAY_TO_LIST = "insurance/lpgl/to/list";
-	private static final String BQ_PAY_TO_SUCCESS_LIST = "insurance/bqgl/success/list";
+	private static final String BQ_PAY_TO_SUCCESS_LIST = "insurance/bqgl/paySuccess/list";
 	private static final String TO_HELP = "insurance/help/feefailgl";
 	
 	private static final String TO_TOXLS = "insurance/bqgl/to/toXls";
+	
+	private static final String SUCCESS_TOXLS = "insurance/bqgl/paySuccess/toXls";
 	
 	@RequestMapping(value="/help", method=RequestMethod.GET)
 	public String toHelp() {
@@ -193,6 +195,57 @@ public class PayListController {
 			default:
 				return BQ_PAY_TO_SUCCESS_LIST;
 		}
+	}
+	
+	@RequiresPermissions(value={"ToBQSuccessList:view","ToQYSuccessList:view","ToLPSuccessList:view","ToXQSuccessList:view"}, logical=Logical.OR)
+	@RequestMapping(value="/success/toXls", method={RequestMethod.GET, RequestMethod.POST})
+	public String successToXls(ServletRequest request, Page page, Map<String, Object> map) {
+		User user = SecurityUtils.getShiroUser().getUser();
+		Organization userOrg = user.getOrganization();
+		String orgCode = request.getParameter("orgCode");
+		if(orgCode == null || orgCode.trim().length()<=0) {
+			orgCode = userOrg.getOrgCode();
+		} else if(!orgCode.contains(userOrg.getOrgCode())){
+			orgCode = userOrg.getOrgCode();
+		}
+		String status = request.getParameter("status");
+		String flag = request.getParameter("flag");
+		LOG.debug("-----------------status:" + status);
+		PaySuccessList req = new PaySuccessList();
+		if(status == null) {
+			req.setStatus(FEE_FAIL_STATUS.NewStatus.name());
+			status = FEE_FAIL_STATUS.NewStatus.name();
+		} else if(status.trim().length()>0) {
+			req.setStatus(status);
+		}
+		String feeType = "";
+		switch(flag) {
+		case "bq":
+			feeType = "保全受理号";
+			break;
+		case "lp":
+			feeType = "案件号";
+			break;
+			default:
+				
+		}
+		
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("payType", Operator.EQ, PaySuccessList.PAY_TO));
+		csf.add(new SearchFilter("feeType", Operator.EQ, feeType));
+		if (status.length() > 0) {
+			csf.add(new SearchFilter("status", Operator.EQ, status));
+		}
+		
+		Specification<PaySuccessList> specification = DynamicSpecifications.bySearchFilter(request, PaySuccessList.class, csf);
+		
+		List<PaySuccessList> reqs = payListService.findBySuccessDtlExample(specification, page);
+
+		request.setAttribute("date",new Date());
+		map.put("paylists", reqs);
+		
+		return SUCCESS_TOXLS;
 	}
 	
 	@RequiresPermissions(value={"ToBQFailList:view","ToQYFailList:view","ToLPFailList:view","ToXQFailList:view"}, logical=Logical.OR)

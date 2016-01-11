@@ -1,7 +1,10 @@
 package com.gdpost.web.entity.main;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -43,6 +47,7 @@ public class ConservationDtl implements Idable<Long> {
 	private Date cancelDate;
 	private String remark;
 
+	private List<CsReissue> issues = new ArrayList<CsReissue>(0);
 	// Constructors
 
 	/** default constructor */
@@ -195,6 +200,15 @@ public class ConservationDtl implements Idable<Long> {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	@OneToMany(mappedBy="conservationDtl", cascade={CascadeType.REMOVE}, orphanRemoval=true)
+	public List<CsReissue> getIssues() {
+		return issues;
+	}
+
+	public void setIssues(List<CsReissue> issues) {
+		this.issues = issues;
 	}
 
 	@Override
