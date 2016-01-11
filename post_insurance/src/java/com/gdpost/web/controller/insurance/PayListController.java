@@ -208,6 +208,7 @@ public class PayListController {
 		} else if(!orgCode.contains(userOrg.getOrgCode())){
 			orgCode = userOrg.getOrgCode();
 		}
+		page.setNumPerPage(Integer.MAX_VALUE);
 		String status = request.getParameter("status");
 		String flag = request.getParameter("flag");
 		LOG.debug("-----------------status:" + status);
@@ -259,6 +260,7 @@ public class PayListController {
 		} else if(!orgCode.contains(userOrg.getOrgCode())){
 			orgCode = userOrg.getOrgCode();
 		}
+		page.setNumPerPage(Integer.MAX_VALUE);
 		String status = request.getParameter("status");
 		String flag = request.getParameter("flag");
 		LOG.debug("-----------------status:" + status);
