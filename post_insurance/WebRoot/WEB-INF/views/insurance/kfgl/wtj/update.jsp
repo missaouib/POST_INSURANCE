@@ -8,43 +8,47 @@
 		<legend>工单基本信息</legend>
 		<p>
 			<label>工单编号：</label>
-			<input type="text" name="issueNo" readonly="readonly" class="input-medium validate[required,maxSize[32]] required" maxlength="32" readonly="readonly" value="${issue.issueNo }"/>
+			<span class="unit">${issue.issueNo }</span>
 		</p>
 		<p>
 			<label>工单状态：</label>
-			<input type="text" name="status" readonly="readonly" class="input-medium validate[required,maxSize[32]] required" maxlength="32" readonly="readonly" value="${issue.status }"/>
+			<span class="unit">${issue.status }</span>
+		</p>
+		<p>
+			<label>客户姓名：</label>
+			<span class="unit">${issue.policy.holder }</span>
 		</p>
 		<p>
 			<label>保单号：</label>
-			<input type="text" name="policy.policyNo" readonly="readonly" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${issue.policy.policyNo }"/>
+			<span class="unit">${issue.policy.policyNo }</span>
 		</p>
 		<p>
 			<label>所属机构：</label>
-			<input type="text" name="organization。name" readonly="readonly" class="input-medium" maxlength="128" value="${issue.organization.name }"/>
+			<span class="unit">${issue.organization.name }</span>
 		</p>
 		<p class="nowrap">
 			<label>出单网点：</label>
-			<textarea name="bankName" disabled="true" cols="30" rows="2">${issue.bankName }</textarea>
+			<span class="unit">${issue.bankName }</span>
 		</p>
 		<p>
 			<label>回访日期：</label>
-			<input type="text" name="callDate" readonly="readonly" class="input-medium" maxlength="32" value="${issue.callDate }"/>
+			<span class="unit">${issue.callDate }</span>
 		</p>
 		<p>
 			<label>不成功日期：</label>
-			<input type="text" name="issueDate" readonly="readonly" class="input-medium" maxlength="32" value="${issue.issueDate }"/>
+			<span class="unit">${issue.issueDate }</span>
 		</p>
 		<p>
 			<label>下发日期：</label>
-			<input type="text" name="issueTime" readonly="readonly" class="input-medium" maxlength="32" value="${issue.issueTime }"/>
+			<span class="unit">${issue.issueTime }</span>
 		</p>
 		<p>
 			<label>工单类型：</label>
-			<input type="text" name="issueType" readonly="readonly" class="input-medium" maxlength="32" value="${issue.issueType }"/>
+			<span class="unit">${issue.issueType }</span>
 		</p>
 		<p class="nowrap">
 			<label>工单内容：</label>
-			<textarea name="issueContent" disabled="true" cols="30" rows="2">${issue.issueContent }</textarea>
+			<span class="unit">${issue.issueContent }</span>
 		</p>
 	</fieldset>
 	<div class="divider"></div>
