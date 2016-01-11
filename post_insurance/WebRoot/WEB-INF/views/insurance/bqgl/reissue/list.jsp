@@ -73,12 +73,13 @@
 				</shiro:hasPermission>
 			-->
 				<li class="line">line</li>
-				<li><a iconClass="user_go" href="${contextPath}/bqgl/reissue/provSend/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>省分寄出</span></a></li>
+				<li><a target="myDialog" rel="ids" href="${contextPath }/bqgl/reissue/batchSent" class="edit"><span>批量寄出（省分）</span></a></li>
+				<li class="line">line</li>
 				<li><a iconClass="user_go" target="selectedTodo" rel="ids" href="${contextPath }/bqgl/reissue/CloseStatus" title="确认批量关闭?"><span>批量关闭</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="CsReissue:cityEdit">
-			<li class="line">line</li>
-				<li><a iconClass="user_go" href="${contextPath}/bqgl/reissue/cityRec/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>地市接收</span></a></li>
+				<li class="line">line</li>
+				<li><a target="myDialog" rel="ids" href="${contextPath }/bqgl/reissue/batchReceive" class="edit"><span>批量接收（地市）</span></a></li>
 			</shiro:hasPermission>
 			<li class="line">line</li>
 			<li><a class="icon" target="_blank" href="${contextPath }/bqgl/reissue/toXls?search_LIKE_conservationDtl.policy.policyNo=${search_LIKE_conservationDtl_policy_policyNo }&orgCode=${orgCode }&search_LTE_conservationDtl.csDate=${search_LTE_conservationDtl_csDate }&search_GTE_conservationDtl.csDate=${search_GTE_conservationDtl_csDate }&status=${param.status }"><span>导出Excel</span></a></li>
@@ -99,6 +100,7 @@
 				<th>省分收到日期</th>
 				<th>省分寄出日期</th>
 				<th>地市接收日期</th>
+				<th>地市接收人</th>
 				<th orderField=status class="${page.orderField eq 'status' ? page.orderDirection : ''}">状态</th>
 			</tr>
 		</thead>
@@ -123,6 +125,7 @@
 				<td>${item.provReceiveDate}</td>
 				<td>${item.provSentDate}</td>
 				<td>${item.cityReceiveDate}</td>
+				<td>${item.cityReceiver}</td>
 				<td>
 				<c:choose>
 					<c:when test="${item.status eq 'CloseStatus'}">

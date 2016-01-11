@@ -36,6 +36,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gdpost.utils.BeanValidators;
 import com.gdpost.utils.SecurityUtils;
+import com.gdpost.utils.StringUtil;
 import com.gdpost.web.entity.main.ConservationDtl;
 import com.gdpost.web.entity.main.CsReissue;
 import com.gdpost.web.entity.main.OffsiteConservation;
@@ -774,13 +775,12 @@ public class BqglController {
 	}
 	
 	@RequiresPermissions(value={"CsReissue:edit","CsReissue:provEdit","CsReissue:cityEdit","CsReissue:areaEdit"}, logical=Logical.OR)
-	@RequestMapping(value="/reissue/{flag}/{id}", method=RequestMethod.GET)
-	public String preMailRecDateUpdate(@PathVariable String flag, @PathVariable Long id, Map<String, Object> map) {
-		CsReissue reissue = bqglService.getCsReissue(id);
+	@RequestMapping(value="/reissue/{flag}", method=RequestMethod.GET)
+	public String preMailRecDateUpdate(@PathVariable String flag, String ids, Map<String, Object> map) {
 		
-		map.put("reissue", reissue);
+		map.put("reissueIds", ids);
 		map.put("flag", flag);
-		if(flag.contains("Send")) {
+		if(flag.contains("Sent")) {
 			return RI_MAIL_DATE;
 		} else {
 			return RI_REC_DATE;
@@ -791,32 +791,42 @@ public class BqglController {
 	@Log(message="更新了{0}保全补发的信息。")
 	@RequiresPermissions(value={"CsReissue:edit","CsReissue:provEdit","CsReissue:cityEdit","CsReissue:areaEdit"}, logical=Logical.OR)
 	@RequestMapping(value="/reissue/sendRecUpdate", method=RequestMethod.POST)
-	public @ResponseBody String mailDateUpdate(ServletRequest request, CsReissue reissue) {
-		LOG.debug("ready to update re issue : " + reissue.toString());
-		CsReissue cssrc = bqglService.getCsReissue(reissue.getId());
-		LOG.debug("get the re issue src id : " + cssrc.getId());
+	public @ResponseBody String mailDateUpdate(ServletRequest request, String ids) {
+		LOG.debug("ready to update re issue : " + ids);
 		String flag = request.getParameter("flag");
-		switch(flag) {
-		case "provSend":
-			LOG.debug("----------" + cssrc.getProvSentDate());
-			cssrc.setProvSentDate(reissue.getProvSentDate());
-			cssrc.setProvExpressNo(reissue.getProvExpressNo());
-			cssrc.setProvReceiveDate(reissue.getProvReceiveDate());
-			cssrc.setStatus(FP_STATUS.DealStatus.name());
-			break;
-		case "cityRec":
-			cssrc.setCityReceiveDate(reissue.getCityReceiveDate());
-			cssrc.setCityReceiver(reissue.getCityReceiver());
-			cssrc.setStatus(FP_STATUS.CloseStatus.name());
-			break;
-			default:
-				LOG.warn("-------------保全补发的寄发标记缺失!");
+		String[] sids = ids.split(",");
+		String[] policys = new String[sids.length];
+		String sentDate = request.getParameter("provReceiveDate");
+		String expNo = request.getParameter("provExpressNo");
+		String proRecDate = request.getParameter("provSentDate");
+		String receDate = request.getParameter("cityReceiveDate");
+		String cityReceiver = request.getParameter("cityReceiver");
+		
+		for (int i = 0; i<sids.length; i++) {
+			CsReissue cssrc = bqglService.getCsReissue(new Long(sids[i]));
+			
+			switch(flag) {
+			case "batchSent":
+				cssrc.setProvSentDate(StringUtil.str2Date(sentDate, "yyyy-MM-dd"));
+				cssrc.setProvExpressNo(expNo);
+				cssrc.setProvReceiveDate(StringUtil.str2Date(proRecDate, "yyyy-MM-dd"));
+				cssrc.setStatus(FP_STATUS.DealStatus.name());
 				break;
+			case "batchReceive":
+				cssrc.setCityReceiveDate(StringUtil.str2Date(receDate, "yyyy-MM-dd"));
+				cssrc.setCityReceiver(cityReceiver);
+				cssrc.setStatus(FP_STATUS.CloseStatus.name());
+				break;
+				default:
+					LOG.warn("-------------保全补发的寄发标记缺失!");
+					break;
+			}
+			
+			bqglService.updateCsReissue(cssrc);
+			policys[i] = cssrc.getConservationDtl().getPolicy().getPolicyNo();
 		}
 		
-		bqglService.updateCsReissue(cssrc);
-		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{cssrc.getConservationDtl().getPolicy().getPolicyNo()}));
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{Arrays.toString(policys)}));
 		return	AjaxObject.newOk("更新合同补发成功！").toString(); 
 	}
 

@@ -12,11 +12,11 @@
 		</p>		
 		<p>
 			<label>经办人：</label>
-			<input type="text" name="transactor" class="input-medium validate[required] required" maxlength="32" value="${user.realName }"/>
+			<input type="text" name="transactor" class="input-medium" maxlength="32" value="${user.realName }"/>
 		</p>
 		<p>
 			<label>转办日期：</label>
-			<input type="text" name="dealDate" class="date validate[required,maxSize[12]] required" dateFmt="yyyy-MM-dd" readonly="true" value=""/>
+			<input type="text" name="dealDate" class="date" dateFmt="yyyy-MM-dd" readonly="true" value=""/>
 				<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 		<p>
@@ -25,12 +25,12 @@
 		</p>
 		<p>
 			<label>保单号：</label>
-			<input name="policyNo" type="text" class="input-medium validate[required] required" postField="policyNo" suggestFields="policyNo" 
+			<input name="policyNo" type="text" class="input-medium" postField="policyNo" suggestFields="policyNo" 
 					suggestUrl="/common/lookupPolicyProvsuggest" lookupGroup="" value=""/>
 		</p>
 		<p>
 			<label>出单省</label>
-			<input type="text" name="orginProv" id="orginProv" class="input-medium validate[required] required"/>
+			<input type="text" name="orginProv" id="orginProv" class="input-medium"/>
 		</p>
 		<p>
 			<label>外省经办人：</label>

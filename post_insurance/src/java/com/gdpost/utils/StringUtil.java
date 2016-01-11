@@ -3,6 +3,8 @@ package com.gdpost.utils;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -297,6 +299,16 @@ public class StringUtil {
 		strValue = strValue.replaceAll("\"", "\\\\\"");
 		
 		return(strValue);
+	}
+	
+	public static Date str2Date(String str, String patten) {
+		SimpleDateFormat sdf = new SimpleDateFormat(patten);
+		try {
+			return sdf.parse(str);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return new Date();
 	}
 	
 	public static void main(String[] args) {

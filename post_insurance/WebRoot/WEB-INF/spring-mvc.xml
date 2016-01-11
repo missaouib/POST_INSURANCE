@@ -46,6 +46,7 @@
 			<mvc:mapping path="/fpgl/**" />
 			<mvc:mapping path="/bqgl/**" />
 			<mvc:mapping path="/xqgl/**" />
+			<mvc:mapping path="/pay/**" />
 			<mvc:mapping path="/basedata/**" />
 			<mvc:mapping path="/insurance/**" />
 			<mvc:mapping path="/uploaddatamanage/**" />

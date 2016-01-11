@@ -8,6 +8,7 @@
 package com.gdpost.web.controller.insurance;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
@@ -36,6 +37,10 @@ import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.PayFailList;
 import com.gdpost.web.entity.main.PaySuccessList;
 import com.gdpost.web.entity.main.User;
+import com.gdpost.web.exception.ServiceException;
+import com.gdpost.web.log.Log;
+import com.gdpost.web.log.LogMessageObject;
+import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.insurance.PayListService;
 import com.gdpost.web.util.StatusDefine.FEE_FAIL_STATUS;
 import com.gdpost.web.util.dwz.AjaxObject;
@@ -77,6 +82,48 @@ public class PayListController {
 		payListService.saveOrUpdate(req);
 		
 		return	AjaxObject.newOk("记录关闭成功！").setCallbackType("").toString();
+	}
+	
+	@Log(message="关闭{0}集中转账记录。")
+	@RequiresPermissions(value={"ToBQSuccessList:view","ToQYSuccessList:view","ToLPSuccessList:view","ToXQSuccessList:view"}, logical=Logical.OR)
+	@RequestMapping(value="/success/batchClose", method=RequestMethod.POST)
+	public @ResponseBody String closeSuccessMany(Long[] ids) {
+		String[] policys = new String[ids.length];
+		try {
+			for (int i = 0; i < ids.length; i++) {
+				PaySuccessList pf = payListService.getSuccessDtl(ids[i]);
+				pf.setStatus(FEE_FAIL_STATUS.CloseStatus.name());
+				payListService.saveOrUpdateSuccessDtl(pf);
+				
+				policys[i] = pf.getRelNo();
+			}
+		} catch (ServiceException e) {
+			return AjaxObject.newError("关闭集中转账记录：" + e.getMessage()).setCallbackType("").toString();
+		}
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{Arrays.toString(policys)}));
+		return AjaxObject.newOk("关闭集中转账记录成功！").setCallbackType("").toString();
+	}
+	
+	@Log(message="关闭{0}集中转账记录。")
+	@RequiresPermissions(value={"ToBQFailList:view","ToQYFailList:view","ToLPFailList:view","ToXQFailList:view"}, logical=Logical.OR)
+	@RequestMapping(value="/fail/batchClose", method=RequestMethod.POST)
+	public @ResponseBody String closeFailMany(Long[] ids) {
+		String[] policys = new String[ids.length];
+		try {
+			for (int i = 0; i < ids.length; i++) {
+				PayFailList pf = payListService.get(ids[i]);
+				pf.setStatus(FEE_FAIL_STATUS.CloseStatus.name());
+				payListService.saveOrUpdate(pf);
+				
+				policys[i] = pf.getRelNo();
+			}
+		} catch (ServiceException e) {
+			return AjaxObject.newError("关闭集中转账记录：" + e.getMessage()).setCallbackType("").toString();
+		}
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{Arrays.toString(policys)}));
+		return AjaxObject.newOk("关闭集中转账记录成功！").setCallbackType("").toString();
 	}
 	
 	@RequiresPermissions(value={"ToBQFailList:view","ToQYFailList:view","ToLPFailList:view","ToXQFailList:view"}, logical=Logical.OR)

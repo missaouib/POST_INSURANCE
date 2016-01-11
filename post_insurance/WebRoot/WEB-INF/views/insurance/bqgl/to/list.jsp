@@ -61,10 +61,10 @@
 
 	<div class="panelBar">
 		<ul class="toolBar">
-			<shiro:hasPermission name="Cservice:reset">
-				<li class="line">line</li>
-				<li><a iconClass="user_go" target="ajaxTodo" href="${contextPath }/pay/close/{slt_uid}" title="确认关闭?"><span>关闭</span></a></li>
-			</shiro:hasPermission>
+			<li class="line">line</li>
+			<li><a iconClass="user_go" target="selectedTodo" rel="ids" href="${contextPath }/pay/fail/batchClose" title="确认关闭?"><span>批量关闭</span></a></li>
+			<li class="line">line</li>
+			<li><a iconClass="user_go" target="ajaxTodo" href="${contextPath }/pay/close/{slt_uid}" title="确认关闭?"><span>关闭</span></a></li>
 			<li class="line">line</li>
 			<li><a class="icon" target="_blank" href="${contextPath }/pay/to/toXls?flag=bq"><span>导出Excel</span></a></li>
 			<li class="line">line</li>
