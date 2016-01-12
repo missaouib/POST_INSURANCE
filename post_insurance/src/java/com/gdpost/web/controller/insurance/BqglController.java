@@ -409,7 +409,9 @@ public class BqglController {
 	@RequestMapping(value="/offsite/update", method=RequestMethod.POST)
 	public @ResponseBody String updateOffsiteConservation(OffsiteConservation src) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		//LOG.debug("--------------0:" + src.toString());
 		OffsiteConservation offsite = bqglService.getOffsiteConservation(src.getId());
+		//LOG.debug("--------------1:" + offsite.toString());
 		/*
 		offsite.setOrganization(src.getOrganization());
 		offsite.setTransactor(src.getTransactor());

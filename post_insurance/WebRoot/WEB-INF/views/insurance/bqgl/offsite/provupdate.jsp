@@ -23,7 +23,7 @@
 		<p>
 			<label>保单号：</label>
 			<input name="policyNo" type="text" postField="policyNo" suggestFields="policyNo" class="input-medium validate[required] required"
-					suggestUrl="/common/lookupPolicysuggest" lookupGroup="" value="${offsite.policyNo }"/>
+					suggestUrl="/common/lookupPolicyProvsuggest" lookupGroup="" value="${offsite.policyNo }"/>
 		</p>
 		<p>
 			<label>出单省</label>

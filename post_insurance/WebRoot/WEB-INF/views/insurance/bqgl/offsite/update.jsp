@@ -27,7 +27,7 @@
 		<p>
 			<label>保单号：</label>
 			<input name="policyNo" type="text" postField="policyNo" suggestFields="policyNo" class="input-medium validate[required] required"
-					suggestUrl="/common/lookupPolicysuggest" lookupGroup="" value="${offsite.policyNo }"/>
+					suggestUrl="/common/lookupPolicyProvsuggest" lookupGroup="" value="${offsite.policyNo }"/>
 		</p>
 		<p>
 			<label>出单省</label>
@@ -41,6 +41,10 @@
 			<label>保全业务：</label>
 			<input name="conservationType" id="conservationType" class="input-medium validate[required] required" type="text" postField="search_LIKE_csName" suggestFields="conservationType" 
 					suggestUrl="/common/lookup2BQTypeSuggest" lookupGroup="" value="${offsite.conservationType }"/>
+		</p>
+		<p class="nowrap">
+			<label>寄送地址：</label>
+			<textarea type="text" name="mailAddr" class="input-medium">${offsite.mailAddr}</textarea>
 		</p>
 	</div>
 			

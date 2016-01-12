@@ -97,19 +97,20 @@ public class CommonController {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		User user = shiroUser.getUser();
 		Organization userOrg = user.getOrganization();
+		//boolean isOffsite = false;
 		Specification<Policy> specification = DynamicSpecifications.bySearchFilter(request, Policy.class, 
 				new SearchFilter("organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
 		
 		String policyNo = request.getParameter("policyNo");
 		if(policyNo != null && policyNo.trim().length() <= 3) {
-			return "{}";
+			return "[{}]";
 		} if(policyNo != null && policyNo.trim().length() > 3) {
 			if(policyNo.startsWith("86")) {
 				if(policyNo.trim().length()>9) {
 					specification = DynamicSpecifications.bySearchFilterWithoutRequest(Policy.class, 
 							new SearchFilter("policyNo", Operator.LIKE, policyNo));
 				} else {
-					return "{}";
+					return "[{}]";
 				}
 			} else {
 				String pre = ORG_TIPS.get(policyNo.trim().toLowerCase().substring(0, 2)) + "%";
@@ -117,6 +118,7 @@ public class CommonController {
 				specification = DynamicSpecifications.bySearchFilterWithoutRequest(Policy.class, 
 						new SearchFilter("policyNo", Operator.LIKE, pre),
 						new SearchFilter("policyNo", Operator.LIKE, policyNo));
+				//isOffsite = true;
 			}
 		}
 		Page page = new Page();
@@ -124,7 +126,11 @@ public class CommonController {
 		List<Policy> org = commonService.findByPolicyExample(specification, page);
 		SerializeConfig mapping = new SerializeConfig();
 		HashMap<String, String> fm = new HashMap<String, String>();
+		
+		//if(!isOffsite) {
 		fm.put("id", "id");
+		//}
+		
 		fm.put("policyNo", "policyNo");
 		fm.put("holder", "holder");
 		fm.put("organName", "organName");
@@ -141,7 +147,7 @@ public class CommonController {
 		List<ConservationError> org = basedataService.findByConservationErrorExample(specification, page);
 		SerializeConfig mapping = new SerializeConfig();
 		HashMap<String, String> fm = new HashMap<String, String>();
-		fm.put("id", "id");
+		fm.put("id", "BqIssueid");
 		fm.put("errorCode", "info");
 		mapping.put(ConservationError.class, new JavaBeanSerializer(ConservationError.class, fm));
 		String str = JSON.toJSONString(org, mapping);
@@ -153,7 +159,7 @@ public class CommonController {
 	public @ResponseBody String lookupPolicyNoProvSuggest(ServletRequest request, Map<String, Object> map) {
 		String policyNo = request.getParameter("policyNo");
 		if(policyNo == null || policyNo.trim().length() <12 || !policyNo.trim().startsWith("86")) {
-			return "{}";
+			return "[{}]";
 		}
 		String pre = policyNo.substring(0, 4);
 		Page page = new Page();

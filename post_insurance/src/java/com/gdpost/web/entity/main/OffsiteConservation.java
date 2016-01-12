@@ -217,4 +217,17 @@ public class OffsiteConservation implements Idable<Long> {
 		this.operateTime = operateTime;
 	}
 
+	@Override
+	public String toString() {
+		return "OffsiteConservation [id=" + id + ", organization="
+				+ organization + ", transactor=" + transactor + ", dealDate="
+				+ dealDate + ", policyNo=" + policyNo + ", orginProv="
+				+ orginProv + ", client=" + client + ", conservationType="
+				+ conservationType + ", linker=" + linker + ", provDealDate="
+				+ provDealDate + ", expressBillNo=" + expressBillNo
+				+ ", mailAddr=" + mailAddr + ", remark=" + remark
+				+ ", operatorId=" + operatorId + ", operateTime=" + operateTime
+				+ ", status=" + status + "]";
+	}
+
 }
