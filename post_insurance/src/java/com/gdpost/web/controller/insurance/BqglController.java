@@ -408,7 +408,7 @@ public class BqglController {
 	@RequiresPermissions("OffsiteConservation:edit")
 	@RequestMapping(value="/offsite/update", method=RequestMethod.POST)
 	public @ResponseBody String updateOffsiteConservation(OffsiteConservation src) {
-		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		//ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		//LOG.debug("--------------0:" + src.toString());
 		OffsiteConservation offsite = bqglService.getOffsiteConservation(src.getId());
 		//LOG.debug("--------------1:" + offsite.toString());
@@ -423,13 +423,15 @@ public class BqglController {
 		offsite.setConservationType(src.getConservationType());
 		*/
 		BeanUtils.copyProperties(src, offsite, BeanValidators.getNullPropertyNames(src));
-		User user = shiroUser.getUser();
-		Organization userOrg = user.getOrganization();
+		//User user = shiroUser.getUser();
+		//Organization userOrg = user.getOrganization();
+		/*
 		if(userOrg.getOrgCode().length()>4) {
 			offsite.setStatus(BQ_STATUS.NewStatus.name());
 		} else {
 			offsite.setStatus(BQ_STATUS.DealStatus.name());
 		}
+		*/
 		bqglService.saveOrUpdateOffsiteConservation(offsite);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{offsite.getPolicyNo()}));
