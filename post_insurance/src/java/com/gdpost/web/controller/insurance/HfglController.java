@@ -154,14 +154,18 @@ public class HfglController {
 		src.setDealNum((issue.getDealNum()==null?0:issue.getDealNum()) + 1);
 		//src.setStatus(issue.getStatus());
 		src.setDealType(issue.getDealType());
-		if(issue.getDealType().contains("成功")) {
+		if(issue.getDealType().equals("成功件")) {
 			src.setStatus(HF_STATUS.DoorSuccessStatus.getDesc());
 			src.setDealStatus(HF_STATUS.DoorSuccessStatus.getDesc());
 			src.setOrgDealFlag(1);
+		} else if(issue.getDealType().equals("已退保")) {
+			src.setStatus(HF_STATUS.TerminalStatus.getDesc());
+			src.setDealStatus(HF_STATUS.TerminalStatus.getDesc());
+			src.setOrgDealFlag(0);
 		} else {
 			src.setStatus(HF_STATUS.DoorFailStatus.getDesc());
 			src.setDealStatus(HF_STATUS.DoorFailStatus.getDesc());
-			//src.setOrgDealFlag(1);
+			src.setOrgDealFlag(0);
 		}
 		hfglService.saveOrUpdate(src);
 		
@@ -182,14 +186,18 @@ public class HfglController {
 		//src.setStatus(XQ_STATUS.DealStatus.getDesc());
 		src.setProvDealNum((src.getProvDealNum()==null?0:src.getProvDealNum())+1);
 		//src.setStatus(issue.getStatus());
-		if(issue.getProvIssueType().contains("成功")) {
+		if(issue.getProvIssueType().equals("成功件")) {
 			src.setStatus(HF_STATUS.CallSuccessStatus.getDesc());
 			src.setDealStatus(HF_STATUS.CallSuccessStatus.getDesc());
 			src.setProvDealFlag(1);
+		} else if(issue.getProvIssueType().equals("已退保")) {
+			src.setStatus(HF_STATUS.TerminalStatus.getDesc());
+			src.setDealStatus(HF_STATUS.TerminalStatus.getDesc());
+			src.setProvDealFlag(0);
 		} else {
 			src.setStatus(HF_STATUS.CallFailStatus.getDesc());
 			src.setDealStatus(HF_STATUS.CallFailStatus.getDesc());
-			//src.setOrgDealFlag(1);
+			src.setProvDealFlag(0);
 		}
 		/*
 		if(issue.getStatus().equals(HF_STATUS.CallSuccessStatus.getDesc())) {
@@ -212,27 +220,37 @@ public class HfglController {
 			src.setHqDealDate(issue.getHqDealDate());
 			src.setHqDealMan(issue.getHqDealMan());
 			src.setHqDealType(issue.getHqDealType());
-			if(issue.getHqDealType().equals("不成功件")) {
-				src.setStatus(HF_STATUS.CallFailStatus.getDesc());
-				src.setDealStatus(HF_STATUS.CallFailStatus.getDesc());
+			if(issue.getHqDealType().equals("已退保")) {
+				src.setStatus(HF_STATUS.TerminalStatus.getDesc());
+				src.setDealStatus(HF_STATUS.TerminalStatus.getDesc());
+				src.setHqDealFlag(0);
 			} else if(issue.getHqDealType().equals("成功件")) {
 				src.setStatus(HF_STATUS.CallSuccessStatus.getDesc());
 				src.setDealStatus(HF_STATUS.CallSuccessStatus.getDesc());
 				src.setHqDealFlag(1);
-			}
+			} else {
+				src.setStatus(HF_STATUS.CallFailStatus.getDesc());
+				src.setDealStatus(HF_STATUS.CallFailStatus.getDesc());
+				src.setHqDealFlag(0);
+			} 
 		}
 		if(issue.getHqDealType2() != null && issue.getHqDealType2().trim().length()>0) {
 			src.setHqDealRst2(issue.getHqDealRst2());
 			src.setHqDealDate2(issue.getHqDealDate2());
 			src.setHqDealMan2(issue.getHqDealMan2());
 			src.setHqDealType2(issue.getHqDealType2());
-			if(issue.getHqDealType().equals("不成功件")) {
-				src.setStatus(HF_STATUS.CallFailStatus.getDesc());
-				src.setDealStatus(HF_STATUS.CallFailStatus.getDesc());
-			} else if(issue.getHqDealType().equals("成功件")) {
+			if(issue.getHqDealType2().equals("已退保")) {
+				src.setStatus(HF_STATUS.TerminalStatus.getDesc());
+				src.setDealStatus(HF_STATUS.TerminalStatus.getDesc());
+				src.setHqDealFlag(0);
+			} else if(issue.getHqDealType2().equals("成功件")) {
 				src.setStatus(HF_STATUS.CallSuccessStatus.getDesc());
 				src.setDealStatus(HF_STATUS.CallSuccessStatus.getDesc());
 				src.setHqDealFlag(1);
+			} else {
+				src.setStatus(HF_STATUS.CallFailStatus.getDesc());
+				src.setDealStatus(HF_STATUS.CallFailStatus.getDesc());
+				src.setHqDealFlag(0);
 			}
 		}
 		if(issue.getHqDealType3() != null && issue.getHqDealType3().trim().length()>0) {
@@ -240,56 +258,76 @@ public class HfglController {
 			src.setHqDealDate3(issue.getHqDealDate3());
 			src.setHqDealMan3(issue.getHqDealMan3());
 			src.setHqDealType3(issue.getHqDealType3());
-			if(issue.getHqDealType().equals("不成功件")) {
-				src.setStatus(HF_STATUS.CallFailStatus.getDesc());
-				src.setDealStatus(HF_STATUS.CallFailStatus.getDesc());
-			} else if(issue.getHqDealType().equals("成功件")) {
+			if(issue.getHqDealType3().equals("已退保")) {
+				src.setStatus(HF_STATUS.TerminalStatus.getDesc());
+				src.setDealStatus(HF_STATUS.TerminalStatus.getDesc());
+				src.setHqDealFlag(0);
+			} else if(issue.getHqDealType3().equals("成功件")) {
 				src.setStatus(HF_STATUS.CallSuccessStatus.getDesc());
 				src.setDealStatus(HF_STATUS.CallSuccessStatus.getDesc());
 				src.setHqDealFlag(1);
-			}
+			} else {
+				src.setStatus(HF_STATUS.CallFailStatus.getDesc());
+				src.setDealStatus(HF_STATUS.CallFailStatus.getDesc());
+				src.setHqDealFlag(0);
+			} 
 		}
 		if(issue.getHqDealType4() != null && issue.getHqDealType4().trim().length()>0) {
 			src.setHqDealRst4(issue.getHqDealRst4());
 			src.setHqDealDate4(issue.getHqDealDate4());
 			src.setHqDealMan4(issue.getHqDealMan4());
 			src.setHqDealType4(issue.getHqDealType4());
-			if(issue.getHqDealType().equals("不成功件")) {
-				src.setStatus(HF_STATUS.CallFailStatus.getDesc());
-				src.setDealStatus(HF_STATUS.CallFailStatus.getDesc());
-			} else if(issue.getHqDealType().equals("成功件")) {
+			if(issue.getHqDealType4().equals("已退保")) {
+				src.setStatus(HF_STATUS.TerminalStatus.getDesc());
+				src.setDealStatus(HF_STATUS.TerminalStatus.getDesc());
+				src.setHqDealFlag(0);
+			} else if(issue.getHqDealType4().equals("成功件")) {
 				src.setStatus(HF_STATUS.CallSuccessStatus.getDesc());
 				src.setDealStatus(HF_STATUS.CallSuccessStatus.getDesc());
 				src.setHqDealFlag(1);
-			}
+			} else {
+				src.setStatus(HF_STATUS.CallFailStatus.getDesc());
+				src.setDealStatus(HF_STATUS.CallFailStatus.getDesc());
+				src.setHqDealFlag(0);
+			} 
 		}
 		if(issue.getHqDealType5() != null && issue.getHqDealType5().trim().length()>0) {
 			src.setHqDealRst5(issue.getHqDealRst5());
 			src.setHqDealDate5(issue.getHqDealDate5());
 			src.setHqDealMan5(issue.getHqDealMan5());
 			src.setHqDealType5(issue.getHqDealType5());
-			if(issue.getHqDealType().equals("不成功件")) {
-				src.setStatus(HF_STATUS.CallFailStatus.getDesc());
-				src.setDealStatus(HF_STATUS.CallFailStatus.getDesc());
-			} else if(issue.getHqDealType().equals("成功件")) {
+			if(issue.getHqDealType5().equals("已退保")) {
+				src.setStatus(HF_STATUS.TerminalStatus.getDesc());
+				src.setDealStatus(HF_STATUS.TerminalStatus.getDesc());
+				src.setHqDealFlag(0);
+			} else if(issue.getHqDealType5().equals("成功件")) {
 				src.setStatus(HF_STATUS.CallSuccessStatus.getDesc());
 				src.setDealStatus(HF_STATUS.CallSuccessStatus.getDesc());
 				src.setHqDealFlag(1);
-			}
+			} else {
+				src.setStatus(HF_STATUS.CallFailStatus.getDesc());
+				src.setDealStatus(HF_STATUS.CallFailStatus.getDesc());
+				src.setHqDealFlag(0);
+			} 
 		}
 		if(issue.getHqDealType6() != null && issue.getHqDealType6().trim().length()>0) {
 			src.setHqDealRst6(issue.getHqDealRst6());
 			src.setHqDealDate6(issue.getHqDealDate6());
 			src.setHqDealMan6(issue.getHqDealMan6());
 			src.setHqDealType6(issue.getHqDealType6());
-			if(issue.getHqDealType().equals("不成功件")) {
-				src.setStatus(HF_STATUS.CallFailStatus.getDesc());
-				src.setDealStatus(HF_STATUS.CallFailStatus.getDesc());
-			} else if(issue.getHqDealType().equals("成功件")) {
+			if(issue.getHqDealType6().equals("已退保")) {
+				src.setStatus(HF_STATUS.TerminalStatus.getDesc());
+				src.setDealStatus(HF_STATUS.TerminalStatus.getDesc());
+				src.setHqDealFlag(0);
+			} else if(issue.getHqDealType6().equals("成功件")) {
 				src.setStatus(HF_STATUS.CallSuccessStatus.getDesc());
 				src.setDealStatus(HF_STATUS.CallSuccessStatus.getDesc());
 				src.setHqDealFlag(1);
-			}
+			} else {
+				src.setStatus(HF_STATUS.CallFailStatus.getDesc());
+				src.setDealStatus(HF_STATUS.CallFailStatus.getDesc());
+				src.setHqDealFlag(0);
+			} 
 		}
 		src.setHqDealNum((src.getHqDealNum()==null?0:src.getHqDealNum())+1);
 //		if(issue.getStatus().equals(HF_STATUS.CallSuccessStatus.getDesc())) {
