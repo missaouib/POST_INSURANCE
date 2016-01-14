@@ -148,6 +148,8 @@ public class PayListController {
 		} else if(status.trim().length()>0) {
 			req.setStatus(status);
 		}
+		page.setOrderField("backDate");
+		page.setOrderDirection("ASC");
 		String feeType = "";
 		switch(flag) {
 		case "bq":
@@ -218,6 +220,8 @@ public class PayListController {
 			default:
 				
 		}
+		page.setOrderField("backDate");
+		page.setOrderDirection("DESC");
 		Specification<PaySuccessList> specification = DynamicSpecifications.bySearchFilter(request, PaySuccessList.class,
 				new SearchFilter("payType", Operator.EQ, PayFailList.PAY_TO),
 				new SearchFilter("feeType", Operator.EQ, feeType),
@@ -277,7 +281,8 @@ public class PayListController {
 			default:
 				
 		}
-		
+		page.setOrderField("backDate");
+		page.setOrderDirection("DESC");
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
 		csf.add(new SearchFilter("payType", Operator.EQ, PaySuccessList.PAY_TO));
@@ -329,7 +334,8 @@ public class PayListController {
 			default:
 				
 		}
-		
+		page.setOrderField("backDate");
+		page.setOrderDirection("ASC");
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
 		csf.add(new SearchFilter("payType", Operator.EQ, PayFailList.PAY_TO));
@@ -384,6 +390,8 @@ public class PayListController {
 			default:
 				
 		}
+		page.setOrderField("backDate");
+		page.setOrderDirection("ASC");
 		Specification<PayFailList> specification = DynamicSpecifications.bySearchFilter(request, PayFailList.class,
 				new SearchFilter("payType", Operator.EQ, PayFailList.PAY_FROM),
 				new SearchFilter("feeType", Operator.EQ, feeType),
