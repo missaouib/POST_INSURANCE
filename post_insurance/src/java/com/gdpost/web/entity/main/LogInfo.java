@@ -40,22 +40,23 @@ import com.gdpost.web.log.LogLevel;
 public class LogInfo implements Idable<Long> {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="id")
 	private Long id;
 	
-	@Column(length=32)
+	@Column(name="username", length=32)
 	private String username;
 
-	@Column(length=256)
+	@Column(name="message", length=256)
 	private String message;
 	
-	@Column(length=16)
+	@Column(name="ip_address", length=16)
 	private String ipAddress;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(updatable=false)
+	@Column(name="create_time", updatable=false)
 	private Date createTime;
 	
-	@Column(length=16)
+	@Column(name="log_level", length=16)
 	@Enumerated(EnumType.STRING)
 	private LogLevel logLevel;
 	

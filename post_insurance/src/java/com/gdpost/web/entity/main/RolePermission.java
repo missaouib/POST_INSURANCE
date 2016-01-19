@@ -55,11 +55,11 @@ public class RolePermission implements Idable<Long>, Serializable {
 	private Long id;
 	
 	@ManyToOne
-	@JoinColumn(name="roleId")
+	@JoinColumn(name="role_id", referencedColumnName="id")
 	private Role role;
 	
 	@ManyToOne
-	@JoinColumn(name="permissionId")
+	@JoinColumn(name="permission_id", referencedColumnName="id")
 	private Permission permission;
 	
 	@OneToMany(mappedBy="rolePermission", fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval=true)

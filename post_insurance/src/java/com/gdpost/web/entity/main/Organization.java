@@ -56,11 +56,12 @@ public class Organization implements Comparable<Organization>, Idable<Long>, Ser
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="id")
 	private Long id;
 	
 	@NotBlank
 	@Length(max=64)
-	@Column(length=64, nullable=false, unique=true)
+	@Column(name="name", length=64, nullable=false, unique=true)
 	private String name;
 	
 	/**
@@ -68,15 +69,15 @@ public class Organization implements Comparable<Organization>, Idable<Long>, Ser
 	 */
 	@NotNull
 	@Range(min=1, max=999)
-	@Column(length=3, nullable=false)
+	@Column(name="priority", length=3, nullable=false)
 	private Integer priority = 999;
 	
 	@Length(max=256)
-	@Column(length=256)
+	@Column(name="description", length=256)
 	private String description;
 
 	@ManyToOne
-	@JoinColumn(name="parentId")
+	@JoinColumn(name="parent_id", referencedColumnName="id")
 	private Organization parent;
 	
 	@OneToMany(mappedBy="parent", fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.REMOVE})

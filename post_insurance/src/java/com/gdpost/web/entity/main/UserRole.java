@@ -42,15 +42,15 @@ public class UserRole implements Idable<Long>,Serializable {
 	 */
 	@NotNull
 	@Range(min=1, max=999)
-	@Column(length=3, nullable=false)
+	@Column(name="priority", length=3, nullable=false)
 	private Integer priority = 999;
 	
 	@ManyToOne
-	@JoinColumn(name="roleId")
+	@JoinColumn(name="role_id", referencedColumnName="id")
 	private Role role;
 	
 	@ManyToOne
-	@JoinColumn(name="userId")
+	@JoinColumn(name="user_id", referencedColumnName="id")
 	private User user;
 	
 	public Long getId() {

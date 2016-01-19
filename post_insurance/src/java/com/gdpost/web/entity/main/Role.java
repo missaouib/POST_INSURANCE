@@ -54,15 +54,16 @@ public class Role implements Idable<Long>,Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="id")
 	private Long id;
 	
 	@NotBlank
 	@Length(max=64)
-	@Column(length=64, nullable=false, unique=true)
+	@Column(name="name", length=64, nullable=false, unique=true)
 	private String name;
 	
 	@Length(max=256)
-	@Column(length=256)
+	@Column(name="description", length=256)
 	private String description;
 	
 	@OneToMany(mappedBy="role", fetch=FetchType.LAZY, cascade={CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval=true)

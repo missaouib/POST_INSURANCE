@@ -55,17 +55,18 @@ public class Module implements Comparable<Module>, Idable<Long>, Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="id")
 	private Long id;
 	
 	@NotBlank
 	@Length(max=64)
-	@Column(length=64, nullable=false)
+	@Column(name="name", length=64, nullable=false)
 	private String name;
 	
 	/**
 	 * 对应的模块全类名
 	 */
-	@Column(length=256)
+	@Column(name="class_name", length=256)
 	private String className;
 	
 	/**
@@ -73,11 +74,11 @@ public class Module implements Comparable<Module>, Idable<Long>, Serializable {
 	 */
 	@NotBlank
 	@Length(max=256)
-	@Column(length=256, nullable=false)
+	@Column(name="url", length=256, nullable=false)
 	private String url;
 	
 	@Length(max=256)
-	@Column(length=256)
+	@Column(name="description", length=256)
 	private String description;
 	
 	/**
@@ -85,7 +86,7 @@ public class Module implements Comparable<Module>, Idable<Long>, Serializable {
 	 */
 	@NotBlank
 	@Length(max=32)
-	@Column(length=32, nullable=false, unique=true)
+	@Column(name="sn", length=32, nullable=false, unique=true)
 	private String sn;
 	
 	/**
@@ -93,11 +94,11 @@ public class Module implements Comparable<Module>, Idable<Long>, Serializable {
 	 */
 	@NotNull
 	@Range(min=1, max=999)
-	@Column(length=3, nullable=false)
+	@Column(name="priority", length=3, nullable=false)
 	private Integer priority = 999;
 
 	@ManyToOne
-	@JoinColumn(name="parentId")
+	@JoinColumn(name="parent_id", referencedColumnName="id")
 	private Module parent;
 	
 	@OneToMany(mappedBy="parent", cascade={CascadeType.PERSIST, CascadeType.REMOVE})

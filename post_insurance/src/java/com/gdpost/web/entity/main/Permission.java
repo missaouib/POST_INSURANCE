@@ -68,24 +68,25 @@ public class Permission implements Idable<Long>, Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="id")
 	private Long id;
 	
 	@NotBlank
 	@Length(max=64)
-	@Column(length=64, nullable=false)
+	@Column(name="name", length=64, nullable=false)
 	private String name;
 
 	@NotBlank
 	@Length(max=16)
-	@Column(length=16, nullable=false)
+	@Column(name="sn", length=16, nullable=false)
 	private String sn;
 	
 	@Length(max=256)
-	@Column(length=256)
+	@Column(name="description", length=256)
 	private String description;
 	
 	@ManyToOne
-	@JoinColumn(name="moduleId")
+	@JoinColumn(name="module_id", referencedColumnName="id")
 	private Module module;
 	
 	@OneToMany(mappedBy="permission", cascade={CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval=true)

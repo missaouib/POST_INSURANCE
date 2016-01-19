@@ -48,6 +48,7 @@ public class OrganizationRole implements Idable<Long>, Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="id")
 	private Long id;
 
 	/**
@@ -55,15 +56,15 @@ public class OrganizationRole implements Idable<Long>, Serializable {
 	 */
 	@NotNull
 	@Range(min=1, max=999)
-	@Column(length=3, nullable=false)
+	@Column(name="priority", length=3, nullable=false)
 	private Integer priority = 999;
 	
 	@ManyToOne
-	@JoinColumn(name="roleId")
+	@JoinColumn(name="role_id", referencedColumnName="id")
 	private Role role;
 	
 	@ManyToOne
-	@JoinColumn(name="organizationId")
+	@JoinColumn(name="organization_id", referencedColumnName="id")
 	private Organization organization;
 	
 	public Long getId() {

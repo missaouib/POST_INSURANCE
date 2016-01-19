@@ -66,30 +66,30 @@ public class User implements Idable<Long>, Serializable {
 	
 	@NotBlank
 	@Length(max=32)
-	@Column(length=32, nullable=false)
+	@Column(name="realname", length=32, nullable=false)
 	private String realname;
 
 	@NotBlank
 	@Length(max=32)
-	@Column(length=32, nullable=false, unique=true, updatable=false)
+	@Column(name="username", length=32, nullable=false, unique=true, updatable=false)
 	private String username;
 	
-	@Column(length=64, nullable=false)
+	@Column(name="password", length=64, nullable=false)
 	private String password;
 	
 	@Transient
 	private String plainPassword;
 	
-	@Column(length=32, nullable=false)
+	@Column(name="salt", length=32, nullable=false)
 	private String salt;
 	
 	@Length(max=32)
-	@Column(length=32)
+	@Column(name="phone", length=32)
 	private String phone;
 	
 	@Email
 	@Length(max=128)
-	@Column(length=128)
+	@Column(name="email", length=128)
 	private String email;
 	
 	@Column(name = "pwd_time", length = 19)
@@ -100,14 +100,14 @@ public class User implements Idable<Long>, Serializable {
 	 */
 	@NotBlank
 	@Length(max=16)
-	@Column(length=16, nullable=false)
+	@Column(name="status", length=16, nullable=false)
 	private String status = STATUS_ENABLED;
 	
 	/**
 	 * 帐号创建时间
 	 */
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(updatable=false)
+	@Column(name="create_time", updatable=false)
 	private Date createTime;
 	
 	@OneToMany(mappedBy="user", fetch=FetchType.LAZY, cascade={CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval=true)
@@ -115,7 +115,7 @@ public class User implements Idable<Long>, Serializable {
 	private List<UserRole> userRoles = new ArrayList<UserRole>();
 	
 	@ManyToOne
-	@JoinColumn(name="organizationId")
+	@JoinColumn(name="organization_id", referencedColumnName="id")
 	private Organization organization;
 	
 	public Long getId() {

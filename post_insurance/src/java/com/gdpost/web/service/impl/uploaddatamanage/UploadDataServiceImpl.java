@@ -104,6 +104,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 		String strStatementText = null;
 		String strEncrypt = "";
 		String delSql = null;
+		//String delSql2 = null;
+		//String delSql3 = null;
 		switch(ft) {
 		case Policy:
 			standardColumns = PolicyColumn.getStandardColumns();
@@ -167,6 +169,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case PaySuccessList:
 			standardColumns = PayFailListColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_pay_success_list character set utf8 (pay_type, status, ";
+			delSql = "delete from t_pay_fail_list where rel_no in (select rel_no from t_pay_success_list);";
 			break;
 			default:
 				log.warn("------------reach the default FileTemplate?? oh no!!");
@@ -191,6 +194,7 @@ public class UploadDataServiceImpl implements UploadDataService{
         
         StringBuilder builder = new StringBuilder();
         Object cell = null;
+        dr.setNum(dt.Rows.size());
         for (DataRow row : dt.Rows) {
         	// 从处理后的行中，取出标准列数据
         	//log.debug("--------------" + row.toString());
@@ -295,6 +299,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 	public DoRst updateStatusData(FileTemplate ft, HttpServletRequest request, DataTable dt) {	
 		log.debug("---------  into update status data");
 		DoRst dr = new DoRst();
+		dr.setNum(dt.Rows.size());
 		java.sql.Connection connection = null;
 		com.mysql.jdbc.Statement statement = null;
 		com.alibaba.druid.pool.DruidDataSource basic = null;
@@ -592,12 +597,12 @@ public class UploadDataServiceImpl implements UploadDataService{
 	/**
 	 * 
 	 */
-	public boolean handleData(FileTemplate t, HttpServletRequest request, long member_id, List<String> listFiles, 
+	public DoRst handleData(FileTemplate t, HttpServletRequest request, long member_id, List<String> listFiles, 
 			int currentNY, int lastNY, long operator_id, String operator_name, int operator_type, StringBuilder builder, String memo) {
 		log.debug("-----------handle DATA -use template:" + t);
 		// 标准列
 		List<ColumnItem> standardColumns = null;
-		
+		DoRst dr = new DoRst();
 		switch(t) {
 		case Policy:
 			log.debug("----------get the policy column");
@@ -619,6 +624,9 @@ public class UploadDataServiceImpl implements UploadDataService{
 			break;
 		case MiniCallFailStatus:
 			standardColumns = CallFailHQMiniListColumn.getStandardColumns();
+			break;
+		case CallFailMailStatus:
+			standardColumns = CallFailMailListColumn.getStandardColumns();
 			break;
 		case Renewed:
 			standardColumns = RenewedColumn.getStandardColumns();
@@ -661,7 +669,10 @@ public class UploadDataServiceImpl implements UploadDataService{
 			ds = UploadDataUtils.getDataSet(strFilePath, strOriginalFileName, standardColumns);
 			if(ds == null || ds.length == 0) {
 				builder.append("处理文件[" + strOriginalFileName + "]中数据出错，没有找到数据。");
-				return(false);
+				dr.setMsg("处理文件[" + strOriginalFileName + "]中数据出错，没有找到数据。");
+				dr.setFlag(false);
+				return dr;
+				//return(false);
 			}
 			
 			listDataSet.put(strOriginalFileName, ds);
@@ -681,18 +692,21 @@ public class UploadDataServiceImpl implements UploadDataService{
 			ds = null;
 			listDataSet.clear();
 			listDataSet = null;
-			return(false);
+			dr.setMsg("处理列数据失败！");
+			dr.setFlag(false);
+			return dr;
+			//return(false);
 		}
 		
 		// 导入数据库
-		DoRst dr = null;
 		for(DataTable[] dataSet : listDataSet.values()) {
 			for(DataTable dt : dataSet) {
 				if(t.name().equals(FileTemplate.RenewedStatus.name())
 						|| t.name().equals((FileTemplate.RenewedHQList.name())) 
 						|| t.name().equals((FileTemplate.CallFailStatus.name()))
 						|| t.name().equals(FileTemplate.MiniCallFailStatus.name())
-						|| t.name().equals(FileTemplate.CallFailCityStatus.name())) {
+						|| t.name().equals(FileTemplate.CallFailCityStatus.name())
+						|| t.name().equals(FileTemplate.CallFailMailStatus.name())) {
 					dr = updateStatusData(t, request, dt);
 				} else {
 					dr = importData(t, request, dt, member_id, currentNY);
@@ -700,6 +714,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 				dt = null;
 				if(!dr.isFlag()) {
 					builder.append("导入数据出错。" + dr.getMsg());
+					dr.setMsg("导入数据出错。" + dr.getMsg());
 					break;
 				}
 			}
@@ -709,7 +724,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 		listDataSet.clear();
 		listDataSet = null;
 		
-		return bFlag;
+		return dr;
 	}
 	
 	private boolean handleColumn(DataTable[] ds, List<ColumnItem> standardColumns, String strOriginalFileName, Map<String, Integer> dtCurrentShop, StringBuilder builder) {

@@ -38,6 +38,7 @@ import com.gdpost.web.log.LogMessageObject;
 import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.uploaddatamanage.UploadDataService;
 import com.gdpost.web.shiro.ShiroUser;
+import com.gdpost.web.util.DoRst;
 
 @Controller
 @RequestMapping("/uploaddatamanage/uploaddata")
@@ -287,7 +288,8 @@ public class UploadDataController {
 	    int currentNY = ny;
 	    int lastNY = UploadDataUtils.getLastNianYue();
 	    String strMessage = ""; // 返回客户端的详细信息
-	    boolean bFlag = false;
+	    //boolean bFlag = false;
+	    DoRst dr = null;
 	    StringBuilder builder = new StringBuilder();
 	    //log.debug("----------------" + strFileGroup);
 	    //log.debug("----------------" + fileChunk.getFileGroup());
@@ -297,22 +299,22 @@ public class UploadDataController {
 			log.debug("------------------" + listFiles);
 			FileTemplate ft = FileTemplate.valueOf(template);
 			log.debug("--------------- do import template:" + ft);
-			bFlag = uploadDataService.handleData(ft, request, member_id, listFiles, currentNY, lastNY, shiroUser.getId(), shiroUser.getLoginName(), 0, builder, memo);
+			dr = uploadDataService.handleData(ft, request, member_id, listFiles, currentNY, lastNY, shiroUser.getId(), shiroUser.getLoginName(), 0, builder, memo);
 		}
 		
 	    // 请SessionChunk
 	    sessionChunk.clear(request);
-	    strMessage = builder.toString();
+	    strMessage = dr.getMsg() + "," + builder.toString();
 	    
-	    if(bFlag) {
+	    if(dr.isFlag()) {
 		    
 	    	LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{"导入了" + template + "的" + currentNY + "数据。"}));
 	    	
 	    	if(!strMessage.equals("")) {
 				// 如有数据检查提示，则提示，如确认不导入，则提交request执行清除
-	    		return("{\"jsonrpc\":\"2.0\",\"result\":\"confirm\",\"id\":\"id\",\"message\":\"" + strMessage + "\"}");
+	    		return("{\"jsonrpc\":\"2.0\",\"result\":\"confirm\",\"id\":\"id\",\"message\":\"共导入（更新）了：" + dr.getNum() + "条记录，" + strMessage + "\"}");
 	    	} else {
-	    		return("{\"jsonrpc\":\"2.0\",\"result\":\"success\",\"id\":\"id\",\"message\":\"" + strMessage + "\"}");
+	    		return("{\"jsonrpc\":\"2.0\",\"result\":\"success\",\"id\":\"id\",\"message\":\"共导入（更新）了：" + dr.getNum() + "条记录，" + strMessage + "\"}");
 	    	}
 	    } else {
 	    	LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{"导入" + template + "的数据出错，" + strMessage + "。"}));

@@ -4,6 +4,7 @@ public class DoRst {
 
 	public boolean flag = true;
 	public String msg = null;
+	public int num = 0;
 	public boolean isFlag() {
 		return flag;
 	}
@@ -15,6 +16,12 @@ public class DoRst {
 	}
 	public void setMsg(String msg) {
 		this.msg = msg;
+	}
+	public int getNum() {
+		return num;
+	}
+	public void setNum(int num) {
+		this.num = num;
 	}
 	
 	
