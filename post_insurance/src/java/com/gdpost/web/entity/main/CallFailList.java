@@ -101,6 +101,9 @@ public class CallFailList implements Idable<Long> {
 	private Date letterDate;
 	private String idCard;
 	
+	private Boolean canCallAgain;
+	private String canCallAgainRemark;
+	
 	@Transient
 	private String search_LIKE_hasLetter;
 	@Transient
@@ -869,5 +872,19 @@ public class CallFailList implements Idable<Long> {
 	}
 	public void setIdCard(String idCard) {
 		this.idCard = idCard;
+	}
+	@Column(name="can_call_again")
+	public Boolean getCanCallAgain() {
+		return canCallAgain;
+	}
+	public void setCanCallAgain(Boolean canCallAgain) {
+		this.canCallAgain = canCallAgain;
+	}
+	@Column(name="can_call_again_remark")
+	public String getCanCallAgainRemark() {
+		return canCallAgainRemark;
+	}
+	public void setCanCallAgainRemark(String canCallAgainRemark) {
+		this.canCallAgainRemark = canCallAgainRemark;
 	}
 }

@@ -75,6 +75,7 @@ public class HfglController {
 	private static final String MAX_LIST = "insurance/hfgl/wtj/maxlist";
 	private static final String ISSUE_LIST = "insurance/hfgl/wtj/issuelist";
 	private static final String RESET = "insurance/hfgl/wtj/setPhone";
+	private static final String CALL_AGAIN = "insurance/hfgl/wtj/callAgain";
 	private static final String SET_MAIL_DATE = "insurance/hfgl/wtj/mailDate";
 	private static final String TO_HELP = "insurance/help/hfgl";
 	
@@ -344,11 +345,47 @@ public class HfglController {
 	@RequestMapping(value="/updateResetStatus/{id}", method=RequestMethod.GET)
 	public String preUpdateResetStatus(@PathVariable Long id, Map<String, Object> map) {
 		CallFailList req = hfglService.get(id);
-//		if(req.getStatus() == null || req.getStatus().equals(HF_STATUS.NewStatus.getDesc())) {
-//			req.setStatus(HF_STATUS.ResetStatus.getDesc());
-//		}
 		map.put("cfl", req);
 		return RESET;
+	}
+	
+	@RequiresPermissions(value={"Callfail:edit","Callfail:provEdit"}, logical=Logical.OR)
+	@RequestMapping(value="/callReset/{id}", method=RequestMethod.GET)
+	public String preCallAgain(@PathVariable Long id, Map<String, Object> map) {
+		CallFailList req = hfglService.get(id);
+		map.put("cfl", req);
+		return CALL_AGAIN;
+	}
+	
+	@Log(message="进行了{0}设置了可再访。")
+	@RequiresPermissions(value={"Callfail:edit","Callfail:provEdit"}, logical=Logical.OR)
+	@RequestMapping(value="/callReset/{id}", method=RequestMethod.POST)
+	public @ResponseBody String setCallAgain(ServletRequest request, @PathVariable("id") Long id) {
+		CallFailList call = hfglService.get(id);
+		String callAgainRemark = request.getParameter("canCallAgainRemark");
+		String resetPhone = request.getParameter("resetPhone");
+		call.setResetPhone(resetPhone);
+		call.setCanCallAgain(true);
+		call.setCanCallAgainRemark(callAgainRemark);
+		hfglService.saveOrUpdate(call);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{call.getPolicy().getPolicyNo()}));
+		return	AjaxObject.newOk("设置成功！").toString();
+	}
+	
+	@Log(message="进行了{0}设置了可再访。")
+	@RequiresPermissions(value={"Callfail:edit","Callfail:provEdit"}, logical=Logical.OR)
+	@RequestMapping(value="/batchCallReset", method=RequestMethod.POST)
+	public @ResponseBody String batchCallAgain(ServletRequest request, Long[] ids) {
+		String[] policys = new String[ids.length];
+		CallFailList call = null;
+		for(int i=0;i<ids.length; i++) {
+			call = hfglService.get(ids[i]);
+			call.setCanCallAgain(true);
+			hfglService.saveOrUpdate(call);
+		}
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{Arrays.toString(policys)}));
+		return	AjaxObject.newOk("设置成功！").setCallbackType("").toString();
 	}
 	
 	@Log(message="进行了{0}更新操作{1}。")
@@ -507,7 +544,7 @@ public class HfglController {
 				csf.add(new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.NewStatus.getDesc()));
 				csf.add(new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.ResetStatus.getDesc()));
 				csf.add(new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.CallFailStatus.getDesc()));
-				csf.add(new SearchFilter("lastDateNum", Operator.LTE, 3));
+				//csf.add(new SearchFilter("lastDateNum", Operator.LTE, 3));
 			} else if(status.trim().length() > 0) {
 				csf.add(new SearchFilter("status", Operator.EQ, status));
 			}

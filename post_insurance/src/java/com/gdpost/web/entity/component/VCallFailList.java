@@ -116,6 +116,9 @@ public class VCallFailList implements Idable<Long>, java.io.Serializable {
 	private String provDealMan;
 	private String addr;
 	private String idCard;
+	
+	private Boolean canCallAgain;
+	private String canCallAgainRemark;
 
 	// Constructors
 
@@ -825,5 +828,19 @@ public class VCallFailList implements Idable<Long>, java.io.Serializable {
 	}
 	public void setIdCard(String idCard) {
 		this.idCard = idCard;
+	}
+	@Column(name="can_call_again")
+	public Boolean getCanCallAgain() {
+		return canCallAgain;
+	}
+	public void setCanCallAgain(Boolean canCallAgain) {
+		this.canCallAgain = canCallAgain;
+	}
+	@Column(name="can_call_again_remark")
+	public String getCanCallAgainRemark() {
+		return canCallAgainRemark;
+	}
+	public void setCanCallAgainRemark(String canCallAgainRemark) {
+		this.canCallAgainRemark = canCallAgainRemark;
 	}
 }

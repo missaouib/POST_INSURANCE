@@ -11,6 +11,7 @@
 	<input type="hidden" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
 	<input type="hidden" name="search_LIKE_hasLetter" value="${param.search_LIKE_hasLetter }"/>
 	<input type="hidden" name="status" value="${param.status }"/>
+	<input type="hidden" name="search_LIKE_policy.holder" value="${search_LIKE_policy_holder}"/>
 </dwz:paginationForm>
 
 <form method="post" id="hfForm" action="${contextPath }/hfgl/issue/list" onsubmit="return navTabSearch(this)">
@@ -33,7 +34,9 @@
 						<input name="policy.orgCode" id="xq_orgCode" type="hidden" value="${policy_orgCode }"/>
 						<input class="validate[required] required" name="policy.name" id="xq_orgName" type="text" readonly="readonly" style="width: 100px;" value="${policy_name }"/><a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="policy" title="选择机构" width="400">查</a>
 					</td>
-					<td>&nbsp;</td>
+					<td>
+					投保人：<input type="text" id="policy_holder" style="width: 100px;" name="search_LIKE_policy.holder" value="${search_LIKE_policy_holder }"/>
+					</td>
 				</tr>
 				<tr>
 					<td>
@@ -77,6 +80,9 @@
 				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/hfgl/issue/update/{slt_uid}"><span>回复</span></a></li>
 				<li class="line">line</li>
 				<li><a iconClass="user_go" href="${contextPath}/hfgl/updateResetStatus/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>电话重置</span></a></li>
+				<li class="line">line</li>
+				<li><a iconClass="user_go" target="selectedTodo" rel="ids" href="${contextPath}/hfgl/batchCallReset" title="确认要设置为可再次二访?"><span>批量可再访</span></a></li>
+				<li><a iconClass="user_go" href="${contextPath}/hfgl/callReset/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>可再访</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Callfail:provEdit">
 			<li class="line">line</li>
@@ -102,11 +108,13 @@
 		</ul>
 	</div>
 	
-	<table class="table" layoutH="160" width="140%">
+	<table class="table" layoutH="160" width="150%">
 		<thead>
 			<tr>
 				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>
 				<th>保单机构</th>
+				<th orderField=canCallAgain class="${page.orderField eq 'canCallAgain' ? page.orderDirection : ''}">可再访</th>
+				<th>可再访备注</th>
 				<th orderField=issueNo class="${page.orderField eq 'issueNo' ? page.orderDirection : ''}">工单编号</th>
 				<th orderField=status class="${page.orderField eq 'status' ? page.orderDirection : ''}">工单状态</th>
 				<th>工单内容</th>
@@ -139,6 +147,8 @@
 				    </c:otherwise>  
 				</c:choose>
 				</td>
+				<td>${item.canCallAgain}</td>
+				<td>${item.canCallAgainRemark}</td>
 				<td>${item.issueNo}</td>
 				<td>${item.status}</td>
 				<td>${item.issueContent}</td>
