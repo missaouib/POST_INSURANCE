@@ -264,9 +264,9 @@ $(document).ready(function(){
 									<tr>
 										<th>序号</th>
 										<th>工单号</th>
+										<th>工单状态</th>
 										<th>待处理时间</th>
 										<th>离犹豫期/天</th>
-										<th>工单状态</th>
 										<th>保单号</th>
 										<th>保单所属机构</th>
 										<th>工单子类型</th>
@@ -285,9 +285,9 @@ $(document).ready(function(){
 									     <a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/hfgl/issue/view/${item.id}"><span>${item.issueNo}</span></a>
 									    </c:if> 
 										</td>
-										<td><fmt:formatDate value="${item.shouldDate }" pattern="yyyy-MM-dd"/></td>
-										<td><span style="color:red; height:50%; margin-bottom:-contentheight;"><c:if test="${item.lastDateNum<0 }">0</c:if><c:if test="${item.lastDateNum>=0 }">${item.lastDateNum }</c:if></span></td>
 										<td>${item.status}</td>
+										<td><fmt:formatDate value="${item.readyDate }" pattern="yyyy-MM-dd"/></td>
+										<td><span style="color:red; height:50%; margin-bottom:-contentheight;"><c:if test="${item.lastDateNum<0 }">0</c:if><c:if test="${item.lastDateNum>=0 }">${item.lastDateNum }</c:if></span></td>
 										<td>${item.policy.policyNo}</td>
 										<td>${fn:replace(item.policy.organization.name,'中邮保险局','')}</td>
 										<td>${item.issueType}</td>

@@ -24,6 +24,16 @@ public class CallFailCityMiniListColumn {
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
+		column.setDisplayName("工单流水号");
+		column.setColumnName("issue_no");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(false);
+		column.setNeedOutput(true);
+		column.setiOutputOrder(3);
+		column.setOutputName("GDLSH");
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
 		column.setDisplayName("工单类别");
 		column.setColumnName("issue_desc");
 		column.setColumnType(ColumnType.string);

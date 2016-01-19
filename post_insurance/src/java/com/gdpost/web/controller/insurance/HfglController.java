@@ -195,6 +195,14 @@ public class HfglController {
 			src.setStatus(HF_STATUS.TerminalStatus.getDesc());
 			src.setDealStatus(HF_STATUS.TerminalStatus.getDesc());
 			src.setProvDealFlag(0);
+		} else if(issue.getProvIssueType().equals("拒访")) {
+			src.setStatus(HF_STATUS.RejectStatus.getDesc());
+			src.setDealStatus(HF_STATUS.RejectStatus.getDesc());
+			src.setProvDealFlag(0);
+		} else if(issue.getProvIssueType().equals("需上门回访")) {
+			src.setStatus(HF_STATUS.NeedDoorStatus.getDesc());
+			src.setDealStatus(HF_STATUS.NeedDoorStatus.getDesc());
+			src.setProvDealFlag(0);
 		} else {
 			src.setStatus(HF_STATUS.CallFailStatus.getDesc());
 			src.setDealStatus(HF_STATUS.CallFailStatus.getDesc());
