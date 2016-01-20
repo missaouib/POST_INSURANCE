@@ -95,6 +95,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			e.printStackTrace();
 			dr.setFlag(false);
 			dr.setMsg(e.getMessage());
+			return dr;
 		}
 		
 		// AES Encrypt key
@@ -169,7 +170,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case PaySuccessList:
 			standardColumns = PayFailListColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_pay_success_list character set utf8 (pay_type, status, ";
-			delSql = "delete from t_pay_fail_list where rel_no in (select rel_no from t_pay_success_list);";
+			delSql = "update t_pay_fail_list set status='CloseStatus' where rel_no in (select rel_no from t_pay_success_list);";
 			break;
 			default:
 				log.warn("------------reach the default FileTemplate?? oh no!!");
@@ -253,20 +254,16 @@ public class UploadDataServiceImpl implements UploadDataService{
 			dr.setFlag(false);
 			dr.setMsg(e.getMessage());
 		}
-        //先删除
-        try {
-        	if(delSql != null) {
-        		statement.execute(delSql);
-        	}
-        } catch (SQLException e) {
-			e.printStackTrace();
-			dr.setFlag(false);
-			dr.setMsg(e.getMessage());
-		}
+
         //再执行
         statement.setLocalInfileInputStream(is);
         try {
 			statement.execute(strStatementText);
+			
+			if(delSql != null) {
+        		statement.execute(delSql);
+        	}
+			dr.setFlag(true);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			dr.setFlag(false);
@@ -290,7 +287,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			builder.delete(0, builder.length());
 			builder = null;
 		}
-        dr.setFlag(true);
+        
 		return(dr);
 	}
 	
@@ -576,6 +573,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 				statement.execute(sql4);
 			}
 			log.info("------------renewed status update result:" + updateRst);
+			dr.setFlag(true);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			dr.setFlag(false);
@@ -590,7 +588,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 				}
 			}
 		}
-        dr.setFlag(true);
+        
 		return dr;
 	}
 	

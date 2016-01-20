@@ -9,4 +9,4 @@ druid.maxActive=100
 druid.minIdle=20
 druid.initialSize=20
 druid.testWhileIdle=true
-druid.validationQuery=select 1
+druid.validationQuery=SELECT 1
