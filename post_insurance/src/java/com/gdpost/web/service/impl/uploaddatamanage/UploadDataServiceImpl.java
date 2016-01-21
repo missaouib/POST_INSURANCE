@@ -294,7 +294,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 	@SuppressWarnings("resource")
 	@Override
 	public DoRst updateStatusData(FileTemplate ft, HttpServletRequest request, DataTable dt) {	
-		log.debug("---------  into update status data");
+		log.info("---------  into update status data:" + ft.getDesc());
 		DoRst dr = new DoRst();
 		dr.setNum(dt.Rows.size());
 		java.sql.Connection connection = null;
@@ -320,7 +320,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 		String sql3 = null;
 		String sql4 = null;
 		boolean isFail = false;
-		boolean updateRst = true;
+		//boolean updateRst = true;
 		Object val = null;
 		switch(ft) {
 		case Policy:
@@ -572,7 +572,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			if(sql4 != null) {
 				statement.execute(sql4);
 			}
-			log.info("------------renewed status update result:" + updateRst);
+			//log.info("------------renewed status update result:" + updateRst);
 			dr.setFlag(true);
 		} catch (SQLException e) {
 			e.printStackTrace();
