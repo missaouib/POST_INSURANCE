@@ -166,7 +166,7 @@ body, #splitBar { background:#cdef7d;}
 
 /* Homepage */
 .sidebarContent { display:block; overflow:auto; height:500px; border:solid 1px #86B4EC; background:#FFF;}
-.accountInfo { display:block; overflow:hidden; height:30px; padding:0 10px; background:url(../default/images/account_info_bg.png) repeat-x}
+.accountInfo { display:block; overflow:hidden; height:60px; padding:0 10px; background:url(../default/images/account_info_bg.png) repeat-x}
 .accountInfo p { padding:8px 0 0 0; line-height:19px;}
 .accountInfo p span { font-size:14px; font-weight:bold;}
 .accountInfo .right { float:right; padding-right:10px; text-align:right;}
