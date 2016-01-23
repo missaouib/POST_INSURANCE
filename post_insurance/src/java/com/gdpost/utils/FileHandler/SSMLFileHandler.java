@@ -22,7 +22,7 @@ public class SSMLFileHandler extends AbstractFileHandler {
 	public static Logger log = LoggerFactory.getLogger(XlsFileHandler_NoHeader.class);
 	
 	@Override
-	public DataTable[] readFile(String strFilePath, String strFileName) {
+	public DataTable[] readFile(String strFilePath, String strFileName, String keyRow) {
 		List<DataTable> list = new ArrayList<DataTable>();
 		
 		try {

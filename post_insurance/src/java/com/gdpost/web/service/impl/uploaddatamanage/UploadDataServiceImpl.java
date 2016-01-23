@@ -601,57 +601,74 @@ public class UploadDataServiceImpl implements UploadDataService{
 		// 标准列
 		List<ColumnItem> standardColumns = null;
 		DoRst dr = new DoRst();
+		String keyRow = null;
 		switch(t) {
 		case Policy:
 			log.debug("----------get the policy column");
 			standardColumns = PolicyColumn.getStandardColumns();
+			keyRow = PolicyColumn.KEY_ROW;
 			break;
 		case PolicyDtl:
 			log.debug("----------get the dtl column");
 			standardColumns = PolicyDtlColumn.getStandardColumns();
+			keyRow = PolicyDtlColumn.KEY_ROW;
 			break;
 		case Issue:
 			log.debug("----------get the issue column");
 			standardColumns = IssueColumn.getStandardColumns();
+			keyRow = IssueColumn.KEY_ROW;
 			break;
 		case CallFail:
 			standardColumns = IssueColumn.getStandardColumns();
+			keyRow = IssueColumn.KEY_ROW;
 			break;
 		case CallFailStatus:
 			standardColumns = CallFailHQListColumn.getStandardColumns();
+			keyRow = CallFailHQListColumn.KEY_ROW;
 			break;
 		case MiniCallFailStatus:
 			standardColumns = CallFailHQMiniListColumn.getStandardColumns();
+			keyRow = CallFailHQMiniListColumn.KEY_ROW;
 			break;
 		case CallFailMailStatus:
 			standardColumns = CallFailMailListColumn.getStandardColumns();
+			keyRow = CallFailHQMiniListColumn.KEY_ROW;
 			break;
 		case Renewed:
 			standardColumns = RenewedColumn.getStandardColumns();
+			keyRow = RenewedColumn.KEY_ROW;
 			break;
 		case RenewedStatus:
 			standardColumns = RenewedStatusColumn.getStandardColumns();
+			keyRow = RenewedStatusColumn.KEY_ROW;
 			break;
 		case RenewedHQList:
 			standardColumns = RenewedHQListColumn.getStandardColumns();
+			keyRow = RenewedHQListColumn.KEY_ROW;
 			break;
 		case CheckWrite:
 			standardColumns = CheckColumn.getStandardColumns();
+			keyRow = CheckColumn.KEY_ROW;
 			break;
 		case CheckRecord:
 			standardColumns = CheckColumn.getStandardColumns();
+			keyRow = CheckColumn.KEY_ROW;
 			break;
 		case PayToFailList:
 			standardColumns = PayFailListColumn.getStandardColumns();
+			keyRow = PayFailListColumn.KEY_ROW;
 			break;
 		case PayFromFailList:
 			standardColumns = PayFailListColumn.getStandardColumns();
+			keyRow = PayFailListColumn.KEY_ROW;
 			break;
 		case PaySuccessList:
 			standardColumns = PayFailListColumn.getStandardColumns();
+			keyRow = PayFailListColumn.KEY_ROW;
 			break;
 			default:
 				standardColumns = PolicyColumn.getStandardColumns();
+				keyRow = PolicyColumn.KEY_ROW;
 		}
 		
 	    boolean bFlag = true;
@@ -664,7 +681,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 		// 文件组正确，执行导入
 		for(String strOriginalFileName : listFiles) {
 			// 读文件，取值到DataTable[]中
-			ds = UploadDataUtils.getDataSet(strFilePath, strOriginalFileName, standardColumns);
+			ds = UploadDataUtils.getDataSet(strFilePath, strOriginalFileName, standardColumns, keyRow);
 			if(ds == null || ds.length == 0) {
 				builder.append("处理文件[" + strOriginalFileName + "]中数据出错，没有找到数据。");
 				dr.setMsg("处理文件[" + strOriginalFileName + "]中数据出错，没有找到数据。");

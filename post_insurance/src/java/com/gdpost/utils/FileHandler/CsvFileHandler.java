@@ -24,7 +24,7 @@ import com.gdpost.utils.UploadDataHelper.UploadDataUtils;
 public class CsvFileHandler extends AbstractFileHandler {
 	public static Logger log = LoggerFactory.getLogger(CsvFileHandler.class);
 	
-	public DataTable[] readFile(String strFilePath, String strFileName) {
+	public DataTable[] readFile(String strFilePath, String strFileName, String keyRow) {
 		DataTable[] ds = null;
 		
 		InputStreamReader freader = null;
@@ -44,10 +44,19 @@ public class CsvFileHandler extends AbstractFileHandler {
 		DataTable dt = null;
 		DataColumn column = null;
 		DataRow dataRow = null;
-		
+		boolean hasKeyRow = false;
 		//获取头部信息
 		try {
 			String[] headers = reader.getHeader(true);
+			for(String h:headers) {
+				if (h!=null && h.equals(keyRow)) {
+					hasKeyRow = true;
+				}
+			}
+			if(!hasKeyRow) {
+				reader.close();
+				return null;
+			}
 			dt = new DataTable();
 			dt.TableName = strFileName;
 			for(int i = 0; i < headers.length; i++) {

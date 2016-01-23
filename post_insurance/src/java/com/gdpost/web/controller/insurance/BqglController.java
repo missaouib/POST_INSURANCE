@@ -751,9 +751,12 @@ public class BqglController {
 		LOG.debug("-------------- status: " + status + "  orgCode:" + orgCode);
 		CsReissue reissue = new CsReissue();
 		if(status == null) {
-			status = "";
+			if(orgCode.length()>4) {
+				status = FP_STATUS.DealStatus.name();
+				reissue.setStatus(FP_STATUS.valueOf(status).name());
+			}
 		} else if(status.trim().length()>0) {
-			reissue.setStatus(BQ_STATUS.valueOf(status).name());
+			reissue.setStatus(FP_STATUS.valueOf(status).name());
 		}
 		String orderField = request.getParameter("orderField");
 		if(orderField == null || orderField.trim().length()<=0) {

@@ -9,6 +9,7 @@ public abstract class AbstractFileHandler implements IFileHandler {
 	protected String m_strUserName = "";
 	protected String m_strPassword = "";
 	protected List<ColumnItem> m_column;
+	protected String keyRow = "";
 	
 	public void setUserName(String strUserName) {
 		this.m_strUserName = strUserName;
@@ -21,4 +22,9 @@ public abstract class AbstractFileHandler implements IFileHandler {
 	public void setStandardColumn(List<ColumnItem> column) {
 		this.m_column = column;
 	}
+
+	public void setKeyRow(String keyRow) {
+		this.keyRow = keyRow;
+	}
+	
 }

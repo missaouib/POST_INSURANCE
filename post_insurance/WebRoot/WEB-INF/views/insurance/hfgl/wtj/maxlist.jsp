@@ -8,6 +8,8 @@
 	<input type="hidden" name="policy.name" value="${policy_name }"/>
 	<input type="hidden" name="search_LTE_readyDate" value="${param.search_LTE_readyDate }"/>
 	<input type="hidden" name="search_GTE_readyDate" value="${param.search_GTE_readyDate }"/>
+	<input type="hidden" name="search_LTE_policy.policyDate" value="${search_LTE_policy_policyDate }"/>
+	<input type="hidden" name="search_GTE_policy.policyDate" value="${search_GTE_policy_policyDate }"/>
 	<input type="hidden" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
 	<input type="hidden" name="hasLetter" value="${hasLetter }"/>
 	<input type="hidden" name="status" value="${status }"/>
@@ -58,6 +60,22 @@
 						</form:select>
 					</td>
 				</tr>
+				<tr>
+					<td>
+						&nbsp;
+					</td>
+					<td>
+						<label>承保日期：</label>
+						<input type="text" name="search_GTE_policy.policyDate" id="hfDate1" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${search_GTE_policy_policyDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+					</td>
+					<td>
+						<label>承保日期：</label>
+						<input type="text" name="search_LTE_policy.policyDate" id="hfDate2" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${search_LTE_policy_policyDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+					</td>
+					<td>
+						&nbsp;
+					</td>
+				</tr>
 			</table>
 			<div class="subBar">
 				<ul>						
@@ -94,18 +112,19 @@
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Callfail:view">
 				<li class="line">line</li>
-				<li><a class="icon" target="_blank" href="${contextPath }/hfgl/toXls?search_LIKE_issueNo=${param.search_LIKE_issueNo }&policy.orgCode=${policy_orgCode }&search_LTE_readyDate=${param.search_LTE_readyDate }&search_GTE_readyDate=${param.search_GTE_readyDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&hasLetter=${encodeHasLetter }&status=${encodeStatus == null?'null':encodeStatus }"><span>导出Excel</span></a></li>
+				<li><a class="icon" target="_blank" href="${contextPath }/hfgl/toXls?search_LIKE_issueNo=${param.search_LIKE_issueNo }&policy.orgCode=${policy_orgCode }&search_LTE_readyDate=${param.search_LTE_readyDate }&search_GTE_readyDate=${param.search_GTE_readyDate }&search_GTE_policy.policyDate=${search_GTE_policy_policyDate }&search_LTE_policy.policyDate=${search_LTE_policy_policyDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&hasLetter=${encodeHasLetter }&encodeStatus=${encodeStatus == null?'null':encodeStatus }"><span>导出Excel</span></a></li>
 			</shiro:hasPermission>
 		</ul>
 	</div>
 	
-	<table class="table" layoutH="178" width="110%">
+	<table class="table" layoutH="185" width="110%">
 		<thead>
 			<tr>
 				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>
 				<th>保单机构</th>
 				<th orderField=canCallAgain class="${page.orderField eq 'canCallAgain' ? page.orderDirection : ''}">可再访</th>
 				<th>可再访备注</th>
+				<th>重置电话</th>
 				<th orderField=issueNo class="${page.orderField eq 'issueNo' ? page.orderDirection : ''}">工单编号</th>
 				<th orderField=status class="${page.orderField eq 'status' ? page.orderDirection : ''}">工单状态</th>
 				<th>工单内容</th>
@@ -116,7 +135,6 @@
 				<th>联系电话</th>
 				<th>险种名称</th>
 				<th>出单网点</th>
-				<th>重置电话</th>
 				<th>处理类型</th>
 				<th>处理详情</th>
 				<th>经办人</th>
@@ -142,6 +160,7 @@
 				</td>
 				<td>${item.canCallAgain}</td>
 				<td>${item.canCallAgainRemark}</td>
+				<td>${item.resetPhone}</td>
 				<td>${item.issueNo}</td>
 				<td>${item.status}</td>
 				<td>${item.issueContent}</td>
@@ -156,12 +175,11 @@
 					    <c:when test="${fn:length(item.bankName) > 14}">  
 					        <c:out value="${fn:substring(item.bankName, 14, 30)}" />  
 					    </c:when>  
-					   <c:otherwise>  
+					   <c:otherwise>
 					      <c:out value="${item.bankName}" />  
 					    </c:otherwise>  
 					</c:choose>
 				</td>
-				<td>${item.resetPhone}</td>
 				<td>${item.dealType}</td>
 				<td>${item.dealDesc}</td>
 				<td>${item.dealMan}</td>

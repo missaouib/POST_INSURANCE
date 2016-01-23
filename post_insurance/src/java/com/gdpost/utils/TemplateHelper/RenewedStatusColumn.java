@@ -7,6 +7,8 @@ public class RenewedStatusColumn {
 
 	private static List<ColumnItem> standardColumns;
 	
+	public static String KEY_ROW = "保单号";
+	
 	public static List<ColumnItem> getStandardColumns() {
 		if(standardColumns != null) {
 			return(standardColumns);

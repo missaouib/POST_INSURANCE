@@ -22,7 +22,7 @@ public class XlsFileHandler_NoHeader extends AbstractFileHandler {
 	public static Logger log = LoggerFactory.getLogger(XlsFileHandler_NoHeader.class);
 
 	// 读取Excel 2003文件
-	public DataTable[] readFile(String strFilePath, String strFileName) {
+	public DataTable[] readFile(String strFilePath, String strFileName, String keyRow) {
 		List<DataTable> list = new ArrayList<DataTable>();
 		boolean bFileFlag = false;
 
@@ -118,7 +118,7 @@ public class XlsFileHandler_NoHeader extends AbstractFileHandler {
         	e.printStackTrace();
         	log.error(e.getMessage());
         	if(!bFileFlag) {
-        		return(readSSMLFile(strFilePath, strFileName));
+        		return(readSSMLFile(strFilePath, strFileName, keyRow));
         	}
         }
         
@@ -126,10 +126,11 @@ public class XlsFileHandler_NoHeader extends AbstractFileHandler {
 		return(list.toArray(ds));
 	}
 	
-	private DataTable[] readSSMLFile(String strFilePath, String strFileName) {
+	private DataTable[] readSSMLFile(String strFilePath, String strFileName, String keyRow) {
 		IFileHandler handler = new SSMLFileHandler();
 		handler.setStandardColumn(this.m_column);
-		return(handler.readFile(strFilePath, strFileName));
+		handler.setKeyRow(keyRow);
+		return(handler.readFile(strFilePath, strFileName, keyRow));
 	}
 	
 	private int getHeaderRow(HSSFSheet sheet) {

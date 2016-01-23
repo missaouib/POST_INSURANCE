@@ -1,5 +1,21 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
+<script type="text/javascript">
+<!--
+function doRel(val) {
+	if(val == "") {
+		alert("请选择关系！");
+		return false;
+	}
+	var holder = $("#holder").val();
+	if(val == "本人") {
+		$("#insured").val(holder);
+	} else {
+		$("#insured").val("");
+	}
+}
+//-->
+</script>
 <div class="pageContent">
 <form method="post" action="${contextPath }/qygl/underwrite/create" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
 	<div class="pageFormContent" layoutH="58">
@@ -15,19 +31,35 @@
 		</p>
 		<p>
 			<label>投保人：</label>
-			<input type="text" name="holder" class="input-medium validate[required,maxSize[14]] required" maxlength="32"/>
+			<input type="text" name="holder" id="holder" class="input-medium validate[required,maxSize[14]] required" maxlength="32"/>
 		</p>
 		<p>
-			<label>被保人：</label>
-			<input type="text" name="insured" class="input-medium validate[required,maxSize[14]] required" maxlength="32"/>
+			<label>投保年龄：</label>
+			<input type="text" name="holderAge" id="holder" class="input-medium validate[required,maxSize[14]] required" maxlength="32"/>
 		</p>
 		<p>
 			<label>投被保人关系：</label>
-			<input type="text" name="relation" class="input-medium validate[required,maxSize[14]] required" maxlength="32"/>
+			<select name="relation" id="relation" class="combox" onchange="javascript:doRel(this.value)">
+				<option value="">请选择</option>
+				<option value="本人">本人</option>
+				<option value="夫妻">夫妻</option>
+				<option value="父（母）子（女）">父（母）子（女）</option>
+				<option value="祖孙">祖孙</option>
+				<option value="其他">其他</option>
+			</select>
+		</p>
+		<p>
+			<label>被保人：</label>
+			<input type="text" id="insured" name="insured" class="input-medium validate[required,maxSize[14]] required" maxlength="32"/>
 		</p>
 		<p>
 			<label>转核原因：</label>
-			<input type="text" name="underwriteReason" class="input-medium validate[required,maxSize[64]] required" maxlength="64"/>
+			<select name="underwriteReason" id="underwriteReason" class="combox">
+				<option value="超龄">超龄</option>
+				<option value="理赔">理赔</option>
+				<option value="超额">超额</option>
+				<option value="团险">团险</option>
+			</select>
 		</p>
 		<p>
 			<label>保险产品：</label>

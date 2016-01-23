@@ -19,7 +19,9 @@ response.setHeader("Content-Disposition", "inline; filename=call_fail_dtl.xls");
 				<th>所属机构</th>
 				<th>出单日期</th>
 				<th>投保人</th>
+				<shiro:hasPermission name="Callfail:provEdit">
 				<th>证件号码</th>
+				</shiro:hasPermission>
 				<th>联系电话</th>
 				<th>联系地址</th>
 				<th>险种名称</th>
@@ -53,7 +55,9 @@ response.setHeader("Content-Disposition", "inline; filename=call_fail_dtl.xls");
 				<td>${fn:replace(item.organization.name,'邮政局中邮保险局','')}</td>
 				<td>${item.policy.policyDate}</td>
 				<td>${item.policy.holder}</td>
+				<shiro:hasPermission name="Callfail:provEdit">
 				<td style="vnd.ms-excel.numberformat:@">${item.idCard}</td>
+				</shiro:hasPermission>
 				<td>${item.holderMobile eq ""?item.holderPhone:item.holderMobile}</td>
 				<td>${item.addr}</td>
 				<td>${item.policy.prodName}</td>
@@ -74,10 +78,10 @@ response.setHeader("Content-Disposition", "inline; filename=call_fail_dtl.xls");
 				<td>${item.dealDesc}</td>
 				<td>${item.dealMan}</td>
 				<td><fmt:formatDate value="${item.dealTime }" pattern="yyyy-MM-dd"/></td>
+				<td><fmt:formatDate value="${item.hqDealDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.hqDealType}</td>
 				<td>${item.hqDealRst}</td>
 				<td>${item.hqDealMan}</td>
-				<td><fmt:formatDate value="${item.hqDealDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.canCallAgain}</td>
 				<td>${item.canCallAgainRemark}</td>
 				<shiro:hasPermission name="Callfail:provEdit">

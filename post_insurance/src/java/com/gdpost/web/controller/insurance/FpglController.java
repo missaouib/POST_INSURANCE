@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +34,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.JavaBeanSerializer;
+import com.alibaba.fastjson.serializer.SerializeConfig;
 import com.gdpost.utils.SecurityUtils;
+import com.gdpost.web.entity.basedata.ConservationError;
 import com.gdpost.web.entity.main.InvoiceReq;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.exception.ExistedException;
@@ -262,6 +267,36 @@ public class FpglController {
 	
 		map.put("reqs", reqs);
 		return TO_XLS;
+	}
+	
+	@RequestMapping(value="/lookupReqSuggest", method={RequestMethod.POST})
+	public @ResponseBody String lookupBQIssusSuggest(ServletRequest request, Map<String, Object> map) {
+		String reqMan = request.getParameter("reqMan");
+		LOG.debug("-------- reqMan:" + reqMan);
+		User user = SecurityUtils.getShiroUser().getUser();
+		if(reqMan != null && reqMan.trim().length() < 1) {
+			return "[{}]";
+		}
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("reqMan", Operator.LIKE, reqMan));
+		if(user.getOrganization().getOrgCode().length()>4) {
+			csf.add(new SearchFilter("dealMan", Operator.EQ, user.getId()));
+		}
+		csf.add(new SearchFilter("reqAddr", Operator.NOTNULL, null));
+		//LOG.debug("-------- csf:" + csf);
+		Specification<InvoiceReq> specification = DynamicSpecifications.bySearchFilterWithoutRequest(InvoiceReq.class, csf);
+		Page page = new Page();
+		page.setNumPerPage(3);
+		List<InvoiceReq> org = fpglService.findByExample(specification, page);
+		SerializeConfig mapping = new SerializeConfig();
+		HashMap<String, String> fm = new HashMap<String, String>();
+		fm.put("reqMan", "reqMan");
+		fm.put("reqAddr", "reqAddr");
+		fm.put("phone", "phone");
+		mapping.put(InvoiceReq.class, new JavaBeanSerializer(InvoiceReq.class, fm));
+		String str = JSON.toJSONString(org, mapping);
+		LOG.debug("---------------- fapiao suggest: " + str);
+		return str;
 	}
 
 	@InitBinder

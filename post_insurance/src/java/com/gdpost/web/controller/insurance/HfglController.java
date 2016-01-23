@@ -704,15 +704,27 @@ public class HfglController {
 		Organization userOrg = user.getOrganization();
 		//默认返回未处理工单
 		String status = request.getParameter("status");
-		if(status != null && status.trim().equals("null")) {
-			status = null;
-		} else {
-			status = new String(Base64Utils.decodeFromString(status));
+		String encodeStatus = request.getParameter("encodeStatus");
+//		if(status == null) {
+//			status = "";
+//		}
+		if(encodeStatus != null && encodeStatus.trim().equals("null")) {
+			status = "";
 		}
+		
+		if(encodeStatus != null && encodeStatus.trim().length() > 0 && !encodeStatus.trim().equals("null")) {
+			status = new String(Base64Utils.decodeFromString(encodeStatus));
+		} else if(status != null && status.trim().length()>0) {
+			encodeStatus = Base64Utils.encodeToString(status.getBytes());
+		}
+		request.setAttribute("encodeStatus", encodeStatus);
+		
 		LOG.debug("-------------- status: " + status + ", user org code:" + userOrg.getOrgCode());
 		String hasLetter = request.getParameter("hasLetter");
-		if(hasLetter != null) {
-			hasLetter = new String(Base64Utils.decodeFromString(hasLetter));
+		String encodeHasLetter = request.getParameter("encodeHasLetter");
+		request.setAttribute("encodeHasLetter", encodeHasLetter);
+		if(encodeHasLetter != null) {
+			hasLetter = new String(Base64Utils.decodeFromString(encodeHasLetter));
 			try {
 				hasLetter = URLDecoder.decode(hasLetter, "UTF-8");
 			} catch (UnsupportedEncodingException e) {
@@ -720,7 +732,7 @@ public class HfglController {
 			}
 		}
 		
-		if(page.getOrderField() == null || page.getOrderField().trim().length() <= 0) {
+		if(page.getOrderField() == null) {
 			page.setOrderField("issueNo");
 			page.setOrderDirection("DESC");
 		}
@@ -737,9 +749,6 @@ public class HfglController {
 			if(!orgCode.contains(user.getOrganization().getOrgCode())){
 				orgCode = user.getOrganization().getOrgCode();
 			}
-			String orgName = request.getParameter("policy.name");
-			request.setAttribute("policy_orgCode", orgCode);
-			request.setAttribute("policy_name", orgName);
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
@@ -765,6 +774,7 @@ public class HfglController {
 				csf.add(new SearchFilter("status", Operator.EQ, status));
 			}
 		} else {
+			LOG.debug("-------------- 3330000: " );
 			if(status == null) {
 				LOG.debug("-------------- 333: " );
 				csf.add(new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.NewStatus.getDesc()));
@@ -782,7 +792,7 @@ public class HfglController {
 		}
 		Specification<VCallFailList> specification = DynamicSpecifications.bySearchFilter(request, VCallFailList.class, csf);
 		List<VCallFailList> reqs = hfglService.findByExample(specification, page);
-	
+		
 		map.put("reqs", reqs);
 		return TO_XLS;
 	}

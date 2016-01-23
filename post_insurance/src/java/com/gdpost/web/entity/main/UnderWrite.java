@@ -70,6 +70,8 @@ public class UnderWrite implements Idable<Long> {
 	@Transient
 	private String emsNo;
 	
+	private String holderAge;
+	
 	// Constructors
 	@Transient
 	public Date getReceiveDate() {
@@ -454,5 +456,13 @@ public class UnderWrite implements Idable<Long> {
 	}
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	
+	@Column(name="holder_age")
+	public String getHolderAge() {
+		return holderAge;
+	}
+	public void setHolderAge(String holderAge) {
+		this.holderAge = holderAge;
 	}
 }

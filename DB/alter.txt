@@ -451,3 +451,7 @@ engine=innodb auto_increment=1 default charset=utf8;
 
 alter table t_call_fail_list  add column can_call_again boolean;
 alter table t_call_fail_list  add column can_call_again_remark varchar(127);
+
+--------------- SQL ---------------
+
+ALTER TABLE `t_under_write` ADD COLUMN `holder_age` TINYINT(4) DEFAULT NULL AFTER `holder`;

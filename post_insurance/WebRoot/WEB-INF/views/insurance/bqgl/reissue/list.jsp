@@ -9,7 +9,7 @@
 	<input type="hidden" name="name" value="${name }"/>
 	<input type="hidden" name="search_LTE_conservationDtl.csDate" value="${search_LTE_conservationDtl_csDate }"/>
 	<input type="hidden" name="search_GTE_conservationDtl.csDate" value="${search_GTE_conservationDtl_csDate }"/>
-	<input type="hidden" name="status" value="${param.status }"/>
+	<input type="hidden" name="status" value="${status }"/>
 </dwz:paginationForm>
 
 <form method="post" id="bqForm" action="${contextPath }/bqgl/reissue/list" onsubmit="return navTabSearch(this)">

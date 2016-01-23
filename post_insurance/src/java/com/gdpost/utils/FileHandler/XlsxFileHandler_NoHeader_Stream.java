@@ -22,7 +22,7 @@ public class XlsxFileHandler_NoHeader_Stream extends AbstractFileHandler {
 	public static Logger log = LoggerFactory.getLogger(XlsxFileHandler_NoHeader_Stream.class);
 	
 	// 读取Excel 2007文件
-	public DataTable[] readFile(String strFilePath, String strFileName) {
+	public DataTable[] readFile(String strFilePath, String strFileName, String keyRow) {
 		List<DataTable> list = new ArrayList<DataTable>();	
 		
         try

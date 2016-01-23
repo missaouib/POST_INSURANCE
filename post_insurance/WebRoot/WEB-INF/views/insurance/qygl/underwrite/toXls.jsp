@@ -13,6 +13,7 @@ response.setHeader("Content-Disposition", "inline; filename=underwrite.xls");
 				<th>投保单号</th>
 				<th>保单号</th>
 				<th>投保人</th>
+				<th>投保年龄</th>
 				<th>被保人</th>
 				<th>关系</th>
 				<th>转核原因</th>
@@ -36,6 +37,7 @@ response.setHeader("Content-Disposition", "inline; filename=underwrite.xls");
 				<td style="vnd.ms-excel.numberformat:@">${item.formNo}</td>
 				<td style="vnd.ms-excel.numberformat:@">${item.policyNo}</td>
 				<td>${item.holder}</td>
+				<td>${item.holderAge}</td>
 				<td>${item.insured}</td>
 				<td>${item.relation}</td>
 				<td>${item.underwriteReason}</td>

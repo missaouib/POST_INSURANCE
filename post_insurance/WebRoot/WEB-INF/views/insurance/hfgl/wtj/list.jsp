@@ -8,6 +8,8 @@
 	<input type="hidden" name="policy.name" value="${policy_name }"/>
 	<input type="hidden" name="search_LTE_readyDate" value="${param.search_LTE_readyDate }"/>
 	<input type="hidden" name="search_GTE_readyDate" value="${param.search_GTE_readyDate }"/>
+	<input type="hidden" name="search_LTE_policy.policyDate" value="${search_LTE_policy_policyDate }"/>
+	<input type="hidden" name="search_GTE_policy.policyDate" value="${search_GTE_policy_policyDate }"/>
 	<input type="hidden" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
 	<input type="hidden" name="search_LIKE_hasLetter" value="${param.search_LIKE_hasLetter }"/>
 	<input type="hidden" name="status" value="${param.status }"/>
@@ -43,11 +45,11 @@
 						保单号：<input type="text" id="hfPolicyNo" style="width: 100px;" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
 					</td>
 					<td>
-						<label>工单开始日期：</label>
+						<label>工单日期：</label>
 						<input type="text" name="search_GTE_readyDate" id="hfDate1" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_readyDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
-						<label>工单结束日期：</label>
+						<label>工单日期：</label>
 						<input type="text" name="search_LTE_readyDate" id="hfDate2" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_readyDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
@@ -56,6 +58,22 @@
 							<form:option value=""> -- -- </form:option>
 							<form:option value="信函已发"> 信函已发 </form:option>
 						</form:select>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						&nbsp;
+					</td>
+					<td>
+						<label>承保日期：</label>
+						<input type="text" name="search_GTE_policy.policyDate" id="hfDate1" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${search_GTE_policy_policyDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+					</td>
+					<td>
+						<label>承保日期：</label>
+						<input type="text" name="search_LTE_policy.policyDate" id="hfDate2" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${search_LTE_policy_policyDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+					</td>
+					<td>
+						&nbsp;
 					</td>
 				</tr>
 			</table>
@@ -99,22 +117,23 @@
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Callfail:view">
 				<li class="line">line</li>
-				<li><a class="icon" href="${contextPath }/hfgl/issue/maxlist?search_LIKE_issueNo=${param.search_LIKE_issueNo }&policy.orgCode=${policy_orgCode }&policy.name=${policy_name }&search_LTE_readyDate=${param.search_LTE_readyDate }&search_GTE_readyDate=${param.search_GTE_readyDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&hasLetter=${encodeHasLetter }&encodeStatus=${encodeStatus == null?'null':encodeStatus }" target="dialog" rel="dlg_page1" max="true" title="回访不成功列表" width="800" height="480"><span>全屏查看</span></a></li>
+				<li><a class="icon" href="${contextPath }/hfgl/issue/maxlist?search_LIKE_issueNo=${param.search_LIKE_issueNo }&policy.orgCode=${policy_orgCode }&policy.name=${policy_name }&search_LTE_readyDate=${param.search_LTE_readyDate }&search_GTE_readyDate=${param.search_GTE_readyDate }&search_GTE_policy.policyDate=${search_GTE_policy_policyDate }&search_LTE_policy.policyDate=${search_LTE_policy_policyDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&hasLetter=${encodeHasLetter }&encodeStatus=${encodeStatus == null?'null':encodeStatus }" target="dialog" rel="dlg_page1" max="true" title="回访不成功列表" width="800" height="480"><span>全屏查看</span></a></li>
 				<li class="line">line</li>
-				<li><a class="icon" target="_blank" href="${contextPath }/hfgl/toXls?search_LIKE_issueNo=${param.search_LIKE_issueNo }&policy.orgCode=${policy_orgCode }&search_LTE_readyDate=${param.search_LTE_readyDate }&search_GTE_readyDate=${param.search_GTE_readyDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&hasLetter=${encodeHasLetter }&status=${encodeStatus == null?'null':encodeStatus }"><span>导出Excel</span></a></li>
+				<li><a class="icon" target="_blank" href="${contextPath }/hfgl/toXls?search_LIKE_issueNo=${param.search_LIKE_issueNo }&policy.orgCode=${policy_orgCode }&search_LTE_readyDate=${param.search_LTE_readyDate }&search_GTE_readyDate=${param.search_GTE_readyDate }&search_GTE_policy.policyDate=${search_GTE_policy_policyDate }&search_LTE_policy.policyDate=${search_LTE_policy_policyDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&hasLetter=${encodeHasLetter }&encodeStatus=${encodeStatus == null?'null':encodeStatus }"><span>导出Excel</span></a></li>
 			</shiro:hasPermission>
 			<li class="line">line</li>
 			<li><a class="icon" target="dialog" href="${contextPath }/hfgl/help" mask="true" width="530" height="430"><span>功能说明</span></a></li>
 		</ul>
 	</div>
 	
-	<table class="table" layoutH="160" width="150%">
+	<table class="table" layoutH="185" width="150%">
 		<thead>
 			<tr>
 				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>
 				<th>保单机构</th>
 				<th orderField=canCallAgain class="${page.orderField eq 'canCallAgain' ? page.orderDirection : ''}">可再访</th>
 				<th>可再访备注</th>
+				<th>重置电话</th>
 				<th orderField=issueNo class="${page.orderField eq 'issueNo' ? page.orderDirection : ''}">工单编号</th>
 				<th orderField=status class="${page.orderField eq 'status' ? page.orderDirection : ''}">工单状态</th>
 				<th>工单内容</th>
@@ -127,7 +146,6 @@
 				<th>联系地址</th>
 				<th>险种名称</th>
 				<th>出单网点</th>
-				<th>重置电话</th>
 				<shiro:hasPermission name="Callfail:provEdit">
 				<th orderField=hasLetter class="${page.orderField eq 'hasLetter' ? page.orderDirection : ''}">信函记录</th>
 				</shiro:hasPermission>
@@ -149,6 +167,7 @@
 				</td>
 				<td>${item.canCallAgain}</td>
 				<td>${item.canCallAgainRemark}</td>
+				<td>${item.resetPhone}</td>
 				<td>${item.issueNo}</td>
 				<td>${item.status}</td>
 				<td>${item.issueContent}</td>
@@ -170,7 +189,6 @@
 					    </c:otherwise>  
 					</c:choose>
 				</td>
-				<td>${item.resetPhone}</td>
 				<shiro:hasPermission name="Callfail:provEdit">
 				<td>${item.hasLetter}</td>
 				</shiro:hasPermission>

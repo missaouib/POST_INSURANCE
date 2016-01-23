@@ -17,7 +17,7 @@ import System.Data.DataTable;
 public class MdbFileHandler extends AbstractFileHandler {
 	public static Logger log = LoggerFactory.getLogger(MdbFileHandler.class);
 	
-	public DataTable[] readFile(String strFilePath, String strFileName) {
+	public DataTable[] readFile(String strFilePath, String strFileName, String keyRow) {
 		DataTable[] ds = null;
 		
 		Connection conn = null;

@@ -32,12 +32,13 @@
 				<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 		<p>
-			<label>发票收取地址：</label>
-			<input type="text" name="reqAddr" class="input-medium"/>
+			<label>发票收件人：</label>
+			<input name="reqMan" type="text" postField="reqMan" suggestFields="reqMan" 
+					suggestUrl="/fpgl/lookupReqSuggest?flag=man" lookupGroup=""/>
 		</p>
 		<p>
-			<label>发票收件人：</label>
-			<input type="text" name="reqMan" class="input-medium validate[maxSize[9]]"/>
+			<label>发票收取地址：</label>
+			<input type="text" name="reqAddr" class="input-medium"/>
 		</p>
 		<p>
 			<label>发票收件人电话：</label>

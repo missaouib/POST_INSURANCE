@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang3.time.DateFormatUtils;
@@ -14,6 +15,7 @@ import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,9 +30,9 @@ public class XlsFileHandler extends AbstractFileHandler {
 	public static Logger log = LoggerFactory.getLogger(XlsFileHandler.class);
 
 	// 读取Excel 2003文件
-	public DataTable[] readFile(String strFilePath, String strFileName) {
+	public DataTable[] readFile(String strFilePath, String strFileName, String mkeyRow) {
 		List<DataTable> list = new ArrayList<DataTable>();
-		log.debug("--------------ready to read xls file in handler");
+		log.debug("--------------ready to read xls file in handler" + this.keyRow);
 		HSSFWorkbook workbook = null;
 		try {
 			// 设置访问密码
@@ -52,6 +54,8 @@ public class XlsFileHandler extends AbstractFileHandler {
 			int markRow = -1;
 			int skipRow = -1;
 			int lastRow = -1;
+			boolean hasKeyRow = false;
+			String check = null;
 			//List<CellRangeAddress> calist = new ArrayList<CellRangeAddress>();
 			// 如果是合并单元表格，略过
 			
@@ -73,23 +77,19 @@ public class XlsFileHandler extends AbstractFileHandler {
 						continue;
 					}
 					log.debug("--------------headerRow : " + headerRow + ", and the cell num: " + headerRow.getLastCellNum() + ", template column size: " + this.m_column.size());
-					if (headerRow.getLastCellNum() > this.m_column.size() / 2) {
-						if(headerRow.getRowNum() < lastRow) {
-							try {
-								String check = headerRow.getCell(headerRow.getLastCellNum()-2).getStringCellValue();
-								if(check == null || check.trim().length() <=0) {
-									continue;
-								}
-							} catch (Exception ex) {
-								continue;
-							}
+					Iterator<Cell> iter = headerRow.cellIterator();
+					while(iter.hasNext()) {
+						check = iter.next().getStringCellValue();
+						if(check != null && check.trim().equals(keyRow)) {
+							hasKeyRow = true;
+							markRow = i;
+							i = lastRow;
+							break;
 						}
-							
-						markRow = i;
-						//log.debug("--------------get the header row num : " + markRow);
-						break;
 					}
-					//break;
+				}
+				if(!hasKeyRow) {
+					return null;
 				}
 				log.debug("--------------get the header row num : " + markRow);
 				if (markRow < 0) {
@@ -108,9 +108,9 @@ public class XlsFileHandler extends AbstractFileHandler {
 				rowCount = sheet.getLastRowNum();
 				
 				for (int i = headerRow.getFirstCellNum(); i < cellCount; i++) {
-					if (cellCount < this.m_column.size()/2) {
-						continue;
-					}
+					//if (cellCount < this.m_column.size()/2) {
+						//continue;
+					//}
 					column = new DataColumn(headerRow.getCell(i).getStringCellValue());
 					dt.Columns.Add(column);
 				}

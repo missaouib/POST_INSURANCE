@@ -24,7 +24,11 @@
 					<input name="orgCode" id="uw_orgCode" type="hidden" value="${orgCode }"/>
 					<input class="validate[required] required" name="name" id="uw_orgName" type="text" readonly="readonly" style="width: 120px;" value="${name }"/>
 					<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="" title="选择机构" width="400">查</a>
-				</li>				
+				</li>
+				<li>
+					<label>省分收到日期：</label>
+					<input type="text" name="search_EQ_provReceiveDate" id="uwpsDate" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_EQ_provReceiveDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+				</li>
 			</ul>
 			<ul class="searchContent">
 				<li>
@@ -101,6 +105,7 @@
 				<th orderField=formNo class="${page.orderField eq 'formNo' ? page.orderDirection : ''}">投保单号</th>
 				<th orderField=policyNo class="${page.orderField eq 'policyNo' ? page.orderDirection : ''}">保单号</th>
 				<th>投保人</th>
+				<th>年龄</th>
 				<th>被保人</th>
 				<th>关系</th>
 				<th orderField=underwriteReason class="${page.orderField eq 'underwriteReason' ? page.orderDirection : ''}">转核原因</th>
@@ -137,6 +142,7 @@
 				<td>${item.formNo}</td>
 				<td title="${item.policyNo}">${item.policyNo}</td>
 				<td title="${item.holder}">${fn:substring(item.holder, 0, 4)}</td>
+				<td>${item.holderAge}</td>
 				<td title="${item.insured}">${fn:substring(item.insured, 0, 4)}</td>
 				<td>${item.relation}</td>
 				<td>${item.underwriteReason}</td>

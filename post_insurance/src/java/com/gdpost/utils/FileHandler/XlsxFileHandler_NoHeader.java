@@ -22,7 +22,7 @@ public class XlsxFileHandler_NoHeader extends AbstractFileHandler {
 	public static Logger log = LoggerFactory.getLogger(XlsxFileHandler_NoHeader.class);
 	
 	// 读取Excel 2007文件
-	public DataTable[] readFile(String strFilePath, String strFileName) {
+	public DataTable[] readFile(String strFilePath, String strFileName, String keyRow) {
 		List<DataTable> list = new ArrayList<DataTable>();	
 		
         try
@@ -39,7 +39,7 @@ public class XlsxFileHandler_NoHeader extends AbstractFileHandler {
         		handler.setUserName(this.m_strUserName);
         		handler.setPassword(this.m_strPassword);
         		handler.setStandardColumn(this.m_column);
-        		return(handler.readFile(strFilePath, strFileName));
+        		return(handler.readFile(strFilePath, strFileName, keyRow));
             }
             
             XSSFSheet sheet = null;

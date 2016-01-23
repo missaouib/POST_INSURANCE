@@ -23,7 +23,7 @@ import com.gdpost.utils.UploadDataHelper.UploadDataUtils;
 public class TextFileHandler extends AbstractFileHandler {
 	public static Logger log = LoggerFactory.getLogger(TextFileHandler.class);
 	
-	public DataTable[] readFile(String strFilePath, String strFileName) {
+	public DataTable[] readFile(String strFilePath, String strFileName, String keyRow) {
 		DataTable[] ds = null;
 		
 		InputStreamReader freader = null;
