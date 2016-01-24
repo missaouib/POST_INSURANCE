@@ -7,12 +7,15 @@
  */
 package com.gdpost.web.service.insurance;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.domain.Specification;
 
 import com.gdpost.web.entity.component.Notice;
 import com.gdpost.web.entity.component.NoticeAtt;
+import com.gdpost.web.entity.main.Role;
+import com.gdpost.web.entity.main.User;
 import com.gdpost.web.util.dwz.Page;
 
 public interface NoticeService {
@@ -36,5 +39,8 @@ public interface NoticeService {
 	List<NoticeAtt> findAllNoticeAtt(Page page);
 	
 	List<NoticeAtt> findByNoticeAttExample(Specification<NoticeAtt> specification, Page page);
+
+	List<Notice> findByOwnNoticeList(Page page, String orgCode, List<Role> roles,
+			User user, User sender, Date... d1);
 	
 }

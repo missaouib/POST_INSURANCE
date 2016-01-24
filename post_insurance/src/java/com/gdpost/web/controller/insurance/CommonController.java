@@ -7,7 +7,9 @@
  */
 package com.gdpost.web.controller.insurance;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -170,7 +172,7 @@ public class CommonController {
 		return str;
 	}
 	
-	@RequestMapping(value="/lookup2BQIssuesDefine", method={RequestMethod.GET})
+	@RequestMapping(value="/lookup2BQIssuesDefine", method={RequestMethod.GET, RequestMethod.POST})
 	public String lookupCve(ServletRequest request, Map<String, Object> map, Page page) {
 		page.setNumPerPage(60);
 		Specification<ConservationError> specification = DynamicSpecifications.bySearchFilter(request, ConservationError.class);
@@ -180,8 +182,10 @@ public class CommonController {
 		return LOOK_CVE;
 	}
 	
-	@RequestMapping(value="/lookup4User", method={RequestMethod.GET})
+	@RequestMapping(value="/lookup4User", method={RequestMethod.GET, RequestMethod.POST})
 	public String lookupUser(ServletRequest request, Map<String, Object> map, Page page) {
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("status", Operator.EQ, User.STATUS_ENABLED));
 		Specification<User> specification = DynamicSpecifications.bySearchFilter(request, User.class);
 		List<User> org = userService.findByExample(specification, page);
 		map.put("userlist", org);
@@ -189,7 +193,30 @@ public class CommonController {
 		return LOOK_USER;
 	}
 	
-	@RequestMapping(value="/lookup4Role", method={RequestMethod.GET})
+	@RequestMapping(value="/lookupUserSuggest", method={RequestMethod.POST})
+	public @ResponseBody String lookupUserSuggest(ServletRequest request, Map<String, Object> map) {
+		String realname = request.getParameter("realname");
+		if(realname == null || realname.trim().length() <2 ) {
+			return "[{}]";
+		}
+		Page page = new Page();
+		page.setNumPerPage(5);
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("realname", Operator.LIKE, realname));
+		csf.add(new SearchFilter("status", Operator.EQ, User.STATUS_ENABLED));
+		Specification<User> specification = DynamicSpecifications.bySearchFilterWithoutRequest(User.class, csf);
+		List<User> user = userService.findByExample(specification, page);
+		SerializeConfig mapping = new SerializeConfig();
+		HashMap<String, String> fm = new HashMap<String, String>();
+		fm.put("id", "id");
+		fm.put("realname", "realname");
+		mapping.put(User.class, new JavaBeanSerializer(User.class, fm));
+		String str = JSON.toJSONString(user, mapping);
+		LOG.debug("---------------- common user suggest: " + str);
+		return str;
+	}
+	
+	@RequestMapping(value="/lookup4Role", method={RequestMethod.GET, RequestMethod.POST})
 	public String lookupRole(ServletRequest request, Map<String, Object> map, Page page) {
 		Specification<Role> specification = DynamicSpecifications.bySearchFilter(request, Role.class);
 		List<Role> org = roleService.findByExample(specification, page);
@@ -217,7 +244,9 @@ public class CommonController {
 	
 	@RequestMapping(value="/lookupPrdSuggest", method={RequestMethod.POST})
 	public @ResponseBody String lookupPrdSuggest(ServletRequest request, Map<String, Object> map) {
-		Specification<Prd> specification = DynamicSpecifications.bySearchFilter(request, Prd.class);
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("prdStatus", Operator.EQ, "1"));
+		Specification<Prd> specification = DynamicSpecifications.bySearchFilter(request, Prd.class, csf);
 		Page page = new Page();
 		page.setNumPerPage(60);
 		List<Prd> org = basedataService.findByPrdExample(specification, page);

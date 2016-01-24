@@ -169,7 +169,7 @@ $(document).ready(function(){
 						</div>
 						<p><span>欢迎, ${login_user.realname } . 请及时处理待办任务。</p>
 					</div>
-					<div align="center"><%@ include file="../../msg.inc.jsp" %></div>
+					<div align="center"><div style="color: red;"><%@ include file="../../msg.inc.jsp" %></div></div>
 					<div class="pageContent sortDrag" selector="h1" layoutH="88">
 					<fieldset>
 					<legend>待办任务</legend>

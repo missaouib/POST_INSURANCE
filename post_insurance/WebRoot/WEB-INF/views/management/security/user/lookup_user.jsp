@@ -2,6 +2,9 @@
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
+<dwz:paginationForm action="${contextPath }/management/security/user/lookupUser" page="${page }" onsubmit="return dwzSearch(this, 'dialog');">
+</dwz:paginationForm>
+
 <div class="pageHeader">
 	<form method="post" action="${contextPath }/management/security/user/lookupUser" onsubmit="return dwzSearch(this, 'dialog');">
 	<div class="searchBar">
@@ -47,5 +50,5 @@
 	</table>
 
 	<!-- 分页 -->
-	<dwz:pagination page="${page }"/>
+	<dwz:pagination page="${page }" targetType="dialog"/>
 </div>

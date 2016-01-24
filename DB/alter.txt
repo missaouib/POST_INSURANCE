@@ -455,3 +455,4 @@ alter table t_call_fail_list  add column can_call_again_remark varchar(127);
 --------------- SQL ---------------
 
 ALTER TABLE `t_under_write` ADD COLUMN `holder_age` TINYINT(4) DEFAULT NULL AFTER `holder`;
+ALTER TABLE `t_log_info` MODIFY COLUMN `message` VARCHAR(1024) COLLATE utf8_general_ci DEFAULT NULL;

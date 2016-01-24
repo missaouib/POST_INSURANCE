@@ -1,6 +1,5 @@
 package com.gdpost.web.entity.component;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,7 +14,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import com.gdpost.web.entity.Idable;
 import com.gdpost.web.entity.main.Organization;
@@ -32,7 +37,7 @@ public class Notice implements Idable<Long> {
 	// Fields
 
 	private Long id;
-	private Long sender;
+	private User sender;
 	private Date sendDate;
 	private User user;
 	private Organization organization;
@@ -49,7 +54,7 @@ public class Notice implements Idable<Long> {
 	}
 
 	/** full constructor */
-	public Notice(Long sender, Timestamp sendDate, User receiver, Organization receiveOrg, Role receiveRole, Date invalidDate, String noticeTitle,
+	public Notice(User sender, Date sendDate, User receiver, Organization receiveOrg, Role receiveRole, Date invalidDate, String noticeTitle,
 			String noticeContent, List<NoticeAtt> TNoticeAtts) {
 		this.sender = sender;
 		this.sendDate = sendDate;
@@ -74,15 +79,17 @@ public class Notice implements Idable<Long> {
 		this.id = id;
 	}
 
-	@Column(name = "sender")
-	public Long getSender() {
+	@OneToOne
+	@JoinColumn(name = "sender", referencedColumnName="id")
+	public User getSender() {
 		return this.sender;
 	}
 
-	public void setSender(Long sender) {
+	public void setSender(User sender) {
 		this.sender = sender;
 	}
 
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "send_date", length = 19)
 	public Date getSendDate() {
 		return this.sendDate;
@@ -92,8 +99,8 @@ public class Notice implements Idable<Long> {
 		this.sendDate = sendDate;
 	}
 
-	@ManyToOne
-	@JoinColumn(name = "receiver", referencedColumnName="id")
+	@ManyToOne(optional = true)
+	@JoinColumn(name = "receiver", referencedColumnName="id", nullable=true)
 	public User getUser() {
 		return this.user;
 	}
@@ -102,8 +109,9 @@ public class Notice implements Idable<Long> {
 		this.user = user;
 	}
 
-	@ManyToOne
-	@JoinColumn(name = "receive_org", referencedColumnName="id")
+	@Fetch(FetchMode.JOIN)
+	@ManyToOne(optional = true)
+	@JoinColumn(name = "receive_org", referencedColumnName="id", nullable=true)
 	public Organization getOrganization() {
 		return this.organization;
 	}
@@ -112,8 +120,8 @@ public class Notice implements Idable<Long> {
 		this.organization = organization;
 	}
 
-	@ManyToOne
-	@JoinColumn(name = "receive_role", referencedColumnName="id")
+	@ManyToOne(optional = true)
+	@JoinColumn(name = "receive_role", referencedColumnName="id", nullable=true)
 	public Role getRole() {
 		return this.role;
 	}

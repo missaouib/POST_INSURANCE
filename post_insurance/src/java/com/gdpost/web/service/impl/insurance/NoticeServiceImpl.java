@@ -3,6 +3,7 @@
  */
 package	com.gdpost.web.service.impl.insurance;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,8 @@ import com.gdpost.web.dao.NoticeAttDAO;
 import com.gdpost.web.dao.NoticeDAO;
 import com.gdpost.web.entity.component.Notice;
 import com.gdpost.web.entity.component.NoticeAtt;
+import com.gdpost.web.entity.main.Role;
+import com.gdpost.web.entity.main.User;
 import com.gdpost.web.service.insurance.NoticeService;
 import com.gdpost.web.util.dwz.Page;
 import com.gdpost.web.util.dwz.PageUtils;
@@ -81,6 +84,26 @@ public class NoticeServiceImpl implements NoticeService {
 		return springDataPage.getContent();
 	}
 	
+	@Override
+	public List<Notice> findByOwnNoticeList(Page page, String orgCode, List<Role> roles, User user, User senderId, Date... d) {
+		if(d != null && d.length >= 2) {
+			org.springframework.data.domain.Page<Notice> springDataPage = noticeDAO.findBetweenList(orgCode, roles, user, user, d[0], d[1], PageUtils.createPageable(page));
+			page.setTotalCount(springDataPage.getTotalElements());
+			return springDataPage.getContent();
+		}
+		org.springframework.data.domain.Page<Notice> springDataPage = noticeDAO.findValidList(orgCode, roles, user, user, new Date(), PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
+	}
+	
+	/*
+	@Override
+	public List<Notice> findByDateNoticeList(String orgCode, List<Role> roles, User user, User senderId, Date d1, Date d2, Page page) {
+		org.springframework.data.domain.Page<Notice> springDataPage = noticeDAO.findBetweenList(orgCode, roles, user, user, d1, d2, PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
+	}
+	*/
 	@Override
 	public NoticeAtt getNoticeAtt(Long id) {
 		return noticeAttDAO.findOne(id);

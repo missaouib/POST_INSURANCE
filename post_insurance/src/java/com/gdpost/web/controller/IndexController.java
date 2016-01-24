@@ -33,19 +33,25 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gdpost.utils.SecurityUtils;
 import com.gdpost.web.SecurityConstants;
+import com.gdpost.web.entity.component.Notice;
 import com.gdpost.web.entity.main.Module;
+import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.Permission;
+import com.gdpost.web.entity.main.Role;
 import com.gdpost.web.entity.main.User;
+import com.gdpost.web.entity.main.UserRole;
 import com.gdpost.web.exception.ServiceException;
 import com.gdpost.web.log.Log;
 import com.gdpost.web.log.LogMessageObject;
 import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.ModuleService;
 import com.gdpost.web.service.OrganizationService;
+import com.gdpost.web.service.UserRoleService;
 import com.gdpost.web.service.UserService;
 import com.gdpost.web.service.insurance.BqglService;
 import com.gdpost.web.service.insurance.HfglService;
 import com.gdpost.web.service.insurance.KfglService;
+import com.gdpost.web.service.insurance.NoticeService;
 import com.gdpost.web.service.insurance.PayListService;
 import com.gdpost.web.service.insurance.QyglService;
 import com.gdpost.web.service.insurance.XqglService;
@@ -89,7 +95,13 @@ public class IndexController {
 	private HfglService hfglService;
 	
 	@Autowired
+	private UserRoleService userRoleService;
+	
+	@Autowired
 	private PayListService paylistService;
+	
+	@Autowired
+	private NoticeService noticeService;
 	
 	private static final String WEBINDEX = "index";
 	private static final String INDEX = "management/index/index";
@@ -136,6 +148,23 @@ public class IndexController {
 		map.put("qyfromfaillist", paylistService.getQYFromFailListTODOIssueList(shiroUser.getUser()));
 		
 		map.put("lptofaillist", paylistService.getLPToFailListTODOIssueList(shiroUser.getUser()));
+		
+		User user = shiroUser.getUser();
+		Organization org = user.getOrganization();
+		List<UserRole> urs = userRoleService.findByUserId(user.getId());
+		List<Role> roles = new ArrayList<Role>();
+		UserRole ur = null;
+		for(int i=0; i<urs.size(); i++) {
+			ur = urs.get(i);
+			roles.add(ur.getRole());
+		}
+		List<Notice> basedata = noticeService.findByOwnNoticeList(page, "%" + org.getOrgCode() + "%", roles, user, user);
+		StringBuffer msg = new StringBuffer("您有新的通知：");
+		for(Notice n:basedata) {
+			msg.append(n.getNoticeTitle() + ";&nbsp;&nbsp;&nbsp;&nbsp;");
+		}
+		
+		request.setAttribute("noticeMsg", msg);
 		
 		if(shiroUser.getUserType().equals("web")) {
 			return WEBINDEX;

@@ -38,7 +38,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.JavaBeanSerializer;
 import com.alibaba.fastjson.serializer.SerializeConfig;
 import com.gdpost.utils.SecurityUtils;
-import com.gdpost.web.entity.basedata.ConservationError;
 import com.gdpost.web.entity.main.InvoiceReq;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.exception.ExistedException;

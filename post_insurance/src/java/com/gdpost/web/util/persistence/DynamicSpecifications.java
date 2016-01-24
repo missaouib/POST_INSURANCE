@@ -456,6 +456,11 @@ public class DynamicSpecifications {
 							p = builder.notEqual(expression, filter.getValue());
 							opredicates.add(builder.or(p));
 							break;
+						case OR_IN:
+							hasOr = true;
+							p = expression.in((Object[])filter.getValue());
+							opredicates.add(builder.or(p));
+							break;
 						case OR_LIKE:
 							hasOr = true;
 							p = builder.like(expression, "%" + filter.getValue() + "%");

@@ -3,7 +3,7 @@
 <script type="text/javascript">
 <!--
 function customAjaxDone(json){
-	alert(json.statusCode);
+	//alert(json.statusCode);
     if (json.statusCode == DWZ.statusCode.ok){
     	DWZ.ajaxDone(json);
     	dialogReloadNavTab(json);
@@ -22,16 +22,21 @@ function customAjaxDone(json){
 			<label>机构：</label>
 			<input name="organization.id" id="uw_orgId" type="hidden" value=""/>
 			<input name="organization.orgCode" id="uw_orgCode" type="hidden" value="${offsite.organization.orgCode }"/>
-					<input class="validate[required] required" name="organization.name" id="uw_orgName" type="text" readonly="readonly" style="width: 140px;" value=""/>
-					<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="organization" title="选择机构" width="400">查找带回</a>
+					<input class="input-medium" name="organization.name" id="uw_orgName" type="text" readonly="readonly" style="width: 140px;" value=""/>
+					<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="organization" title="选择机构" width="400">查</a>
 		</p>		
 		<p>
 			<label>接收人：</label>
-			<input type="text" name="user.id" class="input-medium validate[required] required" maxlength="32" value=""/>
+			<input type="hidden" name="user.id" value=""/>
+			<input name="user.realname" type="text" postField="realname" suggestFields="realname" 
+					suggestUrl="/common/lookupUserSuggest" lookupGroup="user"/>
+					<a class="btnLook" href="${contextPath }/common/lookup4User" lookupGroup="user" title="选择用户" width="650">查</a>
 		</p>
 		<p>
 			<label>接收角色：</label>
-			<input type="text" name="role.id" class="input-medium" maxlength="32" value=""/>
+			<input type="hidden" name="role.id" class="input-medium" maxlength="32" value=""/>
+			<input name="role.name" id="r_name" type="text" value=""/>
+			<a class="btnLook" href="${contextPath }/common/lookup4Role" lookupGroup="role" title="选择角色" width="650">查</a>
 		</p>
 		<p>
 			<label>失效日期：</label>
@@ -40,12 +45,13 @@ function customAjaxDone(json){
 		</p>
 		<p>
 			<label>标题：</label>
-			<input type="text" name="noticeTitle" class="input-medium" maxlength="32" value=""/>
+			<input type="text" name="noticeTitle" class="input-medium validate[required,maxSize[40]] required" maxlength="40" size="40" value=""/>
 		</p>
-		<p>
-			<label>内容</label>
-			<input type="text" name="noticeContent" id="orginProv" class="input-medium validate[required] required"/>
+		<p class="nowrap">
+			<label>内容：</label>
+			<textarea name="noticeContent" class="required" cols="40" rows="5"></textarea>
 		</p>
+		<p>&nbsp;</p>
 		<p>
 			<label>附件</label>
 			<input type="file" name="file">

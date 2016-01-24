@@ -2,10 +2,23 @@
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
+<dwz:paginationForm action="${contextPath }/common/lookup4User" page="${page }" onsubmit="return dwzSearch(this, 'dialog');">
+</dwz:paginationForm>
+
 <div class="pageHeader">
-	<form method="post" id="cveForm" action="${contextPath }/common/lookup2BQIssuesDefine" onsubmit="return dwzSearch(this, 'dialog');">
+	<form method="post" id="cveForm" action="${contextPath }/common/lookup4User" onsubmit="return dwzSearch(this, 'dialog');">
 	<div class="searchBar">
-	&nbsp;
+		<ul class="searchContent">
+			<li>
+				<label>用户名</label>
+				<input type="text" name="search_LIKE_realname" value="${param.search_LIKE_realname }" class="textInput" >
+			</li>
+		</ul>
+		<div class="subBar">
+			<ul>
+				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">查询</button></div></div></li>
+			</ul>
+		</div>
 	</div>
 	</form>
 </div>
@@ -13,7 +26,7 @@
 	<table class="table" layoutH="118" targetType="dialog" width="100%">
 		<thead>
 			<tr>
-				<th orderfield="loginName">登录名</th>
+				<th orderfield="username">登录名</th>
 				<th orderfield="realName">姓名名</th>
 				<th>所属机构</th>
 				<th>查找带回</th>
@@ -22,11 +35,11 @@
 		<tbody>
 		<c:forEach items="${userlist}" var="user">
 			<tr>
-				<td>${user.loginName}</td>
-				<td>${user.realName}</td>
+				<td>${user.username}</td>
+				<td>${user.realname}</td>
 				<td>${user.organization.name}</td>
 				<td>
-					<a class="btnSelect" href="javascript:$.bringBack({id:'${user.id }', realName:'${user.realName }'})" title="查找带回">选择</a>
+					<a class="btnSelect" href="javascript:$.bringBack({id:'${user.id }', realname:'${user.realname }'})" title="查找带回">选择</a>
 				</td>
 			</tr>
 		</c:forEach>
@@ -34,10 +47,10 @@
 	</table>
 
 	<!-- 分页 -->
-	<dwz:pagination page="${page }"/>
+	<dwz:pagination page="${page }" targetType="dialog"/>
 	<div class="formBar">  
         <ul>  
-            <li><div class="button"><div class="buttonContent"><button class="close" type="button" onclick="$.bringBack({id:'', realName:''})">清空</button></div></div></li>
+            <li><div class="button"><div class="buttonContent"><button class="close" type="button" onclick="$.bringBack({id:'', realname:''})">清空</button></div></div></li>
             <li><div class="button"><div class="buttonContent"><button class="close" type="button">关闭</button></div></div></li>  
         </ul>  
     </div>

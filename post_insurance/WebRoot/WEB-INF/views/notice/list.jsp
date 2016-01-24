@@ -17,13 +17,13 @@
 					<input type="text" name="search_LIKE_noticeTitle" value="${param.search_LIKE_noticeTitle }"/>
 				</li>
 				<li>
-					<label>申请开始日期：</label>
-					<input type="text" name="search_GTE_sendDate" id="fqSendDate1" style="width: 80px;" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_sendDate }"/>
+					<label>开始日期：</label>
+					<input type="text" name="sendDate1" id="fqSendDate1" style="width: 80px;" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="${sendDate1 }"/>
 					<a class="inputDateButton" href="javascript:;">选择</a>
 				</li>
 				<li>
-					<label>申请结束日期：</label>
-					<input type="text" name="search_LTE_sendDate" id="fqSendDate2" style="width: 80px;" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_sendDate }"/>
+					<label>结束日期：</label>
+					<input type="text" name="sendDate2" id="fqSendDate2" style="width: 80px;" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="${sendDate2 }"/>
 					<a class="inputDateButton" href="javascript:;">选择</a>
 				</li>
 			</ul>
@@ -40,11 +40,12 @@
 
 	<div class="panelBar">
 		<ul class="toolBar">
+			<li><a iconClass="user_add" target="dialog" rel="lookup2organization_add" mask="true" width="630" height="450" href="${contextPath }/notice/view/{slt_uid}"><span>查看</span></a></li>
 			<shiro:hasPermission name="Notice:save">
-				<li><a iconClass="user_add" target="dialog" rel="lookup2organization_add" mask="true" width="530" height="330" href="${contextPath }/notice/create"><span>添加发布</span></a></li>
+				<li><a iconClass="user_add" target="dialog" rel="lookup2organization_add" mask="true" width="630" height="430" href="${contextPath }/notice/create"><span>添加发布</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Notice:edit">
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="330" href="${contextPath }/notice/update/{slt_uid}"><span>修改</span></a></li>
+				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="630" height="330" href="${contextPath }/notice/update/{slt_uid}"><span>修改</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Notice:delete">
 				<li><a iconClass="user_delete" target="selectedTodo" rel="ids" href="${contextPath }/notice/delete" title="确认要删除?"><span>删除</span></a></li>
@@ -75,10 +76,10 @@
 				<td>${item.user.realname}</td>
 				<td>${item.role.name}</td>
 				<td>${item.organization.name}</td>
-				<td>${item.noticeTitle}</td>
+				<td>${item.noticeContent}</td>
 				<td>${item.sendDate}</td>
-				<td>${item.sendDate}</td>
-				<td>${item.invalidDate}</td>
+				<td>${item.sender.realname}</td>
+				<td><fmt:formatDate value="${item.invalidDate}" pattern="yyyy-MM-dd"/></td>
 				<td>
 				<c:forEach var="subList" items="${item.noticeAtts}">
 		            <a href="${subList.attrLink}">${subList.attrLink}</a>

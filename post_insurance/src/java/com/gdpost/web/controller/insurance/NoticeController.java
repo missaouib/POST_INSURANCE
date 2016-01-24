@@ -9,6 +9,8 @@ import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -21,10 +23,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,18 +34,24 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.gdpost.utils.SecurityUtils;
+import com.gdpost.utils.StringUtil;
 import com.gdpost.utils.UploadDataHelper.UploadDataUtils;
 import com.gdpost.web.entity.component.Notice;
 import com.gdpost.web.entity.component.NoticeAtt;
+import com.gdpost.web.entity.main.Organization;
+import com.gdpost.web.entity.main.Role;
+import com.gdpost.web.entity.main.User;
+import com.gdpost.web.entity.main.UserRole;
+import com.gdpost.web.exception.ServiceException;
 import com.gdpost.web.log.Log;
 import com.gdpost.web.log.LogMessageObject;
 import com.gdpost.web.log.impl.LogUitls;
+import com.gdpost.web.service.UserRoleService;
 import com.gdpost.web.service.insurance.NoticeService;
 import com.gdpost.web.service.uploaddatamanage.UploadDataService;
 import com.gdpost.web.shiro.ShiroUser;
 import com.gdpost.web.util.dwz.AjaxObject;
 import com.gdpost.web.util.dwz.Page;
-import com.gdpost.web.util.persistence.DynamicSpecifications;
 
 @Controller
 @RequestMapping("/notice")
@@ -56,6 +64,10 @@ public class NoticeController {
 	@Autowired
 	private NoticeService noticeService;
 	
+	@Autowired
+	private UserRoleService userRoleService;
+	
+	private static final String VIEW = "notice/view";
 	private static final String CREATE = "notice/create";
 	private static final String LIST = "notice/list";
 	
@@ -64,21 +76,67 @@ public class NoticeController {
 	@RequiresPermissions(value={"Notice:view"}, logical=Logical.OR)
 	@RequestMapping(value = "/list", method = {RequestMethod.GET, RequestMethod.POST})
 	public String list(HttpServletRequest request, Map<String, Object> map, Page page) {
-		Specification<Notice> specification = DynamicSpecifications.bySearchFilter(request, Notice.class);
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();
+		Organization org = user.getOrganization();
+		List<UserRole> urs = userRoleService.findByUserId(user.getId());
+		List<Role> roles = new ArrayList<Role>();
+		UserRole ur = null;
+		for(int i=0; i<urs.size(); i++) {
+			ur = urs.get(i);
+			roles.add(ur.getRole());
+		}
+		
+		String sd1 = request.getParameter("sendDate1");
+		String sd2 = request.getParameter("sendDate2");
+		request.setAttribute("sendDate1", sd1);
+		request.setAttribute("sendDate2", sd2);
+		Date d1 = null;
+		Date d2 = null;
+		Date[] d = null;
+		if(d1 != null || d2 != null) {
+			if (sd1 == null || sd1.trim().length() <= 0) {
+				d1 = StringUtil.str2Date("2015-10-01", "yyyy-MM-dd");
+			}
+			if (sd2 == null || sd2.trim().length() <= 0) {
+				d2 = StringUtil.str2Date("9999-12-31", "yyyy-MM-dd");
+			}
+			d = new Date[2];
+			d[0] = d1;
+			d[2] = d2;
+		}
+		/*
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("user.id", Operator.OR_EQ, user.getId()));
+		csf.add(new SearchFilter("sender.id", Operator.OR_EQ, user.getId()));
+		//csf.add(new SearchFilter("role.id", Operator.OR_IN, userRoleId));
+		csf.add(new SearchFilter("organization.orgCode", Operator.OR_LIKE, org.getOrgCode()));
+		
+		Specification<Notice> specification = DynamicSpecifications.bySearchFilter(request, Notice.class, csf);
 		List<Notice> basedata = noticeService.findByNoticeExample(specification, page);
-
+		 */
+		List<Notice> basedata = noticeService.findByOwnNoticeList(page, "%" + org.getOrgCode() + "%", roles, user, user, d);
+		
 		map.put("page", page);
 		map.put("basedata", basedata);
 		return LIST;
 	}
 
+	@RequiresPermissions(value={"Notice:view"}, logical=Logical.OR)
+	@RequestMapping(value = "/view/{id}", method = RequestMethod.GET)
+	public String view(HttpServletRequest request, @PathVariable("id") Long id, Map<String, Object> map) {
+		Notice notice = noticeService.getNotice(id);
+		map.put("notice", notice);
+		return VIEW;
+	}
+	
 	@RequiresPermissions(value={"Notice:add"}, logical=Logical.OR)
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public String preUpload(HttpServletRequest request, Map<String, Object> map) {
 		
 		return CREATE;
 	}
-
+	
 	@Log(message="上传了{0}。")
 	@RequiresPermissions(value={"Notice:add"}, logical=Logical.OR)
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
@@ -89,10 +147,12 @@ public class NoticeController {
         String strPath = UploadDataUtils.getNoticeFileStorePath(request, iNY);
         String updatePath = UploadDataUtils.getNoticeRelateFileStorePath(request, iNY);
 		//String strTempPath = UploadDataUtils.getFileStoreTempPath(request);
-		 String strNewFileName = null;
-        if(file != null && file.getOriginalFilename() != null) {
+		String strNewFileName = null;
+		boolean hasFile = false;
+        if(file != null && file.getOriginalFilename() != null && file.getOriginalFilename().trim().length()>0) {
 	        try
 	        {
+	        	hasFile = true;
 	        	String name = file.getOriginalFilename();
 	            Long lFileSize = file.getSize();
 	
@@ -225,16 +285,52 @@ public class NoticeController {
 	            log.error(e.getMessage());
 	        }
         }
-		
-        notice = noticeService.saveOrUpdateNotice(notice);
-        NoticeAtt att = new NoticeAtt();
+        String roleId = request.getParameter("role.id");
+        String orgId = request.getParameter("organization.id");
+        String userId = request.getParameter("user.id");
+        if(roleId!=null && roleId.trim().length() <=0) {
+        	notice.setRole(null);
+        }
+        if(orgId != null && orgId.trim().length()<=0) {
+        	notice.setOrganization(null);
+        }
+        if(userId != null && userId.trim().length() <=0) {
+        	notice.setUser(null);
+        }
+        ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();
+		notice.setSender(user);
+		notice.setSendDate(new Date());
         log.debug("-----------save notice finish:" + notice.toString());
-        att.setNotice(notice);
-        att.setAttrLink(updatePath + "/" + strNewFileName);
-        log.debug("-----notice attr:" + att.toString());
-        noticeService.saveOrUpdateNoticeAtt(att);
-        
+        notice = noticeService.saveOrUpdateNotice(notice);
+        if (hasFile) {
+	        NoticeAtt att = new NoticeAtt();
+	        att.setNotice(notice);
+	        att.setAttrLink(updatePath + "/" + strNewFileName);
+	        log.debug("-----notice attr:" + att.toString());
+	        noticeService.saveOrUpdateNoticeAtt(att);
+        }
         return AjaxObject.newOk("发布成功！").toString();
+	}
+	
+	@Log(message="删除了{0}通知。")
+	@RequiresPermissions(value={"Notice:delete"}, logical=Logical.OR)
+	@RequestMapping(value="/delete", method=RequestMethod.POST)
+	public @ResponseBody String deleteMany(Long[] ids) {
+		String[] policys = new String[ids.length];
+		try {
+			for (int i = 0; i < ids.length; i++) {
+				Notice notice = noticeService.getNotice(ids[i]);
+				noticeService.deleteNotice(ids[i]);;
+				
+				policys[i] = notice.getNoticeTitle();
+			}
+		} catch (ServiceException e) {
+			return AjaxObject.newError("删除通知失败：" + e.getMessage()).setCallbackType("").toString();
+		}
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{Arrays.toString(policys)}));
+		return AjaxObject.newOk("删除通知成功！").setCallbackType("").toString();
 	}
 	
 	// 使用初始化绑定器, 将参数自动转化为日期类型,即所有日期类型的数据都能自动转化为yyyy-MM-dd格式的Date类型
