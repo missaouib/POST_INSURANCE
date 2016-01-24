@@ -283,6 +283,7 @@ public class NoticeController {
 	            e.printStackTrace();
 	            log.error("--- UPLOAD FAIL ---");
 	            log.error(e.getMessage());
+	            return AjaxObject.newError("发布失败！").toString();
 	        }
         }
         String roleId = request.getParameter("role.id");
