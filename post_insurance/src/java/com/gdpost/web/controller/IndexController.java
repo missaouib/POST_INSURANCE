@@ -160,10 +160,14 @@ public class IndexController {
 		}
 		List<Notice> basedata = noticeService.findByOwnNoticeList(page, "%" + org.getOrgCode() + "%", roles, user, user);
 		StringBuffer msg = new StringBuffer("您有新的通知：");
+		boolean hasNotice = false;
 		for(Notice n:basedata) {
+			hasNotice = true;
 			msg.append(n.getNoticeTitle() + ";&nbsp;&nbsp;&nbsp;&nbsp;");
 		}
-		
+		if(!hasNotice) {
+			msg = new StringBuffer("暂时没有新的通知。");
+		}
 		request.setAttribute("noticeMsg", msg);
 		
 		if(shiroUser.getUserType().equals("web")) {

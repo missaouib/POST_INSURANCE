@@ -20,7 +20,7 @@
 }
 </style>
 <div id="MsgContainer">
-    <div id="MsgContent">${noticeMsg }</div>
+    <div id="MsgContent"><div style="color: red;">${noticeMsg } &nbsp;&nbsp;可进入通知管理查看</div></div>
 </div>
 <script type="text/javascript">
 if(!window.rollWord){
