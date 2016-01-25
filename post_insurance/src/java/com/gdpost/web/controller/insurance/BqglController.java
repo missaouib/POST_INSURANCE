@@ -766,7 +766,7 @@ public class BqglController {
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("conservationDtl.policy.organization.orgCode", Operator.LIKE, orgCode));
-		if (status.length() > 0) {
+		if (status != null && status.length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
 		}
 		Specification<CsReissue> specification = DynamicSpecifications.bySearchFilter(request, CsReissue.class, csf);

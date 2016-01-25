@@ -241,7 +241,7 @@ public class UploadDataServiceImpl implements UploadDataService{
         	}
             builder.append(member_id);
             builder.append('\n');
-            log.debug("---000--" + builder.toString());
+            //log.debug("---000--" + builder.toString());
         }
         
         log.debug("------111-----" + builder.toString());

@@ -45,12 +45,16 @@ public class CsvFileHandler extends AbstractFileHandler {
 		DataColumn column = null;
 		DataRow dataRow = null;
 		boolean hasKeyRow = false;
+		int keyRowIdx = -1;
 		//获取头部信息
 		try {
 			String[] headers = reader.getHeader(true);
-			for(String h:headers) {
+			String h = null;
+			for(int i=0; i<headers.length; i++) {
+				h = headers[i];
 				if (h!=null && h.equals(keyRow)) {
 					hasKeyRow = true;
+					keyRowIdx = i;
 				}
 			}
 			if(!hasKeyRow) {
@@ -77,11 +81,14 @@ public class CsvFileHandler extends AbstractFileHandler {
 		//获取数据部分
 		try {
 			while ((line = reader.read()) != null) {
-			    dataRow = dt.NewRow();
-			    //log.debug("----------csv file read line" + line);
+				//log.debug("----------csv file read line" + line);
 			    if(line.size() < dt.Columns.size()/2) {
 			    	continue;
 			    }
+			    if(line.get(keyRowIdx)==null || line.get(keyRowIdx).trim().length()<=0) {
+			    	continue;
+			    }
+			    dataRow = dt.NewRow();
 			    for(int i = 0; i < line.size(); i++) {
 			    	dataRow.setValue(i, StringUtil.trimStr(line.get(i)));
 			    	//log.debug(i + "----------csv read data: " + dataRow.getValue(i));

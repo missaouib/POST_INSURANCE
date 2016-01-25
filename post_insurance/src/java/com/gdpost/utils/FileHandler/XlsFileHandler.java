@@ -56,6 +56,9 @@ public class XlsFileHandler extends AbstractFileHandler {
 			int lastRow = -1;
 			boolean hasKeyRow = false;
 			String check = null;
+			int keyRowIdx = -1;
+			int count = -1;
+			Cell checkCell = null;
 			//List<CellRangeAddress> calist = new ArrayList<CellRangeAddress>();
 			// 如果是合并单元表格，略过
 			
@@ -72,6 +75,7 @@ public class XlsFileHandler extends AbstractFileHandler {
 				//log.debug("--------------to skip i: " + skipRow + ", sheet last row: " + sheet.getLastRowNum());
 				lastRow = sheet.getLastRowNum();
 				for (int i = skipRow+1; i < lastRow; i++) {
+					count = -1;
 					headerRow = (HSSFRow) sheet.getRow(i);
 					if (headerRow == null) {
 						continue;
@@ -79,8 +83,18 @@ public class XlsFileHandler extends AbstractFileHandler {
 					log.debug("--------------headerRow : " + headerRow + ", and the cell num: " + headerRow.getLastCellNum() + ", template column size: " + this.m_column.size());
 					Iterator<Cell> iter = headerRow.cellIterator();
 					while(iter.hasNext()) {
-						check = iter.next().getStringCellValue();
+						count ++;
+						checkCell = iter.next();
+						switch(checkCell.getCellType()) {
+						case HSSFCell.CELL_TYPE_BLANK;
+						}
+						if(checkCell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC) {
+							check = String.valueOf(checkCell.getNumericCellValue());
+						} else {
+							check = checkCell.getStringCellValue();
+						}
 						if(check != null && check.trim().equals(keyRow)) {
+							keyRowIdx = count;
 							hasKeyRow = true;
 							markRow = i;
 							i = lastRow;
@@ -124,6 +138,9 @@ public class XlsFileHandler extends AbstractFileHandler {
 					//如果row的列长度不够，也退出
 					if(row.getLastCellNum() < this.m_column.size()/2) {
 						break;
+					}
+					if(row.getCell(keyRowIdx) == null || row.getCell(keyRowIdx).getStringCellValue().trim().length()<=0) {
+						continue;
 					}
 					dataRow = dt.NewRow();
 					bFlag = false;
