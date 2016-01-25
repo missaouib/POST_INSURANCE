@@ -38,6 +38,7 @@ response.setHeader("Content-Disposition", "inline; filename=call_fail_dtl.xls");
 				<th>二访人</th>
 				<th>可再访</th>
 				<th>可再访备注</th>
+				<th>重置时间</th>
 				<shiro:hasPermission name="Callfail:provEdit">
 				<th>信函记录</th>
 				</shiro:hasPermission>
@@ -84,6 +85,7 @@ response.setHeader("Content-Disposition", "inline; filename=call_fail_dtl.xls");
 				<td>${item.hqDealMan}</td>
 				<td>${item.canCallAgain}</td>
 				<td>${item.canCallAgainRemark}</td>
+				<td><fmt:formatDate value="${item.resetDate }" pattern="yyyy-MM-dd"/></td>
 				<shiro:hasPermission name="Callfail:provEdit">
 				<td>${item.hasLetter}</td>
 				</shiro:hasPermission>

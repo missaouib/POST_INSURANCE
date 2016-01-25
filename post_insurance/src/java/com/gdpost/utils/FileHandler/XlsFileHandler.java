@@ -86,12 +86,22 @@ public class XlsFileHandler extends AbstractFileHandler {
 						count ++;
 						checkCell = iter.next();
 						switch(checkCell.getCellType()) {
-						case HSSFCell.CELL_TYPE_BLANK;
-						}
-						if(checkCell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC) {
-							check = String.valueOf(checkCell.getNumericCellValue());
-						} else {
+						case HSSFCell.CELL_TYPE_BLANK:
+							break;
+						case HSSFCell.CELL_TYPE_FORMULA:
+							check = checkCell.getCellFormula();
+							break;
+						case HSSFCell.CELL_TYPE_NUMERIC:
+							if (HSSFDateUtil.isCellDateFormatted(checkCell)) {
+						        check = StringUtil.trimStr(DateFormatUtils.format(checkCell.getDateCellValue(), "yyyy-MM-dd"));
+						    } else {
+						    	DecimalFormat df = new DecimalFormat("0");
+						    	check = df.format(checkCell.getNumericCellValue());
+						    }
+							break;
+						default:
 							check = checkCell.getStringCellValue();
+							break;
 						}
 						if(check != null && check.trim().equals(keyRow)) {
 							keyRowIdx = count;

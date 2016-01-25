@@ -375,6 +375,7 @@ public class HfglController {
 		call.setResetPhone(resetPhone);
 		call.setCanCallAgain(true);
 		call.setCanCallAgainRemark(callAgainRemark);
+		call.setResetDate(new Date());
 		hfglService.saveOrUpdate(call);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{call.getPolicy().getPolicyNo()}));
@@ -413,6 +414,7 @@ public class HfglController {
 		case ResetStatus:
 			desc = "成功重置电话";
 			call.setResetPhone(resetPhone);
+			call.setResetDate(new Date());
 			break;
 		case CloseStatus:
 			desc = "成功进行结案";

@@ -48,7 +48,7 @@ public class StringUtil {
 			return "";
 		}
 		String str = obj.toString();
-		Pattern p = Pattern.compile("\\t|\r|\n");
+		Pattern p = Pattern.compile("\\t|\r|\n|\\\\");
         Matcher m = p.matcher(str);
         String dest = m.replaceAll("");
 		return dest;
@@ -309,6 +309,11 @@ public class StringUtil {
 			e.printStackTrace();
 		}
 		return new Date();
+	}
+	
+	public static String date2Str(Date date, String patten) {
+		SimpleDateFormat sdf = new SimpleDateFormat(patten);
+		return sdf.format(date);
 	}
 	
 	public static void main(String[] args) {

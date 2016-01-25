@@ -125,6 +125,7 @@
 				<th orderField=canCallAgain class="${page.orderField eq 'canCallAgain' ? page.orderDirection : ''}">可再访</th>
 				<th>可再访备注</th>
 				<th>重置电话</th>
+				<th>重置日期</th>
 				<th orderField=issueNo class="${page.orderField eq 'issueNo' ? page.orderDirection : ''}">工单编号</th>
 				<th orderField=status class="${page.orderField eq 'status' ? page.orderDirection : ''}">工单状态</th>
 				<th>工单内容</th>
@@ -161,6 +162,7 @@
 				<td>${item.canCallAgain}</td>
 				<td>${item.canCallAgainRemark}</td>
 				<td>${item.resetPhone}</td>
+				<td><fmt:formatDate value="${item.resetDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.issueNo}</td>
 				<td>${item.status}</td>
 				<td>${item.issueContent}</td>

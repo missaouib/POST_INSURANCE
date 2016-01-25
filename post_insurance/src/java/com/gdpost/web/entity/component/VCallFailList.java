@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.ColumnTransformer;
@@ -119,6 +121,7 @@ public class VCallFailList implements Idable<Long>, java.io.Serializable {
 	
 	private Boolean canCallAgain;
 	private String canCallAgainRemark;
+	private Date resetDate;
 
 	// Constructors
 
@@ -842,5 +845,13 @@ public class VCallFailList implements Idable<Long>, java.io.Serializable {
 	}
 	public void setCanCallAgainRemark(String canCallAgainRemark) {
 		this.canCallAgainRemark = canCallAgainRemark;
+	}
+	@Temporal(TemporalType.DATE)
+	@Column(name="reset_date")
+	public Date getResetDate() {
+		return resetDate;
+	}
+	public void setResetDate(Date resetDate) {
+		this.resetDate = resetDate;
 	}
 }
