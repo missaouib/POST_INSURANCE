@@ -158,6 +158,9 @@ public class IndexController {
 			ur = urs.get(i);
 			roles.add(ur.getRole());
 		}
+		page.setNumPerPage(3);
+		page.setOrderDirection("DESC");
+		page.setOrderField("sendDate");
 		List<Notice> basedata = noticeService.findByOwnNoticeList(page, "%" + org.getOrgCode() + "%", roles, user, user);
 		StringBuffer msg = new StringBuffer("您有新的通知：");
 		boolean hasNotice = false;
@@ -167,6 +170,8 @@ public class IndexController {
 		}
 		if(!hasNotice) {
 			msg = new StringBuffer("暂时没有新的通知。");
+		} else {
+			msg.append("...");
 		}
 		request.setAttribute("noticeMsg", msg);
 		
