@@ -846,7 +846,7 @@ public class VCallFailList implements Idable<Long>, java.io.Serializable {
 	public void setCanCallAgainRemark(String canCallAgainRemark) {
 		this.canCallAgainRemark = canCallAgainRemark;
 	}
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="reset_date")
 	public Date getResetDate() {
 		return resetDate;

@@ -632,7 +632,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			break;
 		case CallFailMailStatus:
 			standardColumns = CallFailMailListColumn.getStandardColumns();
-			keyRow = CallFailHQMiniListColumn.KEY_ROW;
+			keyRow = CallFailMailListColumn.KEY_ROW;
 			break;
 		case Renewed:
 			standardColumns = RenewedColumn.getStandardColumns();

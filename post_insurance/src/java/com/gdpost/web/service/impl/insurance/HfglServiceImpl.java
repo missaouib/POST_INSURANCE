@@ -142,7 +142,7 @@ public class HfglServiceImpl implements HfglService {
 					//new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.NewStatus.getDesc()),
 					//new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.ResetStatus.getDesc()),
 					//new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.CallFailStatus.getDesc()),
-					//new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.NeedDoorStatus.getDesc()),
+					new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.NeedDoorStatus.getDesc()),
 					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
 		} else if (userOrg.getOrgCode().length() <= 4) { //如果是省分的，看已回复的。
 			specification = DynamicSpecifications.bySearchFilterWithoutRequest(VCallFailList.class,
