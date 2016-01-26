@@ -6,7 +6,7 @@ import java.util.List;
 public class CallFailHQMiniListColumn {
 
 	private static List<ColumnItem> standardColumns;
-	public static String KEY_ROW = "二访人员";
+	public static String KEY_ROW = "二访类型";
 	
 	public static List<ColumnItem> getStandardColumns() {
 		if(standardColumns != null) {

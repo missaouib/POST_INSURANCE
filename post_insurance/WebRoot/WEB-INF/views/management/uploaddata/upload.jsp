@@ -160,7 +160,7 @@ jQuery(function() {
 	                        });
                     	}
                     } else if (response.result == "success") {
-                        $("#console").html("导入数据成功。");
+                        $("#console").html(response.message + " - 导入数据成功。");
                     } else {
                         if (response.message != null) {
                             alert(response.message);

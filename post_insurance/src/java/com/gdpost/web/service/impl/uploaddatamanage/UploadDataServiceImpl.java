@@ -378,7 +378,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case MiniCallFailStatus:
 			standardColumns = CallFailHQMiniListColumn.getStandardColumns();
 			sql = new StringBuffer("INSERT INTO t_call_fail_list(policy_no, issue_no, issue_desc, status, issue_type, issue_content, "
-					+ "hq_deal_date, hq_deal_man, hq_deal_type, hq_deal_rst) VALUES ");
+					+ "hq_deal_date, hq_deal_man, hq_deal_type, hq_deal_rst) VALUES  ");
 			line = null;
 			for (DataRow row : dt.Rows) {
 				line = new StringBuffer("(");
