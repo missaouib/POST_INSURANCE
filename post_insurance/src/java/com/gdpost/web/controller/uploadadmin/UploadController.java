@@ -29,9 +29,11 @@ import com.gdpost.utils.SecurityUtils;
 import com.gdpost.utils.TemplateHelper.Template;
 import com.gdpost.utils.TemplateHelper.Template.FileTemplate;
 import com.gdpost.utils.UploadDataHelper.UploadDataUtils;
+import com.gdpost.web.entity.main.User;
 import com.gdpost.web.log.Log;
 import com.gdpost.web.log.LogMessageObject;
 import com.gdpost.web.log.impl.LogUitls;
+import com.gdpost.web.service.UserService;
 import com.gdpost.web.service.uploaddatamanage.UploadDataService;
 import com.gdpost.web.shiro.ShiroUser;
 
@@ -42,6 +44,9 @@ public class UploadController {
 	
 	@Autowired
 	private UploadDataService uploadDataService;
+	
+	@Autowired
+	private UserService userService;
 	
 	private static final String UPLOAD = "management/uploaddata/upload";
 	
@@ -59,7 +64,10 @@ public class UploadController {
 		//listNY.add(ny);
 		//listNY.add(lastNY);
 		//listNY.add(lastNY2);
-		
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = userService.get(shiroUser.getId());
+		//Role role = user.getUserRoles().get(index)
+		//FileTemplate[] tl = 
 		map.put("templateList", FileTemplate.values());
 		FileTemplate ft = FileTemplate.Policy;
 		String type = request.getParameter("type");
