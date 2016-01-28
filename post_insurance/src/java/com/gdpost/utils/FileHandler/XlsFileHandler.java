@@ -59,6 +59,7 @@ public class XlsFileHandler extends AbstractFileHandler {
 			int keyRowIdx = -1;
 			int count = -1;
 			Cell checkCell = null;
+			boolean isNum = false;
 			//List<CellRangeAddress> calist = new ArrayList<CellRangeAddress>();
 			// 如果是合并单元表格，略过
 			
@@ -98,6 +99,7 @@ public class XlsFileHandler extends AbstractFileHandler {
 						    	DecimalFormat df = new DecimalFormat("0");
 						    	check = df.format(checkCell.getNumericCellValue());
 						    }
+							isNum = true;
 							break;
 						default:
 							check = checkCell.getStringCellValue();
@@ -132,10 +134,25 @@ public class XlsFileHandler extends AbstractFileHandler {
 				rowCount = sheet.getLastRowNum();
 				
 				for (int i = headerRow.getFirstCellNum(); i < cellCount; i++) {
-					//if (cellCount < this.m_column.size()/2) {
-						//continue;
-					//}
-					column = new DataColumn(headerRow.getCell(i).getStringCellValue());
+					cell = headerRow.getCell(i);
+					if (cell != null && ("") != cell.toString()) {
+						switch(cell.getCellType()) {
+						case HSSFCell.CELL_TYPE_NUMERIC:
+							if (HSSFDateUtil.isCellDateFormatted(cell)) {
+						        Date date = cell.getDateCellValue();
+						        column = new DataColumn(StringUtil.trimStr(DateFormatUtils.format(date, "yyyy-MM-dd")));
+						    } else {
+						        DecimalFormat df = new DecimalFormat("0");
+						        column = new DataColumn(df.format(cell.getNumericCellValue()));
+						    }
+							break;
+							default:
+								cell.setCellType(HSSFCell.CELL_TYPE_STRING);
+								column = new DataColumn(StringUtil.trimStr(cell.getStringCellValue()));
+						}
+					} else {
+						column = new DataColumn("");
+					}
 					dt.Columns.Add(column);
 				}
 
@@ -149,7 +166,7 @@ public class XlsFileHandler extends AbstractFileHandler {
 					if(row.getLastCellNum() < this.m_column.size()/2) {
 						break;
 					}
-					if(row.getCell(keyRowIdx) == null || row.getCell(keyRowIdx).getStringCellValue().trim().length()<=0) {
+					if(row.getCell(keyRowIdx) == null || isNum?row.getCell(keyRowIdx).getNumericCellValue()<=0:row.getCell(keyRowIdx).getStringCellValue().trim().length()<=0) {
 						continue;
 					}
 					dataRow = dt.NewRow();

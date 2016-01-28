@@ -716,6 +716,11 @@ public class UploadDataServiceImpl implements UploadDataService{
 		// 导入数据库
 		for(DataTable[] dataSet : listDataSet.values()) {
 			for(DataTable dt : dataSet) {
+				if(dt.Rows == null || dt.Rows.size()<=0) {
+					dr.setMsg("可能因为关键列" + keyRow + "确实数据，请检查数据！");
+					dr.setFlag(false);
+					return dr;
+				}
 				if(t.name().equals(FileTemplate.RenewedStatus.name())
 						|| t.name().equals((FileTemplate.RenewedHQList.name())) 
 						|| t.name().equals((FileTemplate.CallFailStatus.name()))

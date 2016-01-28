@@ -58,6 +58,7 @@ function doRel(val) {
 				<option value="超龄">超龄</option>
 				<option value="理赔">理赔</option>
 				<option value="超额">超额</option>
+				<option value="关系">关系</option>
 				<option value="团险">团险</option>
 			</select>
 		</p>
