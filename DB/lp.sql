@@ -79,6 +79,24 @@ create table t_settlement_report
    primary key (id)
 );
 
+/*==============================================================*/
+/* Table: t_settlement_log                                      */
+/*==============================================================*/
+create table t_settlement_log
+(
+   id                   bigint not null,
+   user_id              bigint,
+   settlement_id        bigint,
+   deal_date            datetime,
+   info                 varchar(1024),
+   is_key_info          boolean,
+   ip                   varchar(24),
+   primary key (id)
+);
+
+alter table t_settlement_log add constraint fk_reference_32 foreign key (settlement_id)
+      references t_settlement (id) on delete restrict on update restrict;
+
 alter table t_settlement_check add constraint fk_reference_31 foreign key (settlement_id)
       references t_settlement (id) on delete restrict on update restrict;
 

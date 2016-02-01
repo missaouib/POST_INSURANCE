@@ -1,8 +1,8 @@
 package com.gdpost.web.entity.component;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,10 +11,13 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.gdpost.web.entity.Idable;
+import com.gdpost.web.entity.main.Organization;
 
 /**
  * settlement entity. @author MyEclipse Persistence Tools
@@ -26,7 +29,7 @@ public class Settlement implements Idable<Long> {
 	// Fields
 
 	private Long id;
-	private Long orgId;
+	private Organization organization;
 	private String insured;
 	private String reporter;
 	private String reporterPhone;
@@ -38,13 +41,11 @@ public class Settlement implements Idable<Long> {
 	private Double payFee;
 	private String caseStatus;
 	private String remark;
-	private Set<SettlementPolicy> settlementPolicies = new HashSet<SettlementPolicy>(
-			0);
-	private Set<SettlementReport> settlementReports = new HashSet<SettlementReport>(
-			0);
-	private Set<SettlementCheck> settlementChecks = new HashSet<SettlementCheck>(
-			0);
-
+	private List<SettlementPolicy> settlementPolicies = new ArrayList<SettlementPolicy>(0);
+	private List<SettlementReport> settlementReports = new ArrayList<SettlementReport>(0);
+	private List<SettlementCheck> settlementChecks = new ArrayList<SettlementCheck>(0);
+	private List<SettlementLog> settlementLogs = new ArrayList<SettlementLog>(0);
+	
 	// Constructors
 
 	/** default constructor */
@@ -52,14 +53,14 @@ public class Settlement implements Idable<Long> {
 	}
 
 	/** full constructor */
-	public Settlement(Long orgId, String insured, String reporter,
+	public Settlement(Organization organization, String insured, String reporter,
 			String reporterPhone, Date caseDate, String caseType,
 			Date reporteDate, Date recordDate, Date closeDate, Double payFee,
 			String caseStatus, String remark,
-			Set<SettlementPolicy> settlementPolicies,
-			Set<SettlementReport> settlementReports,
-			Set<SettlementCheck> settlementChecks) {
-		this.orgId = orgId;
+			List<SettlementPolicy> settlementPolicies,
+			List<SettlementReport> settlementReports,
+			List<SettlementCheck> settlementChecks) {
+		this.organization = organization;
 		this.insured = insured;
 		this.reporter = reporter;
 		this.reporterPhone = reporterPhone;
@@ -88,13 +89,14 @@ public class Settlement implements Idable<Long> {
 		this.id = id;
 	}
 
-	@Column(name = "org_id")
-	public Long getOrgId() {
-		return this.orgId;
+	@ManyToOne
+	@JoinColumn(name = "org_id")
+	public Organization getOrganization() {
+		return this.organization;
 	}
 
-	public void setOrgId(Long orgId) {
-		this.orgId = orgId;
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
 	}
 
 	@Column(name = "insured", length = 32)
@@ -197,31 +199,40 @@ public class Settlement implements Idable<Long> {
 	}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "settlement")
-	public Set<SettlementPolicy> getSettlementPolicies() {
+	public List<SettlementPolicy> getSettlementPolicies() {
 		return this.settlementPolicies;
 	}
 
 	public void setSettlementPolicies(
-			Set<SettlementPolicy> settlementPolicies) {
+			List<SettlementPolicy> settlementPolicies) {
 		this.settlementPolicies = settlementPolicies;
 	}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "settlement")
-	public Set<SettlementReport> getSettlementReports() {
+	public List<SettlementReport> getSettlementReports() {
 		return this.settlementReports;
 	}
 
-	public void setSettlementReports(Set<SettlementReport> settlementReports) {
+	public void setSettlementReports(List<SettlementReport> settlementReports) {
 		this.settlementReports = settlementReports;
 	}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "settlement")
-	public Set<SettlementCheck> getSettlementChecks() {
+	public List<SettlementCheck> getSettlementChecks() {
 		return this.settlementChecks;
 	}
 
-	public void setSettlementChecks(Set<SettlementCheck> settlementChecks) {
+	public void setSettlementChecks(List<SettlementCheck> settlementChecks) {
 		this.settlementChecks = settlementChecks;
+	}
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "settlement")
+	public List<SettlementLog> getSettlementLogs() {
+		return settlementLogs;
+	}
+
+	public void setSettlementLogs(List<SettlementLog> settlementLogs) {
+		this.settlementLogs = settlementLogs;
 	}
 
 }
