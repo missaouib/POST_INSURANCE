@@ -215,7 +215,27 @@
 			<key-column name="id" type="Long" />
 		</primary-key>
 	</table>
-<table name="t_pay_success_list" catalog="postinsurance">
+	<table name="t_pay_success_list" catalog="postinsurance">
+		<primary-key>
+			<key-column name="id" type="Long" />
+		</primary-key>
+	</table>
+	<table name="t_settlement_check" catalog="postinsurance">
+		<primary-key>
+			<key-column name="id" type="Long" />
+		</primary-key>
+	</table>
+	<table name="t_settlement_policy" catalog="postinsurance">
+		<primary-key>
+			<key-column name="id" type="Long" />
+		</primary-key>
+	</table>
+	<table name="t_settlement_report" catalog="postinsurance">
+		<primary-key>
+			<key-column name="id" type="Long" />
+		</primary-key>
+	</table>
+<table name="t_settlement" catalog="postinsurance">
 	<primary-key>
 		<key-column name="id" type="Long"/>
 	</primary-key>
