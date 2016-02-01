@@ -59,7 +59,7 @@ public class XlsFileHandler extends AbstractFileHandler {
 			int keyRowIdx = -1;
 			int count = -1;
 			Cell checkCell = null;
-			boolean isNum = false;
+			//boolean isNum = false;
 			//List<CellRangeAddress> calist = new ArrayList<CellRangeAddress>();
 			// 如果是合并单元表格，略过
 			
@@ -81,7 +81,7 @@ public class XlsFileHandler extends AbstractFileHandler {
 					if (headerRow == null) {
 						continue;
 					}
-					log.debug("--------------headerRow : " + headerRow + ", and the cell num: " + headerRow.getLastCellNum() + ", template column size: " + this.m_column.size());
+					//log.debug("--------------headerRow : " + headerRow + ", and the cell num: " + headerRow.getLastCellNum() + ", template column size: " + this.m_column.size());
 					Iterator<Cell> iter = headerRow.cellIterator();
 					while(iter.hasNext()) {
 						count ++;
@@ -99,7 +99,7 @@ public class XlsFileHandler extends AbstractFileHandler {
 						    	DecimalFormat df = new DecimalFormat("0");
 						    	check = df.format(checkCell.getNumericCellValue());
 						    }
-							isNum = true;
+							//isNum = true;
 							break;
 						default:
 							check = checkCell.getStringCellValue();
@@ -166,7 +166,10 @@ public class XlsFileHandler extends AbstractFileHandler {
 					if(row.getLastCellNum() < this.m_column.size()/2) {
 						break;
 					}
-					if(row.getCell(keyRowIdx) == null || isNum?row.getCell(keyRowIdx).getNumericCellValue()<=0:row.getCell(keyRowIdx).getStringCellValue().trim().length()<=0) {
+					if(row.getCell(keyRowIdx) == null) {
+						continue;
+					}
+					if(row.getCell(keyRowIdx).getCellType() == HSSFCell.CELL_TYPE_NUMERIC?row.getCell(keyRowIdx).getNumericCellValue()<=0:row.getCell(keyRowIdx).getStringCellValue().trim().length()<=0) {
 						continue;
 					}
 					dataRow = dt.NewRow();

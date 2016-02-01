@@ -214,6 +214,7 @@ public class VCallFailList implements Idable<Long>, java.io.Serializable {
 		this.result = result;
 	}
 
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "ready_date", nullable = false, length = 19)
 	public Date getReadyDate() {
 		return this.readyDate;
@@ -223,6 +224,7 @@ public class VCallFailList implements Idable<Long>, java.io.Serializable {
 		this.readyDate = readyDate;
 	}
 
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "finish_date", nullable = false, length = 19)
 	public Date getFinishDate() {
 		return this.finishDate;
@@ -547,6 +549,7 @@ public class VCallFailList implements Idable<Long>, java.io.Serializable {
 		this.operateId = operateId;
 	}
 
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "operate_time", length = 19)
 	public Date getOperateTime() {
 		return this.operateTime;
@@ -846,7 +849,7 @@ public class VCallFailList implements Idable<Long>, java.io.Serializable {
 	public void setCanCallAgainRemark(String canCallAgainRemark) {
 		this.canCallAgainRemark = canCallAgainRemark;
 	}
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	@Column(name="reset_date")
 	public Date getResetDate() {
 		return resetDate;
