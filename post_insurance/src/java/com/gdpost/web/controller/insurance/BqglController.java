@@ -803,9 +803,9 @@ public class BqglController {
 		String flag = request.getParameter("flag");
 		String[] sids = ids.split(",");
 		String[] policys = new String[sids.length];
-		String sentDate = request.getParameter("provReceiveDate");
+		String sentDate = request.getParameter("provSentDate");
 		String expNo = request.getParameter("provExpressNo");
-		String proRecDate = request.getParameter("provSentDate");
+		String proRecDate = request.getParameter("provReceiveDate");
 		String receDate = request.getParameter("cityReceiveDate");
 		String cityReceiver = request.getParameter("cityReceiver");
 		

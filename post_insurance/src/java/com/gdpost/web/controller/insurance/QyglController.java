@@ -427,6 +427,7 @@ public class QyglController {
 		src.setUnderwriteReason(underwrite.getUnderwriteReason());
 		src.setPolicyFee(underwrite.getPolicyFee());
 		src.setOrganization(underwrite.getOrganization());
+		src.setHolderAge(underwrite.getHolderAge());
 		qyglService.saveOrUpdateUnderWrite(src);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicyNo()}));
