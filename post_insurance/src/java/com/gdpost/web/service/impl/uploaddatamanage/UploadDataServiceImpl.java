@@ -30,6 +30,7 @@ import com.gdpost.utils.TemplateHelper.CallFailCityMiniListColumn;
 import com.gdpost.utils.TemplateHelper.CallFailHQListColumn;
 import com.gdpost.utils.TemplateHelper.CallFailHQMiniListColumn;
 import com.gdpost.utils.TemplateHelper.CallFailMailListColumn;
+import com.gdpost.utils.TemplateHelper.CallFailNeedDoorListColumn;
 import com.gdpost.utils.TemplateHelper.CheckColumn;
 import com.gdpost.utils.TemplateHelper.ColumnItem;
 import com.gdpost.utils.TemplateHelper.ColumnType;
@@ -441,7 +442,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			break;
 		case CallFailMailStatus:
 			standardColumns = CallFailMailListColumn.getStandardColumns();
-			sql = new StringBuffer("INSERT INTO t_call_fail_list(policy_no, issue_no, status, letter_date, has_letter) VALUES ");
+			sql = new StringBuffer("INSERT INTO t_call_fail_list(policy_no, issue_no, letter_date, has_letter) VALUES ");
 			line = null;
 			for (DataRow row : dt.Rows) {
 				line = new StringBuffer("(");
@@ -462,8 +463,27 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        	sql.append(line);
 	        }
 			sql.deleteCharAt(sql.length() - 1);
-			sql.append(" ON DUPLICATE KEY UPDATE policy_no=VALUES(policy_no), issue_no=VALUES(issue_no), status=VALUES(status), ");
+			sql.append(" ON DUPLICATE KEY UPDATE policy_no=VALUES(policy_no), issue_no=VALUES(issue_no), ");
 			sql.append("letter_date=VALUES(letter_date), has_letter=VALUES(has_letter);");
+			log.debug("----------------batch update : " + sql);
+			sql2 = "delete from t_call_fail_list where issue_no is null";
+			break;
+		case CallFailNeedDoorStatus:
+			standardColumns = CallFailMailListColumn.getStandardColumns();
+			sql = new StringBuffer("INSERT INTO t_call_fail_list(policy_no, issue_no, status) VALUES ");
+			line = null;
+			for (DataRow row : dt.Rows) {
+				line = new StringBuffer("(");
+	        	for(ColumnItem item : standardColumns) {
+	        		line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        	}
+	        	line.deleteCharAt(line.length() - 1);
+	        	line.append("),");
+	        	sql.append(line);
+	        }
+			sql.deleteCharAt(sql.length() - 1);
+			sql.append(" ON DUPLICATE KEY UPDATE policy_no=VALUES(policy_no), issue_no=VALUES(issue_no), ");
+			sql.append("status=VALUES(status);");
 			log.debug("----------------batch update : " + sql);
 			sql2 = "delete from t_call_fail_list where issue_no is null";
 			break;
@@ -613,6 +633,11 @@ public class UploadDataServiceImpl implements UploadDataService{
 			standardColumns = PolicyDtlColumn.getStandardColumns();
 			keyRow = PolicyDtlColumn.KEY_ROW;
 			break;
+		case PolicyUnderWrite:
+			log.debug("----------get the dtl column");
+			standardColumns = PolicyDtlColumn.getStandardColumns();
+			keyRow = PolicyDtlColumn.KEY_ROW;
+			break;
 		case Issue:
 			log.debug("----------get the issue column");
 			standardColumns = IssueColumn.getStandardColumns();
@@ -633,6 +658,10 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case CallFailMailStatus:
 			standardColumns = CallFailMailListColumn.getStandardColumns();
 			keyRow = CallFailMailListColumn.KEY_ROW;
+			break;
+		case CallFailNeedDoorStatus:
+			standardColumns = CallFailNeedDoorListColumn.getStandardColumns();
+			keyRow = CallFailNeedDoorListColumn.KEY_ROW;
 			break;
 		case Renewed:
 			standardColumns = RenewedColumn.getStandardColumns();
@@ -726,7 +755,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 						|| t.name().equals((FileTemplate.CallFailStatus.name()))
 						|| t.name().equals(FileTemplate.MiniCallFailStatus.name())
 						|| t.name().equals(FileTemplate.CallFailCityStatus.name())
-						|| t.name().equals(FileTemplate.CallFailMailStatus.name())) {
+						|| t.name().equals(FileTemplate.CallFailMailStatus.name())
+						|| t.name().equals(FileTemplate.CallFailNeedDoorStatus.name())) {
 					dr = updateStatusData(t, request, dt);
 				} else {
 					dr = importData(t, request, dt, member_id, currentNY);

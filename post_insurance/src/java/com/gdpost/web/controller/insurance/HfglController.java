@@ -155,16 +155,23 @@ public class HfglController {
 		src.setDealNum((issue.getDealNum()==null?0:issue.getDealNum()) + 1);
 		//src.setStatus(issue.getStatus());
 		src.setDealType(issue.getDealType());
+		boolean hqDone = src.getStatus().equals(HF_STATUS.CallSuccessStatus.getDesc())?true:false;
 		if(issue.getDealType().equals("成功件")) {
-			src.setStatus(HF_STATUS.DoorSuccessStatus.getDesc());
+			if(!hqDone) {
+				src.setStatus(HF_STATUS.DoorSuccessStatus.getDesc());
+			}
 			src.setDealStatus(HF_STATUS.DoorSuccessStatus.getDesc());
 			src.setOrgDealFlag(1);
 		} else if(issue.getDealType().equals("已退保")) {
-			src.setStatus(HF_STATUS.TerminalStatus.getDesc());
+			if(!hqDone) {
+				src.setStatus(HF_STATUS.TerminalStatus.getDesc());
+			}
 			src.setDealStatus(HF_STATUS.TerminalStatus.getDesc());
 			src.setOrgDealFlag(0);
 		} else {
-			src.setStatus(HF_STATUS.DoorFailStatus.getDesc());
+			if(!hqDone) {
+				src.setStatus(HF_STATUS.DoorFailStatus.getDesc());
+			}
 			src.setDealStatus(HF_STATUS.DoorFailStatus.getDesc());
 			src.setOrgDealFlag(0);
 		}

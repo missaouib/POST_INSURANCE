@@ -74,7 +74,7 @@ response.setHeader("Content-Disposition", "inline; filename=call_fail_dtl.xls");
 				</td>
 				
 				<td>${item.resetPhone}</td>
-				<td>${item.issueDate}</td>
+				<td><fmt:formatDate value="${item.issueDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.dealType}</td>
 				<td>${item.dealDesc}</td>
 				<td>${item.dealMan}</td>

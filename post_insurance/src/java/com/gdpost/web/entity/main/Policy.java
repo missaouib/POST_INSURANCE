@@ -55,6 +55,7 @@ public class Policy implements Idable<Long>, Serializable{
 	private String holder;
 	private String insured;
 	private Date policyDate;
+	private Date billBackDate;
 	private Integer renewalSucessFlag;
 	private Integer resetValidFlag;
 	private Long operateId;
@@ -323,6 +324,16 @@ public class Policy implements Idable<Long>, Serializable{
 		this.policyDate = policyDate;
 	}
 	
+	@Temporal(TemporalType.DATE)
+	@Column(name = "bill_back_date", length = 10)
+	public Date getBillBackDate() {
+		return billBackDate;
+	}
+
+	public void setBillBackDate(Date billBackDate) {
+		this.billBackDate = billBackDate;
+	}
+
 	@Column(name = "fee_frequency", length = 10)
 	public String getFeeFrequency() {
 		return this.feeFrequency;

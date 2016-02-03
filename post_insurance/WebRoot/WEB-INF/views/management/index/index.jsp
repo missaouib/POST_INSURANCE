@@ -257,7 +257,7 @@ $(document).ready(function(){
 					</shiro:hasPermission>
 					<shiro:hasPermission name="Callfail:view">
 					<div class="panel <c:if test='${fn:length(hfIssueList)<=0}'>close</c:if> collapse" defH="100">
-						<h1><c:if test='${fn:length(hfIssueList)>0}'><img alt="有新任务" src="/images/redpoint.png" height="12" width="12"></c:if>待上门回访工单</h1>
+						<h1><c:if test='${fn:length(hfIssueList)>0}'><img alt="有新任务" src="/images/redpoint.png" height="12" width="12"></c:if>待二次回访工单</h1>
 						<div>
 							<table class="list" width="98%">
 								<thead>
