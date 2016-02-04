@@ -1,20 +1,4 @@
 /*==============================================================*/
-/* Database name:  picodb                                       */
-/* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2016/2/1 ÐÇÆÚÒ» ÏÂÎç 23:08:30                     */
-/*==============================================================*/
-
-
-drop database if exists picodb;
-
-/*==============================================================*/
-/* Database: picodb                                             */
-/*==============================================================*/
-create database picodb;
-
-use picodb;
-
-/*==============================================================*/
 /* Table: t_settlement                                          */
 /*==============================================================*/
 create table t_settlement
@@ -84,7 +68,7 @@ create table t_settlement_report
 /*==============================================================*/
 create table t_settlement_log
 (
-   id                   bigint not null,
+   id                   bigint not null auto_increment,
    user_id              bigint,
    settlement_id        bigint,
    deal_date            datetime,

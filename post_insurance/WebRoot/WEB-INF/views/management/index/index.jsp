@@ -291,7 +291,7 @@ $(document).ready(function(){
 										<td>${item.policy.policyNo}</td>
 										<td>${fn:replace(item.policy.organization.name,'中邮保险局','')}</td>
 										<td>${item.issueType}</td>
-										<td>${item.issueContent}</td>
+										<td title="${item.issueContent}">${fn:substring(item.issueContent, 0, 17)}</td>
 									</tr>
 									</c:forEach>
 								</tbody>

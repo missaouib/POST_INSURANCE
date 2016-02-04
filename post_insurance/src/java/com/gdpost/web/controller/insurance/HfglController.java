@@ -398,6 +398,7 @@ public class HfglController {
 		for(int i=0;i<ids.length; i++) {
 			call = hfglService.get(ids[i]);
 			call.setCanCallAgain(true);
+			call.setResetDate(new Date());
 			hfglService.saveOrUpdate(call);
 		}
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{Arrays.toString(policys)}));
