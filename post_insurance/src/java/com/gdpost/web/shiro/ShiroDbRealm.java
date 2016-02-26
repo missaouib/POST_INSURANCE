@@ -319,7 +319,10 @@ public class ShiroDbRealm extends AuthorizingRealm {
 			List<RolePermission> rolePermissions = role.getRolePermissions();
 			for (RolePermission rolePermission : rolePermissions) {
 				Permission permission = rolePermission.getPermission();
-				
+				if(permission == null) {
+					continue;
+				}
+				log.debug("----------id:" + permission.getId());
 				String resource = permission.getModule().getSn();
 				String operate = permission.getSn();
 		

@@ -25,12 +25,16 @@
 		</p>
 		<p>
 			<label>保单号：</label>
-			<input name="policyNo" type="text" class="input-medium" postField="policyNo" suggestFields="policyNo" 
+			<input name="policyNo" type="text" postField="policyNo" suggestFields="policyNo" class="input-medium validate[required] required"
 					suggestUrl="/common/lookupPolicyProvsuggest" lookupGroup="" value=""/>
 		</p>
 		<p>
 			<label>出单省</label>
 			<input type="text" name="orginProv" id="orginProv" class="input-medium"/>
+		</p>
+		<p>
+			<label>收件省</label>
+			<input type="text" name="dealProv" id="dealProv" class="input-medium"/>
 		</p>
 		<p>
 			<label>外省经办人：</label>
@@ -44,6 +48,10 @@
 			<label>保全业务：</label>
 			<input name="conservationType" id="conservationType" class="input-medium validate[required] required" type="text" postField="search_LIKE_csName" suggestFields="conservationType" 
 					suggestUrl="/common/lookup2BQTypeSuggest" lookupGroup="" value=""/>
+		</p>
+		<p class="nowrap">
+			<label>寄件地址：</label>
+			<textarea type="text" name="mailAddr" class="input-medium">${offsite.mailAddr}</textarea>
 		</p>
 	</div>
 			

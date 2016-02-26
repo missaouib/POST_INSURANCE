@@ -178,6 +178,7 @@ public class XlsFileHandler extends AbstractFileHandler {
 						cell = row.getCell(j);
 						if (cell != null && ("") != cell.toString()) {
 							bFlag = true;
+							//log.debug("-----------" + cell.getCellType());
 							switch(cell.getCellType()) {
 							case HSSFCell.CELL_TYPE_NUMERIC:
 								if (HSSFDateUtil.isCellDateFormatted(cell)) {
@@ -188,8 +189,16 @@ public class XlsFileHandler extends AbstractFileHandler {
 							        dataRow.setValue(j, df.format(cell.getNumericCellValue()));
 							    }
 								break;
+							case HSSFCell.CELL_TYPE_STRING:
+								dataRow.setValue(j, StringUtil.trimStr(cell.getStringCellValue()));
+								break;
+							case HSSFCell.CELL_TYPE_BLANK:
+								dataRow.setValue(j, "");
+								break;
+							case HSSFCell.CELL_TYPE_FORMULA:
+								break;
 								default:
-									cell.setCellType(HSSFCell.CELL_TYPE_STRING);
+									//cell.setCellType(HSSFCell.CELL_TYPE_STRING);
 									dataRow.setValue(j, StringUtil.trimStr(cell.getStringCellValue()));
 							}
 						}

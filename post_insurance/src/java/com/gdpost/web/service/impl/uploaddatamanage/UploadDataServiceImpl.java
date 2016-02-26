@@ -378,7 +378,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			break;
 		case MiniCallFailStatus:
 			standardColumns = CallFailHQMiniListColumn.getStandardColumns();
-			sql = new StringBuffer("INSERT INTO t_call_fail_list(policy_no, issue_no, issue_desc, status, issue_type, issue_content, "
+			sql = new StringBuffer("INSERT INTO t_call_fail_list(policy_no, issue_no, status, "
 					+ "hq_deal_date, hq_deal_man, hq_deal_type, hq_deal_rst) VALUES  ");
 			line = null;
 			for (DataRow row : dt.Rows) {
@@ -400,8 +400,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        	sql.append(line);
 	        }
 			sql.deleteCharAt(sql.length() - 1);
-			sql.append(" ON DUPLICATE KEY UPDATE policy_no=VALUES(policy_no), issue_no=VALUES(issue_no), issue_desc=VALUES(issue_desc), status=VALUES(status), ");
-			sql.append("issue_type=VALUES(issue_type), issue_content=VALUES(issue_content), ");
+			sql.append(" ON DUPLICATE KEY UPDATE policy_no=VALUES(policy_no), issue_no=VALUES(issue_no), status=VALUES(status), ");
 			sql.append("hq_deal_date=VALUES(hq_deal_date), hq_deal_man=VALUES(hq_deal_man), ");
 			sql.append("hq_deal_type=VALUES(hq_deal_type), hq_deal_rst=VALUES(hq_deal_rst);");
 			log.debug("----------------batch update : " + sql);
@@ -410,7 +409,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			break;
 		case CallFailCityStatus:
 			standardColumns = CallFailCityMiniListColumn.getStandardColumns();
-			sql = new StringBuffer("INSERT INTO t_call_fail_list(policy_no, issue_no, issue_desc, status, issue_type, issue_content, "
+			sql = new StringBuffer("INSERT INTO t_call_fail_list(policy_no, issue_no, status, "
 					+ "deal_time, deal_man, deal_type, deal_desc) VALUES ");
 			line = null;
 			for (DataRow row : dt.Rows) {
@@ -432,8 +431,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        	sql.append(line);
 	        }
 			sql.deleteCharAt(sql.length() - 1);
-			sql.append(" ON DUPLICATE KEY UPDATE policy_no=VALUES(policy_no), issue_no=VALUES(issue_no), issue_desc=VALUES(issue_desc), status=VALUES(status), ");
-			sql.append("issue_type=VALUES(issue_type), issue_content=VALUES(issue_content), ");
+			sql.append(" ON DUPLICATE KEY UPDATE policy_no=VALUES(policy_no), issue_no=VALUES(issue_no), status=VALUES(status), ");
 			sql.append("deal_time=VALUES(deal_time), deal_man=VALUES(deal_man), ");
 			sql.append("deal_type=VALUES(deal_type), deal_desc=VALUES(deal_desc);");
 			log.debug("----------------batch update : " + sql);
@@ -469,7 +467,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql2 = "delete from t_call_fail_list where issue_no is null";
 			break;
 		case CallFailNeedDoorStatus:
-			standardColumns = CallFailMailListColumn.getStandardColumns();
+			standardColumns = CallFailNeedDoorListColumn.getStandardColumns();
 			sql = new StringBuffer("INSERT INTO t_call_fail_list(policy_no, issue_no, status) VALUES ");
 			line = null;
 			for (DataRow row : dt.Rows) {

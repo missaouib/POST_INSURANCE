@@ -34,6 +34,10 @@
 			<input type="text" class="input-medium validate[required] required" name="orginProv" id="orginProv" value="${offsite.orginProv }" />
 		</p>
 		<p>
+			<label>收件省</label>
+			<input type="text" name="dealProv" id="dealProv" class="input-medium"/>
+		</p>
+		<p>
 			<label>客户姓名：</label>
 			<input type="text" name="client" value="${offsite.client}" class="input-medium validate[required] required"/>
 		</p>

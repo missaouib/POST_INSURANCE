@@ -102,6 +102,7 @@
 				<th>快递单号</th>
 				<th>保单号</th>
 				<th orderField=orginProv class="${page.orderField eq 'orginProv' ? page.orderDirection : ''}">出单省</th>
+				<th>收件省</th>
 				<th>客户姓名</th>
 				<th>保全业务</th>
 				<th>联系人</th>
@@ -129,6 +130,7 @@
 				<td>${item.expressBillNo}</td>
 				<td>${item.policyNo}</td>
 				<td>${item.orginProv}</td>
+				<td>${item.dealProv}</td>
 				<td>${item.client}</td>
 				<td>${item.conservationType}</td>
 				<td>${item.linker}</td>

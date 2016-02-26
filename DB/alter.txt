@@ -456,6 +456,9 @@ alter table t_call_fail_list  add column can_call_again_remark varchar(127);
 
 ALTER TABLE `t_under_write` ADD COLUMN `holder_age` TINYINT(4) DEFAULT NULL AFTER `holder`;
 ALTER TABLE `t_log_info` MODIFY COLUMN `message` VARCHAR(1024) COLLATE utf8_general_ci DEFAULT NULL;
+
+ALTER TABLE `t_offsite_conservation` ADD COLUMN `deal_prov` VARCHAR(32) DEFAULT NULL;
+
 --------------- SQL ---------------
 
 ALTER TABLE `t_notice_att` MODIFY COLUMN `id` BIGINT(20) NOT NULL AUTO_INCREMENT;
@@ -465,3 +468,6 @@ ALTER TABLE `t_call_fail_list` ADD COLUMN `reset_date` DATE DEFAULT NULL;
 --------------- SQL ---------------
 
 ALTER TABLE `t_policy` ADD COLUMN `bill_back_date` DATE DEFAULT NULL AFTER `policy_date`;
+
+ALTER TABLE `t_offsite_conservation` ADD COLUMN `deal_prov` VARCHAR(32) DEFAULT NULL;
+

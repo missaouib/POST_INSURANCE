@@ -15,6 +15,7 @@ response.setHeader("Content-Disposition", "inline; filename=BQ_RECORD.xls");
 				<th>快递单号</th>
 				<th>保单号</th>
 				<th>出单省</th>
+				<th>收件省</th>
 				<th>客户姓名</th>
 				<th>保全业务</th>
 				<th>联系人</th>
@@ -40,6 +41,7 @@ response.setHeader("Content-Disposition", "inline; filename=BQ_RECORD.xls");
 				<td>${item.expressBillNo}</td>
 				<td style="vnd.ms-excel.numberformat:@">${item.policyNo}</td>
 				<td>${item.orginProv}</td>
+				<td>${item.dealProv}</td>
 				<td>${item.client}</td>
 				<td>${item.conservationType}</td>
 				<td>${item.linker}</td>

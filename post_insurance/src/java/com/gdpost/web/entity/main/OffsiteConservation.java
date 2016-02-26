@@ -40,6 +40,7 @@ public class OffsiteConservation implements Idable<Long> {
 	private Date operateTime;
 	
 	private String status;
+	private String dealProv;
 
 	// Constructors
 
@@ -197,6 +198,15 @@ public class OffsiteConservation implements Idable<Long> {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	@Column(name="deal_prov")
+	public String getDealProv() {
+		return dealProv;
+	}
+
+	public void setDealProv(String dealProv) {
+		this.dealProv = dealProv;
 	}
 
 	@Column(name = "operator_id")

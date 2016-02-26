@@ -35,35 +35,8 @@ public class CallFailHQMiniListColumn {
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("工单类别");
-		column.setColumnName("issue_desc");
-		column.setColumnType(ColumnType.string);
-		column.setNullable(true);
-		column.setiOutputOrder(16);
-		column.setOutputName("QD");
-		standardColumns.add(column);
-		
-		column = new ColumnItem();
 		column.setDisplayName("工单状态");
 		column.setColumnName("status");
-		column.setColumnType(ColumnType.string);
-		column.setNullable(true);
-		column.setiOutputOrder(16);
-		column.setOutputName("QD");
-		standardColumns.add(column);
-		
-		column = new ColumnItem();
-		column.setDisplayName("工单子类");
-		column.setColumnName("issue_type");
-		column.setColumnType(ColumnType.string);
-		column.setNullable(true);
-		column.setiOutputOrder(16);
-		column.setOutputName("QD");
-		standardColumns.add(column);
-		
-		column = new ColumnItem();
-		column.setDisplayName("工单内容");
-		column.setColumnName("issue_content");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		column.setiOutputOrder(16);
