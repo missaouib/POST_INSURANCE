@@ -41,10 +41,11 @@ public class Settlement implements Idable<Long> {
 	private Double payFee;
 	private String caseStatus;
 	private String remark;
-	private List<SettlementPolicy> settlementPolicies = new ArrayList<SettlementPolicy>(0);
-	private List<SettlementReport> settlementReports = new ArrayList<SettlementReport>(0);
-	private List<SettlementCheck> settlementChecks = new ArrayList<SettlementCheck>(0);
+//	private List<SettlementPolicy> settlementPolicies = new ArrayList<SettlementPolicy>(0);
+//	private List<SettlementReport> settlementReports = new ArrayList<SettlementReport>(0);
+//	private List<SettlementCheck> settlementChecks = new ArrayList<SettlementCheck>(0);
 	private List<SettlementLog> settlementLogs = new ArrayList<SettlementLog>(0);
+	private List<SettlementDtl> settlementDtls = new ArrayList<SettlementDtl>(0);
 	
 	// Constructors
 
@@ -56,10 +57,7 @@ public class Settlement implements Idable<Long> {
 	public Settlement(Organization organization, String insured, String reporter,
 			String reporterPhone, Date caseDate, String caseType,
 			Date reporteDate, Date recordDate, Date closeDate, Double payFee,
-			String caseStatus, String remark,
-			List<SettlementPolicy> settlementPolicies,
-			List<SettlementReport> settlementReports,
-			List<SettlementCheck> settlementChecks) {
+			String caseStatus, String remark) {
 		this.organization = organization;
 		this.insured = insured;
 		this.reporter = reporter;
@@ -72,9 +70,9 @@ public class Settlement implements Idable<Long> {
 		this.payFee = payFee;
 		this.caseStatus = caseStatus;
 		this.remark = remark;
-		this.settlementPolicies = settlementPolicies;
-		this.settlementReports = settlementReports;
-		this.settlementChecks = settlementChecks;
+//		this.settlementPolicies = settlementPolicies;
+//		this.settlementReports = settlementReports;
+//		this.settlementChecks = settlementChecks;
 	}
 
 	// Property accessors
@@ -198,6 +196,7 @@ public class Settlement implements Idable<Long> {
 		this.remark = remark;
 	}
 
+	/*
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "settlement")
 	public List<SettlementPolicy> getSettlementPolicies() {
 		return this.settlementPolicies;
@@ -225,7 +224,7 @@ public class Settlement implements Idable<Long> {
 	public void setSettlementChecks(List<SettlementCheck> settlementChecks) {
 		this.settlementChecks = settlementChecks;
 	}
-
+*/
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "settlement")
 	public List<SettlementLog> getSettlementLogs() {
 		return settlementLogs;
@@ -235,4 +234,12 @@ public class Settlement implements Idable<Long> {
 		this.settlementLogs = settlementLogs;
 	}
 
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "settlement", orphanRemoval = true)
+	public List<SettlementDtl> getSettlementDtls() {
+		return settlementDtls;
+	}
+
+	public void setSettlementDtls(List<SettlementDtl> settlementDtls) {
+		this.settlementDtls = settlementDtls;
+	}
 }
