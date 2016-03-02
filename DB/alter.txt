@@ -471,3 +471,20 @@ ALTER TABLE `t_policy` ADD COLUMN `bill_back_date` DATE DEFAULT NULL AFTER `poli
 
 ALTER TABLE `t_offsite_conservation` ADD COLUMN `deal_prov` VARCHAR(32) DEFAULT NULL;
 
+alter table t_call_fail_list add column door_back_date date default null;
+
+alter table t_call_fail_list add column door_stats_date date default null;
+
+alter table t_call_fail_list add column door_back_rst varchar(128) default null;
+
+alter table t_call_fail_list add column door_date date default null;
+
+alter table t_call_fail_list add column door_man varchar(32) default null;
+
+alter table t_call_fail_list add column mail_fail_reason varchar(128) default null;
+
+alter table t_call_fail_list add column mail_fail_date date default null;
+
+alter table t_call_fail_list add column mail_success varchar(32) default null;
+
+alter table t_call_fail_list add column mail_back_date date default null;
