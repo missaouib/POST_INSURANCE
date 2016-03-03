@@ -107,6 +107,16 @@ public class CallFailList implements Idable<Long> {
 	private String canCallAgainRemark;
 	private Date resetDate;
 	
+	/*
+	 * mail_back_date
+mail_fail_date
+mail_fail_reason
+mail_success
+	 */
+	private Date mailBackDate;
+	private Date mailFailDate;
+	private String mailFailReason;
+	
 	@Transient
 	private String search_LIKE_hasLetter;
 	@Transient
@@ -898,4 +908,32 @@ public class CallFailList implements Idable<Long> {
 	public void setResetDate(Date resetDate) {
 		this.resetDate = resetDate;
 	}
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name="mail_back_date")
+	public Date getMailBackDate() {
+		return mailBackDate;
+	}
+	public void setMailBackDate(Date mailBackDate) {
+		this.mailBackDate = mailBackDate;
+	}
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name="mail_fail_date")
+	public Date getMailFailDate() {
+		return mailFailDate;
+	}
+	public void setMailFailDate(Date mailFailDate) {
+		this.mailFailDate = mailFailDate;
+	}
+	
+	@Column(name="mail_fail_reason")
+	public String getMailFailReason() {
+		return mailFailReason;
+	}
+	public void setMailFailReason(String mailFailReason) {
+		this.mailFailReason = mailFailReason;
+	}
+	
+	
 }

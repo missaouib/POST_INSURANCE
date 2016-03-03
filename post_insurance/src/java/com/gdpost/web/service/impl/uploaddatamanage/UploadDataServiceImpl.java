@@ -29,6 +29,7 @@ import com.gdpost.utils.StringUtil;
 import com.gdpost.utils.TemplateHelper.CallFailCityMiniListColumn;
 import com.gdpost.utils.TemplateHelper.CallFailHQListColumn;
 import com.gdpost.utils.TemplateHelper.CallFailHQMiniListColumn;
+import com.gdpost.utils.TemplateHelper.CallFailMailBackListColumn;
 import com.gdpost.utils.TemplateHelper.CallFailMailListColumn;
 import com.gdpost.utils.TemplateHelper.CallFailNeedDoorListColumn;
 import com.gdpost.utils.TemplateHelper.CheckColumn;
@@ -466,6 +467,34 @@ public class UploadDataServiceImpl implements UploadDataService{
 			log.debug("----------------batch update : " + sql);
 			sql2 = "delete from t_call_fail_list where issue_no is null";
 			break;
+		case CallFailMailBackStatus:
+			standardColumns = CallFailMailBackListColumn.getStandardColumns();
+			sql = new StringBuffer("INSERT INTO t_call_fail_list(policy_no, mail_fail_reason, mail_fail_date, has_letter, mail_back_date) VALUES ");
+			line = null;
+			for (DataRow row : dt.Rows) {
+				line = new StringBuffer("(");
+	        	for(ColumnItem item : standardColumns) {
+	        		if(item.getDisplayName().contains("退信时间") || item.getDisplayName().contains("回邮时间")) {
+	        			val = row.getValue(item.getDisplayName());
+	        			if(val == null || val.toString().trim().length() <= 0) {
+	        				line.append("null,");
+	        			} else {
+	        				line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        			}
+	        		} else {
+	        			line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        		}
+	        	}
+	        	//line.deleteCharAt(line.length() - 1);
+	        	line.append("1 ),");
+	        	sql.append(line);
+	        }
+			sql.deleteCharAt(sql.length() - 1);
+			sql.append(" ON DUPLICATE KEY UPDATE policy_no=VALUES(policy_no), mail_fail_reason=VALUES(mail_fail_reason), ");
+			sql.append("mail_fail_date=VALUES(mail_fail_date), has_letter=VALUES(has_letter), mail_back_date=VALUES(mail_back_date);");
+			log.debug("----------------batch update : " + sql);
+			sql2 = "delete from t_call_fail_list where policy_no is null";
+			break;
 		case CallFailNeedDoorStatus:
 			standardColumns = CallFailNeedDoorListColumn.getStandardColumns();
 			sql = new StringBuffer("INSERT INTO t_call_fail_list(policy_no, issue_no, status) VALUES ");
@@ -577,6 +606,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 			return dr;
 		case PaySuccessList:
 			return dr;
+			default:
+				return dr;
 		}
 
         try {

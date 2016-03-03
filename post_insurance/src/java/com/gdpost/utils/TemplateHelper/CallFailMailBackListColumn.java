@@ -52,7 +52,7 @@ public class CallFailMailBackListColumn {
 		
 		column = new ColumnItem();
 		column.setDisplayName("信函成功");
-		column.setColumnName("mail_success");
+		column.setColumnName("has_letter");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
