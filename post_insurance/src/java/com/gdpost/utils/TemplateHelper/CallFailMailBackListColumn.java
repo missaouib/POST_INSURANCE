@@ -64,6 +64,14 @@ public class CallFailMailBackListColumn {
 		column.setNullable(true);
 		standardColumns.add(column);
 		
+		column = new ColumnItem();
+		column.setDisplayName("客户签名时间");
+		column.setColumnName("client_sign_date");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(true);
+		standardColumns.add(column);
+		
+		
 		return(standardColumns);
 	}
 }

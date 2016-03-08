@@ -52,21 +52,21 @@ public class CallFailDoorBackListColumn {
 		
 		column = new ColumnItem();
 		column.setDisplayName("回访结果");
-		column.setColumnName("door_back_rst");
+		column.setColumnName("deal_type");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
 		column.setDisplayName("回访时间");
-		column.setColumnName("door_date");
+		column.setColumnName("deal_time");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
 		column.setDisplayName("回访人");
-		column.setColumnName("door_man");
+		column.setColumnName("deal_man");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);

@@ -158,6 +158,7 @@ public class IndexController {
 			ur = urs.get(i);
 			roles.add(ur.getRole());
 		}
+		request.getSession().setAttribute(SecurityConstants.LOGIN_USER_ROLE, roles);
 		page.setNumPerPage(3);
 		page.setOrderDirection("DESC");
 		page.setOrderField("sendDate");

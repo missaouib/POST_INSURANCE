@@ -56,4 +56,6 @@ public interface SecurityConstants {
 	 */
 	public final static String NEST_DYNAMIC_SEARCH_LOGICAL = "$nest_dynamic_search_logical$";
 	
+	public final static String LOGIN_USER_ROLE = "LOGIN_USER_ROLE";
+	
 }

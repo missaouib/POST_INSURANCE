@@ -9,6 +9,8 @@ import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,7 +31,8 @@ import com.gdpost.utils.SecurityUtils;
 import com.gdpost.utils.TemplateHelper.Template;
 import com.gdpost.utils.TemplateHelper.Template.FileTemplate;
 import com.gdpost.utils.UploadDataHelper.UploadDataUtils;
-import com.gdpost.web.entity.main.User;
+import com.gdpost.web.SecurityConstants;
+import com.gdpost.web.entity.main.Role;
 import com.gdpost.web.log.Log;
 import com.gdpost.web.log.LogMessageObject;
 import com.gdpost.web.log.impl.LogUitls;
@@ -64,11 +67,44 @@ public class UploadController {
 		//listNY.add(ny);
 		//listNY.add(lastNY);
 		//listNY.add(lastNY2);
-		ShiroUser shiroUser = SecurityUtils.getShiroUser();
-		User user = userService.get(shiroUser.getId());
-		//Role role = user.getUserRoles().get(index)
-		//FileTemplate[] tl = 
-		map.put("templateList", FileTemplate.values());
+		//ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		//User user = userService.get(shiroUser.getId());
+		
+		@SuppressWarnings("unchecked")
+		List<Role> roles = (List<Role>) request.getSession().getAttribute(SecurityConstants.LOGIN_USER_ROLE);
+		List<String> roleDefine = new ArrayList<String>();
+		for(Role r:roles) {
+			if(r.getName().contains("契约") || r.getName().contains("管理员")) {
+				roleDefine.add("QY");
+			}
+			if(r.getName().contains("保全") || r.getName().contains("管理员")) {
+				roleDefine.add("BQ");
+			}
+			if(r.getName().contains("客服") || r.getName().contains("管理员")) {
+				roleDefine.add("KF");
+			}
+			if(r.getName().contains("回访") || r.getName().contains("管理员")) {
+				roleDefine.add("HF");
+			}
+			if(r.getName().contains("续期") || r.getName().contains("管理员")) {
+				roleDefine.add("XQ");
+			}
+			if(r.getName().contains("理赔") || r.getName().contains("管理员")) {
+				roleDefine.add("LP");
+			}
+		}
+		roleDefine.add("ALL");
+		FileTemplate[] fts = FileTemplate.values();
+		List<FileTemplate> temp = new ArrayList<FileTemplate>();
+		for(FileTemplate ft:fts) {
+			for(String t:roleDefine) {
+				if(ft.getType().equals(t)) {
+					temp.add(ft);
+				}
+			}
+		}
+		FileTemplate[] ftl = new FileTemplate[temp.size()];
+		map.put("templateList", temp.toArray(ftl));
 		FileTemplate ft = FileTemplate.Policy;
 		String type = request.getParameter("type");
 		if (type != null) {
