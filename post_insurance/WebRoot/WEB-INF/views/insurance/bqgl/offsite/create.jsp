@@ -34,7 +34,7 @@
 		</p>
 		<p>
 			<label>收件省</label>
-			<input type="text" name="dealProv" id="dealProv" class="input-medium"/>
+			<input type="text" name="dealProv" id="dealProv" class="input-medium validate[required] required"/>
 		</p>
 		<p>
 			<label>外省经办人：</label>

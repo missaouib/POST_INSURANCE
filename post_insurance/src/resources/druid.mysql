@@ -1,7 +1,7 @@
 druid.alias=spring-druid
 druid.driver-class=com.mysql.jdbc.Driver
 druid.user=yunying
-druid.password=LBclLoAr4oicDU0mh9ZAxTxPDgzooEeAKmnnevAhy7sGhLY3hFoPF/srzxlm/bsgWxG9qiVq4KvQhgeMNuUZoA==
+druid.password=h5bxDb1jXJZO0DuLPb/GdUiQ79+NGIA7H8liDHZIWya95JK4THGNn7yPwgbxNokdpMiKiounmbjo023nOPji/g==
 druid.minEvictableIdleTimeMillis=300000
 druid.maxWait=60000
 druid.timeBetweenEvictionRunsMillis=60000
@@ -10,4 +10,4 @@ druid.minIdle=20
 druid.initialSize=20
 druid.testWhileIdle=true
 druid.validationQuery=SELECT 1
-druid.publickey=MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAIJOmL1oQ/u7qmlaxFBOjpOLYmf4qZEhH15QUwB7d+BjyF69J/aOcDdoK2i54yeHS2ugH/oa5Do2IQ9iQfgFv5UCAwEAAQ==
+druid.publickey=MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAKVF9E7J6Cv9eF34fGw7Nn7pCaDv8Y2WR3h8tEfPJ8iZfRlfZsFeZDiqWbZ9CYrwKlILLmuwL0k/hYezHAUYSTkCAwEAAQ==

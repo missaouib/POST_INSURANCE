@@ -219,6 +219,8 @@ mysqld_safe --user=mysql --skip-grant-tables --skip-networking &
  
 UPDATE user SET Password=PASSWORD('GDPostInsurance!@#123') where USER='root';
 
+SET PASSWORD = PASSWORD('GDPostInsurance!@#123'); 
+
 FLUSH PRIVILEGES;
 
 quit
