@@ -59,16 +59,6 @@ public class UploadController {
 	@RequestMapping(value = "/upload", method = RequestMethod.GET)
 	public String preUpload(HttpServletRequest request, Map<String, Object> map) {
 		int ny = UploadDataUtils.getNianYue();
-		//int lastNY = UploadDataUtils.getLastNianYue();
-		//int lastNY2 = UploadDataUtils.getLastNianYue(lastNY);
-		
-		//List<Integer> listNY = new ArrayList<Integer>();
-		//listNY.add(nextNY);
-		//listNY.add(ny);
-		//listNY.add(lastNY);
-		//listNY.add(lastNY2);
-		//ShiroUser shiroUser = SecurityUtils.getShiroUser();
-		//User user = userService.get(shiroUser.getId());
 		
 		@SuppressWarnings("unchecked")
 		List<Role> roles = (List<Role>) request.getSession().getAttribute(SecurityConstants.LOGIN_USER_ROLE);

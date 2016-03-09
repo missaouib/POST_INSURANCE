@@ -44,7 +44,7 @@ public class CallFailDoorBackListColumn {
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("统计时间");
+		column.setDisplayName("统计月份");
 		column.setColumnName("door_stats_date");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
