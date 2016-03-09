@@ -24,16 +24,18 @@ import System.Data.DataColumn;
 import System.Data.DataRow;
 import System.Data.DataTable;
 
+import com.gdpost.utils.MyException;
 import com.gdpost.utils.StringUtil;
 
 public class XlsFileHandler extends AbstractFileHandler {
 	public static Logger log = LoggerFactory.getLogger(XlsFileHandler.class);
 
 	// 读取Excel 2003文件
-	public DataTable[] readFile(String strFilePath, String strFileName, String mkeyRow) {
+	public DataTable[] readFile(String strFilePath, String strFileName, String mkeyRow) throws MyException{
 		List<DataTable> list = new ArrayList<DataTable>();
 		log.debug("--------------ready to read xls file in handler" + this.keyRow);
 		HSSFWorkbook workbook = null;
+		int markIdx = 0;
 		try {
 			// 设置访问密码
 			// Biff8EncryptionKey.setCurrentUserPassword(this.m_strPassword);
@@ -64,6 +66,7 @@ public class XlsFileHandler extends AbstractFileHandler {
 			// 如果是合并单元表格，略过
 			
 			for (int iSheet = 0; iSheet < iSheets; iSheet++) {
+				markIdx = 0;
 				log.debug("---------sheet:" + iSheet);
 				sheet = (HSSFSheet) workbook.getSheetAt(iSheet);
 				int sheetmergerCount = sheet.getNumMergedRegions();
@@ -157,6 +160,7 @@ public class XlsFileHandler extends AbstractFileHandler {
 				}
 
 				for (int i = markRow + 1; i <= rowCount; i++) {
+					markIdx ++;
 					row = (HSSFRow) sheet.getRow(i);
 					if (row == null) { // 空行，不允许，退出
 						//continue;
@@ -218,6 +222,7 @@ public class XlsFileHandler extends AbstractFileHandler {
 		} catch (Exception e) {
 			e.printStackTrace();
 			log.error(e.getMessage());
+			throw new MyException("除开表头后数据中第" + markIdx + "行数据有问题：" + e.getMessage());
 		} finally {
 			try {
 				workbook.close();

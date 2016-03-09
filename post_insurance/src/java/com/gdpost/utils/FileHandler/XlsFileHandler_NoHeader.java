@@ -4,7 +4,6 @@ import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.poi.hssf.record.crypto.Biff8EncryptionKey;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -16,13 +15,14 @@ import System.Data.DataColumn;
 import System.Data.DataRow;
 import System.Data.DataTable;
 
+import com.gdpost.utils.MyException;
 import com.gdpost.utils.TemplateHelper.ColumnItem;
 
 public class XlsFileHandler_NoHeader extends AbstractFileHandler {
 	public static Logger log = LoggerFactory.getLogger(XlsFileHandler_NoHeader.class);
 
 	// 读取Excel 2003文件
-	public DataTable[] readFile(String strFilePath, String strFileName, String keyRow) {
+	public DataTable[] readFile(String strFilePath, String strFileName, String keyRow) throws MyException {
 		List<DataTable> list = new ArrayList<DataTable>();
 		boolean bFileFlag = false;
 
@@ -126,7 +126,7 @@ public class XlsFileHandler_NoHeader extends AbstractFileHandler {
 		return(list.toArray(ds));
 	}
 	
-	private DataTable[] readSSMLFile(String strFilePath, String strFileName, String keyRow) {
+	private DataTable[] readSSMLFile(String strFilePath, String strFileName, String keyRow) throws MyException{
 		IFileHandler handler = new SSMLFileHandler();
 		handler.setStandardColumn(this.m_column);
 		handler.setKeyRow(keyRow);
@@ -195,7 +195,7 @@ public class XlsFileHandler_NoHeader extends AbstractFileHandler {
 	}
 	
 	private boolean checkFormulaRow(HSSFRow row) {
-		boolean bFlag = false;
+		//boolean bFlag = false;
 		int iDataRowCount = 0;
 		// 如果有数据的非公式列多于3列，则认为正常数据
 		
@@ -203,7 +203,7 @@ public class XlsFileHandler_NoHeader extends AbstractFileHandler {
 			// 行中有一个公式，则认为为汇总行
 			if(row.getCell(i) != null) {
 				if(row.getCell(i).getCellType() == org.apache.poi.ss.usermodel.Cell.CELL_TYPE_FORMULA) {
-					bFlag = true;
+					//bFlag = true;
 				} else {
 					if(!("").equals(row.getCell(i).toString().trim())) {
 						iDataRowCount++;

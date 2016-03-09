@@ -22,6 +22,7 @@ import System.Data.DataRow;
 import System.Data.DataTable;
 
 import com.gdpost.utils.FileUtils;
+import com.gdpost.utils.MyException;
 import com.gdpost.utils.SecurityUtils;
 import com.gdpost.utils.CalculatorHelper.CalculatorLexer;
 import com.gdpost.utils.CalculatorHelper.CalculatorParser;
@@ -220,7 +221,7 @@ public class UploadDataUtils {
 		return(strPath);
 	}
 	
-	public static DataTable[] getDataSet(String strFilePath, String strFileName, List<ColumnItem> column, String keyRow) {
+	public static DataTable[] getDataSet(String strFilePath, String strFileName, List<ColumnItem> column, String keyRow) throws MyException {
 		String strExtension = FileUtils.getFileExtension(strFileName);
 		DataTable[] ds = null;
 		IFileHandler handler = null;

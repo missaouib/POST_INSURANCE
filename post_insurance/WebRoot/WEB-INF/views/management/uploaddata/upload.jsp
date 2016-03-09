@@ -164,7 +164,9 @@ jQuery(function() {
                     } else {
                         if (response.message != null) {
                             alert(response.message);
+                            $("#console").html(response.message);
                         }
+                        /* 
                         if(window.confirm("数据已上传，但由于格式问题未能入库,是否以该文件为准？")) {
                         	$("#console").html("数据已上传，但由于格式问题未能入库，将对后续的数据分析产生影响。");
                         } else {
@@ -177,6 +179,7 @@ jQuery(function() {
 	                            }
 	                        });
                         }
+                        */
                     }
                 }
             });

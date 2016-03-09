@@ -430,7 +430,7 @@ public class QyglController {
 		src.setHolderAge(underwrite.getHolderAge());
 		qyglService.saveOrUpdateUnderWrite(src);
 		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicyNo()}));
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getFormNo()}));
 		return	AjaxObject.newOk("更新人核件成功！").toString(); 
 	}
 	

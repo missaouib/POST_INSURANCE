@@ -81,7 +81,7 @@
 		</p>
 		<p>
 			<label>不成功结果：</label>
-			<textarea name="dealDesc" id="dealDesc" cols="30" rows="5" class="required">${issue.dealDesc }</textarea>
+			<textarea name="dealDesc" id="dealDesc" cols="30" rows="3" class="required">${issue.dealDesc }</textarea>
 		</p>
 		<p>&nbsp;</p><p>&nbsp;</p>
 		<p class="nowrap">

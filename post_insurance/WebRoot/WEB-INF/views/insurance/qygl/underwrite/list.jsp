@@ -112,11 +112,11 @@
 				<th orderField=prd.prdName class="${page.orderField eq 'prd.prdName' ? page.orderDirection : ''}">产品</th>
 				<th orderField=policyFee class="${page.orderField eq 'policyFee' ? page.orderDirection : ''}">保费</th>
 				<th orderField=ybtDate class="${page.orderField eq 'ybtDate' ? page.orderDirection : ''}">邮保通录入时间</th>
-				<th>核心录入时间</th>
-				<th>复核时间</th>
+				<th orderField=sysDate class="${page.orderField eq 'sysDate' ? page.orderDirection : ''}">核心录入时间</th>
+				<th orderField=checkDate class="${page.orderField eq 'checkDate' ? page.orderDirection : ''}">复核时间</th>
 				<th>问题件</th>
 				<th>核保日期</th>
-				<th>签单日期</th>
+				<th orderField=signDate class="${page.orderField eq 'signDate' ? page.orderDirection : ''}">签单日期</th>
 				<th>省分收到合同日</th>
 				<th>合同签收日期</th>
 				<th>回执录入日期</th>

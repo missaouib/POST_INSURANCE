@@ -58,6 +58,7 @@
 							<form:option value=""> -- -- </form:option>
 							<form:option value="信函已发"> 信函已发 </form:option>
 							<form:option value="信函成功"> 信函成功 </form:option>
+							<form:option value="信函失败"> 信函失败 </form:option>
 						</form:select>
 					</td>
 				</tr>

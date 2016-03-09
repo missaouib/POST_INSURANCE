@@ -18,13 +18,14 @@ import System.Data.DataColumn;
 import System.Data.DataRow;
 import System.Data.DataTable;
 
+import com.gdpost.utils.MyException;
 import com.gdpost.utils.StringUtil;
 import com.gdpost.utils.UploadDataHelper.UploadDataUtils;
 
 public class CsvFileHandler extends AbstractFileHandler {
 	public static Logger log = LoggerFactory.getLogger(CsvFileHandler.class);
 	
-	public DataTable[] readFile(String strFilePath, String strFileName, String keyRow) {
+	public DataTable[] readFile(String strFilePath, String strFileName, String keyRow) throws MyException{
 		DataTable[] ds = null;
 		
 		InputStreamReader freader = null;
@@ -77,10 +78,11 @@ public class CsvFileHandler extends AbstractFileHandler {
 		}
 
 		List<String> line = new ArrayList<String>();
-		
+		int markIdx = 0;
 		//获取数据部分
 		try {
 			while ((line = reader.read()) != null) {
+				markIdx ++;
 				//log.debug("----------csv file read line" + line);
 			    if(line.size() < dt.Columns.size()/2) {
 			    	continue;
@@ -99,9 +101,9 @@ public class CsvFileHandler extends AbstractFileHandler {
 			
 			ds = new DataTable[1];
 			ds[0] = dt;
-		} catch (IOException e) {
+		} catch (Exception e) {
 			log.error(e.getMessage());
-			return(ds);
+			throw new MyException("表头下的数据第" + markIdx + "行数据有问题：" + e.getMessage());
 		} finally {
 			try {
 				reader.close();

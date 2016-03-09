@@ -25,6 +25,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import System.Data.DataRow;
 import System.Data.DataTable;
 
+import com.gdpost.utils.MyException;
 import com.gdpost.utils.StringUtil;
 import com.gdpost.utils.TemplateHelper.CallFailCloseListColumn;
 import com.gdpost.utils.TemplateHelper.CallFailDoorBackListColumn;
@@ -792,7 +793,13 @@ public class UploadDataServiceImpl implements UploadDataService{
 		// 文件组正确，执行导入
 		for(String strOriginalFileName : listFiles) {
 			// 读文件，取值到DataTable[]中
-			ds = UploadDataUtils.getDataSet(strFilePath, strOriginalFileName, standardColumns, keyRow);
+			try {
+				ds = UploadDataUtils.getDataSet(strFilePath, strOriginalFileName, standardColumns, keyRow);
+			} catch(MyException ex) {
+				dr.setMsg(ex.getMessage());
+				dr.setFlag(false);
+				return dr;
+			}
 			if(ds == null || ds.length == 0) {
 				builder.append("处理文件[" + strOriginalFileName + "]中数据出错，没有找到数据。");
 				dr.setMsg("处理文件[" + strOriginalFileName + "]中数据出错，没有找到数据。");

@@ -83,9 +83,9 @@
 		<thead>
 			<tr>
 				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
-				<th>保单号</th>
+				<th orderField=policy.policyNo class="${page.orderField eq 'policy.policyNo' ? page.orderDirection : ''}">保单号</th>
 				<th>投保人</th>
-				<th>保单机构</th>
+				<th orderField=policy.organization.name class="${page.orderField eq 'policy.organization.name' ? page.orderDirection : ''}">保单机构</th>
 				<th>发票标记</th>
 				<th>发票金额</th>
 				<th>发票缴费日期</th>
