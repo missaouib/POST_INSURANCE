@@ -23,7 +23,7 @@ import com.gdpost.web.util.dwz.AjaxObject;
 /**
  * 返回带错误信息和状态码的ajaxobject字符串。
  * 	
- * @author 	sendtend
+ * @author 	Aming
  * Version  2.0.0
  * @since   2013-4-23 下午3:06:34
  */

@@ -4,7 +4,7 @@
  * Filename:		com.gdpost.web.entity.component.StoreType.java
  * Class:			StoreType
  * Date:			2013-7-1
- * Author:			sendtend
+ * Author:			Aming
  * Version          3.1.0
  * Description:		
  *
@@ -15,7 +15,7 @@ package com.gdpost.web.entity.component;
 
 /** 
  * 资源存储类型，存入数据库DB，存入文件FILE。	
- * @author 	sendtend
+ * @author 	Aming
  * Version  3.1.0
  * @since   2013-7-1 下午3:04:58 
  */

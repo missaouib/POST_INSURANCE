@@ -4,7 +4,7 @@
  * Filename:		com.gdpost.web.log.LogInterceptor.java
  * Class:			LogInterceptor
  * Date:			2013-5-3
- * Author:			sendtend
+ * Author:			Aming
  * Version          2.1.0
  * Description:		
  *
@@ -35,7 +35,7 @@ import com.gdpost.web.log.impl.LogUitls;
 
 /** 
  * 	
- * @author 	sendtend
+ * @author 	Aming
  * Version  2.1.0
  * @since   2013-5-3 下午4:37:11 
  */
@@ -108,11 +108,11 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
 						if (defaultLogMessageObject.isWritten()) { // 判断是否写入log
 							// 覆盖，直接写入日志
 							if (log.override()) {
-								logAPI.log(log.message(), defaultLogMessageObject.getObjects(), log.level());
+								logAPI.log(log.message(), defaultLogMessageObject.getObjects(), log.level(), log.module());
 							} else {
 								// 不覆盖，参考方法的日志等级是否大于等于最终的日志等级
 								if (!log.override() && log.level().compareTo(lastLogLevel) >= 0 ) {
-									logAPI.log(log.message(), defaultLogMessageObject.getObjects(), log.level());
+									logAPI.log(log.message(), defaultLogMessageObject.getObjects(), log.level(), log.module());
 								}
 							}
 						}						

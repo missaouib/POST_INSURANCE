@@ -34,7 +34,9 @@ import com.gdpost.utils.TemplateHelper.Template.FileTemplate;
 import com.gdpost.utils.UploadDataHelper.UploadDataUtils;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.log.Log;
+import com.gdpost.web.log.LogLevel;
 import com.gdpost.web.log.LogMessageObject;
+import com.gdpost.web.log.LogModule;
 import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.uploaddatamanage.UploadDataService;
 import com.gdpost.web.shiro.ShiroUser;
@@ -115,7 +117,7 @@ public class UploadDataController {
 		return WEBUPLOAD;
 	}
 
-	@Log(message="上传了{0}。")
+	@Log(message="上传了{0}。", level=LogLevel.WARN, module=LogModule.WJSC)
 	@RequiresPermissions(value={"UploadIssue:upload", "UploadData:upload", "UploadRenewed:upload", "UploadCallFail:upload", "UploadCheck:upload", "UploadPay:upload", "UploadIssue:upload"}, logical=Logical.OR)
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public @ResponseBody String upload(HttpServletRequest request, @RequestParam String name, @RequestParam(value = "file", required = true) MultipartFile file) {
@@ -269,7 +271,7 @@ public class UploadDataController {
 		return (strError);
 	}
 	
-	@Log(message="{0}")
+	@Log(message="{0}", level=LogLevel.WARN, module=LogModule.WJSC)
 	@RequiresPermissions(value={"UploadIssue:upload", "UploadData:upload", "UploadRenewed:upload", "UploadCallFail:upload", "UploadCheck:upload", "UploadPay:upload", "UploadIssue:upload"}, logical=Logical.OR)
 	@RequestMapping(value = "/import", method = RequestMethod.POST)
 	public @ResponseBody String doImport(HttpServletRequest request, @RequestParam String strFileGroup, @RequestParam int ny, @RequestParam String template, @RequestParam String memo) {
@@ -325,7 +327,7 @@ public class UploadDataController {
 	    }
 	}
 	
-	@Log(message="取消上传{0}月数据。")
+	@Log(message="取消上传{0}月数据。", level=LogLevel.WARN, module=LogModule.WJSC)
 	@RequiresPermissions(value={"UploadIssue:upload", "UploadData:upload", "UploadRenewed:upload", "UploadCallFail:upload", "UploadCheck:upload", "UploadPay:upload", "UploadIssue:upload"}, logical=Logical.OR)
 	@RequestMapping(value = "/cancelupload", method = RequestMethod.POST)
 	public @ResponseBody String cancelUpload(HttpServletRequest request, @RequestParam String strFileGroup, @RequestParam int ny) {
@@ -346,7 +348,7 @@ public class UploadDataController {
 	    return("{\"jsonrpc\":\"2.0\",\"result\":\"success\",\"id\":\"id\",\"message\":\"" + strMessage + "\"}");
     }
 
-	@Log(message="取消导入{0}月数据。")
+	@Log(message="取消导入{0}月数据。", level=LogLevel.WARN, module=LogModule.WJSC)
 	@RequiresPermissions(value={"UploadIssue:upload", "UploadData:upload", "UploadRenewed:upload", "UploadCallFail:upload", "UploadCheck:upload", "UploadPay:upload", "UploadIssue:upload"}, logical=Logical.OR)
 	@RequestMapping(value = "/cancelimport", method = RequestMethod.POST)
 	public @ResponseBody String clearImport(HttpServletRequest request, @RequestParam String strFileGroup, @RequestParam int ny) {

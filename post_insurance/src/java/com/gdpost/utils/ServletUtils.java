@@ -4,7 +4,7 @@
  * Filename:		com.gdpost.utils.ServletUtils.java
  * Class:			Servlets
  * Date:			2013-7-19
- * Author:			sendtend
+ * Author:			Aming
  * Version          3.1.0
  * Description:		
  *
@@ -29,7 +29,7 @@ import org.apache.commons.lang3.Validate;
 
 /** 
  * 	
- * @author 	sendtend
+ * @author 	Aming
  * Version  3.1.0
  * @since   2013-7-19 下午2:25:31 
  */

@@ -4,7 +4,7 @@
  * Filename:		com.gdpost.web.shiro.CaptchaUsernamePasswordToken.java
  * Class:			CaptchaUsernamePasswordToken
  * Date:			2012-8-7
- * Author:			sendtend
+ * Author:			Aming
  * Version          1.1.0
  * Description:		
  *
@@ -17,7 +17,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 
 /**
  * 
- * @author sendtend 
+ * @author Aming 
  * Version 1.1.0
  * @since 2012-8-7 上午9:21:32
  */

@@ -4,7 +4,7 @@
  * Filename:		com.gdpost.web.util.dwz.SpringDataJpaPageConvert.java
  * Class:			SpringDataJpaPageConvert
  * Date:			2012-8-6
- * Author:			sendtend
+ * Author:			Aming
  * Version          1.1.0
  * Description:		
  *
@@ -22,7 +22,7 @@ import org.springframework.data.domain.Sort;
 /**
  * 解决dwz page 的遗留问题，使程序更易移植和替换
  * 
- * @author sendtend Version 1.1.0
+ * @author Aming Version 1.1.0
  * @since 2012-8-6 下午10:03:18
  */
 

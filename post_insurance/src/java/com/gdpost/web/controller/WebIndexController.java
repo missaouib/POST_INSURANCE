@@ -4,7 +4,7 @@
  * Filename:		com.gdpost.web.controller.IndexController.java
  * Class:			IndexController
  * Date:			2012-8-2
- * Author:			sendtend
+ * Author:			Aming
  * Version          1.1.0
  * Description:		
  *
@@ -32,6 +32,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.gdpost.utils.SecurityUtils;
 import com.gdpost.web.SecurityConstants;
 import com.gdpost.web.log.Log;
+import com.gdpost.web.log.LogLevel;
+import com.gdpost.web.log.LogModule;
 import com.gdpost.web.service.insurance.BqglService;
 import com.gdpost.web.service.insurance.HfglService;
 import com.gdpost.web.service.insurance.KfglService;
@@ -42,7 +44,7 @@ import com.gdpost.web.util.dwz.Page;
 
 /** 
  * 	
- * @author 	sendtend
+ * @author 	Aming
  * Version  1.1.0
  * @since   2012-8-2 下午5:45:57 
  */
@@ -261,7 +263,7 @@ public class WebIndexController {
 		return WEBLOGIN;
 	}
 
-	@Log(message="会话超时， 该用户重新登录系统。")
+	@Log(message="会话超时， 该用户重新登录系统。", level=LogLevel.TRACE, module=LogModule.QTCZ)
 	@RequestMapping(value = "/logout", method = {RequestMethod.GET})
 	public void webLogout(HttpServletResponse response) {
 		Subject user = SecurityUtils.getSubject();

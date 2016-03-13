@@ -31,7 +31,9 @@ import com.gdpost.web.entity.main.Role;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.exception.ServiceException;
 import com.gdpost.web.log.Log;
+import com.gdpost.web.log.LogLevel;
 import com.gdpost.web.log.LogMessageObject;
+import com.gdpost.web.log.LogModule;
 import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.OrganizationRoleService;
 import com.gdpost.web.service.OrganizationService;
@@ -72,7 +74,7 @@ public class OrganizationController {
 		return CREATE;
 	}
 	
-	@Log(message="添加了{0}组织。")
+	@Log(message="添加了{0}组织。", level=LogLevel.WARN, module=LogModule.PZGL)
 	@RequiresPermissions("Organization:save")
 	@RequestMapping(value="/create", method=RequestMethod.POST)
 	public @ResponseBody String create(@Valid Organization organization) {
@@ -104,7 +106,7 @@ public class OrganizationController {
 		return UPDATE;
 	}
 	
-	@Log(message="修改了{0}组织的信息。")
+	@Log(message="修改了{0}组织的信息。", level=LogLevel.WARN, module=LogModule.PZGL)
 	@RequiresPermissions("Organization:edit")
 	@RequestMapping(value="/update", method=RequestMethod.POST)
 	public @ResponseBody String update(@Valid @ModelAttribute("preloadOrg")Organization organization) {
@@ -114,7 +116,7 @@ public class OrganizationController {
 		return AjaxObject.newOk("修改组织成功！").toString();
 	}
 	
-	@Log(message="删除了{0}组织。")
+	@Log(message="删除了{0}组织。", level=LogLevel.WARN, module=LogModule.PZGL)
 	@RequiresPermissions("Organization:delete")
 	@RequestMapping(value="/delete/{id}", method=RequestMethod.POST)
 	public @ResponseBody String delete(@PathVariable Long id) {
@@ -170,7 +172,7 @@ public class OrganizationController {
 	 * 描述
 	 * @param userRole
 	 */
-	@Log(message="向{0}组织分配了{1}的角色。")
+	@Log(message="向{0}组织分配了{1}的角色。", level=LogLevel.WARN, module=LogModule.PZGL)
 	@RequiresPermissions("Organization:assign")
 	@RequestMapping(value="/create/organizationRole", method={RequestMethod.POST})
 	public @ResponseBody void assignRole(OrganizationRole organizationRole) {
@@ -239,7 +241,7 @@ public class OrganizationController {
 	 * 描述
 	 * @param organizationId
 	 */
-	@Log(message="撤销了{0}组织的{1}角色。")
+	@Log(message="撤销了{0}组织的{1}角色。", level=LogLevel.WARN, module=LogModule.PZGL)
 	@RequiresPermissions("Organization:assign")
 	@RequestMapping(value="/delete/organizationRole/{organizationRoleId}", method={RequestMethod.POST})
 	public @ResponseBody void deleteOrganizationRole(@PathVariable Long organizationRoleId) {

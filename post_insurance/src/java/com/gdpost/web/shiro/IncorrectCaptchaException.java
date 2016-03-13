@@ -4,7 +4,7 @@
  * Filename:		com.gdpost.web.shiro.IncorrectCaptchaException.java
  * Class:			IncorrectCaptchaException
  * Date:			2012-8-7
- * Author:			sendtend
+ * Author:			Aming
  * Version          1.1.0
  * Description:		
  *
@@ -17,7 +17,7 @@ import org.apache.shiro.authc.AuthenticationException;
 
 /**
  * 
- * @author sendtend Version 1.1.0
+ * @author Aming Version 1.1.0
  * @since 2012-8-7 上午9:22:21
  */
 

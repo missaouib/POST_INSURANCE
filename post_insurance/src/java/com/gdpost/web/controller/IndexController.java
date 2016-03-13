@@ -4,7 +4,7 @@
  * Filename:		com.gdpost.web.controller.IndexController.java
  * Class:			IndexController
  * Date:			2012-8-2
- * Author:			sendtend
+ * Author:			Aming
  * Version          1.1.0
  * Description:		
  *
@@ -42,7 +42,9 @@ import com.gdpost.web.entity.main.User;
 import com.gdpost.web.entity.main.UserRole;
 import com.gdpost.web.exception.ServiceException;
 import com.gdpost.web.log.Log;
+import com.gdpost.web.log.LogLevel;
 import com.gdpost.web.log.LogMessageObject;
+import com.gdpost.web.log.LogModule;
 import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.ModuleService;
 import com.gdpost.web.service.OrganizationService;
@@ -61,7 +63,7 @@ import com.gdpost.web.util.dwz.Page;
 
 /** 
  * 	
- * @author 	sendtend
+ * @author 	Aming
  * Version  1.1.0
  * @since   2012-8-2 下午5:45:57 
  */
@@ -111,7 +113,7 @@ public class IndexController {
 	private static final String TODO_LIST = "insurance/todo/todolist";
 	private static final String PANEL_TODO_LIST = "insurance/todo/todopanel";
 	
-	@Log(message="{0}登录了系统。")
+	@Log(message="{0}登录了系统。", level=LogLevel.TRACE, module=LogModule.QTCZ)
 	@RequiresUser 
 	@RequestMapping(value="", method=RequestMethod.GET)
 	public String index(HttpServletRequest request, Page page, Map<String, Object> map) {
@@ -252,7 +254,7 @@ public class IndexController {
 		return PANEL_TODO_LIST;
 	}
 	
-	@Log(message="{0}修改了密码。")
+	@Log(message="{0}修改了密码。", level=LogLevel.WARN, module=LogModule.QTCZ)
 	@RequiresUser
 	@RequestMapping(value="/updatePwd", method=RequestMethod.POST)
 	public @ResponseBody String updatePassword(ServletRequest request, String plainPassword, 
@@ -281,7 +283,7 @@ public class IndexController {
 		return UPDATE_BASE;
 	}
 	
-	@Log(message="{0}修改了详细信息。")
+	@Log(message="{0}修改了个人详细信息。", level=LogLevel.WARN, module=LogModule.QTCZ)
 	@RequiresUser
 	@RequestMapping(value="/updateBase", method=RequestMethod.POST)
 	public @ResponseBody String updateBase(User user, ServletRequest request) {

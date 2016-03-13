@@ -15,7 +15,7 @@ import org.apache.shiro.web.util.WebUtils;
  * 该自定义类用以解决dwz在ie中不能打开登录超时页面。
  *（即使response.setHeader("X-Requested-With", "XMLHttpRequest")也不行，chrome和firefox可以，可能是IE没有的保存ajax请求的问题与IE的请求机制有关。）
  * 	
- * @author 	sendtend
+ * @author 	Aming
  * Version  3.1.0
  * @since   2013年7月22日 下午4:00:25
  */

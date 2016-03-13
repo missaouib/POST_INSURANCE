@@ -4,7 +4,7 @@
  * Filename:		com.gdpost.web.entity.authenticate.User.java
  * Class:			User
  * Date:			2012-8-2
- * Author:			sendtend
+ * Author:			Aming
  * Version          1.1.0
  * Description:		
  *
@@ -44,7 +44,7 @@ import com.gdpost.web.entity.Idable;
 
 /** 
  * 	
- * @author 	sendtend
+ * @author 	Aming
  * Version  1.1.0
  * @since   2012-8-2 下午2:44:58 
  */

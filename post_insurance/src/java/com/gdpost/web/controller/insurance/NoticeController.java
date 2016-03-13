@@ -44,7 +44,9 @@ import com.gdpost.web.entity.main.User;
 import com.gdpost.web.entity.main.UserRole;
 import com.gdpost.web.exception.ServiceException;
 import com.gdpost.web.log.Log;
+import com.gdpost.web.log.LogLevel;
 import com.gdpost.web.log.LogMessageObject;
+import com.gdpost.web.log.LogModule;
 import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.UserRoleService;
 import com.gdpost.web.service.insurance.NoticeService;
@@ -137,7 +139,7 @@ public class NoticeController {
 		return CREATE;
 	}
 	
-	@Log(message="上传了{0}。")
+	@Log(message="上传了{0}。", level=LogLevel.WARN, module=LogModule.GGGL)
 	@RequiresPermissions(value={"Notice:add"}, logical=Logical.OR)
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	public @ResponseBody String create(HttpServletRequest request, @RequestParam(value = "file", required = true) MultipartFile file, Notice notice) {
@@ -314,7 +316,7 @@ public class NoticeController {
         return AjaxObject.newOk("发布成功！").toString();
 	}
 	
-	@Log(message="删除了{0}通知。")
+	@Log(message="删除了{0}通知。", level=LogLevel.WARN, module=LogModule.GGGL)
 	@RequiresPermissions(value={"Notice:delete"}, logical=Logical.OR)
 	@RequestMapping(value="/delete", method=RequestMethod.POST)
 	public @ResponseBody String deleteMany(Long[] ids) {

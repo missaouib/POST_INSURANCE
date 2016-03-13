@@ -3,7 +3,7 @@ package com.gdpost.web.exception;
 
 /** 
  * 不允许删除的异常
- * @author 	sendtend
+ * @author 	Aming
  * @since   2013年12月20日 下午4:12:32 
  */
 public class NotDeletedException extends ServiceException {

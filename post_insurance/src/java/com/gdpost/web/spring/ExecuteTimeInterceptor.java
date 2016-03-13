@@ -4,7 +4,7 @@
  * Filename:		com.gdpost.web.spring.ExecuteTimeInterceptor.java
  * Class:			ExecuteTimeInterceptor
  * Date:			2013-4-17
- * Author:			sendtend
+ * Author:			Aming
  * Version          2.0.0
  * Description:		
  *
@@ -23,7 +23,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 /**
  * 
- * @author sendtend Version 2.0.0
+ * @author Aming Version 2.0.0
  * @since 2013-4-17 下午10:06:25
  */
 

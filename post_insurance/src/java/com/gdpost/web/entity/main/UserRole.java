@@ -20,7 +20,7 @@ import com.gdpost.web.entity.Idable;
 
 /**
  * 	
- * @author 	sendtend
+ * @author 	Aming
  * Version  2.1.0
  * @since   2013-5-6 下午2:29:52
  */

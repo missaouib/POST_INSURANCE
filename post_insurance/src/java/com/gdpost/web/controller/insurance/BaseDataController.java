@@ -37,7 +37,9 @@ import com.gdpost.web.entity.main.ProvOrgCode;
 import com.gdpost.web.exception.ExistedException;
 import com.gdpost.web.exception.ServiceException;
 import com.gdpost.web.log.Log;
+import com.gdpost.web.log.LogLevel;
 import com.gdpost.web.log.LogMessageObject;
+import com.gdpost.web.log.LogModule;
 import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.insurance.BaseDataService;
 import com.gdpost.web.util.dwz.AjaxObject;
@@ -99,7 +101,7 @@ public class BaseDataController {
 		return CALL_DEAL_TYPE_CREATE;
 	}
 	
-	@Log(message="添加了{0}回访处理类型。")
+	@Log(message="添加了{0}回访处理类型。", level=LogLevel.WARN, module=LogModule.BaseDate)
 	@RequiresPermissions("CallDealType:save")
 	@RequestMapping(value="/callDealType/create", method=RequestMethod.POST)
 	public @ResponseBody String createCallDealType(@Valid CallDealType basedata) {	
@@ -122,7 +124,7 @@ public class BaseDataController {
 		return CALL_DEAL_TYPE_UPDATE;
 	}
 	
-	@Log(message="修改了{0}回访处理类型的信息。")
+	@Log(message="修改了{0}回访处理类型的信息。", level=LogLevel.WARN, module=LogModule.BaseDate)
 	@RequiresPermissions("CallDealType:edit")
 	@RequestMapping(value="/callDealType/update", method=RequestMethod.POST)
 	public @ResponseBody String updateCallDealType(CallDealType basedata) {
@@ -133,7 +135,7 @@ public class BaseDataController {
 		return	AjaxObject.newOk("修改回访处理类型成功！").toString(); 
 	}
 	
-	@Log(message="删除了{0}回访处理类型。")
+	@Log(message="删除了{0}回访处理类型。", level=LogLevel.WARN, module=LogModule.BaseDate)
 	@RequiresPermissions("CallDealType:delete")
 	@RequestMapping(value="/callDealType/delete/{id}", method=RequestMethod.POST)
 	public @ResponseBody String deleteCallDealType(@PathVariable Long id) {
@@ -149,7 +151,7 @@ public class BaseDataController {
 		return AjaxObject.newOk("删除回访处理类型成功！").setCallbackType("").toString();
 	}
 	
-	@Log(message="删除了{0}回访处理类型。")
+	@Log(message="删除了{0}回访处理类型。", level=LogLevel.WARN, module=LogModule.BaseDate)
 	@RequiresPermissions("CallDealType:delete")
 	@RequestMapping(value="/callDealType/delete", method=RequestMethod.POST)
 	public @ResponseBody String deleteManyCallDealType(Long[] ids) {
@@ -192,7 +194,7 @@ public class BaseDataController {
 		return CONSERVATION_ERROR_CREATE;
 	}
 	
-	@Log(message="添加了{0}保全错误类型。")
+	@Log(message="添加了{0}保全错误类型。", level=LogLevel.WARN, module=LogModule.BaseDate)
 	@RequiresPermissions("ConservationError:save")
 	@RequestMapping(value="/conservationError/create", method=RequestMethod.POST)
 	public @ResponseBody String createConservationError(@Valid ConservationError conservationError) {	
@@ -215,7 +217,7 @@ public class BaseDataController {
 		return CONSERVATION_ERROR_UPDATE;
 	}
 	
-	@Log(message="修改了{0}保全错误类型的信息。")
+	@Log(message="修改了{0}保全错误类型的信息。", level=LogLevel.WARN, module=LogModule.BaseDate)
 	@RequiresPermissions("ConservationError:edit")
 	@RequestMapping(value="/conservationError/update", method=RequestMethod.POST)
 	public @ResponseBody String updateConservationError(ConservationError conservationError) {
@@ -225,7 +227,7 @@ public class BaseDataController {
 		return	AjaxObject.newOk("修改保全错误类型成功！").toString(); 
 	}
 	
-	@Log(message="删除了{0}保全错误类型。")
+	@Log(message="删除了{0}保全错误类型。", level=LogLevel.WARN, module=LogModule.BaseDate)
 	@RequiresPermissions("ConservationError:delete")
 	@RequestMapping(value="/conservationError/delete/{id}", method=RequestMethod.POST)
 	public @ResponseBody String deleteConservationError(@PathVariable Long id) {
@@ -241,7 +243,7 @@ public class BaseDataController {
 		return AjaxObject.newOk("删除保全错误类型成功！").setCallbackType("").toString();
 	}
 	
-	@Log(message="删除了{0}保全错误类型。")
+	@Log(message="删除了{0}保全错误类型。", level=LogLevel.WARN, module=LogModule.BaseDate)
 	@RequiresPermissions("ConservationError:delete")
 	@RequestMapping(value="/conservationError/delete", method=RequestMethod.POST)
 	public @ResponseBody String deleteManyConservationError(Long[] ids) {
@@ -284,7 +286,7 @@ public class BaseDataController {
 		return ISSUE_TYPE_CREATE;
 	}
 	
-	@Log(message="添加了{0}工单错误类型。")
+	@Log(message="添加了{0}工单错误类型。", level=LogLevel.WARN, module=LogModule.BaseDate)
 	@RequiresPermissions("IssueType:save")
 	@RequestMapping(value="/issueType/create", method=RequestMethod.POST)
 	public @ResponseBody String createIssueType(@Valid IssueType issueType) {	
@@ -307,7 +309,7 @@ public class BaseDataController {
 		return ISSUE_TYPE_UPDATE;
 	}
 	
-	@Log(message="修改了{0}工单错误类型的信息。")
+	@Log(message="修改了{0}工单错误类型的信息。", level=LogLevel.WARN, module=LogModule.BaseDate)
 	@RequiresPermissions("IssueType:edit")
 	@RequestMapping(value="/issueType/update", method=RequestMethod.POST)
 	public @ResponseBody String updateIssueType(IssueType issueType) {
@@ -317,7 +319,7 @@ public class BaseDataController {
 		return	AjaxObject.newOk("修改工单错误类型成功！").toString(); 
 	}
 	
-	@Log(message="删除了{0}工单错误类型。")
+	@Log(message="删除了{0}工单错误类型。", level=LogLevel.WARN, module=LogModule.BaseDate)
 	@RequiresPermissions("IssueType:delete")
 	@RequestMapping(value="/issueType/delete/{id}", method=RequestMethod.POST)
 	public @ResponseBody String deleteIssueType(@PathVariable Long id) {
@@ -333,7 +335,7 @@ public class BaseDataController {
 		return AjaxObject.newOk("删除工单错误类型成功！").setCallbackType("").toString();
 	}
 	
-	@Log(message="删除了{0}工单错误类型。")
+	@Log(message="删除了{0}工单错误类型。", level=LogLevel.WARN, module=LogModule.BaseDate)
 	@RequiresPermissions("IssueType:delete")
 	@RequestMapping(value="/issueType/delete", method=RequestMethod.POST)
 	public @ResponseBody String deleteManyIssueType(Long[] ids) {
@@ -376,7 +378,7 @@ public class BaseDataController {
 		return NET_CODE_CREATE;
 	}
 	
-	@Log(message="添加了{0}网点对照。")
+	@Log(message="添加了{0}网点对照。", level=LogLevel.WARN, module=LogModule.BaseDate)
 	@RequiresPermissions("BankCode:save")
 	@RequestMapping(value="/bankCode/create", method=RequestMethod.POST)
 	public @ResponseBody String createNetCode(@Valid BankCode bankCode) {	
@@ -399,7 +401,7 @@ public class BaseDataController {
 		return NET_CODE_UPDATE;
 	}
 	
-	@Log(message="修改了{0}网点对照的信息。")
+	@Log(message="修改了{0}网点对照的信息。", level=LogLevel.WARN, module=LogModule.BaseDate)
 	@RequiresPermissions("BankCode:edit")
 	@RequestMapping(value="/bankCode/update", method=RequestMethod.POST)
 	public @ResponseBody String updateNetCode(BankCode bankCode) {
@@ -409,7 +411,7 @@ public class BaseDataController {
 		return	AjaxObject.newOk("修改网点对照成功！").toString(); 
 	}
 	
-	@Log(message="删除了{0}网点对照。")
+	@Log(message="删除了{0}网点对照。", level=LogLevel.WARN, module=LogModule.BaseDate)
 	@RequiresPermissions("BankCode:delete")
 	@RequestMapping(value="/bankCode/delete/{id}", method=RequestMethod.POST)
 	public @ResponseBody String deleteNetCode(@PathVariable Long id) {
@@ -425,7 +427,7 @@ public class BaseDataController {
 		return AjaxObject.newOk("删除网点对照成功！").setCallbackType("").toString();
 	}
 	
-	@Log(message="删除了{0}网点对照。")
+	@Log(message="删除了{0}网点对照。", level=LogLevel.WARN, module=LogModule.BaseDate)
 	@RequiresPermissions("BankCode:delete")
 	@RequestMapping(value="/bankCode/delete", method=RequestMethod.POST)
 	public @ResponseBody String deleteManyNetCode(Long[] ids) {
@@ -468,7 +470,7 @@ public class BaseDataController {
 		return RENEWAL_TYPE_CREATE;
 	}
 	
-	@Log(message="添加了{0}催缴类型。")
+	@Log(message="添加了{0}催缴类型。", level=LogLevel.WARN, module=LogModule.BaseDate)
 	@RequiresPermissions("RenewalType:save")
 	@RequestMapping(value="/renewalType/create", method=RequestMethod.POST)
 	public @ResponseBody String createRenewalType(@Valid RenewalType renewalType) {	
@@ -491,7 +493,7 @@ public class BaseDataController {
 		return RENEWAL_TYPE_UPDATE;
 	}
 	
-	@Log(message="修改了{0}催缴类型的信息。")
+	@Log(message="修改了{0}催缴类型的信息。", level=LogLevel.WARN, module=LogModule.BaseDate)
 	@RequiresPermissions("RenewalType:edit")
 	@RequestMapping(value="/renewalType/update", method=RequestMethod.POST)
 	public @ResponseBody String updateRenewalType(RenewalType renewalType) {
@@ -501,7 +503,7 @@ public class BaseDataController {
 		return	AjaxObject.newOk("修改催缴类型成功！").toString(); 
 	}
 	
-	@Log(message="删除了{0}催缴类型。")
+	@Log(message="删除了{0}催缴类型。", level=LogLevel.WARN, module=LogModule.BaseDate)
 	@RequiresPermissions("RenewalType:delete")
 	@RequestMapping(value="/renewalType/delete/{id}", method=RequestMethod.POST)
 	public @ResponseBody String deleteRenewalType(@PathVariable Long id) {
@@ -517,7 +519,7 @@ public class BaseDataController {
 		return AjaxObject.newOk("删除催缴类型成功！").setCallbackType("").toString();
 	}
 	
-	@Log(message="删除了{0}催缴类型。")
+	@Log(message="删除了{0}催缴类型。", level=LogLevel.WARN, module=LogModule.BaseDate)
 	@RequiresPermissions("RenewalType:delete")
 	@RequestMapping(value="/renewalType/delete", method=RequestMethod.POST)
 	public @ResponseBody String deleteManyRenewalType(Long[] ids) {
@@ -560,7 +562,7 @@ public class BaseDataController {
 		return PRD_CREATE;
 	}
 	
-	@Log(message="添加了{0}产品。")
+	@Log(message="添加了{0}产品。", level=LogLevel.WARN, module=LogModule.BaseDate)
 	@RequiresPermissions("Prd:save")
 	@RequestMapping(value="/prd/create", method=RequestMethod.POST)
 	public @ResponseBody String createPrd(@Valid Prd prd) {	
@@ -583,7 +585,7 @@ public class BaseDataController {
 		return PRD_UPDATE;
 	}
 	
-	@Log(message="修改了{0}产品的信息。")
+	@Log(message="修改了{0}产品的信息。", level=LogLevel.WARN, module=LogModule.BaseDate)
 	@RequiresPermissions("Prd:edit")
 	@RequestMapping(value="/prd/update", method=RequestMethod.POST)
 	public @ResponseBody String updatePrd(Prd prd) {
@@ -593,7 +595,7 @@ public class BaseDataController {
 		return	AjaxObject.newOk("修改产品成功！").toString(); 
 	}
 	
-	@Log(message="删除了{0}产品。")
+	@Log(message="删除了{0}产品。", level=LogLevel.WARN, module=LogModule.BaseDate)
 	@RequiresPermissions("Prd:delete")
 	@RequestMapping(value="/prd/delete/{id}", method=RequestMethod.POST)
 	public @ResponseBody String deletePrd(@PathVariable Long id) {
@@ -609,7 +611,7 @@ public class BaseDataController {
 		return AjaxObject.newOk("删除产品成功！").setCallbackType("").toString();
 	}
 	
-	@Log(message="删除了{0}产品。")
+	@Log(message="删除了{0}产品。", level=LogLevel.WARN, module=LogModule.BaseDate)
 	@RequiresPermissions("Prd:delete")
 	@RequestMapping(value="/prd/delete", method=RequestMethod.POST)
 	public @ResponseBody String deleteManyPrd(Long[] ids) {
@@ -652,7 +654,7 @@ public class BaseDataController {
 		return CHECK_FIX_TYPE_CREATE;
 	}
 	
-	@Log(message="添加了{0}新契约整改类型。")
+	@Log(message="添加了{0}新契约整改类型。", level=LogLevel.WARN, module=LogModule.BaseDate)
 	@RequiresPermissions("CheckFixType:save")
 	@RequestMapping(value="/checkFixType/create", method=RequestMethod.POST)
 	public @ResponseBody String createCheckFixType(@Valid CheckFixType checkFixType) {	
@@ -675,7 +677,7 @@ public class BaseDataController {
 		return CHECK_FIX_TYPE_UPDATE;
 	}
 	
-	@Log(message="修改了{0}新契约整改类型的信息。")
+	@Log(message="修改了{0}新契约整改类型的信息。", level=LogLevel.WARN, module=LogModule.BaseDate)
 	@RequiresPermissions("CheckFixType:edit")
 	@RequestMapping(value="/checkFixType/update", method=RequestMethod.POST)
 	public @ResponseBody String updateCheckFixType(CheckFixType checkFixType) {
@@ -685,7 +687,7 @@ public class BaseDataController {
 		return	AjaxObject.newOk("修改新契约整改类型成功！").toString(); 
 	}
 	
-	@Log(message="删除了{0}新契约整改类型。")
+	@Log(message="删除了{0}新契约整改类型。", level=LogLevel.WARN, module=LogModule.BaseDate)
 	@RequiresPermissions("CheckFixType:delete")
 	@RequestMapping(value="/checkFixType/delete/{id}", method=RequestMethod.POST)
 	public @ResponseBody String deleteCheckFixType(@PathVariable Long id) {
@@ -701,7 +703,7 @@ public class BaseDataController {
 		return AjaxObject.newOk("删除新契约整改类型成功！").setCallbackType("").toString();
 	}
 	
-	@Log(message="删除了{0}新契约整改类型。")
+	@Log(message="删除了{0}新契约整改类型。", level=LogLevel.WARN, module=LogModule.BaseDate)
 	@RequiresPermissions("CheckFixType:delete")
 	@RequestMapping(value="/checkFixType/delete", method=RequestMethod.POST)
 	public @ResponseBody String deleteManyCheckFixType(Long[] ids) {
@@ -744,7 +746,7 @@ public class BaseDataController {
 		return CONSERVATION_TYPE_CREATE;
 	}
 	
-	@Log(message="添加了{0}保全业务类型。")
+	@Log(message="添加了{0}保全业务类型。", level=LogLevel.WARN, module=LogModule.BaseDate)
 	@RequiresPermissions("ConservationType:save")
 	@RequestMapping(value="/conservationType/create", method=RequestMethod.POST)
 	public @ResponseBody String createConservationType(@Valid ConservationType conservationType) {	
@@ -767,7 +769,7 @@ public class BaseDataController {
 		return CONSERVATION_TYPE_UPDATE;
 	}
 	
-	@Log(message="修改了{0}保全业务类型的信息。")
+	@Log(message="修改了{0}保全业务类型的信息。", level=LogLevel.WARN, module=LogModule.BaseDate)
 	@RequiresPermissions("ConservationType:edit")
 	@RequestMapping(value="/conservationType/update", method=RequestMethod.POST)
 	public @ResponseBody String updateConservationType(ConservationType conservationType) {
@@ -777,7 +779,7 @@ public class BaseDataController {
 		return	AjaxObject.newOk("修改保全业务类型成功！").toString(); 
 	}
 	
-	@Log(message="删除了{0}保全业务类型。")
+	@Log(message="删除了{0}保全业务类型。", level=LogLevel.WARN, module=LogModule.BaseDate)
 	@RequiresPermissions("ConservationType:delete")
 	@RequestMapping(value="/conservationType/delete/{id}", method=RequestMethod.POST)
 	public @ResponseBody String deleteConservationType(@PathVariable Long id) {
@@ -793,7 +795,7 @@ public class BaseDataController {
 		return AjaxObject.newOk("删除保全业务类型成功！").setCallbackType("").toString();
 	}
 	
-	@Log(message="删除了{0}保全业务类型。")
+	@Log(message="删除了{0}保全业务类型。", level=LogLevel.WARN, module=LogModule.BaseDate)
 	@RequiresPermissions("ConservationType:delete")
 	@RequestMapping(value="/conservationType/delete", method=RequestMethod.POST)
 	public @ResponseBody String deleteManyConservationType(Long[] ids) {
@@ -836,7 +838,7 @@ public class BaseDataController {
 		return PROV_ORG_CODE_CREATE;
 	}
 	
-	@Log(message="添加了{0}省分机构代码对照。")
+	@Log(message="添加了{0}省分机构代码对照。", level=LogLevel.WARN, module=LogModule.BaseDate)
 	@RequiresPermissions("ProvOrgCode:save")
 	@RequestMapping(value="/provOrgCode/create", method=RequestMethod.POST)
 	public @ResponseBody String createProvOrgCode(@Valid ProvOrgCode provOrgCode) {	
@@ -859,7 +861,7 @@ public class BaseDataController {
 		return PROV_ORG_CODE_UPDATE;
 	}
 	
-	@Log(message="修改了{0}省分机构代码对照的信息。")
+	@Log(message="修改了{0}省分机构代码对照的信息。", level=LogLevel.WARN, module=LogModule.BaseDate)
 	@RequiresPermissions("ProvOrgCode:edit")
 	@RequestMapping(value="/provOrgCode/update", method=RequestMethod.POST)
 	public @ResponseBody String updateProvOrgCode(ProvOrgCode provOrgCode) {
@@ -869,7 +871,7 @@ public class BaseDataController {
 		return	AjaxObject.newOk("修改省分机构代码对照成功！").toString(); 
 	}
 	
-	@Log(message="删除了{0}省分机构代码对照。")
+	@Log(message="删除了{0}省分机构代码对照。", level=LogLevel.WARN, module=LogModule.BaseDate)
 	@RequiresPermissions("ProvOrgCode:delete")
 	@RequestMapping(value="/provOrgCode/delete/{id}", method=RequestMethod.POST)
 	public @ResponseBody String deleteProvOrgCode(@PathVariable Long id) {
@@ -885,7 +887,7 @@ public class BaseDataController {
 		return AjaxObject.newOk("删除省分机构代码对照成功！").setCallbackType("").toString();
 	}
 	
-	@Log(message="删除了{0}省分机构代码对照。")
+	@Log(message="删除了{0}省分机构代码对照。", level=LogLevel.WARN, module=LogModule.BaseDate)
 	@RequiresPermissions("ProvOrgCode:delete")
 	@RequestMapping(value="/provOrgCode/delete", method=RequestMethod.POST)
 	public @ResponseBody String deleteManyProvOrgCode(Long[] ids) {

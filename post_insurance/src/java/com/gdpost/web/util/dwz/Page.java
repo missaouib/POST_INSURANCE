@@ -4,7 +4,7 @@
  * Filename:		com.gdpost.web.util.dwz.Pager.java
  * Class:			Pager
  * Date:			2012-6-11
- * Author:			sendtend
+ * Author:			Aming
  * Version          1.1.0
  * Description:		
  *
@@ -16,7 +16,7 @@ package com.gdpost.web.util.dwz;
 
 /** 
  * 	
- * @author 	sendtend
+ * @author 	Aming
  * Version  1.1.0
  * @since   2012-6-11 上午10:28:30 
  */

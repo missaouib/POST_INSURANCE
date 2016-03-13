@@ -29,7 +29,9 @@ import com.gdpost.web.entity.main.Policy;
 import com.gdpost.web.exception.ExistedException;
 import com.gdpost.web.exception.ServiceException;
 import com.gdpost.web.log.Log;
+import com.gdpost.web.log.LogLevel;
 import com.gdpost.web.log.LogMessageObject;
+import com.gdpost.web.log.LogModule;
 import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.insurance.LpglService;
 import com.gdpost.web.util.dwz.AjaxObject;
@@ -54,7 +56,7 @@ public class LpglController {
 		return CREATE;
 	}
 	
-	@Log(message="添加了{0}保单。")
+	@Log(message="添加了{0}保单。", level=LogLevel.WARN, module=LogModule.LPGL)
 	@RequiresPermissions("Policy:save")
 	@RequestMapping(value="/create", method=RequestMethod.POST)
 	public @ResponseBody String create(@Valid Policy user) {	
@@ -89,7 +91,7 @@ public class LpglController {
 		return UPDATE;
 	}
 	
-	@Log(message="修改了{0}保单的信息。")
+	@Log(message="修改了{0}保单的信息。", level=LogLevel.WARN, module=LogModule.LPGL)
 	@RequiresPermissions("Policy:edit")
 	@RequestMapping(value="/update", method=RequestMethod.POST)
 	public @ResponseBody String update(@Valid @ModelAttribute("preloadUser")Policy user) {
@@ -99,7 +101,7 @@ public class LpglController {
 		return	AjaxObject.newOk("修改保单成功！").toString(); 
 	}
 	
-	@Log(message="删除了{0}保单。")
+	@Log(message="删除了{0}保单。", level=LogLevel.WARN, module=LogModule.LPGL)
 	@RequiresPermissions("Policy:delete")
 	@RequestMapping(value="/delete/{id}", method=RequestMethod.POST)
 	public @ResponseBody String delete(@PathVariable Long id) {
@@ -115,7 +117,7 @@ public class LpglController {
 		return AjaxObject.newOk("删除保单成功！").setCallbackType("").toString();
 	}
 	
-	@Log(message="删除了{0}保单。")
+	@Log(message="删除了{0}保单。", level=LogLevel.WARN, module=LogModule.LPGL)
 	@RequiresPermissions("Policy:delete")
 	@RequestMapping(value="/delete", method=RequestMethod.POST)
 	public @ResponseBody String deleteMany(Long[] ids) {

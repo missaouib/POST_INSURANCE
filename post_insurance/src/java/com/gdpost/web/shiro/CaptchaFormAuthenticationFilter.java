@@ -4,7 +4,7 @@
  * Filename:		com.gdpost.web.shiro.CaptchaFormAuthenticationFilter.java
  * Class:			CaptchaFormAuthenticationFilter
  * Date:			2012-8-7
- * Author:			sendtend
+ * Author:			Aming
  * Version          1.1.0
  * Description:		
  *
@@ -26,7 +26,7 @@ import com.gdpost.web.SecurityConstants;
 
 /**
  * 
- * @author sendtend 
+ * @author Aming 
  * Version 1.1.0
  * @since 2012-8-7 上午9:20:26
  */

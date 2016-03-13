@@ -4,7 +4,7 @@
  * Filename:		com.gdpost.web.util.dwz.AjaxObject.java
  * Class:			AjaxObject
  * Date:			2012-6-8
- * Author:			sendtend
+ * Author:			Aming
  * Version          1.1.0
  * Description:		
  *
@@ -29,7 +29,7 @@ package com.gdpost.web.util.dwz;
  * {"statusCode":"200", "message":"操作成功", "navTabId":"navNewsLi", "forwardUrl":"", "callbackType":"closeCurrent"}
  * {"statusCode":"300", "message":"操作失败"}
  * {"statusCode":"301", "message":"会话超时"}
- * @author 	sendtend
+ * @author 	Aming
  * Version  1.1.0
  * @since   2012-6-8 下午6:46:53 
  */

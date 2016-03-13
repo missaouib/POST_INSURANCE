@@ -490,3 +490,11 @@ alter table t_call_fail_list add column mail_success varchar(32) default null;
 alter table t_call_fail_list add column mail_back_date date default null;
 
 alter table t_call_fail_list add column client_sign_date date default null;
+
+ALTER TABLE `t_log_info` ADD COLUMN `module` VARCHAR(32) DEFAULT NULL;
+
+ALTER TABLE `t_call_fail_list` MODIFY COLUMN `finish_date` TIMESTAMP NULL;
+
+--------------- SQL ---------------
+
+ALTER TABLE `t_renewed_list` MODIFY COLUMN `policy_no` VARCHAR(18) COLLATE utf8_general_ci NOT NULL UNIQUE;

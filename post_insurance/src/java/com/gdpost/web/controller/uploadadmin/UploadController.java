@@ -34,7 +34,9 @@ import com.gdpost.utils.UploadDataHelper.UploadDataUtils;
 import com.gdpost.web.SecurityConstants;
 import com.gdpost.web.entity.main.Role;
 import com.gdpost.web.log.Log;
+import com.gdpost.web.log.LogLevel;
 import com.gdpost.web.log.LogMessageObject;
+import com.gdpost.web.log.LogModule;
 import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.UserService;
 import com.gdpost.web.service.uploaddatamanage.UploadDataService;
@@ -129,7 +131,7 @@ public class UploadController {
 		return UPLOAD;
 	}
 
-	@Log(message="上传了{0}。")
+	@Log(message="上传了{0}。", level=LogLevel.WARN, module=LogModule.WJSC)
 	@RequiresPermissions(value={"UploadIssue:upload", "UploadData:upload", "UploadRenewed:upload", "UploadCallFail:upload", "UploadCheck:upload", "UploadPay:upload", "UploadIssue:upload"}, logical=Logical.OR)
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public @ResponseBody String upload(HttpServletRequest request, @RequestParam String name, @RequestParam(value = "file", required = true) MultipartFile file) {

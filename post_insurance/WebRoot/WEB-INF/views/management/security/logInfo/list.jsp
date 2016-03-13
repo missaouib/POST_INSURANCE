@@ -8,6 +8,7 @@
 	<input type="hidden" name="search_EQ_logLevel" value="${param.search_EQ_logLevel }"/>
 	<input type="hidden" name="search_GTE_createTime" value="${param.search_GTE_createTime}"/>
 	<input type="hidden" name="search_LTE_createTime" value="${param.search_LTE_createTime}"/>
+	<input type="hidden" name="search_LIKE_module" value="${param.search_LIKE_module}"/>
 </dwz:paginationForm>
 
 <form method="post" action="${contextPath}/management/security/logInfo/list" onsubmit="return navTabSearch(this)">
@@ -17,7 +18,7 @@
 				<li>
 					<label style="width: 100px;">登录名称：</label>
 					<input type="text" name="search_EQ_username" value="${param.search_EQ_username }"/>
-				</li>	
+				</li>
 				<li>
 					<label style="width: 100px;">登录IP：</label>
 					<input type="text" name="search_EQ_ipAddress" value="${param.search_EQ_ipAddress }"/>
@@ -31,6 +32,15 @@
 						</c:forEach>
 					</select>
 				</li>																
+			</ul>
+			<ul>
+				<li>
+					<label style="width: 100px;">模块：</label>
+					<form:select path="logInfo.module" id="logModule" class="combox">
+						<form:option value=""> -- -- </form:option>
+						<form:options items="${modules }" itemLabel="desc" itemValue="desc"/>
+					</form:select>
+				</li>
 			</ul>
 			<ul class="searchContent">	
 				<li>
@@ -69,6 +79,7 @@
 				<th width="22"><input type="checkbox" group="ids" class="checkboxCtrl"></th>
 				<th width="100">登录名称</th>
 				<th width="100">登录IP</th>
+				<th width="100">相关模块</th>
 				<th width="100" orderField="logLevel" class="${page.orderField eq 'logLevel' ? page.orderDirection : ''}">日志等级</th>
 				<th >日志内容</th>
 				<th width="130" orderField="createTime" class="${page.orderField eq 'createTime' ? page.orderDirection : ''}">创建时间</th>
@@ -80,6 +91,7 @@
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
 				<td>${item.username}</td>
 				<td>${item.ipAddress}</td>
+				<td>${item.module}</td>
 				<td>${item.logLevel}</td>
 				<td>${item.message}</td>
 				<td><fmt:formatDate value="${item.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>

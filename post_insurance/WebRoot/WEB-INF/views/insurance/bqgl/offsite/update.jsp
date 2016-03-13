@@ -35,7 +35,7 @@
 		</p>
 		<p>
 			<label>收件省</label>
-			<input type="text" name="dealProv" id="dealProv" class="input-medium"/>
+			<input type="text" name="dealProv" id="dealProv" class="input-medium validate[required] required" value="${offsite.dealProv }"/>
 		</p>
 		<p>
 			<label>客户姓名：</label>

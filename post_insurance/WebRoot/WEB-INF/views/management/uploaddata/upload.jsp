@@ -82,7 +82,7 @@ jQuery(function() {
         // 选择文件的按钮。可选。
         accept: {
             title: '请选择数据文件',
-            extensions: 'csv,xls'
+            extensions: 'csv,xls,xlsx'
         },
         formData:{
             fileGroup: strFileGroup

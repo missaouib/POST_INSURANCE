@@ -45,7 +45,9 @@ import com.gdpost.web.entity.main.User;
 import com.gdpost.web.exception.ExistedException;
 import com.gdpost.web.exception.ServiceException;
 import com.gdpost.web.log.Log;
+import com.gdpost.web.log.LogLevel;
 import com.gdpost.web.log.LogMessageObject;
+import com.gdpost.web.log.LogModule;
 import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.insurance.BqglService;
 import com.gdpost.web.shiro.ShiroUser;
@@ -98,7 +100,7 @@ public class BqglController {
 		return TO_HELP;
 	}
 	
-	@Log(message="添加了{0}保全复核问题。")
+	@Log(message="添加了{0}保全复核问题。", level=LogLevel.WARN, module=LogModule.BQGL)
 	@RequiresPermissions("Cservice:save")
 	@RequestMapping(value="/issue/create", method=RequestMethod.POST)
 	public @ResponseBody String create(@Valid ConservationDtl issue) {	
@@ -134,7 +136,7 @@ public class BqglController {
 		return UPDATE;
 	}
 	
-	@Log(message="修改了{0}保全复核问题的信息。")
+	@Log(message="修改了{0}保全复核问题的信息。", level=LogLevel.WARN, module=LogModule.BQGL)
 	@RequiresPermissions("Cservice:edit")
 	@RequestMapping(value="/issue/update", method=RequestMethod.POST)
 	public @ResponseBody String update(ConservationDtl issue) {
@@ -144,7 +146,7 @@ public class BqglController {
 		return	AjaxObject.newOk("修改保全复核问题成功！").toString(); 
 	}
 	
-	@Log(message="修改了{0}保全复核问题的状态。")
+	@Log(message="修改了{0}保全复核问题的状态。", level=LogLevel.WARN, module=LogModule.BQGL)
 	@RequiresPermissions(value={"Cservice:reset","Cservice:deal"}, logical=Logical.OR)
 	@RequestMapping(value="/issue/{status}/{id}", method=RequestMethod.POST)
 	public @ResponseBody String updateStatus(@PathVariable("status") String status, @PathVariable("id") Long id) {
@@ -176,7 +178,7 @@ public class BqglController {
 		return	AjaxObject.newOk("修改保全复核问题成功！").setCallbackType("").toString();
 	}
 	
-	@Log(message="批量修改了{0}保全复核问题的{1}状态。")
+	@Log(message="批量修改了{0}保全复核问题的{1}状态。", level=LogLevel.WARN, module=LogModule.BQGL)
 	@RequiresPermissions(value={"Cservice:reset","Cservice:deal"}, logical=Logical.OR)
 	@RequestMapping(value="/issue/{status}", method=RequestMethod.POST)
 	public @ResponseBody String batchUpdateStatus(@PathVariable("status") String status, Long[] ids) {
@@ -213,7 +215,7 @@ public class BqglController {
 		return	AjaxObject.newOk("批量" + status + "保全复核问题成功！").setCallbackType("").toString();
 	}
 	
-	@Log(message="删除了{0}保全复核问题。")
+	@Log(message="删除了{0}保全复核问题。", level=LogLevel.WARN, module=LogModule.BQGL)
 	@RequiresPermissions("Cservice:delete")
 	@RequestMapping(value="/issue/delete/{id}", method=RequestMethod.POST)
 	public @ResponseBody String delete(@PathVariable Long id) {
@@ -229,7 +231,7 @@ public class BqglController {
 		return AjaxObject.newOk("删除保全复核问题成功！").setCallbackType("").toString();
 	}
 	
-	@Log(message="删除了{0}保全复核问题。")
+	@Log(message="删除了{0}保全复核问题。", level=LogLevel.WARN, module=LogModule.BQGL)
 	@RequiresPermissions("Cservice:delete")
 	@RequestMapping(value="/issue/delete", method=RequestMethod.POST)
 	public @ResponseBody String deleteMany(Long[] ids) {
@@ -284,6 +286,8 @@ public class BqglController {
 		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 		if (status.length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
+		} else {
+			csf.add(new SearchFilter("status", Operator.NEQ, BQ_STATUS.CloseStatus.name()));
 		}
 		
 		Specification<ConservationDtl> specification = DynamicSpecifications.bySearchFilter(request, ConservationDtl.class, csf);
@@ -369,7 +373,7 @@ public class BqglController {
 		return CREATE_OC;
 	}
 	
-	@Log(message="添加了{0}异地保全。")
+	@Log(message="添加了{0}异地保全。", level=LogLevel.WARN, module=LogModule.BQGL)
 	@RequiresPermissions("OffsiteConservation:save")
 	@RequestMapping(value="/offsite/create", method=RequestMethod.POST)
 	public @ResponseBody String createOffsiteConservation(@Valid OffsiteConservation offsite) {	
@@ -404,7 +408,7 @@ public class BqglController {
 		return PROV_UPDATE_OC;
 	}
 	
-	@Log(message="修改了{0}异地保全的信息。")
+	@Log(message="修改了{0}异地保全的信息。", level=LogLevel.WARN, module=LogModule.BQGL)
 	@RequiresPermissions("OffsiteConservation:edit")
 	@RequestMapping(value="/offsite/update", method=RequestMethod.POST)
 	public @ResponseBody String updateOffsiteConservation(OffsiteConservation src) {
@@ -438,7 +442,7 @@ public class BqglController {
 		return	AjaxObject.newOk("修改异地保全成功！").toString(); 
 	}
 	
-	@Log(message="修改了{0}异地保全的状态。")
+	@Log(message="修改了{0}异地保全的状态。", level=LogLevel.WARN, module=LogModule.BQGL)
 	@RequiresPermissions(value={"OffsiteConservation:reset","OffsiteConservation:deal"}, logical=Logical.OR)
 	@RequestMapping(value="/offsite/{status}/{id}", method=RequestMethod.POST)
 	public @ResponseBody String updateOffsiteConservationStatus(@PathVariable("status") String status, @PathVariable("id") Long id) {
@@ -462,7 +466,7 @@ public class BqglController {
 		return	AjaxObject.newOk("修改异地保全成功！").setCallbackType("").toString();
 	}
 	
-	@Log(message="批量修改了{0}异地保全的{1}状态。")
+	@Log(message="批量修改了{0}异地保全的{1}状态。", level=LogLevel.WARN, module=LogModule.BQGL)
 	@RequiresPermissions(value={"OffsiteConservation:reset","OffsiteConservation:deal"}, logical=Logical.OR)
 	@RequestMapping(value="/offsite/{status}", method=RequestMethod.POST)
 	public @ResponseBody String batchUpdateOffsiteConservationStatus(@PathVariable("status") String status, Long[] ids) {
@@ -491,7 +495,7 @@ public class BqglController {
 		return	AjaxObject.newOk("批量" + status + "异地保全成功！").setCallbackType("").toString();
 	}
 	
-	@Log(message="删除了{0}异地保全。")
+	@Log(message="删除了{0}异地保全。", level=LogLevel.WARN, module=LogModule.BQGL)
 	@RequiresPermissions("OffsiteConservation:delete")
 	@RequestMapping(value="/offsite/delete/{id}", method=RequestMethod.POST)
 	public @ResponseBody String deleteOffsiteConservation(@PathVariable Long id) {
@@ -507,7 +511,7 @@ public class BqglController {
 		return AjaxObject.newOk("删除异地保全成功！").setCallbackType("").toString();
 	}
 	
-	@Log(message="删除了{0}异地保全。")
+	@Log(message="删除了{0}异地保全。", level=LogLevel.WARN, module=LogModule.BQGL)
 	@RequiresPermissions("OffsiteConservation:delete")
 	@RequestMapping(value="/offsite/delete", method=RequestMethod.POST)
 	public @ResponseBody String deleteManyOffsiteConservation(Long[] ids) {
@@ -561,6 +565,8 @@ public class BqglController {
 		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
 		if (status.length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
+		} else {
+			csf.add(new SearchFilter("status", Operator.NEQ, BQ_STATUS.CloseStatus.name()));
 		}
 		Specification<OffsiteConservation> specification = DynamicSpecifications.bySearchFilter(request, OffsiteConservation.class, csf);
 		
@@ -648,7 +654,7 @@ public class BqglController {
 		return PROV_UPDATE_RI;
 	}
 
-	@Log(message="修改了{0}合同补发的信息。")
+	@Log(message="修改了{0}合同补发的信息。", level=LogLevel.WARN, module=LogModule.BQGL)
 	@RequiresPermissions("CsReissue:edit")
 	@RequestMapping(value="/reissue/update", method=RequestMethod.POST)
 	public @ResponseBody String updateCsReissue(CsReissue src) {
@@ -678,7 +684,7 @@ public class BqglController {
 		return	AjaxObject.newOk("修改合同补发成功！").toString(); 
 	}
 
-	@Log(message="修改了{0}合同补发的状态。")
+	@Log(message="修改了{0}合同补发的状态。", level=LogLevel.WARN, module=LogModule.BQGL)
 	@RequiresPermissions(value={"CsReissue:reset","CsReissue:deal"}, logical=Logical.OR)
 	@RequestMapping(value="/reissue/{status}/{id}", method=RequestMethod.POST)
 	public @ResponseBody String updateCsReissueStatus(@PathVariable("status") String status, @PathVariable("id") Long id) {
@@ -702,7 +708,7 @@ public class BqglController {
 		return	AjaxObject.newOk("修改合同补发成功！").setCallbackType("").toString();
 	}
 
-	@Log(message="批量修改了{0}合同补发的{1}状态。")
+	@Log(message="批量修改了{0}合同补发的{1}状态。", level=LogLevel.WARN, module=LogModule.BQGL)
 	@RequiresPermissions(value={"CsReissue:reset","CsReissue:deal"}, logical=Logical.OR)
 	@RequestMapping(value="/reissue/{status}", method=RequestMethod.POST)
 	public @ResponseBody String batchUpdateCsReissueStatus(@PathVariable("status") String status, Long[] ids) {
@@ -768,6 +774,8 @@ public class BqglController {
 		csf.add(new SearchFilter("conservationDtl.policy.organization.orgCode", Operator.LIKE, orgCode));
 		if (status != null && status.length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
+		} else {
+			csf.add(new SearchFilter("status", Operator.NEQ, BQ_STATUS.CloseStatus.name()));
 		}
 		Specification<CsReissue> specification = DynamicSpecifications.bySearchFilter(request, CsReissue.class, csf);
 		
@@ -795,7 +803,7 @@ public class BqglController {
 	}
 		
 		
-	@Log(message="更新了{0}保全补发的信息。")
+	@Log(message="更新了{0}保全补发的信息。", level=LogLevel.WARN, module=LogModule.BQGL)
 	@RequiresPermissions(value={"CsReissue:edit","CsReissue:provEdit","CsReissue:cityEdit","CsReissue:areaEdit"}, logical=Logical.OR)
 	@RequestMapping(value="/reissue/sendRecUpdate", method=RequestMethod.POST)
 	public @ResponseBody String mailDateUpdate(ServletRequest request, String ids) {

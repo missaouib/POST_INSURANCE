@@ -45,7 +45,9 @@ import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.exception.ServiceException;
 import com.gdpost.web.log.Log;
+import com.gdpost.web.log.LogLevel;
 import com.gdpost.web.log.LogMessageObject;
+import com.gdpost.web.log.LogModule;
 import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.OrganizationService;
 import com.gdpost.web.service.insurance.HfglService;
@@ -144,7 +146,7 @@ public class HfglController {
 		return HQ_UPDATE;
 	}
 	
-	@Log(message="回复了{0}回访不成功件的信息。")
+	@Log(message="回复了{0}回访不成功件的信息。", level=LogLevel.WARN, module=LogModule.HFGL)
 	@RequiresPermissions("Callfail:edit")
 	@RequestMapping(value="/issue/update", method=RequestMethod.POST)
 	public @ResponseBody String update(CallFailList issue) {
@@ -181,7 +183,7 @@ public class HfglController {
 		return	AjaxObject.newOk("回复回访不成功件成功！").toString(); 
 	}
 	
-	@Log(message="回复了{0}回访不成功件的信息。")
+	@Log(message="回复了{0}回访不成功件的信息。", level=LogLevel.WARN, module=LogModule.HFGL)
 	@RequiresPermissions("Callfail:provEdit")
 	@RequestMapping(value="/issue/provUpdate", method=RequestMethod.POST)
 	public @ResponseBody String provUpdate(CallFailList issue) {
@@ -226,7 +228,7 @@ public class HfglController {
 		return	AjaxObject.newOk("回复回访不成功件成功！").toString(); 
 	}
 	
-	@Log(message="回复了{0}回访不成功件的信息。")
+	@Log(message="回复了{0}回访不成功件的信息。", level=LogLevel.WARN, module=LogModule.HFGL)
 	@RequiresPermissions("Callfail:11185Edit")
 	@RequestMapping(value="/issue/hqUpdate", method=RequestMethod.POST)
 	public @ResponseBody String hqUpdate(CallFailList issue) {
@@ -372,7 +374,7 @@ public class HfglController {
 		return CALL_AGAIN;
 	}
 	
-	@Log(message="进行了{0}设置了可再访。")
+	@Log(message="进行了{0}设置了可再访。", level=LogLevel.WARN, module=LogModule.HFGL)
 	@RequiresPermissions(value={"Callfail:edit","Callfail:provEdit"}, logical=Logical.OR)
 	@RequestMapping(value="/callReset/{id}", method=RequestMethod.POST)
 	public @ResponseBody String setCallAgain(ServletRequest request, @PathVariable("id") Long id) {
@@ -389,7 +391,7 @@ public class HfglController {
 		return	AjaxObject.newOk("设置成功！").toString();
 	}
 	
-	@Log(message="进行了{0}设置了可再访。")
+	@Log(message="进行了{0}设置了可再访。", level=LogLevel.WARN, module=LogModule.HFGL)
 	@RequiresPermissions(value={"Callfail:edit","Callfail:provEdit"}, logical=Logical.OR)
 	@RequestMapping(value="/batchCallReset", method=RequestMethod.POST)
 	public @ResponseBody String batchCallAgain(ServletRequest request, Long[] ids) {
@@ -405,7 +407,7 @@ public class HfglController {
 		return	AjaxObject.newOk("设置成功！").setCallbackType("").toString();
 	}
 	
-	@Log(message="进行了{0}更新操作{1}。")
+	@Log(message="进行了{0}更新操作{1}。", level=LogLevel.WARN, module=LogModule.HFGL)
 	@RequiresPermissions(value={"Callfail:edit","Callfail:provEdit"}, logical=Logical.OR)
 	@RequestMapping(value="/issue/{status}/{id}", method=RequestMethod.POST)
 	public @ResponseBody String updateStatus(ServletRequest request, @PathVariable("status") String status, @PathVariable("id") Long id) {
@@ -438,7 +440,7 @@ public class HfglController {
 		return	AjaxObject.newOk(desc).setCallbackType("").toString();
 	}
 	
-	@Log(message="对{0}回访不成结进行了结案关闭。")
+	@Log(message="对{0}回访不成结进行了结案关闭。", level=LogLevel.WARN, module=LogModule.HFGL)
 	@RequiresPermissions("Callfail:provEdit")
 	@RequestMapping(value="/issue/CloseStatus", method=RequestMethod.POST)
 	public @ResponseBody String closeMany(Long[] ids) {
@@ -460,7 +462,7 @@ public class HfglController {
 		return AjaxObject.newOk("成功结案关闭！").setCallbackType("").toString();
 	}
 	
-	@Log(message="结案了{0}回访不成功件的信息。")
+	@Log(message="结案了{0}回访不成功件的信息。", level=LogLevel.WARN, module=LogModule.HFGL)
 	@RequiresPermissions("Callfail:edit")
 	@RequestMapping(value="/issue/close", method=RequestMethod.POST)
 	public @ResponseBody String close(CallFailList issue) {
@@ -473,7 +475,7 @@ public class HfglController {
 		return	AjaxObject.newOk("结案回访不成功件完成！").toString(); 
 	}
 	
-	@Log(message="进行了信函的已发登记。")
+	@Log(message="进行了信函的已发登记。", level=LogLevel.WARN, module=LogModule.HFGL)
 	@RequiresPermissions("Callfail:provEdit")
 	@RequestMapping(value="/issue/setMailDate", method=RequestMethod.POST)
 	public @ResponseBody String mail(String ids, Date mailDate) {
@@ -706,6 +708,7 @@ public class HfglController {
 		return MAX_LIST;
 	}
 	
+	@Log(message="下载了回访不成功件列表。", level=LogLevel.INFO, module=LogModule.HFGL)
 	@RequiresPermissions("Callfail:view")
 	@RequestMapping(value="/toXls", method=RequestMethod.GET)
 	public String toXls(ServletRequest request, Page page, Map<String, Object> map) {

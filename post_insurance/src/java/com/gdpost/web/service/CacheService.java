@@ -4,7 +4,7 @@
  * Filename:		com.gdpost.web.service.CacheService.java
  * Class:			CacheService
  * Date:			2012-9-14
- * Author:			sendtend
+ * Author:			Aming
  * Version          1.1.0
  * Description:		
  *
@@ -15,7 +15,7 @@ package com.gdpost.web.service;
 
 /** 
  * 	
- * @author 	sendtend
+ * @author 	Aming
  * Version  1.1.0
  * @since   2012-9-14 上午11:31:43 
  */

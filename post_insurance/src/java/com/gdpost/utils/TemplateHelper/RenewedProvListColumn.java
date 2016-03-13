@@ -3,11 +3,11 @@ package com.gdpost.utils.TemplateHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RenewedHQListColumn {
+public class RenewedProvListColumn {
 
 	private static List<ColumnItem> standardColumns;
 	
-	public static String KEY_ROW = "保单号";
+	public static String KEY_ROW = "一访结果";
 	
 	public static List<ColumnItem> getStandardColumns() {
 		if(standardColumns != null) {
@@ -17,7 +17,7 @@ public class RenewedHQListColumn {
 		standardColumns = new ArrayList<ColumnItem>();
 		
 		ColumnItem column = new ColumnItem();
-		column.setDisplayName("保单号");
+		column.setDisplayName("保险单号码");
 		column.setColumnName("policy_no");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
@@ -26,46 +26,24 @@ public class RenewedHQListColumn {
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("保险产品");
+		column.setDisplayName("险种名称");
 		column.setColumnName("prd_name");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(false);
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("备注");
-		column.setColumnName("hq_issue_type");
+		column.setDisplayName("一访时间");
+		column.setColumnName("prov_deal_date");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setiOutputOrder(16);
-		column.setOutputName("QD");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("工单子类");
-		column.setColumnName("hq_deal_rst");
+		column.setDisplayName("一访结果");
+		column.setColumnName("prov_deal_rst");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setiOutputOrder(16);
-		column.setOutputName("QD");
-		standardColumns.add(column);
-		
-		column = new ColumnItem();
-		column.setDisplayName("回访日期");
-		column.setColumnName("hq_deal_date");
-		column.setColumnType(ColumnType.string);
-		column.setNullable(true);
-		column.setiOutputOrder(16);
-		column.setOutputName("QD");
-		standardColumns.add(column);
-		
-		column = new ColumnItem();
-		column.setDisplayName("工单内容");
-		column.setColumnName("hq_deal_remark");
-		column.setColumnType(ColumnType.string);
-		column.setNullable(true);
-		column.setiOutputOrder(16);
-		column.setOutputName("QD");
 		standardColumns.add(column);
 		
 		return(standardColumns);

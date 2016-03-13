@@ -4,7 +4,7 @@
  * Filename:		com.gdpost.web.log.LogUitl.java
  * Class:			LogUitl
  * Date:			2013-5-28
- * Author:			sendtend
+ * Author:			Aming
  * Version          2.1.0
  * Description:		
  *
@@ -20,7 +20,7 @@ import com.gdpost.web.log.LogMessageObject;
 
 /** 
  * 将request放入ThreadLocal用于LOG_ARGUMENTS注入。	
- * @author 	sendtend
+ * @author 	Aming
  * Version  2.1.0
  * @since   2013-5-28 上午8:54:47 
  */

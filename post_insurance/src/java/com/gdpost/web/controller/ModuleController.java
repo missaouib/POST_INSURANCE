@@ -26,7 +26,9 @@ import com.gdpost.web.entity.main.Permission;
 import com.gdpost.web.exception.ExistedException;
 import com.gdpost.web.exception.ServiceException;
 import com.gdpost.web.log.Log;
+import com.gdpost.web.log.LogLevel;
 import com.gdpost.web.log.LogMessageObject;
+import com.gdpost.web.log.LogModule;
 import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.ModuleService;
 import com.gdpost.web.service.PermissionService;
@@ -61,7 +63,7 @@ public class ModuleController {
 		return CREATE;
 	}
 
-	@Log(message = "添加了{0}模块。")
+	@Log(message = "添加了{0}模块。", level=LogLevel.WARN, module=LogModule.PZGL)
 	@RequiresPermissions("Module:save")
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	public @ResponseBody
@@ -102,7 +104,7 @@ public class ModuleController {
 		return UPDATE;
 	}
 
-	@Log(message = "修改了{0}模块的信息。")
+	@Log(message = "修改了{0}模块的信息。", level=LogLevel.WARN, module=LogModule.PZGL)
 	@RequiresPermissions("Module:edit")
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public @ResponseBody
@@ -144,7 +146,7 @@ public class ModuleController {
 		return AjaxObject.newOk("修改模块成功！").toString();
 	}
 
-	@Log(message = "删除了{0}模块。")
+	@Log(message = "删除了{0}模块。", level=LogLevel.WARN, module=LogModule.PZGL)
 	@RequiresPermissions("Module:delete")
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
 	public @ResponseBody

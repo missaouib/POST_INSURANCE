@@ -1,6 +1,7 @@
 package com.gdpost.web.util;
 
 public class StatusDefine {
+	
 	public enum STATUS {
 		NewStatus("待处理"), IngStatus("处理中"), DealStatus("已回复"), ReopenStatus("重打开"), CloseStatus("已结案");
 		private String desc;

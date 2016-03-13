@@ -4,7 +4,7 @@
  * Filename:		com.gdpost.web.SecurityConstants.java
  * Class:			SecurityConstants
  * Date:			2012-8-9
- * Author:			sendtend
+ * Author:			Aming
  * Version          1.1.0
  * Description:		
  *
@@ -16,7 +16,7 @@ package com.gdpost.web;
 
 /** 
  * 	
- * @author 	sendtend
+ * @author 	Aming
  * Version  1.1.0
  * @since   2012-8-9 上午10:47:08 
  */

@@ -38,7 +38,9 @@ import com.gdpost.web.entity.main.UserRole;
 import com.gdpost.web.exception.ExistedException;
 import com.gdpost.web.exception.ServiceException;
 import com.gdpost.web.log.Log;
+import com.gdpost.web.log.LogLevel;
 import com.gdpost.web.log.LogMessageObject;
+import com.gdpost.web.log.LogModule;
 import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.OrganizationService;
 import com.gdpost.web.service.RoleService;
@@ -81,7 +83,7 @@ public class UserController {
 		return CREATE;
 	}
 	
-	@Log(message="添加了{0}用户。")
+	@Log(message="添加了{0}用户。", level=LogLevel.WARN, module=LogModule.PZGL)
 	@RequiresPermissions("User:save")
 	@RequestMapping(value="/create", method=RequestMethod.POST)
 	public @ResponseBody String create(@Valid User user) {	
@@ -117,7 +119,7 @@ public class UserController {
 		return UPDATE;
 	}
 	
-	@Log(message="修改了{0}用户的信息。")
+	@Log(message="修改了{0}用户的信息。", level=LogLevel.WARN, module=LogModule.PZGL)
 	@RequiresPermissions("User:edit:User拥有的资源")
 	@RequestMapping(value="/update", method=RequestMethod.POST)
 	public @ResponseBody String update(@Valid @ModelAttribute("preloadUser")User user) {
@@ -127,7 +129,7 @@ public class UserController {
 		return	AjaxObject.newOk("修改用户成功！").toString(); 
 	}
 	
-	@Log(message="删除了{0}用户。")
+	@Log(message="删除了{0}用户。", level=LogLevel.WARN, module=LogModule.PZGL)
 	@RequiresPermissions("User:delete:User拥有的资源")
 	@RequestMapping(value="/delete/{id}", method=RequestMethod.POST)
 	public @ResponseBody String delete(@PathVariable Long id) {
@@ -143,7 +145,7 @@ public class UserController {
 		return AjaxObject.newOk("删除用户成功！").setCallbackType("").toString();
 	}
 	
-	@Log(message="删除了{0}用户。")
+	@Log(message="删除了{0}用户。", level=LogLevel.WARN, module=LogModule.PZGL)
 	@RequiresPermissions("User:delete:User拥有的资源")
 	@RequestMapping(value="/delete", method=RequestMethod.POST)
 	public @ResponseBody String deleteMany(Long[] ids) {
@@ -181,7 +183,7 @@ public class UserController {
 		return RESET_PASSWORD;
 	}
 	
-	@Log(message="{0}用户{1}。")
+	@Log(message="{0}用户{1}。", level=LogLevel.WARN, module=LogModule.PZGL)
 	@RequiresPermissions("User:reset:User拥有的资源")
 	@RequestMapping(value="/reset/{type}/{userId}", method=RequestMethod.POST)
 	public @ResponseBody String reset(ServletRequest request, @PathVariable String type, @PathVariable Long userId) {
@@ -212,7 +214,7 @@ public class UserController {
 		return ajaxObject.toString();
 	}
 	
-	@Log(message="向{0}用户分配了{1}的角色。")
+	@Log(message="向{0}用户分配了{1}的角色。", level=LogLevel.WARN, module=LogModule.PZGL)
 	@RequiresPermissions("User:assign")
 	@RequestMapping(value="/create/userRole", method={RequestMethod.POST})
 	public @ResponseBody void assignRole(UserRole userRole) {
@@ -262,7 +264,7 @@ public class UserController {
 		return LOOK_USER_ROLE;
 	}
 	
-	@Log(message="撤销了{0}用户的{1}角色。")
+	@Log(message="撤销了{0}用户的{1}角色。", level=LogLevel.WARN, module=LogModule.PZGL)
 	@RequiresPermissions("User:assign")
 	@RequestMapping(value="/delete/userRole/{userRoleId}", method={RequestMethod.POST})
 	public @ResponseBody void deleteUserRole(@PathVariable Long userRoleId) {

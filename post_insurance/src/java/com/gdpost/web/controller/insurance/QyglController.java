@@ -43,7 +43,9 @@ import com.gdpost.web.entity.main.User;
 import com.gdpost.web.exception.ExistedException;
 import com.gdpost.web.exception.ServiceException;
 import com.gdpost.web.log.Log;
+import com.gdpost.web.log.LogLevel;
 import com.gdpost.web.log.LogMessageObject;
+import com.gdpost.web.log.LogModule;
 import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.insurance.QyglService;
 import com.gdpost.web.shiro.ShiroUser;
@@ -116,7 +118,7 @@ public class QyglController {
 		return UPDATE_WRITE;
 	}
 	
-	@Log(message="回复了{0}新契约填写不合格件的信息。")
+	@Log(message="回复了{0}新契约填写不合格件的信息。", level=LogLevel.WARN, module=LogModule.QYGL)
 	@RequiresPermissions("CheckWrite:edit")
 	@RequestMapping(value="/issue/write/update", method=RequestMethod.POST)
 	public @ResponseBody String updateCheckWrite(CheckWrite issue) {
@@ -132,7 +134,7 @@ public class QyglController {
 		return	AjaxObject.newOk("回复新契约填写不合格件成功！").toString(); 
 	}
 	
-	@Log(message="重新打开了{0}新契约填写不合格件的信息。")
+	@Log(message="重新打开了{0}新契约填写不合格件的信息。", level=LogLevel.WARN, module=LogModule.QYGL)
 	@RequiresPermissions("CheckWrite:edit")
 	@RequestMapping(value="/issue/write/reopen", method=RequestMethod.POST)
 	public @ResponseBody String reopenCheckWrite(CheckWrite issue) {
@@ -148,7 +150,7 @@ public class QyglController {
 		return	AjaxObject.newOk("重新打开新契约填写不合格件成功！").toString(); 
 	}
 	
-	@Log(message="结案了{0}新契约填写不合格件的信息。")
+	@Log(message="结案了{0}新契约填写不合格件的信息。", level=LogLevel.WARN, module=LogModule.QYGL)
 	@RequiresPermissions("CheckWrite:edit")
 	@RequestMapping(value="/issue/write/close", method=RequestMethod.POST)
 	public @ResponseBody String closeCheckWrite(CheckWrite issue) {
@@ -238,7 +240,7 @@ public class QyglController {
 		return UPDATE_RECORD;
 	}
 	
-	@Log(message="回复了{0}新契约录入不合格件的信息。")
+	@Log(message="回复了{0}新契约录入不合格件的信息。", level=LogLevel.WARN, module=LogModule.QYGL)
 	@RequiresPermissions("CheckRecord:edit")
 	@RequestMapping(value="/issue/record/update", method=RequestMethod.POST)
 	public @ResponseBody String updateCheckRecord(CheckRecord issue) {
@@ -254,7 +256,7 @@ public class QyglController {
 		return	AjaxObject.newOk("回复新契约录入不合格件成功！").toString(); 
 	}
 	
-	@Log(message="重新打开了{0}新契约录入不合格件的信息。")
+	@Log(message="重新打开了{0}新契约录入不合格件的信息。", level=LogLevel.WARN, module=LogModule.QYGL)
 	@RequiresPermissions("CheckRecord:edit")
 	@RequestMapping(value="/issue/record/reopen", method=RequestMethod.POST)
 	public @ResponseBody String reopenCheckRecord(CheckRecord issue) {
@@ -270,7 +272,7 @@ public class QyglController {
 		return	AjaxObject.newOk("重新打开新契约录入不合格件成功！").toString(); 
 	}
 	
-	@Log(message="结案了{0}新契约录入不合格件的信息。")
+	@Log(message="结案了{0}新契约录入不合格件的信息。", level=LogLevel.WARN, module=LogModule.QYGL)
 	@RequiresPermissions("CheckRecord:edit")
 	@RequestMapping(value="/issue/record/close", method=RequestMethod.POST)
 	public @ResponseBody String closeCheckRecord(CheckRecord issue) {
@@ -372,7 +374,7 @@ public class QyglController {
 		return UW_CREATE;
 	}
 	
-	@Log(message="添加了{0}人核件信息。")
+	@Log(message="添加了{0}人核件信息。", level=LogLevel.WARN, module=LogModule.QYGL)
 	@RequiresPermissions("UnderWrite:save")
 	@RequestMapping(value="/underwrite/create", method=RequestMethod.POST)
 	public @ResponseBody String create(@Valid UnderWrite underwrite) {	
@@ -407,7 +409,7 @@ public class QyglController {
 		return UW_UPDATE;
 	}
 	
-	@Log(message="更新了{0}人核件的信息。")
+	@Log(message="更新了{0}人核件的信息。", level=LogLevel.WARN, module=LogModule.QYGL)
 	@RequiresPermissions("UnderWrite:edit")
 	@RequestMapping(value="/underwrite/update", method=RequestMethod.POST)
 	public @ResponseBody String updateUnderWrite(UnderWrite underwrite) {
@@ -434,7 +436,7 @@ public class QyglController {
 		return	AjaxObject.newOk("更新人核件成功！").toString(); 
 	}
 	
-	@Log(message="作废了人核件{0}。")
+	@Log(message="作废了人核件{0}。", level=LogLevel.WARN, module=LogModule.QYGL)
 	@RequiresPermissions("UnderWrite:edit")
 	@RequestMapping(value="/underwrite/DelStatus/{id}", method=RequestMethod.POST)
 	public @ResponseBody String delStatus(ServletRequest request, @PathVariable Long id) {
@@ -450,7 +452,7 @@ public class QyglController {
 		return ajaxObject.toString();
 	}
 	
-	@Log(message="删除了{0}人核件记录申请。")
+	@Log(message="删除了{0}人核件记录申请。", level=LogLevel.WARN, module=LogModule.QYGL)
 	@RequiresPermissions("UnderWrite:delete")
 	@RequestMapping(value="/underwrite/delete", method=RequestMethod.POST)
 	public @ResponseBody String deleteMany(Long[] ids) {
@@ -480,7 +482,7 @@ public class QyglController {
 	}
 		
 		
-	@Log(message="更新了{0}人核件的信息。")
+	@Log(message="更新了{0}人核件的信息。", level=LogLevel.WARN, module=LogModule.QYGL)
 	@RequiresPermissions("UnderWrite:edit")
 	@RequestMapping(value="/underwrite/signDateUpdate", method=RequestMethod.POST)
 	public @ResponseBody String signDateUpdate(UnderWrite underwrite) {
@@ -534,7 +536,7 @@ public class QyglController {
 	}
 		
 		
-	@Log(message="更新了{0}人核件的信息。")
+	@Log(message="更新了{0}人核件的信息。", level=LogLevel.WARN, module=LogModule.QYGL)
 	@RequiresPermissions(value={"UnderWrite:edit","UnderWrite:provEdit","UnderWrite:cityEdit","UnderWrite:areaEdit"}, logical=Logical.OR)
 	@RequestMapping(value="/underwrite/sendRecUpdate", method=RequestMethod.POST)
 	public @ResponseBody String mailDateUpdate(ServletRequest request, UnderWrite underwrite) {

@@ -8,7 +8,7 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
 import com.gdpost.web.util.dwz.Page;
 
 /** 
- * @author 	sendtend
+ * @author 	Aming
  * @since   2013年10月14日 下午5:19:57 
  */
 public class PaginationTag extends SimpleTagSupport {

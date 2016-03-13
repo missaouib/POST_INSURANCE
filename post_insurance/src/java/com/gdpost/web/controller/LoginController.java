@@ -4,7 +4,7 @@
  * Filename:		com.gdpost.web.controller.LoginController.java
  * Class:			LoginController
  * Date:			2012-8-2
- * Author:			sendtend
+ * Author:			Aming
  * Version          1.1.0
  * Description:		
  *
@@ -35,12 +35,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gdpost.utils.Exceptions;
 import com.gdpost.web.log.Log;
+import com.gdpost.web.log.LogLevel;
+import com.gdpost.web.log.LogModule;
 import com.gdpost.web.shiro.IncorrectCaptchaException;
 import com.gdpost.web.util.dwz.AjaxObject;
 
 /**
  * 
- * @author sendtend Version 1.1.0
+ * @author Aming Version 1.1.0
  * @since 2012-8-2 下午5:29:01
  */
 @Controller
@@ -130,7 +132,7 @@ public class LoginController {
 		return LOGIN_DIALOG;
 	}
 
-	@Log(message="会话超时， 该用户重新登录系统。")
+	@Log(message="会话超时， 该用户重新登录系统。", level=LogLevel.TRACE, module=LogModule.QTCZ)
 	@RequestMapping(value = "/timeout/success", method = {RequestMethod.GET})
 	public @ResponseBody String timeoutSuccess() {
 		return AjaxObject.newOk("登录成功。").toString();

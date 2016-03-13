@@ -23,7 +23,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gdpost.web.entity.main.DataControl;
 import com.gdpost.web.log.Log;
+import com.gdpost.web.log.LogLevel;
 import com.gdpost.web.log.LogMessageObject;
+import com.gdpost.web.log.LogModule;
 import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.DataControlService;
 import com.gdpost.web.util.dwz.AjaxObject;
@@ -49,7 +51,7 @@ public class DataControlController {
 		return CREATE;
 	}
 	
-	@Log(message="添加了id={0}数据权限。")
+	@Log(message="添加了id={0}数据权限。", level=LogLevel.WARN, module=LogModule.PZGL)
 	@RequiresPermissions("DataControl:save")
 	@RequestMapping(value="/create", method=RequestMethod.POST)
 	public @ResponseBody String create(@Valid DataControl dataControl) {
@@ -76,7 +78,7 @@ public class DataControlController {
 		return UPDATE;
 	}
 	
-	@Log(message="修改了id={0}数据权限的信息。")
+	@Log(message="修改了id={0}数据权限的信息。", level=LogLevel.WARN, module=LogModule.PZGL)
 	@RequiresPermissions("DataControl:edit")
 	@RequestMapping(value="/update", method=RequestMethod.POST)
 	public @ResponseBody String update(@Valid @ModelAttribute("preloadDataControl")DataControl dataControl) {
@@ -86,7 +88,7 @@ public class DataControlController {
 		return AjaxObject.newOk("数据权限修改成功！").toString();
 	}
 
-	@Log(message="删除了id={0}数据权限。")
+	@Log(message="删除了id={0}数据权限。", level=LogLevel.WARN, module=LogModule.PZGL)
 	@RequiresPermissions("DataControl:delete")
 	@RequestMapping(value="/delete/{id}", method=RequestMethod.POST)
 	public @ResponseBody String delete(@PathVariable Long id) {
@@ -96,7 +98,7 @@ public class DataControlController {
 		return AjaxObject.newOk("数据权限删除成功！").setCallbackType("").toString();
 	}
 	
-	@Log(message="批量删除了id={0}数据权限。")
+	@Log(message="批量删除了id={0}数据权限。", level=LogLevel.WARN, module=LogModule.PZGL)
 	@RequiresPermissions("DataControl:delete")
 	@RequestMapping(value="/delete", method=RequestMethod.POST)
 	public @ResponseBody String deleteMany(Long[] ids) {

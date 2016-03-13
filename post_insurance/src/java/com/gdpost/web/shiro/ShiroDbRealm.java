@@ -4,7 +4,7 @@
  * Filename:		com.gdpost.web.shiro.ShiroDbRealm.java
  * Class:			ShiroDbRealm
  * Date:			2012-8-2
- * Author:			sendtend
+ * Author:			Aming
  * Version          1.1.0
  * Description:		
  *
@@ -58,7 +58,7 @@ import com.gdpost.web.util.dwz.Page;
 
 /**
  * 
- * @author sendtend Version 1.1.0
+ * @author Aming Version 1.1.0
  * @since 2012-8-2 下午3:09:50
  */
 

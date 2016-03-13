@@ -29,7 +29,7 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 import com.gdpost.utils.Exceptions;
 
 /** 
- * @author 	sendtend
+ * @author 	Aming
  * @since   2014年1月7日 下午3:11:46 
  */
 public class PatchcaServlet extends HttpServlet {

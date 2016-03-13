@@ -4,7 +4,7 @@
  * Filename:		com.gdpost.web.log.LogLevel.java
  * Class:			LogLevel
  * Date:			2013-5-3
- * Author:			sendtend
+ * Author:			Aming
  * Version          2.1.0
  * Description:		
  *
@@ -15,7 +15,7 @@ package com.gdpost.web.log;
 
 /** 
  * 值越大，等级越高。 	
- * @author 	sendtend
+ * @author 	Aming
  * Version  2.1.0
  * @since   2013-5-3 下午4:29:47 
  */

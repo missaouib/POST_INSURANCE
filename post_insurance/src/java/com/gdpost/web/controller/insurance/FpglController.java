@@ -43,7 +43,9 @@ import com.gdpost.web.entity.main.User;
 import com.gdpost.web.exception.ExistedException;
 import com.gdpost.web.exception.ServiceException;
 import com.gdpost.web.log.Log;
+import com.gdpost.web.log.LogLevel;
 import com.gdpost.web.log.LogMessageObject;
+import com.gdpost.web.log.LogModule;
 import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.insurance.FpglService;
 import com.gdpost.web.util.StatusDefine.FP_STATUS;
@@ -79,7 +81,7 @@ public class FpglController {
 		return CREATE;
 	}
 	
-	@Log(message="添加了{0}发票申请。")
+	@Log(message="添加了{0}发票申请。", level=LogLevel.WARN, module=LogModule.FPGL)
 	@RequiresPermissions("InvoiceReq:save")
 	@RequestMapping(value="/create", method=RequestMethod.POST)
 	public @ResponseBody String create(@Valid InvoiceReq req) {
@@ -117,7 +119,7 @@ public class FpglController {
 		return UPDATE_DEALSTATUS;
 	}
 	
-	@Log(message="修改了{0}发票申请的信息。")
+	@Log(message="修改了{0}发票申请的信息。", level=LogLevel.WARN, module=LogModule.FPGL)
 	@RequiresPermissions("InvoiceReq:edit")
 	@RequestMapping(value="/update", method=RequestMethod.POST)
 	public @ResponseBody String update(InvoiceReq req) {
@@ -127,7 +129,7 @@ public class FpglController {
 		return	AjaxObject.newOk("修改发票申请成功！").toString(); 
 	}
 	
-	@Log(message="修改了{0}发票申请的状态。")
+	@Log(message="修改了{0}发票申请的状态。", level=LogLevel.WARN, module=LogModule.FPGL)
 	@RequiresPermissions(value={"InvoiceReq:reset","InvoiceReq:deal"}, logical=Logical.OR)
 	@RequestMapping(value="/{status}/{id}", method=RequestMethod.POST)
 	public @ResponseBody String updateStatus(ServletRequest request, @PathVariable("status") String status, @PathVariable("id") Long id) {
@@ -164,7 +166,7 @@ public class FpglController {
 		return	AjaxObject.newOk("发票状态更新成功！").setCallbackType("").toString();
 	}
 	
-	@Log(message="删除了{0}发票申请。")
+	@Log(message="删除了{0}发票申请。", level=LogLevel.WARN, module=LogModule.FPGL)
 	@RequiresPermissions("InvoiceReq:delete")
 	@RequestMapping(value="/delete/{id}", method=RequestMethod.POST)
 	public @ResponseBody String delete(@PathVariable Long id) {
@@ -180,7 +182,7 @@ public class FpglController {
 		return AjaxObject.newOk("删除发票申请成功！").setCallbackType("").toString();
 	}
 	
-	@Log(message="删除了{0}发票申请。")
+	@Log(message="删除了{0}发票申请。", level=LogLevel.WARN, module=LogModule.FPGL)
 	@RequiresPermissions("InvoiceReq:delete")
 	@RequestMapping(value="/delete", method=RequestMethod.POST)
 	public @ResponseBody String deleteMany(Long[] ids) {

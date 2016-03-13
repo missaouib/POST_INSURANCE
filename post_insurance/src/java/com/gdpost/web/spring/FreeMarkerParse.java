@@ -21,7 +21,7 @@ import freemarker.template.Template;
 
 /**
  * 
- * @author 	sendtend
+ * @author 	Aming
  * @since   2013年10月24日 上午9:59:25
  */
 public class FreeMarkerParse {

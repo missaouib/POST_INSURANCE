@@ -4,7 +4,7 @@
  * Filename:		com.gdpost.web.log.LogAdapter.java
  * Class:			LogTemplateAdapter
  * Date:			2013-5-3
- * Author:			sendtend
+ * Author:			Aming
  * Version          2.1.0
  * Description:		
  *
@@ -18,10 +18,11 @@ import java.util.Map;
 
 import com.gdpost.web.log.LogAPI;
 import com.gdpost.web.log.LogLevel;
+import com.gdpost.web.log.LogModule;
 
 /** 
  * 	
- * @author 	sendtend
+ * @author 	Aming
  * Version  2.1.0
  * @since   2013-5-3 下午5:21:07 
  */
@@ -34,8 +35,8 @@ public class LogAdapter implements LogAPI {
 	 * @see com.gdpost.web.log.LogAPI#log(java.lang.String, com.gdpost.web.log.LogLevel)  
 	 */
 	@Override
-	public void log(String message, LogLevel logLevel) {
-		log(message, null, logLevel);
+	public void log(String message, LogLevel logLevel, LogModule module) {
+		log(message, null, logLevel, module);
 	}
 
 	/**   
@@ -45,7 +46,7 @@ public class LogAdapter implements LogAPI {
 	 * @see com.gdpost.web.log.LogAPI#log(java.lang.String, java.lang.Object[], com.gdpost.web.log.LogLevel)  
 	 */
 	@Override
-	public void log(String message, Object[] objects, LogLevel logLevel) {
+	public void log(String message, Object[] objects, LogLevel logLevel, LogModule module) {
 		
 	}
 	

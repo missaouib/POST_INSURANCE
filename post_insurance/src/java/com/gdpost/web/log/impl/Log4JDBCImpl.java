@@ -4,7 +4,7 @@
  * Filename:		com.gdpost.web.log.Log4JDBC.java
  * Class:			Log4JDBC
  * Date:			2013-5-3
- * Author:			sendtend
+ * Author:			Aming
  * Version          2.1.0
  * Description:		
  *
@@ -23,12 +23,13 @@ import org.apache.commons.lang3.StringUtils;
 import com.gdpost.utils.SecurityUtils;
 import com.gdpost.web.entity.main.LogInfo;
 import com.gdpost.web.log.LogLevel;
+import com.gdpost.web.log.LogModule;
 import com.gdpost.web.service.LogInfoService;
 import com.gdpost.web.shiro.ShiroUser;
 
 /** 
  * 全局日志等级<包日志等级<类和方法日志等级
- * @author 	sendtend
+ * @author 	Aming
  * Version  2.1.0
  * @since   2013-5-3 下午4:41:55 
  */
@@ -48,7 +49,7 @@ public class Log4JDBCImpl extends LogAdapter {
 	 * @see com.gdpost.web.log.impl.LogAdapter#log(java.lang.String, java.lang.Object[], com.gdpost.web.log.LogLevel)
 	 */
 	@Override
-	public void log(String message, Object[] objects, LogLevel logLevel) {	
+	public void log(String message, Object[] objects, LogLevel logLevel, LogModule module) {	
 		
 		MessageFormat mFormat = new MessageFormat(message);
 		String result = mFormat.format(objects);
@@ -68,6 +69,7 @@ public class Log4JDBCImpl extends LogAdapter {
 		logInfo.setMessage(result);
 		logInfo.setIpAddress(shiroUser.getIpAddress());
 		logInfo.setLogLevel(logLevel);
+		logInfo.setModule(module.getDesc());
 		
 		logInfoService.saveOrUpdate(logInfo);
 	}

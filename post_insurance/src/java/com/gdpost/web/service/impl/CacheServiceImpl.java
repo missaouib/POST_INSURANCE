@@ -4,7 +4,7 @@
  * Filename:		com.gdpost.web.service.impl.ServiceUtil.java
  * Class:			ServiceUtil
  * Date:			2012-9-14
- * Author:			sendtend
+ * Author:			Aming
  * Version          1.1.0
  * Description:		
  *
@@ -22,7 +22,7 @@ import com.gdpost.web.service.CacheService;
 
 /** 
  * 	
- * @author 	sendtend
+ * @author 	Aming
  * Version  1.1.0
  * @since   2012-9-14 上午9:59:55 
  */

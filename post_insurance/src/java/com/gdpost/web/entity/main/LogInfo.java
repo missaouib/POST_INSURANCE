@@ -4,7 +4,7 @@
  * Filename:		com.gdpost.web.entity.main.LogEntity.java
  * Class:			LogEntity
  * Date:			2013-5-3
- * Author:			sendtend
+ * Author:			Aming
  * Version          2.1.0
  * Description:		
  *
@@ -25,13 +25,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import com.gdpost.web.entity.Idable;
 import com.gdpost.web.log.LogLevel;
 
 /** 
  * 	
- * @author 	sendtend
+ * @author 	Aming
  * Version  2.1.0
  * @since   2013-5-3 下午4:43:44 
  */
@@ -60,6 +61,21 @@ public class LogInfo implements Idable<Long> {
 	@Enumerated(EnumType.STRING)
 	private LogLevel logLevel;
 	
+	@Column(name="module", length=32)
+	private String module;
+	
+	@Transient
+	private String search_LIKE_module;
+	
+	@Transient
+	public String getSearch_LIKE_module() {
+		return search_LIKE_module;
+	}
+	@Transient
+	public void setSearch_LIKE_module(String search_LIKE_module) {
+		this.search_LIKE_module = search_LIKE_module;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -106,6 +122,14 @@ public class LogInfo implements Idable<Long> {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public String getModule() {
+		return module;
+	}
+
+	public void setModule(String module) {
+		this.module = module;
 	}
 	
 }

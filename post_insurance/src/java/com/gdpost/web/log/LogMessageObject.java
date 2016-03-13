@@ -4,7 +4,7 @@
  * Filename:		com.gdpost.web.log.LogMessageObject.java
  * Class:			LogMessageObject
  * Date:			2013-5-27
- * Author:			sendtend
+ * Author:			Aming
  * Version          2.1.0
  * Description:		
  *
@@ -17,7 +17,7 @@ package com.gdpost.web.log;
 
 /** 
  * 	
- * @author 	sendtend
+ * @author 	Aming
  * Version  2.1.0
  * @since   2013-5-27 上午11:47:23 
  */

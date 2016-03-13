@@ -39,7 +39,9 @@ import com.gdpost.web.entity.main.PaySuccessList;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.exception.ServiceException;
 import com.gdpost.web.log.Log;
+import com.gdpost.web.log.LogLevel;
 import com.gdpost.web.log.LogMessageObject;
+import com.gdpost.web.log.LogModule;
 import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.insurance.PayListService;
 import com.gdpost.web.util.StatusDefine.FEE_FAIL_STATUS;
@@ -84,7 +86,7 @@ public class PayListController {
 		return	AjaxObject.newOk("记录关闭成功！").setCallbackType("").toString();
 	}
 	
-	@Log(message="关闭{0}集中转账记录。")
+	@Log(message="关闭{0}集中转账记录。", level=LogLevel.WARN, module=LogModule.FYGL)
 	@RequiresPermissions(value={"ToBQSuccessList:view","ToQYSuccessList:view","ToLPSuccessList:view","ToXQSuccessList:view"}, logical=Logical.OR)
 	@RequestMapping(value="/success/batchClose", method=RequestMethod.POST)
 	public @ResponseBody String closeSuccessMany(Long[] ids) {
@@ -105,7 +107,7 @@ public class PayListController {
 		return AjaxObject.newOk("关闭集中转账记录成功！").setCallbackType("").toString();
 	}
 	
-	@Log(message="关闭{0}集中转账记录。")
+	@Log(message="关闭{0}集中转账记录。", level=LogLevel.WARN, module=LogModule.FYGL)
 	@RequiresPermissions(value={"ToBQFailList:view","ToQYFailList:view","ToLPFailList:view","ToXQFailList:view"}, logical=Logical.OR)
 	@RequestMapping(value="/fail/batchClose", method=RequestMethod.POST)
 	public @ResponseBody String closeFailMany(Long[] ids) {
@@ -161,12 +163,15 @@ public class PayListController {
 			default:
 				
 		}
-		Specification<PayFailList> specification = DynamicSpecifications.bySearchFilter(request, PayFailList.class,
-				new SearchFilter("payType", Operator.EQ, PayFailList.PAY_TO),
-				new SearchFilter("feeType", Operator.EQ, feeType),
-				new SearchFilter("status", Operator.EQ, status),
-				new SearchFilter("relNo", Operator.OR_LIKE, orgCode),
-				new SearchFilter("organization.orgCode", Operator.OR_LIKE, orgCode));
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		if(status != null && status.trim().length() > 0) {
+			csf.add(new SearchFilter("status", Operator.EQ, status));
+		}
+		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("payType", Operator.EQ, PayFailList.PAY_TO));
+		csf.add(new SearchFilter("feeType", Operator.EQ, feeType));
+		
+		Specification<PayFailList> specification = DynamicSpecifications.bySearchFilter(request, PayFailList.class, csf);
 		
 		List<PayFailList> reqs = payListService.findByExample(specification, page);
 
@@ -222,12 +227,15 @@ public class PayListController {
 		}
 		page.setOrderField("backDate");
 		page.setOrderDirection("DESC");
-		Specification<PaySuccessList> specification = DynamicSpecifications.bySearchFilter(request, PaySuccessList.class,
-				new SearchFilter("payType", Operator.EQ, PayFailList.PAY_TO),
-				new SearchFilter("feeType", Operator.EQ, feeType),
-				new SearchFilter("status", Operator.EQ, status),
-				new SearchFilter("relNo", Operator.OR_LIKE, orgCode),
-				new SearchFilter("organization.orgCode", Operator.OR_LIKE, orgCode));
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		if(status != null && status.trim().length() > 0) {
+			csf.add(new SearchFilter("status", Operator.EQ, status));
+		}
+		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("payType", Operator.EQ, PayFailList.PAY_TO));
+		csf.add(new SearchFilter("feeType", Operator.EQ, feeType));
+		
+		Specification<PaySuccessList> specification = DynamicSpecifications.bySearchFilter(request, PaySuccessList.class, csf);
 		
 		List<PaySuccessList> reqs = payListService.findBySuccessDtlExample(specification, page);
 
@@ -340,7 +348,7 @@ public class PayListController {
 		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
 		csf.add(new SearchFilter("payType", Operator.EQ, PayFailList.PAY_TO));
 		csf.add(new SearchFilter("feeType", Operator.EQ, feeType));
-		if (status.length() > 0) {
+		if (status != null && status.length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
 		}
 		
@@ -392,12 +400,16 @@ public class PayListController {
 		}
 		page.setOrderField("backDate");
 		page.setOrderDirection("ASC");
-		Specification<PayFailList> specification = DynamicSpecifications.bySearchFilter(request, PayFailList.class,
-				new SearchFilter("payType", Operator.EQ, PayFailList.PAY_FROM),
-				new SearchFilter("feeType", Operator.EQ, feeType),
-				new SearchFilter("status", Operator.EQ, status),
-				new SearchFilter("relNo", Operator.OR_LIKE, orgCode),
-				new SearchFilter("organization.orgCode", Operator.OR_LIKE, orgCode));
+		
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		if(status != null && status.trim().length() > 0) {
+			csf.add(new SearchFilter("status", Operator.EQ, status));
+		}
+		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("payType", Operator.EQ, PayFailList.PAY_FROM));
+		csf.add(new SearchFilter("feeType", Operator.EQ, feeType));
+		
+		Specification<PayFailList> specification = DynamicSpecifications.bySearchFilter(request, PayFailList.class, csf);
 		
 		List<PayFailList> reqs = payListService.findByExample(specification, page);
 

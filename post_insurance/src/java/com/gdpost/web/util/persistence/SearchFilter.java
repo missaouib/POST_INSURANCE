@@ -8,7 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * 动态查询对象
- * @author 	sendtend
+ * @author 	Aming
  * @since   2013年10月31日 上午11:30:53
  */
 public class SearchFilter {

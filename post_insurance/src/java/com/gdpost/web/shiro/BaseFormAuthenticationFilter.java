@@ -4,7 +4,7 @@
  * Filename:		com.gdpost.web.shiro.BaseFormAuthenticationFilter.java
  * Class:			BaseFormAuthenticationFilter
  * Date:			2012-10-29
- * Author:			sendtend
+ * Author:			Aming
  * Version          1.1.0
  * Description:		
  *
@@ -29,7 +29,7 @@ import com.gdpost.utils.Exceptions;
 
 /** 
  * 	
- * @author 	sendtend
+ * @author 	Aming
  * Version  1.1.0
  * @since   2012-10-29 上午9:37:02 
  */

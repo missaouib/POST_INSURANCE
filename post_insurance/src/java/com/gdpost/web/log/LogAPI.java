@@ -4,7 +4,7 @@
  * Filename:		com.gdpost.web.log.LogAPI.java
  * Class:			LogInterface
  * Date:			2013-5-5
- * Author:			sendtend
+ * Author:			Aming
  * Version          2.1.0
  * Description:		
  *
@@ -17,15 +17,15 @@ import java.util.Map;
 
 /** 
  * 	
- * @author 	sendtend
+ * @author 	Aming
  * Version  2.1.0
  * @since   2013-5-5 下午12:01:45 
  */
 
 public interface LogAPI {
-	void log(String message, LogLevel logLevel);
+	void log(String message, LogLevel logLevel, LogModule module);
 	
-	void log(String message, Object[] objects, LogLevel logLevel);
+	void log(String message, Object[] objects, LogLevel logLevel, LogModule module);
 	
 	/**
 	 * 

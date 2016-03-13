@@ -28,7 +28,9 @@ import com.gdpost.web.entity.main.Role;
 import com.gdpost.web.entity.main.RolePermission;
 import com.gdpost.web.entity.main.RolePermissionDataControl;
 import com.gdpost.web.log.Log;
+import com.gdpost.web.log.LogLevel;
 import com.gdpost.web.log.LogMessageObject;
+import com.gdpost.web.log.LogModule;
 import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.DataControlService;
 import com.gdpost.web.service.ModuleService;
@@ -78,7 +80,7 @@ public class RoleController {
 		return CREATE;
 	}
 	
-	@Log(message="添加了{0}角色。")
+	@Log(message="添加了{0}角色。", level=LogLevel.WARN, module=LogModule.PZGL)
 	@RequiresPermissions("Role:save")
 	@RequestMapping(value="/create", method=RequestMethod.POST)
 	public @ResponseBody String create(@Valid Role role) {
@@ -108,7 +110,7 @@ public class RoleController {
 		return UPDATE;
 	}
 	
-	@Log(message="修改了{0}角色的信息。")
+	@Log(message="修改了{0}角色的信息。", level=LogLevel.WARN, module=LogModule.PZGL)
 	@RequiresPermissions("Role:edit")
 	@RequestMapping(value="/update", method=RequestMethod.POST)
 	public @ResponseBody String update(@Valid Role role) {
@@ -141,7 +143,7 @@ public class RoleController {
 		return AjaxObject.newOk("修改角色成功！").toString();
 	}
 	
-	@Log(message="删除了{0}角色。")
+	@Log(message="删除了{0}角色。", level=LogLevel.WARN, module=LogModule.PZGL)
 	@RequiresPermissions("Role:delete")
 	@RequestMapping(value="/delete/{id}", method=RequestMethod.POST)
 	public @ResponseBody String delete(@PathVariable Long id) {
@@ -197,7 +199,7 @@ public class RoleController {
 		return ASSIGN_DATA_CONTROL;
 	}
 	
-	@Log(message="修改了{0}角色的数据权限。")
+	@Log(message="修改了{0}角色的数据权限。", level=LogLevel.WARN, module=LogModule.PZGL)
 	@RequiresPermissions("Role:assign")
 	@RequestMapping(value="/assign", method=RequestMethod.POST)
 	public @ResponseBody String assign(Role role) {

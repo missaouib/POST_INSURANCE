@@ -8,7 +8,7 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
 import com.gdpost.web.entity.main.Module;
 
 /** 
- * @author 	sendtend
+ * @author 	Aming
  * @since   2013年10月15日 上午11:42:36 
  */
 public class MenuAccordionTag extends SimpleTagSupport {

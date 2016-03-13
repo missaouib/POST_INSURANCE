@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * @author sendtend
+ * @author Aming
  * @since 2014年1月17日 上午10:51:08
  */
 @XmlRootElement(name="dataControlTemplate")

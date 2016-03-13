@@ -41,8 +41,10 @@ import com.gdpost.utils.TemplateHelper.IssueColumn;
 import com.gdpost.utils.TemplateHelper.PayFailListColumn;
 import com.gdpost.utils.TemplateHelper.PolicyColumn;
 import com.gdpost.utils.TemplateHelper.PolicyDtlColumn;
+import com.gdpost.utils.TemplateHelper.RenewedCityListColumn;
 import com.gdpost.utils.TemplateHelper.RenewedColumn;
 import com.gdpost.utils.TemplateHelper.RenewedHQListColumn;
+import com.gdpost.utils.TemplateHelper.RenewedProvListColumn;
 import com.gdpost.utils.TemplateHelper.RenewedStatusColumn;
 import com.gdpost.utils.TemplateHelper.Template.FileTemplate;
 import com.gdpost.utils.UploadDataHelper.UploadDataUtils;
@@ -123,10 +125,12 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case Issue:
 			standardColumns = IssueColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_issue character set utf8 (";
+			delSql = "update t_call_fail_list set finish_date=\"2015-01-01 00:00:00\" where finish_date<\"2000-11-01 09:00:00\";";
 			break;
 		case CallFail:
 			standardColumns = IssueColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_call_fail_list character set utf8 (";
+			delSql = "update t_call_fail_list set finish_date=\"2015-01-01 00:00:00\" where finish_date<\"2000-11-01 09:00:00\";";
 			break;
 		case CallFailStatus:
 			standardColumns = CallFailHQListColumn.getStandardColumns();
@@ -229,9 +233,9 @@ public class UploadDataServiceImpl implements UploadDataService{
         	for(ColumnItem item : standardColumns) {
         		cell = StringUtil.trimStr(row.getValue(item.getDisplayName()));
         		if(ft.name().equals(FileTemplate.CallFail.name()) || ft.name().equals(FileTemplate.Issue.name())) {
-        			if(item.getDisplayName().equals("结案时间") && cell != null && cell.toString().length()<=0) {
+        			if(item.getDisplayName().equals("结案时间") && cell != null && StringUtil.trimStr(cell.toString()).length()<=0) {
         				log.debug("----------- 结案时间: " + cell);
-        	            builder.append("2005-11-01 09:00:00\t");
+        	            builder.append("2015-01-01 00:00:00\t");
         	            continue;
         			}
         		}
@@ -646,6 +650,54 @@ public class UploadDataServiceImpl implements UploadDataService{
 			log.debug("----------------hq update status batch sql : " + sql);
 			sql2 = "delete from t_renewed_list where holder is null";
 			break;
+		case RenewedProvList://总部的催收
+			standardColumns = RenewedProvListColumn.getStandardColumns();
+			sql = new StringBuffer("INSERT INTO t_renewed_list(policy_no, prd_name, prov_deal_date, prov_deal_rst) VALUES ");
+			line = null;
+			isFail = false;
+			val = null;
+			for (DataRow row : dt.Rows) {
+				isFail = false;
+				val = null;
+				line = new StringBuffer("(");
+	        	for(ColumnItem item : standardColumns) {
+	        		line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        	}
+	        	line.deleteCharAt(line.length() - 1);
+	        	line.append("),");
+	        	sql.append(line);
+	        }
+			sql.deleteCharAt(sql.length() - 1);
+			sql.append(" ON DUPLICATE KEY UPDATE policy_no=VALUES(policy_no), prd_name=VALUES(prd_name), ");
+			sql.append("prov_deal_date=VALUES(prov_deal_date), prov_deal_rst=VALUES(prov_deal_rst);");
+			log.debug("----------------prov update status batch sql : " + sql);
+			sql2 = "delete from t_renewed_list where holder is null";
+			sql3 = "update t_renewed_list t1, t_renewed_list t2 set t1.prov_deal_date=t2.prov_deal_date,t1.prov_deal_rst=t2.prov_deal_rst where t1.prd_name=\"中邮附加重大疾病保险\" and t1.policy_no=t2.policy_no and t2.prov_deal_rst is not null;";
+			break;
+		case RenewedCityList://总部的催收
+			standardColumns = RenewedCityListColumn.getStandardColumns();
+			sql = new StringBuffer("INSERT INTO t_renewed_list(policy_no, prd_name, deal_time, fix_status) VALUES ");
+			line = null;
+			isFail = false;
+			val = null;
+			for (DataRow row : dt.Rows) {
+				isFail = false;
+				val = null;
+				line = new StringBuffer("(");
+	        	for(ColumnItem item : standardColumns) {
+	        		line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        	}
+	        	line.deleteCharAt(line.length() - 1);
+	        	line.append("),");
+	        	sql.append(line);
+	        }
+			sql.deleteCharAt(sql.length() - 1);
+			sql.append(" ON DUPLICATE KEY UPDATE policy_no=VALUES(policy_no), prd_name=VALUES(prd_name), ");
+			sql.append("deal_time=VALUES(deal_time), fix_status=VALUES(fix_status);");
+			log.debug("----------------city update status batch sql : " + sql);
+			sql2 = "delete from t_renewed_list where holder is null";
+			sql3 = "update t_renewed_list t1, t_renewed_list t2 set t1.deal_time=t2.deal_time,t1.fix_status=t2.fix_status where t1.prd_name=\"中邮附加重大疾病保险\" and t1.policy_no=t2.policy_no and t2.fix_status is not null;";
+			break;
 		case CheckWrite:
 			return dr;
 		case CheckRecord:
@@ -758,6 +810,14 @@ public class UploadDataServiceImpl implements UploadDataService{
 			standardColumns = RenewedHQListColumn.getStandardColumns();
 			keyRow = RenewedHQListColumn.KEY_ROW;
 			break;
+		case RenewedProvList:
+			standardColumns = RenewedProvListColumn.getStandardColumns();
+			keyRow = RenewedProvListColumn.KEY_ROW;
+			break;
+		case RenewedCityList:
+			standardColumns = RenewedCityListColumn.getStandardColumns();
+			keyRow = RenewedCityListColumn.KEY_ROW;
+			break;
 		case CheckWrite:
 			standardColumns = CheckColumn.getStandardColumns();
 			keyRow = CheckColumn.KEY_ROW;
@@ -847,7 +907,9 @@ public class UploadDataServiceImpl implements UploadDataService{
 						|| t.name().equals(FileTemplate.CallFailMailStatus.name())
 						|| t.name().equals(FileTemplate.CallFailNeedDoorStatus.name())
 						|| t.name().equals(FileTemplate.CallFailMailBackStatus.name())
-						|| t.name().equals(FileTemplate.CallFailCloseStatus.name())) {
+						|| t.name().equals(FileTemplate.CallFailCloseStatus.name())
+						|| t.name().equals(FileTemplate.RenewedProvList.name())
+						|| t.name().equals(FileTemplate.RenewedCityList.name())) {
 					dr = updateStatusData(t, request, dt);
 				} else {
 					dr = importData(t, request, dt, member_id, currentNY);

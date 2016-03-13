@@ -41,7 +41,9 @@ import com.gdpost.web.entity.basedata.RenewalType;
 import com.gdpost.web.entity.main.RenewedList;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.log.Log;
+import com.gdpost.web.log.LogLevel;
 import com.gdpost.web.log.LogMessageObject;
+import com.gdpost.web.log.LogModule;
 import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.OrganizationService;
 import com.gdpost.web.service.insurance.XqglService;
@@ -113,7 +115,7 @@ public class XqglController {
 		return PROV_UPDATE;
 	}
 	
-	@Log(message="回复了{0}续期催收件的信息。")
+	@Log(message="回复了{0}续期催收件的信息。", level=LogLevel.WARN, module=LogModule.XQGL)
 	@RequiresPermissions("Renewed:edit")
 	@RequestMapping(value="/issue/update", method=RequestMethod.POST)
 	public @ResponseBody String update(RenewedList issue) {
@@ -129,7 +131,7 @@ public class XqglController {
 		return	AjaxObject.newOk("回复续期催收件成功！").toString(); 
 	}
 	
-	@Log(message="回复了{0}续期催收件的信息。")
+	@Log(message="回复了{0}续期催收件的信息。", level=LogLevel.WARN, module=LogModule.XQGL)
 	@RequiresPermissions("Renewed:provEdit")
 	@RequestMapping(value="/issue/provUpdate", method=RequestMethod.POST)
 	public @ResponseBody String provUpdate(RenewedList issue) {
@@ -145,7 +147,7 @@ public class XqglController {
 		return	AjaxObject.newOk("回复续期催收件成功！").toString(); 
 	}
 	
-	@Log(message="结案了{0}续期催收件的信息。")
+	@Log(message="结案了{0}续期催收件的信息。", level=LogLevel.WARN, module=LogModule.XQGL)
 	@RequiresPermissions("Renewed:edit")
 	@RequestMapping(value="/issue/close", method=RequestMethod.POST)
 	public @ResponseBody String close(@Valid @ModelAttribute("preload")RenewedList issue) {
@@ -388,6 +390,7 @@ public class XqglController {
 		return MAX_LIST;
 	}
 	
+	@Log(message="下载了续期催收件列表。", level=LogLevel.INFO, module=LogModule.XQGL)
 	@RequiresPermissions("Renewed:view")
 	@RequestMapping(value="/toXls", method=RequestMethod.GET)
 	public String toXls(ServletRequest request, Page page, Map<String, Object> map) {

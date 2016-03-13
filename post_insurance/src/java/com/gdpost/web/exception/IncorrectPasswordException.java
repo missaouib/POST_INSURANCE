@@ -2,7 +2,7 @@ package com.gdpost.web.exception;
 
 
 /** 
- * @author 	sendtend
+ * @author 	Aming
  * @since   2013年12月20日 下午4:52:29 
  */
 public class IncorrectPasswordException extends ServiceException {

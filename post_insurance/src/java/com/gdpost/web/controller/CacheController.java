@@ -4,7 +4,7 @@
  * Filename:		com.gdpost.web.controller.CacheManageController.java
  * Class:			CacheManageController
  * Date:			2012-9-14
- * Author:			sendtend
+ * Author:			Aming
  * Version          1.1.0
  * Description:		
  *
@@ -22,12 +22,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gdpost.web.log.Log;
+import com.gdpost.web.log.LogLevel;
+import com.gdpost.web.log.LogModule;
 import com.gdpost.web.service.CacheService;
 import com.gdpost.web.util.dwz.AjaxObject;
 
 /** 
  * 	
- * @author 	sendtend
+ * @author 	Aming
  * Version  1.1.0
  * @since   2012-9-14 上午11:08:15 
  */
@@ -45,7 +47,7 @@ public class CacheController {
 		return INDEX;
 	}
 	
-	@Log(message="进行了缓存清理。")
+	@Log(message="进行了缓存清理。", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequiresPermissions(value={"Cache:edit", "Cache:delete"}, logical=Logical.OR)
 	@RequestMapping(value="/clear", method=RequestMethod.POST)
 	public @ResponseBody String clear() {

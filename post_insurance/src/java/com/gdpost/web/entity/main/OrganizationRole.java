@@ -4,7 +4,7 @@
  * Filename:		com.gdpost.web.entity.main.OrganizationRole.java
  * Class:			OrganizationRole
  * Date:			2013-4-15
- * Author:			sendtend
+ * Author:			Aming
  * Version          2.0.0
  * Description:		
  *
@@ -33,7 +33,7 @@ import com.gdpost.web.entity.Idable;
 
 /** 
  * 	
- * @author 	sendtend
+ * @author 	Aming
  * Version  2.0.0
  * @since   2013-4-15 下午4:01:34 
  */

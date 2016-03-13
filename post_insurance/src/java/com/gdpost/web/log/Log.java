@@ -4,7 +4,7 @@
  * Filename:		com.gdpost.web.log.Log.java
  * Class:			Log
  * Date:			2013-5-3
- * Author:			sendtend
+ * Author:			Aming
  * Version          2.1.0
  * Description:		
  *
@@ -22,7 +22,7 @@ import java.lang.annotation.Target;
 
 /** 
  * 	
- * @author 	sendtend
+ * @author 	Aming
  * Version  2.1.0
  * @since   2013-5-3 下午4:30:47 
  */
@@ -43,6 +43,8 @@ public @interface Log {
 	 * @return
 	 */
 	LogLevel level() default LogLevel.TRACE;
+	
+	LogModule module();
 	
 	/**
 	 * 

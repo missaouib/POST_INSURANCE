@@ -1,7 +1,7 @@
 /**
  * <pre>
  * Date:			2013年10月17日
- * Author:			sendtend
+ * Author:			Aming
  * Description:
  * </pre>
  **/
@@ -12,7 +12,7 @@ import java.io.Serializable;
 
 /** 
  * 	
- * @author 	sendtend
+ * @author 	Aming
  * @since   2013年10月17日 下午4:13:13 
  */
 

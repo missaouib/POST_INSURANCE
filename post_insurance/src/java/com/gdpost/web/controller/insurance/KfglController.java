@@ -42,7 +42,9 @@ import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.exception.ServiceException;
 import com.gdpost.web.log.Log;
+import com.gdpost.web.log.LogLevel;
 import com.gdpost.web.log.LogMessageObject;
+import com.gdpost.web.log.LogModule;
 import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.OrganizationService;
 import com.gdpost.web.service.UserService;
@@ -172,7 +174,7 @@ public class KfglController {
 		return UPDATE;
 	}
 	
-	@Log(message="回复了{0}问题工单的信息。")
+	@Log(message="回复了{0}问题工单的信息。", level=LogLevel.WARN, module=LogModule.KFGL)
 	@RequiresPermissions("Wtgd:edit")
 	@RequestMapping(value="/issue/update", method=RequestMethod.POST)
 	public @ResponseBody String update(@Valid @ModelAttribute("preloadIssue")Issue issue) {
@@ -187,7 +189,7 @@ public class KfglController {
 		return	AjaxObject.newOk("回复问题工单成功！").toString(); 
 	}
 	
-	@Log(message="重新打开了{0}问题工单的信息。")
+	@Log(message="重新打开了{0}问题工单的信息。", level=LogLevel.WARN, module=LogModule.KFGL)
 	@RequiresPermissions("Wtgd:edit")
 	@RequestMapping(value="/issue/reopen", method=RequestMethod.POST)
 	public @ResponseBody String reopen(@Valid @ModelAttribute("preloadIssue")Issue issue) {
@@ -203,7 +205,7 @@ public class KfglController {
 		return	AjaxObject.newOk("重新打开问题工单成功！").toString(); 
 	}
 	
-	@Log(message="结案了{0}问题工单的信息。")
+	@Log(message="结案了{0}问题工单的信息。", level=LogLevel.WARN, module=LogModule.KFGL)
 	@RequiresPermissions("Wtgd:edit")
 	@RequestMapping(value="/issue/close", method=RequestMethod.POST)
 	public @ResponseBody String closeIssue(@Valid @ModelAttribute("preloadIssue")Issue issue) {
@@ -216,7 +218,7 @@ public class KfglController {
 		return	AjaxObject.newOk("结案问题工单成功！").toString(); 
 	}
 	
-	@Log(message="结案了{0}问题工单的信息。")
+	@Log(message="结案了{0}问题工单的信息。", level=LogLevel.WARN, module=LogModule.KFGL)
 	@RequiresPermissions("Wtgd:edit")
 	@RequestMapping(value="/issue/close/{id}", method=RequestMethod.POST)
 	public @ResponseBody String closeSingleIssue(@PathVariable Long id) {
@@ -229,7 +231,7 @@ public class KfglController {
 		return	AjaxObject.newOk("结案问题工单成功！").setCallbackType("").toString(); 
 	}
 	
-	@Log(message="对{0}问题工单进行了结案关闭。")
+	@Log(message="对{0}问题工单进行了结案关闭。", level=LogLevel.WARN, module=LogModule.KFGL)
 	@RequiresPermissions("Wtgd:provEdit")
 	@RequestMapping(value="/issue/CloseStatus", method=RequestMethod.POST)
 	public @ResponseBody String closeMany(Long[] ids) {

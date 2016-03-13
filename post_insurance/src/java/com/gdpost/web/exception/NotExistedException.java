@@ -4,7 +4,7 @@
  * Filename:		com.gdpost.web.exception.ExistedException.java
  * Class:			ExistedException
  * Date:			2012-8-13
- * Author:			sendtend
+ * Author:			Aming
  * Version          1.1.0
  * Description:		
  *
@@ -16,7 +16,7 @@ package com.gdpost.web.exception;
 
 /** 
  * 	
- * @author 	sendtend
+ * @author 	Aming
  * Version  1.1.0
  * @since   2012-8-13 上午10:54:15 
  */

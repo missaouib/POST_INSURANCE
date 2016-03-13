@@ -4,7 +4,7 @@
  * Filename:		com.gdpost.web.controller.component.StoreTypeEditor.java
  * Class:			EnumEditor
  * Date:			2013-7-4
- * Author:			sendtend
+ * Author:			Aming
  * Version          3.1.0
  * Description:		
  *
@@ -19,7 +19,7 @@ import com.gdpost.web.entity.component.StoreType;
 
 /** 
  * 	
- * @author 	sendtend
+ * @author 	Aming
  * Version  3.1.0
  * @since   2013-7-4 上午9:09:44 
  */

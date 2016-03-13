@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 /**
  * 
  * 	
- * @author 	sendtend
+ * @author 	Aming
  * Version  3.1.0
  * @since   2013-7-19 下午3:09:55
  */
