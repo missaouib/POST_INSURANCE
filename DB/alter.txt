@@ -498,3 +498,8 @@ ALTER TABLE `t_call_fail_list` MODIFY COLUMN `finish_date` TIMESTAMP NULL;
 --------------- SQL ---------------
 
 ALTER TABLE `t_renewed_list` MODIFY COLUMN `policy_no` VARCHAR(18) COLLATE utf8_general_ci NOT NULL UNIQUE;
+
+update t_call_fail_list t1, t_call_fail_list t2
+set t1.status=t2.status
+where t1.policy_no=t2.policy_no
+and t2.status="¶þ·Ã³É¹¦"
