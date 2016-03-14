@@ -1,5 +1,6 @@
 package com.gdpost.utils.FileHandler;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -40,7 +41,7 @@ public class XlsxFileHandler extends AbstractFileHandler {
         	// 设置访问密码
         	Biff8EncryptionKey.setCurrentUserPassword(this.m_strPassword);
         	
-            workbook = new XSSFWorkbook(new FileInputStream(strFilePath + "\\" + strFileName));
+            workbook = new XSSFWorkbook(new FileInputStream(strFilePath + File.separator + strFileName));
             XSSFSheet sheet = null;
             XSSFRow headerRow = null;
             int iSheets = workbook.getNumberOfSheets();// 一共有几个sheet

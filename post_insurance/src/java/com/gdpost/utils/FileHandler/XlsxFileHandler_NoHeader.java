@@ -1,5 +1,6 @@
 package com.gdpost.utils.FileHandler;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,7 @@ public class XlsxFileHandler_NoHeader extends AbstractFileHandler {
         	
             XSSFWorkbook workbook = null;
             try {
-            	workbook = new XSSFWorkbook(new FileInputStream(strFilePath + "\\" + strFileName));
+            	workbook = new XSSFWorkbook(new FileInputStream(strFilePath + File.separator + strFileName));
             } catch(Exception e) {
             	// 可能内存溢出
             	IFileHandler handler = new XlsxFileHandler_NoHeader_Stream();

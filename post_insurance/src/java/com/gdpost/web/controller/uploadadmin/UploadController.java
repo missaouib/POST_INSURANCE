@@ -233,7 +233,7 @@ public class UploadController {
                 	    fos.close();
                 	    // 从临时目录复制到正式文件目录
                 	    try {
-                	    	Files.copy(java.nio.file.Paths.get(strTempPath + File.separator + strOriginalFileName), java.nio.file.Paths.get(strPath + "\\" + strOriginalFileName), StandardCopyOption.REPLACE_EXISTING);
+                	    	Files.copy(java.nio.file.Paths.get(strTempPath + File.separator + strOriginalFileName), java.nio.file.Paths.get(strPath + File.separator + strOriginalFileName), StandardCopyOption.REPLACE_EXISTING);
                 	    } catch(Exception e) {
                 	    }
             	    	

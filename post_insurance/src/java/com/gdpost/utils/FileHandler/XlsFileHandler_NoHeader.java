@@ -1,5 +1,6 @@
 package com.gdpost.utils.FileHandler;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,7 @@ public class XlsFileHandler_NoHeader extends AbstractFileHandler {
         	// 设置访问密码
         	//Biff8EncryptionKey.setCurrentUserPassword(this.m_strPassword);
         	
-            HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(strFilePath + "\\" + strFileName));
+            HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(strFilePath + File.separator + strFileName));
             bFileFlag = true;
             HSSFSheet sheet = null;
             HSSFRow headerRow = null;

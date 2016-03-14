@@ -1,5 +1,6 @@
 package com.gdpost.utils.FileHandler;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -30,7 +31,7 @@ public class MdbFileHandler extends AbstractFileHandler {
         
 		try {
 			Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
-			conn = DriverManager.getConnection("jdbc:ucanaccess://" + strFilePath + "\\" + strFileName + ";Showschema=true;", this.m_strUserName, this.m_strPassword); 
+			conn = DriverManager.getConnection("jdbc:ucanaccess://" + strFilePath + File.separator + strFileName + ";Showschema=true;", this.m_strUserName, this.m_strPassword); 
 
 			ResultSet tables = conn.getMetaData().getTables(
 					null, null, null,

@@ -1,5 +1,6 @@
 package com.gdpost.utils.FileHandler;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,7 @@ public class XlsFileHandler_Converter extends AbstractFileHandler {
         	// 设置访问密码
         	//Biff8EncryptionKey.setCurrentUserPassword(this.m_strPassword);
         	
-        	HSSFWorkbook workbookold = new HSSFWorkbook(new FileInputStream(strFilePath + "\\" + strFileName));
+        	HSSFWorkbook workbookold = new HSSFWorkbook(new FileInputStream(strFilePath + File.separator + strFileName));
 
             // convert
             XSSFWorkbook workbook = new XSSFWorkbook();

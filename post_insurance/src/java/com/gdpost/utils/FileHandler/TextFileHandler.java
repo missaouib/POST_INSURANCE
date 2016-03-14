@@ -28,7 +28,7 @@ public class TextFileHandler extends AbstractFileHandler {
 		
 		InputStreamReader freader = null;
 		try {
-			File file = new File(strFilePath + "\\" + strFileName);
+			File file = new File(strFilePath + File.separator + strFileName);
 			String strCharset = UploadDataUtils.getCharset(file);
 			freader = new InputStreamReader(new FileInputStream(file), strCharset);
 		} catch (UnsupportedEncodingException e) {

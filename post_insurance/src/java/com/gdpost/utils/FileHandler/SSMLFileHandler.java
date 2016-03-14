@@ -1,5 +1,6 @@
 package com.gdpost.utils.FileHandler;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class SSMLFileHandler extends AbstractFileHandler {
             Row headerRow = null;
             
 			ExcelReader reader = new ExcelReader();
-			Workbook wb = reader.getWorkbook("file:///" + strFilePath + "\\" + strFileName);
+			Workbook wb = reader.getWorkbook("file:///" + strFilePath + File.separator + strFileName);
 			for(Worksheet sheet : wb.getWorksheets()) {
 	            // 获取列头行标号
 	            iHeaderRow = getHeaderRow(sheet);

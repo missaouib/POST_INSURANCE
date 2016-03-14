@@ -20,8 +20,6 @@ public class CallFailCityMiniListColumn {
 		column.setColumnName("policy_no");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setiOutputOrder(16);
-		column.setOutputName("QD");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -29,18 +27,12 @@ public class CallFailCityMiniListColumn {
 		column.setColumnName("issue_no");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(false);
-		column.setNeedOutput(true);
-		column.setiOutputOrder(3);
-		column.setOutputName("GDLSH");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
 		column.setDisplayName("工单类别");
 		column.setColumnName("issue_desc");
 		column.setColumnType(ColumnType.string);
-		column.setNullable(true);
-		column.setiOutputOrder(16);
-		column.setOutputName("QD");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
