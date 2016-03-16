@@ -314,9 +314,9 @@ public class UploadDataController {
 	    	
 	    	if(strMessage != null && !strMessage.equals("")) {
 				// 如有数据检查提示，则提示，如确认不导入，则提交request执行清除
-	    		return("{\"jsonrpc\":\"2.0\",\"result\":\"confirm\",\"id\":\"id\",\"message\":\"共导入（更新）了：" + dr.getNum() + "条记录，" + strMessage + "\"}");
+	    		return("{\"jsonrpc\":\"2.0\",\"result\":\"confirm\",\"id\":\"id\",\"message\":\"共：" + dr.getNum() + "条记录；共导入/更新了：" + dr.getUpdateRow() + "条记录。" + strMessage + "\"}");
 	    	} else {
-	    		return("{\"jsonrpc\":\"2.0\",\"result\":\"success\",\"id\":\"id\",\"message\":\"共导入（更新）了：" + dr.getNum() + "条记录，\"}");
+	    		return("{\"jsonrpc\":\"2.0\",\"result\":\"success\",\"id\":\"id\",\"message\":\"共：" + dr.getNum() + "条记录；共导入/更新了：" + dr.getUpdateRow() + "条记录，\"}");
 	    	}
 	    } else {
 	    	LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{"导入" + template + "的数据出错，" + strMessage + "。"}));

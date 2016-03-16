@@ -5,6 +5,7 @@ public class DoRst {
 	public boolean flag = true;
 	public String msg = null;
 	public int num = 0;
+	public int updateRow = -1;
 	public boolean isFlag() {
 		return flag;
 	}
@@ -22,6 +23,12 @@ public class DoRst {
 	}
 	public void setNum(int num) {
 		this.num = num;
+	}
+	public int getUpdateRow() {
+		return updateRow;
+	}
+	public void setUpdateRow(int updateRow) {
+		this.updateRow = updateRow;
 	}
 	
 	
