@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
+<%@ page import="java.util.Date"%>  
 <script type="text/javascript">
 <!--
 function doRel(val) {
@@ -13,6 +14,11 @@ function doRel(val) {
 	} else {
 		$("#insured").val("");
 	}
+}
+	
+function dformat(did, dval) {
+	var pattern = /(\d{4})(\d{2})(\d{2})/;
+	$(did).val(dval.replace(pattern, '$1-$2-$3'));
 }
 //-->
 </script>
@@ -39,7 +45,7 @@ function doRel(val) {
 		</p>
 		<p>
 			<label>投被保人关系：</label>
-			<select name="relation" id="relation" class="combox" onchange="javascript:doRel(this.value)">
+			<select name="relation" id="relation" onchange="javascript:doRel(this.value)">
 				<option value="">请选择</option>
 				<option value="本人">本人</option>
 				<option value="夫妻">夫妻</option>
@@ -54,7 +60,7 @@ function doRel(val) {
 		</p>
 		<p>
 			<label>转核原因：</label>
-			<select name="underwriteReason" id="underwriteReason" class="combox">
+			<select name="underwriteReason" id="underwriteReason">
 				<option value="超龄">超龄</option>
 				<option value="理赔">理赔</option>
 				<option value="超额">超额</option>
@@ -74,17 +80,17 @@ function doRel(val) {
 		</p>
 		<p>
 			<label>邮保通录入日期：</label>
-			<input type="text" name="ybtDate" id="hfDate1" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value=""/>
+			<input type="text" name="ybtDate" id="ybtDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" value="" onblur="javascript:dformat(this,this.value);"/>
 					<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 		<p>
 			<label>核心录入日期：</label>
-			<input type="text" name="sysDate" id="hfDate1" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value=""/>
+			<input type="text" name="sysDate" id="sysDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" value="" onblur="javascript:dformat(this,this.value);"/>
 					<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 		<p>
 			<label>复核日期：</label>
-			<input type="text" name="checkDate" id="hfDate1" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value=""/>
+			<input type="text" name="checkDate" id="checkDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" value="<fmt:formatDate value="<%=new Date() %>" pattern="yyyy-MM-dd"/>"/>
 					<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 		<div class="divider"></div>

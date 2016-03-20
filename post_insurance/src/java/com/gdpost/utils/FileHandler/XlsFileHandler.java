@@ -71,12 +71,9 @@ public class XlsFileHandler extends AbstractFileHandler {
 				sheet = (HSSFSheet) workbook.getSheetAt(iSheet);
 				int sheetmergerCount = sheet.getNumMergedRegions();
 				log.debug("--------------有这么多个合并单元格：" + sheetmergerCount);
-				//log.debug("--------------合并单元格：" + sheet.getMergedRegion(sheetmergerCount-1).getFirstRow());
-				//log.debug("--------------合并单元格：" + sheet.getMergedRegion(sheetmergerCount-1).getNumberOfCells());
 				if(sheetmergerCount > 0) {
 					skipRow = sheet.getMergedRegion(sheetmergerCount-1).getLastRow();
 				}
-				//log.debug("--------------to skip i: " + skipRow + ", sheet last row: " + sheet.getLastRowNum());
 				lastRow = sheet.getLastRowNum();
 				for (int i = skipRow+1; i < lastRow; i++) {
 					count = -1;
@@ -84,7 +81,6 @@ public class XlsFileHandler extends AbstractFileHandler {
 					if (headerRow == null) {
 						continue;
 					}
-					//log.debug("--------------headerRow : " + headerRow + ", and the cell num: " + headerRow.getLastCellNum() + ", template column size: " + this.m_column.size());
 					Iterator<Cell> iter = headerRow.cellIterator();
 					while(iter.hasNext()) {
 						count ++;

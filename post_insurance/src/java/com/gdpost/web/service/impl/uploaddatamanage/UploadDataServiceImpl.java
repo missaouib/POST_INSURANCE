@@ -27,6 +27,7 @@ import System.Data.DataTable;
 
 import com.gdpost.utils.MyException;
 import com.gdpost.utils.StringUtil;
+import com.gdpost.utils.TemplateHelper.CallFailCityMiniListColumn;
 import com.gdpost.utils.TemplateHelper.CallFailCloseListColumn;
 import com.gdpost.utils.TemplateHelper.CallFailDoorBackListColumn;
 import com.gdpost.utils.TemplateHelper.CallFailHQListColumn;
@@ -327,6 +328,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 		String sql2 = null;
 		String sql3 = null;
 		String sql4 = null;
+		String sql5 = null;
+		//String sql6 = null;
 		boolean isFail = false;
 		//boolean updateRst = true;
 		Object val = null;
@@ -366,7 +369,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        	sql.append(line);
 	        }
 			sql.deleteCharAt(sql.length() - 1);
-			sql.append(" ON DUPLICATE KEY UPDATE policy_no=VALUES(policy_no), issue_no= VALUES(issue_no), issue_desc=VALUES(issue_desc), status=VALUES(status), ");
+			sql.append(" ON DUPLICATE KEY UPDATE issue_desc=VALUES(issue_desc), status=VALUES(status), ");
 			sql.append("issue_type=VALUES(issue_type), issue_content=VALUES(issue_content), ");
 			sql.append("hq_deal_date=VALUES(hq_deal_date), hq_deal_man=VALUES(hq_deal_man), ");
 			sql.append("hq_deal_type=VALUES(hq_deal_type), hq_deal_rst=VALUES(hq_deal_rst), ");
@@ -407,12 +410,43 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        	sql.append(line);
 	        }
 			sql.deleteCharAt(sql.length() - 1);
-			sql.append(" ON DUPLICATE KEY UPDATE policy_no=VALUES(policy_no), issue_no=VALUES(issue_no), status=VALUES(status), ");
+			sql.append(" ON DUPLICATE KEY UPDATE status=VALUES(status), ");
 			sql.append("hq_deal_date=VALUES(hq_deal_date), hq_deal_man=VALUES(hq_deal_man), ");
 			sql.append("hq_deal_type=VALUES(hq_deal_type), hq_deal_rst=VALUES(hq_deal_rst);");
 			log.debug("----------------batch update : " + sql);
 			sql2 = "delete from t_call_fail_list where issue_no is null";
 			sql3 = "update t_call_fail_list set hq_deal_flag = 1 where status='二访成功';";
+			break;
+		case CallFailMiniCityStatus:
+			standardColumns = CallFailCityMiniListColumn.getStandardColumns();
+			sql = new StringBuffer("INSERT INTO t_call_fail_list(policy_no, issue_no, status, "
+					+ "deal_time, deal_man, deal_type, deal_desc) VALUES ");
+			line = null;
+			for (DataRow row : dt.Rows) {
+				line = new StringBuffer("(");
+	        	for(ColumnItem item : standardColumns) {
+	        		if(item.getDisplayName().contains("上门回访日期")) {
+	        			val = row.getValue(item.getDisplayName());
+	        			if(val == null || val.toString().trim().length() <= 0) {
+	        				line.append("null,");
+	        			} else {
+	        				line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        			}
+	        		} else {
+	        			line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        		}
+	        	}
+	        	line.deleteCharAt(line.length() - 1);
+	        	line.append("),");
+	        	sql.append(line);
+	        }
+			sql.deleteCharAt(sql.length() - 1);
+			sql.append(" ON DUPLICATE KEY UPDATE status=VALUES(status), ");
+			sql.append("deal_time=VALUES(deal_time), deal_man=VALUES(deal_man), ");
+			sql.append("deal_type=VALUES(deal_type), deal_desc=VALUES(deal_desc);");
+			log.debug("----------------batch update : " + sql);
+			sql2 = "delete from t_call_fail_list where issue_no is null";
+			sql3 = "update t_call_fail_list set org_deal_flag = 1 where status='上门成功';";
 			break;
 		case CallFailCityStatus:
 			/*
@@ -444,7 +478,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql.append("deal_type=VALUES(deal_type), deal_desc=VALUES(deal_desc);");
 			*/
 			standardColumns = CallFailDoorBackListColumn.getStandardColumns();
-			sql = new StringBuffer("INSERT INTO t_call_fail_list(policy_no, door_back_date, door_stats_date, "
+			sql = new StringBuffer("INSERT INTO t_call_fail_list(policy_no, issue_no, door_back_date, door_stats_date, "
 					+ "deal_type, deal_time, deal_man) VALUES ");
 			line = null;
 			for (DataRow row : dt.Rows) {
@@ -466,13 +500,15 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        	sql.append(line);
 	        }
 			sql.deleteCharAt(sql.length() - 1);
-			sql.append(" ON DUPLICATE KEY UPDATE policy_no=VALUES(policy_no), door_back_date=VALUES(door_back_date), door_stats_date=VALUES(door_stats_date), ");
+			sql.append(" ON DUPLICATE KEY UPDATE door_back_date=VALUES(door_back_date), door_stats_date=VALUES(door_stats_date), ");
 			sql.append("deal_type=VALUES(deal_type), deal_time=VALUES(deal_time), deal_man=VALUES(deal_man);");
 			//sql.append("deal_desc=VALUES(deal_desc);");
 			
 			log.debug("----------------batch update : " + sql);
 			sql2 = "delete from t_call_fail_list where issue_no is null";
-			sql3 = "update t_call_fail_list set org_deal_flag = 1 where status='上门成功';";
+			sql3 = "update t_call_fail_list set status='上门成功' where deal_type='上门成功'";
+			sql4 = "update t_call_fail_list set status='上门失败' where deal_type<>'上门成功'";
+			sql5 = "update t_call_fail_list set org_deal_flag = 1 where status='上门成功';";
 			break;
 		case CallFailMailStatus:
 			standardColumns = CallFailMailListColumn.getStandardColumns();
@@ -497,14 +533,14 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        	sql.append(line);
 	        }
 			sql.deleteCharAt(sql.length() - 1);
-			sql.append(" ON DUPLICATE KEY UPDATE policy_no=VALUES(policy_no), issue_no=VALUES(issue_no), ");
+			sql.append(" ON DUPLICATE KEY UPDATE ");
 			sql.append("letter_date=VALUES(letter_date), has_letter=VALUES(has_letter);");
 			log.debug("----------------batch update : " + sql);
 			sql2 = "delete from t_call_fail_list where issue_no is null";
 			break;
 		case CallFailMailBackStatus:
 			standardColumns = CallFailMailBackListColumn.getStandardColumns();
-			sql = new StringBuffer("INSERT INTO t_call_fail_list(policy_no, mail_fail_reason, mail_fail_date, has_letter, mail_back_date) VALUES ");
+			sql = new StringBuffer("INSERT INTO t_call_fail_list(policy_no, issue_no, mail_fail_reason, mail_fail_date, has_letter, mail_back_date) VALUES ");
 			line = null;
 			for (DataRow row : dt.Rows) {
 				line = new StringBuffer("(");
@@ -525,7 +561,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        	sql.append(line);
 	        }
 			sql.deleteCharAt(sql.length() - 1);
-			sql.append(" ON DUPLICATE KEY UPDATE policy_no=VALUES(policy_no), mail_fail_reason=VALUES(mail_fail_reason), ");
+			sql.append(" ON DUPLICATE KEY UPDATE mail_fail_reason=VALUES(mail_fail_reason), ");
 			sql.append("mail_fail_date=VALUES(mail_fail_date), has_letter=VALUES(has_letter), mail_back_date=VALUES(mail_back_date);");
 			log.debug("----------------batch update : " + sql);
 			sql2 = "delete from t_call_fail_list where policy_no is null";
@@ -544,7 +580,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        	sql.append(line);
 	        }
 			sql.deleteCharAt(sql.length() - 1);
-			sql.append(" ON DUPLICATE KEY UPDATE policy_no=VALUES(policy_no), issue_no=VALUES(issue_no), ");
+			sql.append(" ON DUPLICATE KEY UPDATE ");
 			sql.append("status=VALUES(status);");
 			log.debug("----------------batch update : " + sql);
 			sql2 = "delete from t_call_fail_list where issue_no is null";
@@ -563,7 +599,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        	sql.append(line);
 	        }
 			sql.deleteCharAt(sql.length() - 1);
-			sql.append(" ON DUPLICATE KEY UPDATE policy_no=VALUES(policy_no), issue_no=VALUES(issue_no), ");
+			sql.append(" ON DUPLICATE KEY UPDATE ");
 			sql.append("finish_date=VALUES(finish_date), status=VALUES(status);");
 			log.debug("----------------batch update : " + sql);
 			sql2 = "delete from t_call_fail_list where issue_no is null";
@@ -603,7 +639,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        	sql.append(line);
 	        }
 			sql.deleteCharAt(sql.length() - 1);
-			sql.append(" ON DUPLICATE KEY UPDATE policy_no=VALUES(policy_no), prd_name=VALUES(prd_name), ");
+			sql.append(" ON DUPLICATE KEY UPDATE ");
 			sql.append("fee_status=VALUES(fee_status), fee_fail_reason=VALUES(fee_fail_reason);");
 			log.debug("----------------batch update : " + sql);
 			sql2 = "delete from t_renewed_list where holder is null";
@@ -644,7 +680,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        	sql.append(line);
 	        }
 			sql.deleteCharAt(sql.length() - 1);
-			sql.append(" ON DUPLICATE KEY UPDATE policy_no=VALUES(policy_no), prd_name=VALUES(prd_name), ");
+			sql.append(" ON DUPLICATE KEY UPDATE ");
 			sql.append("hq_issue_type=VALUES(hq_issue_type), hq_deal_rst=VALUES(hq_deal_rst), ");
 			sql.append("hq_deal_date=VALUES(hq_deal_date), hq_deal_remark=VALUES(hq_deal_remark);");
 			log.debug("----------------hq update status batch sql : " + sql);
@@ -692,7 +728,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        	sql.append(line);
 	        }
 			sql.deleteCharAt(sql.length() - 1);
-			sql.append(" ON DUPLICATE KEY UPDATE policy_no=VALUES(policy_no), prd_name=VALUES(prd_name), ");
+			sql.append(" ON DUPLICATE KEY UPDATE ");
 			sql.append("deal_time=VALUES(deal_time), fix_status=VALUES(fix_status);");
 			log.debug("----------------city update status batch sql : " + sql);
 			sql2 = "delete from t_renewed_list where holder is null";
@@ -723,6 +759,9 @@ public class UploadDataServiceImpl implements UploadDataService{
 			}
 			if(sql4 != null) {
 				statement.execute(sql4);
+			}
+			if(sql5 != null) {
+				statement.execute(sql5);
 			}
 			//log.info("------------renewed status update result:" + updateRst);
 			dr.setFlag(true);
@@ -839,9 +878,20 @@ public class UploadDataServiceImpl implements UploadDataService{
 			standardColumns = PayFailListColumn.getStandardColumns();
 			keyRow = PayFailListColumn.KEY_ROW;
 			break;
-			default:
-				standardColumns = PolicyColumn.getStandardColumns();
-				keyRow = PolicyColumn.KEY_ROW;
+		case CallFailCityStatus:
+			standardColumns = CallFailDoorBackListColumn.getStandardColumns();
+			keyRow = CallFailDoorBackListColumn.KEY_ROW;
+			break;
+		case CallFailMailBackStatus:
+			standardColumns = CallFailMailBackListColumn.getStandardColumns();
+			keyRow = CallFailMailBackListColumn.KEY_ROW;
+			break;
+		case CallFailMiniCityStatus:
+			standardColumns = CallFailCityMiniListColumn.getStandardColumns();
+			keyRow = CallFailCityMiniListColumn.KEY_ROW;
+			break;
+		default:
+			break;
 		}
 		
 	    boolean bFlag = true;
@@ -910,7 +960,9 @@ public class UploadDataServiceImpl implements UploadDataService{
 						|| t.name().equals(FileTemplate.CallFailMailBackStatus.name())
 						|| t.name().equals(FileTemplate.CallFailCloseStatus.name())
 						|| t.name().equals(FileTemplate.RenewedProvList.name())
-						|| t.name().equals(FileTemplate.RenewedCityList.name())) {
+						|| t.name().equals(FileTemplate.RenewedCityList.name())
+						|| t.name().equals(FileTemplate.CallFailMiniCityStatus.name())) {
+					
 					dr = updateStatusData(t, request, dt);
 				} else {
 					dr = importData(t, request, dt, member_id, currentNY);

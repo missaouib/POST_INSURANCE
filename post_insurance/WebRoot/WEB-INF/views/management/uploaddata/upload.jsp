@@ -40,11 +40,11 @@ background: linear-gradient(top,#42a4e0,#2e88c0);
 }
 -->
 </style>
-<h2 class="contentTitle">上传保单数据</h2>
+<h2 class="contentTitle">数据上传</h2>
 
 <div class="pageContent" style="margin: 0 10px" layoutH="50">
 	<label>模板:</label>
-	<form:select path="myTemplate.templateValue" name="template" id="template" style="width:100px;" items="${templateList}" itemLabel="desc"/>
+	<form:select path="myTemplate.templateValue" name="template" id="template" style="width:100px;" items="${templateList}" itemLabel="desc" onchange="javascript:displayTips(this.value);"/>
 	<div id="uploader" class="wu-example">
 	    <!--用来存放文件信息-->
 	    <div id="thelist" class="uploader-list"></div>
@@ -56,12 +56,70 @@ background: linear-gradient(top,#42a4e0,#2e88c0);
 	<br />
 	<br />
 	<br />
+	<pre id="tipsDesc"></pre>
 	<br />
 	<pre id="console"></pre>
 	<br />
 </div>
 
 <script type="text/javascript"> 
+
+function displayTips(val) {
+	if(val=="Policy" || val=="PolicyDtl" || val=="Issue" || val=="CallFail" || val =="Renewed" 
+			|| val=="CheckWrite" || val=="CheckRecord" || val=="PayToFailList" || val=="PayFromFailList" || val =="PaySuccessList") {
+		$("#tipsDesc").html("模板格式直接使用系统下载的原始表，请勿修改列名称。");
+		return;
+	}
+	if(val=="CallFailStatus") {
+		$("#tipsDesc").html("11185二访中心详细数据。须含列：保单号\t工单流水号\t工单类别\t工单状态\t工单子类\t工单内容\t回访日期1\t回访人1\t回访类型1\t回访内容1\t回访日期2\t回访人2\t回访类型2\t回访内容2\t回访日期3\t回访人3\t回访类型3\t回访内容3\t回访日期4\t回访人4\t回访类型4\t回访内容4\t回访日期5\t回访人5\t回访类型5\t回访内容5\t回访日期6\t回访人6\t回访类型6\t回访内容6，关键列：回访人1");
+		return;
+	}
+	if(val=="MiniCallFailStatus") {
+		$("#tipsDesc").html("二访中心简易数据。须含列：保单号\t工单流水号\t一访日期\t一访人员\t一访类型\t一访内容，关键列：一访类型");
+		return;
+	}
+	if(val=="CallFailMiniCityStatus") {
+		$("#tipsDesc").html("市县回访详细数据。须含列：保单号\t工单流水号\t工单状态\t上门回访日期\t上门回访人员\t上门回访类型\t上门回访内容，关键列：上门回访人员");
+		return;
+	}
+	if(val=="CallFailCityStatus") {
+		$("#tipsDesc").html("市县上门回访数据。须含列：保单号\t工单流水号\t上交时间\t统计月份\t回访结果\t回访时间\t回访人，关键列：上交时间");
+		return;
+	}
+	if(val=="CallFailMailStatus") {
+		$("#tipsDesc").html("已发信函数据。须含列：保单号\t工单流水号\t信函日期，关键列：信函日期");
+		return;
+	}
+	if(val=="CallFailMailBackStatus") {
+		$("#tipsDesc").html("回邮信函数据。须含列：保单号\t工单流水号\t退信原因\t退信时间\t信函成功\t回邮时间\t客户签名时间，关键列：保单号");
+		return;
+	}
+	if(val=="CallFailNeedDoorStatus") {
+		$("#tipsDesc").html("需上门回访数据。须含列：保单号\t工单流水号\t工单状态，关键列：工单状态");
+		return;
+	}
+	if(val=="CallFailCloseStatus") {
+		$("#tipsDesc").html("回访结案数据。须含列：保单号\t工单流水号\t结案时间，关键列：结案时间");
+		return;
+	}
+	if(val=="RenewedStatus") {
+		$("#tipsDesc").html("续期继续率清单。须含列：保单号\t险种名称\t保单当前状态\t交费失败原因，关键列：保单号");
+		return;
+	}
+	if(val=="RenewedHQList") {
+		$("#tipsDesc").html("总部催收清单。须含列：保单号\t险种名称\t备注\t工单子类\t回访日期\t工单内容，关键列：保单号");
+		return;
+	}
+	if(val=="RenewedProvList") {
+		$("#tipsDesc").html("省分（二访中心）催收清单须含列：保险单号码\t险种名称\t一访时间\t一访结果，关键列：一访结果");
+		return;
+	}
+	if(val=="RenewedCityList") {
+		$("#tipsDesc").html("市县催收清单。须含列：保险单号码\t险种名称\t催交时间\t催交结果，关键列：催交结果");
+		return;
+	}
+}
+
 var strFileGroup = new Date().Format("yyyyMMddhhmmss");
 
 //文件上传
@@ -166,20 +224,6 @@ jQuery(function() {
                             alert(response.message);
                             $("#console").html(response.message);
                         }
-                        /* 
-                        if(window.confirm("数据已上传，但由于格式问题未能入库,是否以该文件为准？")) {
-                        	$("#console").html("数据已上传，但由于格式问题未能入库，将对后续的数据分析产生影响。");
-                        } else {
-                        	$.ajax({
-	                            type: 'post',
-	                            url: "/uploaddatamanage/uploaddata/cancelupload",
-	                            dataType: "text",
-	                            data: { strFileGroup: strFileGroup, "ny": ny },
-	                            success: function (data) {
-	                            }
-	                        });
-                        }
-                        */
                     }
                 }
             });

@@ -6,7 +6,7 @@ import java.util.List;
 public class CallFailHQMiniListColumn {
 
 	private static List<ColumnItem> standardColumns;
-	public static String KEY_ROW = "二访类型";
+	public static String KEY_ROW = "一访类型";
 	
 	public static List<ColumnItem> getStandardColumns() {
 		if(standardColumns != null) {
@@ -44,7 +44,7 @@ public class CallFailHQMiniListColumn {
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("二访日期");
+		column.setDisplayName("一访日期");
 		column.setColumnName("hq_deal_date");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
@@ -53,7 +53,7 @@ public class CallFailHQMiniListColumn {
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("二访人员");
+		column.setDisplayName("一访人员");
 		column.setColumnName("hq_deal_man");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
@@ -62,7 +62,7 @@ public class CallFailHQMiniListColumn {
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("二访类型");
+		column.setDisplayName("一访类型");
 		column.setColumnName("hq_deal_type");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
@@ -71,7 +71,7 @@ public class CallFailHQMiniListColumn {
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("二访内容");
+		column.setDisplayName("一访内容");
 		column.setColumnName("hq_deal_rst");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);

@@ -30,18 +30,17 @@ public class CallFailCityMiniListColumn {
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("工单类别");
-		column.setColumnName("issue_desc");
-		column.setColumnType(ColumnType.string);
-		standardColumns.add(column);
-		
-		column = new ColumnItem();
 		column.setDisplayName("工单状态");
 		column.setColumnName("status");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setiOutputOrder(16);
-		column.setOutputName("QD");
+		standardColumns.add(column);
+		
+		/*
+		column = new ColumnItem();
+		column.setDisplayName("工单类别");
+		column.setColumnName("issue_desc");
+		column.setColumnType(ColumnType.string);
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -61,14 +60,13 @@ public class CallFailCityMiniListColumn {
 		column.setiOutputOrder(16);
 		column.setOutputName("QD");
 		standardColumns.add(column);
+		*/
 		
 		column = new ColumnItem();
 		column.setDisplayName("上门回访日期");
 		column.setColumnName("deal_time");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setiOutputOrder(16);
-		column.setOutputName("QD");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -76,8 +74,6 @@ public class CallFailCityMiniListColumn {
 		column.setColumnName("deal_man");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setiOutputOrder(16);
-		column.setOutputName("QD");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -85,8 +81,6 @@ public class CallFailCityMiniListColumn {
 		column.setColumnName("deal_type");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setiOutputOrder(16);
-		column.setOutputName("QD");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -94,8 +88,6 @@ public class CallFailCityMiniListColumn {
 		column.setColumnName("deal_desc");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setiOutputOrder(16);
-		column.setOutputName("QD");
 		standardColumns.add(column);
 		
 		return(standardColumns);

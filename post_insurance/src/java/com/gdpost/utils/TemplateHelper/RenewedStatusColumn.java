@@ -21,8 +21,6 @@ public class RenewedStatusColumn {
 		column.setColumnName("policy_no");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setiOutputOrder(16);
-		column.setOutputName("QD");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -30,9 +28,6 @@ public class RenewedStatusColumn {
 		column.setColumnName("prd_name");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(false);
-		column.setNeedOutput(true);
-		column.setiOutputOrder(4);
-		column.setOutputName("XZMC");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -40,8 +35,6 @@ public class RenewedStatusColumn {
 		column.setColumnName("fee_status");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setiOutputOrder(16);
-		column.setOutputName("QD");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -49,8 +42,6 @@ public class RenewedStatusColumn {
 		column.setColumnName("fee_fail_reason");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setiOutputOrder(16);
-		column.setOutputName("QD");
 		standardColumns.add(column);
 		
 		return(standardColumns);

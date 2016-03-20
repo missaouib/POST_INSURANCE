@@ -21,8 +21,6 @@ public class RenewedHQListColumn {
 		column.setColumnName("policy_no");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setiOutputOrder(16);
-		column.setOutputName("QD");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -37,8 +35,6 @@ public class RenewedHQListColumn {
 		column.setColumnName("hq_issue_type");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setiOutputOrder(16);
-		column.setOutputName("QD");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -46,8 +42,6 @@ public class RenewedHQListColumn {
 		column.setColumnName("hq_deal_rst");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setiOutputOrder(16);
-		column.setOutputName("QD");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -55,8 +49,6 @@ public class RenewedHQListColumn {
 		column.setColumnName("hq_deal_date");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setiOutputOrder(16);
-		column.setOutputName("QD");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -64,8 +56,6 @@ public class RenewedHQListColumn {
 		column.setColumnName("hq_deal_remark");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setiOutputOrder(16);
-		column.setOutputName("QD");
 		standardColumns.add(column);
 		
 		return(standardColumns);
