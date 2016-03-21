@@ -68,6 +68,7 @@ public class PayListController {
 	private static final String TO_HELP = "insurance/help/feefailgl";
 	
 	private static final String TO_TOXLS = "insurance/bqgl/to/toXls";
+	private static final String FROM_TOXLS = "insurance/bqgl/from/toXls";
 	
 	private static final String SUCCESS_TOXLS = "insurance/bqgl/paySuccess/toXls";
 	
@@ -360,6 +361,59 @@ public class PayListController {
 		map.put("paylists", reqs);
 		
 		return TO_TOXLS;
+	}
+	
+	@RequiresPermissions(value={"FromBQFailList:view","FromQYFailList:view","FromLPFailList:view","FromXQFailList:view"}, logical=Logical.OR)
+	@RequestMapping(value="/from/toXls", method={RequestMethod.GET, RequestMethod.POST})
+	public String failFromXls(ServletRequest request, Page page, Map<String, Object> map) {
+		User user = SecurityUtils.getShiroUser().getUser();
+		Organization userOrg = user.getOrganization();
+		String orgCode = request.getParameter("orgCode");
+		if(orgCode == null || orgCode.trim().length()<=0) {
+			orgCode = userOrg.getOrgCode();
+		} else if(!orgCode.contains(userOrg.getOrgCode())){
+			orgCode = userOrg.getOrgCode();
+		}
+		page.setNumPerPage(Integer.MAX_VALUE);
+		String status = request.getParameter("status");
+		String flag = request.getParameter("flag");
+		LOG.debug("-----------------status:" + status);
+		PayFailList req = new PayFailList();
+		if(status == null) {
+			req.setStatus(FEE_FAIL_STATUS.NewStatus.name());
+			status = FEE_FAIL_STATUS.NewStatus.name();
+		} else if(status.trim().length()>0) {
+			req.setStatus(status);
+		}
+		String feeType = "";
+		switch(flag) {
+		case "bq":
+			feeType = "保全受理号";
+			break;
+		case "lp":
+			feeType = "案件号";
+			break;
+			default:
+				
+		}
+		page.setOrderField("backDate");
+		page.setOrderDirection("ASC");
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("payType", Operator.EQ, PayFailList.PAY_FROM));
+		csf.add(new SearchFilter("feeType", Operator.EQ, feeType));
+		if (status != null && status.length() > 0) {
+			csf.add(new SearchFilter("status", Operator.EQ, status));
+		}
+		
+		Specification<PayFailList> specification = DynamicSpecifications.bySearchFilter(request, PayFailList.class, csf);
+		
+		List<PayFailList> reqs = payListService.findByExample(specification, page);
+
+		request.setAttribute("date",new Date());
+		map.put("paylists", reqs);
+		
+		return FROM_TOXLS;
 	}
 	
 	@RequiresPermissions(value={"FromBQFailList:view","FromQYFailList:view","FromLPFailList:view","FromXQFailList:view"}, logical=Logical.OR)

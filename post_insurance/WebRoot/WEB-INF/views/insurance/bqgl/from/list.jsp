@@ -68,6 +68,8 @@
 			<li><a iconClass="user_go" target="ajaxTodo" href="${contextPath }/pay/close/{slt_uid}" title="确认关闭?"><span>关闭</span></a></li>
 			</shiro:hasPermission>
 			<li class="line">line</li>
+			<li><a class="icon" target="_blank" href="${contextPath }/pay/from/toXls?flag=bq&orgCode=${orgCode}&search_LTE_backDate=${param.search_LTE_backDate}&search_GTE_backDate=${param.search_GTE_backDate}&status=${status}"><span>导出Excel</span></a></li>
+			<li class="line">line</li>
 			<li><a class="icon" target="dialog" href="${contextPath }/pay/help" mask="true" width="530" height="430"><span>功能说明</span></a></li>
 		</ul>
 	</div>

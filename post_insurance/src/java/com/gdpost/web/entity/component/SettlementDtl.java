@@ -81,7 +81,7 @@ public class SettlementDtl implements Idable<Long> {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "settlement_id")
 	public Settlement getSettlement() {
 		return this.settlement;
