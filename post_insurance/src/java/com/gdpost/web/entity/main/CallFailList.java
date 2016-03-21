@@ -116,6 +116,17 @@ mail_success
 	private Date mailBackDate;
 	private Date mailFailDate;
 	private String mailFailReason;
+	private Date doorBackDate;
+	private Date doorStatsDate;
+	private String mailSuccess;
+	private Date clientSignDate;
+	
+	private String clientRemark;
+	private String hqDealTypeElse;
+	private String phoneNum;
+	private String phoneStart;
+	private String phoneEnd;
+	private String phoneTime;
 	
 	@Transient
 	private String search_LIKE_hasLetter;
@@ -933,6 +944,89 @@ mail_success
 	}
 	public void setMailFailReason(String mailFailReason) {
 		this.mailFailReason = mailFailReason;
+	}
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name="door_back_date")
+	public Date getDoorBackDate() {
+		return doorBackDate;
+	}
+	public void setDoorBackDate(Date doorBackDate) {
+		this.doorBackDate = doorBackDate;
+	}
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name="door_stats_date")
+	public Date getDoorStatsDate() {
+		return doorStatsDate;
+	}
+	public void setDoorStatsDate(Date doorStatsDate) {
+		this.doorStatsDate = doorStatsDate;
+	}
+	
+	@Column(name="mail_success")
+	public String getMailSuccess() {
+		return mailSuccess;
+	}
+	public void setMailSuccess(String mailSuccess) {
+		this.mailSuccess = mailSuccess;
+	}
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name="client_sign_date")
+	public Date getClientSignDate() {
+		return clientSignDate;
+	}
+	public void setClientSignDate(Date clientSignDate) {
+		this.clientSignDate = clientSignDate;
+	}
+	
+	@Column(name="client_remark")
+	public String getClientRemark() {
+		return clientRemark;
+	}
+	public void setClientRemark(String clientRemark) {
+		this.clientRemark = clientRemark;
+	}
+	
+	@Column(name="hq_deal_type_else")
+	public String getHqDealTypeElse() {
+		return hqDealTypeElse;
+	}
+	public void setHqDealTypeElse(String hqDealTypeElse) {
+		this.hqDealTypeElse = hqDealTypeElse;
+	}
+	
+	@Column(name="phone_num")
+	public String getPhoneNum() {
+		return phoneNum;
+	}
+	public void setPhoneNum(String phoneNum) {
+		this.phoneNum = phoneNum;
+	}
+	
+	@Column(name="phone_start")
+	public String getPhoneStart() {
+		return phoneStart;
+	}
+	public void setPhoneStart(String phoneStart) {
+		this.phoneStart = phoneStart;
+	}
+	
+	@Column(name="phone_end")
+	public String getPhoneEnd() {
+		return phoneEnd;
+	}
+	public void setPhoneEnd(String phoneEnd) {
+		this.phoneEnd = phoneEnd;
+	}
+	
+	@Column(name="phone_time")
+	public String getPhoneTime() {
+		return phoneTime;
+	}
+	public void setPhoneTime(String phoneTime) {
+		this.phoneTime = phoneTime;
 	}
 	
 	

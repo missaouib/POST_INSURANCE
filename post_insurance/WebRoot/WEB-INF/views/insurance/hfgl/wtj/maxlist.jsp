@@ -11,7 +11,7 @@
 	<input type="hidden" name="search_LTE_policy.policyDate" value="${search_LTE_policy_policyDate }"/>
 	<input type="hidden" name="search_GTE_policy.policyDate" value="${search_GTE_policy_policyDate }"/>
 	<input type="hidden" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
-	<input type="hidden" name="hasLetter" value="${hasLetter }"/>
+	<input type="hidden" name="search_LIKE_hasLetter" value="${search_LIKE_hasLetter }"/>
 	<input type="hidden" name="status" value="${status }"/>
 	<input type="hidden" name="search_LIKE_policy.holder" value="${search_LIKE_policy_holder}"/>
 </dwz:paginationForm>
@@ -54,9 +54,11 @@
 					</td>
 					<td>
 						<label>已信函：</label>
-						<form:select path="issue.hasLetter" id="mxhfHsLetter" class="combox">
+						<form:select path="issue.search_LIKE_hasLetter" id="hfHsLetter" class="combox">
 							<form:option value=""> -- -- </form:option>
 							<form:option value="信函已发"> 信函已发 </form:option>
+							<form:option value="信函成功"> 信函成功 </form:option>
+							<form:option value="信函失败"> 信函失败 </form:option>
 						</form:select>
 					</td>
 				</tr>
@@ -117,7 +119,7 @@
 		</ul>
 	</div>
 	
-	<table class="table" layoutH="185" width="110%">
+	<table class="table" layoutH="185" width="200%">
 		<thead>
 			<tr>
 				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>
@@ -142,6 +144,15 @@
 				<th orderField=organization.name class="${page.orderField eq 'organization.name' ? page.orderDirection : ''}">所属机构</th>
 				<shiro:hasPermission name="Callfail:provEdit">
 				<th orderField=hasLetter class="${page.orderField eq 'hasLetter' ? page.orderDirection : ''}">信函记录</th>
+				<th>信函日期</th>
+				<th>退信原因</th>
+				<th>退信时间</th>
+				<th>回邮时间</th>
+				<th>客户签名时间</th>
+				<th>通话号码</th>
+				<th>通话开始时间</th>
+				<th>通话结束时间</th>
+				<th>通话时长</th>
 				</shiro:hasPermission>
 			</tr>
 		</thead>
@@ -188,6 +199,15 @@
 				<td>${fn:replace(item.organization.name,'邮政局中邮保险局','')}</td>
 				<shiro:hasPermission name="Callfail:provEdit">
 				<td>${item.hasLetter}</td>
+				<td><fmt:formatDate value="${item.letterDate }" pattern="yyyy-MM-dd"/></td>
+				<td>${item.mailFailReason}</td>
+				<td><fmt:formatDate value="${item.mailFailDate }" pattern="yyyy-MM-dd"/></td>
+				<td><fmt:formatDate value="${item.mailBackDate }" pattern="yyyy-MM-dd"/></td>
+				<td><fmt:formatDate value="${item.clientSignDate }" pattern="yyyy-MM-dd"/></td>
+				<td>${item.phoneNum}</td>
+				<td>${item.phoneStart}</td>
+				<td>${item.phoneEnd}</td>
+				<td>${item.phoneTime}</td>
 				</shiro:hasPermission>
 			</tr>
 			</c:forEach>

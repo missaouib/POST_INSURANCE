@@ -630,6 +630,9 @@ public class HfglController {
 			//request.setAttribute("hasLetter", hasLetter);
 			
 		}
+		LOG.debug("-------------- hasLetter: " + hasLetter);
+		issue.setSearch_LIKE_hasLetter(hasLetter);
+		request.setAttribute("search_LIKE_hasLetter", hasLetter);
 		request.setAttribute("hasLetter", hasLetter);
 		request.setAttribute("status", status);
 		issue.setHasLetter(hasLetter);

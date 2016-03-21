@@ -22,12 +22,14 @@ public class CallFailMailBackListColumn {
 		column.setNullable(true);
 		standardColumns.add(column);
 		
+		/*
 		column = new ColumnItem();
 		column.setDisplayName("工单流水号");
 		column.setColumnName("issue_no");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(false);
 		standardColumns.add(column);
+		*/
 		
 		column = new ColumnItem();
 		column.setDisplayName("退信原因");
@@ -42,28 +44,6 @@ public class CallFailMailBackListColumn {
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
-		
-		column = new ColumnItem();
-		column.setDisplayName("信函成功");
-		column.setColumnName("has_letter");
-		column.setColumnType(ColumnType.string);
-		column.setNullable(true);
-		standardColumns.add(column);
-		
-		column = new ColumnItem();
-		column.setDisplayName("回邮时间");
-		column.setColumnName("mail_back_date");
-		column.setColumnType(ColumnType.string);
-		column.setNullable(true);
-		standardColumns.add(column);
-		
-		column = new ColumnItem();
-		column.setDisplayName("客户签名时间");
-		column.setColumnName("client_sign_date");
-		column.setColumnType(ColumnType.string);
-		column.setNullable(true);
-		standardColumns.add(column);
-		
 		
 		return(standardColumns);
 	}

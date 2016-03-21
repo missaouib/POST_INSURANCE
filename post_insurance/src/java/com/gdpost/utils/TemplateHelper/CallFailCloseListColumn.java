@@ -22,12 +22,14 @@ public class CallFailCloseListColumn {
 		column.setNullable(true);
 		standardColumns.add(column);
 		
+		/*
 		column = new ColumnItem();
 		column.setDisplayName("工单流水号");
 		column.setColumnName("issue_no");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(false);
 		standardColumns.add(column);
+		*/
 		
 		column = new ColumnItem();
 		column.setDisplayName("结案时间");

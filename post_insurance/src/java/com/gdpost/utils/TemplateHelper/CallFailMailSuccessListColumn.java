@@ -3,10 +3,10 @@ package com.gdpost.utils.TemplateHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CallFailDoorBackListColumn {
+public class CallFailMailSuccessListColumn {
 
 	private static List<ColumnItem> standardColumns;
-	public static String KEY_ROW = "上交时间";
+	public static String KEY_ROW = "保单号";
 	
 	public static List<ColumnItem> getStandardColumns() {
 		if(standardColumns != null) {
@@ -32,39 +32,26 @@ public class CallFailDoorBackListColumn {
 		*/
 		
 		column = new ColumnItem();
-		column.setDisplayName("上交时间");
-		column.setColumnName("door_back_date");
+		column.setDisplayName("信函成功");
+		column.setColumnName("has_letter");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("统计月份");
-		column.setColumnName("door_stats_date");
+		column.setDisplayName("回邮时间");
+		column.setColumnName("mail_back_date");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("回访结果");
-		column.setColumnName("deal_type");
+		column.setDisplayName("客户签名时间");
+		column.setColumnName("client_sign_date");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
 		
-		column = new ColumnItem();
-		column.setDisplayName("回访时间");
-		column.setColumnName("deal_time");
-		column.setColumnType(ColumnType.string);
-		column.setNullable(true);
-		standardColumns.add(column);
-		
-		column = new ColumnItem();
-		column.setDisplayName("回访人");
-		column.setColumnName("deal_man");
-		column.setColumnType(ColumnType.string);
-		column.setNullable(true);
-		standardColumns.add(column);
 		
 		return(standardColumns);
 	}

@@ -27,7 +27,6 @@ response.setHeader("Content-Disposition", "inline; filename=call_fail_dtl.xls");
 				<th>险种名称</th>
 				<th>出单网点</th>
 				<th>重置电话</th>
-				<th>不成功件生成时间</th>
 				<th>市县回访类型</th>
 				<th>市县回访详情</th>
 				<th>市县回访经办</th>
@@ -41,6 +40,15 @@ response.setHeader("Content-Disposition", "inline; filename=call_fail_dtl.xls");
 				<th>重置时间</th>
 				<shiro:hasPermission name="Callfail:provEdit">
 				<th>信函记录</th>
+				<th>信函日期</th>
+				<th>退信原因</th>
+				<th>退信时间</th>
+				<th>回邮时间</th>
+				<th>客户签名时间</th>
+				<th>通话号码</th>
+				<th>通话开始时间</th>
+				<th>通话结束时间</th>
+				<th>通话时长</th>
 				</shiro:hasPermission>
 			</tr>
 			<c:forEach var="item" items="${reqs}" varStatus="status">
@@ -74,7 +82,6 @@ response.setHeader("Content-Disposition", "inline; filename=call_fail_dtl.xls");
 				</td>
 				
 				<td>${item.resetPhone}</td>
-				<td><fmt:formatDate value="${item.issueDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.dealType}</td>
 				<td>${item.dealDesc}</td>
 				<td>${item.dealMan}</td>
@@ -88,6 +95,15 @@ response.setHeader("Content-Disposition", "inline; filename=call_fail_dtl.xls");
 				<td><fmt:formatDate value="${item.resetDate }" pattern="yyyy-MM-dd"/></td>
 				<shiro:hasPermission name="Callfail:provEdit">
 				<td>${item.hasLetter}</td>
+				<td><fmt:formatDate value="${item.letterDate }" pattern="yyyy-MM-dd"/></td>
+				<td>${item.mailFailReason}</td>
+				<td><fmt:formatDate value="${item.mailFailDate }" pattern="yyyy-MM-dd"/></td>
+				<td><fmt:formatDate value="${item.mailBackDate }" pattern="yyyy-MM-dd"/></td>
+				<td><fmt:formatDate value="${item.clientSignDate }" pattern="yyyy-MM-dd"/></td>
+				<td>${item.phoneNum}</td>
+				<td>${item.phoneStart}</td>
+				<td>${item.phoneEnd}</td>
+				<td>${item.phoneTime}</td>
 				</shiro:hasPermission>
 			</tr>
 			</c:forEach>

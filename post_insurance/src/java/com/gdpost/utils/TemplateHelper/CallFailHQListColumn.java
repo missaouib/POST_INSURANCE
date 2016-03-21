@@ -20,27 +20,22 @@ public class CallFailHQListColumn {
 		column.setColumnName("policy_no");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setiOutputOrder(16);
-		column.setOutputName("QD");
 		standardColumns.add(column);
 		
+		/*
 		column = new ColumnItem();
 		column.setDisplayName("工单流水号");
 		column.setColumnName("issue_no");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(false);
-		column.setNeedOutput(true);
-		column.setiOutputOrder(3);
-		column.setOutputName("GDLSH");
 		standardColumns.add(column);
+		*/
 		
 		column = new ColumnItem();
 		column.setDisplayName("工单类别");
 		column.setColumnName("issue_desc");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setiOutputOrder(16);
-		column.setOutputName("QD");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -48,8 +43,6 @@ public class CallFailHQListColumn {
 		column.setColumnName("status");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setiOutputOrder(16);
-		column.setOutputName("QD");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -57,8 +50,6 @@ public class CallFailHQListColumn {
 		column.setColumnName("issue_type");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setiOutputOrder(16);
-		column.setOutputName("QD");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -66,8 +57,6 @@ public class CallFailHQListColumn {
 		column.setColumnName("issue_content");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setiOutputOrder(16);
-		column.setOutputName("QD");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -75,8 +64,6 @@ public class CallFailHQListColumn {
 		column.setColumnName("hq_deal_date");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setiOutputOrder(16);
-		column.setOutputName("QD");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -84,8 +71,6 @@ public class CallFailHQListColumn {
 		column.setColumnName("hq_deal_man");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setiOutputOrder(16);
-		column.setOutputName("QD");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -93,8 +78,6 @@ public class CallFailHQListColumn {
 		column.setColumnName("hq_deal_type");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setiOutputOrder(16);
-		column.setOutputName("QD");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -102,8 +85,6 @@ public class CallFailHQListColumn {
 		column.setColumnName("hq_deal_rst");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setiOutputOrder(16);
-		column.setOutputName("QD");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -111,8 +92,6 @@ public class CallFailHQListColumn {
 		column.setColumnName("hq_deal_date2");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setiOutputOrder(16);
-		column.setOutputName("QD");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -120,8 +99,6 @@ public class CallFailHQListColumn {
 		column.setColumnName("hq_deal_man2");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setiOutputOrder(16);
-		column.setOutputName("QD");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -129,8 +106,6 @@ public class CallFailHQListColumn {
 		column.setColumnName("hq_deal_type2");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setiOutputOrder(16);
-		column.setOutputName("QD");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -152,8 +127,6 @@ public class CallFailHQListColumn {
 		column.setColumnName("hq_deal_man3");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setiOutputOrder(16);
-		column.setOutputName("QD");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -161,8 +134,6 @@ public class CallFailHQListColumn {
 		column.setColumnName("hq_deal_type3");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setiOutputOrder(16);
-		column.setOutputName("QD");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -184,8 +155,6 @@ public class CallFailHQListColumn {
 		column.setColumnName("hq_deal_man4");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setiOutputOrder(16);
-		column.setOutputName("QD");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -193,8 +162,6 @@ public class CallFailHQListColumn {
 		column.setColumnName("hq_deal_type4");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setiOutputOrder(16);
-		column.setOutputName("QD");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -216,8 +183,6 @@ public class CallFailHQListColumn {
 		column.setColumnName("hq_deal_man5");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setiOutputOrder(16);
-		column.setOutputName("QD");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -225,8 +190,6 @@ public class CallFailHQListColumn {
 		column.setColumnName("hq_deal_type5");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setiOutputOrder(16);
-		column.setOutputName("QD");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -248,8 +211,6 @@ public class CallFailHQListColumn {
 		column.setColumnName("hq_deal_man6");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setiOutputOrder(16);
-		column.setOutputName("QD");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -257,8 +218,6 @@ public class CallFailHQListColumn {
 		column.setColumnName("hq_deal_type6");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setiOutputOrder(16);
-		column.setOutputName("QD");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();

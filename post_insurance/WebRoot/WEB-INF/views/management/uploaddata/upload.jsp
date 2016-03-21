@@ -71,35 +71,43 @@ function displayTips(val) {
 		return;
 	}
 	if(val=="CallFailStatus") {
-		$("#tipsDesc").html("11185二访中心详细数据。须含列：保单号\t工单流水号\t工单类别\t工单状态\t工单子类\t工单内容\t回访日期1\t回访人1\t回访类型1\t回访内容1\t回访日期2\t回访人2\t回访类型2\t回访内容2\t回访日期3\t回访人3\t回访类型3\t回访内容3\t回访日期4\t回访人4\t回访类型4\t回访内容4\t回访日期5\t回访人5\t回访类型5\t回访内容5\t回访日期6\t回访人6\t回访类型6\t回访内容6，关键列：回访人1");
+		$("#tipsDesc").html("11185二访中心详细数据。须含列：保单号\t工单类别\t工单状态\t工单子类\t工单内容\t回访日期1\t回访人1\t回访类型1\t回访内容1\t回访日期2\t回访人2\t回访类型2\t回访内容2\t回访日期3\t回访人3\t回访类型3\t回访内容3\t回访日期4\t回访人4\t回访类型4\t回访内容4\t回访日期5\t回访人5\t回访类型5\t回访内容5\t回访日期6\t回访人6\t回访类型6\t回访内容6，关键列：回访人1");
 		return;
 	}
 	if(val=="MiniCallFailStatus") {
-		$("#tipsDesc").html("二访中心简易数据。须含列：保单号\t工单流水号\t一访日期\t一访人员\t一访类型\t一访内容，关键列：一访类型");
+		$("#tipsDesc").html("二访中心简易数据。须含列：保单号\t二访日期\t二访人员\t二访类型\t二访内容\t客户资料备注，关键列：二访类型");
 		return;
 	}
 	if(val=="CallFailMiniCityStatus") {
-		$("#tipsDesc").html("市县回访详细数据。须含列：保单号\t工单流水号\t工单状态\t上门回访日期\t上门回访人员\t上门回访类型\t上门回访内容，关键列：上门回访人员");
+		$("#tipsDesc").html("市县回访详细数据。须含列：保单号\t工单状态\t上门回访日期\t上门回访人员\t上门回访类型\t上门回访内容，关键列：上门回访人员");
 		return;
 	}
 	if(val=="CallFailCityStatus") {
-		$("#tipsDesc").html("市县上门回访数据。须含列：保单号\t工单流水号\t上交时间\t统计月份\t回访结果\t回访时间\t回访人，关键列：上交时间");
+		$("#tipsDesc").html("市县上门回访数据。须含列：保单号\t上交时间\t统计月份\t回访结果\t回访时间\t回访人，关键列：上交时间");
+		return;
+	}
+	if(val=="CallFailPhoneStatus") {
+		$("#tipsDesc").html("二访通话清单。须含列：保单号\t通话号码\t通话开始时间\t通话结束时间\t通话时长，关键列：保单号");
 		return;
 	}
 	if(val=="CallFailMailStatus") {
-		$("#tipsDesc").html("已发信函数据。须含列：保单号\t工单流水号\t信函日期，关键列：信函日期");
+		$("#tipsDesc").html("已发信函数据。须含列：保单号\t信函日期，关键列：信函日期");
 		return;
 	}
 	if(val=="CallFailMailBackStatus") {
-		$("#tipsDesc").html("回邮信函数据。须含列：保单号\t工单流水号\t退信原因\t退信时间\t信函成功\t回邮时间\t客户签名时间，关键列：保单号");
+		$("#tipsDesc").html("回邮信函数据。须含列：保单号\t退信原因\t退信时间，关键列：保单号");
+		return;
+	}
+	if(val=="CallFailMailSuccessStatus") {
+		$("#tipsDesc").html("回邮信函数据。须含列：保单号\t信函成功\t回邮时间\t客户签名时间，关键列：保单号");
 		return;
 	}
 	if(val=="CallFailNeedDoorStatus") {
-		$("#tipsDesc").html("需上门回访数据。须含列：保单号\t工单流水号\t工单状态，关键列：工单状态");
+		$("#tipsDesc").html("需上门回访数据。须含列：保单号\t工单状态，关键列：工单状态");
 		return;
 	}
 	if(val=="CallFailCloseStatus") {
-		$("#tipsDesc").html("回访结案数据。须含列：保单号\t工单流水号\t结案时间，关键列：结案时间");
+		$("#tipsDesc").html("回访结案数据。须含列：保单号\t结案时间，关键列：结案时间");
 		return;
 	}
 	if(val=="RenewedStatus") {
