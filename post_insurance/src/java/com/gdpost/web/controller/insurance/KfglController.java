@@ -82,6 +82,7 @@ public class KfglController {
 	private static final String TO_HELP = "insurance/help/kfgl";
 	
 	private static final String TO_XLS = "insurance/kfgl/wtj/toXls";
+	private static final String ISSUES_TO_XLS = "insurance/kfgl/wtj/toXlses";
 	
 	@RequestMapping(value="/help", method=RequestMethod.GET)
 	public String toHelp() {
@@ -122,6 +123,11 @@ public class KfglController {
 			status = STATUS.CloseStatus.getDesc();
 		}
 		issue.setStatus(status);
+		
+		if(status != null) {
+			request.setAttribute("encodeStatus", Base64Utils.encodeToString(status.getBytes()));
+		}
+		request.setAttribute("status", status);
 		
 		map.put("issue", issue);
 		map.put("statusList", STATUS.values());
@@ -478,6 +484,64 @@ public class KfglController {
 	
 		map.put("reqs", reqs);
 		return TO_XLS;
+	}
+
+	@RequiresPermissions("Wtgd:view")
+	@RequestMapping(value="/issuesToXls", method=RequestMethod.GET)
+	public String issuesToXls(ServletRequest request, Page page, Map<String, Object> map) {
+		User user = SecurityUtils.getShiroUser().getUser();
+		String status = request.getParameter("status");
+		if(status == null || (status != null && status.trim().equals("null"))) {
+			status = "";
+		} else if(status != null && status.trim().length() > 0 ){
+			status = new String(Base64Utils.decodeFromString(status));
+			if(status.equals("null")) {
+				status = "";
+			}
+		}
+		
+		page.setOrderField("policy.organization.orgCode");
+		page.setOrderDirection("ASC");
+		page.setNumPerPage(65564);
+		String orgCode = request.getParameter("orgCode");
+		if(orgCode == null || orgCode.trim().length()<=0) {
+			orgCode = user.getOrganization().getOrgCode();
+		} else if(!orgCode.contains(user.getOrganization().getOrgCode())){
+			orgCode = user.getOrganization().getOrgCode();
+		}
+		/*
+		Specification<Issue> specification = DynamicSpecifications.bySearchFilter(request, Issue.class,
+				new SearchFilter("status", Operator.LIKE, s),
+				new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+				*/
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		
+		//如果是县区局登录的机构号为8位，需要根据保单的所在机构进行筛选
+		if (user.getOrganization().getOrgCode().length() > 4) {
+			if(status.length() <= 0) {
+				LOG.debug("-------------- 111: " );
+				csf.add(new SearchFilter("status", Operator.OR_EQ, STATUS.NewStatus.getDesc()));
+				csf.add(new SearchFilter("status", Operator.OR_EQ, STATUS.IngStatus.getDesc()));
+				csf.add(new SearchFilter("status", Operator.OR_EQ, STATUS.ReopenStatus.getDesc()));
+			} else {
+				LOG.debug("-------------- 222: " );
+				csf.add(new SearchFilter("status", Operator.EQ, status));
+			}
+		} else {
+			if(status.length() <= 0) {
+				LOG.debug("-------------- 333: " );
+				csf.add(new SearchFilter("status", Operator.EQ, STATUS.DealStatus.getDesc()));
+			} else {
+				LOG.debug("-------------- 444: " );
+				csf.add(new SearchFilter("status", Operator.EQ, status));
+			}
+		}
+		Specification<Issue> specification = DynamicSpecifications.bySearchFilter(request, Issue.class, csf);
+		List<Issue> reqs = kfglService.findByExample(specification, page);
+	
+		map.put("reqs", reqs);
+		return ISSUES_TO_XLS;
 	}
 
 	@RequiresPermissions("Wtgd:view")
