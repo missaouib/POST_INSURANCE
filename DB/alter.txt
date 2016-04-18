@@ -534,3 +534,6 @@ from
   join `t_policy` `b`)
 where
   (`a`.`policy_no` = `b`.`policy_no`);
+
+ALTER TABLE `t_policy` ADD INDEX `idx_policy_formno` (`form_no`);
+
