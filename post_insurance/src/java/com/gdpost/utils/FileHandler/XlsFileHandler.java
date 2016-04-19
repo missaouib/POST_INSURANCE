@@ -159,12 +159,13 @@ public class XlsFileHandler extends AbstractFileHandler {
 					markIdx ++;
 					row = (HSSFRow) sheet.getRow(i);
 					if (row == null) { // 空行，不允许，退出
-						//continue;
-						break;
+						continue;
+						//break;
 					}
 					//如果row的列长度不够，也退出
 					if(row.getLastCellNum() < this.m_column.size()/2) {
-						break;
+						continue;
+						//break;
 					}
 					if(row.getCell(keyRowIdx) == null) {
 						continue;

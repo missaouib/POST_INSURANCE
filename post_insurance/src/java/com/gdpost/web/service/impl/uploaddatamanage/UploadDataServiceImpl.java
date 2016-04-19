@@ -43,6 +43,7 @@ import com.gdpost.utils.TemplateHelper.IssueColumn;
 import com.gdpost.utils.TemplateHelper.PayFailListColumn;
 import com.gdpost.utils.TemplateHelper.PolicyColumn;
 import com.gdpost.utils.TemplateHelper.PolicyDtlColumn;
+import com.gdpost.utils.TemplateHelper.PolicyUnderWriteColumn;
 import com.gdpost.utils.TemplateHelper.RenewedCityListColumn;
 import com.gdpost.utils.TemplateHelper.RenewedColumn;
 import com.gdpost.utils.TemplateHelper.RenewedHQListColumn;
@@ -269,7 +270,9 @@ public class UploadDataServiceImpl implements UploadDataService{
         //再执行
         statement.setLocalInfileInputStream(is);
         try {
-			statement.execute(strStatementText);
+			//statement.execute(strStatementText);
+        	int updateRow = statement.executeUpdate(strStatementText);
+        	dr.setUpdateRow(updateRow);
 			
 			if(delSql != null) {
         		statement.execute(delSql);
@@ -766,8 +769,28 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case PaySuccessList:
 			return dr;
 		case PolicyUnderWrite:
-			//TODO POLICY UNDERWRITE BACK
-			return dr;
+			standardColumns = PolicyUnderWriteColumn.getStandardColumns();
+			sql = new StringBuffer("INSERT INTO t_under_write(policy_no, client_receive_date, sign_input_date) VALUES ");
+			line = null;
+			isFail = false;
+			val = null;
+			for (DataRow row : dt.Rows) {
+				isFail = false;
+				val = null;
+				line = new StringBuffer("(");
+	        	for(ColumnItem item : standardColumns) {
+	        		line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        	}
+	        	line.deleteCharAt(line.length() - 1);
+	        	line.append("),");
+	        	sql.append(line);
+	        }
+			sql.deleteCharAt(sql.length() - 1);
+			sql.append(" ON DUPLICATE KEY UPDATE ");
+			sql.append("client_receive_date=VALUES(client_receive_date), sign_input_date=VALUES(sign_input_date);");
+			log.debug("----------------city update status batch sql : " + sql);
+			sql2 = "delete from t_under_write where form_no is null";
+			break;
 		default:
 			break;
 		}
@@ -830,8 +853,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 			break;
 		case PolicyUnderWrite:
 			log.debug("----------get the dtl column");
-			standardColumns = PolicyDtlColumn.getStandardColumns();
-			keyRow = PolicyDtlColumn.KEY_ROW;
+			standardColumns = PolicyUnderWriteColumn.getStandardColumns();
+			keyRow = PolicyUnderWriteColumn.KEY_ROW;
 			break;
 		case Issue:
 			log.debug("----------get the issue column");
@@ -993,6 +1016,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 						|| t.name().equals(FileTemplate.CallFailPhoneStatus.name())
 						|| t.name().equals(FileTemplate.RenewedProvList.name())
 						|| t.name().equals(FileTemplate.RenewedCityList.name())
+						|| t.name().equals(FileTemplate.PolicyUnderWrite.name())
 						|| t.name().equals(FileTemplate.CallFailMiniCityStatus.name())) {
 					
 					dr = updateStatusData(t, request, dt);
