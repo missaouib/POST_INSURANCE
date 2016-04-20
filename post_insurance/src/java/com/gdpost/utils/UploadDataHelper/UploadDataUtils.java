@@ -31,6 +31,7 @@ import com.gdpost.utils.FileHandler.DbfFileHandler;
 import com.gdpost.utils.FileHandler.IFileHandler;
 import com.gdpost.utils.FileHandler.MdbFileHandler;
 import com.gdpost.utils.FileHandler.TextFileHandler;
+import com.gdpost.utils.FileHandler.TxtFileHandler;
 import com.gdpost.utils.FileHandler.XlsFileHandler;
 import com.gdpost.utils.FileHandler.XlsxFileHandler;
 import com.gdpost.utils.TemplateHelper.ColumnItem;
@@ -239,7 +240,11 @@ public class UploadDataUtils {
 		} else if(strExtension.equals(".mdb")) {
 			handler = new MdbFileHandler();
 		} else if(strExtension.equals(".txt")) {
-			handler = new TextFileHandler();
+			if(keyRow != null && keyRow.equals("underwrite")) {
+				handler = new TxtFileHandler();
+			} else {
+				handler = new TextFileHandler();
+			}
 		} else if(strExtension.equals(".csv")) {
 			handler = new CsvFileHandler();
 		}

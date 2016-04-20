@@ -4,7 +4,7 @@ package com.gdpost.utils.TemplateHelper;
 
 public class Template {
 	
-	public enum FileTemplate {Policy("承保清单", "QY"), PolicyDtl("承保业务信息清单", "QY"), PolicyUnderWrite("人核件回单数据", "QY"), Issue("问题件工单", "KF"), CallFail("回访不成功清单", "HF"), 
+	public enum FileTemplate {Policy("承保清单", "QY"), PolicyDtl("承保业务信息清单", "QY"), PolicyUnderWrite("人核件回单数据", "QY"), UnderWriteSentData("人核件打印数据", "QY"), Issue("问题件工单", "KF"), CallFail("回访不成功清单", "HF"), 
 		CallFailStatus("11185回访数据", "HF"), MiniCallFailStatus("简单二访数据", "HF"), CallFailMailStatus("已发信函数据", "HF"), CallFailMailBackStatus("退信信函数据", "HF"), CallFailMailSuccessStatus("信函成功回邮数据", "HF"), CallFailNeedDoorStatus("需上门回访数据", "HF"),
 		CallFailCityStatus("市县上门回访数据", "HF"), CallFailMiniCityStatus("市县回访详细数据", "HF"), CallFailCloseStatus("回访结案数据", "HF"), CallFailPhoneStatus("二访通话清单", "HF"), Renewed("续期应交清单", "XQ"), RenewedStatus("续期继续率清单", "XQ"), RenewedHQList("总部催收清单", "XQ"), 
 		RenewedProvList("省分催收详情", "XQ"), RenewedCityList("市县催收详情", "XQ"), 

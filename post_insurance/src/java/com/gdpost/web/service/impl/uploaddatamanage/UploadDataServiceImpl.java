@@ -50,6 +50,7 @@ import com.gdpost.utils.TemplateHelper.RenewedHQListColumn;
 import com.gdpost.utils.TemplateHelper.RenewedProvListColumn;
 import com.gdpost.utils.TemplateHelper.RenewedStatusColumn;
 import com.gdpost.utils.TemplateHelper.Template.FileTemplate;
+import com.gdpost.utils.TemplateHelper.UnderWriteSentDataColumn;
 import com.gdpost.utils.UploadDataHelper.UploadDataUtils;
 import com.gdpost.web.dao.uploaddatamanage.UploadDataDAO;
 import com.gdpost.web.entity.main.PayFailList;
@@ -791,6 +792,29 @@ public class UploadDataServiceImpl implements UploadDataService{
 			log.debug("----------------city update status batch sql : " + sql);
 			sql2 = "delete from t_under_write where form_no is null";
 			break;
+		case UnderWriteSentData:
+			standardColumns = PolicyUnderWriteColumn.getStandardColumns();
+			sql = new StringBuffer("INSERT INTO t_under_write(policy_no, form_no, prov_ems_no, prov_send_date) VALUES ");
+			line = null;
+			isFail = false;
+			val = null;
+			for (DataRow row : dt.Rows) {
+				isFail = false;
+				val = null;
+				line = new StringBuffer("(");
+	        	for(ColumnItem item : standardColumns) {
+	        		line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        	}
+	        	line.deleteCharAt(line.length() - 1);
+	        	line.append("),");
+	        	sql.append(line);
+	        }
+			sql.deleteCharAt(sql.length() - 1);
+			sql.append(" ON DUPLICATE KEY UPDATE ");
+			sql.append("policy_no=VALUES(policy_no), form_no=VALUES(form_no), prov_ems_no=VALUES(prov_ems_no), prov_send_date=VALUES(prov_send_date);");
+			log.debug("----------------city update status batch sql : " + sql);
+			sql2 = "delete from t_under_write where holder is null";
+			break;
 		default:
 			break;
 		}
@@ -945,6 +969,12 @@ public class UploadDataServiceImpl implements UploadDataService{
 			standardColumns = CallFailMailSuccessListColumn.getStandardColumns();
 			keyRow = CallFailMailSuccessListColumn.KEY_ROW;
 			break;
+		case UnderWriteSentData:
+			standardColumns = UnderWriteSentDataColumn.getStandardColumns();
+			keyRow = UnderWriteSentDataColumn.KEY_ROW;
+			break;
+		default:
+			break;
 		}
 		
 	    boolean bFlag = true;
@@ -1017,6 +1047,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 						|| t.name().equals(FileTemplate.RenewedProvList.name())
 						|| t.name().equals(FileTemplate.RenewedCityList.name())
 						|| t.name().equals(FileTemplate.PolicyUnderWrite.name())
+						|| t.name().equals(FileTemplate.UnderWriteSentData.name())
 						|| t.name().equals(FileTemplate.CallFailMiniCityStatus.name())) {
 					
 					dr = updateStatusData(t, request, dt);
