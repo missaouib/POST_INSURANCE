@@ -134,6 +134,7 @@
 				<th orderField=operateTime class="${page.orderField eq 'operateTime' ? page.orderDirection : ''}">系统导入</th>
 				<th style="width: 2%">离犹豫期/天</th>
 				<th orderField=policy.policyNo class="${page.orderField eq 'policy.policyNo' ? page.orderDirection : ''}">所属保单号</th>
+				<th>承保日期</th>
 				<th>投保人</th>
 				<th>联系电话</th>
 				<th>险种名称</th>
@@ -180,6 +181,7 @@
 				<td><fmt:formatDate value="${item.operateTime }" pattern="yyyy-MM-dd"/></td>
 				<td><span style="color:red; height:50%; margin-bottom:-contentheight;"><c:if test="${item.lastDateNum<0 }">0</c:if><c:if test="${item.lastDateNum>=0 }">${item.lastDateNum }</c:if></span></td>
 				<td>${item.policy.policyNo}</td>
+				<td><fmt:formatDate value="${item.policy.policyDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.policy.holder}</td>
 				<td>${item.holderMobile eq ""?item.holderPhone:item.holderMobile}</td>
 				<td>${item.policy.prodName}</td>

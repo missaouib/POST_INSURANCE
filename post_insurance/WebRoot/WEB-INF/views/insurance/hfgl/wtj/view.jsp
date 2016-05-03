@@ -53,7 +53,7 @@
 		</p>
 		<p>
 			<label>下发日期：</label>
-			<span class="unit">${issue.issueTime }</span>
+			<span class="unit">${issue.operateTime }</span>
 		</p>
 		<p>
 			<label>工单类型：</label>

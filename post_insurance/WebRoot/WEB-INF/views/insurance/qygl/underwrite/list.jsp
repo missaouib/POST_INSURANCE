@@ -4,6 +4,7 @@
 
 <dwz:paginationForm action="${contextPath }/qygl/underwrite/list" page="${page }">
 	<input type="hidden" name="search_LIKE_formNo" value="${search_LIKE_formNo }"/>
+	<input type="hidden" name="search_LIKE_holder" value="${search_LIKE_holder }"/>
 	<input type="hidden" name="orgCode" value="${orgCode }"/>
 	<input type="hidden" name="name" value="${name }"/>
 	<input type="hidden" name="status" value="${status }"/>
@@ -18,6 +19,10 @@
 				<li>
 					<label>投保单号：</label>
 					<input type="text" id="uwFormNo" style="width: 100px;" name="search_LIKE_formNo" value="${param.search_LIKE_formNo }"/>
+				</li>
+				<li>
+					<label>投保人：</label>
+					<input type="text" id="uwHolder" style="width: 100px;" name="search_LIKE_holder" value="${param.search_LIKE_holder }"/>
 				</li>
 				<li>
 					<label>所属机构：</label>

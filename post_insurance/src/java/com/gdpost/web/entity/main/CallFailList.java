@@ -128,6 +128,27 @@ mail_success
 	private String phoneEnd;
 	private String phoneTime;
 	
+	private Long operateId;
+	private Date operateTime;
+	
+	@Column(name = "operate_id")
+	public Long getOperateId() {
+		return operateId;
+	}
+
+	public void setOperateId(Long operateId) {
+		this.operateId = operateId;
+	}
+
+	@Column(name = "operate_time")
+	public Date getOperateTime() {
+		return operateTime;
+	}
+
+	public void setOperateTime(Date operateTime) {
+		this.operateTime = operateTime;
+	}
+	
 	@Transient
 	private String search_LIKE_hasLetter;
 	@Transient
