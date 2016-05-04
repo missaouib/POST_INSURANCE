@@ -1,5 +1,8 @@
 package com.gdpost.web.controller;
 
+import java.util.Date;
+import java.util.List;
+
 import org.apache.shiro.authz.annotation.RequiresUser;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gdpost.utils.SecurityUtils;
+import com.gdpost.utils.StringUtil;
+import com.gdpost.web.entity.main.UnderWrite;
 import com.gdpost.web.service.insurance.BqglService;
 import com.gdpost.web.service.insurance.HfglService;
 import com.gdpost.web.service.insurance.KfglService;
@@ -37,13 +42,18 @@ public class RefreshController {
 	private HfglService hfglService;
 	
 	@RequiresUser
-	@RequestMapping(method = RequestMethod.POST)
-	public String refresh() {
-		//ShiroUser shiroUser = SecurityUtils.getShiroUser();
+	@RequestMapping(value="/alert", method = RequestMethod.POST)
+	public @ResponseBody boolean refresh() {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		List<UnderWrite> list = qyglService.getTODOUnderWriteList(shiroUser.getUser());
+		boolean check = false;
+		for(UnderWrite uw:list) {
+			if(StringUtil.getBetweenDay(uw.getSysDate(), new Date()) > 10) {
+				check = true;
+			}
+		}
 		
-		//LOG.info("refreshed by " + shiroUser.getLoginName());
-		
-		return "refreshing";
+		return check;
 	}
 	
 	@RequiresUser

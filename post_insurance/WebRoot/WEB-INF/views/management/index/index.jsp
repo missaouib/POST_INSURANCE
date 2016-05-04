@@ -89,9 +89,10 @@ $(function(){
 	});
 });
 
-$(document).ready(function(){ 
+$(document).ready(function(){
+	doRefresh();
 	checkMessage();
-	window.setInterval("checkMessage()",60000);//1分钟刷新1次 
+	window.setInterval("checkMessage()",300000);//1分钟刷新1次 
 }); 
 </script>
 </head>

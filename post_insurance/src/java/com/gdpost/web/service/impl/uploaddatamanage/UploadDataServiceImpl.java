@@ -793,7 +793,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql2 = "delete from t_under_write where form_no is null";
 			break;
 		case UnderWriteSentData:
-			standardColumns = PolicyUnderWriteColumn.getStandardColumns();
+			standardColumns = UnderWriteSentDataColumn.getStandardColumns();
 			sql = new StringBuffer("INSERT INTO t_under_write(policy_no, form_no, prov_ems_no, prov_send_date) VALUES ");
 			line = null;
 			isFail = false;
@@ -972,8 +972,6 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case UnderWriteSentData:
 			standardColumns = UnderWriteSentDataColumn.getStandardColumns();
 			keyRow = UnderWriteSentDataColumn.KEY_ROW;
-			break;
-		default:
 			break;
 		}
 		

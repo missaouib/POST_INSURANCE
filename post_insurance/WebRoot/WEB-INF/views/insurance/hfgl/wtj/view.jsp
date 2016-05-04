@@ -225,9 +225,9 @@
 	</fieldset>
 	<div class="divider"></div>
 	<fieldset>
-		<legend>市县催收情况</legend>
+		<legend>市县回访情况</legend>
 		<p class="nowrap">
-			<label>续期催收处理记录：</label>
+			<label>回访处理记录：</label>
 			<span class="unit">${issue.dealDesc }</span>
 		</p>
 		<p class="nowrap">

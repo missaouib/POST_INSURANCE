@@ -2,10 +2,13 @@
     $.ajaxSettings.global = false;
     $.ajax({
         type: 'post',
-        url: "/refresh",
+        url: "/refresh/alert",
         dataType: "text",
         data: {},
         success: function (data) {
+        	if(data) {
+        		alert("您有超过10天的人核件待跟进！请及时跟进处理");
+        	}
         }
     });
     $.ajaxSettings.global = true;
