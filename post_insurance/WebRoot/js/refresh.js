@@ -7,7 +7,7 @@
         data: {},
         success: function (data) {
         	if(data) {
-        		alert("您有超过10天的人核件待跟进！请及时跟进处理");
+        		alert("您有超过15天的人核件还没登记回销！请及时跟进处理");
         	}
         }
     });

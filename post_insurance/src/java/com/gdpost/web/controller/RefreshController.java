@@ -48,7 +48,7 @@ public class RefreshController {
 		List<UnderWrite> list = qyglService.getTODOUnderWriteList(shiroUser.getUser());
 		boolean check = false;
 		for(UnderWrite uw:list) {
-			if(StringUtil.getBetweenDay(uw.getSysDate(), new Date()) > 10) {
+			if(StringUtil.getBetweenDay(uw.getSysDate(), new Date()) > 15) {
 				check = true;
 			}
 		}

@@ -771,7 +771,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			return dr;
 		case PolicyUnderWrite:
 			standardColumns = PolicyUnderWriteColumn.getStandardColumns();
-			sql = new StringBuffer("INSERT INTO t_under_write(policy_no, client_receive_date, sign_input_date) VALUES ");
+			sql = new StringBuffer("INSERT INTO t_under_write(policy_no, client_receive_date, sign_input_date, status) VALUES ");
 			line = null;
 			isFail = false;
 			val = null;
@@ -782,8 +782,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        	for(ColumnItem item : standardColumns) {
 	        		line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
 	        	}
-	        	line.deleteCharAt(line.length() - 1);
-	        	line.append("),");
+	        	//line.deleteCharAt(line.length() - 1);
+	        	line.append("\"CloseStatus\"),");
 	        	sql.append(line);
 	        }
 			sql.deleteCharAt(sql.length() - 1);
@@ -794,7 +794,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			break;
 		case UnderWriteSentData:
 			standardColumns = UnderWriteSentDataColumn.getStandardColumns();
-			sql = new StringBuffer("INSERT INTO t_under_write(policy_no, form_no, prov_ems_no, prov_send_date) VALUES ");
+			sql = new StringBuffer("INSERT INTO t_under_write(policy_no, form_no, prov_ems_no, prov_send_date, status) VALUES ");
 			line = null;
 			isFail = false;
 			val = null;
@@ -805,8 +805,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        	for(ColumnItem item : standardColumns) {
 	        		line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
 	        	}
-	        	line.deleteCharAt(line.length() - 1);
-	        	line.append("),");
+	        	//line.deleteCharAt(line.length() - 1);
+	        	line.append("\"SendStatus\"),");
 	        	sql.append(line);
 	        }
 			sql.deleteCharAt(sql.length() - 1);
