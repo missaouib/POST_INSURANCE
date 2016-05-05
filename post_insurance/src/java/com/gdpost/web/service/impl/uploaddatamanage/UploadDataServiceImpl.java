@@ -123,6 +123,11 @@ public class UploadDataServiceImpl implements UploadDataService{
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_policy character set utf8 (";
 			delSql = "update t_under_write as uw inner join t_policy tp on uw.form_no=tp.form_no set uw.policy_no=tp.policy_no,uw.sign_date=tp.policy_date where uw.policy_no is null;";
 	        break;
+		case PolicyIngor:
+			standardColumns = PolicyColumn.getStandardColumns();
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_policy character set utf8 (";
+			delSql = "update t_under_write as uw inner join t_policy tp on uw.form_no=tp.form_no set uw.policy_no=tp.policy_no,uw.sign_date=tp.policy_date where uw.policy_no is null;";
+	        break;
 		case PolicyDtl:
 			standardColumns = PolicyDtlColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_policy_dtl character set utf8 (";
@@ -341,6 +346,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 		Object val = null;
 		switch(ft) {
 		case Policy:
+			return dr;
+		case PolicyIngor:
 			return dr;
 		case PolicyDtl:
 			return dr;
@@ -868,6 +875,11 @@ public class UploadDataServiceImpl implements UploadDataService{
 		switch(t) {
 		case Policy:
 			log.debug("----------get the policy column");
+			standardColumns = PolicyColumn.getStandardColumns();
+			keyRow = PolicyColumn.KEY_ROW;
+			break;
+		case PolicyIngor:
+			log.debug("----------get the policyIngor column");
 			standardColumns = PolicyColumn.getStandardColumns();
 			keyRow = PolicyColumn.KEY_ROW;
 			break;
