@@ -45,7 +45,7 @@ public class TxtFileHandler extends AbstractFileHandler {
 		DataRow dataRow = null;
 		
 		//获取头部信息
-		String[] headers = new String[]{"序号","印刷号","状态","机构号","投保单号","保单号","快递单号","打印时间", "标记"};//reader.getHeader(true);
+		String[] headers = new String[]{"序号","印刷号","状态","机构号","投保单号","保单号","快递单号","寄出日期", "标记"};//reader.getHeader(true);
 		dt = new DataTable();
 		dt.TableName = strFileName;
 		for(int i = 0; i < headers.length; i++) {
@@ -63,6 +63,7 @@ public class TxtFileHandler extends AbstractFileHandler {
 			    dataRow = dt.NewRow();
 			    j = 0;
 			    for(int i = 0; i < line.size(); i++) {
+			    	//log.debug("-------------------------------" + line.get(0));
 			    	if(line.get(0).contains("8644")) {
 			    		log.debug("-------------------------------" + line.get(0));
 			    		hasData = true;
@@ -70,6 +71,7 @@ public class TxtFileHandler extends AbstractFileHandler {
 			    			dataRow.setValue(j++, tv);
 			    		}
 			    	} else {
+			    		hasData = false;
 			    		break;
 			    	}
 			    }

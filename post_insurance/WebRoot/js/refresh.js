@@ -6,15 +6,25 @@
         dataType: "text",
         data: {},
         success: function (data) {
-        	if(data) {
-        		alert("您有超过15天的人核件还没登记回销！请及时跟进处理");
+        	if (data!="") {
+				var str = "提醒：";
+				if(data.indexOf("QYGD")>0) {
+					flag = 1;
+					str = str + "您有超15天未回销登记的人核件；";
+				}
+	        	if(data.indexOf("KFGD")>0) {
+					flag = 1;
+					str = str + "您有超4天未回复的客服工单，";
+				}
+	        	
+	        	alert(str + "请及时处理");
         	}
         }
     });
     $.ajaxSettings.global = true;
 }
 
-window.setInterval("doRefresh()", 10 * 60 * 1000);
+window.setInterval("doRefresh()", 60 * 60 * 1000);
 
 function checkMessage() {
 	$.ajaxSettings.global = false;

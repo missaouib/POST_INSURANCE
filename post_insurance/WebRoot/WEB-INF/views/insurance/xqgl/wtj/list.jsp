@@ -158,8 +158,8 @@
 					</c:choose>
 				</td>
 				<td>${item.hqIssueType}</td>
-				<td>${item.provIssueType}</td>
-				<td>${item.dealType}</td>
+				<td>${item.provDealRst}</td>
+				<td>${item.fixStatus}</td>
 			</tr>
 			</c:forEach>
 		</tbody>

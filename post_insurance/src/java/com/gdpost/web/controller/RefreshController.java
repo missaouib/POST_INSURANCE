@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gdpost.utils.SecurityUtils;
 import com.gdpost.utils.StringUtil;
+import com.gdpost.web.entity.main.Issue;
 import com.gdpost.web.entity.main.UnderWrite;
 import com.gdpost.web.service.insurance.BqglService;
 import com.gdpost.web.service.insurance.HfglService;
@@ -43,17 +44,35 @@ public class RefreshController {
 	
 	@RequiresUser
 	@RequestMapping(value="/alert", method = RequestMethod.POST)
-	public @ResponseBody boolean refresh() {
+	public @ResponseBody String refresh() {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
-		List<UnderWrite> list = qyglService.getTODOUnderWriteList(shiroUser.getUser());
+		Subject sub = SecurityUtils.getSubject();
 		boolean check = false;
-		for(UnderWrite uw:list) {
-			if(StringUtil.getBetweenDay(uw.getSysDate(), new Date()) > 15) {
-				check = true;
+		boolean isIssue = false;
+		if(sub.isPermitted("UnderWrite:view")) {
+			List<UnderWrite> list = qyglService.getTODOUnderWriteList(shiroUser.getUser());
+			for(UnderWrite uw:list) {
+				if(StringUtil.getBetweenDay(uw.getSysDate(), new Date()) > 15) {
+					check = true;
+				}
 			}
 		}
-		
-		return check;
+		if(sub.isPermitted("Wtgd:view")) {
+			List<Issue> list = kfglService.getTODOIssueList(shiroUser.getUser());
+			for(Issue issue:list) {
+				if(StringUtil.getBetweenDay(issue.getOperateTime(), new Date()) > 4) {
+					isIssue = true;
+				}
+			}
+		}
+		String rst = "";
+		if(isIssue) {
+			rst += "|KFGD|";
+		}
+		if(check) {
+			rst += "|QYGD|";
+		}
+		return rst;
 	}
 	
 	@RequiresUser
