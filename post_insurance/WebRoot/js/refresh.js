@@ -24,7 +24,7 @@
     $.ajaxSettings.global = true;
 }
 
-window.setInterval("doRefresh()", 60 * 60 * 1000);
+window.setInterval("doRefresh()", 60 * 8 * 60 * 1000);
 
 function checkMessage() {
 	$.ajaxSettings.global = false;

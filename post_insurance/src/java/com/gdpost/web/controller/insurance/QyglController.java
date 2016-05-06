@@ -492,7 +492,7 @@ public class QyglController {
 		src.setStatus(UW_STATUS.CloseStatus.name());
 		qyglService.saveOrUpdateUnderWrite(src);
 		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicyNo()}));
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getFormNo()}));
 		return	AjaxObject.newOk("更新人核件成功！").toString(); 
 	}
 	

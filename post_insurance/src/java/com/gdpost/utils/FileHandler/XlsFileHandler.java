@@ -170,6 +170,11 @@ public class XlsFileHandler extends AbstractFileHandler {
 					if(row.getCell(keyRowIdx) == null) {
 						continue;
 					}
+					if(mkeyRow.equals("关联业务号码")) {
+						if(row.getCell(keyRowIdx-1) == null) {
+							continue;
+						}
+					}
 					if(row.getCell(keyRowIdx).getCellType() == HSSFCell.CELL_TYPE_NUMERIC?row.getCell(keyRowIdx).getNumericCellValue()<=0:row.getCell(keyRowIdx).getStringCellValue().trim().length()<=0) {
 						continue;
 					}

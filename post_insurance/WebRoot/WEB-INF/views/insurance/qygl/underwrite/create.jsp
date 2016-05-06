@@ -33,7 +33,7 @@ function dformat(did, dval) {
 		</p>
 		<p>
 			<label>投保单号</label>
-			<input type="text" name="formNo" class="input-medium validate[required,maxSize[21] required"/>
+			<input type="text" name="formNo" class="input-medium validate[required,maxSize[21] required" value="28106000"/>
 		</p>
 		<p>
 			<label>投保人：</label>
@@ -85,7 +85,7 @@ function dformat(did, dval) {
 		</p>
 		<p>
 			<label>核心录入日期：</label>
-			<input type="text" name="sysDate" id="sysDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" value="" onblur="javascript:dformat(this,this.value);"/>
+			<input type="text" name="sysDate" id="sysDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" value="<fmt:formatDate value="<%=new Date() %>" pattern="yyyy-MM-dd"/>" />
 					<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 		<p>
