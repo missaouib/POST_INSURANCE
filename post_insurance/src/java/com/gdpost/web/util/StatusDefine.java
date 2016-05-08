@@ -120,6 +120,19 @@ public class StatusDefine {
 		}
 	};
 	
+	public enum POLICY_STATUS {
+		ValidStatus("有效"), TerminalStatus("终止");
+		private String desc;
+
+		POLICY_STATUS(String desc) {
+			this.desc = desc;
+		}
+
+		public String getDesc() {
+			return desc;
+		}
+	};
+	
 	public static void main(String[] args) {
 		STATUS[] s = StatusDefine.STATUS.values();
 		System.out.println(s[0].desc);

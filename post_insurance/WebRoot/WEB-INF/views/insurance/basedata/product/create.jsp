@@ -12,6 +12,10 @@
 			<input type="text" name="prdName" class="input-medium validate[required,maxSize[32]] required" maxlength="32"/>
 		</p>
 		<p>
+			<label>产品全称：</label>
+			<input type="text" name="prdFullName" class="input-medium validate[required,maxSize[32]] required" maxlength="32"/>
+		</p>
+		<p>
 			<label>产品状态：</label>
 			<select id="prdStatus" name="prdStatus" class="combox">
 				<option value="0">停售</option>

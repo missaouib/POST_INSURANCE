@@ -13,6 +13,10 @@
 			<input type="text" name="prdName" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${basedata.prdName }"/>
 		</p>
 		<p>
+			<label>产品全称：</label>
+			<input type="text" name="prdFullName" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${basedata.prdFullName }"/>
+		</p>
+		<p>
 			<label>产品状态：</label>
 			<form:select path="basedata.prdStatus" id="prdStatus" name="prdStatus" class="combox">
 				<form:option value="0">停售</form:option>

@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Base64Utils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,10 +31,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.gdpost.utils.SecurityUtils;
+import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.Policy;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.service.insurance.PolicyService;
-import com.gdpost.web.util.StatusDefine.FP_STATUS;
+import com.gdpost.web.shiro.ShiroUser;
 import com.gdpost.web.util.dwz.Page;
 import com.gdpost.web.util.persistence.DynamicSpecifications;
 import com.gdpost.web.util.persistence.SearchFilter;
@@ -64,68 +66,108 @@ public class ClientController {
 	@RequiresPermissions("Client:view")
 	@RequestMapping(value="/list", method={RequestMethod.GET, RequestMethod.POST})
 	public String list(ServletRequest request, Page page, Map<String, Object> map) {
-		User user = SecurityUtils.getShiroUser().getUser();
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
+		//默认返回未处理工单
 		String status = request.getParameter("status");
-		LOG.debug("-----------------status:" + status);
-		Policy req = new Policy();
-		if(status == null) {
-			req.setStatus(FP_STATUS.NewStatus.name());
-			status = FP_STATUS.NewStatus.name();
-			if(user.getOrganization().getOrgCode().length()>4) {
-				req.setStatus(FP_STATUS.DealStatus.name());
-				status = FP_STATUS.DealStatus.name();
-			}
-		} else if(status.trim().length()>0) {
-			req.setStatus(FP_STATUS.valueOf(status).name());
+		if(status != null && status.trim().length() > 0) {
+			request.setAttribute("encodeStatus", Base64Utils.encodeToString(status.getBytes()));
 		}
-		LOG.debug("-----------------status2:" + status);
-		request.setAttribute("status", status);
+		LOG.debug("-------------- status: " + status + ", user org code:" + userOrg.getOrgCode());
+		Policy policy = new Policy();
+		policy.setStatus(status);
 		
-		page.setOrderField("reqDate");
-		page.setOrderDirection("DESC");
+		if(page.getOrderField() == null || page.getOrderField().trim().length() <= 0) {
+			page.setOrderField("policyNo");
+			page.setOrderDirection("DESC");
+		}
+		
+		String orgCode = request.getParameter("policy.orgCode");
+		if(orgCode == null || orgCode.trim().length() <= 0) {
+			orgCode = user.getOrganization().getOrgCode();
+			if(orgCode.contains("11185")) {
+				orgCode = "8644";
+			}
+		} else {
+			if(!orgCode.contains(user.getOrganization().getOrgCode())){
+				orgCode = user.getOrganization().getOrgCode();
+			}
+			String orgName = request.getParameter("policy.name");
+			request.setAttribute("policy_orgCode", orgCode);
+			request.setAttribute("policy_name", orgName);
+		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, user.getOrganization().getOrgCode()));
-		if(status.trim().length() > 0) {
+		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		if(status != null && status.trim().length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
+		}
+		String prdName = request.getParameter("prd.prdFullName");
+		if(prdName != null && prdName.trim().length()>0) {
+			csf.add(new SearchFilter("prodName", Operator.EQ, prdName));
+			request.setAttribute("prd_name", prdName);
 		}
 		
 		Specification<Policy> specification = DynamicSpecifications.bySearchFilter(request, Policy.class, csf);
-		List<Policy> reqs = policyService.findByExample(specification, page);
-
-		map.put("req", req);
-		map.put("fpStatusList", FP_STATUS.values());
+		List<Policy> policies = policyService.findByExample(specification, page);
 		
+		map.put("policy", policy);
 		map.put("page", page);
-		map.put("reqs", reqs);
+		map.put("policies", policies);
 		return LIST;
 	}
 	
 	@RequiresPermissions("Client:view")
 	@RequestMapping(value="/toXls", method=RequestMethod.GET)
 	public String toXls(ServletRequest request, Page page, Map<String, Object> map) {
-		User user = SecurityUtils.getShiroUser().getUser();
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
+		//默认返回未处理工单
 		String status = request.getParameter("status");
-		if(status == null || status.trim().length()<=0) {
-			status = FP_STATUS.NewStatus.name();
-			if(user.getOrganization().getOrgCode().length()>4) {
-				status = FP_STATUS.DealStatus.name();
+		String encodeStatus = request.getParameter("encodeStatus");
+		if(encodeStatus != null && encodeStatus.trim().equals("null")) {
+			status = "";
+		}
+		
+		if(encodeStatus != null && encodeStatus.trim().length() > 0 && !encodeStatus.trim().equals("null")) {
+			status = new String(Base64Utils.decodeFromString(encodeStatus));
+		}
+		
+		if(page.getOrderField() == null || page.getOrderField().trim().length() <= 0) {
+			page.setOrderField("policyNo");
+			page.setOrderDirection("DESC");
+		}
+		
+		page.setNumPerPage(Integer.MAX_VALUE);
+		
+		String orgCode = request.getParameter("policy.orgCode");
+		if(orgCode == null || orgCode.trim().length() <= 0) {
+			orgCode = user.getOrganization().getOrgCode();
+			if(orgCode.contains("11185")) {
+				orgCode = "8644";
+			}
+		} else {
+			if(!orgCode.contains(user.getOrganization().getOrgCode())){
+				orgCode = user.getOrganization().getOrgCode();
 			}
 		}
-		page.setNumPerPage(65564);
-		page.setOrderField("policy.organization.orgCode");
-		page.setOrderDirection("ASC");
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, user.getOrganization().getOrgCode()));
-		if(status.trim().length() > 0) {
+		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		if(status != null && status.trim().length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
+		}
+		String prdName = request.getParameter("prd.prdFullName");
+		if(prdName != null && prdName.trim().length()>0) {
+			csf.add(new SearchFilter("prodName", Operator.EQ, prdName));
 		}
 		
 		Specification<Policy> specification = DynamicSpecifications.bySearchFilter(request, Policy.class, csf);
-		List<Policy> reqs = policyService.findByExample(specification, page);
-	
-		map.put("reqs", reqs);
+		List<Policy> policies = policyService.findByExample(specification, page);
+		
+		map.put("page", page);
+		map.put("policies", policies);
 		return TO_XLS;
 	}
 	

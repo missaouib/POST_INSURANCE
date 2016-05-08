@@ -537,3 +537,10 @@ where
 
 ALTER TABLE `t_policy` ADD INDEX `idx_policy_formno` (`form_no`);
 
+update t_policy set policy_fee=cast(aes_decrypt(unhex(policy_fee), 'GDPost') as char(100))
+
+update t_policy set holder=cast(aes_decrypt(unhex(holder), 'GDPost') as char(100))
+
+ALTER TABLE `t_policy` MODIFY COLUMN `policy_fee` DOUBLE(15,2) DEFAULT NULL;
+
+ALTER TABLE `t_prd` ADD COLUMN `prd_full_name` VARCHAR(36) DEFAULT NULL AFTER `prd_name`;

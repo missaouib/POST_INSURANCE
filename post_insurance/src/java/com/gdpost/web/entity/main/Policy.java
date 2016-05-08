@@ -49,7 +49,7 @@ public class Policy implements Idable<Long>, Serializable{
 	private String salesId;
 	private String status;
 	private Integer perm;
-	private String policyFee;
+	private Double policyFee;
 	private String copies;
 	private String insuredAmount;
 	private String holder;
@@ -87,7 +87,7 @@ public class Policy implements Idable<Long>, Serializable{
 
 	/** full constructor */
 	public Policy(String prodName, String bankName, String salesName,
-			String salesId, String status, Integer perm, String policyFee, String copies, String insuredAmount, String holder, String insured, Date policyDate, Integer renewalSucessFlag,
+			String salesId, String status, Integer perm, Double policyFee, String copies, String insuredAmount, String holder, String insured, Date policyDate, Integer renewalSucessFlag,
 			Integer resetValidFlag, List<Issue> TIssues, List<CheckRecordDtl> TCheckRecordDtls, List<CheckWriteDtl> TCheckWriteDtls, List<CallFail> TCallFails) {
 		this.prodName = prodName;
 		this.bankName = bankName;
@@ -239,16 +239,18 @@ public class Policy implements Idable<Long>, Serializable{
 		this.perm = perm;
 	}
 	
-	@Column(name = "policy_fee", length = 256)
+	@Column(name = "policy_fee")
+	/*
 	@ColumnTransformer(
 			forColumn="policy_fee",
 			read="cast(aes_decrypt(unhex(policy_fee), '" + com.gdpost.web.MySQLAESKey.AESKey + "') as char(100))", 
 			write="hex(aes_encrypt(?,'" + com.gdpost.web.MySQLAESKey.AESKey + "'))")
-	public String getPolicyFee() {
+			*/
+	public Double getPolicyFee() {
 		return this.policyFee;
 	}
 
-	public void setPolicyFee(String policyFee) {
+	public void setPolicyFee(Double policyFee) {
 		this.policyFee = policyFee;
 	}
 
@@ -289,10 +291,12 @@ public class Policy implements Idable<Long>, Serializable{
 	}
 
 	@Column(name = "holder", length = 256)
+	/*
 	@ColumnTransformer(
 			forColumn="holder",
 			read="cast(aes_decrypt(unhex(holder), '" + com.gdpost.web.MySQLAESKey.AESKey + "') as char(100))", 
 			write="hex(aes_encrypt(?,'" + com.gdpost.web.MySQLAESKey.AESKey + "'))")
+			*/
 	public String getHolder() {
 		return this.holder;
 	}

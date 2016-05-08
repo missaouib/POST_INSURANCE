@@ -254,6 +254,7 @@ public class CommonController {
 		HashMap<String, String> fm = new HashMap<String, String>();
 		fm.put("id", "id");
 		fm.put("prdName", "prdName");
+		fm.put("prdFullName", "prdFullName");
 		mapping.put(Prd.class, new JavaBeanSerializer(Prd.class, fm));
 		String str = JSON.toJSONString(org, mapping);
 		LOG.debug("---------------- bq issue suggest: " + str);

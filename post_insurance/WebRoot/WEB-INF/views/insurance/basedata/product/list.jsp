@@ -51,6 +51,7 @@
 				<th width="22"><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
 				<th width="100">产品代码</th>
 				<th width="100">产品名称</th>
+				<th width="100">产品全称</th>
 				<th width="100">产品状态</th>
 				<th width="100">每份金额</th>
 				<th width="100">缴费期间</th>
@@ -64,6 +65,7 @@
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
 				<td>${item.prdCode}</td>
 				<td>${item.prdName}</td>
+				<td>${item.prdFullName}</td>
 				<td>${item.prdStatus}</td>
 				<td>${item.prdPerMoney}</td>
 				<td>${item.prdPerm}</td>

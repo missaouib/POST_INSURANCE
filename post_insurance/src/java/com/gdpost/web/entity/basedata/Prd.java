@@ -31,6 +31,7 @@ public class Prd implements Idable<Long>, Serializable {
 	private Long id;
 	private String prdCode;
 	private String prdName;
+	private String prdFullName;
 	private Integer prdStatus;
 	private Integer prdPerMoney;
 	private Integer prdPerm;
@@ -82,6 +83,15 @@ public class Prd implements Idable<Long>, Serializable {
 
 	public void setPrdName(String prdName) {
 		this.prdName = prdName;
+	}
+	
+	@Column(name = "prd_full_name", length = 128)
+	public String getPrdFullName() {
+		return this.prdFullName;
+	}
+
+	public void setPrdFullName(String prdFullName) {
+		this.prdFullName = prdFullName;
 	}
 
 	@Column(name = "prd_status")
