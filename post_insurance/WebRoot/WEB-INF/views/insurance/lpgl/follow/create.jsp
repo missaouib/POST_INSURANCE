@@ -5,48 +5,54 @@
 	<div class="pageFormContent" layoutH="58">
 		<p>
 			<label>机构：</label>
-			<input type="text" name="username" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${user.username }"/>
+			<input name="organization.id" id="uw_orgId" type="hidden" value=""/>
+					<input class="validate[required] required" name="organization.name" id="uw_orgName" type="text" readonly="readonly" style="width: 140px;" value=""/>
+					<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="organization" title="选择机构" width="400">查找带回</a>
 		</p>
 		<p>
 			<label>出险人：</label>
-			<input type="text" name="username" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${user.username }"/>
+			<input type="text" name="insured" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value=""/>
 		</p>
 		<p>
 			<label>报案人：</label>
-			<input type="text" name="username" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${user.username }"/>
+			<input type="text" name="reporter" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value=""/>
 		</p>
 		<p>
 			<label>报案人电话 ：</label>
-			<input type="text" name="username" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${user.username }"/>
+			<input type="text" name="reporterPhone" class="phone validate[required,maxSize[11]] required" maxlength="11" value=""/>
 		</p>
 		<p>
 			<label>出险日期：</label>
-			<input type="text" name="username" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${user.username }"/>
+			<input type="text" name="caseDate" id="caseDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" value=""/>
+					<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 		
 		<p>
 			<label>理赔类型：</label>
-			<input type="text" name="username" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${user.username }"/>
+			<input type="text" name="caseType" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value=""/>
 		</p>
 		<p>
 			<label>报案日期：</label>
-			<input type="text" name="username" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${user.username }"/>
+			<input type="text" name="reporteDate" id="reporteDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" value=""/>
+					<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 		<p>
 			<label>立案日期：</label>
-			<input type="text" name="username" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${user.username }"/>
+			<input type="text" name="recordDate" id="recordDate" class="date" dateFmt="yyyy-MM-dd" value=""/>
+					<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 		<p>
 			<label>结案日期：</label>
-			<input type="text" name="username" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${user.username }"/>
+			<input type="text" name="closeDate" id="closeDate" class="date" dateFmt="yyyy-MM-dd" value=""/>
+					<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 		<p>
 			<label>赔付金额：</label>
-			<input type="text" name="username" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${user.username }"/>
+			<input type="text" name="payFee" class="input-medium validate[maxSize[32]]" maxlength="32" value=""/>
 		</p>
 		<p>
 			<label>案件状态：</label>
-			<input type="text" name="username" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${user.username }"/>
+			<input type="text" name="caseStatus" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value=""/>
 		</p>
 	</div>
 			

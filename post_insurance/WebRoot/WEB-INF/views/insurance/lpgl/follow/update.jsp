@@ -1,38 +1,59 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 <div class="pageContent">
-<form method="post" action="${contextPath}/lpgl/update" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
-	<input type="hidden" name="id" value="${user.id}"/>
+<form method="post" action="${contextPath }/lpgl/update" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
 	<div class="pageFormContent" layoutH="58">
 		<p>
-			<label>登录名称：</label>
-			<input type="text" name="username" class="input-medium validate[required,maxSize[32]] required" maxlength="32" readonly="readonly" value="${user.username }"/>
+			<label>机构：</label>
+			<input name="organization.id" id="uw_orgId" type="hidden" value="${settle.organization.id }"/>
+					<input class="validate[required] required" name="organization.name" id="uw_orgName" type="text" readonly="readonly" style="width: 140px;" value="${settle.organization.name }"/>
+					<a class="btnLook" href="${contextPath }/management/security/settle/lookup2org" lookupGroup="organization" title="选择机构" width="400">查找带回</a>
 		</p>
 		<p>
-			<label>姓名：</label>
-			<input type="text" name="realname" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${user.realname }"/>
-		</p>		
-		<p>
-			<label>电话：</label>
-			<input type="text" name="phone" class="input-medium validate[custom[phone],maxSize[32]]" maxlength="32" value="${user.phone }"/>
+			<label>出险人：</label>
+			<input type="text" name="insured" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${settle.insured }"/>
 		</p>
 		<p>
-			<label>用户邮箱：</label>
-			<input type="text" name="email" class="input-medium validate[custom[email],maxSize[128]]" maxlength="128" value="${user.email }"/>
-		</p>		
-		<p>
-			<label>用户状态：</label>
-			<select name="status">
-				<option value="enabled" ${user.status == "enabled" ? 'selected="selected"' : ''}>可用</option>
-				<option value="disabled" ${user.status == "disabled" ? 'selected="selected"' : ''}>不可用</option>
-			</select>
+			<label>报案人：</label>
+			<input type="text" name="reporter" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${settle.reporter }"/>
 		</p>
 		<p>
-			<label>关联组织：</label>
-			<input name="organization.id" value="${user.organization.id }" type="hidden"/>
-			<input class="validate[required] required" name="organization.name" type="text" readonly="readonly" value="${user.organization.name }" style="width: 140px;"/>
-			<a class="btnLook" href="${contextPath}/management/security/user/lookup2org" lookupGroup="organization" title="关联组织" width="400">查找带回</a>	
-		</p>		
+			<label>报案人电话 ：</label>
+			<input type="text" name="reporterPhone" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${settle.reporterPhone }"/>
+		</p>
+		<p>
+			<label>出险日期：</label>
+			<input type="text" name="caseDate" id="caseDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" value="<fmt:formatDate value="${settle.caseDate }" pattern="yyyy-MM-dd"/>"/>
+					<a class="inputDateButton" href="javascript:;">选择</a>
+		</p>
+		
+		<p>
+			<label>理赔类型：</label>
+			<input type="text" name="caseType" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${settle.caseType }"/>
+		</p>
+		<p>
+			<label>报案日期：</label>
+			<input type="text" name="reporteDate" id="reporteDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" value="<fmt:formatDate value="${settle.reporteDate }" pattern="yyyy-MM-dd"/>"/>
+					<a class="inputDateButton" href="javascript:;">选择</a>
+		</p>
+		<p>
+			<label>立案日期：</label>
+			<input type="text" name="recordDate" id="recordDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" value="<fmt:formatDate value="${settle.recordDate }" pattern="yyyy-MM-dd"/>"/>
+					<a class="inputDateButton" href="javascript:;">选择</a>
+		</p>
+		<p>
+			<label>结案日期：</label>
+			<input type="text" name="closeDate" id="closeDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" value="<fmt:formatDate value="${settle.closeDate }" pattern="yyyy-MM-dd"/>"/>
+					<a class="inputDateButton" href="javascript:;">选择</a>
+		</p>
+		<p>
+			<label>赔付金额：</label>
+			<input type="text" name="payFee" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${settle.payFee }"/>
+		</p>
+		<p>
+			<label>案件状态：</label>
+			<input type="text" name="caseStatus" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${settle.caseStatus }"/>
+		</p>
 	</div>
 			
 	<div class="formBar">

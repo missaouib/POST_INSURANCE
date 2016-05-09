@@ -7,7 +7,11 @@
  */
 package com.gdpost.web.controller.insurance;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -16,14 +20,19 @@ import javax.validation.Valid;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.gdpost.utils.SecurityUtils;
 import com.gdpost.web.entity.component.Settlement;
+import com.gdpost.web.entity.main.User;
 import com.gdpost.web.exception.ExistedException;
 import com.gdpost.web.exception.ServiceException;
 import com.gdpost.web.log.Log;
@@ -35,6 +44,8 @@ import com.gdpost.web.service.insurance.LpglService;
 import com.gdpost.web.util.dwz.AjaxObject;
 import com.gdpost.web.util.dwz.Page;
 import com.gdpost.web.util.persistence.DynamicSpecifications;
+import com.gdpost.web.util.persistence.SearchFilter;
+import com.gdpost.web.util.persistence.SearchFilter.Operator;
 
 @Controller
 @RequestMapping("/lpgl")
@@ -57,8 +68,11 @@ public class LpglController {
 	@Log(message="添加了{0}的理赔案件。", level=LogLevel.WARN, module=LogModule.LPGL)
 	@RequiresPermissions("Settlement:save")
 	@RequestMapping(value="/create", method=RequestMethod.POST)
-	public @ResponseBody String create(@Valid Settlement settle) {	
+	public @ResponseBody String create(@Valid Settlement settle) {
+		User user = SecurityUtils.getShiroUser().getUser();
 		try {
+			settle.setOperateId(user.getId());
+			settle.setCreateTime(new Date());
 			lpglService.saveOrUpdate(settle);
 		} catch (ExistedException e) {
 			return AjaxObject.newError("添加理赔案件失败：" + e.getMessage()).setCallbackType("").toString();
@@ -126,11 +140,36 @@ public class LpglController {
 	@RequiresPermissions("Settlement:view")
 	@RequestMapping(value="/list", method={RequestMethod.GET, RequestMethod.POST})
 	public String list(ServletRequest request, Page page, Map<String, Object> map) {
-		Specification<Settlement> specification = DynamicSpecifications.bySearchFilter(request, Settlement.class);
+		User user = SecurityUtils.getShiroUser().getUser();
+		String orgCode = request.getParameter("settle.orgCode");
+		if(orgCode == null || orgCode.trim().length() <= 0) {
+			orgCode = user.getOrganization().getOrgCode();
+			if(orgCode.contains("11185")) {
+				orgCode = "8644";
+			}
+		} else {
+			if(!orgCode.contains(user.getOrganization().getOrgCode())){
+				orgCode = user.getOrganization().getOrgCode();
+			}
+			String orgName = request.getParameter("settle.name");
+			request.setAttribute("settle_orgCode", orgCode);
+			request.setAttribute("settle_name", orgName);
+		}
+		
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		
+		Specification<Settlement> specification = DynamicSpecifications.bySearchFilter(request, Settlement.class, csf);
 		List<Settlement> users = lpglService.findByExample(specification, page);
 
 		map.put("page", page);
 		map.put("users", users);
 		return LIST;
+	}
+	
+	@InitBinder
+	public void initBinder(WebDataBinder binder) {
+		binder.registerCustomEditor(Date.class, new CustomDateEditor(
+				new SimpleDateFormat("yyyy-MM-dd"), true));
 	}
 }
