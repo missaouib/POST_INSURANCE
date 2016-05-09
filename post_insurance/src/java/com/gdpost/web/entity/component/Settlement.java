@@ -18,6 +18,7 @@ import javax.persistence.Table;
 
 import com.gdpost.web.entity.Idable;
 import com.gdpost.web.entity.main.Organization;
+import com.gdpost.web.entity.main.Policy;
 
 /**
  * settlement entity. @author MyEclipse Persistence Tools
@@ -30,6 +31,7 @@ public class Settlement implements Idable<Long> {
 
 	private Long id;
 	private Organization organization;
+	Policy policy;
 	private String insured;
 	private String reporter;
 	private String reporterPhone;
@@ -41,6 +43,8 @@ public class Settlement implements Idable<Long> {
 	private Double payFee;
 	private String caseStatus;
 	private String remark;
+	private Long operateId;
+	private Date createTime;
 //	private List<SettlementPolicy> settlementPolicies = new ArrayList<SettlementPolicy>(0);
 //	private List<SettlementReport> settlementReports = new ArrayList<SettlementReport>(0);
 //	private List<SettlementCheck> settlementChecks = new ArrayList<SettlementCheck>(0);
@@ -95,6 +99,16 @@ public class Settlement implements Idable<Long> {
 
 	public void setOrganization(Organization organization) {
 		this.organization = organization;
+	}
+	
+	@ManyToOne
+	@JoinColumn(name="policy_no", referencedColumnName="policy_no")
+	public Policy getPolicy() {
+		return policy;
+	}
+
+	public void setPolicy(Policy policy) {
+		this.policy = policy;
 	}
 
 	@Column(name = "insured", length = 32)
@@ -194,6 +208,24 @@ public class Settlement implements Idable<Long> {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+	
+	@Column(name="operate_id")
+	public Long getOperateId() {
+		return operateId;
+	}
+
+	public void setOperateId(Long operateId) {
+		this.operateId = operateId;
+	}
+
+	@Column(name="create_time")
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
 
 	/*

@@ -18,14 +18,12 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.gdpost.web.entity.main.Policy;
+import com.gdpost.web.entity.component.Settlement;
 import com.gdpost.web.exception.ExistedException;
 import com.gdpost.web.exception.ServiceException;
 import com.gdpost.web.log.Log;
@@ -46,102 +44,90 @@ public class LpglController {
 	@Autowired
 	private LpglService lpglService;
 
-	private static final String CREATE = "insurance/lpgl/wtj/create";
-	private static final String UPDATE = "insurance/lpgl/wtj/update";
-	private static final String LIST = "insurance/lpgl/wtj/list";
+	private static final String CREATE = "insurance/lpgl/follow/create";
+	private static final String UPDATE = "insurance/lpgl/follow/update";
+	private static final String LIST = "insurance/lpgl/follow/list";
 	
-	@RequiresPermissions("Policy:save")
+	@RequiresPermissions("Settlement:save")
 	@RequestMapping(value="/create", method=RequestMethod.GET)
 	public String preCreate() {
 		return CREATE;
 	}
 	
-	@Log(message="添加了{0}保单。", level=LogLevel.WARN, module=LogModule.LPGL)
-	@RequiresPermissions("Policy:save")
+	@Log(message="添加了{0}的理赔案件。", level=LogLevel.WARN, module=LogModule.LPGL)
+	@RequiresPermissions("Settlement:save")
 	@RequestMapping(value="/create", method=RequestMethod.POST)
-	public @ResponseBody String create(@Valid Policy user) {	
+	public @ResponseBody String create(@Valid Settlement settle) {	
 		try {
-			lpglService.saveOrUpdate(user);
+			lpglService.saveOrUpdate(settle);
 		} catch (ExistedException e) {
-			return AjaxObject.newError("添加保单失败：" + e.getMessage()).setCallbackType("").toString();
+			return AjaxObject.newError("添加理赔案件失败：" + e.getMessage()).setCallbackType("").toString();
 		}
 		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{user.getPolicyNo()}));
-		return AjaxObject.newOk("添加保单成功！").toString();
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{settle.getInsured()}));
+		return AjaxObject.newOk("添加理赔案件成功！").toString();
 	}
 	
-	@ModelAttribute("preloadUser")
-	public Policy preload(@RequestParam(value = "id", required = false) Long id) {
-		if (id != null) {
-			Policy user = lpglService.get(id);
-			if(user != null) {
-				user.setOrganization(null);
-			}
-			return user;
-		}
-		return null;
-	}
-	
-	@RequiresPermissions("Policy:edit")
+	@RequiresPermissions("Settlement:edit")
 	@RequestMapping(value="/update/{id}", method=RequestMethod.GET)
 	public String preUpdate(@PathVariable Long id, Map<String, Object> map) {
-		Policy user = lpglService.get(id);
+		Settlement settle = lpglService.get(id);
 		
-		map.put("user", user);
+		map.put("settle", settle);
 		return UPDATE;
 	}
 	
-	@Log(message="修改了{0}保单的信息。", level=LogLevel.WARN, module=LogModule.LPGL)
-	@RequiresPermissions("Policy:edit")
+	@Log(message="修改了出险人{0}的案件信息。", level=LogLevel.WARN, module=LogModule.LPGL)
+	@RequiresPermissions("Settlement:edit")
 	@RequestMapping(value="/update", method=RequestMethod.POST)
-	public @ResponseBody String update(@Valid @ModelAttribute("preloadUser")Policy user) {
-		lpglService.saveOrUpdate(user);
+	public @ResponseBody String update(@Valid Settlement settle) {
+		lpglService.saveOrUpdate(settle);
 		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{user.getPolicyNo()}));
-		return	AjaxObject.newOk("修改保单成功！").toString(); 
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{settle.getInsured()}));
+		return	AjaxObject.newOk("修改案件成功！").toString(); 
 	}
 	
-	@Log(message="删除了{0}保单。", level=LogLevel.WARN, module=LogModule.LPGL)
-	@RequiresPermissions("Policy:delete")
+	@Log(message="删除了{0}的案件信息。", level=LogLevel.WARN, module=LogModule.LPGL)
+	@RequiresPermissions("Settlement:delete")
 	@RequestMapping(value="/delete/{id}", method=RequestMethod.POST)
 	public @ResponseBody String delete(@PathVariable Long id) {
-		Policy user = null;
+		Settlement settle = null;
 		try {
-			user = lpglService.get(id);
-			lpglService.delete(user.getId());
+			settle = lpglService.get(id);
+			lpglService.delete(settle.getId());
 		} catch (ServiceException e) {
-			return AjaxObject.newError("删除保单失败：" + e.getMessage()).setCallbackType("").toString();
+			return AjaxObject.newError("删除案件失败：" + e.getMessage()).setCallbackType("").toString();
 		}
 		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{user.getPolicyNo()}));
-		return AjaxObject.newOk("删除保单成功！").setCallbackType("").toString();
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{settle.getInsured()}));
+		return AjaxObject.newOk("删除案件成功！").setCallbackType("").toString();
 	}
 	
-	@Log(message="删除了{0}保单。", level=LogLevel.WARN, module=LogModule.LPGL)
-	@RequiresPermissions("Policy:delete")
+	@Log(message="删除了{0}案件。", level=LogLevel.WARN, module=LogModule.LPGL)
+	@RequiresPermissions("Settlement:delete")
 	@RequestMapping(value="/delete", method=RequestMethod.POST)
 	public @ResponseBody String deleteMany(Long[] ids) {
 		String[] policys = new String[ids.length];
 		try {
 			for (int i = 0; i < ids.length; i++) {
-				Policy user = lpglService.get(ids[i]);
-				lpglService.delete(user.getId());
+				Settlement settle = lpglService.get(ids[i]);
+				lpglService.delete(settle.getId());
 				
-				policys[i] = user.getPolicyNo();
+				policys[i] = settle.getInsured();
 			}
 		} catch (ServiceException e) {
-			return AjaxObject.newError("删除保单失败：" + e.getMessage()).setCallbackType("").toString();
+			return AjaxObject.newError("删除案件失败：" + e.getMessage()).setCallbackType("").toString();
 		}
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{Arrays.toString(policys)}));
-		return AjaxObject.newOk("删除保单成功！").setCallbackType("").toString();
+		return AjaxObject.newOk("删除案件成功！").setCallbackType("").toString();
 	}
 	
-	@RequiresPermissions("Policy:view")
+	@RequiresPermissions("Settlement:view")
 	@RequestMapping(value="/list", method={RequestMethod.GET, RequestMethod.POST})
 	public String list(ServletRequest request, Page page, Map<String, Object> map) {
-		Specification<Policy> specification = DynamicSpecifications.bySearchFilter(request, Policy.class);
-		List<Policy> users = lpglService.findByExample(specification, page);
+		Specification<Settlement> specification = DynamicSpecifications.bySearchFilter(request, Settlement.class);
+		List<Settlement> users = lpglService.findByExample(specification, page);
 
 		map.put("page", page);
 		map.put("users", users);

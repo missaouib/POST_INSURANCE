@@ -24,6 +24,7 @@ public class SettlementDtl implements Idable<Long> {
 	// Fields
 
 	private Long id;
+	private String claimsNo;
 	private Settlement settlement;
 	private String policyNo;
 	private String prod;
@@ -79,6 +80,15 @@ public class SettlementDtl implements Idable<Long> {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	@Column(name="claims_no")
+	public String getClaimsNo() {
+		return claimsNo;
+	}
+
+	public void setClaimsNo(String claimsNo) {
+		this.claimsNo = claimsNo;
 	}
 
 	@ManyToOne(fetch = FetchType.EAGER)

@@ -544,3 +544,14 @@ update t_policy set holder=cast(aes_decrypt(unhex(holder), 'GDPost') as char(100
 ALTER TABLE `t_policy` MODIFY COLUMN `policy_fee` DOUBLE(15,2) DEFAULT NULL;
 
 ALTER TABLE `t_prd` ADD COLUMN `prd_full_name` VARCHAR(36) DEFAULT NULL AFTER `prd_name`;
+
+ALTER TABLE `t_settlement` ADD COLUMN `policy_no` VARCHAR(21) DEFAULT NULL AFTER `org_id`;
+
+ALTER TABLE `t_settlement` ADD COLUMN `operate_id` BIGINT(20) DEFAULT NULL;
+
+ALTER TABLE `t_settlement` ADD COLUMN `create_time` TIMESTAMP(6) NULL DEFAULT CURRENT_TIMESTAMP(6);
+
+ALTER TABLE `t_settlement_dtl` ADD COLUMN `claims_no` VARCHAR(21) DEFAULT NULL AFTER `id`;
+
+
+

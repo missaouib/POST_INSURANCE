@@ -10,8 +10,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gdpost.web.dao.PolicyDAO;
-import com.gdpost.web.entity.main.Policy;
+import com.gdpost.web.dao.SettlementDAO;
+import com.gdpost.web.entity.component.Settlement;
 import com.gdpost.web.exception.ExistedException;
 import com.gdpost.web.service.insurance.LpglService;
 import com.gdpost.web.util.dwz.Page;
@@ -23,30 +23,30 @@ public class LpglServiceImpl implements LpglService {
 	//private static final Logger logger = LoggerFactory.getLogger(QyglServiceImpl.class);
 	
 	@Autowired
-	private PolicyDAO policyDAO;
+	private SettlementDAO settlementDAO;
 	
 	/*
 	 * (non-Javadoc)
 	 * @see com.gdpost.web.service.UserService#get(java.lang.Long)  
 	 */ 
 	@Override
-	public Policy get(Long id) {
-		return policyDAO.findOne(id);
+	public Settlement get(Long id) {
+		return settlementDAO.findOne(id);
 	}
 
 	/*
 	 * (non-Javadoc) 
-	 * @see com.gdpost.web.service.UserService#saveOrUpdate(com.gdpost.web.entity.main.Policy)  
+	 * @see com.gdpost.web.service.UserService#saveOrUpdate(com.gdpost.web.entity.main.Settlement)  
 	 */
 	@Override
-	public void saveOrUpdate(Policy policy) {
-		if (policy.getId() == null) {
-			if (policyDAO.getByPolicyNo(policy.getPolicyNo()) != null) {
-				throw new ExistedException("保单号：" + policy.getPolicyNo() + "已存在。");
+	public void saveOrUpdate(Settlement settle) {
+		if (settle.getId() == null) {
+			if (settlementDAO.getByInsuredAndCaseDate(settle.getInsured(), settle.getCaseDate()) != null) {
+				throw new ExistedException("出险人：" + settle.getInsured() + "已记录。");
 			}
 		}
 		
-		policyDAO.save(policy);
+		settlementDAO.save(settle);
 	}
 
 	/*
@@ -55,8 +55,8 @@ public class LpglServiceImpl implements LpglService {
 	 */
 	@Override
 	public void delete(Long id) {
-		Policy user = policyDAO.findOne(id);
-		policyDAO.delete(user.getId());
+		Settlement user = settlementDAO.findOne(id);
+		settlementDAO.delete(user.getId());
 	}
 	
 	/*
@@ -64,8 +64,8 @@ public class LpglServiceImpl implements LpglService {
 	 * @see com.gdpost.web.service.UserService#findAll(com.gdpost.web.util.dwz.Page)  
 	 */
 	@Override
-	public List<Policy> findAll(Page page) {
-		org.springframework.data.domain.Page<Policy> springDataPage = policyDAO.findAll(PageUtils.createPageable(page));
+	public List<Settlement> findAll(Page page) {
+		org.springframework.data.domain.Page<Settlement> springDataPage = settlementDAO.findAll(PageUtils.createPageable(page));
 		page.setTotalCount(springDataPage.getTotalElements());
 		return springDataPage.getContent();
 	}
@@ -75,18 +75,18 @@ public class LpglServiceImpl implements LpglService {
 	 * @see com.gdpost.web.service.UserService#findByExample(org.springframework.data.jpa.domain.Specification, com.gdpost.web.util.dwz.Page)	
 	 */
 	@Override
-	public List<Policy> findByExample(
-			Specification<Policy> specification, Page page) {
-		org.springframework.data.domain.Page<Policy> springDataPage = policyDAO.findAll(specification, PageUtils.createPageable(page));
+	public List<Settlement> findByExample(
+			Specification<Settlement> specification, Page page) {
+		org.springframework.data.domain.Page<Settlement> springDataPage = settlementDAO.findAll(specification, PageUtils.createPageable(page));
 		page.setTotalCount(springDataPage.getTotalElements());
 		return springDataPage.getContent();
 	}
 	
 	/* (non-Javadoc)
-	 * @see com.gdpost.web.service.UserService#getByPolicyNo(java.lang.String)
+	 * @see com.gdpost.web.service.UserService#getBySettlementNo(java.lang.String)
 	 */
 	@Override
-	public Policy getByPolicyNo(String policyNo) {
-		return policyDAO.getByPolicyNo(policyNo);
+	public Settlement getBySettlementNo(String policyNo) {
+		return settlementDAO.getByPolicyPolicyNo(policyNo);
 	}
 }
