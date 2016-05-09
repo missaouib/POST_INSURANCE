@@ -21,9 +21,6 @@ public class PolicyColumn {
 		column.setColumnType(ColumnType.string);
 		column.setNullable(false);
 		column.setNeedEncrypt(false);
-		column.setNeedOutput(true);
-		column.setiOutputOrder(1);
-		column.setOutputName("JGDM");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -32,9 +29,6 @@ public class PolicyColumn {
 		column.setColumnType(ColumnType.string);
 		column.setNullable(false);
 		column.setNeedEncrypt(false);
-		column.setNeedOutput(true);
-		column.setiOutputOrder(2);
-		column.setOutputName("JGMC");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -43,9 +37,6 @@ public class PolicyColumn {
 		column.setColumnType(ColumnType.string);
 		column.setNullable(false);
 		column.setNeedEncrypt(false);
-		column.setNeedOutput(true);
-		column.setiOutputOrder(3);
-		column.setOutputName("BDH");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -54,9 +45,6 @@ public class PolicyColumn {
 		column.setColumnType(ColumnType.string);
 		column.setNullable(false);
 		column.setNeedEncrypt(false);
-		column.setNeedOutput(true);
-		column.setiOutputOrder(4);
-		column.setOutputName("TBDH");
 		standardColumns.add(column);
 
 		column = new ColumnItem();
@@ -64,10 +52,7 @@ public class PolicyColumn {
 		column.setColumnName("holder");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(false);
-		column.setNeedEncrypt(true);
-		column.setNeedOutput(true);
-		column.setiOutputOrder(5);
-		column.setOutputName("TBRXM");
+		column.setNeedEncrypt(false);
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -76,9 +61,6 @@ public class PolicyColumn {
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		column.setNeedEncrypt(true);
-		column.setNeedOutput(true);
-		column.setiOutputOrder(6);
-		column.setOutputName("BBXRXM");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -86,9 +68,6 @@ public class PolicyColumn {
 		column.setColumnName("prod_code");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setNeedOutput(true);
-		column.setiOutputOrder(7);
-		column.setOutputName("XZBM");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -96,9 +75,6 @@ public class PolicyColumn {
 		column.setColumnName("prod_name");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setNeedOutput(true);
-		column.setiOutputOrder(8);
-		column.setOutputName("XZMC");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -106,10 +82,7 @@ public class PolicyColumn {
 		column.setColumnName("policy_fee");
 		column.setColumnType(ColumnType.numeric);
 		column.setNullable(true);
-		column.setNeedEncrypt(true);
-		column.setNeedOutput(true);
-		column.setiOutputOrder(9);
-		column.setOutputName("BF");
+		column.setNeedEncrypt(false);
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -117,9 +90,6 @@ public class PolicyColumn {
 		column.setColumnName("insured_amount");
 		column.setColumnType(ColumnType.numeric);
 		column.setNullable(true);
-		column.setNeedOutput(true);
-		column.setiOutputOrder(10);
-		column.setOutputName("JBBE");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -127,9 +97,6 @@ public class PolicyColumn {
 		column.setColumnName("fee_frequency");
 		column.setColumnType(ColumnType.numeric);
 		column.setNullable(true);
-		column.setNeedOutput(true);
-		column.setiOutputOrder(11);
-		column.setOutputName("JFPL");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -148,9 +115,6 @@ public class PolicyColumn {
 		column.setColumnName("policy_date");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setNeedOutput(true);
-		column.setiOutputOrder(13);
-		column.setOutputName("QDRQ");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -158,9 +122,6 @@ public class PolicyColumn {
 		column.setColumnName("plicy_valid_date");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setNeedOutput(true);
-		column.setiOutputOrder(14);
-		column.setOutputName("SXRQ");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -168,8 +129,6 @@ public class PolicyColumn {
 		column.setColumnName("status");
 		column.setColumnType(ColumnType.numeric);
 		column.setNullable(true);
-		column.setiOutputOrder(15);
-		column.setOutputName("BDZT");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -177,8 +136,6 @@ public class PolicyColumn {
 		column.setColumnName("bank_code");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setiOutputOrder(16);
-		column.setOutputName("WDBM");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -186,8 +143,6 @@ public class PolicyColumn {
 		column.setColumnName("bank_name");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setiOutputOrder(17);
-		column.setOutputName("WDMC");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();	
@@ -195,8 +150,6 @@ public class PolicyColumn {
 		column.setColumnName("sales_id");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setiOutputOrder(18);
-		column.setOutputName("DLJGXSRYBM");
 		standardColumns.add(column);
 
 		column = new ColumnItem();
@@ -204,8 +157,6 @@ public class PolicyColumn {
 		column.setColumnName("sales_name");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setiOutputOrder(19);
-		column.setOutputName("DLJGXSRYXM");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -213,8 +164,6 @@ public class PolicyColumn {
 		column.setColumnName("customer_manager_code");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setiOutputOrder(20);
-		column.setOutputName("KHJLBM");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -222,8 +171,6 @@ public class PolicyColumn {
 		column.setColumnName("customer_manager");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setiOutputOrder(21);
-		column.setOutputName("KHJLXM");
 		standardColumns.add(column);
 		
 		return(standardColumns);
