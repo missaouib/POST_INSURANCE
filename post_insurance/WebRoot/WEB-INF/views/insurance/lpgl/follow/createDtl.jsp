@@ -1,7 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 <div class="pageContent">
-<form method="post" action="${contextPath }/lpgl/create" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
+<form method="post" action="${contextPath }/lpgl/create/detail" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
+<input hidden="hidden" name="settlement.id" value=${settle.id }"">
 	<div class="pageFormContent" layoutH="58">
 		<p>
 			<label>赔案号：</label>

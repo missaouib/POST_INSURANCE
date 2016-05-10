@@ -12,18 +12,31 @@ import java.util.List;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.gdpost.web.entity.component.Settlement;
+import com.gdpost.web.entity.component.SettlementDtl;
 import com.gdpost.web.util.dwz.Page;
 
 public interface LpglService {
-	Settlement get(Long id);
+	Settlement getSettle(Long id);
 
-	void saveOrUpdate(Settlement user);
+	void saveOrUpdateSettle(Settlement settle);
 
-	void delete(Long id);
+	void deleteSettle(Long id);
 	
-	List<Settlement> findAll(Page page);
+	List<Settlement> findAllSettle(Page page);
 	
-	List<Settlement> findByExample(Specification<Settlement> specification, Page page);
+	List<Settlement> findBySettleExample(Specification<Settlement> specification, Page page);
 	
-	Settlement getBySettlementNo(String username);
+	Settlement getSettleBySettlementNo(String name);
+	
+	SettlementDtl getSettleDtl(Long id);
+
+	void saveOrUpdateSettleDtl(SettlementDtl dtl);
+
+	void deleteSettleDtl(Long id);
+	
+	List<SettlementDtl> findAllSettleDtl(Page page);
+	
+	List<SettlementDtl> findBySettleDtlExample(Specification<SettlementDtl> specification, Page page);
+	
+	SettlementDtl getDtlBySettlementId(Long id);
 }

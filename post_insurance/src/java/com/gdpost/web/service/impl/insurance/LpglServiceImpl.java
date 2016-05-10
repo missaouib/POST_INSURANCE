@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gdpost.web.dao.SettlementDAO;
+import com.gdpost.web.dao.SettlementDtlDAO;
 import com.gdpost.web.entity.component.Settlement;
+import com.gdpost.web.entity.component.SettlementDtl;
 import com.gdpost.web.exception.ExistedException;
 import com.gdpost.web.service.insurance.LpglService;
 import com.gdpost.web.util.dwz.Page;
@@ -25,12 +27,15 @@ public class LpglServiceImpl implements LpglService {
 	@Autowired
 	private SettlementDAO settlementDAO;
 	
+	@Autowired
+	private SettlementDtlDAO settlementDtlDAO;
+	
 	/*
 	 * (non-Javadoc)
 	 * @see com.gdpost.web.service.UserService#get(java.lang.Long)  
 	 */ 
 	@Override
-	public Settlement get(Long id) {
+	public Settlement getSettle(Long id) {
 		return settlementDAO.findOne(id);
 	}
 
@@ -39,7 +44,7 @@ public class LpglServiceImpl implements LpglService {
 	 * @see com.gdpost.web.service.UserService#saveOrUpdate(com.gdpost.web.entity.main.Settlement)  
 	 */
 	@Override
-	public void saveOrUpdate(Settlement settle) {
+	public void saveOrUpdateSettle(Settlement settle) {
 		if (settle.getId() == null) {
 			if (settlementDAO.getByInsuredAndCaseDate(settle.getInsured(), settle.getCaseDate()) != null) {
 				throw new ExistedException("出险人：" + settle.getInsured() + "已记录。");
@@ -54,7 +59,7 @@ public class LpglServiceImpl implements LpglService {
 	 * @see com.gdpost.web.service.UserService#delete(java.lang.Long)  
 	 */
 	@Override
-	public void delete(Long id) {
+	public void deleteSettle(Long id) {
 		Settlement user = settlementDAO.findOne(id);
 		settlementDAO.delete(user.getId());
 	}
@@ -64,7 +69,7 @@ public class LpglServiceImpl implements LpglService {
 	 * @see com.gdpost.web.service.UserService#findAll(com.gdpost.web.util.dwz.Page)  
 	 */
 	@Override
-	public List<Settlement> findAll(Page page) {
+	public List<Settlement> findAllSettle(Page page) {
 		org.springframework.data.domain.Page<Settlement> springDataPage = settlementDAO.findAll(PageUtils.createPageable(page));
 		page.setTotalCount(springDataPage.getTotalElements());
 		return springDataPage.getContent();
@@ -75,7 +80,7 @@ public class LpglServiceImpl implements LpglService {
 	 * @see com.gdpost.web.service.UserService#findByExample(org.springframework.data.jpa.domain.Specification, com.gdpost.web.util.dwz.Page)	
 	 */
 	@Override
-	public List<Settlement> findByExample(
+	public List<Settlement> findBySettleExample(
 			Specification<Settlement> specification, Page page) {
 		org.springframework.data.domain.Page<Settlement> springDataPage = settlementDAO.findAll(specification, PageUtils.createPageable(page));
 		page.setTotalCount(springDataPage.getTotalElements());
@@ -86,7 +91,62 @@ public class LpglServiceImpl implements LpglService {
 	 * @see com.gdpost.web.service.UserService#getBySettlementNo(java.lang.String)
 	 */
 	@Override
-	public Settlement getBySettlementNo(String policyNo) {
+	public Settlement getSettleBySettlementNo(String policyNo) {
 		return settlementDAO.getByPolicyPolicyNo(policyNo);
+	}
+	
+	@Override
+	public SettlementDtl getSettleDtl(Long id) {
+		return settlementDtlDAO.findOne(id);
+	}
+
+	/*
+	 * (non-Javadoc) 
+	 * @see com.gdpost.web.service.UserService#saveOrUpdate(com.gdpost.web.entity.main.SettlementDtl)  
+	 */
+	@Override
+	public void saveOrUpdateSettleDtl(SettlementDtl SettlemenDtl) {
+		settlementDtlDAO.save(SettlemenDtl);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.gdpost.web.service.UserService#delete(java.lang.Long)  
+	 */
+	@Override
+	public void deleteSettleDtl(Long id) {
+		SettlementDtl dtl = settlementDtlDAO.findOne(id);
+		settlementDtlDAO.delete(dtl.getId());
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see com.gdpost.web.service.UserService#findAll(com.gdpost.web.util.dwz.Page)  
+	 */
+	@Override
+	public List<SettlementDtl> findAllSettleDtl(Page page) {
+		org.springframework.data.domain.Page<SettlementDtl> springDataPage = settlementDtlDAO.findAll(PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see com.gdpost.web.service.UserService#findByExample(org.springframework.data.jpa.domain.Specification, com.gdpost.web.util.dwz.Page)	
+	 */
+	@Override
+	public List<SettlementDtl> findBySettleDtlExample(
+			Specification<SettlementDtl> specification, Page page) {
+		org.springframework.data.domain.Page<SettlementDtl> springDataPage = settlementDtlDAO.findAll(specification, PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.gdpost.web.service.UserService#getBySettlementDtlNo(java.lang.String)
+	 */
+	@Override
+	public SettlementDtl getDtlBySettlementId(Long id) {
+		return settlementDtlDAO.getBySettlementId(id);
 	}
 }

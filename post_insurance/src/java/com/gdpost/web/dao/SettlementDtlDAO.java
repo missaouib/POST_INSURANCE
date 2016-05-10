@@ -9,4 +9,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import com.gdpost.web.entity.component.SettlementDtl;
 
 public interface SettlementDtlDAO extends JpaRepository<SettlementDtl, Long>, JpaSpecificationExecutor<SettlementDtl> {
+
+	SettlementDtl getBySettlementId(Long id);
 }

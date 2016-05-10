@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -32,6 +33,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gdpost.utils.SecurityUtils;
 import com.gdpost.web.entity.component.Settlement;
+import com.gdpost.web.entity.component.SettlementDtl;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.exception.ExistedException;
 import com.gdpost.web.exception.ServiceException;
@@ -58,6 +60,8 @@ public class LpglController {
 	private static final String CREATE = "insurance/lpgl/follow/create";
 	private static final String UPDATE = "insurance/lpgl/follow/update";
 	private static final String LIST = "insurance/lpgl/follow/list";
+	private static final String CREATE_DTL = "insurance/lpgl/follow/createDtl";
+	private static final String UPDATE_DTL = "insurance/lpgl/follow/updateDtl";
 	
 	@RequiresPermissions("Settlement:save")
 	@RequestMapping(value="/create", method=RequestMethod.GET)
@@ -73,7 +77,7 @@ public class LpglController {
 		try {
 			settle.setOperateId(user.getId());
 			settle.setCreateTime(new Date());
-			lpglService.saveOrUpdate(settle);
+			lpglService.saveOrUpdateSettle(settle);
 		} catch (ExistedException e) {
 			return AjaxObject.newError("添加理赔案件失败：" + e.getMessage()).setCallbackType("").toString();
 		}
@@ -82,10 +86,32 @@ public class LpglController {
 		return AjaxObject.newOk("添加理赔案件成功！").toString();
 	}
 	
+	@RequiresPermissions("Settlement:save")
+	@RequestMapping(value="/create/detail/{id}", method=RequestMethod.GET)
+	public String preCreateDtl(@PathVariable Long id, HttpServletRequest request) {
+		Settlement settle = lpglService.getSettle(id);
+		request.setAttribute("settle", settle);
+		return CREATE_DTL;
+	}
+
+	@Log(message="添加了{0}的理赔案件。", level=LogLevel.WARN, module=LogModule.LPGL)
+	@RequiresPermissions("Settlement:save")
+	@RequestMapping(value="/create/detail", method=RequestMethod.POST)
+	public @ResponseBody String createDtl(SettlementDtl settleDtl) {
+		try {
+			lpglService.saveOrUpdateSettleDtl(settleDtl);
+		} catch (ExistedException e) {
+			return AjaxObject.newError("添加理赔案件失败：" + e.getMessage()).setCallbackType("").toString();
+		}
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{settleDtl.getClaimsNo()}));
+		return AjaxObject.newOk("添加理赔案件成功！").toString();
+	}
+
 	@RequiresPermissions("Settlement:edit")
 	@RequestMapping(value="/update/{id}", method=RequestMethod.GET)
 	public String preUpdate(@PathVariable Long id, Map<String, Object> map) {
-		Settlement settle = lpglService.get(id);
+		Settlement settle = lpglService.getSettle(id);
 		
 		map.put("settle", settle);
 		return UPDATE;
@@ -95,9 +121,28 @@ public class LpglController {
 	@RequiresPermissions("Settlement:edit")
 	@RequestMapping(value="/update", method=RequestMethod.POST)
 	public @ResponseBody String update(@Valid Settlement settle) {
-		lpglService.saveOrUpdate(settle);
+		lpglService.saveOrUpdateSettle(settle);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{settle.getInsured()}));
+		return	AjaxObject.newOk("修改案件成功！").toString(); 
+	}
+	
+	@RequiresPermissions("Settlement:edit")
+	@RequestMapping(value="/update/detail/{id}", method=RequestMethod.GET)
+	public String preUpdateDtl(@PathVariable Long id, Map<String, Object> map) {
+		SettlementDtl settleDtl = lpglService.getDtlBySettlementId(id);
+		
+		map.put("settleDtl", settleDtl);
+		return UPDATE_DTL;
+	}
+	
+	@Log(message="修改了出险人{0}的案件信息。", level=LogLevel.WARN, module=LogModule.LPGL)
+	@RequiresPermissions("Settlement:edit")
+	@RequestMapping(value="/update/detail", method=RequestMethod.POST)
+	public @ResponseBody String updateDtl(@Valid SettlementDtl settleDtl) {
+		lpglService.saveOrUpdateSettleDtl(settleDtl);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{settleDtl.getClaimsNo()}));
 		return	AjaxObject.newOk("修改案件成功！").toString(); 
 	}
 	
@@ -107,8 +152,8 @@ public class LpglController {
 	public @ResponseBody String delete(@PathVariable Long id) {
 		Settlement settle = null;
 		try {
-			settle = lpglService.get(id);
-			lpglService.delete(settle.getId());
+			settle = lpglService.getSettle(id);
+			lpglService.deleteSettle(settle.getId());
 		} catch (ServiceException e) {
 			return AjaxObject.newError("删除案件失败：" + e.getMessage()).setCallbackType("").toString();
 		}
@@ -124,8 +169,8 @@ public class LpglController {
 		String[] policys = new String[ids.length];
 		try {
 			for (int i = 0; i < ids.length; i++) {
-				Settlement settle = lpglService.get(ids[i]);
-				lpglService.delete(settle.getId());
+				Settlement settle = lpglService.getSettle(ids[i]);
+				lpglService.deleteSettle(settle.getId());
 				
 				policys[i] = settle.getInsured();
 			}
@@ -160,7 +205,7 @@ public class LpglController {
 		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
 		
 		Specification<Settlement> specification = DynamicSpecifications.bySearchFilter(request, Settlement.class, csf);
-		List<Settlement> users = lpglService.findByExample(specification, page);
+		List<Settlement> users = lpglService.findBySettleExample(specification, page);
 
 		map.put("page", page);
 		map.put("users", users);
