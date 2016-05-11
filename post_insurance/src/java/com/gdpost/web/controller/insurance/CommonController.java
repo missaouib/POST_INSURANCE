@@ -136,6 +136,9 @@ public class CommonController {
 		fm.put("policyNo", "policyNo");
 		fm.put("holder", "holder");
 		fm.put("organName", "organName");
+		fm.put("prd.prdName", "prdName");
+		fm.put("policyFee", "policyFee");
+		fm.put("plicyValidDate", "plicyValidDate");
 		mapping.put(Policy.class, new JavaBeanSerializer(Policy.class, fm));
 		String str = JSON.toJSONString(org, mapping);
 		return str;

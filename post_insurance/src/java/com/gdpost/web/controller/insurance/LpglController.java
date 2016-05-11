@@ -61,7 +61,7 @@ public class LpglController {
 	private static final String UPDATE = "insurance/lpgl/follow/update";
 	private static final String LIST = "insurance/lpgl/follow/list";
 	private static final String CREATE_DTL = "insurance/lpgl/follow/createDtl";
-	private static final String UPDATE_DTL = "insurance/lpgl/follow/updateDtl";
+	//private static final String UPDATE_DTL = "insurance/lpgl/follow/updateDtl";
 	
 	@RequiresPermissions("Settlement:save")
 	@RequestMapping(value="/create", method=RequestMethod.GET)
@@ -87,25 +87,32 @@ public class LpglController {
 	}
 	
 	@RequiresPermissions("Settlement:save")
-	@RequestMapping(value="/create/detail/{id}", method=RequestMethod.GET)
+	@RequestMapping(value="/detail/{id}", method=RequestMethod.GET)
 	public String preCreateDtl(@PathVariable Long id, HttpServletRequest request) {
 		Settlement settle = lpglService.getSettle(id);
 		request.setAttribute("settle", settle);
+		SettlementDtl settleDtl = lpglService.getDtlBySettlementId(id);
+		if(settleDtl != null && settleDtl.getId() != null) {
+			request.setAttribute("flag", "update");
+			request.setAttribute("settleDtl", settleDtl);
+		} else {
+			request.setAttribute("flag", "create");
+		}
 		return CREATE_DTL;
 	}
 
-	@Log(message="添加了{0}的理赔案件。", level=LogLevel.WARN, module=LogModule.LPGL)
+	@Log(message="登记了{0}的理赔案件详情。", level=LogLevel.WARN, module=LogModule.LPGL)
 	@RequiresPermissions("Settlement:save")
-	@RequestMapping(value="/create/detail", method=RequestMethod.POST)
+	@RequestMapping(value="/detail", method=RequestMethod.POST)
 	public @ResponseBody String createDtl(SettlementDtl settleDtl) {
 		try {
 			lpglService.saveOrUpdateSettleDtl(settleDtl);
 		} catch (ExistedException e) {
-			return AjaxObject.newError("添加理赔案件失败：" + e.getMessage()).setCallbackType("").toString();
+			return AjaxObject.newError("理赔案件详情登记失败：" + e.getMessage()).setCallbackType("").toString();
 		}
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{settleDtl.getClaimsNo()}));
-		return AjaxObject.newOk("添加理赔案件成功！").toString();
+		return AjaxObject.newOk("理赔案件详情登记成功！").toString();
 	}
 
 	@RequiresPermissions("Settlement:edit")
@@ -124,25 +131,6 @@ public class LpglController {
 		lpglService.saveOrUpdateSettle(settle);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{settle.getInsured()}));
-		return	AjaxObject.newOk("修改案件成功！").toString(); 
-	}
-	
-	@RequiresPermissions("Settlement:edit")
-	@RequestMapping(value="/update/detail/{id}", method=RequestMethod.GET)
-	public String preUpdateDtl(@PathVariable Long id, Map<String, Object> map) {
-		SettlementDtl settleDtl = lpglService.getDtlBySettlementId(id);
-		
-		map.put("settleDtl", settleDtl);
-		return UPDATE_DTL;
-	}
-	
-	@Log(message="修改了出险人{0}的案件信息。", level=LogLevel.WARN, module=LogModule.LPGL)
-	@RequiresPermissions("Settlement:edit")
-	@RequestMapping(value="/update/detail", method=RequestMethod.POST)
-	public @ResponseBody String updateDtl(@Valid SettlementDtl settleDtl) {
-		lpglService.saveOrUpdateSettleDtl(settleDtl);
-		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{settleDtl.getClaimsNo()}));
 		return	AjaxObject.newOk("修改案件成功！").toString(); 
 	}
 	
