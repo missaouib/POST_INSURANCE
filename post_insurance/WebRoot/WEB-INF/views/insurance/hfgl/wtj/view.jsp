@@ -20,6 +20,10 @@
 			<span class="unit">${issue.policy.policyNo }</span>
 		</p>
 		<p>
+			<label>承保日期：</label>
+			<span class="unit"><fmt:formatDate value="${issue.policy.policyDate }" pattern="yyyy-MM-dd"/></span>
+		</p>
+		<p>
 			<label>险种名称：</label>
 			<span class="unit">${issue.policy.prodName }</span>
 		</p>
@@ -45,11 +49,11 @@
 		</p>
 		<p>
 			<label>回访日期：</label>
-			<span class="unit">${issue.callDate }</span>
+			<span class="unit"><fmt:formatDate value="${issue.callDate }" pattern="yyyy-MM-dd"/></span>
 		</p>
 		<p>
 			<label>不成功日期：</label>
-			<span class="unit">${issue.issueDate }</span>
+			<span class="unit"><fmt:formatDate value="${issue.issueDate }" pattern="yyyy-MM-dd"/></span>
 		</p>
 		<p>
 			<label>下发日期：</label>

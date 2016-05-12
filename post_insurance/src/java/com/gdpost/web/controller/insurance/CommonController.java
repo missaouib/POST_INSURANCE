@@ -8,6 +8,7 @@
 package com.gdpost.web.controller.insurance;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.JavaBeanSerializer;
 import com.alibaba.fastjson.serializer.SerializeConfig;
+import com.alibaba.fastjson.serializer.SimpleDateFormatSerializer;
 import com.gdpost.utils.SecurityUtils;
 import com.gdpost.web.entity.basedata.ConservationError;
 import com.gdpost.web.entity.basedata.Prd;
@@ -136,9 +138,11 @@ public class CommonController {
 		fm.put("policyNo", "policyNo");
 		fm.put("holder", "holder");
 		fm.put("organName", "organName");
-		fm.put("prd.prdName", "prdName");
+		fm.put("prodName", "prodName");
 		fm.put("policyFee", "policyFee");
-		fm.put("plicyValidDate", "plicyValidDate");
+		fm.put("policyDate", "policyDate");
+		String dateFormat = "yyyy-MM-dd";  
+	    mapping.put(Date.class, new SimpleDateFormatSerializer(dateFormat));
 		mapping.put(Policy.class, new JavaBeanSerializer(Policy.class, fm));
 		String str = JSON.toJSONString(org, mapping);
 		return str;

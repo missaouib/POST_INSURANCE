@@ -64,7 +64,7 @@
 			<c:forEach var="item" items="${users}" varStatus="idx">
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
-				<td><a href="${contextPath }/lpgl/detail/${item.id}">登记详情</a></td>	
+				<td><a target="dialog" mask="true" width="530" height="530" href="${contextPath }/lpgl/detail/${item.id}">登记详情</a></td>	
 				<td>${idx.index+1 }</td>
 				<td title="${item.organization.name}">
 				<c:choose>  
