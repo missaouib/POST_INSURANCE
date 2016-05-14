@@ -86,7 +86,8 @@
 				<th orderField=policy.policyNo class="${page.orderField eq 'policy.policyNo' ? page.orderDirection : ''}">保单号</th>
 				<th>投保人</th>
 				<th orderField=policy.organization.name class="${page.orderField eq 'policy.organization.name' ? page.orderDirection : ''}">保单机构</th>
-				<th>发票标记</th>
+				<th orderField=flag class="${page.orderField eq 'flag' ? page.orderDirection : ''}">发票标记</th>
+				<th orderField=isElectiveBill class="${page.orderField eq 'isElectiveBill' ? page.orderDirection : ''}">电子发票</th>
 				<th>发票金额</th>
 				<th>发票缴费日期</th>
 				<th orderField=reqDate class="${page.orderField eq 'reqDate' ? page.orderDirection : ''}">申请日期</th>
@@ -103,6 +104,7 @@
 				<td>${item.policy.holder}</td>
 				<td>${item.policy.organization.name}</td>
 				<td>${item.flag}</td>
+				<td>${item.isElectiveBill}</td>
 				<td>${item.fee}</td>
 				<td><fmt:formatDate value="${item.feeDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.reqDate }" pattern="yyyy-MM-dd"/></td>

@@ -21,7 +21,16 @@
 			<label>发票标记：</label>
 			<input type="radio" name="flag" value="首期" checked="checked"/>首期
 			<input type="radio" name="flag" value="续期"/>续期
-		</p>		
+		</p>
+		<p>
+			<label>电子发票标记：</label>
+			<input type="radio" name="isElectiveBill" value="TRUE"/>是
+			<input type="radio" name="isElectiveBill" value="FALSE" checked="checked"/>否
+		</p>
+		<p>
+			<label>电子发票接收邮箱：</label>
+			<input type="text" name="billAddr" maxlength="18" class="input-medium validate[maxSize[18]]"/>
+		</p>
 		<p>
 			<label>发票金额：</label>
 			<input type="text" name="fee" maxlength="32" class="input-medium validate[required,maxSize[7]] required"/>

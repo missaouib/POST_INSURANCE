@@ -39,6 +39,8 @@ public class InvoiceReq implements Idable<Long> {
 	private Long receiveMan;
 	private Date receiveDate;
 	private String billNo;
+	private Boolean isElectiveBill;
+	private String billAddr;
 
 	// Constructors
 
@@ -217,6 +219,24 @@ public class InvoiceReq implements Idable<Long> {
 
 	public void setBillNo(String billNo) {
 		this.billNo = billNo;
+	}
+
+	@Column(name="is_elective_bill")
+	public Boolean getIsElectiveBill() {
+		return isElectiveBill;
+	}
+
+	public void setIsElectiveBill(Boolean isElectiveBill) {
+		this.isElectiveBill = isElectiveBill;
+	}
+
+	@Column(name="bill_addr")
+	public String getBillAddr() {
+		return billAddr;
+	}
+
+	public void setBillAddr(String billAddr) {
+		this.billAddr = billAddr;
 	}
 
 }

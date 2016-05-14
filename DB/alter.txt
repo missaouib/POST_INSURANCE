@@ -537,9 +537,9 @@ where
 
 ALTER TABLE `t_policy` ADD INDEX `idx_policy_formno` (`form_no`);
 
-update t_policy set policy_fee=cast(aes_decrypt(unhex(policy_fee), 'GDPost') as char(100))
+update t_policy set policy_fee=cast(aes_decrypt(unhex(policy_fee), 'GDPost') as char(100));
 
-update t_policy set holder=cast(aes_decrypt(unhex(holder), 'GDPost') as char(100))
+update t_policy set holder=cast(aes_decrypt(unhex(holder), 'GDPost') as char(100));
 
 ALTER TABLE `t_policy` MODIFY COLUMN `policy_fee` DOUBLE(15,2) DEFAULT NULL;
 
@@ -577,3 +577,8 @@ CREATE TABLE t_settlement_dtl (
   CONSTRAINT fk_reference_33 FOREIGN KEY (settlement_id) REFERENCES t_settlement (id)
 ) ENGINE=InnoDB
 AUTO_INCREMENT=1 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci'
+
+
+ALTER TABLE t_invoice_req ADD COLUMN is_elective_bill Boolean DEFAULT FALSE;
+
+ALTER TABLE t_invoice_req ADD COLUMN bill_addr varchar(18) DEFAULT NULL;

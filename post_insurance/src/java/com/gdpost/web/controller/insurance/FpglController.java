@@ -222,8 +222,10 @@ public class FpglController {
 		LOG.debug("-----------------status2:" + status);
 		request.setAttribute("status", status);
 		
-		page.setOrderField("reqDate");
-		page.setOrderDirection("DESC");
+		if(page.getOrderField() == null || page.getOrderField().trim().length() <= 0) {
+			page.setOrderField("reqDate");
+			page.setOrderDirection("DESC");
+		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, user.getOrganization().getOrgCode()));

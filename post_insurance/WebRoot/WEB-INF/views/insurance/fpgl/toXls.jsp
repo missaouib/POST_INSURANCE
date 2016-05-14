@@ -13,9 +13,11 @@ response.setHeader("Content-Disposition", "inline; filename=InvoiceReq.xls");
 				<td>投保人</td>
 				<td>保单机构</td>
 				<td>发票标记</td>
+				<th>电子发票</th>
 				<td>发票金额</td>
 				<td>发票缴费日期</td>
 				<td>申请日期</td>
+				<th>接收邮箱</th>
 				<td>EMS</td>
 				<td>申请接收人</td>
 				<td>状态</td>
@@ -27,9 +29,11 @@ response.setHeader("Content-Disposition", "inline; filename=InvoiceReq.xls");
 				<td>${item.policy.holder}</td>
 				<td>${item.policy.organization.name}</td>
 				<td>${item.flag}</td>
+				<td>${item.isElectiveBill}</td>
 				<td>${item.fee}</td>
 				<td><fmt:formatDate value="${item.feeDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.reqDate }" pattern="yyyy-MM-dd"/></td>
+				<td>${item.billAddr}</td>
 				<td style="vnd.ms-excel.numberformat:@">${item.billNo}</td>
 				<td>${item.reqMan}</td>
 				<td>

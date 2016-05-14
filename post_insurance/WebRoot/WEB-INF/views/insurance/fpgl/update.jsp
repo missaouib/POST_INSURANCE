@@ -24,6 +24,15 @@
 			<label>首期<form:radiobutton path="req.flag" value="首期"/>续期<form:radiobutton path="req.flag" value="续期"/></label>
 		</p>
 		<p>
+			<label>电子发票标记：</label>
+			<form:radiobutton path="req.isElectiveBill" value="TRUE"/>是
+			<form:radiobutton path="req.isElectiveBill" value="FALSE"/>否
+		</p>
+		<p>
+			<label>电子发票接收邮箱：</label>
+			<input type="text" name="billAddr" maxlength="18" class="input-medium validate[maxSize[18]]" value="${req.billAddr }"/>
+		</p>
+		<p>
 			<label>发票金额：</label>
 			<input type="text" name="fee" maxlength="32" class="input-medium validate[required,maxSize[32]] required" value="${req.fee }"/>
 		</p>
