@@ -13,6 +13,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 import com.gdpost.web.entity.component.Settlement;
 import com.gdpost.web.entity.component.SettlementDtl;
+import com.gdpost.web.entity.component.SettlementLog;
 import com.gdpost.web.util.dwz.Page;
 
 public interface LpglService {
@@ -39,4 +40,11 @@ public interface LpglService {
 	List<SettlementDtl> findBySettleDtlExample(Specification<SettlementDtl> specification, Page page);
 	
 	SettlementDtl getDtlBySettlementId(Long id);
+	
+	SettlementLog getSettleLog(Long id);
+
+	void saveOrUpdateSettleLog(SettlementLog log);
+	
+	List<SettlementLog> findLogBySettleId(Long id);
+	
 }

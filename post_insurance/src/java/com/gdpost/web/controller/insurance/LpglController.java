@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.gdpost.utils.SecurityUtils;
 import com.gdpost.web.entity.component.Settlement;
 import com.gdpost.web.entity.component.SettlementDtl;
+import com.gdpost.web.entity.component.SettlementLog;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.exception.ExistedException;
 import com.gdpost.web.exception.ServiceException;
@@ -72,12 +73,19 @@ public class LpglController {
 	@Log(message="添加了{0}的理赔案件。", level=LogLevel.WARN, module=LogModule.LPGL)
 	@RequiresPermissions("Settlement:save")
 	@RequestMapping(value="/create", method=RequestMethod.POST)
-	public @ResponseBody String create(@Valid Settlement settle) {
+	public @ResponseBody String create(@Valid Settlement settle, HttpServletRequest request) {
 		User user = SecurityUtils.getShiroUser().getUser();
 		try {
 			settle.setOperateId(user.getId());
 			settle.setCreateTime(new Date());
 			lpglService.saveOrUpdateSettle(settle);
+			SettlementLog settleLog = new SettlementLog();
+			settleLog.setSettlement(settle);
+			settleLog.setUser(user);
+			settleLog.setInfo("添加了理赔案件信息");
+			settleLog.setIp(request.getRemoteAddr());
+			settleLog.setIsKeyInfo(true);
+			lpglService.saveOrUpdateSettleLog(settleLog);
 		} catch (ExistedException e) {
 			return AjaxObject.newError("添加理赔案件失败：" + e.getMessage()).setCallbackType("").toString();
 		}
@@ -127,8 +135,23 @@ public class LpglController {
 	@Log(message="修改了出险人{0}的案件信息。", level=LogLevel.WARN, module=LogModule.LPGL)
 	@RequiresPermissions("Settlement:edit")
 	@RequestMapping(value="/update", method=RequestMethod.POST)
-	public @ResponseBody String update(@Valid Settlement settle) {
+	public @ResponseBody String update(@Valid Settlement settle, HttpServletRequest request) {
+		Settlement src = lpglService.getSettle(settle.getId());
+		StringBuffer loginfo = new StringBuffer("");
+		if(src.getCaseDate().equals(settle.getCaseDate())) {
+			loginfo.append("修改了立案日期：" + src.getCaseDate() + "->" + settle.getCaseDate());
+		}
+		
 		lpglService.saveOrUpdateSettle(settle);
+		
+		User user = SecurityUtils.getShiroUser().getUser();
+		SettlementLog settleLog = new SettlementLog();
+		settleLog.setSettlement(settle);
+		settleLog.setUser(user);
+		settleLog.setInfo(loginfo.toString());
+		settleLog.setIp(request.getRemoteAddr());
+		settleLog.setIsKeyInfo(true);
+		lpglService.saveOrUpdateSettleLog(settleLog);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{settle.getInsured()}));
 		return	AjaxObject.newOk("修改案件成功！").toString(); 

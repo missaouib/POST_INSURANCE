@@ -12,8 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gdpost.web.dao.SettlementDAO;
 import com.gdpost.web.dao.SettlementDtlDAO;
+import com.gdpost.web.dao.SettlementLogDAO;
 import com.gdpost.web.entity.component.Settlement;
 import com.gdpost.web.entity.component.SettlementDtl;
+import com.gdpost.web.entity.component.SettlementLog;
 import com.gdpost.web.exception.ExistedException;
 import com.gdpost.web.service.insurance.LpglService;
 import com.gdpost.web.util.dwz.Page;
@@ -29,6 +31,9 @@ public class LpglServiceImpl implements LpglService {
 	
 	@Autowired
 	private SettlementDtlDAO settlementDtlDAO;
+	
+	@Autowired
+	private SettlementLogDAO settlementLogDAO;
 	
 	/*
 	 * (non-Javadoc)
@@ -148,5 +153,21 @@ public class LpglServiceImpl implements LpglService {
 	@Override
 	public SettlementDtl getDtlBySettlementId(Long id) {
 		return settlementDtlDAO.getBySettlementId(id);
+	}
+
+	@Override
+	public SettlementLog getSettleLog(Long id) {
+		return settlementLogDAO.findOne(id);
+	}
+
+	@Override
+	public void saveOrUpdateSettleLog(SettlementLog log) {
+		settlementLogDAO.save(log);
+		
+	}
+
+	@Override
+	public List<SettlementLog> findLogBySettleId(Long id) {
+		return settlementLogDAO.findBySettlementId(id);
 	}
 }
