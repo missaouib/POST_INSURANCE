@@ -27,9 +27,9 @@ public class SettlementDtl implements Idable<Long> {
 	private String claimsNo;
 	private Settlement settlement;
 	private String policyNo;
-	private String prod;
+	private String prodName;
 	private Double policyFee;
-	private Date validDate;
+	private Date policyDate;
 	private Date firstCaseTime;
 	private String caseMan;
 	private Date firstFileDate;
@@ -49,15 +49,15 @@ public class SettlementDtl implements Idable<Long> {
 
 	/** full constructor */
 	public SettlementDtl(Settlement settlement, String policyNo,
-			String prod, Double policyFee, Date validDate, Date firstCaseTime,
+			String prodName, Double policyFee, Date policyDate, Date firstCaseTime,
 			String caseMan, Date firstFileDate, String firstSignMan,
 			Date allFileDate, String allSignMan, Date checkDate,
 			String checker, Date checkDoneDate, String checkDoneMan) {
 		this.settlement = settlement;
 		this.policyNo = policyNo;
-		this.prod = prod;
+		this.prodName = prodName;
 		this.policyFee = policyFee;
-		this.validDate = validDate;
+		this.policyDate = policyDate;
 		this.firstCaseTime = firstCaseTime;
 		this.caseMan = caseMan;
 		this.firstFileDate = firstFileDate;
@@ -110,13 +110,13 @@ public class SettlementDtl implements Idable<Long> {
 		this.policyNo = policyNo;
 	}
 
-	@Column(name = "prod", length = 64)
-	public String getProd() {
-		return this.prod;
+	@Column(name = "prod_name", length = 64)
+	public String getProdName() {
+		return this.prodName;
 	}
 
-	public void setProd(String prod) {
-		this.prod = prod;
+	public void setProdName(String prodName) {
+		this.prodName = prodName;
 	}
 
 	@Column(name = "policy_fee", precision = 22, scale = 0)
@@ -128,13 +128,13 @@ public class SettlementDtl implements Idable<Long> {
 		this.policyFee = policyFee;
 	}
 
-	@Column(name = "valid_date", length = 10)
-	public Date getValidDate() {
-		return this.validDate;
+	@Column(name = "policy_date", length = 10)
+	public Date getPolicyDate() {
+		return this.policyDate;
 	}
 
-	public void setValidDate(Date validDate) {
-		this.validDate = validDate;
+	public void setPolicyDate(Date policyDate) {
+		this.policyDate = policyDate;
 	}
 
 	@Column(name = "first_case_time", length = 10)

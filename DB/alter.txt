@@ -559,9 +559,9 @@ CREATE TABLE t_settlement_dtl (
   claims_no VARCHAR(21),
   settlement_id BIGINT(20),
   policy_no VARCHAR(18),
-  prod VARCHAR(64),
+  prod_name VARCHAR(64),
   policy_fee DOUBLE,
-  valid_date DATE,
+  policy_date DATE,
   first_case_time DATE,
   case_man CHAR(10),
   first_file_date DATE,
@@ -576,9 +576,13 @@ CREATE TABLE t_settlement_dtl (
   KEY fk_reference_33 (settlement_id) USING BTREE,
   CONSTRAINT fk_reference_33 FOREIGN KEY (settlement_id) REFERENCES t_settlement (id)
 ) ENGINE=InnoDB
-AUTO_INCREMENT=1 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci'
+AUTO_INCREMENT=1 CHARACTER SET 'utf8' COLLATE 'utf8_general_ci¡¯;
 
 
 ALTER TABLE t_invoice_req ADD COLUMN is_elective_bill Boolean DEFAULT FALSE;
 
 ALTER TABLE t_invoice_req ADD COLUMN bill_addr varchar(18) DEFAULT NULL;
+
+ALTER TABLE `t_settlement_dtl ` CHANGE COLUMN `type` `conservation_code` VARCHAR(8) COLLATE utf8_general_ci DEFAULT NULL;
+
+drop table t_settlement_dtl;

@@ -38,21 +38,21 @@
 		</p>
 		<p>
 			<label>立案日期：</label>
-			<input type="text" name="recordDate" id="recordDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" value="<fmt:formatDate value="${settle.recordDate }" pattern="yyyy-MM-dd"/>"/>
+			<input type="text" name="recordDate" id="recordDate" class="date" dateFmt="yyyy-MM-dd" value="<fmt:formatDate value="${settle.recordDate }" pattern="yyyy-MM-dd"/>"/>
 					<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 		<p>
 			<label>结案日期：</label>
-			<input type="text" name="closeDate" id="closeDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" value="<fmt:formatDate value="${settle.closeDate }" pattern="yyyy-MM-dd"/>"/>
+			<input type="text" name="closeDate" id="closeDate" class="date" dateFmt="yyyy-MM-dd" value="<fmt:formatDate value="${settle.closeDate }" pattern="yyyy-MM-dd"/>"/>
 					<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 		<p>
 			<label>赔付金额：</label>
-			<input type="text" name="payFee" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${settle.payFee }"/>
+			<input type="text" name="payFee" class="input-medium validate[maxSize[32]]" maxlength="32" value="${settle.payFee }"/>
 		</p>
 		<p>
 			<label>案件状态：</label>
-			<input type="text" name="caseStatus" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${settle.caseStatus }"/>
+			<input type="text" name="caseStatus" class="input-medium validate[maxSize[32]]" maxlength="32" value="${settle.caseStatus }"/>
 		</p>
 	</div>
 			

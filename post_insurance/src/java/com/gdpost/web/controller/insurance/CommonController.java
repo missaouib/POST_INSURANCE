@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.JavaBeanSerializer;
 import com.alibaba.fastjson.serializer.SerializeConfig;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.serializer.SimpleDateFormatSerializer;
 import com.gdpost.utils.SecurityUtils;
 import com.gdpost.web.entity.basedata.ConservationError;
@@ -144,7 +145,9 @@ public class CommonController {
 		String dateFormat = "yyyy-MM-dd";  
 	    mapping.put(Date.class, new SimpleDateFormatSerializer(dateFormat));
 		mapping.put(Policy.class, new JavaBeanSerializer(Policy.class, fm));
-		String str = JSON.toJSONString(org, mapping);
+		JSON.DEFFAULT_DATE_FORMAT = "yyyy-MM-dd";
+		String str = JSON.toJSONString(org, mapping, SerializerFeature.WriteDateUseDateFormat);
+		
 		return str;
 	}
 	
