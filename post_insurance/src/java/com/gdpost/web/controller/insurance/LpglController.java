@@ -138,8 +138,38 @@ public class LpglController {
 	public @ResponseBody String update(@Valid Settlement settle, HttpServletRequest request) {
 		Settlement src = lpglService.getSettle(settle.getId());
 		StringBuffer loginfo = new StringBuffer("");
-		if(src.getCaseDate().equals(settle.getCaseDate())) {
-			loginfo.append("修改了立案日期：" + src.getCaseDate() + "->" + settle.getCaseDate());
+		if(!src.getCaseDate().equals(settle.getCaseDate())) {
+			loginfo.append("修改了出险日期：" + src.getCaseDate() + "->" + settle.getCaseDate() + ";");
+		}
+		if(!src.getCaseStatus().equals(settle.getCaseStatus())) {
+			loginfo.append("修改了状态：" + src.getCaseStatus() + "->" + settle.getCaseStatus() + ";");
+		}
+		if(!src.getCaseType().equals(settle.getCaseType())) {
+			loginfo.append("修改了类型：" + src.getCaseType() + "->" + settle.getCaseType() + ";");
+		}
+		if(!src.getCloseDate().equals(settle.getCloseDate())) {
+			loginfo.append("修改了关闭日期：" + src.getCloseDate() + "->" + settle.getCloseDate() + ";");
+		}
+		if(!src.getInsured().equals(settle.getInsured())) {
+			loginfo.append("修改了出险人：" + src.getInsured() + "->" + settle.getInsured() + ";");
+		}
+		if(!src.getOrganization().getName().equals(settle.getOrganization().getName())) {
+			loginfo.append("修改了机构;");
+		}
+		if(src.getPayFee().doubleValue() != settle.getPayFee().doubleValue()) {
+			loginfo.append("修改了赔付金额：" + src.getPayFee() + "->" + settle.getPayFee() + ";");
+		}
+		if(!src.getRecordDate().equals(settle.getRecordDate())) {
+			loginfo.append("修改了立案日期：" + src.getRecordDate() + "->" + settle.getRecordDate() + ";");
+		}
+		if(!src.getReporteDate().equals(settle.getReporteDate())) {
+			loginfo.append("修改了报案日期：" + src.getReporteDate() + "->" + settle.getReporteDate() + ";");
+		}
+		if(!src.getReporter().equals(settle.getReporter())) {
+			loginfo.append("修改了报案人：" + src.getReporter() + "->" + settle.getReporter() + ";");
+		}
+		if(!src.getReporterPhone().equals(settle.getReporterPhone())) {
+			loginfo.append("修改了报案人电话：" + src.getReporterPhone() + "->" + settle.getReporterPhone() + ";");
 		}
 		
 		lpglService.saveOrUpdateSettle(settle);
@@ -160,10 +190,21 @@ public class LpglController {
 	@Log(message="删除了{0}的案件信息。", level=LogLevel.WARN, module=LogModule.LPGL)
 	@RequiresPermissions("Settlement:delete")
 	@RequestMapping(value="/delete/{id}", method=RequestMethod.POST)
-	public @ResponseBody String delete(@PathVariable Long id) {
+	public @ResponseBody String delete(@PathVariable Long id, HttpServletRequest request) {
 		Settlement settle = null;
 		try {
 			settle = lpglService.getSettle(id);
+			
+			User user = SecurityUtils.getShiroUser().getUser();
+			SettlementLog settleLog = new SettlementLog();
+			settleLog.setSettlement(settle);
+			settleLog.setUser(user);
+			settleLog.setInfo("删除报案信息：" + settle.getInsured());
+			settleLog.setIp(request.getRemoteAddr());
+			settleLog.setIsKeyInfo(true);
+			lpglService.saveOrUpdateSettleLog(settleLog);
+			
+			
 			lpglService.deleteSettle(settle.getId());
 		} catch (ServiceException e) {
 			return AjaxObject.newError("删除案件失败：" + e.getMessage()).setCallbackType("").toString();
@@ -176,11 +217,21 @@ public class LpglController {
 	@Log(message="删除了{0}案件。", level=LogLevel.WARN, module=LogModule.LPGL)
 	@RequiresPermissions("Settlement:delete")
 	@RequestMapping(value="/delete", method=RequestMethod.POST)
-	public @ResponseBody String deleteMany(Long[] ids) {
+	public @ResponseBody String deleteMany(Long[] ids, HttpServletRequest request) {
 		String[] policys = new String[ids.length];
 		try {
 			for (int i = 0; i < ids.length; i++) {
 				Settlement settle = lpglService.getSettle(ids[i]);
+				
+				User user = SecurityUtils.getShiroUser().getUser();
+				SettlementLog settleLog = new SettlementLog();
+				settleLog.setSettlement(settle);
+				settleLog.setUser(user);
+				settleLog.setInfo("删除报案信息：" + settle.getInsured());
+				settleLog.setIp(request.getRemoteAddr());
+				settleLog.setIsKeyInfo(true);
+				lpglService.saveOrUpdateSettleLog(settleLog);
+				
 				lpglService.deleteSettle(settle.getId());
 				
 				policys[i] = settle.getInsured();

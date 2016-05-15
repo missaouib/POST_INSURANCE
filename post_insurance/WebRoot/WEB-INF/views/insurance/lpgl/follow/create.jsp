@@ -15,25 +15,31 @@
 		</p>
 		<p>
 			<label>报案人：</label>
-			<input type="text" name="reporter" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value=""/>
+			<input type="text" name="reporter" class="input-medium validate[maxSize[32]]" maxlength="32" value=""/>
 		</p>
 		<p>
 			<label>报案人电话 ：</label>
-			<input type="text" name="reporterPhone" class="phone validate[required,maxSize[11]] required" maxlength="11" value=""/>
+			<input type="text" name="reporterPhone" class="phone validate[maxSize[11]]" maxlength="11" value=""/>
 		</p>
 		<p>
 			<label>出险日期：</label>
-			<input type="text" name="caseDate" id="caseDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" value=""/>
+			<input type="text" name="caseDate" id="caseDate" class="date" dateFmt="yyyy-MM-dd" value=""/>
 					<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 		
 		<p>
 			<label>理赔类型：</label>
-			<input type="text" name="caseType" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value=""/>
+			<select name="caseType" id="caseType" class="combox validate[required] required">
+				<option value="意外身故">意外身故</option>
+				<option value="疾病身故">疾病身故</option>
+				<option value="重大疾病">重大疾病</option>
+				<option value="全残">全残</option>
+				<option value="医疗">医疗</option>
+			</select>
 		</p>
 		<p>
 			<label>报案日期：</label>
-			<input type="text" name="reporteDate" id="reporteDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" value=""/>
+			<input type="text" name="reporteDate" id="reporteDate" class="date" dateFmt="yyyy-MM-dd" value=""/>
 					<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 		<p>
@@ -52,7 +58,15 @@
 		</p>
 		<p>
 			<label>案件状态：</label>
-			<input type="text" name="caseStatus" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value=""/>
+			<select name="caseStatus" id="caseStatus" class="combox validate[required] required">
+				<option value="待报案">待报案</option>
+				<option value="待立案">待立案</option>
+				<option value="待调查">待调查</option>
+				<option value="待结案">待结案</option>
+				<option value="拒付退费">拒付退费</option>
+				<option value="结案关闭">结案关闭</option>
+				<option value="不予立案">不予立案</option>
+			</select>
 		</p>
 	</div>
 			
