@@ -141,7 +141,7 @@ public class CommonController {
 		fm.put("organName", "organName");
 		fm.put("prodName", "prodName");
 		fm.put("policyFee", "policyFee");
-		fm.put("policyDate", "policyDate");
+		fm.put("plicyValidDate", "policyDate");
 		String dateFormat = "yyyy-MM-dd";  
 	    mapping.put(Date.class, new SimpleDateFormatSerializer(dateFormat));
 		mapping.put(Policy.class, new JavaBeanSerializer(Policy.class, fm));

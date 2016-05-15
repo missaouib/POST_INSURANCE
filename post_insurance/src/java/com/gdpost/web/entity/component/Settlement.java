@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.gdpost.web.entity.Idable;
@@ -49,7 +50,7 @@ public class Settlement implements Idable<Long> {
 //	private List<SettlementReport> settlementReports = new ArrayList<SettlementReport>(0);
 //	private List<SettlementCheck> settlementChecks = new ArrayList<SettlementCheck>(0);
 	private List<SettlementLog> settlementLogs = new ArrayList<SettlementLog>(0);
-	private List<SettlementDtl> settlementDtls = new ArrayList<SettlementDtl>(0);
+	private SettlementDtl settlementDtls;
 	
 	// Constructors
 
@@ -266,12 +267,12 @@ public class Settlement implements Idable<Long> {
 		this.settlementLogs = settlementLogs;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "settlement", orphanRemoval = true)
-	public List<SettlementDtl> getSettlementDtls() {
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "settlement", orphanRemoval = true)
+	public SettlementDtl getSettlementDtls() {
 		return settlementDtls;
 	}
 
-	public void setSettlementDtls(List<SettlementDtl> settlementDtls) {
+	public void setSettlementDtls(SettlementDtl settlementDtls) {
 		this.settlementDtls = settlementDtls;
 	}
 }

@@ -9,7 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.gdpost.web.entity.Idable;
@@ -91,7 +91,7 @@ public class SettlementDtl implements Idable<Long> {
 		this.claimsNo = claimsNo;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "settlement_id")
 	public Settlement getSettlement() {
 		return this.settlement;

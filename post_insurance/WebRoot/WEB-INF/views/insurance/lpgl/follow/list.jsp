@@ -66,14 +66,18 @@
 
 	<div class="panelBar">
 		<ul class="toolBar">
-			<shiro:hasPermission name="User:save">
+			<shiro:hasPermission name="Settlement:save">
 				<li><a iconClass="user_add" target="dialog" rel="lookup2organization_add" mask="true" width="530" height="450" href="${contextPath }/lpgl/create"><span>添加</span></a></li>
 			</shiro:hasPermission>
-			<shiro:hasPermission name="User:edit:User拥有的资源">
+			<shiro:hasPermission name="Settlement:edit">
 				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="330" href="${contextPath }/lpgl/update/{slt_uid}"><span>编辑</span></a></li>
 			</shiro:hasPermission>
-			<shiro:hasPermission name="User:delete:User拥有的资源">
+			<shiro:hasPermission name="Settlement:delete">
 				<li><a iconClass="user_delete" target="selectedTodo" rel="ids" href="${contextPath }/lpgl/delete" title="确认要删除?"><span>删除</span></a></li>
+			</shiro:hasPermission>
+			<shiro:hasPermission name="Settlement:view">
+				<li class="line">line</li>
+				<li><a class="icon" target="_blank" href="${contextPath }/lpgl/toXls?search_LIKE_insured=${search_LIKE_insured }&search_LTE_caseDate=${param.search_LTE_caseDate}&search_GTE_caseDate=${param.search_GTE_caseDate}&caseStatus=${caseStatus}&organization.orgCode=${org_code}&organization.name=${org_name}"><span>导出Excel</span></a></li>
 			</shiro:hasPermission>
 		</ul>
 	</div>
@@ -102,7 +106,10 @@
 			<c:forEach var="item" items="${users}" varStatus="idx">
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
-				<td><a target="dialog" mask="true" width="530" height="530" href="${contextPath }/lpgl/detail/${item.id}">登记详情</a></td>	
+				<td>
+					<a target="dialog" mask="true" width="530" height="530" href="${contextPath }/lpgl/detail/${item.id}">登记详情</a> &nbsp;&nbsp;
+					<a target="dialog" mask="true" width="750" height="430" href="${contextPath }/lpgl/log/${item.id}">操作日志</a>
+				</td>	
 				<td>${idx.index+1 }</td>
 				<td title="${item.organization.name}">
 				<c:choose>  
