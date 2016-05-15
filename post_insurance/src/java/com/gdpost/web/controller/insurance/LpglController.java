@@ -46,7 +46,6 @@ import com.gdpost.web.entity.component.Settlement;
 import com.gdpost.web.entity.component.SettlementDtl;
 import com.gdpost.web.entity.component.SettlementLog;
 import com.gdpost.web.entity.main.Organization;
-import com.gdpost.web.entity.main.Policy;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.exception.ExistedException;
 import com.gdpost.web.exception.ServiceException;
@@ -636,13 +635,13 @@ public class LpglController {
 		
 		fm.put("policyNo", "policyNo");
 		fm.put("holder", "holder");
-		fm.put("settlement", "settlement");
+		fm.put("settlement.insured", "insured");
 		fm.put("prodName", "prodName");
 		fm.put("policyFee", "policyFee");
 		fm.put("plicyValidDate", "policyDate");
 		String dateFormat = "yyyy-MM-dd";  
 	    mapping.put(Date.class, new SimpleDateFormatSerializer(dateFormat));
-		mapping.put(Policy.class, new JavaBeanSerializer(Policy.class, fm));
+		mapping.put(SettlementDtl.class, new JavaBeanSerializer(SettlementDtl.class, fm));
 		JSON.DEFFAULT_DATE_FORMAT = "yyyy-MM-dd";
 		String str = JSON.toJSONString(org, mapping, SerializerFeature.WriteDateUseDateFormat);
 		

@@ -49,7 +49,7 @@
 				<prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</prop>
 
 				<!-- 用于调试的属性 -->
-				<!---->
+				<!--
 				<prop key="hibernate.enable_lazy_load_no_trans">true</prop>
 				<prop key="hibernate.hbm2ddl.auto">update</prop> 
 				<prop key="hibernate.generate_statistics">true</prop>
@@ -58,7 +58,7 @@
 				<prop key="hibernate.format_sql">true</prop>
 				
 				<prop key="hibernate.show_sql">true</prop>
-				
+				-->
 				<!-- end 用于调试的属性 -->			
 			</props>
 		</property>
