@@ -11,6 +11,8 @@ import java.util.List;
 
 import org.springframework.data.jpa.domain.Specification;
 
+import com.gdpost.web.entity.component.SettleTask;
+import com.gdpost.web.entity.component.SettleTaskLog;
 import com.gdpost.web.entity.component.Settlement;
 import com.gdpost.web.entity.component.SettlementDtl;
 import com.gdpost.web.entity.component.SettlementLog;
@@ -27,7 +29,7 @@ public interface LpglService {
 	
 	List<Settlement> findBySettleExample(Specification<Settlement> specification, Page page);
 	
-	Settlement getSettleBySettlementNo(String name);
+	Settlement getSettleByPolicyNo(String name);
 	
 	SettlementDtl getSettleDtl(Long id);
 
@@ -47,4 +49,20 @@ public interface LpglService {
 	
 	List<SettlementLog> findLogBySettleId(Long id);
 	
+	/**
+	 * SettleTask
+	 */
+	SettleTask getSettleTask(Long id);
+
+	void saveOrUpdateSettleTask(SettleTask settle);
+
+	void deleteSettleTask(Long id);
+	
+	List<SettleTask> findAllSettleTask(Page page);
+	
+	List<SettleTask> findBySettleTaskExample(Specification<SettleTask> specification, Page page);
+	
+	List<SettleTaskLog> findLogBySettleTaskId(Long id);
+
+	void saveOrUpdateSettleTaskLog(SettleTaskLog log);
 }

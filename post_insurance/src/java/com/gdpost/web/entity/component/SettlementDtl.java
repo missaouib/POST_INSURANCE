@@ -92,7 +92,7 @@ public class SettlementDtl implements Idable<Long> {
 	}
 
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "settlement_id")
+	@JoinColumn(name = "settlement_id", referencedColumnName="id")
 	public Settlement getSettlement() {
 		return this.settlement;
 	}

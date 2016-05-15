@@ -93,7 +93,7 @@ public class Settlement implements Idable<Long> {
 	}
 
 	@ManyToOne
-	@JoinColumn(name = "org_id")
+	@JoinColumn(name = "org_id", referencedColumnName="id")
 	public Organization getOrganization() {
 		return this.organization;
 	}

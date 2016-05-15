@@ -10,9 +10,13 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gdpost.web.dao.SettleTaskDAO;
+import com.gdpost.web.dao.SettleTaskLogDAO;
 import com.gdpost.web.dao.SettlementDAO;
 import com.gdpost.web.dao.SettlementDtlDAO;
 import com.gdpost.web.dao.SettlementLogDAO;
+import com.gdpost.web.entity.component.SettleTask;
+import com.gdpost.web.entity.component.SettleTaskLog;
 import com.gdpost.web.entity.component.Settlement;
 import com.gdpost.web.entity.component.SettlementDtl;
 import com.gdpost.web.entity.component.SettlementLog;
@@ -34,6 +38,12 @@ public class LpglServiceImpl implements LpglService {
 	
 	@Autowired
 	private SettlementLogDAO settlementLogDAO;
+	
+	@Autowired
+	private SettleTaskDAO settleTaskDAO;
+	
+	@Autowired
+	private SettleTaskLogDAO settleTaskLogDAO;
 	
 	/*
 	 * (non-Javadoc)
@@ -96,7 +106,7 @@ public class LpglServiceImpl implements LpglService {
 	 * @see com.gdpost.web.service.UserService#getBySettlementNo(java.lang.String)
 	 */
 	@Override
-	public Settlement getSettleBySettlementNo(String policyNo) {
+	public Settlement getSettleByPolicyNo(String policyNo) {
 		return settlementDAO.getByPolicyPolicyNo(policyNo);
 	}
 	
@@ -169,5 +179,73 @@ public class LpglServiceImpl implements LpglService {
 	@Override
 	public List<SettlementLog> findLogBySettleId(Long id) {
 		return settlementLogDAO.findBySettlementId(id);
+	}
+	
+	/*
+	 * settle task
+	 */
+	
+	@Override
+	public SettleTask getSettleTask(Long id) {
+		return settleTaskDAO.findOne(id);
+	}
+
+	/*
+	 * (non-Javadoc) 
+	 * @see com.gdpost.web.service.UserService#saveOrUpdate(com.gdpost.web.entity.main.SettleTask)  
+	 */
+	@Override
+	public void saveOrUpdateSettleTask(SettleTask settle) {
+		if (settle.getId() == null) {
+			if (settleTaskDAO.getByPolicyPolicyNo(settle.getPolicy().getPolicyNo()) != null) {
+				throw new ExistedException("出险保单：" + settle.getPolicy().getPolicyNo() + "已记录。");
+			}
+		}
+		
+		settleTaskDAO.save(settle);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.gdpost.web.service.UserService#delete(java.lang.Long)  
+	 */
+	@Override
+	public void deleteSettleTask(Long id) {
+		SettleTask user = settleTaskDAO.findOne(id);
+		settleTaskDAO.delete(user.getId());
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see com.gdpost.web.service.UserService#findAll(com.gdpost.web.util.dwz.Page)  
+	 */
+	@Override
+	public List<SettleTask> findAllSettleTask(Page page) {
+		org.springframework.data.domain.Page<SettleTask> springDataPage = settleTaskDAO.findAll(PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see com.gdpost.web.service.UserService#findByExample(org.springframework.data.jpa.domain.Specification, com.gdpost.web.util.dwz.Page)	
+	 */
+	@Override
+	public List<SettleTask> findBySettleTaskExample(
+			Specification<SettleTask> specification, Page page) {
+		org.springframework.data.domain.Page<SettleTask> springDataPage = settleTaskDAO.findAll(specification, PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
+	}
+	
+	@Override
+	public void saveOrUpdateSettleTaskLog(SettleTaskLog log) {
+		settleTaskLogDAO.save(log);
+		
+	}
+	
+	@Override
+	public List<SettleTaskLog> findLogBySettleTaskId(Long id) {
+		return settleTaskLogDAO.findBySettleTaskId(id);
 	}
 }

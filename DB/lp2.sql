@@ -1,32 +1,34 @@
 /*==============================================================*/
 /* Table: t_settlement                                          */
 /*==============================================================*/
-create table t_settlement
+create table t_settle_task
 (
    id                   bigint not null auto_increment,
    org_id               bigint,
+   policy_no			VARCHAR(18),
    insured              varchar(32),
-   reporter             varchar(32),
-   reporter_phone       varchar(32),
-   case_date            date,
-   case_type            varchar(16),
-   reporte_date         date,
-   record_date          date,
-   close_date           date,
-   pay_fee              double,
-   case_status          varchar(16),
-   remark               varchar(1024),
+   check_start_date     date,
+   check_end_date      	date,
+   limitation           int,
+   check_req      		varchar(254),
+   checker            	varchar(16),
+   checker_addr         varchar(16),
+   check_fee			double,
+   attr_link			varchar(128),
+   check_status			varchar(16),	
+   operate_id           bigint,
+   create_time         	date,
    primary key (id)
 );
 
 /*==============================================================*/
 /* Table: t_settlement_log                                      */
 /*==============================================================*/
-create table t_settlement_log
+create table t_settle_task_log
 (
    id                   bigint not null auto_increment,
    user_id              bigint,
-   settlement_id        bigint,
+   settle_task_id       bigint,
    deal_date            datetime,
    info                 varchar(1024),
    is_key_info          boolean,
@@ -34,5 +36,5 @@ create table t_settlement_log
    primary key (id)
 );
 
-alter table t_settlement_log add constraint fk_reference_32 foreign key (settlement_id)
-      references t_settlement (id) on delete restrict on update restrict;
+alter table t_settle_task_log add constraint fk_sett_task_32 foreign key (settle_task_id)
+      references t_settle_task (id) on delete restrict on update restrict;
