@@ -138,37 +138,37 @@ public class LpglController {
 	public @ResponseBody String update(@Valid Settlement settle, HttpServletRequest request) {
 		Settlement src = lpglService.getSettle(settle.getId());
 		StringBuffer loginfo = new StringBuffer("");
-		if(!src.getCaseDate().equals(settle.getCaseDate())) {
+		if(src.getCaseDate()!=null && !src.getCaseDate().equals(settle.getCaseDate())) {
 			loginfo.append("修改了出险日期：" + src.getCaseDate() + "->" + settle.getCaseDate() + ";");
 		}
-		if(!src.getCaseStatus().equals(settle.getCaseStatus())) {
+		if(src.getCaseStatus()!=null && !src.getCaseStatus().equals(settle.getCaseStatus())) {
 			loginfo.append("修改了状态：" + src.getCaseStatus() + "->" + settle.getCaseStatus() + ";");
 		}
-		if(!src.getCaseType().equals(settle.getCaseType())) {
+		if(src.getCaseType()!=null && !src.getCaseType().equals(settle.getCaseType())) {
 			loginfo.append("修改了类型：" + src.getCaseType() + "->" + settle.getCaseType() + ";");
 		}
-		if(!src.getCloseDate().equals(settle.getCloseDate())) {
+		if(src.getCloseDate()!=null && !src.getCloseDate().equals(settle.getCloseDate())) {
 			loginfo.append("修改了关闭日期：" + src.getCloseDate() + "->" + settle.getCloseDate() + ";");
 		}
-		if(!src.getInsured().equals(settle.getInsured())) {
+		if(src.getInsured()!=null && !src.getInsured().equals(settle.getInsured())) {
 			loginfo.append("修改了出险人：" + src.getInsured() + "->" + settle.getInsured() + ";");
 		}
-		if(!src.getOrganization().getName().equals(settle.getOrganization().getName())) {
+		if(src.getOrganization()!=null && !src.getOrganization().getName().equals(settle.getOrganization().getName())) {
 			loginfo.append("修改了机构;");
 		}
-		if(src.getPayFee().doubleValue() != settle.getPayFee().doubleValue()) {
+		if(src.getPayFee()!=null && src.getPayFee().doubleValue() != settle.getPayFee().doubleValue()) {
 			loginfo.append("修改了赔付金额：" + src.getPayFee() + "->" + settle.getPayFee() + ";");
 		}
-		if(!src.getRecordDate().equals(settle.getRecordDate())) {
+		if(src.getRecordDate()!=null && !src.getRecordDate().equals(settle.getRecordDate())) {
 			loginfo.append("修改了立案日期：" + src.getRecordDate() + "->" + settle.getRecordDate() + ";");
 		}
-		if(!src.getReporteDate().equals(settle.getReporteDate())) {
+		if(src.getReporteDate()!=null && !src.getReporteDate().equals(settle.getReporteDate())) {
 			loginfo.append("修改了报案日期：" + src.getReporteDate() + "->" + settle.getReporteDate() + ";");
 		}
-		if(!src.getReporter().equals(settle.getReporter())) {
+		if(src.getReporter()!=null && !src.getReporter().equals(settle.getReporter())) {
 			loginfo.append("修改了报案人：" + src.getReporter() + "->" + settle.getReporter() + ";");
 		}
-		if(!src.getReporterPhone().equals(settle.getReporterPhone())) {
+		if(src.getReporterPhone()!=null && !src.getReporterPhone().equals(settle.getReporterPhone())) {
 			loginfo.append("修改了报案人电话：" + src.getReporterPhone() + "->" + settle.getReporterPhone() + ";");
 		}
 		
@@ -248,7 +248,11 @@ public class LpglController {
 	@RequestMapping(value="/list", method={RequestMethod.GET, RequestMethod.POST})
 	public String list(ServletRequest request, Page page, Map<String, Object> map) {
 		User user = SecurityUtils.getShiroUser().getUser();
-		String orgCode = request.getParameter("settle.orgCode");
+		String caseStatus = request.getParameter("caseStatus");
+		Settlement settle = new Settlement();
+		settle.setCaseStatus(caseStatus);
+		request.setAttribute("settle", settle);
+		String orgCode = request.getParameter("organization.orgCode");
 		if(orgCode == null || orgCode.trim().length() <= 0) {
 			orgCode = user.getOrganization().getOrgCode();
 			if(orgCode.contains("11185")) {
@@ -258,13 +262,16 @@ public class LpglController {
 			if(!orgCode.contains(user.getOrganization().getOrgCode())){
 				orgCode = user.getOrganization().getOrgCode();
 			}
-			String orgName = request.getParameter("settle.name");
-			request.setAttribute("settle_orgCode", orgCode);
-			request.setAttribute("settle_name", orgName);
+			String orgName = request.getParameter("organization.name");
+			request.setAttribute("org_code", orgCode);
+			request.setAttribute("org_name", orgName);
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		if(caseStatus != null && caseStatus.trim().length() >0) {
+			csf.add(new SearchFilter("caseStatus", Operator.LIKE, caseStatus));
+		}
 		
 		Specification<Settlement> specification = DynamicSpecifications.bySearchFilter(request, Settlement.class, csf);
 		List<Settlement> users = lpglService.findBySettleExample(specification, page);

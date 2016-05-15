@@ -4,17 +4,55 @@
 
 <dwz:paginationForm action="${contextPath }/lpgl/list" page="${page }">
 	<input type="hidden" name="search_LIKE_insured" value="${param.search_LIKE_insured }"/>
+	<input type="hidden" name="organization.orgCode" value="${org_code }"/>
+	<input type="hidden" name="organization.name" value="${org_name }"/>
+	<input type="hidden" name="search_LTE_caseDate" value="${param.search_LTE_caseDate }"/>
+	<input type="hidden" name="search_GTE_caseDate" value="${param.search_GTE_caseDate }"/>
+	<input type="hidden" name="caseStatus" value="${caseStatus }"/>
 </dwz:paginationForm>
 
 <form method="post" action="${contextPath }/lpgl/list" onsubmit="return navTabSearch(this)">
 	<div class="pageHeader">
 		<div class="searchBar">
-			<ul class="searchContent">
-				<li>
-					<label>出险人：</label>
-					<input type="text" name="search_LIKE_insured" value="${param.search_LIKE_insured }"/>
-				</li>
-			</ul>
+			<table class="searchContent">
+				<tr>
+					<td>
+						出险人：<input type="text" id="insured" style="width: 100px;" name="search_LIKE_insured" value="${param.search_LIKE_insured }"/>
+					</td>
+					<td>
+						<label>状态：</label>
+						<form:select path="settle.caseStatus" id="list_caseStatus" class="combox">
+							<form:option value=""> -- </form:option>
+							<form:option value="待报案">待报案</form:option>
+							<form:option value="待立案">待立案</form:option>
+							<form:option value="待调查">待调查</form:option>
+							<form:option value="待结案">待结案</form:option>
+							<form:option value="拒付退费">拒付退费</form:option>
+							<form:option value="结案关闭">结案关闭</form:option>
+							<form:option value="不予立案">不予立案</form:option>
+						</form:select>
+					</td>
+					<td>
+						<label>所属机构：</label>
+						<input name="organization.orgCode" id="uw_orgCode" type="hidden" value="${org_code }"/>
+					<input class="validate[required] required" name="organization.name" id="uw_orgName" type="text" readonly="readonly" style="width: 140px;" value="${org_name }"/>
+					<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="organization" title="选择机构" width="400">查找带回</a>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>工单日期：</label>
+						<input type="text" name="search_GTE_caseDate" id="lpcDate1" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_caseDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+					</td>
+					<td>
+						<label>工单日期：</label>
+						<input type="text" name="search_LTE_caseDate" id="lpcDate2" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_caseDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+					</td>
+					<td>
+						&nbsp;
+					</td>
+				</tr>
+			</table>
 			<div class="subBar">
 				<ul>						
 					<li><div class="button"><div class="buttonContent"><button type="submit">搜索</button></div></div></li>
