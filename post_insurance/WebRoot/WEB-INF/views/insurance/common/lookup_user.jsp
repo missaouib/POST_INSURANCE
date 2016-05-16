@@ -3,10 +3,13 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 <dwz:paginationForm action="${contextPath }/common/lookup4User" page="${page }" onsubmit="return dwzSearch(this, 'dialog');">
+<input type="hidden" name="role" value="${role }"/>
+<input type="hidden" name="search_LIKE_realname" value="${search_LIKE_realname }"/>
 </dwz:paginationForm>
 
 <div class="pageHeader">
 	<form method="post" id="cveForm" action="${contextPath }/common/lookup4User" onsubmit="return dwzSearch(this, 'dialog');">
+	<input type="hidden" name="role" value="${role }"/>
 	<div class="searchBar">
 		<ul class="searchContent">
 			<li>

@@ -158,7 +158,11 @@ public class HfglController {
 		//src.setStatus(issue.getStatus());
 		src.setDealType(issue.getDealType());
 		boolean hqDone = src.getStatus().equals(HF_STATUS.CallSuccessStatus.getDesc())?true:false;
-		if(issue.getDealType().equals("成功件")) {
+		if(issue.getDealType().equals("可再访")) {
+			src.setCanCallAgain(true);
+			src.setCanCallAgainRemark(issue.getDealDesc());
+			src.setResetDate(new Date());
+		} else if(issue.getDealType().equals("成功件")) {
 			if(!hqDone) {
 				src.setStatus(HF_STATUS.DoorSuccessStatus.getDesc());
 			}

@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 <div class="pageContent">
-<form method="post" action="${contextPath }/lpgl/task/create" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
+<form method="post" action="${contextPath }/lpgl/task/create" class="required-validate pageForm" enctype="multipart/form-data" onsubmit="return validateCallback(this, dialogReloadNavTab);">
 	<div class="pageFormContent" layoutH="58">
 		<fieldset>
 		<legend>保单基本信息</legend>
@@ -12,76 +12,68 @@
 		</p>
 		<p>
 			<label>出保险人：</label>
-			<input type="text" name="insured" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${settleDtl.insured }"/>
+			<input type="text" name="insured" class="input-medium validate[required,maxSize[32]] required" readonly="readonly" maxlength="32" value="${settleDtl.insured }"/>
 		</p>
 		<p>
 			<label>险种：</label>
-			<input type="text" name="prodName" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${settleDtl.prodName }"/>
+			<input type="text" name="prodName" class="input-medium validate[required,maxSize[32]] required" readonly="readonly" maxlength="32" value="${settleDtl.prodName }"/>
 		</p>
 		<p>
 			<label>保费：</label>
-			<input type="text" name="policyFee" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${settleDtl.policyFee }"/>
+			<input type="text" name="policyFee" class="input-medium validate[required,maxSize[32]] required" readonly="readonly" maxlength="32" value="${settleDtl.policyFee }"/>
 		</p>
 		<p>
 			<label>生效日期：</label>
-			<input type="text" name="policyDate" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${settleDtl.policyDate }"/>
+			<input type="text" name="policyDate" class="input-medium validate[required,maxSize[32]] required" readonly="readonly" maxlength="32" value="${settleDtl.policyDate }"/>
 		</p>
 	</fieldset>
-		<p>
-			<label>报案人：</label>
-			<input type="text" name="reporter" class="input-medium validate[maxSize[32]]" maxlength="32" value=""/>
-		</p>
-		<p>
-			<label>报案人电话 ：</label>
-			<input type="text" name="reporterPhone" class="phone validate[maxSize[11]]" maxlength="11" value=""/>
-		</p>
+	<fieldset>
+		<legend>出险信息</legend>
 		<p>
 			<label>出险日期：</label>
-			<input type="text" name="caseDate" id="caseDate" class="date" dateFmt="yyyy-MM-dd" value=""/>
-					<a class="inputDateButton" href="javascript:;">选择</a>
+			<input type="text" name="caseDate" class="input-medium validate[required,maxSize[32]] required" readonly="readonly" maxlength="32" value="${settleDtl.caseDate }"/>
 		</p>
-		
 		<p>
 			<label>理赔类型：</label>
-			<select name="caseType" id="caseType" class="combox validate[required] required">
-				<option value="意外身故">意外身故</option>
-				<option value="疾病身故">疾病身故</option>
-				<option value="重大疾病">重大疾病</option>
-				<option value="全残">全残</option>
-				<option value="医疗">医疗</option>
-			</select>
+			<input type="text" name="caseType" class="input-medium validate[required,maxSize[32]] required" readonly="readonly" maxlength="32" value="${settleDtl.caseType }"/>
 		</p>
+	</fieldset>
+	<fieldset>
+		<legend>调查进程</legend>
 		<p>
-			<label>报案日期：</label>
-			<input type="text" name="reporteDate" id="reporteDate" class="date" dateFmt="yyyy-MM-dd" value=""/>
-					<a class="inputDateButton" href="javascript:;">选择</a>
-		</p>
-		<p>
-			<label>立案日期：</label>
-			<input type="text" name="recordDate" id="recordDate" class="date" dateFmt="yyyy-MM-dd" value=""/>
-					<a class="inputDateButton" href="javascript:;">选择</a>
+			<label>调查起期：</label>
+			<input type="text" name="createTime" class="input-medium validate[required,maxSize[32]] required" readonly="readonly" maxlength="32" value="${task.createTime }"/>
 		</p>
 		<p>
 			<label>结案日期：</label>
-			<input type="text" name="closeDate" id="closeDate" class="date" dateFmt="yyyy-MM-dd" value=""/>
-					<a class="inputDateButton" href="javascript:;">选择</a>
+			<input type="text" name="closeDate" id="closeDate" class="date" dateFmt="yyyy-MM-dd" readonly="readonly" value="${task.checkEndDate }"/>
 		</p>
 		<p>
-			<label>赔付金额：</label>
-			<input type="text" name="payFee" class="input-medium validate[maxSize[32]]" maxlength="32" value=""/>
+			<label>调查要求：</label>
+			<input type="text" name="checkReq" class="input-medium validate[maxSize[32]]" maxlength="32" value=""/>
 		</p>
 		<p>
-			<label>案件状态：</label>
-			<select name="caseStatus" id="caseStatus" class="combox validate[required] required">
-				<option value="待报案">待报案</option>
-				<option value="待立案">待立案</option>
-				<option value="待调查">待调查</option>
-				<option value="待结案">待结案</option>
-				<option value="拒付退费">拒付退费</option>
-				<option value="结案关闭">结案关闭</option>
-				<option value="不予立案">不予立案</option>
-			</select>
+			<label>调查人：</label>
+			<p>
+			<label>接收人：</label>
+			<input name="checker" type="text" postField="realname" suggestFields="realname" 
+					suggestUrl="/common/lookupClaimUserSuggest" lookupGroup=""/>
+					<a class="btnLook" href="${contextPath }/common/lookup4User?role=地市理赔" lookupGroup="user" title="选择用户" width="650">查</a>
 		</p>
+		</p>
+		<p>
+			<label>调查地点：</label>
+			<input type="text" name="checkerAddr" class="input-medium validate[maxSize[32]]" maxlength="32" value=""/>
+		</p>
+		<p>
+			<label>查勘费：</label>
+			<input type="text" name="checkFee" class="input-medium validate[maxSize[32]]" maxlength="32" value=""/>
+		</p>
+		<p>
+			<label>附件</label>
+			<input type="file" name="file">
+		</p>
+	</fieldset>
 	</div>
 			
 	<div class="formBar">

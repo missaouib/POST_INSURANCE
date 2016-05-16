@@ -196,7 +196,12 @@ public class CommonController {
 	public String lookupUser(ServletRequest request, Map<String, Object> map, Page page) {
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("status", Operator.EQ, User.STATUS_ENABLED));
-		Specification<User> specification = DynamicSpecifications.bySearchFilter(request, User.class);
+		String role = request.getParameter("role");
+		if(role != null && role.trim().length()>0) {
+			csf.add(new SearchFilter("userRoles.role.name", Operator.EQ, role));
+			request.setAttribute("role", role);
+		}
+		Specification<User> specification = DynamicSpecifications.bySearchFilter(request, User.class, csf);
 		List<User> org = userService.findByExample(specification, page);
 		map.put("userlist", org);
 		map.put("page", page);
@@ -214,6 +219,33 @@ public class CommonController {
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("realname", Operator.LIKE, realname));
 		csf.add(new SearchFilter("status", Operator.EQ, User.STATUS_ENABLED));
+		Specification<User> specification = DynamicSpecifications.bySearchFilterWithoutRequest(User.class, csf);
+		List<User> user = userService.findByExample(specification, page);
+		SerializeConfig mapping = new SerializeConfig();
+		HashMap<String, String> fm = new HashMap<String, String>();
+		fm.put("id", "id");
+		fm.put("realname", "checker");
+		mapping.put(User.class, new JavaBeanSerializer(User.class, fm));
+		String str = JSON.toJSONString(user, mapping);
+		LOG.debug("---------------- common user suggest: " + str);
+		return str;
+	}
+	
+	@RequestMapping(value="/lookupClaimUserSuggest", method={RequestMethod.POST})
+	public @ResponseBody String lookupClaimUserSuggest(ServletRequest request, Map<String, Object> map) {
+		String realname = request.getParameter("realname");
+		if(realname == null || realname.trim().length() <2 ) {
+			return "[{}]";
+		}
+		String role = request.getParameter("role");
+		Page page = new Page();
+		page.setNumPerPage(5);
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("realname", Operator.LIKE, realname));
+		csf.add(new SearchFilter("status", Operator.EQ, User.STATUS_ENABLED));
+		if(role != null && role.trim().length()>0) {
+			csf.add(new SearchFilter("userRoles.role.name", Operator.EQ, "地市理赔"));
+		}
 		Specification<User> specification = DynamicSpecifications.bySearchFilterWithoutRequest(User.class, csf);
 		List<User> user = userService.findByExample(specification, page);
 		SerializeConfig mapping = new SerializeConfig();

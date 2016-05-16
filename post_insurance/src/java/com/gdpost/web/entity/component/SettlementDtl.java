@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.gdpost.web.entity.Idable;
 
@@ -40,8 +41,23 @@ public class SettlementDtl implements Idable<Long> {
 	private String checker;
 	private Date checkDoneDate;
 	private String checkDoneMan;
+	
+	@Transient
+	private String insured;
 
-	// Constructors
+	@Transient
+	public String getInsured() {
+		if(this.settlement != null) {
+			return this.settlement.getInsured();
+		}
+		return insured;
+	}
+	@Transient
+	public void setInsured(String insured) {
+		if(this.settlement !=null) {
+			this.insured = this.settlement.getInsured();
+		}
+	}
 
 	/** default constructor */
 	public SettlementDtl() {
@@ -225,6 +241,20 @@ public class SettlementDtl implements Idable<Long> {
 
 	public void setCheckDoneMan(String checkDoneMan) {
 		this.checkDoneMan = checkDoneMan;
+	}
+
+	@Override
+	public String toString() {
+		return "SettlementDtl [id=" + id + ", claimsNo=" + claimsNo
+				+ ", settlement=" + settlement + ", policyNo=" + policyNo
+				+ ", prodName=" + prodName + ", policyFee=" + policyFee
+				+ ", policyDate=" + policyDate + ", firstCaseTime="
+				+ firstCaseTime + ", caseMan=" + caseMan + ", firstFileDate="
+				+ firstFileDate + ", firstSignMan=" + firstSignMan
+				+ ", allFileDate=" + allFileDate + ", allSignMan=" + allSignMan
+				+ ", checkDate=" + checkDate + ", checker=" + checker
+				+ ", checkDoneDate=" + checkDoneDate + ", checkDoneMan="
+				+ checkDoneMan + "]";
 	}
 
 }

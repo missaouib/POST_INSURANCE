@@ -22,6 +22,8 @@ import javax.validation.Valid;
 
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.data.jpa.domain.Specification;
@@ -65,7 +67,7 @@ import com.gdpost.web.util.persistence.SearchFilter.Operator;
 @Controller
 @RequestMapping("/lpgl")
 public class LpglController {
-	//private static final Logger LOG = LoggerFactory.getLogger(MemberController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(LpglController.class);
 	
 	@Autowired
 	private LpglService lpglService;
@@ -628,17 +630,19 @@ public class LpglController {
 		List<SettlementDtl> org = lpglService.findBySettleDtlExample(specification, page);
 		SerializeConfig mapping = new SerializeConfig();
 		HashMap<String, String> fm = new HashMap<String, String>();
-		
+		LOG.debug(org.get(0).toString());
 		//if(!isOffsite) {
 		fm.put("id", "id");
 		//}
 		
 		fm.put("policyNo", "policyNo");
 		fm.put("holder", "holder");
-		fm.put("settlement.insured", "insured");
+		fm.put("insured", "insured");
 		fm.put("prodName", "prodName");
 		fm.put("policyFee", "policyFee");
-		fm.put("plicyValidDate", "policyDate");
+		fm.put("policyDate", "policyDate");
+		fm.put("caseDate", "caseDate");
+		fm.put("caseType", "caseType");
 		String dateFormat = "yyyy-MM-dd";  
 	    mapping.put(Date.class, new SimpleDateFormatSerializer(dateFormat));
 		mapping.put(SettlementDtl.class, new JavaBeanSerializer(SettlementDtl.class, fm));
