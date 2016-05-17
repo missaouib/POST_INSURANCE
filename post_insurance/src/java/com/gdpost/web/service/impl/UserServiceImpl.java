@@ -117,8 +117,8 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public List<User> findByRoleName(String roleName) {
-		List<User> list = userDAO.findByUserRolesRoleNameAndStatus(roleName, User.STATUS_ENABLED);
+	public List<User> findByRoleName(String roleName, Page page) {
+		List<User> list = userDAO.findByUserRolesRoleNameAndStatus(roleName, User.STATUS_ENABLED, PageUtils.createPageable(page));
 		return list;
 	}
 	

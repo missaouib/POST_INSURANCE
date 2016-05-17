@@ -1,74 +1,78 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+<%@ page import="java.util.Date"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 <div class="pageContent">
 <form method="post" action="${contextPath }/lpgl/task/update" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
-<input type="hidden" name="id" value="${settle.id }" />
+<input type="hidden" name="id" value="${task.id }" />
 	<div class="pageFormContent" layoutH="58">
+		<fieldset>
+		<legend>保单基本信息</legend>
 		<p>
-			<label>机构：</label>
-			<input name="organization.id" id="uw_orgId" type="hidden" value="${settle.organization.id }"/>
-					<input class="validate[required] required" name="organization.name" id="uw_orgName" type="text" readonly="readonly" style="width: 140px;" value="${settle.organization.name }"/>
-					<a class="btnLook" href="${contextPath }/management/security/settle/lookup2org" lookupGroup="organization" title="选择机构" width="400">查找带回</a>
+			<label>保单号：</label>
+			<input name="policyNo" type="text" postField="search_LIKE_policyNo" suggestFields="policyNo" 
+					suggestUrl="/lpgl/lookupSettlesuggest" lookupGroup="" class="input-medium validate[required,maxSize[32]] required" value="${settleDtl.policyNo }"/>
+		</p>
+	  	<p >
+			<label>出保险人：</label>
+			<input type="text" name="insured" class="input-medium validate[required,maxSize[32]] required" readonly="readonly" maxlength="32" value="${settleDtl.insured }"/>
 		</p>
 		<p>
-			<label>出险人：</label>
-			<input type="text" name="insured" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${settle.insured }"/>
+			<label>险种：</label>
+			<input type="text" name="prodName" class="input-medium validate[required,maxSize[32]] required" readonly="readonly" maxlength="32" value="${settleDtl.prodName }"/>
 		</p>
 		<p>
-			<label>报案人：</label>
-			<input type="text" name="reporter" class="input-medium validate[maxSize[32]]" maxlength="32" value="${settle.reporter }"/>
+			<label>保费：</label>
+			<input type="text" name="policyFee" class="input-medium validate[required,maxSize[32]] required" readonly="readonly" maxlength="32" value="${settleDtl.policyFee }"/>
 		</p>
 		<p>
-			<label>报案人电话 ：</label>
-			<input type="text" name="reporterPhone" class="input-medium validate[maxSize[32]]" maxlength="32" value="${settle.reporterPhone }"/>
+			<label>生效日期：</label>
+			<input type="text" name="policyDate" class="input-medium validate[required,maxSize[32]] required" readonly="readonly" maxlength="32" value="${settleDtl.policyDate }"/>
 		</p>
+	</fieldset>
+	<fieldset>
+		<legend>出险信息</legend>
 		<p>
 			<label>出险日期：</label>
-			<input type="text" name="caseDate" id="caseDate" class="date" dateFmt="yyyy-MM-dd" value="<fmt:formatDate value="${settle.caseDate }" pattern="yyyy-MM-dd"/>"/>
-					<a class="inputDateButton" href="javascript:;">选择</a>
+			<input type="text" name="caseDate" class="input-medium validate[required,maxSize[32]] required" readonly="readonly" maxlength="32" value="${settleDtl.caseDate }"/>
 		</p>
-		
 		<p>
 			<label>理赔类型：</label>
-			<form:select path="settle.caseType" id="caseType" class="combox validate[required] required">
-				<form:option value="意外身故">意外身故</form:option>
-				<form:option value="疾病身故">疾病身故</form:option>
-				<form:option value="重大疾病">重大疾病</form:option>
-				<form:option value="全残">全残</form:option>
-				<form:option value="医疗">医疗</form:option>
-			</form:select>
+			<input type="text" name="caseType" class="input-medium validate[required,maxSize[32]] required" readonly="readonly" maxlength="32" value="${settleDtl.caseType }"/>
 		</p>
+	</fieldset>
+	<fieldset>
+		<legend>调查进程</legend>
 		<p>
-			<label>报案日期：</label>
-			<input type="text" name="reporteDate" id="reporteDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" value="<fmt:formatDate value="${settle.reporteDate }" pattern="yyyy-MM-dd"/>"/>
-					<a class="inputDateButton" href="javascript:;">选择</a>
-		</p>
-		<p>
-			<label>立案日期：</label>
-			<input type="text" name="recordDate" id="recordDate" class="date" dateFmt="yyyy-MM-dd" value="<fmt:formatDate value="${settle.recordDate }" pattern="yyyy-MM-dd"/>"/>
-					<a class="inputDateButton" href="javascript:;">选择</a>
+			<label>调查起期：</label>
+			<input type="text" name="createTime" class="input-medium validate[required,maxSize[32]] required" readonly="readonly" maxlength="32" value="<fmt:formatDate value="<%=new Date() %>" pattern="yyyy-MM-dd"/>"/>
 		</p>
 		<p>
 			<label>结案日期：</label>
-			<input type="text" name="closeDate" id="closeDate" class="date" dateFmt="yyyy-MM-dd" value="<fmt:formatDate value="${settle.closeDate }" pattern="yyyy-MM-dd"/>"/>
-					<a class="inputDateButton" href="javascript:;">选择</a>
+			<input type="text" name="closeDate" id="closeDate" class="date" dateFmt="yyyy-MM-dd" readonly="readonly" value="${task.checkEndDate }"/>
 		</p>
 		<p>
-			<label>赔付金额：</label>
-			<input type="text" name="payFee" class="input-medium validate[maxSize[32]]" maxlength="32" value="${settle.payFee }"/>
+			<label>调查要求：</label>
+			<input type="text" name="checkReq" class="input-medium validate[maxSize[32]]" maxlength="32" value=""/>
 		</p>
 		<p>
-			<label>案件状态：</label>
-			<form:select path="settle.caseStatus" id="caseStatus" class="combox validate[required] required">
-				<form:option value="待报案">待报案</form:option>
-				<form:option value="待立案">待立案</form:option>
-				<form:option value="待调查">待调查</form:option>
-				<form:option value="待结案">待结案</form:option>
-				<form:option value="拒付退费">拒付退费</form:option>
-				<form:option value="结案关闭">结案关闭</form:option>
-				<form:option value="不予立案">不予立案</form:option>
-			</form:select>
+			<label>调查人：</label>
+			<input name="checker" type="text" postField="realname" suggestFields="realname" 
+					suggestUrl="/common/lookupClaimUserSuggest?role=地市理赔" lookupGroup=""/>
+					<a class="btnLook" href="${contextPath }/common/lookup4RoleUser?role=地市理赔" lookupGroup="user" title="选择用户" width="650" hight="530">查</a>
 		</p>
+		<p>
+			<label>调查地点：</label>
+			<input type="text" name="checkerAddr" class="input-medium validate[maxSize[32]]" maxlength="32" value=""/>
+		</p>
+		<p>
+			<label>查勘费：</label>
+			<input type="text" name="checkFee" class="input-medium validate[maxSize[32]]" maxlength="32" value=""/>
+		</p>
+		<p>
+			<label>附件</label>
+			<input type="file" name="file">
+		</p>
+	</fieldset>
 	</div>
 			
 	<div class="formBar">

@@ -26,7 +26,7 @@
 	</form>
 </div>
 <div class="pageContent">
-	<table class="table" layoutH="118" targetType="dialog" width="100%">
+	<table class="table" layoutH="138" targetType="dialog" width="100%">
 		<thead>
 			<tr>
 				<th orderfield="username">登录名</th>

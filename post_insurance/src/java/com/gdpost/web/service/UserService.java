@@ -23,7 +23,7 @@ public interface UserService {
 	
 	List<User> findByOrganizationId(Long orgId);
 	
-	List<User> findByRoleName(String role);
+	List<User> findByRoleName(String role, Page page);
 	
 	void updatePwd(User user, String newPwd);
 	

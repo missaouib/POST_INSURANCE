@@ -208,6 +208,18 @@ public class CommonController {
 		return LOOK_USER;
 	}
 	
+	@RequestMapping(value="/lookup4RoleUser", method={RequestMethod.GET, RequestMethod.POST})
+	public String lookupRoleUser(ServletRequest request, Map<String, Object> map, Page page) {
+		String role = request.getParameter("role");
+		if(role != null && role.trim().length()>0) {
+			request.setAttribute("role", role);
+		}
+		List<User> org = userService.findByRoleName(role, page);
+		map.put("userlist", org);
+		map.put("page", page);
+		return LOOK_USER;
+	}
+	
 	@RequestMapping(value="/lookupUserSuggest", method={RequestMethod.POST})
 	public @ResponseBody String lookupUserSuggest(ServletRequest request, Map<String, Object> map) {
 		String realname = request.getParameter("realname");
@@ -233,18 +245,11 @@ public class CommonController {
 	
 	@RequestMapping(value="/lookupClaimUserSuggest", method={RequestMethod.POST})
 	public @ResponseBody String lookupClaimUserSuggest(ServletRequest request, Map<String, Object> map) {
-		String realname = request.getParameter("realname");
 		String role = request.getParameter("role");
 		Page page = new Page();
 		page.setNumPerPage(25);
-		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("realname", Operator.LIKE, realname));
-		csf.add(new SearchFilter("status", Operator.EQ, User.STATUS_ENABLED));
-		if(role != null && role.trim().length()>0) {
-			csf.add(new SearchFilter("userRoles.role.name", Operator.EQ, "地市理赔"));
-		}
 		//Specification<User> specification = DynamicSpecifications.bySearchFilterWithoutRequest(User.class, csf);
-		List<User> user = userService.findByRoleName(role);
+		List<User> user = userService.findByRoleName(role, page);
 		SerializeConfig mapping = new SerializeConfig();
 		HashMap<String, String> fm = new HashMap<String, String>();
 		fm.put("id", "id");
