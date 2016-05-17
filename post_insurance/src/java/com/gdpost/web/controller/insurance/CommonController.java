@@ -234,20 +234,17 @@ public class CommonController {
 	@RequestMapping(value="/lookupClaimUserSuggest", method={RequestMethod.POST})
 	public @ResponseBody String lookupClaimUserSuggest(ServletRequest request, Map<String, Object> map) {
 		String realname = request.getParameter("realname");
-		if(realname == null || realname.trim().length() <2 ) {
-			return "[{}]";
-		}
 		String role = request.getParameter("role");
 		Page page = new Page();
-		page.setNumPerPage(5);
+		page.setNumPerPage(25);
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("realname", Operator.LIKE, realname));
 		csf.add(new SearchFilter("status", Operator.EQ, User.STATUS_ENABLED));
 		if(role != null && role.trim().length()>0) {
 			csf.add(new SearchFilter("userRoles.role.name", Operator.EQ, "地市理赔"));
 		}
-		Specification<User> specification = DynamicSpecifications.bySearchFilterWithoutRequest(User.class, csf);
-		List<User> user = userService.findByExample(specification, page);
+		//Specification<User> specification = DynamicSpecifications.bySearchFilterWithoutRequest(User.class, csf);
+		List<User> user = userService.findByRoleName(role);
 		SerializeConfig mapping = new SerializeConfig();
 		HashMap<String, String> fm = new HashMap<String, String>();
 		fm.put("id", "id");

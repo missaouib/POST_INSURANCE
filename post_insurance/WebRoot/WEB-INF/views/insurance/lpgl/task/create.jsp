@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+<%@ page import="java.util.Date"%>  
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 <div class="pageContent">
 <form method="post" action="${contextPath }/lpgl/task/create" class="required-validate pageForm" enctype="multipart/form-data" onsubmit="return validateCallback(this, dialogReloadNavTab);">
@@ -10,7 +11,7 @@
 			<input name="policyNo" type="text" postField="search_LIKE_policyNo" suggestFields="policyNo" 
 					suggestUrl="/lpgl/lookupSettlesuggest" lookupGroup="" class="input-medium validate[required,maxSize[32]] required" value="${settleDtl.policyNo }"/>
 		</p>
-		<p>
+	  	<p >
 			<label>出保险人：</label>
 			<input type="text" name="insured" class="input-medium validate[required,maxSize[32]] required" readonly="readonly" maxlength="32" value="${settleDtl.insured }"/>
 		</p>
@@ -42,7 +43,7 @@
 		<legend>调查进程</legend>
 		<p>
 			<label>调查起期：</label>
-			<input type="text" name="createTime" class="input-medium validate[required,maxSize[32]] required" readonly="readonly" maxlength="32" value="${task.createTime }"/>
+			<input type="text" name="createTime" class="input-medium validate[required,maxSize[32]] required" readonly="readonly" maxlength="32" value="<fmt:formatDate value="<%=new Date() %>" pattern="yyyy-MM-dd"/>"/>
 		</p>
 		<p>
 			<label>结案日期：</label>
@@ -57,7 +58,7 @@
 			<p>
 			<label>接收人：</label>
 			<input name="checker" type="text" postField="realname" suggestFields="realname" 
-					suggestUrl="/common/lookupClaimUserSuggest" lookupGroup=""/>
+					suggestUrl="/common/lookupClaimUserSuggest?role=地市理赔" lookupGroup=""/>
 					<a class="btnLook" href="${contextPath }/common/lookup4User?role=地市理赔" lookupGroup="user" title="选择用户" width="650">查</a>
 		</p>
 		</p>

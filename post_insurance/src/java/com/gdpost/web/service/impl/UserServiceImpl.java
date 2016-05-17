@@ -116,6 +116,12 @@ public class UserServiceImpl implements UserService {
 		return list;
 	}
 	
+	@Override
+	public List<User> findByRoleName(String roleName) {
+		List<User> list = userDAO.findByUserRolesRoleNameAndStatus(roleName, User.STATUS_ENABLED);
+		return list;
+	}
+	
 	/**
 	 * 判断是否超级管理员.
 	 */

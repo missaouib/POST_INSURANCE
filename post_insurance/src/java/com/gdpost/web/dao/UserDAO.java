@@ -14,4 +14,6 @@ public interface UserDAO extends JpaRepository<User, Long>, JpaSpecificationExec
 	User getByUsername(String username);
 
 	List<User> findByOrganizationId(Long id);
+	
+	List<User> findByUserRolesRoleNameAndStatus(String name, String status);
 }

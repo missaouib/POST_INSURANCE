@@ -44,6 +44,10 @@ public class SettlementDtl implements Idable<Long> {
 	
 	@Transient
 	private String insured;
+	@Transient
+	private Date caseDate;
+	@Transient
+	private String caseType;
 
 	@Transient
 	public String getInsured() {
@@ -58,7 +62,33 @@ public class SettlementDtl implements Idable<Long> {
 			this.insured = this.settlement.getInsured();
 		}
 	}
-
+	@Transient
+	public Date getCaseDate() {
+		if(this.settlement != null) {
+			return this.settlement.getCaseDate();
+		}
+		return caseDate;
+	}
+	@Transient
+	public void setCaseDate(Date caseDate) {
+		if(this.settlement != null) {
+			this.caseDate = this.settlement.getCaseDate();
+		}
+	}
+	@Transient
+	public String getCaseType() {
+		if(this.settlement != null) {
+			return this.settlement.getCaseType();
+		}
+		return caseType;
+	}
+	@Transient
+	public void setCaseType(String caseType) {
+		if(this.settlement != null) {
+			this.caseType = this.settlement.getCaseType();
+		}
+	}
+	
 	/** default constructor */
 	public SettlementDtl() {
 	}
