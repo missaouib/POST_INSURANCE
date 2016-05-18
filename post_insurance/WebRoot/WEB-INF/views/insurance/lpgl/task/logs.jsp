@@ -24,7 +24,7 @@
 				<td>${idx.index+1 }</td>
 				<td>${item.user.username}</td>
 				<td><fmt:formatDate value="${item.dealDate}" pattern="yyyy-MM-dd"/></td>
-				<td title="${item.info}">${fn:substring(item.info, 0, 37)}</td>
+				<td title="${item.info}">${fn:substring(item.info, 0, 37)}...</td>
 			</tr>
 			</c:forEach>
 		</tbody>

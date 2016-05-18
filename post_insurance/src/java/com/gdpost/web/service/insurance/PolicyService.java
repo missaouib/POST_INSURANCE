@@ -23,4 +23,6 @@ public interface PolicyService {
 	
 	List<Policy> findByExample(Specification<Policy> specification, Page page);
 	
+	Policy getByPolicyNo(String policyNo);
+	
 }

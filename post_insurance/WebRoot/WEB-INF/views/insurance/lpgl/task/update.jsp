@@ -44,7 +44,7 @@
 		<legend>调查进程</legend>
 		<p>
 			<label>调查起期：</label>
-			<input type="text" name="createTime" class="input-medium validate[required,maxSize[32]] required" readonly="readonly" maxlength="32" value="<fmt:formatDate value="<%=new Date() %>" pattern="yyyy-MM-dd"/>"/>
+			<input type="text" name="checkStartDate" class="input-medium validate[required,maxSize[32]] required" readonly="readonly" maxlength="32" value="<fmt:formatDate value="${task.checkStartDate }" pattern="yyyy-MM-dd"/>"/>
 		</p>
 		<p>
 			<label>结案日期：</label>
@@ -52,25 +52,25 @@
 		</p>
 		<p>
 			<label>调查要求：</label>
-			<input type="text" name="checkReq" class="input-medium validate[maxSize[32]]" maxlength="32" value=""/>
+			<input type="text" name="checkReq" class="input-medium validate[maxSize[32]]" maxlength="32" value="${task.checkReq }"/>
 		</p>
 		<p>
 			<label>调查人：</label>
-			<input name="checker" type="text" postField="realname" suggestFields="realname" 
-					suggestUrl="/common/lookupClaimUserSuggest?role=地市理赔" lookupGroup=""/>
+			<input name="user.realname" type="text" postField="realname" suggestFields="realname" 
+					suggestUrl="/common/lookupClaimUserSuggest?role=地市理赔" lookupGroup="" value="${task.checker }"/>
 					<a class="btnLook" href="${contextPath }/common/lookup4RoleUser?role=地市理赔" lookupGroup="user" title="选择用户" width="650" hight="530">查</a>
 		</p>
 		<p>
 			<label>调查地点：</label>
-			<input type="text" name="checkerAddr" class="input-medium validate[maxSize[32]]" maxlength="32" value=""/>
+			<input type="text" name="checkerAddr" class="input-medium validate[maxSize[32]]" maxlength="32" value="${task.checkerAddr }"/>
 		</p>
 		<p>
 			<label>查勘费：</label>
-			<input type="text" name="checkFee" class="input-medium validate[maxSize[32]]" maxlength="32" value=""/>
+			<input type="text" name="checkFee" class="input-medium validate[maxSize[32]]" maxlength="32" value="${task.checkFee }"/>
 		</p>
 		<p>
-			<label>附件</label>
-			<input type="file" name="file">
+			<label>附件：</label>
+			${task.attrLink }
 		</p>
 	</fieldset>
 	</div>

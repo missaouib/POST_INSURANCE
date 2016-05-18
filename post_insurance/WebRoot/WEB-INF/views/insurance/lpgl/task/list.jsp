@@ -6,9 +6,9 @@
 	<input type="hidden" name="search_LIKE_insured" value="${param.search_LIKE_insured }"/>
 	<input type="hidden" name="organization.orgCode" value="${org_code }"/>
 	<input type="hidden" name="organization.name" value="${org_name }"/>
-	<input type="hidden" name="search_LTE_caseDate" value="${param.search_LTE_caseDate }"/>
-	<input type="hidden" name="search_GTE_caseDate" value="${param.search_GTE_caseDate }"/>
-	<input type="hidden" name="caseStatus" value="${caseStatus }"/>
+	<input type="hidden" name="search_LTE_checkStartDate" value="${param.search_LTE_checkStartDate }"/>
+	<input type="hidden" name="search_GTE_checkStartDate" value="${param.search_GTE_checkStartDate }"/>
+	<input type="hidden" name="checkStatus" value="${checkStatus }"/>
 </dwz:paginationForm>
 
 <form method="post" action="${contextPath }/lpgl/task/list" onsubmit="return navTabSearch(this)">
@@ -21,15 +21,10 @@
 					</td>
 					<td>
 						<label>状态：</label>
-						<form:select path="settle.caseStatus" id="list_caseStatus" class="combox">
+						<form:select path="task.checkStatus" id="list_caseStatus" class="combox">
 							<form:option value=""> -- </form:option>
-							<form:option value="待报案">待报案</form:option>
-							<form:option value="待立案">待立案</form:option>
-							<form:option value="待调查">待调查</form:option>
-							<form:option value="待结案">待结案</form:option>
-							<form:option value="拒付退费">拒付退费</form:option>
-							<form:option value="结案关闭">结案关闭</form:option>
-							<form:option value="不予立案">不予立案</form:option>
+							<form:option value="调查中">调查中</form:option>
+							<form:option value="调查完成">调查完成</form:option>
 						</form:select>
 					</td>
 					<td>
@@ -41,12 +36,12 @@
 				</tr>
 				<tr>
 					<td>
-						<label>工单日期：</label>
-						<input type="text" name="search_GTE_caseDate" id="lpcDate1" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_caseDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+						<label>调查日期：</label>
+						<input type="text" name="search_GTE_checkStartDate" id="lpcDate1" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_checkStartDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
-						<label>工单日期：</label>
-						<input type="text" name="search_LTE_caseDate" id="lpcDate2" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_caseDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+						<label>调查日期：</label>
+						<input type="text" name="search_LTE_checkStartDate" id="lpcDate2" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_checkStartDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
 						&nbsp;
@@ -70,14 +65,14 @@
 				<li><a iconClass="user_add" target="dialog" rel="lookup2organization_add" mask="true" width="530" height="450" href="${contextPath }/lpgl/task/create"><span>添加</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Settlement:edit">
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="330" href="${contextPath }/lpgl/task/update/{slt_uid}"><span>编辑</span></a></li>
+				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="550" href="${contextPath }/lpgl/task/update/{slt_uid}"><span>编辑</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Settlement:delete">
 				<li><a iconClass="user_delete" target="selectedTodo" rel="ids" href="${contextPath }/lpgl/task/delete" title="确认要删除?"><span>删除</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Settlement:view">
 				<li class="line">line</li>
-				<li><a class="icon" target="_blank" href="${contextPath }/lpgl/task/toXls?search_LIKE_insured=${search_LIKE_insured }&search_LTE_caseDate=${param.search_LTE_caseDate}&search_GTE_caseDate=${param.search_GTE_caseDate}&caseStatus=${caseStatus}&organization.orgCode=${org_code}&organization.name=${org_name}"><span>导出Excel</span></a></li>
+				<li><a class="icon" target="_blank" href="${contextPath }/lpgl/task/toXls?search_LIKE_insured=${search_LIKE_insured }&search_LTE_checkStartDate=${param.search_LTE_checkStartDate}&search_GTE_checkStartDate=${param.search_GTE_checkStartDate}&caseStatus=${caseStatus}&organization.orgCode=${org_code}&organization.name=${org_name}"><span>导出Excel</span></a></li>
 			</shiro:hasPermission>
 		</ul>
 	</div>
@@ -90,16 +85,12 @@
 				<th>序号</th>	
 				<th orderField=organization.name class="${page.orderField eq 'organization.name' ? page.orderDirection : ''}">机构名称</th>
 				<th>出险人</th>
-				<th>报案人</th>
-				<th>报案人电话</th>
-				<th orderField=caseDate class="${page.orderField eq 'caseDate' ? page.orderDirection : ''}">出险日期</th>
-				<th orderField=caseType class="${page.orderField eq 'caseType' ? page.orderDirection : ''}">理赔类型</th>
-				<th orderField=reporteDate class="${page.orderField eq 'reporteDate' ? page.orderDirection : ''}">报案日期</th>
-				<th orderField=recordDate class="${page.orderField eq 'recordDate' ? page.orderDirection : ''}">立案日期</th>
-				<th orderField=closeDate class="${page.orderField eq 'closeDate' ? page.orderDirection : ''}">结案日期</th>
-				<th>赔付金额</th>
-				<th orderField="caseStatus" class="${page.orderField eq 'caseStatus' ? page.orderDirection : ''}">账户状态</th>
-				<th orderField="createTime" class="${page.orderField eq 'createTime' ? page.orderDirection : ''}">录入时间</th>
+				<th>保单号</th>
+				<th>调查起期</th>
+				<th>调查时效</th>
+				<th orderField=checker class="${page.orderField eq 'checker' ? page.orderDirection : ''}">调查人</th>
+				<th>查勘费</th>
+				<th>附件</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -107,7 +98,7 @@
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
 				<td>
-					<a target="dialog" mask="true" width="530" height="530" href="${contextPath }/lpgl/task/detail/${item.id}">登记详情</a> &nbsp;&nbsp;
+					<a target="dialog" mask="true" width="530" height="530" href="${contextPath }/lpgl/task/update/${item.id}">详情</a> &nbsp;&nbsp;
 					<a target="dialog" mask="true" width="750" height="430" href="${contextPath }/lpgl/task/log/${item.id}">操作日志</a>
 				</td>	
 				<td>${idx.index+1 }</td>
@@ -125,16 +116,12 @@
 				</c:choose>
 				</td>
 				<td>${item.insured}</td>
-				<td>${item.reporter}</td>
-				<td>${item.reporterPhone}</td>
-				<td><fmt:formatDate value="${item.caseDate }" pattern="yyyy-MM-dd"/></td>
-				<td>${item.caseType}</td>
-				<td><fmt:formatDate value="${item.reporteDate }" pattern="yyyy-MM-dd"/></td>
-				<td><fmt:formatDate value="${item.recordDate }" pattern="yyyy-MM-dd"/></td>
-				<td><fmt:formatDate value="${item.closeDate }" pattern="yyyy-MM-dd"/></td>
-				<td>${item.payFee}</td>
-				<td>${item.caseStatus}</td>
-				<td><fmt:formatDate value="${item.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+				<td>${item.policy.policyNo}</td>
+				<td><fmt:formatDate value="${item.checkStartDate}" pattern="yyyy-MM-dd"/></td>
+				<td>${item.limitation }</td>
+				<td>${item.checker}</td>
+				<td>${item.checkFee}</td>
+				<td>${item.attrLink}</td>
 			</tr>			
 			</c:forEach>
 		</tbody>

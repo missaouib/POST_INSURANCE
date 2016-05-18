@@ -164,6 +164,11 @@ public class LpglServiceImpl implements LpglService {
 	public SettlementDtl getDtlBySettlementId(Long id) {
 		return settlementDtlDAO.getBySettlementId(id);
 	}
+	
+	@Override
+	public SettlementDtl getDtlByPolicyPolicyNo(String policyNo) {
+		return settlementDtlDAO.getByPolicyNo(policyNo);
+	}
 
 	@Override
 	public SettlementLog getSettleLog(Long id) {
@@ -196,11 +201,6 @@ public class LpglServiceImpl implements LpglService {
 	 */
 	@Override
 	public void saveOrUpdateSettleTask(SettleTask settle) {
-		if (settle.getId() == null) {
-			if (settleTaskDAO.getByPolicyPolicyNo(settle.getPolicy().getPolicyNo()) != null) {
-				throw new ExistedException("出险保单：" + settle.getPolicy().getPolicyNo() + "已记录。");
-			}
-		}
 		
 		settleTaskDAO.save(settle);
 	}

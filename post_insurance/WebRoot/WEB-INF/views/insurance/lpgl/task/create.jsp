@@ -1,8 +1,23 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ page import="java.util.Date"%>  
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
+<script type="text/javascript">
+<!--
+function customAjaxDone(json){
+	//alert(json.statusCode);
+    if (json.statusCode == DWZ.statusCode.ok){
+    	DWZ.ajaxDone(json);
+    	dialogReloadNavTab(json);
+    	$.pdialog.closeCurrent(); 
+    }
+    else{
+        DWZ.ajaxDone(json);
+    }
+}
+//-->
+</script>
 <div class="pageContent">
-<form method="post" action="${contextPath }/lpgl/task/create" class="required-validate pageForm" enctype="multipart/form-data" onsubmit="return validateCallback(this, dialogReloadNavTab);">
+<form method="post" action="${contextPath }/lpgl/task/create" enctype="multipart/form-data" class="required-validate pageForm" onsubmit="return iframeCallback(this, customAjaxDone);">
 	<div class="pageFormContent" layoutH="58">
 		<fieldset>
 		<legend>保单基本信息</legend>
@@ -55,9 +70,9 @@
 		</p>
 		<p>
 			<label>调查人：</label>
-			<input name="checker" type="text" postField="realname" suggestFields="realname" 
+			<input name="realname" type="text" postField="realname" suggestFields="realname" 
 					suggestUrl="/common/lookupClaimUserSuggest?role=地市理赔" lookupGroup=""/>
-					<a class="btnLook" href="${contextPath }/common/lookup4RoleUser?role=地市理赔" lookupGroup="user" title="选择用户" width="650" hight="530">查</a>
+					<a class="btnLook" href="${contextPath }/common/lookup4RoleUser?role=地市理赔" lookupGroup="" title="选择用户" width="650" hight="530">查</a>
 		</p>
 		<p>
 			<label>调查地点：</label>

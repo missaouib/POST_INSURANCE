@@ -67,4 +67,9 @@ public class PolicyServiceImpl implements PolicyService {
 		return springDataPage.getContent();
 	}
 
+	@Override
+	public Policy getByPolicyNo(String policyNo) {
+		return policyDAO.getByPolicyNo(policyNo);
+	}
+
 }

@@ -59,6 +59,7 @@ import com.gdpost.web.entity.component.Settlement;
 import com.gdpost.web.entity.component.SettlementDtl;
 import com.gdpost.web.entity.component.SettlementLog;
 import com.gdpost.web.entity.main.Organization;
+import com.gdpost.web.entity.main.Policy;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.exception.ExistedException;
 import com.gdpost.web.exception.ServiceException;
@@ -68,6 +69,7 @@ import com.gdpost.web.log.LogMessageObject;
 import com.gdpost.web.log.LogModule;
 import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.insurance.LpglService;
+import com.gdpost.web.service.insurance.PolicyService;
 import com.gdpost.web.shiro.ShiroUser;
 import com.gdpost.web.util.dwz.AjaxObject;
 import com.gdpost.web.util.dwz.Page;
@@ -82,6 +84,9 @@ public class LpglController {
 	
 	@Autowired
 	private LpglService lpglService;
+	
+	@Autowired
+	private PolicyService policyService;
 
 	private static final String CREATE = "insurance/lpgl/follow/create";
 	private static final String UPDATE = "insurance/lpgl/follow/update";
@@ -384,6 +389,7 @@ public class LpglController {
         String updatePath = UploadDataUtils.getNoticeRelateFileStorePath(request, iNY);
 		String strNewFileName = null;
 		boolean hasFile = false;
+		String realname = request.getParameter("realname");
         if(file != null && file.getOriginalFilename() != null && file.getOriginalFilename().trim().length()>0) {
 	        try
 	        {
@@ -529,6 +535,14 @@ public class LpglController {
 			if(hasFile) {
 				task.setAttrLink(attrLink);
 			}
+			task.setChecker(realname);
+			task.setCheckStartDate(new Date());
+			String policyNo = request.getParameter("policyNo");
+			Policy policy = policyService.getByPolicyNo(policyNo);
+			SettlementDtl settleDtl = lpglService.getDtlByPolicyPolicyNo(policyNo);
+			task.setSettlementDtl(settleDtl);
+			task.setOrganization(policy.getOrganization());
+			task.setPolicy(policy);
 			task.setOperateId(user.getId());
 			task.setCreateTime(new Date());
 			task.setCheckStatus(SettleTask.STATUS_ING);
@@ -581,51 +595,58 @@ public class LpglController {
 	@RequiresPermissions("SettleTask:edit")
 	@RequestMapping(value="/task/update/{id}", method=RequestMethod.GET)
 	public String preUpdateTask(@PathVariable Long id, Map<String, Object> map) {
-		SettleTask settle = lpglService.getSettleTask(id);
+		SettleTask task = lpglService.getSettleTask(id);
 		
-		map.put("settle", settle);
+		SettlementDtl settleDtl = lpglService.getDtlByPolicyPolicyNo(task.getPolicy().getPolicyNo());
+		
+		Policy policy = task.getPolicy();
+		
+		map.put("task", task);
+		map.put("policy", policy);
+		map.put("settleDtl", settleDtl);
 		return UPDATE_TASK;
 	}
 	
 	@Log(message="修改了出险人{0}的案件调查任务信息。", level=LogLevel.WARN, module=LogModule.LPGL)
 	@RequiresPermissions("SettleTask:edit")
 	@RequestMapping(value="/task/update", method=RequestMethod.POST)
-	public @ResponseBody String updateTask(@Valid SettleTask settle, HttpServletRequest request) {
-		SettleTask src = lpglService.getSettleTask(settle.getId());
+	public @ResponseBody String updateTask(@Valid SettleTask task, HttpServletRequest request) {
+		SettleTask src = lpglService.getSettleTask(task.getId());
 		StringBuffer loginfo = new StringBuffer("");
-		if(settle.getAttrLink()!=null && src.getAttrLink() == null) {
+		if(task.getAttrLink()!=null && src.getAttrLink() == null) {
 			loginfo.append("上传附件；");
 		}
-		if(settle.getInsured()!=null && !src.getInsured().equals(settle.getInsured())) {
-			loginfo.append("改出险人：" + src.getInsured() + "->" + settle.getInsured() + "；");
+		if(task.getChecker()!=null && !src.getChecker().equals(task.getChecker())) {
+			loginfo.append("改调查人：" + src.getChecker() + "->" + task.getChecker() + "；");
 		}
-		if(settle.getOrganization()!=null && !src.getOrganization().getName().equals(settle.getOrganization().getName())) {
-			loginfo.append("改机构；");
+		if(task.getCheckerAddr()!=null && !(src.getCheckerAddr()==null?"":src.getCheckerAddr()).equals(task.getCheckerAddr())) {
+			loginfo.append("改调查地：" + src.getCheckerAddr() + "->" + task.getCheckerAddr() + "；");
 		}
-		if(settle.getChecker()!=null && !src.getChecker().equals(settle.getChecker())) {
-			loginfo.append("改调查人：" + src.getChecker() + "->" + settle.getChecker() + "；");
+		if(task.getCheckReq()!=null && !(src.getCheckReq()==null?"":src.getCheckReq()).equals(task.getCheckReq())) {
+			loginfo.append("改调查要求：" + src.getCheckReq() + "->" + task.getCheckReq() + "；");
 		}
-		if(settle.getCheckEndDate()!=null && !DateUtils.isSameDay(src.getCheckEndDate(), settle.getCheckEndDate())) {
-			loginfo.append("改调查开始日期：" + StringUtil.date2Str(src.getCheckEndDate(), "yy-M-d") + "->" + StringUtil.date2Str(settle.getCheckEndDate(), "yy-M-d") + "；");
-		}
-		if(settle.getCheckStartDate()!=null && !DateUtils.isSameDay(src.getCheckStartDate(), settle.getCheckStartDate())) {
-			loginfo.append("改调查结束日期：" + StringUtil.date2Str(src.getCheckStartDate(), "yy-M-d") + "->" + StringUtil.date2Str(settle.getCheckStartDate(), "yy-M-d") + "；");
-		}
-		if(settle.getCheckerAddr()!=null && !(src.getCheckerAddr()==null?"":src.getCheckerAddr()).equals(settle.getCheckerAddr())) {
-			loginfo.append("改调查地：" + src.getCheckerAddr() + "->" + settle.getCheckerAddr() + "；");
-		}
-		if(settle.getCheckReq()!=null && !(src.getCheckReq()==null?"":src.getCheckReq()).equals(settle.getCheckReq())) {
-			loginfo.append("改调查要求：" + src.getCheckReq() + "->" + settle.getCheckReq() + "；");
-		}
-		if(settle.getCheckFee()!=null && (src.getCheckFee()==null?0:src.getCheckFee().doubleValue()) != settle.getCheckFee().doubleValue()) {
-			loginfo.append("改查勘费：" + src.getCheckFee() + "->" + settle.getCheckFee() + "；");
+		if(task.getCheckFee()!=null && (src.getCheckFee()==null?0:src.getCheckFee().doubleValue()) != task.getCheckFee().doubleValue()) {
+			loginfo.append("改查勘费：" + src.getCheckFee() + "->" + task.getCheckFee() + "；");
 		}
 		
-		lpglService.saveOrUpdateSettleTask(settle);
+		String policyNo = request.getParameter("policyNo");
+		SettlementDtl settleDtl = lpglService.getDtlByPolicyPolicyNo(policyNo);
+		String realname = request.getParameter("user.realname");
+		Policy policy = policyService.getByPolicyNo(policyNo);
+		task.setOrganization(policy.getOrganization());
+		task.setPolicy(policy);
+		task.setSettlementDtl(settleDtl);
+		task.setCheckStatus(SettleTask.STATUS_ING);
+		task.setCheckStartDate(src.getCheckStartDate());
+		task.setAttrLink(src.getAttrLink());
+		task.setOperateId(src.getOperateId());
+		task.setCreateTime(src.getCreateTime());
+		task.setChecker(realname);
+		lpglService.saveOrUpdateSettleTask(task);
 		
 		User user = SecurityUtils.getShiroUser().getUser();
 		SettleTaskLog settleLog = new SettleTaskLog();
-		settleLog.setSettleTask(settle);
+		settleLog.setSettleTask(task);
 		settleLog.setUser(user);
 		settleLog.setDealDate(new Date());
 		settleLog.setInfo(loginfo.toString());
@@ -633,7 +654,7 @@ public class LpglController {
 		settleLog.setIsKeyInfo(true);
 		lpglService.saveOrUpdateSettleTaskLog(settleLog);
 		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{settle.getInsured()}));
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{task.getInsured()}));
 		return	AjaxObject.newOk("修改案件调查任务成功！").toString(); 
 	}
 	
@@ -700,10 +721,10 @@ public class LpglController {
 	@RequestMapping(value="/task/list", method={RequestMethod.GET, RequestMethod.POST})
 	public String listTask(ServletRequest request, Page page, Map<String, Object> map) {
 		User user = SecurityUtils.getShiroUser().getUser();
-		String caseStatus = request.getParameter("caseStatus");
-		Settlement settle = new Settlement();
-		settle.setCaseStatus(caseStatus);
-		request.setAttribute("settle", settle);
+		String checkStatus = request.getParameter("checkStatus");
+		SettleTask task = new SettleTask();
+		task.setCheckStatus(checkStatus);
+		request.setAttribute("task", task);
 		String orgCode = request.getParameter("organization.orgCode");
 		if(orgCode == null || orgCode.trim().length() <= 0) {
 			orgCode = user.getOrganization().getOrgCode();
@@ -721,8 +742,8 @@ public class LpglController {
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
-		if(caseStatus != null && caseStatus.trim().length() >0) {
-			csf.add(new SearchFilter("caseStatus", Operator.LIKE, caseStatus));
+		if(checkStatus != null && checkStatus.trim().length() >0) {
+			csf.add(new SearchFilter("checkStatus", Operator.EQ, checkStatus));
 		}
 		
 		Specification<SettleTask> specification = DynamicSpecifications.bySearchFilter(request, SettleTask.class, csf);
@@ -737,15 +758,15 @@ public class LpglController {
 	@RequestMapping(value="/task/toXls", method=RequestMethod.GET)
 	public String taskToXls(ServletRequest request, Page page, Map<String, Object> map) {
 		User user = SecurityUtils.getShiroUser().getUser();
-		String caseStatus = request.getParameter("caseStatus");
+		String checkStatus = request.getParameter("checkStatus");
 		page.setNumPerPage(65564);
 		page.setOrderField("organization.orgCode");
 		page.setOrderDirection("ASC");
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, user.getOrganization().getOrgCode()));
-		if(caseStatus != null && caseStatus.trim().length() > 0) {
-			csf.add(new SearchFilter("caseStatus", Operator.EQ, caseStatus));
+		if(checkStatus != null && checkStatus.trim().length() > 0) {
+			csf.add(new SearchFilter("checkStatus", Operator.EQ, checkStatus));
 		}
 		
 		Specification<SettleTask> specification = DynamicSpecifications.bySearchFilter(request, SettleTask.class, csf);

@@ -14,9 +14,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.gdpost.utils.StringUtil;
 import com.gdpost.web.entity.Idable;
 import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.Policy;
@@ -37,6 +39,7 @@ public class SettleTask implements Idable<Long> {
 	private Long id;
 	private Organization organization;
 	private Policy policy;
+	private SettlementDtl settlementDtl;
 	private String insured;
 	private Date checkStartDate;
 	private Date checkEndDate;
@@ -105,6 +108,16 @@ public class SettleTask implements Idable<Long> {
 	public void setPolicy(Policy policy) {
 		this.policy = policy;
 	}
+	
+	@OneToOne
+	@JoinColumn(name="settledtl_id", referencedColumnName="id")
+	public SettlementDtl getSettlementDtl() {
+		return this.settlementDtl;
+	}
+
+	public void setSettlementDtl(SettlementDtl settlementDtl) {
+		this.settlementDtl = settlementDtl;
+	}
 
 	@Column(name = "insured", length = 32)
 	public String getInsured() {
@@ -135,6 +148,7 @@ public class SettleTask implements Idable<Long> {
 
 	@Column(name = "limitation")
 	public Integer getLimitation() {
+		this.limitation = StringUtil.getBetweenDay(checkStartDate, new Date());
 		return this.limitation;
 	}
 
