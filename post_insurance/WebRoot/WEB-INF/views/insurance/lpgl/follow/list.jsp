@@ -35,8 +35,7 @@
 					<td>
 						<label>所属机构：</label>
 						<input name="organization.orgCode" id="uw_orgCode" type="hidden" value="${org_code }"/>
-					<input class="validate[required] required" name="organization.name" id="uw_orgName" type="text" readonly="readonly" style="width: 140px;" value="${org_name }"/>
-					<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="organization" title="选择机构" width="400">查找带回</a>
+					<input class="validate[required] required" name="organization.name" id="uw_orgName" type="text" readonly="readonly" style="width: 140px;" value="${org_name }"/><a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="organization" title="选择机构" width="400">查找带回</a>
 					</td>
 				</tr>
 				<tr>

@@ -30,8 +30,7 @@
 					<td>
 						<label>所属机构：</label>
 						<input name="organization.orgCode" id="uw_orgCode" type="hidden" value="${org_code }"/>
-					<input class="validate[required] required" name="organization.name" id="uw_orgName" type="text" readonly="readonly" style="width: 140px;" value="${org_name }"/>
-					<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="organization" title="选择机构" width="400">查找带回</a>
+					<input class="validate[required] required" name="organization.name" id="uw_orgName" type="text" readonly="readonly" style="width: 140px;" value="${org_name }"/><a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="organization" title="选择机构" width="400">查找带回</a>
 					</td>
 				</tr>
 				<tr>
@@ -66,13 +65,14 @@
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Settlement:edit">
 				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="550" href="${contextPath }/lpgl/task/update/{slt_uid}"><span>编辑</span></a></li>
+				<li><a iconClass="user_edit" target="ajaxTodo" title="确认已完成？" href="${contextPath }/lpgl/task/done/{slt_uid}"><span>完成</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Settlement:delete">
 				<li><a iconClass="user_delete" target="selectedTodo" rel="ids" href="${contextPath }/lpgl/task/delete" title="确认要删除?"><span>删除</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Settlement:view">
 				<li class="line">line</li>
-				<li><a class="icon" target="_blank" href="${contextPath }/lpgl/task/toXls?search_LIKE_insured=${search_LIKE_insured }&search_LTE_checkStartDate=${param.search_LTE_checkStartDate}&search_GTE_checkStartDate=${param.search_GTE_checkStartDate}&caseStatus=${caseStatus}&organization.orgCode=${org_code}&organization.name=${org_name}"><span>导出Excel</span></a></li>
+				<li><a class="icon" target="_blank" href="${contextPath }/lpgl/task/toXls?search_LIKE_insured=${search_LIKE_insured }&search_LTE_checkStartDate=${param.search_LTE_checkStartDate}&search_GTE_checkStartDate=${param.search_GTE_checkStartDate}&checkStatus=${checkStatus}&organization.orgCode=${org_code}&organization.name=${org_name}"><span>导出Excel</span></a></li>
 			</shiro:hasPermission>
 		</ul>
 	</div>
@@ -121,7 +121,7 @@
 				<td>${item.limitation }</td>
 				<td>${item.checker}</td>
 				<td>${item.checkFee}</td>
-				<td>${item.attrLink}</td>
+				<td> <a href="${item.attrLink}">${item.attrLink}</a></td>
 			</tr>			
 			</c:forEach>
 		</tbody>

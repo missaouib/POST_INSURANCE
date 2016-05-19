@@ -567,8 +567,8 @@ public class LpglController {
 	
 	@Log(message="关闭了{0}的理赔案件调查任务。", level=LogLevel.WARN, module=LogModule.LPGL)
 	@RequiresPermissions("SettleTask:save")
-	@RequestMapping(value="/task/done", method=RequestMethod.POST)
-	public @ResponseBody String doneTask(Long id, HttpServletRequest request) {
+	@RequestMapping(value="/task/done/{id}", method={RequestMethod.GET, RequestMethod.POST})
+	public @ResponseBody String doneTask(@PathVariable Long id, HttpServletRequest request) {
 		User user = SecurityUtils.getShiroUser().getUser();
 		SettleTask task = lpglService.getSettleTask(id);
 		try {
@@ -589,7 +589,7 @@ public class LpglController {
 		}
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{task.getInsured()}));
-		return AjaxObject.newOk("关闭理赔案件调查任务成功！").toString();
+		return AjaxObject.newOk("关闭理赔案件调查任务成功！").setCallbackType("").toString();
 	}
 	
 	@RequiresPermissions("SettleTask:edit")
@@ -677,7 +677,7 @@ public class LpglController {
 			lpglService.saveOrUpdateSettleTaskLog(settleLog);
 			
 			
-			lpglService.deleteSettle(settle.getId());
+			lpglService.deleteSettleTask(settle.getId());
 		} catch (ServiceException e) {
 			return AjaxObject.newError("删除案件任务失败：" + e.getMessage()).setCallbackType("").toString();
 		}
@@ -705,7 +705,7 @@ public class LpglController {
 				settleLog.setIsKeyInfo(true);
 				lpglService.saveOrUpdateSettleTaskLog(settleLog);
 				
-				lpglService.deleteSettle(settle.getId());
+				lpglService.deleteSettleTask(settle.getId());
 				
 				policys[i] = settle.getInsured();
 			}
@@ -722,9 +722,13 @@ public class LpglController {
 	public String listTask(ServletRequest request, Page page, Map<String, Object> map) {
 		User user = SecurityUtils.getShiroUser().getUser();
 		String checkStatus = request.getParameter("checkStatus");
+		if(checkStatus == null) {
+			checkStatus = SettleTask.STATUS_ING;
+		}
 		SettleTask task = new SettleTask();
 		task.setCheckStatus(checkStatus);
 		request.setAttribute("task", task);
+		request.setAttribute("checkStatus", checkStatus);
 		String orgCode = request.getParameter("organization.orgCode");
 		if(orgCode == null || orgCode.trim().length() <= 0) {
 			orgCode = user.getOrganization().getOrgCode();
@@ -759,20 +763,29 @@ public class LpglController {
 	public String taskToXls(ServletRequest request, Page page, Map<String, Object> map) {
 		User user = SecurityUtils.getShiroUser().getUser();
 		String checkStatus = request.getParameter("checkStatus");
-		page.setNumPerPage(65564);
-		page.setOrderField("organization.orgCode");
-		page.setOrderDirection("ASC");
+		String orgCode = request.getParameter("organization.orgCode");
+		if(orgCode == null || orgCode.trim().length() <= 0) {
+			orgCode = user.getOrganization().getOrgCode();
+			if(orgCode.contains("11185")) {
+				orgCode = "8644";
+			}
+		} else {
+			if(!orgCode.contains(user.getOrganization().getOrgCode())){
+				orgCode = user.getOrganization().getOrgCode();
+			}
+		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, user.getOrganization().getOrgCode()));
-		if(checkStatus != null && checkStatus.trim().length() > 0) {
+		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		if(checkStatus != null && checkStatus.trim().length() >0) {
 			csf.add(new SearchFilter("checkStatus", Operator.EQ, checkStatus));
 		}
 		
 		Specification<SettleTask> specification = DynamicSpecifications.bySearchFilter(request, SettleTask.class, csf);
-		List<SettleTask> reqs = lpglService.findBySettleTaskExample(specification, page);
-	
-		map.put("settles", reqs);
+		List<SettleTask> tasks = lpglService.findBySettleTaskExample(specification, page);
+
+		map.put("page", page);
+		map.put("tasks", tasks);
 		return TASK_TO_XLS;
 	}
 	

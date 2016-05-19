@@ -70,7 +70,7 @@
 		</p>
 		<p>
 			<label>附件：</label>
-			${task.attrLink }
+			<a href="${task.attrLink}">${task.attrLink }</a>
 		</p>
 	</fieldset>
 	</div>
