@@ -41,6 +41,7 @@ import com.gdpost.utils.TemplateHelper.ColumnItem;
 import com.gdpost.utils.TemplateHelper.ColumnType;
 import com.gdpost.utils.TemplateHelper.IssueColumn;
 import com.gdpost.utils.TemplateHelper.PayFailListColumn;
+import com.gdpost.utils.TemplateHelper.PolicyBackDateColumn;
 import com.gdpost.utils.TemplateHelper.PolicyColumn;
 import com.gdpost.utils.TemplateHelper.PolicyDtlColumn;
 import com.gdpost.utils.TemplateHelper.PolicyUnderWriteColumn;
@@ -799,6 +800,31 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql.append("client_receive_date=VALUES(client_receive_date), sign_input_date=VALUES(sign_input_date), status=VALUES(status);");
 			log.debug("----------------city update status batch sql : " + sql);
 			sql2 = "delete from t_under_write where form_no is null";
+			sql3 = "update t_policy t1, t_under_write t2 set t1.bill_back_date=t2.client_receive_date where t1.policy_no=t2.policy_no and t1.bill_back_date is null;";
+			break;
+		case PolicyBackDate:
+			standardColumns = PolicyBackDateColumn.getStandardColumns();
+			sql = new StringBuffer("INSERT INTO t_policy(policy_no, bill_back_date) VALUES ");
+			line = null;
+			isFail = false;
+			val = null;
+			for (DataRow row : dt.Rows) {
+				isFail = false;
+				val = null;
+				line = new StringBuffer("(");
+	        	for(ColumnItem item : standardColumns) {
+	        		line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        	}
+	        	//line.deleteCharAt(line.length() - 1);
+	        	line.append("),");
+	        	sql.append(line);
+	        }
+			sql.deleteCharAt(sql.length() - 1);
+			sql.append(" ON DUPLICATE KEY UPDATE ");
+			sql.append("bill_back_date=VALUES(bill_back_date);");
+			log.debug("----------------city update status batch sql : " + sql);
+			sql2 = "delete from t_policy where policy_no is null";
+			sql3 = "update t_policy set bill_back_date=policy_date where bill_back_date is null;";
 			break;
 		case UnderWriteSentData:
 			standardColumns = UnderWriteSentDataColumn.getStandardColumns();
@@ -986,6 +1012,10 @@ public class UploadDataServiceImpl implements UploadDataService{
 			standardColumns = UnderWriteSentDataColumn.getStandardColumns();
 			keyRow = UnderWriteSentDataColumn.KEY_ROW;
 			break;
+		case PolicyBackDate:
+			standardColumns = PolicyBackDateColumn.getStandardColumns();
+			keyRow = PolicyBackDateColumn.KEY_ROW;
+			break;
 		}
 		
 	    boolean bFlag = true;
@@ -1059,7 +1089,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 						|| t.name().equals(FileTemplate.RenewedCityList.name())
 						|| t.name().equals(FileTemplate.PolicyUnderWrite.name())
 						|| t.name().equals(FileTemplate.UnderWriteSentData.name())
-						|| t.name().equals(FileTemplate.CallFailMiniCityStatus.name())) {
+						|| t.name().equals(FileTemplate.CallFailMiniCityStatus.name())
+						|| t.name().equals(FileTemplate.PolicyBackDate.name())) {
 					
 					dr = updateStatusData(t, request, dt);
 				} else {

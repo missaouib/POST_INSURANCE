@@ -180,7 +180,8 @@ mail_success
 //				c1.setTime(this.policy.getPolicyDate());
 //				Calendar now = Calendar.getInstance();
 //				now.setTime(new Date());
-				int check = StringUtil.getBetweenDay(this.policy.getPolicyDate(), new Date());
+				
+				int check = StringUtil.getBetweenDay(this.policy.getBillBackDate()==null?this.getShouldDate():this.policy.getBillBackDate(), new Date());
 				int c = 15-check;
 				if(c<0) {
 					return 0;
