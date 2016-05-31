@@ -528,6 +528,14 @@ public class HfglController {
 //		}
 		issue.setStatus(status);
 		
+		String canCallAgainStr = request.getParameter("canCallAgain");
+		boolean canCallAgain = false;
+		if(canCallAgainStr != null && canCallAgainStr.equals("true")) {
+			canCallAgain = true;
+			issue.setCanCallAgain(true);
+			request.setAttribute("canCallAgain", "true");
+		}
+		
 		if(page.getOrderField() == null || page.getOrderField().trim().length() <= 0) {
 			//page.setOrderField("policy.policyDate");
 			//page.setOrderDirection("DESC");
@@ -552,6 +560,9 @@ public class HfglController {
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		if(canCallAgain) {
+			csf.add(new SearchFilter("canCallAgain", Operator.EQ, true));
+		}
 		
 		if(user.getOrganization().getOrgCode().contains("11185")) {
 			if(status == null) {
