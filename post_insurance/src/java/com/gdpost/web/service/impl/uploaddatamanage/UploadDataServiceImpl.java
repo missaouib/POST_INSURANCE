@@ -815,7 +815,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        	for(ColumnItem item : standardColumns) {
 	        		line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
 	        	}
-	        	//line.deleteCharAt(line.length() - 1);
+	        	line.deleteCharAt(line.length() - 1);
 	        	line.append("),");
 	        	sql.append(line);
 	        }

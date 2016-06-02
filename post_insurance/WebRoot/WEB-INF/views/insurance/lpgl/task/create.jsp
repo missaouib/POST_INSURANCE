@@ -66,8 +66,9 @@ function customAjaxDone(json){
 		</p>
 		<p>
 			<label>调查要求：</label>
-			<input type="text" name="checkReq" class="input-medium validate[maxSize[32]]" maxlength="32" value=""/>
+			<textarea name="checkReq" id="checkReq" cols="30" rows="3" class="input-medium"></textarea>
 		</p>
+		<p>&nbsp;</p><p>&nbsp;</p>
 		<p>
 			<label>调查人：</label>
 			<input name="realname" type="text" postField="realname" suggestFields="realname" 

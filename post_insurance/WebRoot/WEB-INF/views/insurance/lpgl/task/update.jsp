@@ -52,8 +52,9 @@
 		</p>
 		<p>
 			<label>调查要求：</label>
-			<input type="text" name="checkReq" class="input-medium validate[maxSize[32]]" maxlength="32" value="${task.checkReq }"/>
+			<textarea name="checkReq" id="checkReq" cols="30" rows="3" class="input-medium">${task.checkReq }</textarea>
 		</p>
+		<p>&nbsp;</p><p>&nbsp;</p>
 		<p>
 			<label>调查人：</label>
 			<input name="user.realname" type="text" postField="realname" suggestFields="realname" 
