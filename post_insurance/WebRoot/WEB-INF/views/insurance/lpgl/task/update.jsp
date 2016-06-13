@@ -10,30 +10,30 @@
 		<p>
 			<label>保单号：</label>
 			<input name="policyNo" type="text" postField="search_LIKE_policyNo" suggestFields="policyNo" 
-					suggestUrl="/lpgl/lookupSettlesuggest" lookupGroup="" class="input-medium validate[required,maxSize[32]] required" value="${settleDtl.policyNo }"/>
+					suggestUrl="/lpgl/lookupSettlesuggest" lookupGroup="" class="input-medium validate[maxSize[32]]" value="${settleDtl.policyNo }"/>
 		</p>
 	  	<p >
 			<label>出保险人：</label>
-			<input type="text" name="insured" class="input-medium validate[required,maxSize[32]] required" readonly="readonly" maxlength="32" value="${settleDtl.insured }"/>
+			<input type="text" name="insured" class="input-medium validate[maxSize[32]]" maxlength="32" value="${settleDtl.insured }"/>
 		</p>
 		<p>
 			<label>险种：</label>
-			<input type="text" name="prodName" class="input-medium validate[required,maxSize[32]] required" readonly="readonly" maxlength="32" value="${settleDtl.prodName }"/>
+			<input type="text" name="prodName" class="input-medium validate[maxSize[32]]" maxlength="32" value="${settleDtl.prodName }"/>
 		</p>
 		<p>
 			<label>保费：</label>
-			<input type="text" name="policyFee" class="input-medium validate[required,maxSize[32]] required" readonly="readonly" maxlength="32" value="${settleDtl.policyFee }"/>
+			<input type="text" name="policyFee" class="input-medium validate[maxSize[32]]" maxlength="32" value="${settleDtl.policyFee }"/>
 		</p>
 		<p>
 			<label>生效日期：</label>
-			<input type="text" name="policyDate" class="input-medium validate[required,maxSize[32]] required" readonly="readonly" maxlength="32" value="${settleDtl.policyDate }"/>
+			<input type="text" name="policyDate" class="input-medium validate[maxSize[32]]" maxlength="32" value="${settleDtl.policyDate }"/>
 		</p>
 	</fieldset>
 	<fieldset>
 		<legend>出险信息</legend>
 		<p>
 			<label>出险日期：</label>
-			<input type="text" name="caseDate" class="input-medium validate[required,maxSize[32]] required" readonly="readonly" maxlength="32" value="${settleDtl.caseDate }"/>
+			<input type="text" name="caseDate" class="input-medium validate[maxSize[32]]" maxlength="32" value="${settleDtl.caseDate }"/>
 		</p>
 		<p>
 			<label>理赔类型：</label>
