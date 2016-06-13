@@ -51,18 +51,24 @@ function customAjaxDone(json){
 		</p>
 		<p>
 			<label>理赔类型：</label>
-			<input type="text" name="caseType" class="input-medium validate[required,maxSize[32]] required" readonly="readonly" maxlength="32" value="${settleDtl.caseType }"/>
+			<select name="caseType" id="caseType" class="combox validate[required] required">
+				<option value="意外身故">意外身故</option>
+				<option value="疾病身故">疾病身故</option>
+				<option value="重大疾病">重大疾病</option>
+				<option value="全残">全残</option>
+				<option value="医疗">医疗</option>
+			</select>
 		</p>
 	</fieldset>
 	<fieldset>
 		<legend>调查进程</legend>
 		<p>
 			<label>调查起期：</label>
-			<input type="text" name="createTime" class="input-medium validate[required,maxSize[32]] required" readonly="readonly" maxlength="32" value="<fmt:formatDate value="<%=new Date() %>" pattern="yyyy-MM-dd"/>"/>
+			<input type="text" name="checkStartDate" class="input-medium validate[required,maxSize[32]] required" readonly="readonly" maxlength="32" value="<fmt:formatDate value="<%=new Date() %>" pattern="yyyy-MM-dd"/>"/>
 		</p>
 		<p>
 			<label>结案日期：</label>
-			<input type="text" name="closeDate" id="closeDate" class="date" dateFmt="yyyy-MM-dd" readonly="readonly" value="${task.checkEndDate }"/>
+			<input type="text" name="checkEndDate" id="checkEndDate" class="date" dateFmt="yyyy-MM-dd" readonly="readonly" value="${task.checkEndDate }"/>
 		</p>
 		<p>
 			<label>调查要求：</label>

@@ -14,6 +14,7 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.ColumnTransformer;
 
+import com.gdpost.utils.StringUtil;
 import com.gdpost.web.entity.Idable;
 import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.Policy;
@@ -704,6 +705,19 @@ public class VCallFailList implements Idable<Long>, java.io.Serializable {
 
 	@Column(name = "last_date_num")
 	public Integer getLastDateNum() {
+		if(this.policy != null) {
+			try {
+				int check = StringUtil.getBetweenDay(this.policy.getBillBackDate()==null?this.getShouldDate():this.policy.getBillBackDate(), new Date());
+				int c = 15-check;
+				if(c<0) {
+					return 0;
+				} else {
+					return c;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		return this.lastDateNum;
 	}
 

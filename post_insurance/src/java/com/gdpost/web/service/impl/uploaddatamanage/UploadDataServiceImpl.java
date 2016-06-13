@@ -824,7 +824,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql.append("bill_back_date=VALUES(bill_back_date);");
 			log.debug("----------------city update status batch sql : " + sql);
 			sql2 = "delete from t_policy where policy_no is null";
-			sql3 = "update t_policy set bill_back_date=policy_date where bill_back_date is null;";
+			//sql3 = "update t_policy set bill_back_date=policy_date where bill_back_date is null;";
 			break;
 		case UnderWriteSentData:
 			standardColumns = UnderWriteSentDataColumn.getStandardColumns();

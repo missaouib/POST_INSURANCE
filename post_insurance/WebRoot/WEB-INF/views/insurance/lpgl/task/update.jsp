@@ -37,7 +37,13 @@
 		</p>
 		<p>
 			<label>理赔类型：</label>
-			<input type="text" name="caseType" class="input-medium validate[required,maxSize[32]] required" readonly="readonly" maxlength="32" value="${settleDtl.caseType }"/>
+			<form:select path="task.caseType" id="caseType" class="combox validate[required] required">
+				<form:option value="意外身故">意外身故</form:option>
+				<form:option value="疾病身故">疾病身故</form:option>
+				<form:option value="重大疾病">重大疾病</form:option>
+				<form:option value="全残">全残</form:option>
+				<form:option value="医疗">医疗</form:option>
+			</form:select>
 		</p>
 	</fieldset>
 	<fieldset>
@@ -48,7 +54,7 @@
 		</p>
 		<p>
 			<label>结案日期：</label>
-			<input type="text" name="closeDate" id="closeDate" class="date" dateFmt="yyyy-MM-dd" readonly="readonly" value="${task.checkEndDate }"/>
+			<input type="text" name="checkEndDate" id="checkEndDate" class="date" dateFmt="yyyy-MM-dd" readonly="readonly" value="${task.checkEndDate }"/>
 		</p>
 		<p>
 			<label>调查要求：</label>

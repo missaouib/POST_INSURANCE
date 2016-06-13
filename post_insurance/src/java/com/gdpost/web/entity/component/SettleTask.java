@@ -41,6 +41,11 @@ public class SettleTask implements Idable<Long> {
 	private Policy policy;
 	private SettlementDtl settlementDtl;
 	private String insured;
+	private String prodName;
+	private Double policyFee;
+	private Date policyDate;
+	private Date caseDate;
+	private String caseType;
 	private Date checkStartDate;
 	private Date checkEndDate;
 	private Integer limitation;
@@ -126,6 +131,51 @@ public class SettleTask implements Idable<Long> {
 
 	public void setInsured(String insured) {
 		this.insured = insured;
+	}
+
+	@Column(name = "prod_name")
+	public String getProdName() {
+		return prodName;
+	}
+
+	public void setProdName(String prodName) {
+		this.prodName = prodName;
+	}
+
+	@Column(name = "policy_fee")
+	public Double getPolicyFee() {
+		return policyFee;
+	}
+
+	public void setPolicyFee(Double policyFee) {
+		this.policyFee = policyFee;
+	}
+
+	@Column(name = "policy_date")
+	public Date getPolicyDate() {
+		return policyDate;
+	}
+
+	public void setPolicyDate(Date policyDate) {
+		this.policyDate = policyDate;
+	}
+
+	@Column(name = "case_date")
+	public Date getCaseDate() {
+		return caseDate;
+	}
+
+	public void setCaseDate(Date caseDate) {
+		this.caseDate = caseDate;
+	}
+
+	@Column(name = "case_type")
+	public String getCaseType() {
+		return caseType;
+	}
+
+	public void setCaseType(String caseType) {
+		this.caseType = caseType;
 	}
 
 	@Column(name = "check_start_date", length = 10)
