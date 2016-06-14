@@ -685,7 +685,7 @@ public class VCallFailList implements Idable<Long>, java.io.Serializable {
 		this.letterDate = letterDate;
 	}
 
-	@Column(name = "check_date", length = 10)
+	@Column(name = "check_date", length = 10, updatable=false)
 	public Date getCheckDate() {
 		return this.checkDate;
 	}
@@ -694,7 +694,7 @@ public class VCallFailList implements Idable<Long>, java.io.Serializable {
 		this.checkDate = checkDate;
 	}
 
-	@Column(name = "end_date", length = 10)
+	@Column(name = "end_date", length = 10, updatable=false)
 	public Date getEndDate() {
 		return this.endDate;
 	}
@@ -703,7 +703,7 @@ public class VCallFailList implements Idable<Long>, java.io.Serializable {
 		this.endDate = endDate;
 	}
 
-	@Column(name = "last_date_num")
+	@Column(name = "last_date_num", updatable=false)
 	public Integer getLastDateNum() {
 		if(this.policy != null) {
 			try {
