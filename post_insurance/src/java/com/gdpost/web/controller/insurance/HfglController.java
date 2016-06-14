@@ -521,11 +521,6 @@ public class HfglController {
 			}
 		}
 		issue.setSearch_LIKE_hasLetter(hasLetter);
-//		if(status == null) {
-//			status = HF_STATUS.NewStatus.getDesc();
-//		} else if(status.trim().length()>0) {
-//			issue.setStatus(status);
-//		}
 		issue.setStatus(status);
 		
 		String canCallAgainStr = request.getParameter("canCallAgain");
@@ -537,8 +532,6 @@ public class HfglController {
 		}
 		
 		if(page.getOrderField() == null || page.getOrderField().trim().length() <= 0) {
-			//page.setOrderField("policy.policyDate");
-			//page.setOrderDirection("DESC");
 			page.setOrderField("issueNo");
 			page.setOrderDirection("DESC");
 		}
@@ -559,7 +552,7 @@ public class HfglController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
 		if(canCallAgain) {
 			csf.add(new SearchFilter("canCallAgain", Operator.EQ, true));
 		}
@@ -677,7 +670,7 @@ public class HfglController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
 		
 		if(user.getOrganization().getOrgCode().contains("11185")) {
 			if(status == null) {
@@ -783,7 +776,7 @@ public class HfglController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
 		
 		if(user.getOrganization().getOrgCode().contains("11185")) {
 			if(status == null) {
