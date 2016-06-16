@@ -21,7 +21,6 @@ import javax.persistence.Transient;
 import com.gdpost.utils.StringUtil;
 import com.gdpost.web.entity.Idable;
 import com.gdpost.web.entity.main.Organization;
-import com.gdpost.web.entity.main.Policy;
 
 /**
  * TSettleTask entity. @author MyEclipse Persistence Tools
@@ -38,7 +37,7 @@ public class SettleTask implements Idable<Long> {
 
 	private Long id;
 	private Organization organization;
-	private Policy policy;
+	private String policyNo;
 	private SettlementDtl settlementDtl;
 	private String insured;
 	private String prodName;
@@ -66,9 +65,9 @@ public class SettleTask implements Idable<Long> {
 	}
 
 	/** full constructor */
-	public SettleTask(Policy policy, String insured, Date checkStartDate, Date checkEndDate, Integer limitation, String checkReq,
+	public SettleTask(String policyNo, String insured, Date checkStartDate, Date checkEndDate, Integer limitation, String checkReq,
 			String checker, String checkerAddr, Double checkFee, String attrLink, Long operateId, Date createTime) {
-		this.policy = policy;
+		this.policyNo = policyNo;
 		this.insured = insured;
 		this.checkStartDate = checkStartDate;
 		this.checkEndDate = checkEndDate;
@@ -95,7 +94,7 @@ public class SettleTask implements Idable<Long> {
 	}
 
 	@ManyToOne
-	@JoinColumn(name = "org_id")
+	@JoinColumn(name = "org_id", nullable = true)
 	public Organization getOrganization() {
 		return this.organization;
 	}
@@ -104,18 +103,17 @@ public class SettleTask implements Idable<Long> {
 		this.organization = organization;
 	}
 
-	@ManyToOne
-	@JoinColumn(name="policy_no", referencedColumnName="policy_no")
-	public Policy getPolicy() {
-		return this.policy;
+	@Column(name="policy_no")
+	public String getPolicyNo() {
+		return this.policyNo;
 	}
 
-	public void setPolicy(Policy policy) {
-		this.policy = policy;
+	public void setPolicyNo(String policyNo) {
+		this.policyNo = policyNo;
 	}
 	
 	@OneToOne
-	@JoinColumn(name="settledtl_id", referencedColumnName="id")
+	@JoinColumn(name="settledtl_id", referencedColumnName="id", nullable=true)
 	public SettlementDtl getSettlementDtl() {
 		return this.settlementDtl;
 	}

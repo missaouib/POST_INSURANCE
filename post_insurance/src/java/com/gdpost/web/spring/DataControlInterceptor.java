@@ -341,7 +341,7 @@ public class DataControlInterceptor extends HandlerInterceptorAdapter {
 		model.put("user", SecurityUtils.getLoginUser());
 		model.putAll(SecurityUtils.getShiroUser().getAttributes());
 		
-		WebApplicationContext context = RequestContextUtils.getWebApplicationContext(request);
+		WebApplicationContext context = RequestContextUtils.findWebApplicationContext(request);
 		SimpleHash simpleHash = freeMarkerParse.buildTemplateModel(model, context.getServletContext(), request, response);
 		
 		return freeMarkerParse.renderString(control, simpleHash);

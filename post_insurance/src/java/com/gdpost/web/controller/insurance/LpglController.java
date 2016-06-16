@@ -539,10 +539,13 @@ public class LpglController {
 			task.setCheckStartDate(new Date());
 			String policyNo = request.getParameter("policyNo");
 			Policy policy = policyService.getByPolicyNo(policyNo);
-			SettlementDtl settleDtl = lpglService.getDtlByPolicyPolicyNo(policyNo);
-			task.setSettlementDtl(settleDtl);
-			task.setOrganization(policy.getOrganization());
-			task.setPolicy(policy);
+			if(policy != null) {
+				SettlementDtl settleDtl = lpglService.getDtlByPolicyPolicyNo(policyNo);
+				task.setSettlementDtl(settleDtl);
+				task.setOrganization(policy.getOrganization());
+			} else {
+				task.setOrganization(user.getOrganization());
+			}
 			task.setOperateId(user.getId());
 			task.setCreateTime(new Date());
 			task.setCheckStatus(SettleTask.STATUS_ING);
@@ -597,9 +600,9 @@ public class LpglController {
 	public String preUpdateTask(@PathVariable Long id, Map<String, Object> map) {
 		SettleTask task = lpglService.getSettleTask(id);
 		
-		SettlementDtl settleDtl = lpglService.getDtlByPolicyPolicyNo(task.getPolicy().getPolicyNo());
+		SettlementDtl settleDtl = lpglService.getDtlByPolicyPolicyNo(task.getPolicyNo());
 		
-		Policy policy = task.getPolicy();
+		Policy policy = policyService.getByPolicyNo(task.getPolicyNo());
 		
 		map.put("task", task);
 		map.put("policy", policy);
@@ -630,12 +633,19 @@ public class LpglController {
 		}
 		
 		String policyNo = request.getParameter("policyNo");
-		SettlementDtl settleDtl = lpglService.getDtlByPolicyPolicyNo(policyNo);
 		String realname = request.getParameter("user.realname");
 		Policy policy = policyService.getByPolicyNo(policyNo);
-		task.setOrganization(policy.getOrganization());
-		task.setPolicy(policy);
-		task.setSettlementDtl(settleDtl);
+//		task.setOrganization(policy.getOrganization());
+//		task.setPolicy(policy);
+//		task.setSettlementDtl(settleDtl);
+		if(policy != null) {
+			SettlementDtl settleDtl = lpglService.getDtlByPolicyPolicyNo(policyNo);
+			task.setSettlementDtl(settleDtl);
+			task.setOrganization(policy.getOrganization());
+		} else {
+			User user = SecurityUtils.getShiroUser().getUser();
+			task.setOrganization(user.getOrganization());
+		}
 		task.setCheckStatus(SettleTask.STATUS_ING);
 		task.setCheckStartDate(src.getCheckStartDate());
 		task.setAttrLink(src.getAttrLink());
@@ -745,7 +755,9 @@ public class LpglController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("organization.orgCode", Operator.OR_LIKE, orgCode));
+		csf.add(new SearchFilter("organization.orgCode", Operator.OR_ISNULL, null));
+		csf.add(new SearchFilter("checker", Operator.OR_EQ, user.getRealname()));
 		if(checkStatus != null && checkStatus.trim().length() >0) {
 			csf.add(new SearchFilter("checkStatus", Operator.EQ, checkStatus));
 		}

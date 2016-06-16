@@ -116,7 +116,7 @@
 				</c:choose>
 				</td>
 				<td>${item.insured}</td>
-				<td>${item.policy.policyNo}</td>
+				<td>${item.policyNo}</td>
 				<td><fmt:formatDate value="${item.checkStartDate}" pattern="yyyy-MM-dd"/></td>
 				<td>${item.limitation }</td>
 				<td>${item.checker}</td>
