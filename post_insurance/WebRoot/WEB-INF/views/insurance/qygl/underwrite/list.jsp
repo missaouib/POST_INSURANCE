@@ -123,6 +123,7 @@
 				<th>核保日期</th>
 				<th orderField=signDate class="${page.orderField eq 'signDate' ? page.orderDirection : ''}">签单日期</th>
 				<th>省分寄出合同日</th>
+				<th>快递单号</th>
 				<th>合同签收日期</th>
 				<th>回执录入日期</th>
 			</tr>
@@ -160,6 +161,7 @@
 				<td><fmt:formatDate value="${item.underwriteDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.signDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.provSendDate }" pattern="yyyy-MM-dd"/></td>
+				<td>${item.provEmsNo}</td>
 				<td><fmt:formatDate value="${item.clientReceiveDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.signInputDate }" pattern="yyyy-MM-dd"/></td>
 			</tr>
