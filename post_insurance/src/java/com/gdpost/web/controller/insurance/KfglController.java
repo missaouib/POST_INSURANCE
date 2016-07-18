@@ -442,6 +442,7 @@ public class KfglController {
 			}
 		}
 		
+		
 		page.setOrderField("policy.organization.orgCode");
 		page.setOrderDirection("ASC");
 		page.setNumPerPage(65564);
@@ -458,6 +459,19 @@ public class KfglController {
 				*/
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		
+		String startDate = request.getParameter("search_GTE_shouldDate");
+		String endDate = request.getParameter("search_GTE_shouldDate");
+		Date d=new Date();   
+		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");   
+
+		if(startDate == null || startDate.trim().length()<=0) {
+			csf.add(new SearchFilter("shouldDate", Operator.GTE, df.format(new Date(d.getTime() - (long)30 * 24 * 60 * 60 * 1000))));
+		}
+		
+		if(endDate == null || endDate.trim().length()<=0) {
+			csf.add(new SearchFilter("shouldDate", Operator.LTE, new Date()));
+		}
 		
 		//如果是县区局登录的机构号为8位，需要根据保单的所在机构进行筛选
 		if (user.getOrganization().getOrgCode().length() > 4) {

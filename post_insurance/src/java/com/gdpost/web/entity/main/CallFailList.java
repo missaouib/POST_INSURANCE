@@ -117,7 +117,7 @@ mail_success
 	private Date mailFailDate;
 	private String mailFailReason;
 	private Date doorBackDate;
-	private Date doorStatsDate;
+	private String doorStatsDate;
 	private String mailSuccess;
 	private Date clientSignDate;
 	
@@ -977,12 +977,12 @@ mail_success
 		this.doorBackDate = doorBackDate;
 	}
 	
-	@Temporal(TemporalType.DATE)
+	//@Temporal(TemporalType.DATE)
 	@Column(name="door_stats_date")
-	public Date getDoorStatsDate() {
+	public String getDoorStatsDate() {
 		return doorStatsDate;
 	}
-	public void setDoorStatsDate(Date doorStatsDate) {
+	public void setDoorStatsDate(String doorStatsDate) {
 		this.doorStatsDate = doorStatsDate;
 	}
 	

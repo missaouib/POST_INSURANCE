@@ -595,3 +595,5 @@ ALTER TABLE `t_settle_task` ADD COLUMN `policy_fee` VARCHAR(32) DEFAULT NULL AFT
 ALTER TABLE `t_settle_task` ADD COLUMN `policy_date` VARCHAR(32) DEFAULT NULL AFTER `policy_fee`;
 ALTER TABLE `t_settle_task` ADD COLUMN `case_date` VARCHAR(32) DEFAULT NULL AFTER `policy_date`;
 ALTER TABLE `t_settle_task` ADD COLUMN `case_type` VARCHAR(32) DEFAULT NULL AFTER `case_date`;
+
+ALTER TABLE t_call_fail_list MODIFY COLUMN `door_stats_date` VARCHAR(12) DEFAULT NULL;

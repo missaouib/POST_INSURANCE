@@ -599,6 +599,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			log.debug("----------------batch update : " + sql);
 			sql2 = "delete from t_call_fail_list where issue_no is null";
 			sql3 = "update t_call_fail_list set status=deal_status where deal_status is not null and status<>\"二访成功\"";
+			sql4 = "update t_call_fail_list t1 set status=\"需上门\" where TO_DAYS(NOW())-TO_DAYS(should_date)>15 and status=\"二访失败\";";
 			break;
 		case CallFailPhoneStatus:
 			standardColumns = CallFailNeedDoorListColumn.getStandardColumns();
