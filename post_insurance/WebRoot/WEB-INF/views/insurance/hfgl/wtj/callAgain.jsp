@@ -10,10 +10,12 @@
 		<P>
 		&nbsp;
 		</P>
+		<!-- 
 		<p>
 			<label>重置电话号码：</label>
 			<textarea name="resetPhone" class="validate[maxSize[128]]" cols="30" rows="2">${cfl.resetPhone }</textarea>
 		</p>
+		 -->
 	</div>
 	<div class="formBar">
 		<ul>

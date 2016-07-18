@@ -35,6 +35,7 @@ response.setHeader("Content-Disposition", "inline; filename=call_fail_dtl.xls");
 				<th>二访类型</th>
 				<th>二访详情</th>
 				<th>二访人</th>
+				<th>二访工单内容</th>
 				<th>可再访</th>
 				<th>可再访备注</th>
 				<th>重置时间</th>
@@ -90,6 +91,7 @@ response.setHeader("Content-Disposition", "inline; filename=call_fail_dtl.xls");
 				<td>${item.hqDealType}</td>
 				<td>${item.hqDealRst}</td>
 				<td>${item.hqDealMan}</td>
+				<td>${item.hqDealTypeElse}</td>
 				<td>${item.canCallAgain}</td>
 				<td>${item.canCallAgainRemark}</td>
 				<td><fmt:formatDate value="${item.resetDate }" pattern="yyyy-MM-dd"/></td>

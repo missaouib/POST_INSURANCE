@@ -103,8 +103,10 @@
 			<shiro:hasPermission name="Callfail:edit">
 				<li class="line">line</li>
 				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/hfgl/issue/update/{slt_uid}"><span>回复</span></a></li>
+				<!-- 
 				<li class="line">line</li>
 				<li><a iconClass="user_go" href="${contextPath}/hfgl/updateResetStatus/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>电话重置</span></a></li>
+				 -->
 				<li class="line">line</li>
 				<li><a iconClass="user_go" target="selectedTodo" rel="ids" href="${contextPath}/hfgl/batchCallReset" title="确认要设置为可再次二访?"><span>批量可再访</span></a></li>
 				<li><a iconClass="user_go" href="${contextPath}/hfgl/callReset/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>可再访</span></a></li>
@@ -138,11 +140,12 @@
 			<tr>
 				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>
 				<th>保单机构</th>
-				<th orderField=canCallAgain class="${page.orderField eq 'canCallAgain' ? page.orderDirection : ''}">可再访</th>
-				<th>可再访详情</th>
+				<th>可再访</th>
 				<th orderField=issueNo class="${page.orderField eq 'issueNo' ? page.orderDirection : ''}">工单编号</th>
 				<th orderField=status class="${page.orderField eq 'status' ? page.orderDirection : ''}">工单状态</th>
-				<th>工单内容</th>
+				<th>一访工单内容</th>
+				<th>二访工单内容</th>
+				<th>拨打电话</th>
 				<th orderField=readyDate class="${page.orderField eq 'readyDate' ? page.orderDirection : ''}">工单下发日期</th>
 				<th>犹豫期</th>
 				<th orderField=policy.policyNo class="${page.orderField eq 'policy.policyNo' ? page.orderDirection : ''}">所属保单号</th>
@@ -175,11 +178,12 @@
 				    </c:otherwise>  
 				</c:choose>
 				</td>
-				<td>${item.canCallAgain}&nbsp;</td>
 				<td>${item.canCallAgainRemark}&nbsp;&nbsp;${item.resetPhone}&nbsp;&nbsp;<fmt:formatDate value="${item.resetDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.issueNo}</td>
 				<td>${item.status}</td>
 				<td title="${item.issueContent}">${fn:substring(item.issueContent, 0, 15)}</td>
+				<td title="${item.hqDealTypeElse}">${fn:substring(item.hqDealTypeElse, 0, 15)}</td>
+				<td>${item.phoneNum}</td>
 				<td><fmt:formatDate value="${item.readyDate }" pattern="yyyy-MM-dd"/></td>
 				<td><span style="color:red; height:50%; margin-bottom:-contentheight;"><c:if test="${item.lastDateNum<0 }">0</c:if><c:if test="${item.lastDateNum>=0 }">${item.lastDateNum }</c:if></span></td>
 				<td>${item.policy.policyNo}</td>

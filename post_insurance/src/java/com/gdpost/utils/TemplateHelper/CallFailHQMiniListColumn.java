@@ -60,13 +60,6 @@ public class CallFailHQMiniListColumn {
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("其他");
-		column.setColumnName("hq_deal_type_else");
-		column.setColumnType(ColumnType.string);
-		column.setNullable(true);
-		standardColumns.add(column);
-		
-		column = new ColumnItem();
 		column.setDisplayName("二访内容");
 		column.setColumnName("hq_deal_rst");
 		column.setColumnType(ColumnType.string);
@@ -74,8 +67,22 @@ public class CallFailHQMiniListColumn {
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
+		column.setDisplayName("其他");
+		column.setColumnName("hq_deal_type_else");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(true);
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
 		column.setDisplayName("客户资料备注");
 		column.setColumnName("client_remark");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(true);
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
+		column.setDisplayName("拨打电话");
+		column.setColumnName("phone_num");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);

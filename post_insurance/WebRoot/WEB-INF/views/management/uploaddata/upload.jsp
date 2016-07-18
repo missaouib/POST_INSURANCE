@@ -75,7 +75,7 @@ function displayTips(val) {
 		return;
 	}
 	if(val=="MiniCallFailStatus") {
-		$("#tipsDesc").html("二访中心简易数据。须含列：保单号\t二访日期\t二访人员\t二访类型\t二访内容\t客户资料备注，关键列：二访类型");
+		$("#tipsDesc").html("二访中心简易数据。须含列：保单号\t二访日期\t二访人员\t二访类型\t二访内容\t其他\t客户资料备注\t拨打电话，关键列：二访类型");
 		return;
 	}
 	if(val=="CallFailMiniCityStatus") {
