@@ -13,6 +13,11 @@
  
 package com.gdpost.web.util.dwz;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.data.domain.Sort.Order;
+
 
 /** 
  * 	
@@ -30,6 +35,8 @@ public class Page {
 	 */
 	public static final int DEFAULT_PAGE_SIZE = 15;
 	//public static final int DEFAULT_PAGE_SIZE = 2;
+	
+	List< Order> orders=new ArrayList< Order>();
 	
 	/**
 	 * 原始页码
@@ -222,6 +229,14 @@ public class Page {
 	 */
 	public void setPlainPageNum(int plainPageNum) {
 		this.plainPageNum = plainPageNum;
+	}
+
+	public List<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
 	}
 
 	

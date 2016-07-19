@@ -403,7 +403,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case MiniCallFailStatus:
 			standardColumns = CallFailHQMiniListColumn.getStandardColumns();
 			sql = new StringBuffer("INSERT INTO t_call_fail_list(policy_no, status, "
-					+ "hq_deal_date, hq_deal_man, hq_deal_type, hq_deal_type_else, hq_deal_rst, client_remark) VALUES  ");
+					+ "hq_deal_date, hq_deal_man, hq_deal_type, hq_deal_rst, hq_deal_type_else, client_remark, phone_num) VALUES  ");
 			line = null;
 			for (DataRow row : dt.Rows) {
 				line = new StringBuffer("(");
@@ -426,7 +426,9 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql.deleteCharAt(sql.length() - 1);
 			sql.append(" ON DUPLICATE KEY UPDATE status=VALUES(status), ");
 			sql.append("hq_deal_date=VALUES(hq_deal_date), hq_deal_man=VALUES(hq_deal_man), ");
-			sql.append("hq_deal_type=VALUES(hq_deal_type), hq_deal_rst=VALUES(hq_deal_rst);");
+			sql.append("hq_deal_type=VALUES(hq_deal_type), hq_deal_rst=VALUES(hq_deal_rst), ");
+			sql.append("hq_deal_type_else=VALUES(hq_deal_type_else), client_remark=VALUES(client_remark), ");
+			sql.append("phone_num=VALUES(phone_num); ");
 			log.debug("----------------batch update : " + sql);
 			sql2 = "delete from t_call_fail_list where issue_no is null";
 			sql3 = "update t_call_fail_list set hq_deal_flag = 1 where status='二访成功';";
@@ -461,6 +463,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			log.debug("----------------batch update : " + sql);
 			sql2 = "delete from t_call_fail_list where issue_no is null";
 			sql3 = "update t_call_fail_list set org_deal_flag = 1 where status='上门成功';";
+			sql4 = "update t_call_fail_list t1 set status=\"需上门\" where TO_DAYS(NOW())-TO_DAYS(should_date)>15 and status=\"二访失败\";";
 			break;
 		case CallFailCityStatus:
 			standardColumns = CallFailDoorBackListColumn.getStandardColumns();

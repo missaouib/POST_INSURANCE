@@ -8,6 +8,7 @@
 package com.gdpost.web.controller.insurance;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
@@ -24,6 +25,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
@@ -348,8 +351,13 @@ public class QyglController {
 	public String toXls(ServletRequest request, Page page, Map<String, Object> map) {
 		User user = SecurityUtils.getShiroUser().getUser();
 		
-		page.setOrderField("organization.orgCode");
-		page.setOrderDirection("ASC");
+		List<Order> orders=new ArrayList<Order>();
+		orders.add(new Order(Direction.ASC, "organization.orgCode"));
+		orders.add(new Order(Direction.ASC, "holder"));
+		page.setOrders(orders);
+		
+		//page.setOrderField("organization.orgCode");
+		//page.setOrderDirection("ASC");
 		page.setNumPerPage(65564);
 		String orgCode = request.getParameter("orgCode");
 		if(orgCode == null || orgCode.trim().length()<=0) {
@@ -357,8 +365,17 @@ public class QyglController {
 		} else if(!orgCode.contains(user.getOrganization().getOrgCode())){
 			orgCode = user.getOrganization().getOrgCode();
 		}
-		Specification<UnderWrite> specification = DynamicSpecifications.bySearchFilter(request, UnderWrite.class,
-				new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		
+		String status = request.getParameter("status");
+		if(status == null || status.trim().length()<=0) {
+			csf.add(new SearchFilter("status", Operator.NEQ, UW_STATUS.DelStatus.name()));
+		} else {
+			csf.add(new SearchFilter("status", Operator.EQ, status));
+		}
+		Specification<UnderWrite> specification = DynamicSpecifications.bySearchFilter(request, UnderWrite.class, csf);
 		List<UnderWrite> reqs = qyglService.findByUnderWriteExample(specification, page);
 
 		map.put("reqs", reqs);
@@ -598,6 +615,11 @@ public class QyglController {
 		}
 		UnderWrite uw = new UnderWrite();
 		uw.setStatus(status);
+		
+		if(page.getOrderField() == null || page.getOrderField().trim().length() <= 0) {
+			page.setOrderField("checkDate");
+			page.setOrderDirection("ASC");
+		}
 		
 		Specification<UnderWrite> specification = DynamicSpecifications.bySearchFilter(request, UnderWrite.class,
 				new SearchFilter("status", Operator.LIKE, status),

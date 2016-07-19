@@ -8,6 +8,7 @@
 package com.gdpost.web.controller.insurance;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
@@ -25,6 +26,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
@@ -256,9 +259,15 @@ public class FpglController {
 			}
 		}
 		page.setNumPerPage(65564);
+		
+		List<Order> orders=new ArrayList<Order>();
+		orders.add(new Order(Direction.ASC, "policy.organization.orgCode"));
+		orders.add(new Order(Direction.ASC, "policy.holder"));
+		page.setOrders(orders);
+		/*
 		page.setOrderField("policy.organization.orgCode");
 		page.setOrderDirection("ASC");
-		
+		*/
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, user.getOrganization().getOrgCode()));
 		if(status.trim().length() > 0) {

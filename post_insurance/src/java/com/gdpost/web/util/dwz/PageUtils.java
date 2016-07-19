@@ -35,6 +35,11 @@ public class PageUtils {
 	 * @return
 	 */
 	public static Pageable createPageable(Page page) {
+		
+		if(page.getOrders() != null && !page.getOrders().isEmpty()) {
+			return new PageRequest(page.getPlainPageNum() - 1, page.getNumPerPage(), new Sort(page.getOrders()));
+		}
+		
 		if (StringUtils.isNotBlank(page.getOrderField())) {
 			// 忽略大小写
 			if (page.getOrderDirection().equalsIgnoreCase(Page.ORDER_DIRECTION_ASC)) {
