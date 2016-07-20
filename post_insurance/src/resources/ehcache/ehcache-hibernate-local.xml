@@ -218,4 +218,10 @@
 		eternal="false" 
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
+	<cache 
+		name="com.gdpost.web.entity.main.PolicyReprintDtl"
+		maxEntriesLocalHeap="1000" 
+		eternal="false" 
+		overflowToDisk="true"
+		maxEntriesLocalDisk="10000" />
 </ehcache>

@@ -552,7 +552,7 @@ public class HfglController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 		if(canCallAgain) {
 			csf.add(new SearchFilter("canCallAgain", Operator.EQ, true));
 		}
@@ -670,7 +670,7 @@ public class HfglController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 		
 		if(user.getOrganization().getOrgCode().contains("11185")) {
 			if(status == null) {
@@ -776,7 +776,7 @@ public class HfglController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 		
 		if(user.getOrganization().getOrgCode().contains("11185")) {
 			if(status == null) {

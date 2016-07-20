@@ -67,10 +67,6 @@
 			<label>工单内容：</label>
 			<span class="unit">${issue.issueContent }</span>
 		</p>
-		<p>
-			<label>二访工单内容：</label>
-			<span class="unit">${issue.hqDealTypeElse }</span>
-		</p>
 	</fieldset>
 	<fieldset>
 		<p>
@@ -100,7 +96,15 @@
 	<fieldset>
 		<legend>省分二访中心回访处理详情</legend>
 		<p>
-			<label>不成功类型：</label>
+			<label>二访类别：</label>
+			<span class="unit">${issue.hqDealTypeElse }</span>
+		</p>
+		<p>
+			<label>客户资料备注：</label>
+			<span class="unit">${issue.clientRemark }</span>
+		</p>
+		<p>
+			<label>二访结果：</label>
 			<span class="unit">${issue.hqDealType }</span>
 		</p>
 		<p>

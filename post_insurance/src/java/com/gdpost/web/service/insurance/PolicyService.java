@@ -12,6 +12,7 @@ import java.util.List;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.gdpost.web.entity.main.Policy;
+import com.gdpost.web.entity.main.PolicyReprintDtl;
 import com.gdpost.web.util.dwz.Page;
 
 public interface PolicyService {
@@ -24,5 +25,13 @@ public interface PolicyService {
 	List<Policy> findByExample(Specification<Policy> specification, Page page);
 	
 	Policy getByPolicyNo(String policyNo);
+	
+	PolicyReprintDtl getPolicyReprintDtl(Long id);
+
+	void saveOrUpdatePolicyReprintDtl(PolicyReprintDtl req);
+
+	List<PolicyReprintDtl> findAllPolicyReprintDtl(Page page);
+	
+	List<PolicyReprintDtl> findByPolicyReprintDtlExample(Specification<PolicyReprintDtl> specification, Page page);
 	
 }

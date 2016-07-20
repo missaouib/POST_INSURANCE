@@ -44,6 +44,7 @@ import com.gdpost.utils.TemplateHelper.PayFailListColumn;
 import com.gdpost.utils.TemplateHelper.PolicyBackDateColumn;
 import com.gdpost.utils.TemplateHelper.PolicyColumn;
 import com.gdpost.utils.TemplateHelper.PolicyDtlColumn;
+import com.gdpost.utils.TemplateHelper.PolicySentDataColumn;
 import com.gdpost.utils.TemplateHelper.PolicyUnderWriteColumn;
 import com.gdpost.utils.TemplateHelper.RenewedCityListColumn;
 import com.gdpost.utils.TemplateHelper.RenewedColumn;
@@ -190,6 +191,10 @@ public class UploadDataServiceImpl implements UploadDataService{
 			standardColumns = PayFailListColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_pay_success_list character set utf8 (pay_type, status, ";
 			delSql = "update t_pay_fail_list set status='CloseStatus' where rel_no in (select rel_no from t_pay_success_list);";
+			break;
+		case UnderWriteSentData:
+			standardColumns = PolicySentDataColumn.getStandardColumns();
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_policy_reprint_dtl character set utf8 (";
 			break;
 			default:
 				log.warn("------------reach the default FileTemplate?? oh no!!");
@@ -1097,6 +1102,12 @@ public class UploadDataServiceImpl implements UploadDataService{
 						|| t.name().equals(FileTemplate.PolicyBackDate.name())) {
 					
 					dr = updateStatusData(t, request, dt);
+					
+					//如果是保单打印数据，需要单独导入到打印明细中
+					if(t.name().equals(FileTemplate.UnderWriteSentData.name())) {
+						importData(t, request, dt, member_id, currentNY);
+					}
+					
 				} else {
 					dr = importData(t, request, dt, member_id, currentNY);
 				}

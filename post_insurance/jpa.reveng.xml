@@ -3,7 +3,9 @@
 
 <hibernate-reverse-engineering>
 	<type-mapping>
+		<sql-type jdbc-type="bigint" hibernate-type="Long"></sql-type>
 		<sql-type jdbc-type="DATE" hibernate-type="Date"></sql-type>
+
 	</type-mapping>
 	<table name="t_area" catalog="postinsurance">
 		<primary-key>
@@ -240,7 +242,12 @@
 			<key-column name="id" type="Long" />
 		</primary-key>
 	</table>
-<table name="t_settlement_log" catalog="postinsurance">
+	<table name="t_settlement_log" catalog="postinsurance">
+		<primary-key>
+			<key-column name="id" type="Long" />
+		</primary-key>
+	</table>
+<table name="t_policy_reprint_dtl" catalog="postinsurance">
 	<primary-key>
 		<key-column name="id" type="Long"/>
 	</primary-key>

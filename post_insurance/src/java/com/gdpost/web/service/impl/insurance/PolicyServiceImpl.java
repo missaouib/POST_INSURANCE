@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gdpost.web.dao.PolicyDAO;
+import com.gdpost.web.dao.PolicyReprintDtlDAO;
 import com.gdpost.web.entity.main.Policy;
+import com.gdpost.web.entity.main.PolicyReprintDtl;
 import com.gdpost.web.service.insurance.PolicyService;
 import com.gdpost.web.util.dwz.Page;
 import com.gdpost.web.util.dwz.PageUtils;
@@ -23,6 +25,9 @@ public class PolicyServiceImpl implements PolicyService {
 	
 	@Autowired
 	private PolicyDAO policyDAO;
+	
+	@Autowired
+	private PolicyReprintDtlDAO policyReprintDtlDAO;
 	
 	/*
 	 * (non-Javadoc)
@@ -72,4 +77,36 @@ public class PolicyServiceImpl implements PolicyService {
 		return policyDAO.getByPolicyNo(policyNo);
 	}
 
+	/*
+	 * ===================================================
+	 * policy reprint dtl
+	 * ===================================================
+	 */	
+	@Override
+	public PolicyReprintDtl getPolicyReprintDtl(Long id) {
+		return policyReprintDtlDAO.findOne(id);
+	}
+
+	@Override
+	public void saveOrUpdatePolicyReprintDtl(PolicyReprintDtl policyReprintDtl) {
+		
+		policyReprintDtlDAO.save(policyReprintDtl);
+	}
+
+	
+	@Override
+	public List<PolicyReprintDtl> findAllPolicyReprintDtl(Page page) {
+		org.springframework.data.domain.Page<PolicyReprintDtl> springDataPage = policyReprintDtlDAO.findAll(PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
+	}
+	
+	@Override
+	public List<PolicyReprintDtl> findByPolicyReprintDtlExample(
+			Specification<PolicyReprintDtl> specification, Page page) {
+		org.springframework.data.domain.Page<PolicyReprintDtl> springDataPage = policyReprintDtlDAO.findAll(specification, PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
+	}
+	
 }

@@ -597,3 +597,18 @@ ALTER TABLE `t_settle_task` ADD COLUMN `case_date` VARCHAR(32) DEFAULT NULL AFTE
 ALTER TABLE `t_settle_task` ADD COLUMN `case_type` VARCHAR(32) DEFAULT NULL AFTER `case_date`;
 
 ALTER TABLE t_call_fail_list MODIFY COLUMN `door_stats_date` VARCHAR(12) DEFAULT NULL;
+create table t_policy_reprint_dtl
+(
+   id                   bigint not null auto_increment,
+   print_no             varchar(12),
+   status               varchar(6),
+   org_code             varchar(8),
+   form_no              varchar(15),
+   policy_no            varchar(18),
+   ems_no               varchar(18),
+   print_date           datetime,
+   flag                 varchar(1),
+   operate_id           bigint,
+   operate_time         timestamp DEFAULT CURRENT_TIMESTAMP,
+   primary key (id)
+);

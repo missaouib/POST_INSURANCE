@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.gdpost.utils.SecurityUtils;
 import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.Policy;
+import com.gdpost.web.entity.main.PolicyReprintDtl;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.service.insurance.PolicyService;
 import com.gdpost.web.shiro.ShiroUser;
@@ -52,6 +53,8 @@ public class ClientController {
 	private static final String VIEW = "insurance/basedata/client/view";
 	private static final String LIST = "insurance/basedata/client/list";
 	private static final String TO_XLS = "insurance/basedata/client/toXls";
+	
+	private static final String RE_PRINT_LIST = "insurance/search/reprint/list";
 	
 	@RequiresPermissions("Client:view")
 	@RequestMapping(value="/view/{id}", method=RequestMethod.GET)
@@ -83,7 +86,7 @@ public class ClientController {
 			page.setOrderDirection("DESC");
 		}
 		
-		String orgCode = request.getParameter("policy.orgCode");
+		String orgCode = request.getParameter("orgCode");
 		if(orgCode == null || orgCode.trim().length() <= 0) {
 			orgCode = user.getOrganization().getOrgCode();
 			if(orgCode.contains("11185")) {
@@ -93,7 +96,7 @@ public class ClientController {
 			if(!orgCode.contains(user.getOrganization().getOrgCode())){
 				orgCode = user.getOrganization().getOrgCode();
 			}
-			String orgName = request.getParameter("policy.name");
+			String orgName = request.getParameter("name");
 			request.setAttribute("policy_orgCode", orgCode);
 			request.setAttribute("policy_name", orgName);
 		}
@@ -116,6 +119,49 @@ public class ClientController {
 		map.put("page", page);
 		map.put("policies", policies);
 		return LIST;
+	}
+	
+	@RequiresPermissions("PolicyReprintDtl:view")
+	@RequestMapping(value="/listPolicyReprintDtl", method={RequestMethod.GET, RequestMethod.POST})
+	public String listPolicyReprintDtl(ServletRequest request, Page page, Map<String, Object> map) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
+		
+		if(page.getOrderField() == null || page.getOrderField().trim().length() <= 0) {
+			page.setOrderField("printDate");
+			page.setOrderDirection("DESC");
+		}
+		String flag = request.getParameter("flag");
+		if(flag == null) flag = "";
+		
+		String orgCode = request.getParameter("orgCode");
+		if(orgCode == null || orgCode.trim().length() <= 0) {
+			orgCode = user.getOrganization().getOrgCode();
+			if(orgCode.contains("11185")) {
+				orgCode = "8644";
+			}
+		} else {
+			if(!orgCode.contains(user.getOrganization().getOrgCode())){
+				orgCode = user.getOrganization().getOrgCode();
+			}
+			String orgName = request.getParameter("name");
+			request.setAttribute("orgCode", orgCode);
+			request.setAttribute("name", orgName);
+		}
+		
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("orgCode", Operator.LIKE, orgCode));
+		
+		if(flag != null && flag.trim().length()>0) {
+			csf.add(new SearchFilter("flag", Operator.EQ, flag));
+		}
+		Specification<PolicyReprintDtl> specification = DynamicSpecifications.bySearchFilter(request, PolicyReprintDtl.class, csf);
+		List<PolicyReprintDtl> policies = policyService.findByPolicyReprintDtlExample(specification, page);
+		
+		map.put("flag", flag);
+		map.put("page", page);
+		map.put("policies", policies);
+		return RE_PRINT_LIST;
 	}
 	
 	@RequiresPermissions("Client:view")

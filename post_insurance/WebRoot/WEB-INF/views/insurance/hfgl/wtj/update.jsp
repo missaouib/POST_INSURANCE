@@ -68,6 +68,28 @@
 			<label>重置电话为：</label>
 			<span class="unit">${issue.resetPhone }</span>
 		</p>
+		<p>
+			<label>可再访情况：</label>
+			<span class="unit">${issue.canCallAgainRemark }</span>
+		</p>
+	</fieldset>
+	<fieldset>
+		<p>
+			<label>信函标记：</label>
+			<span class="unit">${issue.hasLetter }</span>
+		</p>
+		<p>
+			<label>发信函时间：</label>
+			<span class="unit">${issue.letterDate }</span>
+		</p>
+		<p>
+			<label>二访结果：</label>
+			<span class="unit">${issue.hqIssueType }</span>
+		</p>
+		<p>
+			<label>地市上门结果：</label>
+			<span class="unit">${issue.dealType }</span>
+		</p>
 	</fieldset>
 	<div class="divider"></div>
 	<fieldset>
@@ -96,13 +118,21 @@
 	</fieldset>
 	<div class="divider"></div>
 	<fieldset>
-		<legend>省分二访中心第一次回访处理详情</legend>
+		<legend>省分二访中心回访处理详情</legend>
 		<p>
-			<label>不成功类型：</label>
+			<label>客户资料备注：</label>
+			<span class="unit">${issue.clientRemark }</span>
+		</p>
+		<p>
+			<label>二访类别：</label>
+			<span class="unit">${issue.hqDealTypeElse }</span>
+		</p>
+		<p>
+			<label>二访结果：</label>
 			<span class="unit">${issue.hqDealType }</span>
 		</p>
 		<p>
-			<label>回访类型：</label>
+			<label>回访详情：</label>
 			<span class="unit">${issue.hqDealRst }</span>
 		</p>
 		<p>
@@ -113,7 +143,24 @@
 			<label>回访日期：</label>
 			<span class="unit"><fmt:formatDate value='${issue.hqDealDate }' pattern='yyyy-MM-dd'/></span>
 		</p>
+		<p>
+			<label>拨打电话（通话号码）：</label>
+			<span class="unit">${issue.phoneNum }</span>
+		</p>
+		<p>
+			<label>通话开始时间：</label>
+			<span class="unit">${issue.phoneStart }</span>
+		</p>
+		<p>
+			<label>通话结束时间：</label>
+			<span class="unit">${issue.phoneEnd }</span>
+		</p>
+		<p>
+			<label>通话时长：</label>
+			<span class="unit">${issue.phoneTime }</span>
+		</p>
 	</fieldset>
+	<!-- 
 	<fieldset>
 		<legend>省分二访中心第二次回访处理详情</legend>
 		<p>
@@ -209,6 +256,7 @@
 			<span class="unit"><fmt:formatDate value='${issue.hqDealDate6 }' pattern='yyyy-MM-dd'/></span>
 		</p>
 	</fieldset>
+	 -->
 	<div class="divider"></div>
 	<fieldset>
 		<legend>分公司回访情况</legend>
