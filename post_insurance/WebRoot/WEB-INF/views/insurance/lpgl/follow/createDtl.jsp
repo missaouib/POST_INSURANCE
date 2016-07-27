@@ -7,7 +7,7 @@
 	<div class="pageFormContent" layoutH="58">
 		<p>
 			<label>赔案号：</label>
-			<input type="text" name="claimsNo" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${settleDtl.claimsNo }"/>
+			<input type="text" name="claimsNo" class="input-medium validate[maxSize[32]]" maxlength="32" value="${settleDtl.claimsNo }"/>
 		</p>
 	<fieldset>
 		<legend>保单基本信息</legend>
@@ -18,19 +18,19 @@
 		<p>
 			<label>保单号：</label>
 			<input name="policyNo" type="text" postField="search_LIKE_policyNo" suggestFields="policyNo" 
-					suggestUrl="/common/lookupPolicysuggest" lookupGroup="" class="input-medium validate[required,maxSize[32]] required" value="${settleDtl.policyNo }"/>
+					suggestUrl="/common/lookupPolicysuggest" lookupGroup="" class="input-medium validate[maxSize[32]]" value="${settleDtl.policyNo }"/>
 		</p>
 		<p>
 			<label>险种：</label>
-			<input type="text" name="prodName" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${settleDtl.prodName }"/>
+			<input type="text" name="prodName" class="input-medium validate[maxSize[32]]" maxlength="32" value="${settleDtl.prodName }"/>
 		</p>
 		<p>
 			<label>保费：</label>
-			<input type="text" name="policyFee" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${settleDtl.policyFee }"/>
+			<input type="text" name="policyFee" class="input-medium validate[maxSize[32]]" maxlength="32" value="${settleDtl.policyFee }"/>
 		</p>
 		<p>
 			<label>生效日期：</label>
-			<input type="text" name="policyDate" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${settleDtl.policyDate }"/>
+			<input type="text" name="policyDate" class="input-medium validate[maxSize[32]]" maxlength="32" value="${settleDtl.policyDate }"/>
 		</p>
 	</fieldset>
 	<fieldset>
