@@ -561,13 +561,13 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql2 = "delete from t_call_fail_list where issue_no is null";
 			break;
 		case CallFailMailSuccessStatus:
-			standardColumns = CallFailMailBackListColumn.getStandardColumns();
+			standardColumns = CallFailMailSuccessListColumn.getStandardColumns();
 			sql = new StringBuffer("INSERT INTO t_call_fail_list(policy_no, has_letter, mail_back_date, client_sign_date) VALUES ");
 			line = null;
 			for (DataRow row : dt.Rows) {
 				line = new StringBuffer("(");
 	        	for(ColumnItem item : standardColumns) {
-	        		if(item.getDisplayName().contains("退信时间") || item.getDisplayName().contains("回邮时间")) {
+	        		if(item.getDisplayName().contains("客户签名时间") || item.getDisplayName().contains("回邮时间")) {
 	        			val = row.getValue(item.getDisplayName());
 	        			if(val == null || val.toString().trim().length() <= 0) {
 	        				line.append("null,");
@@ -578,8 +578,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        			line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
 	        		}
 	        	}
-	        	//line.deleteCharAt(line.length() - 1);
-	        	line.append("1 ),");
+	        	line.deleteCharAt(line.length() - 1);
+	        	line.append("),");
 	        	sql.append(line);
 	        }
 			sql.deleteCharAt(sql.length() - 1);
