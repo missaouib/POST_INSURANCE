@@ -514,7 +514,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        		if(item.getDisplayName().contains("信函日期")) {
 	        			val = row.getValue(item.getDisplayName());
 	        			if(val == null || val.toString().trim().length() <= 0) {
-	        				line.append("null,");
+	        				line.append("NULL,");
 	        			} else {
 	        				line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
 	        			}
@@ -542,7 +542,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        		if(item.getDisplayName().contains("退信时间") || item.getDisplayName().contains("回邮时间")) {
 	        			val = row.getValue(item.getDisplayName());
 	        			if(val == null || val.toString().trim().length() <= 0) {
-	        				line.append("null,");
+	        				line.append("NULL,");
 	        			} else {
 	        				line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
 	        			}

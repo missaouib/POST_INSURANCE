@@ -56,6 +56,7 @@ public class SettleTask implements Idable<Long> {
 	private String checkStatus;
 	private Long operateId;
 	private Date createTime;
+	private String remark;
 	private List<SettleTaskLog> settleTaskLogs = new ArrayList<SettleTaskLog>(0);
 
 	// Constructors
@@ -274,6 +275,15 @@ public class SettleTask implements Idable<Long> {
 
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
+	}
+
+	@Column(name="remark")
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "settleTask")

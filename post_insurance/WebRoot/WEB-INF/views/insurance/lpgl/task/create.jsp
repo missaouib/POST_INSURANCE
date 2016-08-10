@@ -90,6 +90,11 @@ function customAjaxDone(json){
 			<input type="text" name="checkFee" class="input-medium validate[maxSize[32]]" maxlength="32" value=""/>
 		</p>
 		<p>
+			<label>备注：</label>
+			<textarea name="remark" id="remark" cols="30" rows="3" class="input-medium"></textarea>
+		</p>
+		<p>&nbsp;</p><p>&nbsp;</p>
+		<p>
 			<label>附件</label>
 			<input type="file" name="file">
 		</p>
