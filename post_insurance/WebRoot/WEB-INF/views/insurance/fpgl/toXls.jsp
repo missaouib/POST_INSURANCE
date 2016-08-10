@@ -9,34 +9,40 @@ response.setHeader("Content-Disposition", "inline; filename=InvoiceReq.xls");
 	<table border="1" cellspacing="1" cellpadding="0">
 			<tr>
 				<th>序号</th>
-				<td>保单号</td>
-				<td>投保人</td>
-				<td>保单机构</td>
-				<td>发票标记</td>
-				<th>电子发票</th>
-				<td>发票金额</td>
-				<td>发票缴费日期</td>
-				<td>申请日期</td>
-				<th>接收邮箱</th>
-				<td>EMS</td>
-				<td>申请接收人</td>
-				<td>状态</td>
-			</tr>
-			<c:forEach var="item" items="${reqs}" varStatus="status">
-			<tr>
-				<td><c:out value="${status.index+1}"/></td>
-				<td style="vnd.ms-excel.numberformat:@">${item.policy.policyNo}</td>
-				<td>${item.policy.holder}</td>
-				<td>${item.policy.organization.name}</td>
-				<td>${item.flag}</td>
-				<td>${item.isElectiveBill}</td>
-				<td>${item.fee}</td>
-				<td><fmt:formatDate value="${item.feeDate }" pattern="yyyy-MM-dd"/></td>
-				<td><fmt:formatDate value="${item.reqDate }" pattern="yyyy-MM-dd"/></td>
-				<td>${item.billAddr}</td>
-				<td style="vnd.ms-excel.numberformat:@">${item.billNo}</td>
-				<td>${item.reqMan}</td>
-				<td>
+                <th>投保人</th>
+                <th>保单号</th>
+                <th>险种</th>
+                <th>期间</th>
+                <th>保单金额</th>
+                <th>保单机构</th>
+                <th>电子发票</th>
+                <th>发票金额</th>
+                <th>发票标记</th>
+                <th>发票缴费日期</th>
+                <td>申请日期</td>
+                <th>接收邮箱</th>
+                <th>EMS</th>
+                <th>申请接收人</th>
+                <th>状态</th>
+        </tr>
+        <c:forEach var="item" items="${reqs}" varStatus="status">
+        <tr>
+                <td><c:out value="${status.index+1}"/></td>
+                <td>${item.policy.holder}</td>
+                <td style="vnd.ms-excel.numberformat:@">${item.policy.policyNo}</td>
+                <td>${item.policy.prodName}</td>
+                <td>${item.policy.feeFrequency}</td>
+                <td>${item.policy.policyFee}</td>
+                <td>${item.policy.organization.name}</td>
+                <td>${item.isElectiveBill}</td>
+                <td>${item.fee}</td>
+                <td>${item.flag}</td>
+                <td><fmt:formatDate value="${item.feeDate }" pattern="yyyy-MM-dd"/></td>
+                <td><fmt:formatDate value="${item.reqDate }" pattern="yyyy-MM-dd"/></td>
+                <td>${item.billAddr}</td>
+                <td style="vnd.ms-excel.numberformat:@">${item.billNo}</td>
+                <td>${item.reqMan}</td>
+                <td>
 				<c:choose>
 					<c:when test="${item.status eq 'NewStatus'}">
 						<span style="color:red; height:50%; margin-bottom:-contentheight;">待处理</span>

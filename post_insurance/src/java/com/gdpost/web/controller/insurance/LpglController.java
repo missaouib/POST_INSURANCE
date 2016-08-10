@@ -190,7 +190,7 @@ public class LpglController {
 	public @ResponseBody String update(@Valid Settlement settle, HttpServletRequest request) {
 		Settlement src = lpglService.getSettle(settle.getId());
 		StringBuffer loginfo = new StringBuffer("");
-		if(settle.getCaseDate()!=null && !DateUtils.isSameDay(src.getCaseDate(), settle.getCaseDate())) {
+		if(settle.getCaseDate()!=null && src.getCaseDate() != null && !DateUtils.isSameDay(src.getCaseDate(), settle.getCaseDate())) {
 			loginfo.append("改出险日期：" + StringUtil.date2Str(src.getCaseDate(), "yy-M-d") + "->" + StringUtil.date2Str(settle.getCaseDate(), "yy-M-d") + "；");
 		}
 		if(settle.getCaseStatus()!=null && !src.getCaseStatus().equals(settle.getCaseStatus())) {
@@ -199,7 +199,7 @@ public class LpglController {
 		if(settle.getCaseType()!=null && !src.getCaseType().equals(settle.getCaseType())) {
 			loginfo.append("改类型：" + src.getCaseType() + "->" + settle.getCaseType() + "；");
 		}
-		if(settle.getCloseDate()!=null && !DateUtils.isSameDay(src.getCloseDate(), settle.getCloseDate())) {
+		if(settle.getCloseDate()!=null && src.getCloseDate() != null && !DateUtils.isSameDay(src.getCloseDate(), settle.getCloseDate())) {
 			loginfo.append("改关闭日期：" + StringUtil.date2Str(src.getCloseDate(), "yy-M-d") + "->" + StringUtil.date2Str(settle.getCloseDate(), "yy-M-d") + "；");
 		}
 		if(settle.getInsured()!=null && !src.getInsured().equals(settle.getInsured())) {
@@ -211,10 +211,10 @@ public class LpglController {
 		if(settle.getPayFee()!=null && (src.getPayFee()==null?0:src.getPayFee().doubleValue()) != settle.getPayFee().doubleValue()) {
 			loginfo.append("改赔付金额：" + src.getPayFee() + "->" + settle.getPayFee() + "；");
 		}
-		if(settle.getRecordDate()!=null && !DateUtils.isSameDay(src.getRecordDate(), settle.getRecordDate())) {
+		if(settle.getRecordDate()!=null && src.getCloseDate() != null && !DateUtils.isSameDay(src.getRecordDate(), settle.getRecordDate())) {
 			loginfo.append("改立案日期：" + StringUtil.date2Str(src.getRecordDate(), "yy-M-d") + "->" + StringUtil.date2Str(settle.getRecordDate(), "yy-M-d") + "；");
 		}
-		if(settle.getReporteDate()!=null && !DateUtils.isSameDay(src.getReporteDate(), settle.getReporteDate())) {
+		if(settle.getReporteDate()!=null && src.getReporteDate() != null && !DateUtils.isSameDay(src.getReporteDate(), settle.getReporteDate())) {
 			loginfo.append("改报案日期：" + StringUtil.date2Str(src.getReporteDate(), "yy-M-d") + "->" + StringUtil.date2Str(settle.getReporteDate(), "yy-M-d") + "；");
 		}
 		if(settle.getReporter()!=null && !(src.getReporter()==null?"":src.getReporter()).equals(settle.getReporter())) {
