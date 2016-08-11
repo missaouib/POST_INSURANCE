@@ -500,9 +500,9 @@ public class UploadDataServiceImpl implements UploadDataService{
 			
 			log.debug("----------------batch update : " + sql);
 			sql2 = "delete from t_call_fail_list where issue_no is null";
-			sql3 = "update t_call_fail_list set status='上门成功' where deal_type='上门成功' and status not like \"%成功%\"";
-			sql4 = "update t_call_fail_list set status='上门失败' where deal_type<>'上门成功' and status not like \"%成功%\"";
-			sql5 = "update t_call_fail_list set org_deal_flag = 1 where deal_type='上门成功';";
+			sql3 = "update t_call_fail_list set status='上门成功' where (deal_type='上门成功' or deal_type='上门回访成功') and status not like \"%成功%\"";
+			sql4 = "update t_call_fail_list set status='上门失败' where (deal_type='上门成功' or deal_type='上门回访成功') and status not like \"%成功%\"";
+			sql5 = "update t_call_fail_list set org_deal_flag = 1 where (deal_type='上门成功' or deal_type='上门回访成功');";
 			break;
 		case CallFailMailStatus:
 			standardColumns = CallFailMailListColumn.getStandardColumns();
