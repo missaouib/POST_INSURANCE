@@ -36,6 +36,7 @@ response.setHeader("Content-Disposition", "inline; filename=settles.xls");
 				<th>赔付金额</th>
 				<th>账户状态</th>
 				<th>录入时间</th>
+				<th>备注</th>
 			</tr>
 			<c:forEach var="item" items="${settles}" varStatus="idx">
 			<tr>
@@ -79,6 +80,7 @@ response.setHeader("Content-Disposition", "inline; filename=settles.xls");
 				<td>${item.payFee}</td>
 				<td>${item.caseStatus}</td>
 				<td><fmt:formatDate value="${item.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+				<td>${item.remark}</td>
 			</tr>
 			</c:forEach>
 	</table>

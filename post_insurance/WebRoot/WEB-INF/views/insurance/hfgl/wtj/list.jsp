@@ -14,6 +14,8 @@
 	<input type="hidden" name="search_LIKE_hasLetter" value="${param.search_LIKE_hasLetter }"/>
 	<input type="hidden" name="status" value="${param.status }"/>
 	<input type="hidden" name="canCallAgain" value="${canCallAgain }" />
+	<input type="hidden" name="hqDealFlag" value="${hqDealFlag }" />
+	<input type="hidden" name="orgDealFlag" value="${orgDealFlag }" />
 	<input type="hidden" name="search_LIKE_policy.holder" value="${search_LIKE_policy_holder}"/>
 </dwz:paginationForm>
 
@@ -33,7 +35,7 @@
 						</form:select>
 					</td>
 					<td>
-						<label>所属机构：</label>
+						<label>机构：</label>
 						<input name="policy.orgCode" id="xq_orgCode" type="hidden" value="${policy_orgCode }"/>
 						<input class="validate[required] required" name="policy.name" id="xq_orgName" type="text" readonly="readonly" style="width: 100px;" value="${policy_name }"/><a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="policy" title="选择机构" width="400">查</a>
 					</td>
@@ -78,6 +80,30 @@
 					<td>
 						<label>承保日期：</label>
 						<input type="text" name="search_LTE_policy.policyDate" id="hfDate2" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${search_LTE_policy_policyDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+					</td>
+					<td>
+						&nbsp;
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>二访结果：</label>
+						<form:select path="issue.hqDealFlag" id="hqDealFlag" class="combox">
+							<form:option value=""> -- -- </form:option>
+							<form:option value="1"> 二访成功 </form:option>
+							<form:option value="0"> 二访失败 </form:option>
+						</form:select>
+					</td>
+					<td>
+						<label>上门结果：</label>
+						<form:select path="issue.orgDealFlag" id="orgDealFlag" class="combox">
+							<form:option value=""> -- -- </form:option>
+							<form:option value="1"> 上门成功 </form:option>
+							<form:option value="0"> 上门失败 </form:option>
+						</form:select>
+					</td>
+					<td>
+						&nbsp;
 					</td>
 					<td>
 						&nbsp;
@@ -128,14 +154,14 @@
 				<li class="line">line</li>
 				<li><a class="icon" href="${contextPath }/hfgl/issue/maxlist?search_LIKE_issueNo=${param.search_LIKE_issueNo }&policy.orgCode=${policy_orgCode }&policy.name=${policy_name }&search_LTE_readyDate=${param.search_LTE_readyDate }&search_GTE_readyDate=${param.search_GTE_readyDate }&search_GTE_policy.policyDate=${search_GTE_policy_policyDate }&search_LTE_policy.policyDate=${search_LTE_policy_policyDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&encodeHasLetter=${encodeHasLetter }&encodeStatus=${encodeStatus == null?'null':encodeStatus }" target="dialog" rel="dlg_page1" max="true" title="回访不成功列表" width="800" height="480"><span>全屏查看</span></a></li>
 				<li class="line">line</li>
-				<li><a class="icon" target="_blank" href="${contextPath }/hfgl/toXls?canCallAgain=${canCallAgain }&search_LIKE_issueNo=${param.search_LIKE_issueNo }&policy.orgCode=${policy_orgCode }&search_LTE_readyDate=${param.search_LTE_readyDate }&search_GTE_readyDate=${param.search_GTE_readyDate }&search_GTE_policy.policyDate=${search_GTE_policy_policyDate }&search_LTE_policy.policyDate=${search_LTE_policy_policyDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&encodeHasLetter=${encodeHasLetter }&encodeStatus=${encodeStatus == null?'null':encodeStatus }"><span>导出Excel</span></a></li>
+				<li><a class="icon" target="_blank" href="${contextPath }/hfgl/toXls?hqDealFlag=${hqDealFlag }&orgDealFlag=${orgDealFlag }&canCallAgain=${canCallAgain }&search_LIKE_issueNo=${param.search_LIKE_issueNo }&policy.orgCode=${policy_orgCode }&search_LTE_readyDate=${param.search_LTE_readyDate }&search_GTE_readyDate=${param.search_GTE_readyDate }&search_GTE_policy.policyDate=${search_GTE_policy_policyDate }&search_LTE_policy.policyDate=${search_LTE_policy_policyDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&encodeHasLetter=${encodeHasLetter }&encodeStatus=${encodeStatus == null?'null':encodeStatus }"><span>导出Excel</span></a></li>
 			</shiro:hasPermission>
 			<li class="line">line</li>
 			<li><a class="icon" target="dialog" href="${contextPath }/hfgl/help" mask="true" width="530" height="430"><span>功能说明</span></a></li>
 		</ul>
 	</div>
 	
-	<table class="table" layoutH="185" width="150%">
+	<table class="table" layoutH="210" width="150%">
 		<thead>
 			<tr>
 				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>

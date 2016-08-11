@@ -43,6 +43,10 @@
 			<label>理赔类型：</label>
 			<span class="unit">${settle.caseType }</span>
 		</p>
+		<p>
+			<label>备注：</label>
+			<span class="unit">${settle.remark }</span>
+		</p>
 	</fieldset>
 	<fieldset>
 		<legend>报案进程</legend>

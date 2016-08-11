@@ -40,14 +40,16 @@ function customAjaxDone(json){
 		</p>
 		<p>
 			<label>生效日期：</label>
-			<input type="text" name="policyDate" class="input-medium validate[maxSize[32]]" maxlength="32" value="${settleDtl.policyDate }"/>
+			<input type="text" name="policyDate" id="policyDate" class="date" dateFmt="yyyy-MM-dd" value="${settleDtl.policyDate }"/>
+					<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 	</fieldset>
 	<fieldset>
 		<legend>出险信息</legend>
 		<p>
 			<label>出险日期：</label>
-			<input type="text" name="caseDate" class="input-medium validate[maxSize[32]]" maxlength="32" value="${settleDtl.caseDate }"/>
+			<input type="text" name="caseDate" id="caseDate" class="date" dateFmt="yyyy-MM-dd" value="${settleDtl.caseDate }"/>
+					<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 		<p>
 			<label>理赔类型：</label>
@@ -64,11 +66,13 @@ function customAjaxDone(json){
 		<legend>调查进程</legend>
 		<p>
 			<label>调查起期：</label>
-			<input type="text" name="checkStartDate" class="input-medium validate[maxSize[32]]" maxlength="32" value="<fmt:formatDate value="<%=new Date() %>" pattern="yyyy-MM-dd"/>"/>
+			<input type="text" name="checkStartDate" id="checkStartDate" class="date" dateFmt="yyyy-MM-dd" value="<fmt:formatDate value="<%=new Date() %>" pattern="yyyy-MM-dd"/>"/>
+					<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 		<p>
 			<label>结案日期：</label>
-			<input type="text" name="checkEndDate" id="checkEndDate" class="date" dateFmt="yyyy-MM-dd" readonly="readonly" value="${task.checkEndDate }"/>
+			<input type="text" name="checkEndDate" id="checkEndDate" class="date" dateFmt="yyyy-MM-dd" value="${task.checkEndDate }"/>
+					<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 		<p>
 			<label>调查要求：</label>

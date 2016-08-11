@@ -26,14 +26,16 @@
 		</p>
 		<p>
 			<label>生效日期：</label>
-			<input type="text" name="policyDate" class="input-medium validate[maxSize[32]]" maxlength="32" value="${task.policyDate }"/>
+			<input type="text" name="policyDate" id="policyDate" class="date" dateFmt="yyyy-MM-dd" value="<fmt:formatDate value="${task.policyDate }" pattern="yyyy-MM-dd"/>"/>
+					<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 	</fieldset>
 	<fieldset>
 		<legend>出险信息</legend>
 		<p>
 			<label>出险日期：</label>
-			<input type="text" name="caseDate" class="input-medium validate[maxSize[32]]" maxlength="32" value="${task.caseDate }"/>
+			<input type="text" name="caseDate" id="caseDate" class="date" dateFmt="yyyy-MM-dd" value="<fmt:formatDate value="${task.caseDate }" pattern="yyyy-MM-dd"/>"/>
+					<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 		<p>
 			<label>理赔类型：</label>
@@ -50,11 +52,13 @@
 		<legend>调查进程</legend>
 		<p>
 			<label>调查起期：</label>
-			<input type="text" name="checkStartDate" class="input-medium validate[required,maxSize[32]] required" readonly="readonly" maxlength="32" value="<fmt:formatDate value="${task.checkStartDate }" pattern="yyyy-MM-dd"/>"/>
+			<input type="text" name="checkStartDate" id="checkStartDate" class="date" dateFmt="yyyy-MM-dd" value="<fmt:formatDate value="${task.checkStartDate }" pattern="yyyy-MM-dd"/>"/>
+					<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 		<p>
 			<label>结案日期：</label>
-			<input type="text" name="checkEndDate" id="checkEndDate" class="date" dateFmt="yyyy-MM-dd" readonly="readonly" value="${task.checkEndDate }"/>
+			<input type="text" name="checkEndDate" id="checkEndDate" class="date" dateFmt="yyyy-MM-dd" value="<fmt:formatDate value="${task.checkEndDate }" pattern="yyyy-MM-dd"/>"/>
+					<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 		<p>
 			<label>调查要求：</label>
@@ -75,6 +79,11 @@
 			<label>查勘费：</label>
 			<input type="text" name="checkFee" class="input-medium validate[maxSize[32]]" maxlength="32" value="${task.checkFee }"/>
 		</p>
+		<p>
+			<label>备注：</label>
+			<textarea name="remark" id="remark" cols="30" rows="3" class="input-medium"></textarea>
+		</p>
+		<p>&nbsp;</p><p>&nbsp;</p>
 		<p>
 			<label>附件：</label>
 			<a href="${task.attrLink}">${task.attrLink }</a>

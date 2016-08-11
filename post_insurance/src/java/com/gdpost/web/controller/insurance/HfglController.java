@@ -524,6 +524,9 @@ public class HfglController {
 		issue.setStatus(status);
 		
 		String canCallAgainStr = request.getParameter("canCallAgain");
+		String orgDeal = request.getParameter("orgDealFlag");
+		String hqDealFlag = request.getParameter("hqDealFlag");
+		
 		boolean canCallAgain = false;
 		if(canCallAgainStr != null && canCallAgainStr.equals("true")) {
 			canCallAgain = true;
@@ -555,6 +558,18 @@ public class HfglController {
 		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 		if(canCallAgain) {
 			csf.add(new SearchFilter("canCallAgain", Operator.EQ, true));
+		}
+		
+		if(orgDeal != null && orgDeal.trim().length()>0) {
+			issue.setOrgDealFlag(new Integer(orgDeal));
+			request.setAttribute("orgDealFlag", orgDeal);
+			csf.add(new SearchFilter("orgDealFlag", Operator.EQ, orgDeal));
+		}
+		
+		if(hqDealFlag != null && hqDealFlag.trim().length()>0) {
+			issue.setHqDealFlag(new Integer(hqDealFlag));
+			request.setAttribute("hqDealFlag", hqDealFlag);
+			csf.add(new SearchFilter("hqDealFlag", Operator.EQ, hqDealFlag));
 		}
 		
 		if(user.getOrganization().getOrgCode().contains("11185")) {
@@ -669,8 +684,35 @@ public class HfglController {
 			//request.setAttribute("encodeOrgName", encodeOrgName);
 		}
 		
+		String canCallAgainStr = request.getParameter("canCallAgain");
+		String orgDeal = request.getParameter("orgDealFlag");
+		String hqDealFlag = request.getParameter("hqDealFlag");
+		
+		boolean canCallAgain = false;
+		if(canCallAgainStr != null && canCallAgainStr.equals("true")) {
+			canCallAgain = true;
+			issue.setCanCallAgain(true);
+			request.setAttribute("canCallAgain", "true");
+		}
+		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		
+		if(canCallAgain) {
+			csf.add(new SearchFilter("canCallAgain", Operator.EQ, true));
+		}
+		
+		if(orgDeal != null && orgDeal.trim().length()>0) {
+			issue.setOrgDealFlag(new Integer(orgDeal));
+			request.setAttribute("orgDealFlag", orgDeal);
+			csf.add(new SearchFilter("orgDealFlag", Operator.EQ, orgDeal));
+		}
+		
+		if(hqDealFlag != null && hqDealFlag.trim().length()>0) {
+			issue.setHqDealFlag(new Integer(hqDealFlag));
+			request.setAttribute("hqDealFlag", hqDealFlag);
+			csf.add(new SearchFilter("hqDealFlag", Operator.EQ, hqDealFlag));
+		}
 		
 		if(user.getOrganization().getOrgCode().contains("11185")) {
 			if(status == null) {
@@ -746,6 +788,15 @@ public class HfglController {
 		LOG.debug("-------------- status: " + status + ", user org code:" + userOrg.getOrgCode());
 		String hasLetter = request.getParameter("hasLetter");
 		String encodeHasLetter = request.getParameter("encodeHasLetter");
+		String canCallAgainStr = request.getParameter("canCallAgain");
+		String orgDeal = request.getParameter("orgDealFlag");
+		String hqDealFlag = request.getParameter("hqDealFlag");
+		
+		boolean canCallAgain = false;
+		if(canCallAgainStr != null && canCallAgainStr.equals("true")) {
+			canCallAgain = true;
+		}
+		
 		request.setAttribute("encodeHasLetter", encodeHasLetter);
 		if(encodeHasLetter != null) {
 			hasLetter = new String(Base64Utils.decodeFromString(encodeHasLetter));
@@ -777,6 +828,18 @@ public class HfglController {
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		
+		if(canCallAgain) {
+			csf.add(new SearchFilter("canCallAgain", Operator.EQ, true));
+		}
+		
+		if(orgDeal != null && orgDeal.trim().length()>0) {
+			csf.add(new SearchFilter("orgDealFlag", Operator.EQ, orgDeal));
+		}
+		
+		if(hqDealFlag != null && hqDealFlag.trim().length()>0) {
+			csf.add(new SearchFilter("hqDealFlag", Operator.EQ, hqDealFlag));
+		}
 		
 		if(user.getOrganization().getOrgCode().contains("11185")) {
 			if(status == null) {

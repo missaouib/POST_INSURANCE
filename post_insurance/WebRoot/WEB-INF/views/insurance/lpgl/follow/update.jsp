@@ -69,6 +69,10 @@
 				<form:option value="不予立案">不予立案</form:option>
 			</form:select>
 		</p>
+		<p>
+			<label>备注：</label>
+			<textarea name="remark" id="remark" cols="30" rows="3" class="input-medium">${settle.remark }</textarea>
+		</p>
 	</div>
 			
 	<div class="formBar">

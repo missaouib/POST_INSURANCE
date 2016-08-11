@@ -23,6 +23,7 @@ response.setHeader("Content-Disposition", "inline; filename=settles_task.xls");
 				<th>调查人</th>
 				<th>调查地点</th>
 				<th>查勘费</th>
+				<th>备注</th>
 			</tr>
 			<c:forEach var="item" items="${tasks}" varStatus="idx">
 			<tr>
@@ -53,6 +54,7 @@ response.setHeader("Content-Disposition", "inline; filename=settles_task.xls");
 				<td>${item.checker}</td>
 				<td>${item.checkerAddr}</td>
 				<td>${item.checkFee}</td>
+				<td>${item.remark}</td>
 			</tr>
 			</c:forEach>
 	</table>

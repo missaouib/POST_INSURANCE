@@ -13,6 +13,9 @@
 	<input type="hidden" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
 	<input type="hidden" name="search_LIKE_hasLetter" value="${search_LIKE_hasLetter }"/>
 	<input type="hidden" name="status" value="${status }"/>
+	<input type="hidden" name="canCallAgain" value="${canCallAgain }" />
+	<input type="hidden" name="hqDealFlag" value="${hqDealFlag }" />
+	<input type="hidden" name="orgDealFlag" value="${orgDealFlag }" />
 	<input type="hidden" name="search_LIKE_policy.holder" value="${search_LIKE_policy_holder}"/>
 </dwz:paginationForm>
 
@@ -64,7 +67,11 @@
 				</tr>
 				<tr>
 					<td>
-						&nbsp;
+						<label>再访：</label>
+						<form:select path="issue.canCallAgain" id="canCallAgain" class="combox">
+							<form:option value=""> -- -- </form:option>
+							<form:option value="true"> 可再访 </form:option>
+						</form:select>
 					</td>
 					<td>
 						<label>承保日期：</label>
@@ -73,6 +80,30 @@
 					<td>
 						<label>承保日期：</label>
 						<input type="text" name="search_LTE_policy.policyDate" id="hfDate2" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${search_LTE_policy_policyDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+					</td>
+					<td>
+						&nbsp;
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>二访结果：</label>
+						<form:select path="issue.hqDealFlag" id="hqDealFlag" class="combox">
+							<form:option value=""> -- -- </form:option>
+							<form:option value="1"> 二访成功 </form:option>
+							<form:option value="0"> 二访失败 </form:option>
+						</form:select>
+					</td>
+					<td>
+						<label>上门结果：</label>
+						<form:select path="issue.orgDealFlag" id="orgDealFlag" class="combox">
+							<form:option value=""> -- -- </form:option>
+							<form:option value="1"> 上门成功 </form:option>
+							<form:option value="0"> 上门失败 </form:option>
+						</form:select>
+					</td>
+					<td>
+						&nbsp;
 					</td>
 					<td>
 						&nbsp;
@@ -119,7 +150,7 @@
 		</ul>
 	</div>
 	
-	<table class="table" layoutH="185" width="200%">
+	<table class="table" layoutH="210" width="200%">
 		<thead>
 			<tr>
 				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>
