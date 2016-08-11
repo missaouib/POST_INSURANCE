@@ -685,7 +685,6 @@ $(document).ready(function(){
 		</div>
 	</div>
 </div>
-
 <div id="footer">中邮保险广东分公司 运营管理部 Copyright &copy; 2013-2015, All Rights Reserve.</div>
 <script src="${contextPath}/js/refresh.js" type="text/javascript"></script>
 </body>

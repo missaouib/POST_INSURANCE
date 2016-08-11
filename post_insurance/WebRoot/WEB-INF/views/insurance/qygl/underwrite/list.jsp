@@ -102,7 +102,7 @@
 		</ul>
 	</div>
 	
-	<table class="table" layoutH="160" width="130%">
+	<table class="table" layoutH="200" width="130%">
 		<thead>
 			<tr>
 				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
@@ -171,3 +171,4 @@
 	<!-- 分页 -->
 	<dwz:pagination page="${page }"/>
 </div>
+<div align="center"><%@ include file="../../../warning.inc.jsp" %></div>
