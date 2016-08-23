@@ -315,6 +315,7 @@ public class LpglController {
 	public String list(ServletRequest request, Page page, Map<String, Object> map) {
 		User user = SecurityUtils.getShiroUser().getUser();
 		String caseStatus = request.getParameter("caseStatus");
+		request.setAttribute("caseStatus", caseStatus);
 		Settlement settle = new Settlement();
 		settle.setCaseStatus(caseStatus);
 		request.setAttribute("settle", settle);
