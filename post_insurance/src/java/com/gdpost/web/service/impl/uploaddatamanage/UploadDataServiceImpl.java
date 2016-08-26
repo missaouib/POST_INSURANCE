@@ -500,8 +500,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 			
 			log.debug("----------------batch update : " + sql);
 			sql2 = "delete from t_call_fail_list where issue_no is null";
-			sql3 = "update t_call_fail_list set status='上门成功' where (deal_type='上门成功' or deal_type='上门回访成功') and status not like \"%成功%\"";
-			sql4 = "update t_call_fail_list set status='上门失败' where (deal_type='上门成功' or deal_type='上门回访成功') and status not like \"%成功%\"";
+			sql3 = "update t_call_fail_list set status='上门成功' where (deal_type='上门成功' or deal_type='上门回访成功') and (status not like \"%成功%\" and status<>\"%已退保%\" and status<>\"%已结案%\")";
+			sql4 = "update t_call_fail_list set status='上门失败' where (deal_type='上门成功' or deal_type='上门回访成功') and (status not like \"%成功%\" and status<>\"%已退保%\" and status<>\"%已结案%\")";
 			sql5 = "update t_call_fail_list set org_deal_flag = 1 where (deal_type='上门成功' or deal_type='上门回访成功');";
 			break;
 		case CallFailMailStatus:
@@ -534,7 +534,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			break;
 		case CallFailMailBackStatus:
 			standardColumns = CallFailMailBackListColumn.getStandardColumns();
-			sql = new StringBuffer("INSERT INTO t_call_fail_list(policy_no, mail_fail_reason, mail_fail_date) VALUES ");
+			sql = new StringBuffer("INSERT INTO t_call_fail_list(policy_no, mail_fail_reason, mail_fail_date, has_letter) VALUES ");
 			line = null;
 			for (DataRow row : dt.Rows) {
 				line = new StringBuffer("(");
@@ -551,7 +551,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        		}
 	        	}
 	        	//line.deleteCharAt(line.length() - 1);
-	        	line.append("),");
+	        	line.append("\"信函失败\"),");
 	        	sql.append(line);
 	        }
 			sql.deleteCharAt(sql.length() - 1);

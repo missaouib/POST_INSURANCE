@@ -203,6 +203,9 @@ public class XlsFileHandler extends AbstractFileHandler {
 								break;
 							case HSSFCell.CELL_TYPE_FORMULA:
 								break;
+							case HSSFCell.CELL_TYPE_ERROR:
+								dataRow.setValue(j, "");
+								break;
 								default:
 									//cell.setCellType(HSSFCell.CELL_TYPE_STRING);
 									dataRow.setValue(j, StringUtil.trimStr(cell.getStringCellValue()));
