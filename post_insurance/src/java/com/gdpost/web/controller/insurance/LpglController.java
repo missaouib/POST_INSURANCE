@@ -32,6 +32,7 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.data.jpa.domain.Specification;
@@ -154,7 +155,11 @@ public class LpglController {
 	@RequestMapping(value="/detail", method=RequestMethod.POST)
 	public @ResponseBody String createDtl(SettlementDtl settleDtl, HttpServletRequest request) {
 		try {
-			lpglService.saveOrUpdateSettleDtl(settleDtl);
+			LOG.debug("----------- settle dtl id:" + settleDtl.getId());
+			String id = request.getParameter("settleDtlId");
+			SettlementDtl dtl = lpglService.getSettleDtl(new Long(id));
+			BeanUtils.copyProperties(settleDtl, dtl, "id");
+			lpglService.saveOrUpdateSettleDtl(dtl);
 			
 			Settlement settle = lpglService.getSettle(settleDtl.getSettlement().getId());
 			SettlementLog settleLog = new SettlementLog();
@@ -627,27 +632,33 @@ public class LpglController {
 	@RequiresPermissions("SettleTask:edit")
 	@RequestMapping(value="/task/update", method=RequestMethod.POST)
 	public @ResponseBody String updateTask(@Valid SettleTask task, HttpServletRequest request) {
-		SettleTask src = lpglService.getSettleTask(task.getId());
-		StringBuffer loginfo = new StringBuffer("");
-		if(task.getAttrLink()!=null && src.getAttrLink() == null) {
-			loginfo.append("上传附件；");
-		}
-		if(task.getChecker()!=null && !src.getChecker().equals(task.getChecker())) {
-			loginfo.append("改调查人：" + src.getChecker() + "->" + task.getChecker() + "；");
-		}
-		if(task.getCheckerAddr()!=null && !(src.getCheckerAddr()==null?"":src.getCheckerAddr()).equals(task.getCheckerAddr())) {
-			loginfo.append("改调查地：" + src.getCheckerAddr() + "->" + task.getCheckerAddr() + "；");
-		}
-		if(task.getCheckReq()!=null && !(src.getCheckReq()==null?"":src.getCheckReq()).equals(task.getCheckReq())) {
-			loginfo.append("改调查要求：" + src.getCheckReq() + "->" + task.getCheckReq() + "；");
-		}
-		if(task.getCheckFee()!=null && (src.getCheckFee()==null?0:src.getCheckFee().doubleValue()) != task.getCheckFee().doubleValue()) {
-			loginfo.append("改查勘费：" + src.getCheckFee() + "->" + task.getCheckFee() + "；");
-		}
-		
+		String taskId = request.getParameter("taskId");
 		String policyNo = request.getParameter("policyNo");
 		String realname = request.getParameter("user.realname");
 		Policy policy = policyService.getByPolicyNo(policyNo);
+		SettleTask src = lpglService.getSettleTask(new Long(taskId));
+		StringBuffer loginfo = new StringBuffer("");
+		if(task.getAttrLink()!=null && src.getAttrLink() == null) {
+			loginfo.append("上传附件；");
+			src.setAttrLink(task.getAttrLink());
+		}
+		if(realname!=null && !src.getChecker().equals(realname)) {
+			loginfo.append("改调查人：" + src.getChecker() + "->" + task.getChecker() + "；");
+			src.setChecker(realname);
+		}
+		if(task.getCheckerAddr()!=null && !(src.getCheckerAddr()==null?"":src.getCheckerAddr()).equals(task.getCheckerAddr())) {
+			loginfo.append("改调查地：" + src.getCheckerAddr() + "->" + task.getCheckerAddr() + "；");
+			src.setCheckerAddr(task.getCheckerAddr());
+		}
+		if(task.getCheckReq()!=null && !(src.getCheckReq()==null?"":src.getCheckReq()).equals(task.getCheckReq())) {
+			loginfo.append("改调查要求：" + src.getCheckReq() + "->" + task.getCheckReq() + "；");
+			src.setCheckReq(task.getCheckReq());
+		}
+		if(task.getCheckFee()!=null && (src.getCheckFee()==null?0:src.getCheckFee().doubleValue()) != task.getCheckFee().doubleValue()) {
+			loginfo.append("改查勘费：" + src.getCheckFee() + "->" + task.getCheckFee() + "；");
+			src.setCheckFee(task.getCheckFee());
+		}
+		
 //		task.setOrganization(policy.getOrganization());
 //		task.setPolicy(policy);
 //		task.setSettlementDtl(settleDtl);
@@ -665,12 +676,12 @@ public class LpglController {
 //		task.setAttrLink(src.getAttrLink());
 //		task.setOperateId(src.getOperateId());
 //		task.setCreateTime(src.getCreateTime());
-		src.setChecker(realname);
+		//src.setChecker(realname);
 		lpglService.saveOrUpdateSettleTask(src);
 		
 		User user = SecurityUtils.getShiroUser().getUser();
 		SettleTaskLog settleLog = new SettleTaskLog();
-		settleLog.setSettleTask(task);
+		settleLog.setSettleTask(src);
 		settleLog.setUser(user);
 		settleLog.setDealDate(new Date());
 		settleLog.setInfo(loginfo.toString());

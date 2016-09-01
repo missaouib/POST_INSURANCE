@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 <div class="pageContent">
 <form method="post" action="${contextPath }/lpgl/task/update" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
-<input type="hidden" name="id" value="${task.id }" />
+<input type="hidden" name="taskId" value="${task.id }" />
 	<div class="pageFormContent" layoutH="58">
 		<fieldset>
 		<legend>保单基本信息</legend>

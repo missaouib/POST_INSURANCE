@@ -3,7 +3,7 @@
 <div class="pageContent">
 <form method="post" action="${contextPath }/lpgl/detail" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
 <input hidden="hidden" name="settlement.id" value="${settle.id }">
-<input hidden="hidden" name="id" value="${settleDtl.id }">
+<input hidden="hidden" name="settleDtlId" value="${settleDtl.id }">
 	<div class="pageFormContent" layoutH="58">
 		<p>
 			<label>赔案号：</label>
