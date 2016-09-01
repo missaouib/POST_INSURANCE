@@ -74,7 +74,6 @@ public class Policy implements Idable<Long>, Serializable{
 	private String customerManagerCode;
 	private String customer_manager;
 	
-	private List<Issue> issues = new ArrayList<Issue>(0);
 	private List<CheckRecordDtl> checkRecordDtls = new ArrayList<CheckRecordDtl>(0);
 	private List<CheckWriteDtl> checkWriteDtls = new ArrayList<CheckWriteDtl>(0);
 	private List<CallFail> callFails = new ArrayList<CallFail>(0);
@@ -88,7 +87,7 @@ public class Policy implements Idable<Long>, Serializable{
 	/** full constructor */
 	public Policy(String prodName, String bankName, String salesName,
 			String salesId, String status, Integer perm, Double policyFee, String copies, String insuredAmount, String holder, String insured, Date policyDate, Integer renewalSucessFlag,
-			Integer resetValidFlag, List<Issue> TIssues, List<CheckRecordDtl> TCheckRecordDtls, List<CheckWriteDtl> TCheckWriteDtls, List<CallFail> TCallFails) {
+			Integer resetValidFlag, List<Issue> issues, List<CheckRecordDtl> TCheckRecordDtls, List<CheckWriteDtl> TCheckWriteDtls, List<CallFail> TCallFails) {
 		this.prodName = prodName;
 		this.bankName = bankName;
 		this.salesName = salesName;
@@ -103,7 +102,6 @@ public class Policy implements Idable<Long>, Serializable{
 		this.policyDate = policyDate;
 		this.renewalSucessFlag = renewalSucessFlag;
 		this.resetValidFlag = resetValidFlag;
-		this.issues = TIssues;
 		this.checkRecordDtls = TCheckRecordDtls;
 		this.checkWriteDtls = TCheckWriteDtls;
 		this.callFails = TCallFails;
@@ -418,15 +416,6 @@ public class Policy implements Idable<Long>, Serializable{
 
 	public void setCustomer_manager(String customer_manager) {
 		this.customer_manager = customer_manager;
-	}
-
-	@OneToMany(mappedBy="policy", cascade={CascadeType.REMOVE}, orphanRemoval=true)
-	public List<Issue> getIssues() {
-		return this.issues;
-	}
-
-	public void setIssues(List<Issue> issues) {
-		this.issues = issues;
 	}
 
 	@OneToMany(mappedBy="policy", cascade={CascadeType.REMOVE}, orphanRemoval=true)

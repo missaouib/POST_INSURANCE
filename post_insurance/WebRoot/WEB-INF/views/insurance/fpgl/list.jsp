@@ -4,6 +4,7 @@
 
 <dwz:paginationForm action="${contextPath }/fpgl/list" page="${page }">
 	<input type="hidden" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
+	<input type="hidden" name="search_LIKE_policy.holder" value="${search_LIKE_policy_holder }"/>
 	<input type="hidden" name="search_LTE_reqDate" value="${param.search_LTE_reqDate }"/>
 	<input type="hidden" name="search_GTE_reqDate" value="${param.search_GTE_reqDate }"/>
 	<input type="hidden" name="status" value="${status }"/>
@@ -15,7 +16,11 @@
 			<ul class="searchContent">
 				<li>
 					<label>保单号：</label>
-					<input type="text" id="fqPolicyNo" name="search_LIKE_policy.policyNo" style="width: 100px;" value="${param.search_LIKE_policy_policyNo }"/>
+					<input type="text" id="fqPolicyNo" name="search_LIKE_policy.policyNo" style="width: 100px;" value="${search_LIKE_policy_policyNo }"/>
+				</li>
+				<li>
+					<label>投保人：</label>
+					<input type="text" id="fpholder" name="search_LIKE_policy.holder" style="width: 100px;" value="${search_LIKE_policy_holder }"/>
 				</li>
 				<li>
 					<label>状态：</label>
@@ -72,7 +77,7 @@
 			</shiro:hasPermission>
 			<shiro:hasPermission name="InvoiceReq:view">
 				<li class="line">line</li>
-				<li><a class="icon" target="_blank" href="${contextPath }/fpgl/toXls?search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&search_LTE_reqDate=${param.search_LTE_reqDate}&search_GTE_reqDate=${param.search_GTE_reqDate}&status=${status}"><span>导出Excel</span></a></li>
+				<li><a class="icon" target="_blank" href="${contextPath }/fpgl/toXls?search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&search_LIKE_policy.holder=${search_LIKE_policy_holder}&search_LTE_reqDate=${param.search_LTE_reqDate}&search_GTE_reqDate=${param.search_GTE_reqDate}&status=${status}"><span>导出Excel</span></a></li>
 			</shiro:hasPermission>
 			<li class="line">line</li>
 			<li><a class="icon" target="dialog" href="${contextPath }/fpgl/help" mask="true" width="530" height="430"><span>功能说明</span></a></li>

@@ -89,7 +89,7 @@ public class FpglController {
 	@RequestMapping(value="/create", method=RequestMethod.POST)
 	public @ResponseBody String create(@Valid InvoiceReq req) {
 		if(fpglService.getByPolicyAndFeeDate(req.getPolicy(), req.getFeeDate()) != null) {
-			return AjaxObject.newError("此发票申请已申请当期发票：").setCallbackType("").toString();
+			return AjaxObject.newError("此发票申请已申请当期发票：").toString();
 		}
 		try {
 			req.setDealMan(SecurityUtils.getShiroUser().getId());
@@ -252,7 +252,7 @@ public class FpglController {
 	public String toXls(ServletRequest request, Page page, Map<String, Object> map) {
 		User user = SecurityUtils.getShiroUser().getUser();
 		String status = request.getParameter("status");
-		if(status == null || status.trim().length()<=0) {
+		if(status == null) {
 			status = FP_STATUS.NewStatus.name();
 			if(user.getOrganization().getOrgCode().length()>4) {
 				status = FP_STATUS.DealStatus.name();
@@ -264,13 +264,10 @@ public class FpglController {
 		orders.add(new Order(Direction.ASC, "policy.organization.orgCode"));
 		orders.add(new Order(Direction.ASC, "policy.holder"));
 		page.setOrders(orders);
-		/*
-		page.setOrderField("policy.organization.orgCode");
-		page.setOrderDirection("ASC");
-		*/
+		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, user.getOrganization().getOrgCode()));
-		if(status.trim().length() > 0) {
+		if(status != null && status.trim().length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
 		}
 		

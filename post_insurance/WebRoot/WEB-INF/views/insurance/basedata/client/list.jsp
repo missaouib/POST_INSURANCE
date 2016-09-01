@@ -10,6 +10,7 @@
 	<input type="hidden" name="search_LTE_policyDate" value="${param.search_LTE_policyDate }"/>
 	<input type="hidden" name="search_GTE_policyDate" value="${param.search_GTE_policyDate }"/>
 	<input type="hidden" name="search_LIKE_policyNo" value="${param.search_LIKE_policyNo }"/>
+	<input type="hidden" name="search_LIKE_formNo" value="${param.search_LIKE_formNo }"/>
 	<input type="hidden" name="search_GTE_perm" value="${param.search_GTE_perm }"/>
 	<input type="hidden" name="search_LTE_perm" value="${param.search_LTE_perm }"/>
 	<input type="hidden" name="status" value="${param.status }"/>
@@ -62,7 +63,7 @@
 				</tr>
 				<tr>
 					<td>
-						&nbsp;
+						投保单号：<input type="text" id="hfformno" style="width: 100px;" name="search_LIKE_formNo" value="${param.search_LIKE_formNo }"/>
 					</td>
 					<td>
 						<label>缴费期间：</label>
@@ -93,7 +94,7 @@
 			<shiro:hasPermission name="Client:view">
 				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/client/view/{slt_uid}"><span>查看详情</span></a></li>
 				<li class="line">line</li>
-				<li><a class="icon" target="_blank" href="${contextPath }/client/toXls?search_GTE_policyFee=${param.search_GTE_policyFee }&search_LTE_policyFee=${param.search_LTE_policyFee }&orgCode=${policy_orgCode }&search_LTE_policyDate=${param.search_LTE_policyDate }&search_GTE_policyDate=${param.search_GTE_policyDate }&search_GTE_perm=${param.search_GTE_perm }&search_LTE_perm=${param.search_LTE_perm }&search_LIKE_policyNo=${param.search_LIKE_policyNo }&encodeStatus=${encodeStatus == null?'null':encodeStatus }"><span>导出Excel</span></a></li>
+				<li><a class="icon" target="_blank" href="${contextPath }/client/toXls?search_GTE_policyFee=${param.search_GTE_policyFee }&search_LTE_policyFee=${param.search_LTE_policyFee }&orgCode=${policy_orgCode }&search_LTE_policyDate=${param.search_LTE_policyDate }&search_GTE_policyDate=${param.search_GTE_policyDate }&search_GTE_perm=${param.search_GTE_perm }&search_LTE_perm=${param.search_LTE_perm }&search_LIKE_policyNo=${param.search_LIKE_policyNo }&&search_LIKE_formNo=${param.search_LIKE_formNo }&encodeStatus=${encodeStatus == null?'null':encodeStatus }"><span>导出Excel</span></a></li>
 			</shiro:hasPermission>
 		</ul>
 	</div>

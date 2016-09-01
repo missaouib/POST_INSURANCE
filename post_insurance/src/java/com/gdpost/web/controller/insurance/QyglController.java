@@ -397,11 +397,15 @@ public class QyglController {
 	public @ResponseBody String create(@Valid UnderWrite underwrite) {	
 		User user = SecurityUtils.getShiroUser().getUser();
 		try {
+			UnderWrite uw = qyglService.getUnderWriteByFormNo(underwrite.getFormNo());
+			if(uw != null && uw.getId()>0) {
+				return AjaxObject.newError("该人核件信息已登记过了").toString();
+			}
 			underwrite.setStatus(UW_STATUS.NewStatus.name());
 			underwrite.setDealMan(user.getRealname());
 			qyglService.saveOrUpdateUnderWrite(underwrite);
 		} catch (ExistedException e) {
-			return AjaxObject.newError("添加人核件信息失败：" + e.getMessage()).setCallbackType("").toString();
+			return AjaxObject.newError("添加人核件信息失败：" + e.getMessage()).toString();
 		}
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{underwrite.getFormNo()}));
