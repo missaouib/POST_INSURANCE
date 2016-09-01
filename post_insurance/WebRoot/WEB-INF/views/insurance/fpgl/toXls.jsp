@@ -19,6 +19,7 @@ response.setHeader("Content-Disposition", "inline; filename=InvoiceReq.xls");
                 <th>发票金额</th>
                 <th>发票标记</th>
                 <th>发票缴费日期</th>
+                <th>被保险人</th>
                 <td>申请日期</td>
                 <th>接收邮箱</th>
                 <th>EMS</th>
@@ -38,6 +39,7 @@ response.setHeader("Content-Disposition", "inline; filename=InvoiceReq.xls");
                 <td>${item.fee}</td>
                 <td>${item.flag}</td>
                 <td><fmt:formatDate value="${item.feeDate }" pattern="yyyy-MM-dd"/></td>
+                <td>${item.policy.insured}</td>
                 <td><fmt:formatDate value="${item.reqDate }" pattern="yyyy-MM-dd"/></td>
                 <td>${item.billAddr}</td>
                 <td style="vnd.ms-excel.numberformat:@">${item.billNo}</td>
