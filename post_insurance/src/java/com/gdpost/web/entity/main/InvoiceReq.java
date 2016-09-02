@@ -4,6 +4,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.JoinColumnOrFormula;
+import org.hibernate.annotations.JoinColumnsOrFormulas;
+import org.hibernate.annotations.JoinFormula;
 
 import com.gdpost.web.entity.Idable;
 
@@ -85,8 +90,13 @@ public class InvoiceReq implements Idable<Long> {
 		this.id = id;
 	}
 
-	@ManyToOne
-	@JoinColumn(name = "policy_no", referencedColumnName="policy_no")
+//	@ManyToOne
+//	@JoinColumn(name = "policy_no", referencedColumnName="policy_no")
+	@ManyToOne(cascade = CascadeType.REFRESH, targetEntity = Policy.class)
+	@JoinColumnsOrFormulas(value={
+	@JoinColumnOrFormula(column=@JoinColumn(name ="policy_no", referencedColumnName ="policy_no", insertable =false, updatable = false)),
+	@JoinColumnOrFormula(formula=@JoinFormula(value="0", referencedColumnName = "flag"))
+	})
 	public Policy getPolicy() {
 		return this.policy;
 	}

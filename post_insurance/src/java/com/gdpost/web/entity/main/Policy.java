@@ -73,6 +73,7 @@ public class Policy implements Idable<Long>, Serializable{
 	private String bankCode;
 	private String customerManagerCode;
 	private String customer_manager;
+	private Integer flag;
 	
 	private List<CheckRecordDtl> checkRecordDtls = new ArrayList<CheckRecordDtl>(0);
 	private List<CheckWriteDtl> checkWriteDtls = new ArrayList<CheckWriteDtl>(0);
@@ -416,6 +417,15 @@ public class Policy implements Idable<Long>, Serializable{
 
 	public void setCustomer_manager(String customer_manager) {
 		this.customer_manager = customer_manager;
+	}
+
+	@Column(name="flag")
+	public Integer getFlag() {
+		return flag;
+	}
+
+	public void setFlag(Integer flag) {
+		this.flag = flag;
 	}
 
 	@OneToMany(mappedBy="policy", cascade={CascadeType.REMOVE}, orphanRemoval=true)

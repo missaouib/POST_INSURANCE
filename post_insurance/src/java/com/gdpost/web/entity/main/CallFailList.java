@@ -4,6 +4,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,6 +17,9 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.ColumnTransformer;
+import org.hibernate.annotations.JoinColumnOrFormula;
+import org.hibernate.annotations.JoinColumnsOrFormulas;
+import org.hibernate.annotations.JoinFormula;
 
 import com.gdpost.utils.StringUtil;
 import com.gdpost.web.entity.Idable;
@@ -302,8 +306,13 @@ mail_success
 		this.issueNo = issueNo;
 	}
 
-	@ManyToOne
-	@JoinColumn(name="policy_no", referencedColumnName="policy_no")
+//	@ManyToOne
+//	@JoinColumn(name="policy_no", referencedColumnName="policy_no")
+	@ManyToOne(cascade = CascadeType.REFRESH, targetEntity = Policy.class)
+	@JoinColumnsOrFormulas(value={
+	@JoinColumnOrFormula(column=@JoinColumn(name ="policy_no", referencedColumnName ="policy_no", insertable =false, updatable = false)),
+	@JoinColumnOrFormula(formula=@JoinFormula(value="0", referencedColumnName = "flag"))
+	})
 	public Policy getPolicy() {
 		return this.policy;
 	}

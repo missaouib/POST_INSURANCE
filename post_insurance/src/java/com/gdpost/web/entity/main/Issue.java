@@ -3,6 +3,7 @@ package com.gdpost.web.entity.main;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,6 +19,9 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.ColumnTransformer;
+import org.hibernate.annotations.JoinColumnOrFormula;
+import org.hibernate.annotations.JoinColumnsOrFormulas;
+import org.hibernate.annotations.JoinFormula;
 
 import com.gdpost.utils.StringUtil;
 import com.gdpost.web.entity.Idable;
@@ -201,8 +205,13 @@ public class Issue implements Idable<Long> {
 		this.issueNo = issueNo;
 	}
 
-	@ManyToOne(optional=true)
-	@JoinColumn(name="policy_no", referencedColumnName="policy_no", updatable=false)
+//	@ManyToOne(optional=true)
+//	@JoinColumn(name="policy_no", referencedColumnName="policy_no", updatable=false)
+	@ManyToOne(optional=true, cascade = CascadeType.REFRESH, targetEntity = Policy.class)
+	@JoinColumnsOrFormulas(value={
+	@JoinColumnOrFormula(column=@JoinColumn(name ="policy_no", referencedColumnName ="policy_no", insertable =false, updatable = false)),
+	@JoinColumnOrFormula(formula=@JoinFormula(value="0", referencedColumnName = "flag"))
+	})
 	public Policy getPolicy() {
 		return policy;
 	}

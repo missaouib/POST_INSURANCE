@@ -116,20 +116,22 @@ public class UploadDataServiceImpl implements UploadDataService{
 		List<ColumnItem> standardColumns = null;
 		String strStatementText = null;
 		String strEncrypt = "";
-		String delSql = null;
-		//String delSql2 = null;
+		String sql1 = null;
+		String sql2 = null;
 		//String delSql3 = null;
 		switch(ft) {
 		case Policy:
 			standardColumns = PolicyColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_policy character set utf8 (";
-			delSql = "update t_under_write as uw inner join t_policy tp on uw.form_no=tp.form_no set uw.policy_no=tp.policy_no,uw.sign_date=tp.policy_date where uw.policy_no is null;";
+			sql1 = "update t_under_write as uw inner join t_policy tp on uw.form_no=tp.form_no set uw.policy_no=tp.policy_no,uw.sign_date=tp.policy_date where uw.policy_no is null;";
+			sql2 = "update t_policy set flag = 1 where prod_name like \"%附加%\";";
 	        break;
 		case PolicyIngor:
 			standardColumns = PolicyColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_policy character set utf8 (";
-			delSql = "update t_under_write as uw inner join t_policy tp on uw.form_no=tp.form_no set uw.policy_no=tp.policy_no,uw.sign_date=tp.policy_date where uw.policy_no is null;";
-	        break;
+			sql1 = "update t_under_write as uw inner join t_policy tp on uw.form_no=tp.form_no set uw.policy_no=tp.policy_no,uw.sign_date=tp.policy_date where uw.policy_no is null;";
+			sql2 = "update t_policy set flag = 1 where prod_name like \"%附加%\";";
+			break;
 		case PolicyDtl:
 			standardColumns = PolicyDtlColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_policy_dtl character set utf8 (";
@@ -137,12 +139,12 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case Issue:
 			standardColumns = IssueColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_issue character set utf8 (";
-			delSql = "update t_call_fail_list set finish_date=\"2015-01-01 00:00:00\" where finish_date<\"2000-11-01 09:00:00\";";
+			sql1 = "update t_call_fail_list set finish_date=\"2015-01-01 00:00:00\" where finish_date<\"2000-11-01 09:00:00\";";
 			break;
 		case CallFail:
 			standardColumns = IssueColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_call_fail_list character set utf8 (";
-			delSql = "update t_call_fail_list set finish_date=\"2015-01-01 00:00:00\" where finish_date<\"2000-11-01 09:00:00\";";
+			sql1 = "update t_call_fail_list set finish_date=\"2015-01-01 00:00:00\" where finish_date<\"2000-11-01 09:00:00\";";
 			break;
 		case CallFailStatus:
 			standardColumns = CallFailHQListColumn.getStandardColumns();
@@ -178,19 +180,19 @@ public class UploadDataServiceImpl implements UploadDataService{
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_check_record character set utf8 (fix_status, ";
 			break;
 		case PayToFailList:
-			delSql = "delete from t_pay_fail_list where pay_type=" + PayFailList.PAY_TO + " and operate_time<CURRENT_DATE and fee_type<>'保全受理号'; ";
+			sql1 = "delete from t_pay_fail_list where pay_type=" + PayFailList.PAY_TO + " and operate_time<CURRENT_DATE and fee_type<>'保全受理号'; ";
 			standardColumns = PayFailListColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_pay_fail_list character set utf8 (pay_type, status, ";
 			break;
 		case PayFromFailList:
-			delSql = "delete from t_pay_fail_list where pay_type=" + PayFailList.PAY_FROM + " and operate_time<CURRENT_DATE and fee_type<>'保全受理号';";
+			sql1 = "delete from t_pay_fail_list where pay_type=" + PayFailList.PAY_FROM + " and operate_time<CURRENT_DATE and fee_type<>'保全受理号';";
 			standardColumns = PayFailListColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_pay_fail_list character set utf8 (pay_type, status, ";
 			break;
 		case PaySuccessList:
 			standardColumns = PayFailListColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_pay_success_list character set utf8 (pay_type, status, ";
-			delSql = "update t_pay_fail_list set status='CloseStatus' where rel_no in (select rel_no from t_pay_success_list);";
+			sql1 = "update t_pay_fail_list set status='CloseStatus' where rel_no in (select rel_no from t_pay_success_list);";
 			break;
 		case UnderWriteSentData:
 			standardColumns = PolicySentDataColumn.getStandardColumns();
@@ -286,8 +288,11 @@ public class UploadDataServiceImpl implements UploadDataService{
         	int updateRow = statement.executeUpdate(strStatementText);
         	dr.setUpdateRow(updateRow);
 			
-			if(delSql != null) {
-        		statement.execute(delSql);
+			if(sql1 != null) {
+        		statement.execute(sql1);
+        	}
+			if(sql2 != null) {
+        		statement.execute(sql2);
         	}
 			dr.setFlag(true);
 		} catch (SQLException e) {
