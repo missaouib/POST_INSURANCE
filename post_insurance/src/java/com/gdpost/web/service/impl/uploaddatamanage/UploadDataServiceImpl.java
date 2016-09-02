@@ -1079,7 +1079,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 		for(DataTable[] dataSet : listDataSet.values()) {
 			for(DataTable dt : dataSet) {
 				if(dt.Rows == null || dt.Rows.size()<=0) {
-					dr.setMsg("可能因为关键列" + keyRow + "缺失数据，请检查数据！");
+					dr.setMsg(dr.getMsg() + "。存在的工作表中可能因为关键列" + keyRow + "缺失数据，请检查数据！");
 					dr.setFlag(false);
 					return dr;
 				}

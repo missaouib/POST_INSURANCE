@@ -157,8 +157,11 @@ public class LpglController {
 		try {
 			LOG.debug("----------- settle dtl id:" + settleDtl.getId());
 			String id = request.getParameter("settleDtlId");
-			SettlementDtl dtl = lpglService.getSettleDtl(new Long(id));
-			BeanUtils.copyProperties(settleDtl, dtl, "id");
+			SettlementDtl dtl = settleDtl;
+			if(id != null && id.trim().length() >0) {
+				dtl = lpglService.getSettleDtl(new Long(id));
+				BeanUtils.copyProperties(settleDtl, dtl, "id");
+			}
 			lpglService.saveOrUpdateSettleDtl(dtl);
 			
 			Settlement settle = lpglService.getSettle(settleDtl.getSettlement().getId());
