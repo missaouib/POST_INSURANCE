@@ -95,9 +95,10 @@ public class FpglController {
 			req.setDealMan(SecurityUtils.getShiroUser().getId());
 			req.setReqDate(new Date());
 			req.setStatus(FP_STATUS.NewStatus.name());
+			LOG.debug("---------" + req.getPolicy().getPolicyNo());
 			fpglService.saveOrUpdate(req);
 		} catch (ExistedException e) {
-			return AjaxObject.newError("添加发票申请失败：" + e.getMessage()).setCallbackType("").toString();
+			return AjaxObject.newError("添加发票申请失败：" + e.getMessage()).toString();
 		}
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{req.getPolicy().getPolicyNo()}));

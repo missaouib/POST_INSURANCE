@@ -2,7 +2,6 @@ package com.gdpost.web.entity.component;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -189,7 +188,7 @@ public class VCallFailList implements Idable<Long>, java.io.Serializable {
 
 //	@ManyToOne
 //	@JoinColumn(name="policy_no", referencedColumnName="policy_no")
-	@ManyToOne(cascade = CascadeType.REFRESH, targetEntity = Policy.class)
+	@ManyToOne
 	@JoinColumnsOrFormulas(value={
 	@JoinColumnOrFormula(column=@JoinColumn(name ="policy_no", referencedColumnName ="policy_no", insertable =false, updatable = false)),
 	@JoinColumnOrFormula(formula=@JoinFormula(value="0", referencedColumnName = "flag"))

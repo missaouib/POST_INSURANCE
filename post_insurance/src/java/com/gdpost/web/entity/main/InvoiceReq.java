@@ -4,7 +4,6 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -92,9 +91,9 @@ public class InvoiceReq implements Idable<Long> {
 
 //	@ManyToOne
 //	@JoinColumn(name = "policy_no", referencedColumnName="policy_no")
-	@ManyToOne(cascade = CascadeType.REFRESH, targetEntity = Policy.class)
+	@ManyToOne
 	@JoinColumnsOrFormulas(value={
-	@JoinColumnOrFormula(column=@JoinColumn(name ="policy_no", referencedColumnName ="policy_no", insertable =false, updatable = false)),
+	@JoinColumnOrFormula(column=@JoinColumn(name ="policy_no", referencedColumnName ="policy_no")),
 	@JoinColumnOrFormula(formula=@JoinFormula(value="0", referencedColumnName = "flag"))
 	})
 	public Policy getPolicy() {

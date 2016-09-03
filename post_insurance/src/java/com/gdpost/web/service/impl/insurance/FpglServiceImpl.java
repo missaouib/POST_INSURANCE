@@ -80,7 +80,7 @@ public class FpglServiceImpl implements FpglService {
 
 	@Override
 	public InvoiceReq getByPolicyAndFeeDate(Policy policy, Date feeDate) {
-		return invoiceReqDAO.getByPolicyAndFeeDate(policy, feeDate);
+		return invoiceReqDAO.getByPolicyPolicyNoAndFeeDate(policy.getPolicyNo(), feeDate);
 	}
 	
 }
