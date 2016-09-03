@@ -220,7 +220,7 @@ public class UploadDataServiceImpl implements UploadDataService{
         log.debug("--------------" + strStatementText);
         
         StringBuilder builder = new StringBuilder();
-        Object cell = null;
+        String cell = null;
         dr.setNum(dt.Rows.size());
         for (DataRow row : dt.Rows) {
         	// 从处理后的行中，取出标准列数据
@@ -249,9 +249,10 @@ public class UploadDataServiceImpl implements UploadDataService{
 	            builder.append('\t');
     		}
         	for(ColumnItem item : standardColumns) {
-        		cell = StringUtil.trimStr(row.getValue(item.getDisplayName()));
+        		cell = StringUtil.trimStr(row.getValue(item.getDisplayName()), true);
+        		
         		if(ft.name().equals(FileTemplate.CallFail.name()) || ft.name().equals(FileTemplate.Issue.name())) {
-        			if(item.getDisplayName().equals("结案时间") && cell != null && StringUtil.trimStr(cell.toString()).length()<=0) {
+        			if(item.getDisplayName().equals("结案时间") && cell != null && StringUtil.trimStr(cell).length()<=0) {
         				log.debug("----------- 结案时间: " + cell);
         	            builder.append("2015-01-01 00:00:00\t");
         	            continue;
@@ -377,15 +378,16 @@ public class UploadDataServiceImpl implements UploadDataService{
 			for (DataRow row : dt.Rows) {
 				line = new StringBuffer("(");
 	        	for(ColumnItem item : standardColumns) {
+	        		val = row.getValue(item.getDisplayName());
+        			
 	        		if(item.getDisplayName().contains("回访日期")) {
-	        			val = row.getValue(item.getDisplayName());
 	        			if(val == null || val.toString().trim().length() <= 0) {
 	        				line.append("null,");
 	        			} else {
-	        				line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        				line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        			}
 	        		} else {
-	        			line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        			line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        		}
 	        	}
 	        	line.deleteCharAt(line.length() - 1);
@@ -418,15 +420,16 @@ public class UploadDataServiceImpl implements UploadDataService{
 			for (DataRow row : dt.Rows) {
 				line = new StringBuffer("(");
 	        	for(ColumnItem item : standardColumns) {
+	        		val = row.getValue(item.getDisplayName());
+	        		
 	        		if(item.getDisplayName().contains("二访日期")) {
-	        			val = row.getValue(item.getDisplayName());
 	        			if(val == null || val.toString().trim().length() <= 0) {
 	        				line.append("null,");
 	        			} else {
-	        				line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        				line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        			}
 	        		} else {
-	        			line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        			line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        		}
 	        	}
 	        	line.deleteCharAt(line.length() - 1);
@@ -451,15 +454,16 @@ public class UploadDataServiceImpl implements UploadDataService{
 			for (DataRow row : dt.Rows) {
 				line = new StringBuffer("(");
 	        	for(ColumnItem item : standardColumns) {
+	        		val = row.getValue(item.getDisplayName());
+	        		
 	        		if(item.getDisplayName().contains("上门回访日期")) {
-	        			val = row.getValue(item.getDisplayName());
 	        			if(val == null || val.toString().trim().length() <= 0) {
 	        				line.append("null,");
 	        			} else {
-	        				line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        				line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        			}
 	        		} else {
-	        			line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        			line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        		}
 	        	}
 	        	line.deleteCharAt(line.length() - 1);
@@ -483,15 +487,16 @@ public class UploadDataServiceImpl implements UploadDataService{
 			for (DataRow row : dt.Rows) {
 				line = new StringBuffer("(");
 	        	for(ColumnItem item : standardColumns) {
+	        		val = row.getValue(item.getDisplayName());
+                	
 	        		if(item.getDisplayName().contains("回访日期")) {
-	        			val = row.getValue(item.getDisplayName());
 	        			if(val == null || val.toString().trim().length() <= 0) {
 	        				line.append("null,");
 	        			} else {
-	        				line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        				line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        			}
 	        		} else {
-	        			line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        			line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        		}
 	        	}
 	        	line.deleteCharAt(line.length() - 1);
@@ -516,15 +521,16 @@ public class UploadDataServiceImpl implements UploadDataService{
 			for (DataRow row : dt.Rows) {
 				line = new StringBuffer("(");
 	        	for(ColumnItem item : standardColumns) {
+	        		val = row.getValue(item.getDisplayName());
+                	
 	        		if(item.getDisplayName().contains("信函日期")) {
-	        			val = row.getValue(item.getDisplayName());
 	        			if(val == null || val.toString().trim().length() <= 0) {
 	        				line.append("NULL,");
 	        			} else {
-	        				line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        				line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        			}
 	        		} else {
-	        			line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        			line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        		}
 	        	}
 	        	//line.deleteCharAt(line.length() - 1);
@@ -544,15 +550,16 @@ public class UploadDataServiceImpl implements UploadDataService{
 			for (DataRow row : dt.Rows) {
 				line = new StringBuffer("(");
 	        	for(ColumnItem item : standardColumns) {
+	        		val = row.getValue(item.getDisplayName());
+                	
 	        		if(item.getDisplayName().contains("退信时间") || item.getDisplayName().contains("回邮时间")) {
-	        			val = row.getValue(item.getDisplayName());
 	        			if(val == null || val.toString().trim().length() <= 0) {
 	        				line.append("NULL,");
 	        			} else {
-	        				line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        				line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        			}
 	        		} else {
-	        			line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        			line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        		}
 	        	}
 	        	//line.deleteCharAt(line.length() - 1);
@@ -572,15 +579,16 @@ public class UploadDataServiceImpl implements UploadDataService{
 			for (DataRow row : dt.Rows) {
 				line = new StringBuffer("(");
 	        	for(ColumnItem item : standardColumns) {
+	        		val = row.getValue(item.getDisplayName());
+                	
 	        		if(item.getDisplayName().contains("客户签名时间") || item.getDisplayName().contains("回邮时间")) {
-	        			val = row.getValue(item.getDisplayName());
 	        			if(val == null || val.toString().trim().length() <= 0) {
 	        				line.append("null,");
 	        			} else {
-	        				line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        				line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        			}
 	        		} else {
-	        			line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        			line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        		}
 	        	}
 	        	line.deleteCharAt(line.length() - 1);
@@ -600,7 +608,9 @@ public class UploadDataServiceImpl implements UploadDataService{
 			for (DataRow row : dt.Rows) {
 				line = new StringBuffer("(");
 	        	for(ColumnItem item : standardColumns) {
-	        		line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        		val = row.getValue(item.getDisplayName());
+                	
+	        		line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        	}
 	        	line.deleteCharAt(line.length() - 1);
 	        	line.append("),");
@@ -621,7 +631,9 @@ public class UploadDataServiceImpl implements UploadDataService{
 			for (DataRow row : dt.Rows) {
 				line = new StringBuffer("(");
 	        	for(ColumnItem item : standardColumns) {
-	        		line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        		val = row.getValue(item.getDisplayName());
+                	
+	        		line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        	}
 	        	line.deleteCharAt(line.length() - 1);
 	        	line.append("),");
@@ -640,7 +652,9 @@ public class UploadDataServiceImpl implements UploadDataService{
 			for (DataRow row : dt.Rows) {
 				line = new StringBuffer("(");
 	        	for(ColumnItem item : standardColumns) {
-	        		line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        		val = row.getValue(item.getDisplayName());
+                	
+	        		line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        	}
 	        	line.deleteCharAt(line.length() - 1);
 	        	line.append(", \"已结案\"),");
@@ -665,21 +679,21 @@ public class UploadDataServiceImpl implements UploadDataService{
 				val = null;
 				line = new StringBuffer("(");
 	        	for(ColumnItem item : standardColumns) {
+	        		val = row.getValue(item.getDisplayName());
+                	
 	        		if(item.getDisplayName().equals("保单当前状态")) {
-	        			val = row.getValue(item.getDisplayName());
 	        			if(val != null && val.equals(XQ_STATUS.FeeFailStatus.getDesc())) {
 	        				isFail = true;
 	        			}
 	        		}
 	        		if(item.getDisplayName().equals("交费失败原因") && isFail) {
-	        			val = row.getValue(item.getDisplayName());
 	        			if(val == null || val.toString().length() <= 0) {
 	        				line.append("\"" + XQ_STATUS.DeadStatus.getDesc() + "\",");
 	        			} else {
-	        				line.append("\"" + StringUtil.trimStr(val) + "\",");
+	        				line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        			}
 	        		} else {
-	        			line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        			line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        		}
 	        	}
 	        	line.deleteCharAt(line.length() - 1);
@@ -705,22 +719,22 @@ public class UploadDataServiceImpl implements UploadDataService{
 				val = null;
 				line = new StringBuffer("(");
 	        	for(ColumnItem item : standardColumns) {
+	        		val = row.getValue(item.getDisplayName());
+                	
 	        		if(item.getDisplayName().equals("工单子类")) {
-	        			val = row.getValue(item.getDisplayName());
 	        			if(val == null || val.toString().length() <= 0) {
 	        				line.append("\"已告知\",");
 	        			} else {
-	        				line.append("\"" + StringUtil.trimStr(val) + "\",");
+	        				line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        			}
 	        		} else if(item.getDisplayName().equals("回访日期")) {
-	        			val = row.getValue(item.getDisplayName());
 	        			if(val == null || val.toString().length() <= 0) {
 	        				line.append("null,");
 	        			} else {
-	        				line.append("\"" + StringUtil.trimStr(val) + "\",");
+	        				line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        			}
 	        		} else {
-	        			line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        			line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        		}
 	        	}
 	        	line.deleteCharAt(line.length() - 1);
@@ -745,7 +759,9 @@ public class UploadDataServiceImpl implements UploadDataService{
 				val = null;
 				line = new StringBuffer("(");
 	        	for(ColumnItem item : standardColumns) {
-	        		line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        		val = row.getValue(item.getDisplayName());
+                	
+	        		line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        	}
 	        	line.deleteCharAt(line.length() - 1);
 	        	line.append("),");
@@ -769,7 +785,9 @@ public class UploadDataServiceImpl implements UploadDataService{
 				val = null;
 				line = new StringBuffer("(");
 	        	for(ColumnItem item : standardColumns) {
-	        		line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        		val = row.getValue(item.getDisplayName());
+                	
+	        		line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        	}
 	        	line.deleteCharAt(line.length() - 1);
 	        	line.append("),");
@@ -803,7 +821,9 @@ public class UploadDataServiceImpl implements UploadDataService{
 				val = null;
 				line = new StringBuffer("(");
 	        	for(ColumnItem item : standardColumns) {
-	        		line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        		val = row.getValue(item.getDisplayName());
+                	
+	        		line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        	}
 	        	//line.deleteCharAt(line.length() - 1);
 	        	line.append("\"CloseStatus\"),");
@@ -827,7 +847,9 @@ public class UploadDataServiceImpl implements UploadDataService{
 				val = null;
 				line = new StringBuffer("(");
 	        	for(ColumnItem item : standardColumns) {
-	        		line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        		val = row.getValue(item.getDisplayName());
+                	
+	        		line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        	}
 	        	line.deleteCharAt(line.length() - 1);
 	        	line.append("),");
@@ -851,7 +873,9 @@ public class UploadDataServiceImpl implements UploadDataService{
 				val = null;
 				line = new StringBuffer("(");
 	        	for(ColumnItem item : standardColumns) {
-	        		line.append("\"" + StringUtil.trimStr(row.getValue(item.getDisplayName())) + "\",");
+	        		val = row.getValue(item.getDisplayName());
+                	
+	        		line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        	}
 	        	//line.deleteCharAt(line.length() - 1);
 	        	line.append("\"SendStatus\"),");

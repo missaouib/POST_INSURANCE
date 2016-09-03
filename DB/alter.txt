@@ -613,6 +613,7 @@ create table t_policy_reprint_dtl
    primary key (id)
 );
 
+alter table t_policy add column flag int(1) not null default 0;
 
 CREATE OR REPLACE  ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `v_call_fail_list`
 AS

@@ -43,7 +43,7 @@ public class StringUtil {
 		return Base64Utils.encodeToString(str.getBytes());
 	}
 	
-	public static String trimStr(Object obj) {
+	public static String trimStr(Object obj, Boolean... mysqlFlag) {
 		if(obj == null) {
 			return "";
 		}
@@ -51,6 +51,14 @@ public class StringUtil {
 		Pattern p = Pattern.compile("\\t|\r|\n|\\\\");
         Matcher m = p.matcher(str);
         String dest = m.replaceAll("");
+        
+        if(mysqlFlag != null && mysqlFlag.length>0 && mysqlFlag[0]) {
+        	if (dest != null && dest.indexOf("\"") >= 0)
+        		dest = dest.replaceAll("\"", "\\\\\"");
+        	if (dest != null && dest.indexOf("'") >= 0)
+        		dest = dest.replaceAll("'", "\\\\'");
+        }
+        
 		return dest;
 	}
 	
