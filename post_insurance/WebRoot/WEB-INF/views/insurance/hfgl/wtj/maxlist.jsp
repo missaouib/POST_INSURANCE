@@ -82,7 +82,11 @@
 						<input type="text" name="search_LTE_policy.policyDate" id="hfDate2" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${search_LTE_policy_policyDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
-						&nbsp;
+						<label>上门类型：：</label>
+						<form:select path="issue.dealType" class="combox">
+							<form:option value=""> -- </form:option>
+							<form:options items="${orgTypeList }" itemLabel="typeDesc" itemValue="typeName"/>
+						</form:select>
 					</td>
 				</tr>
 				<tr>
@@ -103,7 +107,11 @@
 						</form:select>
 					</td>
 					<td>
-						&nbsp;
+						<label>二访类型：</label>
+						<form:select path="issue.hqDealType" class="combox">
+							<form:option value=""> -- </form:option>
+							<form:options items="${hqTypeList }" itemLabel="typeDesc" itemValue="typeName"/>
+						</form:select>
 					</td>
 					<td>
 						&nbsp;
@@ -145,7 +153,7 @@
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Callfail:view">
 				<li class="line">line</li>
-				<li><a class="icon" target="_blank" href="${contextPath }/hfgl/toXls?search_LIKE_issueNo=${param.search_LIKE_issueNo }&policy.orgCode=${policy_orgCode }&search_LTE_readyDate=${param.search_LTE_readyDate }&search_GTE_readyDate=${param.search_GTE_readyDate }&search_GTE_policy.policyDate=${search_GTE_policy_policyDate }&search_LTE_policy.policyDate=${search_LTE_policy_policyDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&hasLetter=${encodeHasLetter }&encodeStatus=${encodeStatus == null?'null':encodeStatus }"><span>导出Excel</span></a></li>
+				<li><a class="icon" target="_blank" href="${contextPath }/hfgl/toXls?dealType=${dealType }&hqDealType=${hqDealType }&search_LIKE_issueNo=${param.search_LIKE_issueNo }&policy.orgCode=${policy_orgCode }&search_LTE_readyDate=${param.search_LTE_readyDate }&search_GTE_readyDate=${param.search_GTE_readyDate }&search_GTE_policy.policyDate=${search_GTE_policy_policyDate }&search_LTE_policy.policyDate=${search_LTE_policy_policyDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&hasLetter=${encodeHasLetter }&encodeStatus=${encodeStatus == null?'null':encodeStatus }"><span>导出Excel</span></a></li>
 			</shiro:hasPermission>
 		</ul>
 	</div>

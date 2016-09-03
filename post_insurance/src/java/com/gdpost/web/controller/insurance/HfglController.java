@@ -812,6 +812,10 @@ public class HfglController {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
 		Organization userOrg = user.getOrganization();
+		
+		String dealType = request.getParameter("dealType");
+		String hqDealType = request.getParameter("hqDealType");
+		
 		//默认返回未处理工单
 		String status = request.getParameter("status");
 		String encodeStatus = request.getParameter("encodeStatus");
@@ -871,6 +875,14 @@ public class HfglController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		
+		if(dealType != null && dealType.trim().length() >0) {
+			csf.add(new SearchFilter("dealType", Operator.EQ, dealType));
+		}
+		if(hqDealType != null && hqDealType.trim().length() >0) {
+			csf.add(new SearchFilter("hqDealType", Operator.EQ, hqDealType));
+		}
+		
 		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 		
 		if(canCallAgain) {
