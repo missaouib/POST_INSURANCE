@@ -502,13 +502,21 @@ public class HfglController {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
 		Organization userOrg = user.getOrganization();
+		CallFailList issue = new CallFailList();
+		
+		String dealType = request.getParameter("dealType");
+		String hqDealType = request.getParameter("hqDealType");
+		issue.setDealType(dealType);
+		issue.setHqDealType(hqDealType);
+		request.setAttribute("dealType", dealType);
+		request.setAttribute("hqDealType", hqDealType);
+		
 		//默认返回未处理工单
 		String status = request.getParameter("status");
 		if(status != null && status.trim().length() > 0) {
 			request.setAttribute("encodeStatus", Base64Utils.encodeToString(status.getBytes()));
 		}
 		LOG.debug("-------------- status: " + status + ", user org code:" + userOrg.getOrgCode());
-		CallFailList issue = new CallFailList();
 		String hasLetter = request.getParameter("search_LIKE_hasLetter");
 		if(hasLetter == null) {
 			hasLetter = "";
@@ -555,6 +563,14 @@ public class HfglController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		
+		if(dealType != null && dealType.trim().length() >0) {
+			csf.add(new SearchFilter("dealType", Operator.EQ, dealType));
+		}
+		if(hqDealType != null && hqDealType.trim().length() >0) {
+			csf.add(new SearchFilter("hqDealType", Operator.EQ, hqDealType));
+		}
+		
 		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 		if(canCallAgain) {
 			csf.add(new SearchFilter("canCallAgain", Operator.EQ, true));
@@ -610,6 +626,12 @@ public class HfglController {
 		map.put("issue", issue);
 		map.put("hfStatusList", HF_STATUS.values());
 		LOG.debug("---111--" + issues);
+		
+		List<CallDealType> cdtList = hfglService.getCallDealTypeList(CallDealType.ORG_TYPE);
+		map.put("orgTypeList", cdtList);
+		List<CallDealType> hqList = hfglService.getCallDealTypeList(CallDealType.HQ_TYPE);
+		map.put("hqTypeList", hqList);
+		
 		map.put("page", page);
 		map.put("issues", issues);
 		return LIST;
@@ -621,6 +643,15 @@ public class HfglController {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
 		Organization userOrg = user.getOrganization();
+		CallFailList issue = new CallFailList();
+		
+		String dealType = request.getParameter("dealType");
+		String hqDealType = request.getParameter("hqDealType");
+		issue.setDealType(dealType);
+		issue.setHqDealType(hqDealType);
+		request.setAttribute("dealType", dealType);
+		request.setAttribute("hqDealType", hqDealType);
+		
 		//默认返回未处理工单
 		String status = request.getParameter("status");
 		String encodeStatus = request.getParameter("encodeStatus");
@@ -639,7 +670,6 @@ public class HfglController {
 		request.setAttribute("encodeStatus", encodeStatus);
 		
 		LOG.debug("-------------- status: " + status + ", user org code:" + userOrg.getOrgCode());
-		CallFailList issue = new CallFailList();
 		String hasLetter = request.getParameter("hasLetter");
 		String encodeHasLetter = request.getParameter("encodeHasLetter");
 		request.setAttribute("encodeHasLetter", encodeHasLetter);
@@ -696,6 +726,14 @@ public class HfglController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		
+		if(dealType != null && dealType.trim().length() >0) {
+			csf.add(new SearchFilter("dealType", Operator.EQ, dealType));
+		}
+		if(hqDealType != null && hqDealType.trim().length() >0) {
+			csf.add(new SearchFilter("hqDealType", Operator.EQ, hqDealType));
+		}
+		
 		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 		
 		if(canCallAgain) {
@@ -756,6 +794,12 @@ public class HfglController {
 		map.put("issue", issue);
 		map.put("hfStatusList", HF_STATUS.values());
 		LOG.debug("---111--" + issues);
+		
+		List<CallDealType> cdtList = hfglService.getCallDealTypeList(CallDealType.ORG_TYPE);
+		map.put("orgTypeList", cdtList);
+		List<CallDealType> hqList = hfglService.getCallDealTypeList(CallDealType.HQ_TYPE);
+		map.put("hqTypeList", hqList);
+		
 		map.put("page", page);
 		map.put("issues", issues);
 		return MAX_LIST;

@@ -17,6 +17,8 @@
 	<input type="hidden" name="hqDealFlag" value="${hqDealFlag }" />
 	<input type="hidden" name="orgDealFlag" value="${orgDealFlag }" />
 	<input type="hidden" name="search_LIKE_policy.holder" value="${search_LIKE_policy_holder}"/>
+	<input type="hidden" name="hqDealType" value="${hqDealType}"/>
+	<input type="hidden" name="dealType" value="${dealType}"/>
 </dwz:paginationForm>
 
 <form method="post" id="hfForm" action="${contextPath }/hfgl/issue/list" onsubmit="return navTabSearch(this)">
@@ -82,7 +84,11 @@
 						<input type="text" name="search_LTE_policy.policyDate" id="hfDate2" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${search_LTE_policy_policyDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
-						&nbsp;
+						<label>上门类型：：</label>
+						<form:select path="issue.dealType" class="combox">
+							<form:option value=""> -- </form:option>
+							<form:options items="${orgTypeList }" itemLabel="typeDesc" itemValue="typeName"/>
+						</form:select>
 					</td>
 				</tr>
 				<tr>
@@ -103,7 +109,11 @@
 						</form:select>
 					</td>
 					<td>
-						&nbsp;
+						<label>二访类型：</label>
+						<form:select path="issue.hqDealType" class="combox">
+							<form:option value=""> -- </form:option>
+							<form:options items="${hqTypeList }" itemLabel="typeDesc" itemValue="typeName"/>
+						</form:select>
 					</td>
 					<td>
 						&nbsp;
