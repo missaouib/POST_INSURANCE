@@ -118,13 +118,14 @@ public class UploadDataServiceImpl implements UploadDataService{
 		String strEncrypt = "";
 		String sql1 = null;
 		String sql2 = null;
-		//String delSql3 = null;
+		String delSql3 = null;
 		switch(ft) {
 		case Policy:
 			standardColumns = PolicyColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_policy character set utf8 (";
 			sql1 = "update t_under_write as uw inner join t_policy tp on uw.form_no=tp.form_no set uw.policy_no=tp.policy_no,uw.sign_date=tp.policy_date where uw.policy_no is null;";
 			sql2 = "update t_policy set flag = 1 where prod_name like \"%附加%\";";
+			delSql3 = "delete from t_policy where form_no is null;";
 	        break;
 		case PolicyIngor:
 			standardColumns = PolicyColumn.getStandardColumns();
@@ -294,6 +295,9 @@ public class UploadDataServiceImpl implements UploadDataService{
         	}
 			if(sql2 != null) {
         		statement.execute(sql2);
+        	}
+			if(delSql3 != null) {
+        		statement.execute(delSql3);
         	}
 			dr.setFlag(true);
 		} catch (SQLException e) {
@@ -477,7 +481,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			log.debug("----------------batch update : " + sql);
 			sql2 = "delete from t_call_fail_list where issue_no is null";
 			sql3 = "update t_call_fail_list set org_deal_flag = 1 where status='上门成功';";
-			sql4 = "update t_call_fail_list t1 set status=\"需上门\" where TO_DAYS(NOW())-TO_DAYS(should_date)>15 and status=\"二访失败\";";
+			sql4 = "update t_call_fail_list t1 set status=\"需上门回访\" where TO_DAYS(NOW())-TO_DAYS(should_date)>15 and status=\"二访失败\";";
 			break;
 		case CallFailCityStatus:
 			standardColumns = CallFailDoorBackListColumn.getStandardColumns();
@@ -511,7 +515,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			log.debug("----------------batch update : " + sql);
 			sql2 = "delete from t_call_fail_list where issue_no is null";
 			sql3 = "update t_call_fail_list set status='上门成功' where (deal_type='上门成功' or deal_type='上门回访成功') and (status not like \"%成功%\" and status<>\"%已退保%\" and status<>\"%已结案%\")";
-			sql4 = "update t_call_fail_list set status='上门失败' where (deal_type='上门成功' or deal_type='上门回访成功') and (status not like \"%成功%\" and status<>\"%已退保%\" and status<>\"%已结案%\")";
+			sql4 = "update t_call_fail_list set status='上门失败' where (deal_type='上门失败' or deal_type='上门回访失败') and (status not like \"%成功%\" and status<>\"%已退保%\" and status<>\"%已结案%\")";
 			sql5 = "update t_call_fail_list set org_deal_flag = 1 where (deal_type='上门成功' or deal_type='上门回访成功');";
 			break;
 		case CallFailMailStatus:
@@ -621,8 +625,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql.append("status=VALUES(status);");
 			log.debug("----------------batch update : " + sql);
 			sql2 = "delete from t_call_fail_list where issue_no is null";
-			sql3 = "update t_call_fail_list set status=deal_status where deal_status is not null and status<>\"二访成功\"";
-			sql4 = "update t_call_fail_list t1 set status=\"需上门\" where TO_DAYS(NOW())-TO_DAYS(should_date)>15 and status=\"二访失败\";";
+			//sql3 = "update t_call_fail_list set status=deal_status where deal_status is not null and status<>\"二访成功\"";
+			sql4 = "update t_call_fail_list t1 set status=\"需上门回访\" where TO_DAYS(NOW())-TO_DAYS(should_date)>15 and status=\"二访失败\";";
 			break;
 		case CallFailPhoneStatus:
 			standardColumns = CallFailNeedDoorListColumn.getStandardColumns();

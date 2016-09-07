@@ -3,7 +3,6 @@ package com.gdpost.web.entity.main;
 import java.util.Calendar;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -207,7 +206,7 @@ public class Issue implements Idable<Long> {
 
 //	@ManyToOne(optional=true)
 //	@JoinColumn(name="policy_no", referencedColumnName="policy_no", updatable=false)
-	@ManyToOne(optional=true, cascade = CascadeType.REFRESH, targetEntity = Policy.class)
+	@ManyToOne(optional=true)
 	@JoinColumnsOrFormulas(value={
 	@JoinColumnOrFormula(column=@JoinColumn(name ="policy_no", referencedColumnName ="policy_no", insertable =false, updatable = false)),
 	@JoinColumnOrFormula(formula=@JoinFormula(value="0", referencedColumnName = "flag"))
