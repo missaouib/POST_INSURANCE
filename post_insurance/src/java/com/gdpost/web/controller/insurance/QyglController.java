@@ -439,10 +439,12 @@ public class QyglController {
 		src.setIsLetter(underwrite.getIsLetter());
 		src.setUnderwriteDate(underwrite.getUnderwriteDate());
 		src.setSignDate(underwrite.getSignDate());
-		src.setPolicyNo(underwrite.getPolicyNo());
+		if(underwrite.getPolicyNo() != null && underwrite.getPolicyNo().trim().length()>0) {
+			src.setPolicyNo(underwrite.getPolicyNo());
+			src.setStatus(UW_STATUS.SendStatus.name());
+		}
 		src.setProvReceiveDate(underwrite.getProvReceiveDate());
 		src.setProvEmsNo(underwrite.getProvEmsNo());
-		src.setStatus(UW_STATUS.SendStatus.name());
 		src.setFormNo(underwrite.getFormNo());
 		src.setHolder(underwrite.getHolder());
 		src.setInsured(underwrite.getInsured());

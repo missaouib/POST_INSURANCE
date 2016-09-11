@@ -33,7 +33,7 @@ function dformat(did, dval) {
 		</p>
 		<p>
 			<label>投保单号</label>
-			<input type="text" name="formNo" class="input-medium validate[required,maxSize[21] required" value="28106000"/>
+			<input type="text" name="formNo" class="input-medium validate[required,minSize[15]] required" value="28106000" minlength="15"/>
 		</p>
 		<p>
 			<label>投保人：</label>

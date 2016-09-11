@@ -102,30 +102,32 @@
 		</ul>
 	</div>
 	
-	<table class="table" layoutH="200" width="130%">
+	<table class="table" layoutH="200" width="100%">
 		<thead>
 			<tr>
 				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
 				<th orderField=organization.name class="${page.orderField eq 'organization.name' ? page.orderDirection : ''}">市县机构</th>
 				<th orderField=formNo class="${page.orderField eq 'formNo' ? page.orderDirection : ''}">投保单号</th>
 				<th orderField=policyNo class="${page.orderField eq 'policyNo' ? page.orderDirection : ''}">保单号</th>
+				<th>合同寄出</th>
+				<th>快递单号</th>
 				<th>投保人</th>
+				<!-- 
 				<th>年龄</th>
-				<th>被保人</th>
 				<th>关系</th>
 				<th orderField=underwriteReason class="${page.orderField eq 'underwriteReason' ? page.orderDirection : ''}">转核原因</th>
-				<th orderField=prd.prdName class="${page.orderField eq 'prd.prdName' ? page.orderDirection : ''}">产品</th>
 				<th orderField=policyFee class="${page.orderField eq 'policyFee' ? page.orderDirection : ''}">保费</th>
-				<th orderField=ybtDate class="${page.orderField eq 'ybtDate' ? page.orderDirection : ''}">邮保通录入时间</th>
-				<th orderField=sysDate class="${page.orderField eq 'sysDate' ? page.orderDirection : ''}">核心录入时间</th>
-				<th orderField=checkDate class="${page.orderField eq 'checkDate' ? page.orderDirection : ''}">复核时间</th>
 				<th>问题件</th>
-				<th>核保日期</th>
 				<th orderField=signDate class="${page.orderField eq 'signDate' ? page.orderDirection : ''}">签单日期</th>
-				<th>省分寄出合同日</th>
-				<th>快递单号</th>
-				<th>合同签收日期</th>
-				<th>回执录入日期</th>
+				<th>核保日期</th>
+				 -->
+				<th>被保人</th>
+				<th orderField=prd.prdName class="${page.orderField eq 'prd.prdName' ? page.orderDirection : ''}">产品</th>
+				<th orderField=ybtDate class="${page.orderField eq 'ybtDate' ? page.orderDirection : ''}">邮保通录入</th>
+				<th orderField=sysDate class="${page.orderField eq 'sysDate' ? page.orderDirection : ''}">核心录入</th>
+				<th orderField=checkDate class="${page.orderField eq 'checkDate' ? page.orderDirection : ''}">复核时间</th>
+				<th>合同签收</th>
+				<th>回执录入</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -147,21 +149,23 @@
 				</td>
 				<td>${item.formNo}</td>
 				<td title="${item.policyNo}">${item.policyNo}</td>
+				<td><fmt:formatDate value="${item.provSendDate }" pattern="yyyy-MM-dd"/></td>
+				<td>${item.provEmsNo}</td>
 				<td title="${item.holder}">${fn:substring(item.holder, 0, 4)}</td>
+				<!-- 
 				<td>${item.holderAge}</td>
-				<td title="${item.insured}">${fn:substring(item.insured, 0, 4)}</td>
 				<td>${item.relation}</td>
 				<td>${item.underwriteReason}</td>
-				<td>${item.prd.prdName}</td>
 				<td>${item.policyFee}</td>
-				<td><fmt:formatDate value="${item.ybtDate }" pattern="yyyy-MM-dd"/></td>
-				<td><fmt:formatDate value="${item.sysDate }" pattern="yyyy-MM-dd"/></td>
-				<td><fmt:formatDate value="${item.checkDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.issueFlag}</td>
 				<td><fmt:formatDate value="${item.underwriteDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.signDate }" pattern="yyyy-MM-dd"/></td>
-				<td><fmt:formatDate value="${item.provSendDate }" pattern="yyyy-MM-dd"/></td>
-				<td>${item.provEmsNo}</td>
+				-->
+				<td title="${item.insured}">${fn:substring(item.insured, 0, 4)}</td>
+				<td>${item.prd.prdName}</td>
+				<td><fmt:formatDate value="${item.ybtDate }" pattern="yyyy-MM-dd"/></td>
+				<td><fmt:formatDate value="${item.sysDate }" pattern="yyyy-MM-dd"/></td>
+				<td><fmt:formatDate value="${item.checkDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.clientReceiveDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.signInputDate }" pattern="yyyy-MM-dd"/></td>
 			</tr>
