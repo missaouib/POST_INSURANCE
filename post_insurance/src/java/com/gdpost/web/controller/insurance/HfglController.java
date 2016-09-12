@@ -158,7 +158,7 @@ public class HfglController {
 		//src.setStatus(issue.getStatus());
 		src.setDealType(issue.getDealType());
 		boolean hqDone = src.getStatus().equals(HF_STATUS.CallSuccessStatus.getDesc())?true:false;
-		if(issue.getDealType().equals("可再访")) {
+		if(issue.getDealType().contains("可再访")) {
 			src.setCanCallAgain(true);
 			src.setCanCallAgainRemark(issue.getDealDesc());
 			src.setResetDate(new Date());

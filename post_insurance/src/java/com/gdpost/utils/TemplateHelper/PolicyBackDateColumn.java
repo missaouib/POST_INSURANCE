@@ -16,9 +16,16 @@ public class PolicyBackDateColumn {
 		standardColumns = new ArrayList<ColumnItem>();
 		
 		ColumnItem column = new ColumnItem();
-		column = new ColumnItem();
 		column.setDisplayName("保单号");
 		column.setColumnName("policy_no");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(false);
+		column.setNeedEncrypt(false);
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
+		column.setDisplayName("险种代码");
+		column.setColumnName("prod_code");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(false);
 		column.setNeedEncrypt(false);

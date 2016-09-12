@@ -132,6 +132,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_policy character set utf8 (";
 			sql1 = "update t_under_write as uw inner join t_policy tp on uw.form_no=tp.form_no set uw.policy_no=tp.policy_no,uw.sign_date=tp.policy_date where uw.policy_no is null;";
 			sql2 = "update t_policy set flag = 1 where prod_name like \"%附加%\";";
+			delSql3 = "delete from t_policy where form_no is null;";
 			break;
 		case PolicyDtl:
 			standardColumns = PolicyDtlColumn.getStandardColumns();
@@ -842,7 +843,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			break;
 		case PolicyBackDate:
 			standardColumns = PolicyBackDateColumn.getStandardColumns();
-			sql = new StringBuffer("INSERT INTO t_policy(policy_no, bill_back_date) VALUES ");
+			sql = new StringBuffer("INSERT INTO t_policy(policy_no, prod_code, bill_back_date) VALUES ");
 			line = null;
 			isFail = false;
 			val = null;
@@ -863,7 +864,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql.append(" ON DUPLICATE KEY UPDATE ");
 			sql.append("bill_back_date=VALUES(bill_back_date);");
 			log.debug("----------------city update status batch sql : " + sql);
-			sql2 = "delete from t_policy where policy_no is null";
+			sql2 = "delete from t_policy where form_no is null";
 			//sql3 = "update t_policy set bill_back_date=policy_date where bill_back_date is null;";
 			break;
 		case UnderWriteSentData:
