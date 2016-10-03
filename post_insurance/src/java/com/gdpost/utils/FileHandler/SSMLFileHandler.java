@@ -107,7 +107,7 @@ public class SSMLFileHandler extends AbstractFileHandler {
 		Row row = null;
 		
 		// 按行从上到下，按列从左到右，查找列头行
-		for (int i = sheet.firstRow; i <= sheet.getRows().size(); i++) {			
+		for (int i = Worksheet.firstRow; i <= sheet.getRows().size(); i++) {			
 			row = sheet.getRowAt(i);
             if (row == null) {
                 continue;

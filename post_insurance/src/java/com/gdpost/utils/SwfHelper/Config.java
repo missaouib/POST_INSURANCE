@@ -203,7 +203,7 @@ public class Config {
 		try {
 			System.out.println("Executing: " + execString);
 
-			ArrayList commands = commandLineAsList(execString);
+			ArrayList<String> commands = commandLineAsList(execString);
 
 			ProcessBuilder pb = new ProcessBuilder(commands);
 			pb.redirectErrorStream(true);
@@ -247,7 +247,7 @@ public class Config {
 	public String execs(String execString) {
 		String ret = "";
 		try {
-			ArrayList commands = commandLineAsList(execString);
+			ArrayList<String> commands = commandLineAsList(execString);
 
 			ProcessBuilder pb = new ProcessBuilder(commands);
 			pb.redirectErrorStream(true);
@@ -271,8 +271,8 @@ public class Config {
 		return ret;
 	}
 	
-	public static ArrayList commandLineAsList(String commandLine) {
-		ArrayList commands = new ArrayList();
+	public static ArrayList<String> commandLineAsList(String commandLine) {
+		ArrayList<String> commands = new ArrayList<String>();
 		String elt = "";
 		boolean insideString = false;
 

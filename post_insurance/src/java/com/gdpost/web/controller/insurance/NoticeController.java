@@ -50,7 +50,6 @@ import com.gdpost.web.log.LogModule;
 import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.UserRoleService;
 import com.gdpost.web.service.insurance.NoticeService;
-import com.gdpost.web.service.uploaddatamanage.UploadDataService;
 import com.gdpost.web.shiro.ShiroUser;
 import com.gdpost.web.util.dwz.AjaxObject;
 import com.gdpost.web.util.dwz.Page;
@@ -60,8 +59,8 @@ import com.gdpost.web.util.dwz.Page;
 public class NoticeController {
 	private static final Logger log = LoggerFactory.getLogger(NoticeController.class);
 	
-	@Autowired
-	private UploadDataService uploadDataService;
+	//@Autowired
+	//private UploadDataService uploadDataService;
 	
 	@Autowired
 	private NoticeService noticeService;

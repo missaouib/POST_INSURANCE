@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.shiro.authz.annotation.Logical;
@@ -600,7 +601,7 @@ public class QyglController {
 	
 	@RequiresPermissions("UnderWrite:view")
 	@RequestMapping(value="/underwrite/list", method={RequestMethod.GET, RequestMethod.POST})
-	public String listUnderWrite(ServletRequest request, Page page, Map<String, Object> map) {
+	public String listUnderWrite(HttpServletRequest request, Page page, Map<String, Object> map) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
 		Organization userOrg = user.getOrganization();
@@ -638,6 +639,14 @@ public class QyglController {
 		map.put("status", status);
 		map.put("page", page);
 		map.put("underwrites", underwrites);
+		
+		Integer odc = qyglService.getOverdueUWCount(request,shiroUser.getUser());
+		List<Integer> counts = new ArrayList<Integer>();
+		counts.add(odc);
+		//String rst = "<a href=\"/qygl/overdueList\">共有" + list.get(0) + "件人核件超时处理，请查看</a>";
+		request.setAttribute("noticeMsg", odc);
+		log.debug(" ------------------ " + counts);
+		
 		return UW_LIST;
 	}
 	

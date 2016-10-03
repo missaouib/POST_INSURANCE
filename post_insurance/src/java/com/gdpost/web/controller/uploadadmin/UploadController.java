@@ -19,7 +19,6 @@ import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -38,8 +37,6 @@ import com.gdpost.web.log.LogLevel;
 import com.gdpost.web.log.LogMessageObject;
 import com.gdpost.web.log.LogModule;
 import com.gdpost.web.log.impl.LogUitls;
-import com.gdpost.web.service.UserService;
-import com.gdpost.web.service.uploaddatamanage.UploadDataService;
 import com.gdpost.web.shiro.ShiroUser;
 
 @Controller
@@ -47,11 +44,11 @@ import com.gdpost.web.shiro.ShiroUser;
 public class UploadController {
 	private static final Logger log = LoggerFactory.getLogger(UploadController.class);
 	
-	@Autowired
-	private UploadDataService uploadDataService;
-	
-	@Autowired
-	private UserService userService;
+//	@Autowired
+//	private UploadDataService uploadDataService;
+//	
+//	@Autowired
+//	private UserService userService;
 	
 	private static final String UPLOAD = "management/uploaddata/upload";
 	

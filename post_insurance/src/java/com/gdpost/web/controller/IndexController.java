@@ -47,7 +47,6 @@ import com.gdpost.web.log.LogMessageObject;
 import com.gdpost.web.log.LogModule;
 import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.ModuleService;
-import com.gdpost.web.service.OrganizationService;
 import com.gdpost.web.service.UserRoleService;
 import com.gdpost.web.service.UserService;
 import com.gdpost.web.service.insurance.BqglService;
@@ -78,8 +77,8 @@ public class IndexController {
 	@Autowired
 	private ModuleService moduleService;
 	
-	@Autowired
-	private OrganizationService organizationService;
+//	@Autowired
+//	private OrganizationService organizationService;
 	
 	@Autowired
 	private KfglService kfglService;

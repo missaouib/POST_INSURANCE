@@ -23,6 +23,7 @@ public class XlsxFileHandler_NoHeader extends AbstractFileHandler {
 	public static Logger log = LoggerFactory.getLogger(XlsxFileHandler_NoHeader.class);
 	
 	// 读取Excel 2007文件
+	@SuppressWarnings("deprecation")
 	public DataTable[] readFile(String strFilePath, String strFileName, String keyRow) {
 		List<DataTable> list = new ArrayList<DataTable>();	
 		
@@ -184,8 +185,9 @@ public class XlsxFileHandler_NoHeader extends AbstractFileHandler {
 		return(bFlag);
 	}
 	
+	@SuppressWarnings("deprecation")
 	private boolean checkFormulaRow(XSSFRow row) {
-		boolean bFlag = false;
+		//boolean bFlag = false;
 		int iDataRowCount = 0;
 		// 如果有数据的非公式列多于3列，则认为正常数据
 		// 如果只有一列数据，则认为是 汇总数据
@@ -194,7 +196,7 @@ public class XlsxFileHandler_NoHeader extends AbstractFileHandler {
 			// 行中有一个公式，则认为为汇总行
 			if(row.getCell(i) != null) {
 				if(row.getCell(i).getCellType() == org.apache.poi.ss.usermodel.Cell.CELL_TYPE_FORMULA) {
-					bFlag = true;
+					//bFlag = true;
 				} else {
 					if(!("").equals(row.getCell(i).toString().trim())) {
 						iDataRowCount++;

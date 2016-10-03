@@ -156,7 +156,7 @@ jQuery(function() {
         // 内部根据当前运行是创建，可能是input元素，也可能是flash.
         pick: '#picker',
        	disableGlobalDnd: true,
-        fileNumLimit: 5,
+        fileNumLimit: 10,
         fileSizeLimit: 200 * 1024 * 1024,    // 200 M
         fileSingleSizeLimit: 50 * 1024 * 1024    // 50 M
     });

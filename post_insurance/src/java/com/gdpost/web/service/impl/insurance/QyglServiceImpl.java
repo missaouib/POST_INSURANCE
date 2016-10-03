@@ -3,9 +3,14 @@
  */
 package	com.gdpost.web.service.impl.insurance;
 
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import com.alibaba.druid.pool.DruidDataSource;
 import com.gdpost.web.dao.CheckFixTypeDAO;
 import com.gdpost.web.dao.CheckRecordDAO;
 import com.gdpost.web.dao.CheckWriteDAO;
@@ -284,5 +291,52 @@ public class QyglServiceImpl implements QyglService {
 	@Override
 	public List<CheckFixType> getCheckFixTypeList() {
 		return checkFixTypeDAO.findAll();
+	}
+
+	@SuppressWarnings("resource")
+	@Override
+	public Integer getOverdueUWCount(HttpServletRequest request, User user) {
+		java.sql.Connection connection = null;
+		com.mysql.jdbc.Statement statement = null;
+		try {
+			Object objDataSource = WebApplicationContextUtils.getWebApplicationContext(request.getServletContext()).getBean("dataSource");
+			DruidDataSource dataSource = (DruidDataSource)objDataSource;
+			connection = DriverManager.getConnection(dataSource.getUrl(), dataSource.getUsername(), dataSource.getPassword());
+			statement = (com.mysql.jdbc.Statement)connection.createStatement();
+			
+			String sql = "select count(t1.id) from t_under_write t1,t_organization t2 where t1.organ_id=t2.id and "
+					+ "((prov_send_date is not null and city_send_date is null and area_send_date is null and NOW()-prov_send_date>3) or "
+					+ "(city_send_date is not null and area_send_date is null and NOW()-city_send_date>3) or "
+					+ "(area_send_date is not null and NOW()-area_send_date>5) or "
+					+ "(sys_date is not null and now()-sys_date>15)) "
+					+ "and t2.org_code like \"%" + user.getOrganization().getOrgCode() + "%\" and "
+					+ "sign_input_date is null and t1.status=\"SendStatus\";";
+			LOG.debug("----------- sql : " + sql);
+			
+        	ResultSet rst = statement.executeQuery(sql);
+        	while(rst.next()) {
+        		return rst.getInt(1);
+        	}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			if(statement != null) {
+				try {
+					statement.close();
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return 0;
+	}
+
+	@Override
+	public List<UnderWrite> getOverdueUWList(HttpServletRequest request, User user) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
