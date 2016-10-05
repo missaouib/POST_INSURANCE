@@ -74,5 +74,12 @@ public interface QyglService {
 	
 	Integer getOverdueUWCall(HttpServletRequest request, User user);
 	
-	List<UnderWrite> getOverdueUWList(HttpServletRequest request, User user);
+	Integer getOverdueUWWeixin(HttpServletRequest request, User user);
+	
+	List<UnderWrite> getOverdueUWList2Pop(User user, Page page);
+	
+	List<UnderWrite> getOverdueUWList2Call(User user, Page page);
+	
+	List<UnderWrite> getOverdueUWList2Weixin(User user, Page page);
+
 }

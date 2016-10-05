@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html;charset=UTF-8"
-	trimDirectiveWhitespaces="true" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html;charset=UTF-8"	trimDirectiveWhitespaces="true" pageEncoding="UTF-8"%>
 <style type="text/css">
 .scrollDiv {
 	height: 18px;
@@ -27,13 +26,29 @@ ul, li {
 	color: red;
 }
 </style>
-
-<div style="color: red;font-size: 15px; font-weight:bold;">请按人核件处理规范要求，登记人核件各环节时效：必须登记人核件寄出</div><br>
+<div style="color: #00F;font-size: 15px; font-weight:bold;">请按人核件处理规范要求，登记人核件各环节时效：必须登记人核件寄出日期</div><br>
 <div id="scrollDiv_keleyi_com" class="scrollDiv">
 	<div id="status_scrollDiv_keleyi_com">↑</div>
 	<ul>
-		<li><a href="http://keleyi.com/a/bjac/532bedbffca1affa.htm">单行文字间歇向上滚动，放光标就停，移开继续滚动</a></li>
-		<li><a href="http://keleyi.com/a/bjac/5d7f4ac2efa72d30.htm">菜单滚动至顶部后固定</a></li>
+		<%
+		String ods = (String)request.getAttribute("noticeMsg");
+		String[] s = ods.split("\\|");
+		if(s[0] != null && new Integer(s[0]) > 0) {
+		%>
+		<li><a target="dialog" mask="true" width="800" height="440" style="color:#F00;font-weight: bold;" href="${contextPath}/qygl/uwlist2pop">共<%=s[0] %>件人核件寄出时效逾期（弹窗提醒），点解查看</a></li>
+		<%
+		};
+		if(s[1] != null && new Integer(s[1]) >0) {
+		%>
+		<li><a target="dialog" mask="true" width="800" height="440" style="color:#F00;font-weight: bold;" href="${contextPath}/qygl/uwlist2call">共<%=s[1] %>件人核件全程时效逾期（电话提醒），点击查看</a></li>
+		<%
+		};
+		if(s[2] != null && new Integer(s[2]) >0) {
+		%>
+		<li><a target="dialog" mask="true" width="800" height="440" style="color:#F00;font-weight: bold;" href="${contextPath}/qygl/uwlist2weixin">共<%=s[2] %>件人核件逾期时间较长，需上微信催办（微信催办），点击查看</a></li>
+		<%
+		};
+		%>
 	</ul>
 </div>
 <br>
@@ -45,15 +60,15 @@ ul, li {
 		if ($(statusobj).text() == '↑') {
 			$(obj).find("ul:first").animate({
 				marginTop : "-18px"
-			}, 1000, function() {
+			}, 8000, function() {
 				$(this).css({
-					marginTop : "0px"
+					marginTop : "2px"
 				}).find("li:first").appendTo(this);
 			});
 		}
 	}
 	function KeleyiScroll(obj, statusobj) {
-		setInterval('AutoScroll("' + obj + '","' + statusobj + '")', 5000);
+		setInterval('AutoScroll("' + obj + '","' + statusobj + '")', 8000);
 		$(obj).hover(
 			function() {
 				$(statusobj).text('=')

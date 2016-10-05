@@ -88,6 +88,10 @@ public class QyglController {
 	private static final String UW_MAIL_DATE = "insurance/qygl/underwrite/mailDate";
 	private static final String UW_REC_DATE = "insurance/qygl/underwrite/recDate";
 	
+	private static final String UW_POP = "insurance/qygl/underwrite/uwPop";
+	private static final String UW_CALL = "insurance/qygl/underwrite/uwCall";
+	private static final String UW_WEIXIN = "insurance/qygl/underwrite/uwWeixin";
+	
 	private static final String TO_XLS = "insurance/qygl/underwrite/toXls";
 	
 	private static final String TO_HELP = "insurance/help/qygl";
@@ -640,14 +644,39 @@ public class QyglController {
 		map.put("page", page);
 		map.put("underwrites", underwrites);
 		
-		Integer odc = qyglService.getOverdueUWCount(request,shiroUser.getUser());
-		List<Integer> counts = new ArrayList<Integer>();
-		counts.add(odc);
+		Integer odc = qyglService.getOverdueUWCount(request, user);
+		Integer odp = qyglService.getOverdueUWCall(request, user);
+		Integer odw = qyglService.getOverdueUWWeixin(request, user);
+		String ods = odc + "|" + odp + "|" + odw;
 		//String rst = "<a href=\"/qygl/overdueList\">共有" + list.get(0) + "件人核件超时处理，请查看</a>";
-		request.setAttribute("noticeMsg", odc);
-		log.debug(" ------------------ " + counts);
+		request.setAttribute("noticeMsg", ods);
+		log.debug(" ------------------ " + ods);
 		
 		return UW_LIST;
+	}
+	
+	@RequiresPermissions("UnderWrite:view")
+	@RequestMapping(value="/uwlist2pop", method={RequestMethod.GET, RequestMethod.POST})
+	public String underWriteList2Pop(Page page, Map<String, Object> map) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		map.put("underwriteList", qyglService.getOverdueUWList2Pop(shiroUser.getUser(), page));
+		return UW_POP;
+	}
+	
+	@RequiresPermissions("UnderWrite:view")
+	@RequestMapping(value="/uwlist2call", method={RequestMethod.GET, RequestMethod.POST})
+	public String underWriteList2Call(Page page, Map<String, Object> map) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		map.put("underwriteList", qyglService.getOverdueUWList2Call(shiroUser.getUser(), page));
+		return UW_CALL;
+	}
+	
+	@RequiresPermissions("UnderWrite:view")
+	@RequestMapping(value="/uwlist2weixin", method={RequestMethod.GET, RequestMethod.POST})
+	public String underWriteList2Weixin(Page page, Map<String, Object> map) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		map.put("underwriteList", qyglService.getOverdueUWList2Weixin(shiroUser.getUser(), page));
+		return UW_WEIXIN;
 	}
 	
 	@RequiresPermissions("UnderWrite:view")
