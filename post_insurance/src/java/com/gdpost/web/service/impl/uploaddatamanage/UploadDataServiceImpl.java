@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.sql.DataSource;
 
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -22,9 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import System.Data.DataRow;
-import System.Data.DataTable;
-
+import com.alibaba.druid.pool.DruidDataSource;
 import com.gdpost.utils.MyException;
 import com.gdpost.utils.StringUtil;
 import com.gdpost.utils.TemplateHelper.CallFailCityMiniListColumn;
@@ -65,6 +62,9 @@ import com.gdpost.web.util.StatusDefine.XQ_STATUS;
 import com.gdpost.web.util.dwz.Page;
 import com.gdpost.web.util.dwz.PageUtils;
 
+import System.Data.DataRow;
+import System.Data.DataTable;
+
 @Service
 @Transactional
 public class UploadDataServiceImpl implements UploadDataService{
@@ -95,13 +95,10 @@ public class UploadDataServiceImpl implements UploadDataService{
 		DoRst dr = new DoRst();
 		java.sql.Connection connection = null;
 		com.mysql.jdbc.Statement statement = null;
-		com.alibaba.druid.pool.DruidDataSource basic = null;
 		try {
 			Object objDataSource = WebApplicationContextUtils.getWebApplicationContext(request.getServletContext()).getBean("dataSource");
-			DataSource dataSource = (DataSource)objDataSource;
-			//org.apache.commons.dbcp2.BasicDataSource basic = (org.apache.commons.dbcp2.BasicDataSource)dataSource;
-			basic = (com.alibaba.druid.pool.DruidDataSource)dataSource;
-			connection = DriverManager.getConnection(basic.getUrl(), basic.getUsername(), basic.getPassword());
+			DruidDataSource dataSource = (DruidDataSource)objDataSource;
+			connection = DriverManager.getConnection(dataSource.getUrl(), dataSource.getUsername(), dataSource.getPassword());
 			statement = (com.mysql.jdbc.Statement)connection.createStatement();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -336,13 +333,10 @@ public class UploadDataServiceImpl implements UploadDataService{
 		dr.setNum(dt.Rows.size());
 		java.sql.Connection connection = null;
 		com.mysql.jdbc.Statement statement = null;
-		com.alibaba.druid.pool.DruidDataSource basic = null;
 		try {
 			Object objDataSource = WebApplicationContextUtils.getWebApplicationContext(request.getServletContext()).getBean("dataSource");
-			DataSource dataSource = (DataSource)objDataSource;
-			//org.apache.commons.dbcp2.BasicDataSource basic = (org.apache.commons.dbcp2.BasicDataSource)dataSource;
-			basic = (com.alibaba.druid.pool.DruidDataSource)dataSource;
-			connection = DriverManager.getConnection(basic.getUrl(), basic.getUsername(), basic.getPassword());
+			DruidDataSource dataSource = (DruidDataSource)objDataSource;
+			connection = DriverManager.getConnection(dataSource.getUrl(), dataSource.getUsername(), dataSource.getPassword());
 			statement = (com.mysql.jdbc.Statement)connection.createStatement();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -1493,12 +1487,11 @@ public class UploadDataServiceImpl implements UploadDataService{
 		
 		java.sql.Connection connection = null;
 		com.mysql.jdbc.Statement statement = null;
-		com.alibaba.druid.pool.DruidDataSource basic = null;
 		try {
-			DataSource dataSource = (DataSource)WebApplicationContextUtils.getWebApplicationContext(request.getServletContext()).getBean("dataSource");;
-			//org.apache.commons.dbcp2.BasicDataSource basic = (org.apache.commons.dbcp2.BasicDataSource)dataSource;
-			basic = (com.alibaba.druid.pool.DruidDataSource)dataSource;
-			connection = DriverManager.getConnection(basic.getUrl(), basic.getUsername(), basic.getPassword());
+			Object objDataSource = WebApplicationContextUtils.getWebApplicationContext(request.getServletContext()).getBean("dataSource");
+			@SuppressWarnings("resource")
+			DruidDataSource dataSource = (DruidDataSource)objDataSource;
+			connection = DriverManager.getConnection(dataSource.getUrl(), dataSource.getUsername(), dataSource.getPassword());
 			statement = (com.mysql.jdbc.Statement)connection.createStatement();
 			String statementText = "SELECT " + strValueColumnName + "," + strIDColumnName + " FROM " + strTableName + " WHERE member_id=" + member_id;
 			ResultSet rs = statement.executeQuery(statementText);
@@ -1513,7 +1506,6 @@ public class UploadDataServiceImpl implements UploadDataService{
 		} finally {
 			if(connection != null) {
 				try {
-					basic.close();
 					connection.close();
 				} catch (SQLException e) {
 					e.printStackTrace();
