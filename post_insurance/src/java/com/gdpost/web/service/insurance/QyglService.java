@@ -9,6 +9,8 @@ package com.gdpost.web.service.insurance;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.data.jpa.domain.Specification;
 
 import com.gdpost.web.entity.basedata.CheckFixType;
@@ -67,4 +69,17 @@ public interface QyglService {
 	List<UnderWrite> getTODOUnderWriteList(User user);
 
 	List<CheckFixType> getCheckFixTypeList();
+	
+	Integer getOverdueUWCount(HttpServletRequest request, User user);
+	
+	Integer getOverdueUWCall(HttpServletRequest request, User user);
+	
+	Integer getOverdueUWWeixin(HttpServletRequest request, User user);
+	
+	List<UnderWrite> getOverdueUWList2Pop(User user, Page page);
+	
+	List<UnderWrite> getOverdueUWList2Call(User user, Page page);
+	
+	List<UnderWrite> getOverdueUWList2Weixin(User user, Page page);
+
 }

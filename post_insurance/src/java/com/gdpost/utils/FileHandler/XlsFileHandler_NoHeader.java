@@ -23,6 +23,7 @@ public class XlsFileHandler_NoHeader extends AbstractFileHandler {
 	public static Logger log = LoggerFactory.getLogger(XlsFileHandler_NoHeader.class);
 
 	// 读取Excel 2003文件
+	@SuppressWarnings("deprecation")
 	public DataTable[] readFile(String strFilePath, String strFileName, String keyRow) throws MyException {
 		List<DataTable> list = new ArrayList<DataTable>();
 		boolean bFileFlag = false;
@@ -195,6 +196,7 @@ public class XlsFileHandler_NoHeader extends AbstractFileHandler {
 		return(bFlag);
 	}
 	
+	@SuppressWarnings("deprecation")
 	private boolean checkFormulaRow(HSSFRow row) {
 		//boolean bFlag = false;
 		int iDataRowCount = 0;

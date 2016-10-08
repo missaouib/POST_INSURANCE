@@ -15,8 +15,16 @@
 			<span class="unit">${policy.policyNo }</span>
 		</p>
 		<p>
+			<label>机构：</label>
+			<span class="unit">${policy.organName }</span>
+		</p>
+		<p>
 			<label>客户姓名：</label>
 			<span class="unit">${policy.holder }</span>
+		</p>
+		<p>
+			<label>被保险人：</label>
+			<span class="unit">${policy.insured }</span>
 		</p>
 		<p>
 			<label>险种名称：</label>
@@ -24,15 +32,27 @@
 		</p>
 		<p>
 			<label>交费方式：</label>
-			<span class="unit">${policy.feeFequency }</span>
+			<span class="unit">${policy.feeFrequency }</span>
 		</p>
 		<p>
 			<label>交费期间：</label>
 			<span class="unit">${policy.perm }</span>
 		</p>
 		<p>
+			<label>保险费：</label>
+			<span class="unit">${policy.policyFee }</span>
+		</p>
+		<p>
+			<label>承保日期：</label>
+			<span class="unit">${policy.policyDate }</span>
+		</p>
+		<p>
+			<label>回单日期：</label>
+			<span class="unit">${policy.billBackDate }</span>
+		</p>
+		<p>
 			<label>状态：</label>
-			<span class="unit">${policy.stratus }</span>
+			<span class="unit">${policy.status }</span>
 		</p>
 	</fieldset>
 	</div>

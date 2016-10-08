@@ -1,78 +1,80 @@
-<%@ page language="java" contentType="text/html;charset=UTF-8" trimDirectiveWhitespaces="true" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html;charset=UTF-8"	trimDirectiveWhitespaces="true" pageEncoding="UTF-8"%>
 <style type="text/css">
-#Warnning{
-    background:#ffffe5;
-    position:relative;
-    overflow:hidden;
-    width:550px;
-    height:20px;
-    line-height:20px;
-    margin:5px;
+.scrollDiv {
+	height: 18px;
+	width: 500px; /* 必要元素 */
+	line-height: 18px;
+	border: #ccc 1px solid;
+	overflow: hidden; /* 必要元素 */
 }
 
-#WarningContent{
-    position:absolute;
-    left:0;
-    top:4px;
-    color: #66C;
-    font-family:"微软雅黑";
-    white-space:nowrap;
+.scrollDiv li {
+	height: 18px;
+	padding-left: 10px;
+}
+
+ul, li {
+	list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+#status_scrollDiv_keleyi_com {
+	float: left;
+	width: 18px;
+	font-weight: bold;
+	color: red;
 }
 </style>
-<div id="Warnning">
-    <div style="color: red;font-size: 15px; font-weight:bold;">请按人核件处理规范要求，登记人核件各环节时效：必须登记人核件寄出 。<div id="WarningContent">${noticeMsg } &nbsp;&nbsp;</div></div>
+<div style="color: #00F;font-size: 15px; font-weight:bold;">请按人核件处理规范要求，登记人核件各环节时效：必须登记人核件寄出日期</div><br>
+<div id="scrollDiv_keleyi_com" class="scrollDiv">
+	<div id="status_scrollDiv_keleyi_com">↑</div>
+	<ul>
+		<%
+		String ods = (String)request.getAttribute("noticeMsg");
+		String[] s = ods.split("\\|");
+		if(s[0] != null && new Integer(s[0]) > 0) {
+		%>
+		<li><a target="dialog" mask="true" width="800" height="440" style="color:#F00;font-weight: bold;" href="${contextPath}/qygl/uwlist2pop">共<%=s[0] %>件人核件寄出时效逾期（弹窗提醒），点解查看</a></li>
+		<%
+		};
+		if(s[1] != null && new Integer(s[1]) >0) {
+		%>
+		<li><a target="dialog" mask="true" width="800" height="440" style="color:#F00;font-weight: bold;" href="${contextPath}/qygl/uwlist2call">共<%=s[1] %>件人核件全程时效逾期（电话提醒），点击查看</a></li>
+		<%
+		};
+		if(s[2] != null && new Integer(s[2]) >0) {
+		%>
+		<li><a target="dialog" mask="true" width="800" height="440" style="color:#F00;font-weight: bold;" href="${contextPath}/qygl/uwlist2weixin">共<%=s[2] %>件人核件逾期时间较长，需上微信催办（微信催办），点击查看</a></li>
+		<%
+		};
+		%>
+	</ul>
 </div>
+<br>
 <script type="text/javascript">
-if(!window.rollWord){
-     var rollWord = {
-           Warnning:document.getElementById("Warnning"),
-           WarningContent:document.getElementById("WarningContent"),
-           _containerWidth:1,
-           _contentWidth:1,
-           _speed:1,
-           setSpeed:function(opt){
-                 var This = this;
-                 This._speed = opt;
-           },
-           setContainerWidth:function(){
-                 var This = this;
-                 This._containerWidth = This.Warnning.offsetWidth;
-           },
-           setContentWidth:function(){
-                 var This = this;
-                 This._contentWidth = This.WarningContent.offsetWidth;
-           },
-           roll:function(){
-                 var This = this;
-                 This.WarningContent.style.left = parseInt(This._containerWidth) + "px";
-                 var time = setInterval(function(){This.move()},20);
-                 This.Warnning.onmouseover = function(){
-                      clearInterval(time);
-                 };
-                 This.Warnning.onmouseout = function(){
-                      time = setInterval(function(){This.move()},20);
-                 };
-           },
-           move:function(){
-                 var This = this;
-                 if(parseInt(This.WarningContent.style.left)+This._contentWidth > 0)
-                 {
-                      This.WarningContent.style.left = parseInt(This.WarningContent.style.left)-This._speed + "px";
-                 }
-                  else
-                  {
-                      This.WarningContent.style.left = parseInt(This._containerWidth) + "px";
-                  }                 
-           },
-           init:function(opt){
-                var This = this;
-                var speed = opt.speed || 1;
-                This.setSpeed(speed);
-                This.setContainerWidth();
-                This.setContentWidth();
-                This.roll();
-           }
-      }
-}
-      rollWord.init({speed:1});
+	$(document).ready(function() {
+		KeleyiScroll("#scrollDiv_keleyi_com", "#status_scrollDiv_keleyi_com");
+	});
+	function AutoScroll(obj, statusobj) {
+		if ($(statusobj).text() == '↑') {
+			$(obj).find("ul:first").animate({
+				marginTop : "-18px"
+			}, 8000, function() {
+				$(this).css({
+					marginTop : "2px"
+				}).find("li:first").appendTo(this);
+			});
+		}
+	}
+	function KeleyiScroll(obj, statusobj) {
+		setInterval('AutoScroll("' + obj + '","' + statusobj + '")', 8000);
+		$(obj).hover(
+			function() {
+				$(statusobj).text('=')
+			},
+			function () {
+			$(statusobj).text('↑')
+			});
+	}
 </script>

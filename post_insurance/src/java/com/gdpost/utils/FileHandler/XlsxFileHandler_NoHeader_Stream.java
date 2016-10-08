@@ -41,7 +41,7 @@ public class XlsxFileHandler_NoHeader_Stream extends AbstractFileHandler {
 
             DataTable dt = null;
             DataColumn column = null;
-            int cellCount = 0;
+            //int cellCount = 0;
             int rowCount = 0;
             Map<Integer, Object> row = null;
             DataRow dataRow = null;
@@ -59,7 +59,7 @@ public class XlsxFileHandler_NoHeader_Stream extends AbstractFileHandler {
 	            }
 	            
 	            headerRow = sheet.get(iHeaderRow);
-	            cellCount = headerRow.size();
+	            //cellCount = headerRow.size();
 	            
 	            dt = new DataTable();
 	            dt.TableName = handler.getSheetName().get(iSheet);

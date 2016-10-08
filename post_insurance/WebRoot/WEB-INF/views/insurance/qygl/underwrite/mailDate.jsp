@@ -6,13 +6,18 @@
 	<input type="hidden" name="flag" value="${flag }">
 	<div class="pageFormContent" layouth="58">
 		<p>
+			<label>寄去网点：</label>
+			<input type="radio" name="toNet" value="0" checked="checked"/>否
+			<input type="radio" name="toNet" value="1"/>是
+		</p>
+		<p>
 			<label>人核件寄出日期：</label>
 			<input type="text" name="sendDate" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value="${underwrite.sendDate }" pattern="yyyy-MM-dd"/>"/>
 				<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 		<p>
 			<label>EMS单号：</label>
-			<input type="text" name="emsNo" class="input-medium validate[required,maxSize[14]] required" maxlength="32"value="${underwrite.emsNo }"/>
+			<input type="text" name="emsNo" class="input-medium validate[maxSize[14]]" maxlength="32"value="${underwrite.emsNo }"/>
 		</p>
 	</div>
 	<div class="formBar">

@@ -32,6 +32,7 @@ public class XlsxFileHandler extends AbstractFileHandler {
 	public static Logger log = LoggerFactory.getLogger(XlsxFileHandler.class);
 	
 	// 读取Excel 2007文件
+	@SuppressWarnings("deprecation")
 	public DataTable[] readFile(String strFilePath, String strFileName, String keyRow) throws MyException {
 		List<DataTable> list = new ArrayList<DataTable>();
 		XSSFWorkbook workbook = null;

@@ -45,6 +45,7 @@ public class UnderWrite implements Idable<Long> {
 	private Date signDate;
 	private Date provReceiveDate;
 	private Date provSendDate;
+	private Boolean toNet;
 	private String provEmsNo;
 	private Date cityReceiveDate;
 	private Date citySendDate;
@@ -333,7 +334,15 @@ public class UnderWrite implements Idable<Long> {
 	public void setProvSendDate(Date provSendDate) {
 		this.provSendDate = provSendDate;
 	}
-
+	
+	@Column(name = "to_net")
+	public Boolean getToNet() {
+		return toNet;
+	}
+	public void setToNet(Boolean toNet) {
+		this.toNet = toNet;
+	}
+	
 	@Column(name = "prov_ems_no", length = 32)
 	public String getProvEmsNo() {
 		return this.provEmsNo;

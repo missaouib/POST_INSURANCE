@@ -107,6 +107,7 @@
 				<th orderField=policyNo class="${page.orderField eq 'policyNo' ? page.orderDirection : ''}">保单号</th>
 				<th orderField=organization.name class="${page.orderField eq 'organization.name' ? page.orderDirection : ''}">机构</th>
 				<th>投保人</th>
+				<th>被保人</th>
 				<th>险种名称</th>
 				<th>保费</th>
 				<th>交费方式</th>
@@ -135,6 +136,7 @@
 				</c:choose>
 				</td>
 				<td>${item.holder}</td>
+				<td>${item.insured}</td>
 				<td>${item.prodName}</td>
 				<td>${item.policyFee}</td>
 				<td>${item.feeFrequency}</td>

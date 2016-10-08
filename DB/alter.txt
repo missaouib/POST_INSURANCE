@@ -627,3 +627,6 @@ from
   join `t_policy` `b`)
 where
   (`a`.`policy_no` = `b`.`policy_no` and b.flag=0);
+
+alter table t_under_write add column to_net boolean not null default false after prov_send_date;
+update t_under_write set status="CloseStatus" where sign_input_date is not null;

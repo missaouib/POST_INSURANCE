@@ -31,6 +31,7 @@ public class XlsFileHandler extends AbstractFileHandler {
 	public static Logger log = LoggerFactory.getLogger(XlsFileHandler.class);
 
 	// 读取Excel 2003文件
+	@SuppressWarnings("deprecation")
 	public DataTable[] readFile(String strFilePath, String strFileName, String mkeyRow) throws MyException{
 		List<DataTable> list = new ArrayList<DataTable>();
 		log.debug("--------------ready to read xls file in handler" + this.keyRow);

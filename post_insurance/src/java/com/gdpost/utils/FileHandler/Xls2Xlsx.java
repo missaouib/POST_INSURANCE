@@ -9,6 +9,7 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DataFormat;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -22,8 +23,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class Xls2Xlsx {
 	private int lastColumn = 0;
-	@SuppressWarnings("unchecked")
-	private HashMap<Integer, XSSFCellStyle> styleMap = new HashMap();
+	private HashMap<Integer, XSSFCellStyle> styleMap = new HashMap<Integer, XSSFCellStyle>();
 	
 	public void transformHSSF(HSSFWorkbook workbookOld ,XSSFWorkbook workbookNew) {
 	    XSSFSheet sheetNew;
@@ -88,14 +88,16 @@ public class Xls2Xlsx {
             rowNew.setRowStyle(this.styleMap.get(hash));
         }*/
         for (Cell cell : rowOld) {
-            cellNew = rowNew.createCell(cell.getColumnIndex(), cell.getCellType());
+            //cellNew = rowNew.createCell(cell.getColumnIndex(), cell.getCellType());
+            cellNew = rowNew.createCell(cell.getColumnIndex(), CellType.valueOf(cell.getCellStyle().toString()));
             if (cellNew != null)
                 this.transform(workbookOld,workbookNew,(HSSFCell) cell, cellNew);
         }
         this.lastColumn = Math.max(this.lastColumn, rowOld.getLastCellNum());
     }
 
-    private void transform(HSSFWorkbook workbookOld,XSSFWorkbook workbookNew,HSSFCell cellOld,XSSFCell cellNew) {
+    @SuppressWarnings("deprecation")
+	private void transform(HSSFWorkbook workbookOld,XSSFWorkbook workbookNew,HSSFCell cellOld,XSSFCell cellNew) {
         cellNew.setCellComment(cellOld.getCellComment());
 
         Integer hash = cellOld.getCellStyle().hashCode();
@@ -128,7 +130,8 @@ public class Xls2Xlsx {
         }
     }
 
-    private void transform(HSSFWorkbook workbookOld,XSSFWorkbook workbookNew,Integer hash, HSSFCellStyle styleOld, XSSFCellStyle styleNew) {
+    @SuppressWarnings("deprecation")
+	private void transform(HSSFWorkbook workbookOld,XSSFWorkbook workbookNew,Integer hash, HSSFCellStyle styleOld, XSSFCellStyle styleNew) {
         styleNew.setAlignment(styleOld.getAlignment());
         styleNew.setBorderBottom(styleOld.getBorderBottom());
         styleNew.setBorderLeft(styleOld.getBorderLeft());
@@ -153,7 +156,8 @@ public class Xls2Xlsx {
 	    return formatNew.getFormat(formatOld.getFormat(index));
 	}
 
-    private XSSFFont transform(XSSFWorkbook workbookNew,HSSFFont fontOld) {
+    @SuppressWarnings("deprecation")
+	private XSSFFont transform(XSSFWorkbook workbookNew,HSSFFont fontOld) {
         XSSFFont fontNew = workbookNew.createFont();
         fontNew.setBoldweight(fontOld.getBoldweight());
         fontNew.setCharSet(fontOld.getCharSet());
