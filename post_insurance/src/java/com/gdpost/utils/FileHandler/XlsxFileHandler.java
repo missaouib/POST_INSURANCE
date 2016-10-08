@@ -199,6 +199,12 @@ public class XlsxFileHandler extends AbstractFileHandler {
 								break;
 							case HSSFCell.CELL_TYPE_FORMULA:
 								break;
+							case HSSFCell.CELL_TYPE_BOOLEAN:
+								dataRow.setValue(j, StringUtil.trimStr(cell.getBooleanCellValue()));
+								break;
+							case HSSFCell.CELL_TYPE_ERROR:
+								dataRow.setValue(j, "");
+								break;
 								default:
 									//cell.setCellType(HSSFCell.CELL_TYPE_STRING);
 									dataRow.setValue(j, StringUtil.trimStr(cell.getStringCellValue()));

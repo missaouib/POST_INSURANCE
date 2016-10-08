@@ -20,10 +20,14 @@ response.setHeader("Content-Disposition", "inline; filename=InvoiceReq.xls");
                 <th>发票标记</th>
                 <th>发票缴费日期</th>
                 <th>被保险人</th>
+                <th>被保险人</th>
+                <td>出单日期</td>
                 <td>申请日期</td>
                 <th>接收邮箱</th>
                 <th>EMS</th>
                 <th>申请接收人</th>
+                <th>接收地址</th>
+                <th>联系电话</th>
                 <th>状态</th>
         </tr>
         <c:forEach var="item" items="${reqs}" varStatus="status">
@@ -39,11 +43,15 @@ response.setHeader("Content-Disposition", "inline; filename=InvoiceReq.xls");
                 <td>${item.fee}</td>
                 <td>${item.flag}</td>
                 <td><fmt:formatDate value="${item.feeDate }" pattern="yyyy-MM-dd"/></td>
+                <td>被保险人:</td>
                 <td>${item.policy.insured}</td>
+                <td><fmt:formatDate value="${item.policy.policyDate }" pattern="yyyy-MM-dd"/></td>
                 <td><fmt:formatDate value="${item.reqDate }" pattern="yyyy-MM-dd"/></td>
                 <td>${item.billAddr}</td>
                 <td style="vnd.ms-excel.numberformat:@">${item.billNo}</td>
                 <td>${item.reqMan}</td>
+                <td>${item.reqAddr}</td>
+                <td>${item.phone}</td>
                 <td>
 				<c:choose>
 					<c:when test="${item.status eq 'NewStatus'}">
