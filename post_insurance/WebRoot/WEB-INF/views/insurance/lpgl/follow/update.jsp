@@ -8,7 +8,7 @@
 			<label>机构：</label>
 			<input name="organization.id" id="uw_orgId" type="hidden" value="${settle.organization.id }"/>
 					<input class="validate[required] required" name="organization.name" id="uw_orgName" type="text" readonly="readonly" style="width: 140px;" value="${settle.organization.name }"/>
-					<a class="btnLook" href="${contextPath }/management/security/settle/lookup2org" lookupGroup="organization" title="选择机构" width="400">查找带回</a>
+					<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="organization" title="选择机构" width="400">查找带回</a>
 		</p>
 		<p>
 			<label>出险人：</label>
