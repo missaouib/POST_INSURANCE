@@ -14,9 +14,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gdpost.web.dao.ConservationDtlDAO;
+import com.gdpost.web.dao.ConservationReqDAO;
 import com.gdpost.web.dao.CsReissueDAO;
 import com.gdpost.web.dao.OffsiteConservationDAO;
 import com.gdpost.web.entity.main.ConservationDtl;
+import com.gdpost.web.entity.main.ConservationReq;
 import com.gdpost.web.entity.main.CsReissue;
 import com.gdpost.web.entity.main.OffsiteConservation;
 import com.gdpost.web.entity.main.Organization;
@@ -42,6 +44,9 @@ public class BqglServiceImpl implements BqglService {
 	
 	@Autowired
 	private CsReissueDAO reissueDAO;
+	
+	@Autowired
+	private ConservationReqDAO creqDao;
 	
 	/*
 	 * (non-Javadoc)
@@ -219,5 +224,22 @@ public class BqglServiceImpl implements BqglService {
 	@Override
 	public CsReissue getCsReissueByPolicyNo(String policyNo) {
 		return reissueDAO.getByConservationDtlPolicyPolicyNo(policyNo);
+	}
+
+	@Override
+	public ConservationReq getConservationReq(Long id) {
+		return creqDao.findOne(id);
+	}
+
+	@Override
+	public List<ConservationReq> findConservationReqByExample(Specification<ConservationReq> specification, Page page) {
+		org.springframework.data.domain.Page<ConservationReq> springDataPage = creqDao.findAll(specification, PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
+	}
+
+	@Override
+	public void updateConservationReq(ConservationReq conservationReq) {
+		creqDao.save(conservationReq);
 	}
 }

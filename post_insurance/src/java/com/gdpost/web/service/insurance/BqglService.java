@@ -12,6 +12,7 @@ import java.util.List;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.gdpost.web.entity.main.ConservationDtl;
+import com.gdpost.web.entity.main.ConservationReq;
 import com.gdpost.web.entity.main.CsReissue;
 import com.gdpost.web.entity.main.OffsiteConservation;
 import com.gdpost.web.entity.main.User;
@@ -53,4 +54,11 @@ public interface BqglService {
 	CsReissue getCsReissueByPolicyNo(String policyNo);
 	
 	void updateCsReissue(CsReissue reissue);
+	
+	//免填单保全申请
+	ConservationReq getConservationReq(Long id);
+	
+	List<ConservationReq> findConservationReqByExample(Specification<ConservationReq> specification, Page page);
+	
+	void updateConservationReq(ConservationReq conservationReq);
 }

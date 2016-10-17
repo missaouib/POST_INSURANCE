@@ -38,6 +38,7 @@ import com.gdpost.utils.BeanValidators;
 import com.gdpost.utils.SecurityUtils;
 import com.gdpost.utils.StringUtil;
 import com.gdpost.web.entity.main.ConservationDtl;
+import com.gdpost.web.entity.main.ConservationReq;
 import com.gdpost.web.entity.main.CsReissue;
 import com.gdpost.web.entity.main.OffsiteConservation;
 import com.gdpost.web.entity.main.Organization;
@@ -88,6 +89,9 @@ public class BqglController {
 	private static final String RI_TO_XLS = "insurance/bqgl/reissue/toXls";
 	private static final String RI_MAIL_DATE = "insurance/bqgl/reissue/mailDate";
 	private static final String RI_REC_DATE = "insurance/bqgl/reissue/recDate";
+	
+	private static final String C_REQ_LIST = "insurance/bqgl/req/list";
+	private static final String C_TO_XLS = "insurance/bqgl/req/toXls";
 	
 	@RequiresPermissions("Cservice:save")
 	@RequestMapping(value="/issue/create", method=RequestMethod.GET)
@@ -320,14 +324,6 @@ public class BqglController {
 		LOG.debug("-------------- status: " + status);
 		ConservationDtl issue = new ConservationDtl();
 		if(status == null) {
-			/*
-			issue.setStatus(BQ_STATUS.NewStatus.name());
-			s = BQ_STATUS.NewStatus.name();
-			if (userOrg.getOrgCode().length()<=4) {
-				issue.setStatus(BQ_STATUS.DealStatus.name());
-				s = BQ_STATUS.DealStatus.name();
-			}
-			*/
 			status = "";
 		} else if(status.trim().length()>0) {
 			issue.setStatus(BQ_STATUS.valueOf(status).name());
@@ -416,26 +412,7 @@ public class BqglController {
 		//LOG.debug("--------------0:" + src.toString());
 		OffsiteConservation offsite = bqglService.getOffsiteConservation(src.getId());
 		//LOG.debug("--------------1:" + offsite.toString());
-		/*
-		offsite.setOrganization(src.getOrganization());
-		offsite.setTransactor(src.getTransactor());
-		offsite.setDealDate(src.getDealDate());
-		offsite.setExpressBillNo(src.getExpressBillNo());
-		offsite.setPolicyNo(src.getPolicyNo());
-		offsite.setOrginProv(src.getOrginProv());
-		offsite.setClient(src.getClient());
-		offsite.setConservationType(src.getConservationType());
-		*/
 		BeanUtils.copyProperties(src, offsite, BeanValidators.getNullPropertyNames(src));
-		//User user = shiroUser.getUser();
-		//Organization userOrg = user.getOrganization();
-		/*
-		if(userOrg.getOrgCode().length()>4) {
-			offsite.setStatus(BQ_STATUS.NewStatus.name());
-		} else {
-			offsite.setStatus(BQ_STATUS.DealStatus.name());
-		}
-		*/
 		bqglService.saveOrUpdateOffsiteConservation(offsite);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{offsite.getPolicyNo()}));
@@ -599,14 +576,6 @@ public class BqglController {
 		OffsiteConservation offsite = new OffsiteConservation();
 		if(status == null) {
 			status = "";
-			/*
-			offsite.setStatus(BQ_STATUS.NewStatus.name());
-			s = BQ_STATUS.NewStatus.name();
-			if (userOrg.getOrgCode().length()<=4) {
-				offsite.setStatus(BQ_STATUS.DealStatus.name());
-				s = BQ_STATUS.DealStatus.name();
-			}
-			*/
 		} else if(status.trim().length()>0) {
 			offsite.setStatus(BQ_STATUS.valueOf(status).name());
 		}
@@ -660,16 +629,6 @@ public class BqglController {
 	public @ResponseBody String updateCsReissue(CsReissue src) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		CsReissue reissue = bqglService.getCsReissue(src.getId());
-		/*
-		reissue.setOrganization(src.getOrganization());
-		reissue.setTransactor(src.getTransactor());
-		reissue.setDealDate(src.getDealDate());
-		reissue.setExpressBillNo(src.getExpressBillNo());
-		reissue.setPolicyNo(src.getPolicyNo());
-		reissue.setOrginProv(src.getOrginProv());
-		reissue.setClient(src.getClient());
-		reissue.setConservationType(src.getConservationType());
-		*/
 		BeanUtils.copyProperties(src, reissue, BeanValidators.getNullPropertyNames(src));
 		User user = shiroUser.getUser();
 		Organization userOrg = user.getOrganization();
@@ -864,14 +823,6 @@ public class BqglController {
 		CsReissue reissue = new CsReissue();
 		if(status == null) {
 			status = "";
-			/*
-			reissue.setStatus(BQ_STATUS.NewStatus.name());
-			s = BQ_STATUS.NewStatus.name();
-			if (userOrg.getOrgCode().length()<=4) {
-				reissue.setStatus(BQ_STATUS.DealStatus.name());
-				s = BQ_STATUS.DealStatus.name();
-			}
-			*/
 		} else if(status.trim().length()>0) {
 			reissue.setStatus(BQ_STATUS.valueOf(status).name());
 		}
@@ -895,6 +846,130 @@ public class BqglController {
 		return RI_TO_XLS;
 	}
 	
+	/*
+	 * ===================================
+	 * 保全免填单数据
+	 * ===================================
+	 */
+	
+	@RequiresPermissions("ConservationReq:view")
+	@RequestMapping(value="/issue/list", method={RequestMethod.GET, RequestMethod.POST})
+	public String listReq(ServletRequest request, Page page, Map<String, Object> map) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
+		String orgCode = request.getParameter("orgCode");
+		if(orgCode == null || orgCode.trim().length()<=0) {
+			orgCode = userOrg.getOrgCode();
+		} else if(!orgCode.contains(userOrg.getOrgCode())){
+			orgCode = userOrg.getOrgCode();
+		}
+		String orgName = request.getParameter("name");
+		request.setAttribute("orgCode", orgCode);
+		request.setAttribute("name", orgName);
+		//默认返回未处理工单
+		String status = request.getParameter("status");
+		LOG.debug("-------------- status: " + status);
+		ConservationDtl issue = new ConservationDtl();
+		if(status == null) {
+			status = "";
+		} else if(status.trim().length()>0) {
+			issue.setStatus(BQ_STATUS.valueOf(status).name());
+		}
+		
+		String orderField = request.getParameter("orderField");
+		if(orderField == null || orderField.trim().length()<=0) {
+			page.setOrderField("csDate");
+			page.setOrderDirection("DESC");
+		}
+		
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		if (status.length() > 0) {
+			csf.add(new SearchFilter("status", Operator.EQ, status));
+		} else {
+			csf.add(new SearchFilter("status", Operator.NEQ, BQ_STATUS.CloseStatus.name()));
+		}
+		
+		Specification<ConservationDtl> specification = DynamicSpecifications.bySearchFilter(request, ConservationDtl.class, csf);
+		
+		List<ConservationDtl> issues = bqglService.findByExample(specification, page);
+		
+		map.put("issue", issue);
+		map.put("status", status);
+		map.put("baStatusList", BQ_STATUS.values());
+		map.put("page", page);
+		map.put("issues", issues);
+		return C_REQ_LIST;
+	}
+	
+	@Log(message="修改了{0}免填单保全申请的状态。", level=LogLevel.WARN, module=LogModule.BQGL)
+	@RequiresPermissions(value={"ConservationReq:edit"}, logical=Logical.OR)
+	@RequestMapping(value="/offsite/{status}/{id}", method=RequestMethod.POST)
+	public @ResponseBody String updateConservationReq(@PathVariable("status") String status, @PathVariable("id") Long id) {
+		ConservationReq req = bqglService.getConservationReq(id);
+		BQ_STATUS bs = BQ_STATUS.DealStatus;
+		try {
+			bs = BQ_STATUS.valueOf(status);
+		}catch (Exception ex) {
+			return	AjaxObject.newError("状态不对！").setCallbackType("").toString();
+		}
+		switch (bs) {
+		case CloseStatus:
+			break;
+			default:
+				break;
+		}
+		req.setStatus(status);
+		bqglService.updateConservationReq(req);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{req.getPolicyNo()}));
+		return	AjaxObject.newOk("修改异地保全成功！").setCallbackType("").toString();
+	}
+	
+	@RequiresPermissions("Conservation:view")
+	@RequestMapping(value="/req/toXls", method=RequestMethod.GET)
+	public String cReqtoXls(ServletRequest request, Page page, Map<String, Object> map) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
+		String orgCode = request.getParameter("orgCode");
+		if(orgCode == null || orgCode.trim().length()<=0) {
+			orgCode = userOrg.getOrgCode();
+		} else if(!orgCode.contains(userOrg.getOrgCode())){
+			orgCode = userOrg.getOrgCode();
+		}
+		page.setNumPerPage(65564);
+		//默认返回未处理工单
+		String status = request.getParameter("status");
+		LOG.debug("-------------- status: " + status);
+		ConservationDtl issue = new ConservationDtl();
+		if(status == null) {
+			status = "";
+		} else if(status.trim().length()>0) {
+			issue.setStatus(BQ_STATUS.valueOf(status).name());
+		}
+		
+		String orderField = request.getParameter("orderField");
+		if(orderField == null || orderField.trim().length()<=0) {
+			page.setOrderField("csDate");
+			page.setOrderDirection("DESC");
+		}
+		
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		if (status.length() > 0) {
+			csf.add(new SearchFilter("status", Operator.EQ, status));
+		}
+		
+		Specification<ConservationDtl> specification = DynamicSpecifications.bySearchFilter(request, ConservationDtl.class, csf);
+		
+		List<ConservationDtl> reqs = bqglService.findByExample(specification, page);
+		
+		map.put("reqs", reqs);
+		return C_TO_XLS;
+	}
+
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(
