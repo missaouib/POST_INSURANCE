@@ -630,3 +630,22 @@ where
 
 alter table t_under_write add column to_net boolean not null default false after prov_send_date;
 update t_under_write set status="CloseStatus" where sign_input_date is not null;
+
+drop table if exists t_bank_code;
+
+/*==============================================================*/
+/* Table: t_bank_code                                           */
+/*==============================================================*/
+create table t_bank_code
+(
+   id                   bigint not null auto_increment,
+   ybt_code             varchar(10),
+   cpi_code             varchar(18),
+   bank_code            varchar(20),
+   name                 varchar(60),
+   organ_code           varchar(8),
+   flag                 tinyint(1),
+   status               int default 1 comment '״̬',
+   primary key (id)
+)
+engine=innodb auto_increment=1 default charset=utf8;

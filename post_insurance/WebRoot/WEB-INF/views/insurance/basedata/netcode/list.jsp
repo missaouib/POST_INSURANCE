@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 
 <dwz:paginationForm action="${contextPath }/basedata/bankCode/list" page="${page }">
-	<input type="hidden" name="search_LIKE_cpiCode" value="${param.search_LIKE_cpiCode }"/>
+	<input type="hidden" name="search_LIKE_ybtCode" value="${param.search_LIKE_ybtCode }"/>
 	<input type="hidden" name="search_LIKE_bankCode" value="${param.search_LIKE_bankCode }"/>
 	<input type="hidden" name="search_LIKE_name" value="${param.search_LIKE_name }"/>
 </dwz:paginationForm>
@@ -13,8 +13,8 @@
 		<div class="searchBar">
 			<ul class="searchContent">
 				<li>
-					<label>中邮系统网点代码：</label>
-					<input type="text" name="search_LIKE_cpiCode" value="${param.search_LIKE_cpiCode }"/>
+					<label>邮保通网点代码：</label>
+					<input type="text" name="search_LIKE_ybtCode" value="${param.search_LIKE_ybtCode }"/>
 				</li>
 				<li>
 					<label>银行网点编码：</label>
@@ -54,20 +54,33 @@
 		<thead>
 			<tr>
 				<th width="22"><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
-				<th width="100">中邮系统网点代码</th>
-				<th width="100">中邮网点名称</th>
+				<th width="100">邮保通代码</th>
+				<th width="100">中邮网点代码</th>
 				<th width="100">银行网点代码</th>
-				<th width="100">银行网点名称</th>
+				<th width="100">网点名称</th>
+				<th width="100">管理机构</th>
+				<th width="100">网点属性</th>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach var="item" items="${basedata}">
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
+				<td>${item.ybtCode}</td>
 				<td>${item.cpiCode}</td>
-				<td>${item.name}</td>
 				<td>${item.bankCode}</td>
-				<td>${item.bankName}</td>
+				<td>${item.name}</td>
+				<td>${item.organization.name}</td>
+				<td>
+					<c:choose>  
+					    <c:when test="${item.flag == 1}">  
+					                    邮政网点
+					    </c:when>  
+					   <c:otherwise>  
+					      银行网点  
+					    </c:otherwise>  
+					</c:choose>
+				</td>
 			</tr>			
 			</c:forEach>
 		</tbody>

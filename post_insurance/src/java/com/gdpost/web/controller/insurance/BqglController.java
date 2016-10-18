@@ -853,7 +853,7 @@ public class BqglController {
 	 */
 	
 	@RequiresPermissions("ConservationReq:view")
-	@RequestMapping(value="/issue/list", method={RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="/req/list", method={RequestMethod.GET, RequestMethod.POST})
 	public String listReq(ServletRequest request, Page page, Map<String, Object> map) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
@@ -905,7 +905,7 @@ public class BqglController {
 	
 	@Log(message="修改了{0}免填单保全申请的状态。", level=LogLevel.WARN, module=LogModule.BQGL)
 	@RequiresPermissions(value={"ConservationReq:edit"}, logical=Logical.OR)
-	@RequestMapping(value="/offsite/{status}/{id}", method=RequestMethod.POST)
+	@RequestMapping(value="/req/{status}/{id}", method=RequestMethod.POST)
 	public @ResponseBody String updateConservationReq(@PathVariable("status") String status, @PathVariable("id") Long id) {
 		ConservationReq req = bqglService.getConservationReq(id);
 		BQ_STATUS bs = BQ_STATUS.DealStatus;
@@ -923,7 +923,7 @@ public class BqglController {
 		req.setStatus(status);
 		bqglService.updateConservationReq(req);
 		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{req.getPolicyNo()}));
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{req.getCancelMan()}));
 		return	AjaxObject.newOk("修改异地保全成功！").setCallbackType("").toString();
 	}
 	

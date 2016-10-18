@@ -5,12 +5,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import com.gdpost.web.entity.Idable;
+import com.gdpost.web.entity.main.Organization;
 
 /**
  * TBankCode entity. @author MyEclipse Persistence Tools
@@ -23,10 +26,12 @@ public class BankCode implements Idable<Long> {
 	// Fields
 
 	private Long id;
+	private String ybtCode;
 	private String cpiCode;
 	private String bankCode;
 	private String name;
-	private String bankName;
+	private Organization organization;
+	private Integer flag;
 	private Integer status;
 
 	// Constructors
@@ -52,6 +57,15 @@ public class BankCode implements Idable<Long> {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	@Column(name = "ybt_code", length = 10)
+	public String getYbtCode() {
+		return ybtCode;
+	}
+
+	public void setYbtCode(String ybtCode) {
+		this.ybtCode = ybtCode;
 	}
 
 	@Column(name = "cpi_code", length = 18)
@@ -81,13 +95,23 @@ public class BankCode implements Idable<Long> {
 		this.name = name;
 	}
 
-	@Column(name = "bank_name")
-	public String getBankName() {
-		return bankName;
+	@ManyToOne
+	@JoinColumn(name="organ_code", referencedColumnName="org_code")
+	public Organization getOrganization() {
+		return organization;
 	}
-	
-	public void setBankName(String bankName) {
-		this.bankName = bankName;
+
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
+	}
+
+	@Column(name = "flag")
+	public Integer getFlag() {
+		return flag;
+	}
+
+	public void setFlag(Integer flag) {
+		this.flag = flag;
 	}
 
 	@Column(name = "status")
