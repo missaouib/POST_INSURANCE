@@ -13,11 +13,11 @@ private static List<ColumnItem> standardColumns;
 		if(standardColumns != null) {
 			return(standardColumns);
 		}
-		
+		//地市机构代码	地市机构名称	县区局机构代码	县区局机构名称	网点代码	网点名称	保险单号	申请人	保单生效日期	保费	保全项目名称	保全申请日期	客户联系电话
 		standardColumns = new ArrayList<ColumnItem>();
 		
 		ColumnItem column = new ColumnItem();
-		column.setDisplayName("保单号");
+		column.setDisplayName("地市机构代码");
 		column.setColumnName("policy_no");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);

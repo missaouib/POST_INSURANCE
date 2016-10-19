@@ -5,21 +5,35 @@
 	<input type="hidden" name="id" value="${basedata.id}"/>
 	<div class="pageFormContent" layoutH="58">
 		<p>
-			<label>中邮系统网点代码：</label>
+			<label>邮保通代码：</label>
+			<input type="text" name="ybtCode" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${basedata.ybtCode }"/>
+		</p>
+		<p>
+			<label>中邮网点代码：</label>
 			<input type="text" name="cpiCode" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${basedata.cpiCode }"/>
 		</p>
 		<p>
-			<label>中邮系统网点名称：</label>
+			<label>银行网点名称：</label>
 			<input type="text" name="bankCode" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${basedata.bankCode }"/>
 		</p>
 		<p>
-			<label>中邮系统网点名称：</label>
+			<label>网点名称：</label>
 			<input type="text" name="name" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${basedata.name }"/>
 		</p>
 		<p>
-			<label>银行网点名称：</label>
-			<input type="text" name="bankName" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${basedata.bankName }"/>
-		</p>		
+			<label>管理机构：</label>
+			<input name="organization.id" id="uw_orgId" type="hidden" value="${underwrite.organization.id }"/>
+			<input class="validate[required] required" name="organization.orgCode" id="uw_orgCode" type="text" readonly="readonly" style="width: 140px;" value="${basedata.organization.orgCode }"/>
+			<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="organization" title="选择机构" width="400">查找带回</a>
+		</p>
+		<p>
+			<label>网点属性：</label>
+			<input type="text" name="flag" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${basedata.flag }"/>(邮政:1,银行:2)
+		</p>	
+		<p>
+			<label>网点状态：</label>
+			<input type="text" name="status" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${basedata.status }"/>
+		</p>
 	</div>
 			
 	<div class="formBar">

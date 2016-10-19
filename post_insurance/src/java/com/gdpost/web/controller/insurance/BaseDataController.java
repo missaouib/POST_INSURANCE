@@ -17,6 +17,7 @@ import javax.validation.Valid;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
@@ -33,6 +34,7 @@ import com.gdpost.web.entity.basedata.IssueType;
 import com.gdpost.web.entity.basedata.Prd;
 import com.gdpost.web.entity.basedata.RenewalType;
 import com.gdpost.web.entity.main.ConservationType;
+import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.ProvOrgCode;
 import com.gdpost.web.exception.ExistedException;
 import com.gdpost.web.exception.ServiceException;
@@ -41,6 +43,7 @@ import com.gdpost.web.log.LogLevel;
 import com.gdpost.web.log.LogMessageObject;
 import com.gdpost.web.log.LogModule;
 import com.gdpost.web.log.impl.LogUitls;
+import com.gdpost.web.service.OrganizationService;
 import com.gdpost.web.service.insurance.BaseDataService;
 import com.gdpost.web.util.dwz.AjaxObject;
 import com.gdpost.web.util.dwz.Page;
@@ -53,6 +56,9 @@ public class BaseDataController {
 	
 	@Autowired
 	private BaseDataService baseService;
+	
+	@Autowired
+	private OrganizationService orgService;
 
 	private static final String CALL_DEAL_TYPE_CREATE = "insurance/basedata/CallDealType/create";
 	private static final String CALL_DEAL_TYPE_UPDATE = "insurance/basedata/CallDealType/update";
@@ -405,7 +411,11 @@ public class BaseDataController {
 	@RequiresPermissions("BankCode:edit")
 	@RequestMapping(value="/bankCode/update", method=RequestMethod.POST)
 	public @ResponseBody String updateNetCode(BankCode bankCode) {
-		baseService.saveOrUpdateBankCode(bankCode);
+		BankCode bc = baseService.getBankCode(bankCode.getId());
+		Organization org = orgService.getByOrgCode(bankCode.getOrganization().getOrgCode());
+		BeanUtils.copyProperties(bankCode, bc);
+		bc.setOrganization(org);
+		baseService.saveOrUpdateBankCode(bc);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{bankCode.getCpiCode()}));
 		return	AjaxObject.newOk("修改网点对照成功！").toString(); 
