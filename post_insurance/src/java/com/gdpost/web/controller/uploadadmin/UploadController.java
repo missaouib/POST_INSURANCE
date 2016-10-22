@@ -54,7 +54,7 @@ public class UploadController {
 	
 	String strError = "{\"jsonrpc\":\"2.0\",\"result\":\"error\",\"id\":\"id\",\"message\":\"操作失败。\"}";
 	
-	@RequiresPermissions(value={"UploadIssue:upload", "UploadData:upload", "UploadRenewed:upload", "UploadCallFail:upload", "UploadCheck:upload", "UploadPay:upload", "UploadIssue:upload"}, logical=Logical.OR)
+	@RequiresPermissions(value={"UploadIssue:upload", "UploadData:upload", "UploadRenewed:upload", "UploadCallFail:upload", "UploadCheck:upload", "UploadPay:upload", "UploadIssue:upload", "UploadBq:upload"}, logical=Logical.OR)
 	@RequestMapping(value = "/upload", method = RequestMethod.GET)
 	public String preUpload(HttpServletRequest request, Map<String, Object> map) {
 		int ny = UploadDataUtils.getNianYue();
@@ -115,6 +115,8 @@ public class UploadController {
 				break;
 			case "callfail":
 				ft = FileTemplate.CallFail;
+			case "conversatoinreq":
+				ft = FileTemplate.ConversationReq;
 				break;
 			}
 		}

@@ -649,3 +649,26 @@ create table t_bank_code
    primary key (id)
 )
 engine=innodb auto_increment=1 default charset=utf8;
+
+drop table if exists t_conservation_req;
+
+/*==============================================================*/
+/* Table: t_conservation_req                                    */
+/*==============================================================*/
+create table t_conservation_req
+(
+   id                   bigint not null auto_increment,
+   form_no              varchar(25),
+   policy_no            varchar(18),
+   bank_code            varchar(8),
+   bank_name            varchar(64),
+   req_man              varchar(12),
+   req_type_name        varchar(32),
+   req_date             date,
+   req_phone            varchar(18),
+   status               varchar(12) default 'NewStatus',
+   operate_id           bigint,
+   primary key (id)
+)
+engine=innodb auto_increment=1 default charset=utf8;
+

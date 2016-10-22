@@ -870,16 +870,16 @@ public class BqglController {
 		//默认返回未处理工单
 		String status = request.getParameter("status");
 		LOG.debug("-------------- status: " + status);
-		ConservationDtl issue = new ConservationDtl();
+		ConservationReq req = new ConservationReq();
 		if(status == null) {
 			status = "";
 		} else if(status.trim().length()>0) {
-			issue.setStatus(BQ_STATUS.valueOf(status).name());
+			req.setStatus(BQ_STATUS.valueOf(status).name());
 		}
 		
 		String orderField = request.getParameter("orderField");
 		if(orderField == null || orderField.trim().length()<=0) {
-			page.setOrderField("csDate");
+			page.setOrderField("reqDate");
 			page.setOrderDirection("DESC");
 		}
 		
@@ -891,15 +891,15 @@ public class BqglController {
 			csf.add(new SearchFilter("status", Operator.NEQ, BQ_STATUS.CloseStatus.name()));
 		}
 		
-		Specification<ConservationDtl> specification = DynamicSpecifications.bySearchFilter(request, ConservationDtl.class, csf);
+		Specification<ConservationReq> specification = DynamicSpecifications.bySearchFilter(request, ConservationReq.class, csf);
 		
-		List<ConservationDtl> issues = bqglService.findByExample(specification, page);
+		List<ConservationReq> reqs = bqglService.findConservationReqByExample(specification, page);
 		
-		map.put("issue", issue);
+		map.put("req", req);
 		map.put("status", status);
 		map.put("baStatusList", BQ_STATUS.values());
 		map.put("page", page);
-		map.put("issues", issues);
+		map.put("reqs", reqs);
 		return C_REQ_LIST;
 	}
 	
@@ -923,7 +923,7 @@ public class BqglController {
 		req.setStatus(status);
 		bqglService.updateConservationReq(req);
 		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{req.getCancelMan()}));
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{req.getReqMan()}));
 		return	AjaxObject.newOk("修改异地保全成功！").setCallbackType("").toString();
 	}
 	

@@ -1,5 +1,7 @@
 package com.gdpost.web.entity.basedata;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,8 +23,12 @@ import com.gdpost.web.entity.main.Organization;
 @Entity
 @Table(name = "t_bank_code")
 @Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="com.gdpost.web.entity.basedata.BankCode")
-public class BankCode implements Idable<Long> {
+public class BankCode implements Idable<Long>,Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7774161525578999403L;
 	// Fields
 
 	private Long id;

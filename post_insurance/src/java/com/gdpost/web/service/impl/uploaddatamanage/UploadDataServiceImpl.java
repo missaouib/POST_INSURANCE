@@ -36,6 +36,7 @@ import com.gdpost.utils.TemplateHelper.CallFailNeedDoorListColumn;
 import com.gdpost.utils.TemplateHelper.CheckColumn;
 import com.gdpost.utils.TemplateHelper.ColumnItem;
 import com.gdpost.utils.TemplateHelper.ColumnType;
+import com.gdpost.utils.TemplateHelper.ConversationReqColumn;
 import com.gdpost.utils.TemplateHelper.IssueColumn;
 import com.gdpost.utils.TemplateHelper.PayFailListColumn;
 import com.gdpost.utils.TemplateHelper.PolicyBackDateColumn;
@@ -196,6 +197,10 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case UnderWriteSentData:
 			standardColumns = PolicySentDataColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_policy_reprint_dtl character set utf8 (";
+			break;
+		case ConversationReq:
+			standardColumns = ConversationReqColumn.getStandardColumns();
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_conservation_req character set utf8 (";
 			break;
 			default:
 				log.warn("------------reach the default FileTemplate?? oh no!!");
@@ -1053,6 +1058,10 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case PolicyBackDate:
 			standardColumns = PolicyBackDateColumn.getStandardColumns();
 			keyRow = PolicyBackDateColumn.KEY_ROW;
+			break;
+		case ConversationReq:
+			standardColumns = ConversationReqColumn.getStandardColumns();
+			keyRow = ConversationReqColumn.KEY_ROW;
 			break;
 		}
 		

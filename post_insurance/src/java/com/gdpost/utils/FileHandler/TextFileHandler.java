@@ -39,7 +39,12 @@ public class TextFileHandler extends AbstractFileHandler {
 			return(ds);
 		}
 
-		CsvListReader reader = new CsvListReader(freader, CsvPreference.TAB_PREFERENCE);
+		CsvListReader reader = null;
+		if(keyRow != null && keyRow.equals("comma")) {
+			reader = new CsvListReader(freader, CsvPreference.STANDARD_PREFERENCE);
+		} else {
+			reader = new CsvListReader(freader, CsvPreference.TAB_PREFERENCE);
+		}
 		DataTable dt = null;
 		DataColumn column = null;
 		DataRow dataRow = null;
@@ -47,9 +52,16 @@ public class TextFileHandler extends AbstractFileHandler {
 		//获取头部信息
 		try {
 			String[] headers = reader.getHeader(true);
+			if(headers != null && headers.length>0) {
+				if(headers[0].indexOf(",") != -1) {
+					headers = headers[0].split(",");
+				}
+			}
+			log.debug("----------header: " + headers.length);
 			dt = new DataTable();
 			dt.TableName = strFileName;
 			for(int i = 0; i < headers.length; i++) {
+				if(headers[i] == null) break;
 				column = new DataColumn(headers[i]);
 				dt.Columns.Add(column);
 			}
@@ -68,8 +80,7 @@ public class TextFileHandler extends AbstractFileHandler {
 		try {
 			while ((line = reader.read()) != null) {
 			    dataRow = dt.NewRow();
-			    
-			    for(int i = 0; i < line.size(); i++) {
+			    for(int i = 0; i < dt.Columns.size(); i++) {
 			    	dataRow.setValue(i, line.get(i));
 			    }
 			    

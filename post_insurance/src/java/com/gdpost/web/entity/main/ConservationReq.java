@@ -1,10 +1,7 @@
 package com.gdpost.web.entity.main;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,18 +9,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
 import com.gdpost.web.entity.Idable;
+import com.gdpost.web.entity.basedata.BankCode;
 
 /**
- * TConservationDtl entity. @author MyEclipse Persistence Tools
+ * TConservationReq entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "t_conservation_req")
@@ -32,21 +26,17 @@ public class ConservationReq implements Idable<Long> {
 	// Fields
 
 	private Long id;
+	private String formNo;
 	private Policy policy;
-	private String conservationCode;
-	private String dealNum;
-	private String info;
-	private Date csDate;
-	private Long csUserId;
-	private String csRst;
-	private Long dealUserId;
+	private BankCode bankCode;
+	private String bankName;
+	private String reqMan;
+	private String reqTypeName;
+	private Date reqDate;
+	private String reqPhone;
 	private String status;
-	private Boolean cancelFlag;
-	private Long cancelMan;
-	private Date cancelDate;
-	private String remark;
+	private Long operateId;
 
-	private List<CsReissue> issues = new ArrayList<CsReissue>(0);
 	// Constructors
 
 	/** default constructor */
@@ -54,26 +44,19 @@ public class ConservationReq implements Idable<Long> {
 	}
 
 	/** full constructor */
-	public ConservationReq(Policy TPolicy, String code, String dealNum, String info, Date csDate, Long csUserId, String csRst, Long dealUserId,
-			String status, Boolean cancelFlag, Long cancelMan, Date cancelDate, String remark) {
-		this.policy = TPolicy;
-		this.conservationCode = code;
-		this.dealNum = dealNum;
-		this.info = info;
-		this.csDate = csDate;
-		this.csUserId = csUserId;
-		this.csRst = csRst;
-		this.dealUserId = dealUserId;
-		this.status = status;
-		this.cancelFlag = cancelFlag;
-		this.cancelMan = cancelMan;
-		this.cancelDate = cancelDate;
-		this.remark = remark;
+	public ConservationReq(String formNo, String policyNo, String bankCode, String reqMan, String reqTypeName,
+			Date reqDate, String reqPhone) {
+		this.formNo = formNo;
+		this.reqMan = reqMan;
+		this.reqTypeName = reqTypeName;
+		this.reqDate = reqDate;
+		this.reqPhone = reqPhone;
 	}
 
 	// Property accessors
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id", unique = true, nullable = false)
 	public Long getId() {
 		return this.id;
 	}
@@ -82,142 +65,100 @@ public class ConservationReq implements Idable<Long> {
 		this.id = id;
 	}
 
-	@ManyToOne
-	@JoinColumn(name = "policy_id")
+	@Column(name = "form_no", length = 25)
+
+	public String getFormNo() {
+		return this.formNo;
+	}
+
+	public void setFormNo(String formNo) {
+		this.formNo = formNo;
+	}
+
+	@ManyToOne(targetEntity=Policy.class, optional=true)
+	@JoinColumn(name = "policy_no", referencedColumnName="policy_no", nullable=true)
 	public Policy getPolicy() {
-		return policy;
+		return this.policy;
 	}
 
 	public void setPolicy(Policy policy) {
 		this.policy = policy;
 	}
 
-	@Column(name="conservation_code")
-	public String getConservationCode() {
-		return conservationCode;
+	@JoinColumn(name="bank_code", referencedColumnName="ybt_code", nullable=true)
+	@ManyToOne(targetEntity=BankCode.class, optional=true)
+	public BankCode getBankCode() {
+		return this.bankCode;
 	}
 
-	public void setConservationCode(String conservationCode) {
-		this.conservationCode = conservationCode;
+	public void setBankCode(BankCode bankCode) {
+		this.bankCode = bankCode;
+	}
+	
+	@Column(name="bank_name")
+	public String getBankName() {
+		return bankName;
 	}
 
-	@Column(name = "deal_num", length = 32)
-	public String getDealNum() {
-		return this.dealNum;
+	public void setBankName(String bankName) {
+		this.bankName = bankName;
 	}
 
-	public void setDealNum(String dealNum) {
-		this.dealNum = dealNum;
+	@Column(name = "req_man", length = 12)
+	public String getReqMan() {
+		return this.reqMan;
 	}
 
-	@Column(name = "info", length = 256)
-	public String getInfo() {
-		return this.info;
+	public void setReqMan(String reqMan) {
+		this.reqMan = reqMan;
 	}
 
-	public void setInfo(String info) {
-		this.info = info;
+	@Column(name = "req_type_name", length = 32)
+
+	public String getReqTypeName() {
+		return this.reqTypeName;
+	}
+
+	public void setReqTypeName(String reqTypeName) {
+		this.reqTypeName = reqTypeName;
 	}
 
 	@Temporal(TemporalType.DATE)
-	@Column(name = "cs_date", length = 10)
-	public Date getCsDate() {
-		return this.csDate;
+	@Column(name = "req_date", length = 10)
+
+	public Date getReqDate() {
+		return this.reqDate;
 	}
 
-	public void setCsDate(Date csDate) {
-		this.csDate = csDate;
+	public void setReqDate(Date reqDate) {
+		this.reqDate = reqDate;
 	}
 
-	@Column(name = "cs_user_id")
-	public Long getCsUserId() {
-		return this.csUserId;
+	@Column(name = "req_phone", length = 18)
+	public String getReqPhone() {
+		return this.reqPhone;
 	}
 
-	public void setCsUserId(Long csUserId) {
-		this.csUserId = csUserId;
+	public void setReqPhone(String reqPhone) {
+		this.reqPhone = reqPhone;
 	}
-
-	@Column(name = "cs_rst", length = 64)
-	public String getCsRst() {
-		return this.csRst;
-	}
-
-	public void setCsRst(String csRst) {
-		this.csRst = csRst;
-	}
-
-	@Column(name = "deal_user_id")
-	public Long getDealUserId() {
-		return this.dealUserId;
-	}
-
-	public void setDealUserId(Long dealUserId) {
-		this.dealUserId = dealUserId;
-	}
-
-	@Column(name = "status")
+	
+	@Column(name="status")
 	public String getStatus() {
-		return this.status;
+		return status;
 	}
 
 	public void setStatus(String status) {
 		this.status = status;
 	}
 
-	@Column(name = "cancel_flag")
-	public Boolean getCancelFlag() {
-		return this.cancelFlag;
+	@Column(name="operate_id")
+	public Long getOperateId() {
+		return operateId;
 	}
 
-	public void setCancelFlag(Boolean cancelFlag) {
-		this.cancelFlag = cancelFlag;
-	}
-
-	@Column(name = "cancel_man")
-	public Long getCancelMan() {
-		return this.cancelMan;
-	}
-
-	public void setCancelMan(Long cancelMan) {
-		this.cancelMan = cancelMan;
-	}
-
-	@Column(name = "cancel_date", length = 19)
-	public Date getCancelDate() {
-		return this.cancelDate;
-	}
-
-	public void setCancelDate(Date cancelDate) {
-		this.cancelDate = cancelDate;
-	}
-
-	@Column(name = "remark", length = 256)
-	public String getRemark() {
-		return this.remark;
-	}
-
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
-
-	@OneToMany(mappedBy="conservationDtl", cascade={CascadeType.REMOVE}, orphanRemoval=true)
-	public List<CsReissue> getIssues() {
-		return issues;
-	}
-
-	public void setIssues(List<CsReissue> issues) {
-		this.issues = issues;
-	}
-
-	@Override
-	public String toString() {
-		return "ConservationDtl [id=" + id + ", conservationCode="
-				+ conservationCode + ", dealNum=" + dealNum + ", info=" + info
-				+ ", csDate=" + csDate + ", csUserId=" + csUserId + ", csRst="
-				+ csRst + ", dealUserId=" + dealUserId + ", status=" + status
-				+ ", cancelFlag=" + cancelFlag + ", cancelMan=" + cancelMan
-				+ ", cancelDate=" + cancelDate + ", remark=" + remark + "]";
+	public void setOperateId(Long operateId) {
+		this.operateId = operateId;
 	}
 
 }

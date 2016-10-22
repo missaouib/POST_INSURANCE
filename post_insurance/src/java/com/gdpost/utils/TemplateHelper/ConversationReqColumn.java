@@ -3,11 +3,11 @@ package com.gdpost.utils.TemplateHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UnderWriteReqColumn {
+public class ConversationReqColumn {
 
 private static List<ColumnItem> standardColumns;
 	
-	public static String KEY_ROW = "underwrite";
+	public static String KEY_ROW = "comma";
 	
 	public static List<ColumnItem> getStandardColumns() {
 		if(standardColumns != null) {
@@ -19,6 +19,13 @@ private static List<ColumnItem> standardColumns;
 		ColumnItem column = new ColumnItem();
 		column.setDisplayName("网点代码");
 		column.setColumnName("bank_code");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(true);
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
+		column.setDisplayName("网点名称");
+		column.setColumnName("bank_name");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
