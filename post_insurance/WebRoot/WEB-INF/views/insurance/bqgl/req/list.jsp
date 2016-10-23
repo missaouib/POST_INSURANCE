@@ -28,7 +28,7 @@
 						<label>状态：</label>
 						<form:select path="req.status" class="combox" id="bqStatus">
 							<form:option value=""> -- -- </form:option>
-							<form:options items="${crStatusList }" itemLabel="desc"/>
+							<form:options items="${baStatusList }" itemLabel="desc"/>
 						</form:select>
 					</td>
 					<td>
@@ -65,16 +65,9 @@
 
 	<div class="panelBar">
 		<ul class="toolBar">
-			<shiro:hasPermission name="CsReissue:provEdit">
-				<li class="line">line</li>
-				<li><a target="myDialog" rel="ids" href="${contextPath }/bqgl/req/batchSent" class="edit"><span>批量寄出（省分）</span></a></li>
-				<li class="line">line</li>
-				<li><a iconClass="user_go" target="selectedTodo" rel="ids" href="${contextPath }/bqgl/req/CloseStatus" title="确认批量关闭?"><span>批量关闭</span></a></li>
-			</shiro:hasPermission>
-			<shiro:hasPermission name="CsReissue:cityEdit">
-				<li class="line">line</li>
-				<li><a target="myDialog" rel="ids" href="${contextPath }/bqgl/req/batchReceive" class="edit"><span>批量接收（地市）</span></a></li>
-			</shiro:hasPermission>
+			<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/bqgl/req/CloseStatus" title="确认批量关闭?"><span>批量关闭</span></a></li>
+			<li class="line">line</li>
+			<li><a target="selectedTodo" rel="ids" href="${contextPath }/bqgl/req/DealStatus" class="edit"><span>批量已处理</span></a></li>
 			<li class="line">line</li>
 			<li><a class="icon" target="_blank" href="${contextPath }/bqgl/req/toXls?search_LIKE_conservationDtl.policy.policyNo=${search_LIKE_conservationDtl_policy_policyNo }&orgCode=${orgCode }&search_LTE_reqDate=${search_LTE_conservationDtl_csDate }&search_GTE_reqDate=${search_GTE_conservationDtl_csDate }&status=${param.status }"><span>导出Excel</span></a></li>
 			<li class="line">line</li>
@@ -87,6 +80,7 @@
 			<tr>
 				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
 				<th orderField=bankCode.organization.name class="${page.orderField eq 'bankCode.organization.name' ? page.orderDirection : ''}">申请地市</th>
+				<th>申请网点</th>
 				<th>投保单号</th>
 				<th>保单号</th>
 				<th>保单机构</th>
@@ -111,6 +105,7 @@
 				    </c:otherwise>  
 				</c:choose>
 				</td>
+				<td>${item.bankCode.name}</td>
 				<td>${item.formNo}</td>
 				<td>${item.policy.policyNo}</td>
 				<td>${item.policy.organization.name}</td>
@@ -124,7 +119,7 @@
 						 已关闭
 					</c:when>
 					<c:when test="${item.status eq 'DealStatus'}">
-						已寄出
+						已处理
 					</c:when>
 					<c:when test="${item.status eq 'ReceiveStatus'}">
 						已接收

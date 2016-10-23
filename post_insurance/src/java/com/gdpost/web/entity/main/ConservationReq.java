@@ -75,7 +75,7 @@ public class ConservationReq implements Idable<Long> {
 		this.formNo = formNo;
 	}
 
-	@ManyToOne(targetEntity=Policy.class, optional=true)
+	@ManyToOne(optional=true)
 	@JoinColumn(name = "policy_no", referencedColumnName="policy_no", nullable=true)
 	public Policy getPolicy() {
 		return this.policy;

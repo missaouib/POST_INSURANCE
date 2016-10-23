@@ -872,10 +872,9 @@ public class BqglController {
 		LOG.debug("-------------- status: " + status);
 		ConservationReq req = new ConservationReq();
 		if(status == null) {
-			status = "";
-		} else if(status.trim().length()>0) {
-			req.setStatus(BQ_STATUS.valueOf(status).name());
+			status = "NewStatus";
 		}
+		req.setStatus(BQ_STATUS.valueOf(status).name());
 		
 		String orderField = request.getParameter("orderField");
 		if(orderField == null || orderField.trim().length()<=0) {
@@ -884,7 +883,7 @@ public class BqglController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("bankCode.organization.orgCode", Operator.LIKE, orgCode));
 		if (status.length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
 		} else {
@@ -905,26 +904,31 @@ public class BqglController {
 	
 	@Log(message="修改了{0}免填单保全申请的状态。", level=LogLevel.WARN, module=LogModule.BQGL)
 	@RequiresPermissions(value={"ConservationReq:edit"}, logical=Logical.OR)
-	@RequestMapping(value="/req/{status}/{id}", method=RequestMethod.POST)
-	public @ResponseBody String updateConservationReq(@PathVariable("status") String status, @PathVariable("id") Long id) {
-		ConservationReq req = bqglService.getConservationReq(id);
+	@RequestMapping(value="/req/{status}", method=RequestMethod.POST)
+	public @ResponseBody String batchUpdateConservationReqStatus(@PathVariable("status") String status, Long[] ids) {
+		ConservationReq req = null;
 		BQ_STATUS bs = BQ_STATUS.DealStatus;
 		try {
 			bs = BQ_STATUS.valueOf(status);
 		}catch (Exception ex) {
 			return	AjaxObject.newError("状态不对！").setCallbackType("").toString();
 		}
-		switch (bs) {
-		case CloseStatus:
-			break;
-			default:
+		String[] policys = new String[ids.length];
+		for(int i = 0; i<ids.length; i++) {
+			req = bqglService.getConservationReq(ids[i]);
+			switch (bs) {
+			case CloseStatus:
 				break;
+				default:
+					break;
+			}
+			req.setStatus(status);
+			bqglService.updateConservationReq(req);
+			policys[i] = req.getPolicy()==null?req.getFormNo():req.getPolicy().getPolicyNo();
 		}
-		req.setStatus(status);
-		bqglService.updateConservationReq(req);
 		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{req.getReqMan()}));
-		return	AjaxObject.newOk("修改异地保全成功！").setCallbackType("").toString();
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{Arrays.toString(policys), status}));
+		return	AjaxObject.newOk("批量" + status + "免填单数据成功！").setCallbackType("").toString();
 	}
 	
 	@RequiresPermissions("Conservation:view")
@@ -939,32 +943,28 @@ public class BqglController {
 		} else if(!orgCode.contains(userOrg.getOrgCode())){
 			orgCode = userOrg.getOrgCode();
 		}
-		page.setNumPerPage(65564);
 		//默认返回未处理工单
 		String status = request.getParameter("status");
-		LOG.debug("-------------- status: " + status);
-		ConservationDtl issue = new ConservationDtl();
 		if(status == null) {
 			status = "";
-		} else if(status.trim().length()>0) {
-			issue.setStatus(BQ_STATUS.valueOf(status).name());
 		}
-		
 		String orderField = request.getParameter("orderField");
 		if(orderField == null || orderField.trim().length()<=0) {
-			page.setOrderField("csDate");
+			page.setOrderField("reqDate");
 			page.setOrderDirection("DESC");
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("bankCode.organization.orgCode", Operator.LIKE, orgCode));
 		if (status.length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
+		} else {
+			csf.add(new SearchFilter("status", Operator.NEQ, BQ_STATUS.CloseStatus.name()));
 		}
 		
-		Specification<ConservationDtl> specification = DynamicSpecifications.bySearchFilter(request, ConservationDtl.class, csf);
+		Specification<ConservationReq> specification = DynamicSpecifications.bySearchFilter(request, ConservationReq.class, csf);
 		
-		List<ConservationDtl> reqs = bqglService.findByExample(specification, page);
+		List<ConservationReq> reqs = bqglService.findConservationReqByExample(specification, page);
 		
 		map.put("reqs", reqs);
 		return C_TO_XLS;
