@@ -17,6 +17,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.JoinColumnOrFormula;
+import org.hibernate.annotations.JoinColumnsOrFormulas;
+import org.hibernate.annotations.JoinFormula;
+
 import com.gdpost.web.entity.Idable;
 import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.Policy;
@@ -103,7 +107,10 @@ public class Settlement implements Idable<Long> {
 	}
 	
 	@ManyToOne
-	@JoinColumn(name="policy_no", referencedColumnName="policy_no")
+	@JoinColumnsOrFormulas(value={
+	@JoinColumnOrFormula(column=@JoinColumn(name ="policy_no", referencedColumnName ="policy_no", insertable =false, updatable = false)),
+	@JoinColumnOrFormula(formula=@JoinFormula(value="0", referencedColumnName = "flag"))
+	})
 	public Policy getPolicy() {
 		return policy;
 	}

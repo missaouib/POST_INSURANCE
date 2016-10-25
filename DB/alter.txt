@@ -645,7 +645,7 @@ create table t_bank_code
    name                 varchar(60),
    organ_code           varchar(8),
    flag                 tinyint(1),
-   status               int default 1 comment '״̬',
+   status               int default 1,
    primary key (id)
 )
 engine=innodb auto_increment=1 default charset=utf8;

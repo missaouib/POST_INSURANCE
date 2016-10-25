@@ -2,6 +2,7 @@ package com.gdpost.web.entity.main;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +13,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.JoinColumnOrFormula;
+import org.hibernate.annotations.JoinColumnsOrFormulas;
+import org.hibernate.annotations.JoinFormula;
 
 import com.gdpost.web.entity.Idable;
 import com.gdpost.web.entity.basedata.BankCode;
@@ -76,7 +81,10 @@ public class ConservationReq implements Idable<Long> {
 	}
 
 	@ManyToOne(optional=true)
-	@JoinColumn(name = "policy_no", referencedColumnName="policy_no", nullable=true)
+	@JoinColumnsOrFormulas(value={
+	@JoinColumnOrFormula(column=@JoinColumn(name ="policy_no", referencedColumnName ="policy_no", insertable =false, updatable = false, nullable=true)),
+	@JoinColumnOrFormula(formula=@JoinFormula(value="0", referencedColumnName = "flag"))
+	})
 	public Policy getPolicy() {
 		return this.policy;
 	}
