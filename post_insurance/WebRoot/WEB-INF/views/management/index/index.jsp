@@ -75,6 +75,7 @@
 <script src="${contextPath}/styles/ztree/js/jquery.ztree.all-3.5.min.js" type="text/javascript"></script>
 
 <script src="${contextPath}/js/DateFormat.js" type="text/javascript"></script>
+<script src="${contextPath}/js/jquery.hotkeys.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 $(function(){	

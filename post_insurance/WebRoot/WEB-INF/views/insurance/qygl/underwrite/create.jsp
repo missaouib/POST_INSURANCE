@@ -17,13 +17,25 @@ function doRel(val) {
 }
 	
 function dformat(did, dval) {
+	if(dval.length == 4) {
+		var pattern = /(\d{2})(\d{2})/;
+		$(did).val(dval.replace(pattern, '2016-$1-$2'));
+		return;
+	}
 	var pattern = /(\d{4})(\d{2})(\d{2})/;
 	$(did).val(dval.replace(pattern, '$1-$2-$3'));
+	return;
 }
+
+function setKeyFunc(){
+	jQuery(document).bind('keydown.esc',function (evt){$.pdialog.closeCurrent();return false; });
+    jQuery(document).bind('keydown.Ctrl_return', function(evt){$("#uwForm").submit();return false; });
+}
+jQuery(document).ready(setKeyFunc);
 //-->
 </script>
 <div class="pageContent">
-<form method="post" action="${contextPath }/qygl/underwrite/create" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
+<form method="post" id="uwForm" action="${contextPath }/qygl/underwrite/create" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
 	<div class="pageFormContent" layoutH="58">
 		<p>
 			<label>所属机构：</label>
@@ -33,7 +45,7 @@ function dformat(did, dval) {
 		</p>
 		<p>
 			<label>投保单号</label>
-			<input type="text" name="formNo" class="input-medium validate[required,minSize[15]] required" value="28106000" minlength="15"/>
+			<input type="text" name="formNo" class="input-medium validate[required,minSize[15]] required" value="28106000" minlength="15" maxlength="15"/>
 		</p>
 		<p>
 			<label>投保人：</label>
@@ -64,6 +76,7 @@ function dformat(did, dval) {
 				<option value="超龄">超龄</option>
 				<option value="理赔">理赔</option>
 				<option value="超额">超额</option>
+				<option value="可疑">可疑</option>
 				<option value="关系">关系</option>
 				<option value="团险">团险</option>
 			</select>
