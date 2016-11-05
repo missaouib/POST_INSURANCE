@@ -2,10 +2,10 @@
 <%@page import="java.util.Date"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 
-<dwz:paginationForm action="${contextPath }/qygl/uwlist2pop" page="${page }">
+<dwz:paginationForm action="${contextPath }/qygl/uwlist2pop" page="${page }" onsubmit="return dwzSearch(this, 'dialog');">
 </dwz:paginationForm>
 
-<form method="post" id="hfForm" action="${contextPath }/qygl/uwlist2pop" onsubmit="return navTabSearch(this)">
+<form method="post" id="hfForm" action="${contextPath }/qygl/uwlist2pop" onsubmit="return dwzSearch(this, 'dialog');">
 	<div class="pageHeader">
 	</div>
 </form>
@@ -58,5 +58,5 @@
 		</tbody>
 	</table>
 	<!-- 分页 -->
-	<dwz:pagination page="${page }"/>
+	<dwz:pagination page="${page }" targetType="dialog"/>
 </div>

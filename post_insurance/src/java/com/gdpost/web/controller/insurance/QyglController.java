@@ -660,6 +660,7 @@ public class QyglController {
 	public String underWriteList2Pop(Page page, Map<String, Object> map) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		map.put("underwriteList", qyglService.getOverdueUWList2Pop(shiroUser.getUser(), page));
+		map.put("page", page);
 		return UW_POP;
 	}
 	
@@ -668,6 +669,7 @@ public class QyglController {
 	public String underWriteList2Call(Page page, Map<String, Object> map) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		map.put("underwriteList", qyglService.getOverdueUWList2Call(shiroUser.getUser(), page));
+		map.put("page", page);
 		return UW_CALL;
 	}
 	
@@ -676,6 +678,7 @@ public class QyglController {
 	public String underWriteList2Weixin(Page page, Map<String, Object> map) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		map.put("underwriteList", qyglService.getOverdueUWList2Weixin(shiroUser.getUser(), page));
+		map.put("page", page);
 		return UW_WEIXIN;
 	}
 	
@@ -684,6 +687,7 @@ public class QyglController {
 	public String underWriteList(ServletRequest request, Page page, Map<String, Object> map) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		map.put("underwriteList", qyglService.getTODOUnderWriteList(shiroUser.getUser()));
+		map.put("page", page);
 		return UNDERWRITE_LIST;
 	}
 	

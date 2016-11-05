@@ -121,16 +121,16 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case Policy:
 			standardColumns = PolicyColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_policy character set utf8 (";
-			sql1 = "update t_under_write as uw inner join t_policy tp on uw.form_no=tp.form_no set uw.policy_no=tp.policy_no,uw.sign_date=tp.policy_date where uw.policy_no is null;";
+			delSql3 = "update t_under_write as uw inner join t_policy tp on uw.form_no=tp.form_no set uw.policy_no=tp.policy_no,uw.sign_date=tp.policy_date where uw.policy_no is null;";
 			sql2 = "update t_policy set flag = 1 where prod_name like \"%附加%\";";
-			delSql3 = "delete from t_policy where form_no is null;";
+			sql1 = "delete from t_policy where form_no is null;";
 	        break;
 		case PolicyIngor:
 			standardColumns = PolicyColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_policy character set utf8 (";
-			sql1 = "update t_under_write as uw inner join t_policy tp on uw.form_no=tp.form_no set uw.policy_no=tp.policy_no,uw.sign_date=tp.policy_date where uw.policy_no is null;";
+			delSql3 = "update t_under_write as uw inner join t_policy tp on uw.form_no=tp.form_no set uw.policy_no=tp.policy_no,uw.sign_date=tp.policy_date where uw.policy_no is null;";
 			sql2 = "update t_policy set flag = 1 where prod_name like \"%附加%\";";
-			delSql3 = "delete from t_policy where form_no is null;";
+			sql1 = "delete from t_policy where form_no is null;";
 			break;
 		case PolicyDtl:
 			standardColumns = PolicyDtlColumn.getStandardColumns();

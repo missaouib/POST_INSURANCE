@@ -415,19 +415,22 @@ public class QyglServiceImpl implements QyglService {
 
 	@Override
 	public List<UnderWrite> getOverdueUWList2Pop(User user, Page page) {
-		List<UnderWrite> list = uwDAO.findDistinctUnderWrite2Pop("%" + user.getOrganization().getOrgCode() + "%", "SendStatus", PageUtils.createPageable(page));
-		return list;
+		org.springframework.data.domain.Page<UnderWrite> springDataPage = uwDAO.findDistinctUnderWrite2Pop("%" + user.getOrganization().getOrgCode() + "%", "SendStatus", PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
 	}
 
 	@Override
 	public List<UnderWrite> getOverdueUWList2Call(User user, Page page) {
-		List<UnderWrite> list = uwDAO.findDistinctUnderWrite2Call("%" + user.getOrganization().getOrgCode() + "%", "SendStatus", PageUtils.createPageable(page));
-		return list;
+		org.springframework.data.domain.Page<UnderWrite> springDataPage = uwDAO.findDistinctUnderWrite2Call("%" + user.getOrganization().getOrgCode() + "%", "SendStatus", PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
 	}
 
 	@Override
 	public List<UnderWrite> getOverdueUWList2Weixin(User user, Page page) {
-		List<UnderWrite> list = uwDAO.findDistinctUnderWrite2Weixin("%" + user.getOrganization().getOrgCode() + "%", "SendStatus", PageUtils.createPageable(page));
-		return list;
+		org.springframework.data.domain.Page<UnderWrite> springDataPage = uwDAO.findDistinctUnderWrite2Weixin("%" + user.getOrganization().getOrgCode() + "%", "SendStatus", PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
 	}
 }
