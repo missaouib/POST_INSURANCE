@@ -35,4 +35,6 @@ public interface XqglService {
 	List<RenewalType> getRenewedDealTypeList(int orgType);
 	
 	List<RenewalType> getAllRenewedDealTypeList();
+	
+	List<String> getProvAcitivity();
 }

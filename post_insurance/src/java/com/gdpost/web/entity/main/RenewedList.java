@@ -70,6 +70,7 @@ public class RenewedList implements Idable<Long> {
 	
 	private String hqDealMan;
 	private String provDealMan;
+	private String provActivity;
 	
 	
 	@Transient
@@ -515,6 +516,15 @@ public class RenewedList implements Idable<Long> {
 
 	public void setDealType(String dealType) {
 		this.dealType = dealType;
+	}
+
+	@Column(name="prov_activity")
+	public String getProvActivity() {
+		return provActivity;
+	}
+
+	public void setProvActivity(String provActivity) {
+		this.provActivity = provActivity;
 	}
 
 	@Override

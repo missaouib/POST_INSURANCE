@@ -11,6 +11,7 @@
 	<input type="hidden" name="search_EQ_feeStatus" value="${param.search_EQ_feeStatus }"/>
 	<input type="hidden" name="hqIssueType" value="${hqIssueType }"/>
 	<input type="hidden" name="dealType" value="${dealType }"/>
+	<input type="hidden" name="provActivity" value="${provActivity }"/>
 	<input type="hidden" name="feeFailReason" value="${feeFailReason }"/>
 </dwz:paginationForm>
 
@@ -66,6 +67,24 @@
 						<input type="text" name="search_LTE_feeDate" class="date" style="width: 80px;" id="xq_date2" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_feeDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 				</tr>
+				<tr>
+					<td>
+						<label>省分标记：</label>
+						<form:select path="issue.provActivity" id="xqAcitivties" class="combox">
+							<form:option value=""> -- -- </form:option>
+							<form:options items="${provActivities }"/>
+						</form:select>
+					</td>
+					<td>
+						&nbsp;
+					</td>
+					<td>
+						&nbsp;
+					</td>
+					<td>
+						&nbsp;
+					</td>
+				</tr>
 			</table>
 			<div class="subBar">
 				<ul>
@@ -102,7 +121,7 @@
 		</ul>
 	</div>
 	
-	<table class="table" layoutH="160" width="150%">
+	<table class="table" layoutH="185" width="150%">
 		<thead>
 			<tr>
 				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>			

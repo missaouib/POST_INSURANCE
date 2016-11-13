@@ -1,7 +1,10 @@
 package com.gdpost.web.dao;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 
 import com.gdpost.web.entity.main.Policy;
 import com.gdpost.web.entity.main.RenewedList;
@@ -18,4 +21,7 @@ import com.gdpost.web.entity.main.RenewedList;
  */
 public interface RenewedListDAO extends JpaRepository<RenewedList, Long>, JpaSpecificationExecutor<RenewedList> {
 	RenewedList getByPolicyAndPrdName(Policy policy, String prdName);
+	
+	@Query(value="select distinct prov_activity from t_renewed_list", nativeQuery=true)
+	List<String> getProvActivitys();
 }

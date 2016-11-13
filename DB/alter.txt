@@ -672,3 +672,4 @@ create table t_conservation_req
 )
 engine=innodb auto_increment=1 default charset=utf8;
 
+alter table t_renewed_list add column prov_activity VARCHAR(64);

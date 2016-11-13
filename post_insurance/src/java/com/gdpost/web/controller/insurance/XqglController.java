@@ -194,11 +194,14 @@ public class XqglController {
 		String hqIssueType = request.getParameter("hqIssueType");
 		String dealType = request.getParameter("dealType");
 		String feeFailReason = request.getParameter("feeFailReason");
+		String provActivity = request.getParameter("provActivity");
 		request.setAttribute("hqIssueType", hqIssueType);
 		request.setAttribute("dealType", dealType);
 		request.setAttribute("feeFailReason", feeFailReason);
+		request.setAttribute("provActivity", provActivity);
 		issue.setHqIssueType(hqIssueType);
 		issue.setDealType(dealType);
+		issue.setProvActivity(provActivity);
 		LOG.debug("-------------- feeFailReason: " + feeFailReason);
 		issue.setFeeFailReason(feeFailReason);
 		
@@ -246,10 +249,17 @@ public class XqglController {
 		if (feeFailReason != null && feeFailReason.length() > 0) {
 			csf.add(new SearchFilter("feeFailReason", Operator.EQ, feeFailReason));
 		}
+		if (provActivity != null && provActivity.length() > 0) {
+			csf.add(new SearchFilter("provActivity", Operator.EQ, provActivity));
+		}
 		
 		Specification<RenewedList> specification = DynamicSpecifications.bySearchFilter(request, RenewedList.class, csf);
 		
 		List<RenewedList> issues = xqglService.findByExample(specification, page);
+		
+		List<String> provActivities = xqglService.getProvAcitivity();
+		
+		map.put("provActivities", provActivities);
 		
 		map.put("issue", issue);
 		map.put("xqStatusList", XQ_STATUS.values());

@@ -137,4 +137,13 @@ public class XqglServiceImpl implements XqglService {
 	public List<RenewalType> getAllRenewedDealTypeList() {
 		return rnwDAO.findAll();
 	}
+	
+	@Override
+	public List<String> getProvAcitivity() {
+		List<String> rst = renewedListDAO.getProvActivitys();
+		if(rst == null || rst.isEmpty() || rst.get(0) == null) {
+			rst.remove(0);
+		}
+		return rst;
+	}
 }
