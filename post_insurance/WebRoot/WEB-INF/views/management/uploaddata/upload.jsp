@@ -119,7 +119,7 @@ function displayTips(val) {
 		return;
 	}
 	if(val=="RenewedProvList") {
-		$("#tipsDesc").html("省分（二访中心）催收清单须含列：保险单号码\t险种名称\t一访时间\t一访结果，关键列：一访结果");
+		$("#tipsDesc").html("省分（二访中心）催收清单须含列：保险单号码\t险种名称\t一访时间\t一访结果\t标记，关键列：一访结果");
 		return;
 	}
 	if(val=="RenewedCityList") {

@@ -302,6 +302,7 @@ public class XqglController {
 		String hqIssueType = request.getParameter("hqIssueType");
 		String dealType = request.getParameter("dealType");
 		String feeFailReason = request.getParameter("feeFailReason");
+		String provActivity = request.getParameter("provActivity");
 		if(hqIssueType != null && hqIssueType.trim().length()>0) {
 			request.setAttribute("encodeHqIssueType", Base64Utils.encodeToString(hqIssueType.getBytes()));
 		}
@@ -342,12 +343,14 @@ public class XqglController {
 		issue.setFeeStatus(feeStatus);
 		issue.setHqIssueType(hqIssueType);
 		issue.setDealType(dealType);
+		issue.setProvActivity(provActivity);
 		LOG.debug("-------------- feeFailReason: " + feeFailReason);
 		issue.setFeeFailReason(feeFailReason);
 		request.setAttribute("feeStatus", feeStatus);
 		request.setAttribute("hqIssueType", hqIssueType);
 		request.setAttribute("dealType", dealType);
 		request.setAttribute("feeFailReason", feeFailReason);
+		request.setAttribute("provActivity", provActivity);
 		
 		String orgCode = request.getParameter("policy.orgCode");
 		boolean hasOrg = true;
@@ -384,10 +387,17 @@ public class XqglController {
 		if (feeFailReason != null && feeFailReason.length() > 0) {
 			csf.add(new SearchFilter("feeFailReason", Operator.EQ, feeFailReason));
 		}
+		if (provActivity != null && provActivity.length() > 0) {
+			csf.add(new SearchFilter("provActivity", Operator.EQ, provActivity));
+		}
 		
 		Specification<RenewedList> specification = DynamicSpecifications.bySearchFilter(request, RenewedList.class, csf);
 		
 		List<RenewedList> issues = xqglService.findByExample(specification, page);
+		
+		List<String> provActivities = xqglService.getProvAcitivity();
+		
+		map.put("provActivities", provActivities);
 		
 		map.put("mxissue", issue);
 		map.put("mxxqStatusList", XQ_STATUS.values());
@@ -411,6 +421,7 @@ public class XqglController {
 		String hqIssueType = request.getParameter("encodeHqIssueType");
 		String dealType = request.getParameter("encodeDealType");
 		String feeFailReason = request.getParameter("encodeFeeFailReason");
+		String provActivity = request.getParameter("provActivity");
 		
 		if(feeStatus != null && feeStatus.trim().length() > 0 ){
 			feeStatus = new String(Base64Utils.decodeFromString(feeStatus));
@@ -459,6 +470,9 @@ public class XqglController {
 		}
 		if (feeFailReason != null && feeFailReason.length() > 0) {
 			csf.add(new SearchFilter("feeFailReason", Operator.EQ, feeFailReason));
+		}
+		if (provActivity != null && provActivity.length() > 0) {
+			csf.add(new SearchFilter("provActivity", Operator.EQ, provActivity));
 		}
 		
 		Specification<RenewedList> specification = DynamicSpecifications.bySearchFilter(request, RenewedList.class, csf);

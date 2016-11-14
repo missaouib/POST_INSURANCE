@@ -186,6 +186,13 @@ public class RenewedColumn {
 		column.setOutputName("QD");
 		standardColumns.add(column);
 		
+		column = new ColumnItem();
+		column.setDisplayName("标记");
+		column.setColumnName("prov_activity");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(true);
+		standardColumns.add(column);
+		
 		return(standardColumns);
 	}
 }

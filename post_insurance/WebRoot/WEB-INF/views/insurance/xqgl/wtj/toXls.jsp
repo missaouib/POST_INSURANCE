@@ -29,6 +29,7 @@ response.setHeader("Content-Disposition", "inline; filename=XQ_Xls.xls");
 				<th>市县催收情况</th>
 				<th>市县催收详情</th>
 				<th>市县催收时间</th>
+				<th>活动标记</th>
 			</tr>
 			<c:forEach var="item" items="${reqs}" varStatus="status">
 			<tr>
@@ -62,6 +63,7 @@ response.setHeader("Content-Disposition", "inline; filename=XQ_Xls.xls");
 				<td>${item.dealType}</td>
 				<td>${item.fixStatus}</td>
 				<td><fmt:formatDate value="${item.dealTime }" pattern="yyyy-MM-dd"/></td>
+				<td>${item.provActivity}</td>
 			</tr>
 			</c:forEach>
 	</table>
