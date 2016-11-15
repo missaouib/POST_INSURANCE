@@ -24,6 +24,10 @@
 			<span class="unit"><fmt:formatDate value="${issue.policy.policyDate }" pattern="yyyy-MM-dd"/></span>
 		</p>
 		<p>
+			<label>回单日期：</label>
+			<span class="unit"><fmt:formatDate value="${issue.policy.billBackDate }" pattern="yyyy-MM-dd"/></span>
+		</p>
+		<p>
 			<label>险种名称：</label>
 			<span class="unit">${issue.policy.prodName }</span>
 		</p>
@@ -64,8 +68,52 @@
 			<span class="unit">${issue.issueType }</span>
 		</p>
 		<p class="nowrap">
-			<label>工单内容：</label>
+			<label>一访内容：</label>
 			<span class="unit">${issue.issueContent }</span>
+		</p>
+	</fieldset>
+	<div class="divider"></div>
+	<fieldset>
+		<legend>省分二访中心回访处理详情</legend>
+		<p>
+			<label>二访类别：</label>
+			<span class="unit">${issue.hqDealTypeElse }</span>
+		</p>
+		<p>
+			<label>客户资料备注：</label>
+			<span class="unit">${issue.clientRemark }</span>
+		</p>
+		<p class="nowrap">
+			<label>二访详情：</label>
+			<span class="unit">${issue.hqDealRst }</span>
+		</p>
+		<p>
+			<label>二访结果：</label>
+			<span class="unit">${issue.hqDealType }</span>
+		</p>
+		<p>
+			<label>经办人：</label>
+			<span class="unit">${issue.hqDealMan }</span>
+		</p>
+		<p>
+			<label>回访日期：</label>
+			<span class="unit"><fmt:formatDate value='${issue.hqDealDate }' pattern='yyyy-MM-dd'/></span>
+		</p>
+		<p>
+			<label>拨打电话：</label>
+			<span class="unit">${issue.phoneNum }</span>
+		</p>
+		<p>
+			<label>通话开始：</label>
+			<span class="unit">${issue.phoneStart }</span>
+		</p>
+		<p>
+			<label>通话结束：</label>
+			<span class="unit">${issue.phoneEnd }</span>
+		</p>
+		<p>
+			<label>通话时长：</label>
+			<span class="unit">${issue.phoneTime }</span>
 		</p>
 	</fieldset>
 	<fieldset>
@@ -90,50 +138,6 @@
 		<p>
 			<label>地市上门结果：</label>
 			<span class="unit">${issue.dealType }</span>
-		</p>
-	</fieldset>
-	<div class="divider"></div>
-	<fieldset>
-		<legend>省分二访中心回访处理详情</legend>
-		<p>
-			<label>二访类别：</label>
-			<span class="unit">${issue.hqDealTypeElse }</span>
-		</p>
-		<p>
-			<label>客户资料备注：</label>
-			<span class="unit">${issue.clientRemark }</span>
-		</p>
-		<p>
-			<label>二访结果：</label>
-			<span class="unit">${issue.hqDealType }</span>
-		</p>
-		<p>
-			<label>回访详情：</label>
-			<span class="unit">${issue.hqDealRst }</span>
-		</p>
-		<p>
-			<label>经办人：</label>
-			<span class="unit">${issue.hqDealMan }</span>
-		</p>
-		<p>
-			<label>回访日期：</label>
-			<span class="unit"><fmt:formatDate value='${issue.hqDealDate }' pattern='yyyy-MM-dd'/></span>
-		</p>
-		<p>
-			<label>拨打电话（通话号码）：</label>
-			<span class="unit">${issue.phoneNum }</span>
-		</p>
-		<p>
-			<label>通话开始时间：</label>
-			<span class="unit">${issue.phoneStart }</span>
-		</p>
-		<p>
-			<label>通话结束时间：</label>
-			<span class="unit">${issue.phoneEnd }</span>
-		</p>
-		<p>
-			<label>通话时长：</label>
-			<span class="unit">${issue.phoneTime }</span>
 		</p>
 	</fieldset>
 	<!-- 

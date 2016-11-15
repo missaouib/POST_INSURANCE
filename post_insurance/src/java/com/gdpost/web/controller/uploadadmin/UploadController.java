@@ -54,7 +54,9 @@ public class UploadController {
 	
 	String strError = "{\"jsonrpc\":\"2.0\",\"result\":\"error\",\"id\":\"id\",\"message\":\"操作失败。\"}";
 	
-	@RequiresPermissions(value={"UploadIssue:upload", "UploadData:upload", "UploadRenewed:upload", "UploadCallFail:upload", "UploadCheck:upload", "UploadPay:upload", "UploadIssue:upload", "UploadBq:upload"}, logical=Logical.OR)
+	@RequiresPermissions(value={"UploadIssue:upload", "UploadData:upload", 
+			"UploadRenewed:upload", "UploadCallFail:upload", "UploadCheck:upload", 
+			"UploadPay:upload", "UploadIssue:upload", "UploadBq:upload", "CityUpload:upload"}, logical=Logical.OR)
 	@RequestMapping(value = "/upload", method = RequestMethod.GET)
 	public String preUpload(HttpServletRequest request, Map<String, Object> map) {
 		int ny = UploadDataUtils.getNianYue();
@@ -62,7 +64,11 @@ public class UploadController {
 		@SuppressWarnings("unchecked")
 		List<Role> roles = (List<Role>) request.getSession().getAttribute(SecurityConstants.LOGIN_USER_ROLE);
 		List<String> roleDefine = new ArrayList<String>();
+		boolean isCity = false;
 		for(Role r:roles) {
+			if(r.getName().contains("地市")) {
+				isCity = true;
+			}
 			if(r.getName().contains("契约") || r.getName().contains("管理员")) {
 				roleDefine.add("QY");
 			}
@@ -86,9 +92,13 @@ public class UploadController {
 		FileTemplate[] fts = FileTemplate.values();
 		List<FileTemplate> temp = new ArrayList<FileTemplate>();
 		for(FileTemplate ft:fts) {
-			for(String t:roleDefine) {
-				if(ft.getType().equals(t)) {
-					temp.add(ft);
+			if(isCity && ft.getDesc().contains("市县")) {
+				temp.add(ft);
+			} else {
+				for(String t:roleDefine) {
+					if(ft.getType().equals(t)) {
+						temp.add(ft);
+					}
 				}
 			}
 		}
@@ -118,6 +128,9 @@ public class UploadController {
 			case "conversatoinreq":
 				ft = FileTemplate.ConversationReq;
 				break;
+			case "city":
+				ft = FileTemplate.RenewedCityList;
+				break;
 			}
 		}
 		//log.debug("-------------------- uplodate list type:" + ft);
@@ -131,7 +144,9 @@ public class UploadController {
 	}
 
 	@Log(message="上传了{0}。", level=LogLevel.WARN, module=LogModule.WJSC)
-	@RequiresPermissions(value={"UploadIssue:upload", "UploadData:upload", "UploadRenewed:upload", "UploadCallFail:upload", "UploadCheck:upload", "UploadPay:upload", "UploadIssue:upload"}, logical=Logical.OR)
+	@RequiresPermissions(value={"UploadIssue:upload", "UploadData:upload", "UploadRenewed:upload", 
+			"UploadCallFail:upload", "UploadCheck:upload", 
+			"UploadPay:upload", "UploadIssue:upload", "CityUpload:upload"}, logical=Logical.OR)
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public @ResponseBody String upload(HttpServletRequest request, @RequestParam String name, @RequestParam(value = "file", required = true) MultipartFile file) {
         log.debug("-------------------------------------upload");
@@ -297,7 +312,9 @@ public class UploadController {
 		return (strError);
 	}
 	
-	@RequiresPermissions(value={"UploadIssue:upload", "UploadData:upload", "UploadRenewed:upload", "UploadCallFail:upload", "UploadCheck:upload", "UploadPay:upload", "UploadIssue:upload"}, logical=Logical.OR)
+	@RequiresPermissions(value={"UploadIssue:upload", "UploadData:upload", "UploadRenewed:upload", 
+			"UploadCallFail:upload", "UploadCheck:upload", 
+			"UploadPay:upload", "UploadIssue:upload", "CityUpload:upload"}, logical=Logical.OR)
 	@RequestMapping(value = "/check", method = RequestMethod.POST)
 	public @ResponseBody String check(HttpServletRequest request) {
 		log.debug("-------------------------------------upload check");

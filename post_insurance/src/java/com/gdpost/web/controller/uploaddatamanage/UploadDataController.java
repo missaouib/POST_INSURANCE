@@ -56,7 +56,9 @@ public class UploadDataController {
 	
 	String strError = "{\"jsonrpc\":\"2.0\",\"result\":\"error\",\"id\":\"id\",\"message\":\"操作失败。\"}";
 	
-	@RequiresPermissions(value={"UploadIssue:upload", "UploadData:upload", "UploadRenewed:upload", "UploadCallFail:upload", "UploadCheck:upload", "UploadPay:upload", "UploadIssue:upload"}, logical=Logical.OR)
+	@RequiresPermissions(value={"UploadIssue:upload", "UploadData:upload", 
+			"UploadRenewed:upload", "UploadCallFail:upload", "UploadCheck:upload", 
+			"UploadPay:upload", "UploadIssue:upload", "CityUpload:upload"}, logical=Logical.OR)
 	@RequestMapping(value = "/upload", method = RequestMethod.GET)
 	public String preUpload(HttpServletRequest request, Map<String, Object> map) {
 		int ny = UploadDataUtils.getNianYue();
@@ -90,7 +92,9 @@ public class UploadDataController {
 		return INDEX;
 	}
 	
-	@RequiresPermissions(value={"UploadIssue:upload", "UploadData:upload", "UploadRenewed:upload", "UploadCallFail:upload", "UploadCheck:upload", "UploadPay:upload", "UploadIssue:upload"}, logical=Logical.OR)
+	@RequiresPermissions(value={"UploadIssue:upload", "UploadData:upload", 
+			"UploadRenewed:upload", "UploadCallFail:upload", "UploadCheck:upload", 
+			"UploadPay:upload", "UploadIssue:upload", "CityUpload:upload"}, logical=Logical.OR)
 	@RequestMapping(value = "/toWebUpload", method = RequestMethod.GET)
 	public String toWebUpload(HttpServletRequest request, Map<String, Object> map) {
 		int ny = UploadDataUtils.getNianYue();
@@ -118,7 +122,9 @@ public class UploadDataController {
 	}
 
 	@Log(message="上传了{0}。", level=LogLevel.WARN, module=LogModule.WJSC)
-	@RequiresPermissions(value={"UploadIssue:upload", "UploadData:upload", "UploadRenewed:upload", "UploadCallFail:upload", "UploadCheck:upload", "UploadPay:upload", "UploadIssue:upload"}, logical=Logical.OR)
+	@RequiresPermissions(value={"UploadIssue:upload", "UploadData:upload", 
+			"UploadRenewed:upload", "UploadCallFail:upload", "UploadCheck:upload", 
+			"UploadPay:upload", "UploadIssue:upload", "CityUpload:upload"}, logical=Logical.OR)
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public @ResponseBody String upload(HttpServletRequest request, @RequestParam String name, @RequestParam(value = "file", required = true) MultipartFile file) {
         String strFileGroup = request.getParameter("fileGroup"); // 当前文件组
@@ -272,7 +278,9 @@ public class UploadDataController {
 	}
 	
 	@Log(message="{0}", level=LogLevel.WARN, module=LogModule.WJSC)
-	@RequiresPermissions(value={"UploadIssue:upload", "UploadData:upload", "UploadRenewed:upload", "UploadCallFail:upload", "UploadCheck:upload", "UploadPay:upload", "UploadIssue:upload"}, logical=Logical.OR)
+	@RequiresPermissions(value={"UploadIssue:upload", "UploadData:upload", 
+			"UploadRenewed:upload", "UploadCallFail:upload", "UploadCheck:upload", 
+			"UploadPay:upload", "UploadIssue:upload", "CityUpload:upload"}, logical=Logical.OR)
 	@RequestMapping(value = "/import", method = RequestMethod.POST)
 	public @ResponseBody String doImport(HttpServletRequest request, @RequestParam String strFileGroup, @RequestParam int ny, @RequestParam String template, @RequestParam String memo) {
 		log.debug("-----------------------------------import data by use template: " + template);
@@ -328,7 +336,9 @@ public class UploadDataController {
 	}
 	
 	@Log(message="取消上传{0}月数据。", level=LogLevel.WARN, module=LogModule.WJSC)
-	@RequiresPermissions(value={"UploadIssue:upload", "UploadData:upload", "UploadRenewed:upload", "UploadCallFail:upload", "UploadCheck:upload", "UploadPay:upload", "UploadIssue:upload"}, logical=Logical.OR)
+	@RequiresPermissions(value={"UploadIssue:upload", "UploadData:upload", 
+			"UploadRenewed:upload", "UploadCallFail:upload", "UploadCheck:upload", 
+			"UploadPay:upload", "UploadIssue:upload", "CityUpload:upload"}, logical=Logical.OR)
 	@RequestMapping(value = "/cancelupload", method = RequestMethod.POST)
 	public @ResponseBody String cancelUpload(HttpServletRequest request, @RequestParam String strFileGroup, @RequestParam int ny) {
 	    //ShiroUser shiroUser = SecurityUtils.getShiroUser();
@@ -349,7 +359,9 @@ public class UploadDataController {
     }
 
 	@Log(message="取消导入{0}月数据。", level=LogLevel.WARN, module=LogModule.WJSC)
-	@RequiresPermissions(value={"UploadIssue:upload", "UploadData:upload", "UploadRenewed:upload", "UploadCallFail:upload", "UploadCheck:upload", "UploadPay:upload", "UploadIssue:upload"}, logical=Logical.OR)
+	@RequiresPermissions(value={"UploadIssue:upload", "UploadData:upload", 
+			"UploadRenewed:upload", "UploadCallFail:upload", "UploadCheck:upload", 
+			"UploadPay:upload", "UploadIssue:upload", "CityUpload:upload"}, logical=Logical.OR)
 	@RequestMapping(value = "/cancelimport", method = RequestMethod.POST)
 	public @ResponseBody String clearImport(HttpServletRequest request, @RequestParam String strFileGroup, @RequestParam int ny) {
 	    //ShiroUser shiroUser = SecurityUtils.getShiroUser();
@@ -369,7 +381,9 @@ public class UploadDataController {
 	    return("{\"jsonrpc\":\"2.0\",\"result\":\"success\",\"id\":\"id\",\"message\":\"" + strMessage + "\"}");
     }
 	
-	@RequiresPermissions(value={"UploadIssue:upload", "UploadData:upload", "UploadRenewed:upload", "UploadCallFail:upload", "UploadCheck:upload", "UploadPay:upload", "UploadIssue:upload"}, logical=Logical.OR)
+	@RequiresPermissions(value={"UploadIssue:upload", "UploadData:upload", 
+			"UploadRenewed:upload", "UploadCallFail:upload", "UploadCheck:upload", 
+			"UploadPay:upload", "UploadIssue:upload", "CityUpload:upload"}, logical=Logical.OR)
 	@RequestMapping(value = "/check", method = RequestMethod.POST)
 	public @ResponseBody String check(HttpServletRequest request) {
 		String strFileName = request.getParameter("fileName"); //当前分块

@@ -218,7 +218,7 @@
 				<td>${item.issueNo}</td>
 				<td>${item.status}</td>
 				<td title="${item.issueContent}">${fn:substring(item.issueContent, 0, 15)}</td>
-				<td title="${item.hqDealTypeElse}">${fn:substring(item.hqDealTypeElse, 0, 15)}</td>
+				<td title="${item.hqDealTypeElse}">${fn:substring(item.hqDealRst, 0, 15)}</td>
 				<td>${item.phoneNum}</td>
 				<td><fmt:formatDate value="${item.readyDate }" pattern="yyyy-MM-dd"/></td>
 				<td><span style="color:red; height:50%; margin-bottom:-contentheight;"><c:if test="${item.lastDateNum<0 }">0</c:if><c:if test="${item.lastDateNum>=0 }">${item.lastDateNum }</c:if></span></td>

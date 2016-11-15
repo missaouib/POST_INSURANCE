@@ -193,6 +193,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			standardColumns = PayFailListColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_pay_success_list character set utf8 (pay_type, status, ";
 			sql1 = "update t_pay_fail_list set status='CloseStatus' where rel_no in (select rel_no from t_pay_success_list);";
+			sql2 = "update t_renewed_list set fee_status='交费成功' where fee_status<>\"交费成功\" and policy_no in (select rel_no from t_pay_success_list where pay_type=2 and policy_fee=money);";
 			break;
 		case UnderWriteSentData:
 			standardColumns = PolicySentDataColumn.getStandardColumns();
@@ -840,6 +841,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql2 = "delete from t_under_write where form_no is null";
 			sql3 = "update t_policy t1, t_under_write t2 set t1.bill_back_date=t2.client_receive_date, t2.status=\"CloseStatus\" "
 					+ "where t1.policy_no=t2.policy_no and t1.bill_back_date is null and t2.client_receive_date is not null;";
+			sql4 = "update t_policy set bill_back_date=policy_date where bill_back_date is null;";
 			break;
 		case PolicyBackDate:
 			standardColumns = PolicyBackDateColumn.getStandardColumns();
