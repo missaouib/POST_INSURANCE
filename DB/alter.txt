@@ -673,3 +673,29 @@ create table t_conservation_req
 engine=innodb auto_increment=1 default charset=utf8;
 
 alter table t_renewed_list add column prov_activity VARCHAR(64);
+
+drop table if exists t_cs_report;
+
+/*==============================================================*/
+/* Table: t_cs_report                                           */
+/*==============================================================*/
+create table t_cs_report
+(
+   id                   bigint not null auto_increment,
+   cs_no                varchar(17),
+   policy_no            varchar(15),
+   organ_name           varchar(64),
+   net_name             varchar(128),
+   cs_channel           varchar(12),
+   operate_org          varchar(6),
+   holder               varchar(16),
+   insured              varchar(16),
+   cs_date              date,
+   cs_code              varchar(4),
+   money                double,
+   cs_deal              varchar(12),
+   operate_id           bigint,
+   operate_time         date,
+   primary key (id)
+)
+engine=innodb auto_increment=1 default charset=utf8;
