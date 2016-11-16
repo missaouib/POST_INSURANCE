@@ -7,11 +7,18 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.JoinColumnOrFormula;
+import org.hibernate.annotations.JoinColumnsOrFormulas;
+import org.hibernate.annotations.JoinFormula;
+
 import com.gdpost.web.entity.Idable;
+import com.gdpost.web.entity.main.Policy;
 
 /**
  * TCsReport entity. @author MyEclipse Persistence Tools
@@ -24,7 +31,7 @@ public class CsReport implements Idable<Long> {
 
 	private Long id;
 	private String csNo;
-	private String policyNo;
+	private Policy policy;
 	private String organName;
 	private String netName;
 	private String csChannel;
@@ -45,11 +52,11 @@ public class CsReport implements Idable<Long> {
 	}
 
 	/** full constructor */
-	public CsReport(String csNo, String policyNo, String organName, String netName, String csChannel,
+	public CsReport(String csNo, Policy policy, String organName, String netName, String csChannel,
 			String operateOrg, String holder, String insured, Date csDate, String csCode, Double money, String csDeal,
 			Long operateId, Date operateTime) {
 		this.csNo = csNo;
-		this.policyNo = policyNo;
+		this.policy = policy;
 		this.organName = organName;
 		this.netName = netName;
 		this.csChannel = csChannel;
@@ -86,6 +93,7 @@ public class CsReport implements Idable<Long> {
 		this.csNo = csNo;
 	}
 
+	/*
 	@Column(name = "policy_no", length = 15)
 
 	public String getPolicyNo() {
@@ -95,7 +103,20 @@ public class CsReport implements Idable<Long> {
 	public void setPolicyNo(String policyNo) {
 		this.policyNo = policyNo;
 	}
+	 */
+	@ManyToOne
+	@JoinColumnsOrFormulas(value={
+	@JoinColumnOrFormula(column=@JoinColumn(name ="policy_no", referencedColumnName ="policy_no")),
+	@JoinColumnOrFormula(formula=@JoinFormula(value="0", referencedColumnName = "flag"))
+	})
+	public Policy getPolicy() {
+		return this.policy;
+	}
 
+	public void setPolicy(Policy policy) {
+		this.policy = policy;
+	}
+	
 	@Column(name = "organ_name", length = 64)
 
 	public String getOrganName() {

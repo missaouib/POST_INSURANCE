@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.domain.Specification;
 
+import com.gdpost.web.entity.component.CsReport;
 import com.gdpost.web.entity.main.ConservationDtl;
 import com.gdpost.web.entity.main.ConservationReq;
 import com.gdpost.web.entity.main.CsReissue;
@@ -61,4 +62,6 @@ public interface BqglService {
 	List<ConservationReq> findConservationReqByExample(Specification<ConservationReq> specification, Page page);
 	
 	void updateConservationReq(ConservationReq conservationReq);
+	
+	List<CsReport> findCsReportByExample(Specification<CsReport> specification, Page page);
 }

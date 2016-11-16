@@ -37,6 +37,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.gdpost.utils.BeanValidators;
 import com.gdpost.utils.SecurityUtils;
 import com.gdpost.utils.StringUtil;
+import com.gdpost.web.entity.component.CsReport;
 import com.gdpost.web.entity.main.ConservationDtl;
 import com.gdpost.web.entity.main.ConservationReq;
 import com.gdpost.web.entity.main.CsReissue;
@@ -92,6 +93,8 @@ public class BqglController {
 	
 	private static final String C_REQ_LIST = "insurance/bqgl/req/list";
 	private static final String C_TO_XLS = "insurance/bqgl/req/toXls";
+	
+	private static final String CS_LIST = "insurance/bqgl/report/list";
 	
 	@RequiresPermissions("Cservice:save")
 	@RequestMapping(value="/issue/create", method=RequestMethod.GET)
@@ -968,6 +971,41 @@ public class BqglController {
 		
 		map.put("reqs", reqs);
 		return C_TO_XLS;
+	}
+
+	@RequiresPermissions("CsReport:view")
+	@RequestMapping(value="/report/list", method={RequestMethod.GET, RequestMethod.POST})
+	public String reportList(ServletRequest request, Page page, Map<String, Object> map) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
+		String orgCode = request.getParameter("orgCode");
+		if(orgCode == null || orgCode.trim().length()<=0) {
+			orgCode = userOrg.getOrgCode();
+		} else if(!orgCode.contains(userOrg.getOrgCode())){
+			orgCode = userOrg.getOrgCode();
+		}
+		String orgName = request.getParameter("name");
+		request.setAttribute("orgCode", orgCode);
+		request.setAttribute("name", orgName);
+		//默认返回未处理工单
+		
+		String orderField = request.getParameter("orderField");
+		if(orderField == null || orderField.trim().length()<=0) {
+			page.setOrderField("csDate");
+			page.setOrderDirection("DESC");
+		}
+		
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		
+		Specification<CsReport> specification = DynamicSpecifications.bySearchFilter(request, CsReport.class, csf);
+		
+		List<CsReport> issues = bqglService.findCsReportByExample(specification, page);
+		
+		map.put("page", page);
+		map.put("issues", issues);
+		return CS_LIST;
 	}
 
 	@InitBinder

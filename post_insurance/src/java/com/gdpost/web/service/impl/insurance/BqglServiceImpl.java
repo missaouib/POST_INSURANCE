@@ -17,6 +17,8 @@ import com.gdpost.web.dao.ConservationDtlDAO;
 import com.gdpost.web.dao.ConservationReqDAO;
 import com.gdpost.web.dao.CsReissueDAO;
 import com.gdpost.web.dao.OffsiteConservationDAO;
+import com.gdpost.web.dao.component.CsReportDAO;
+import com.gdpost.web.entity.component.CsReport;
 import com.gdpost.web.entity.main.ConservationDtl;
 import com.gdpost.web.entity.main.ConservationReq;
 import com.gdpost.web.entity.main.CsReissue;
@@ -47,6 +49,9 @@ public class BqglServiceImpl implements BqglService {
 	
 	@Autowired
 	private ConservationReqDAO creqDao;
+	
+	@Autowired
+	private CsReportDAO csReportDao;
 	
 	/*
 	 * (non-Javadoc)
@@ -241,5 +246,12 @@ public class BqglServiceImpl implements BqglService {
 	@Override
 	public void updateConservationReq(ConservationReq conservationReq) {
 		creqDao.save(conservationReq);
+	}
+
+	@Override
+	public List<CsReport> findCsReportByExample(Specification<CsReport> specification, Page page) {
+		org.springframework.data.domain.Page<CsReport> springDataPage = csReportDao.findAll(specification, PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
 	}
 }

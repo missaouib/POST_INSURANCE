@@ -37,6 +37,7 @@ import com.gdpost.utils.TemplateHelper.CheckColumn;
 import com.gdpost.utils.TemplateHelper.ColumnItem;
 import com.gdpost.utils.TemplateHelper.ColumnType;
 import com.gdpost.utils.TemplateHelper.ConversationReqColumn;
+import com.gdpost.utils.TemplateHelper.CsReportColumn;
 import com.gdpost.utils.TemplateHelper.IssueColumn;
 import com.gdpost.utils.TemplateHelper.PayFailListColumn;
 import com.gdpost.utils.TemplateHelper.PolicyBackDateColumn;
@@ -194,6 +195,9 @@ public class UploadDataServiceImpl implements UploadDataService{
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_pay_success_list character set utf8 (pay_type, status, ";
 			sql1 = "update t_pay_fail_list set status='CloseStatus' where rel_no in (select rel_no from t_pay_success_list);";
 			sql2 = "update t_renewed_list set fee_status='交费成功' where fee_status<>\"交费成功\" and policy_no in (select rel_no from t_pay_success_list where pay_type=2 and policy_fee=money);";
+			delSql3 = "update t_renewed_list t0 set t0.fee_status='交费成功' where t0.fee_status<>\"交费成功\" "
+					+ "and t0.policy_no in (select t2.policy_no from t_pay_success_list t1, t_cs_report t2 "
+					+ "where t1.pay_type=2 and t0.policy_fee=t1.money and t1.rel_no=t2.cs_no and t2.cs_code='RE');";
 			break;
 		case UnderWriteSentData:
 			standardColumns = PolicySentDataColumn.getStandardColumns();
@@ -202,6 +206,13 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case ConversationReq:
 			standardColumns = ConversationReqColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_conservation_req character set utf8 (";
+			break;
+		case ConversationReport:
+			standardColumns = CsReportColumn.getStandardColumns();
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_cs_report character set utf8 (";
+			sql1 = "update t_renewed_list t0 set t0.fee_status='交费成功' where t0.fee_status<>\"交费成功\" "
+					+ "and t0.policy_no in (select t2.policy_no from t_pay_success_list t1, t_cs_report t2 "
+					+ "where t1.pay_type=2 and t0.policy_fee=t1.money and t1.rel_no=t2.cs_no and t2.cs_code='RE');";
 			break;
 			default:
 				log.warn("------------reach the default FileTemplate?? oh no!!");
@@ -1064,6 +1075,10 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case ConversationReq:
 			standardColumns = ConversationReqColumn.getStandardColumns();
 			keyRow = ConversationReqColumn.KEY_ROW;
+			break;
+		case ConversationReport:
+			standardColumns = CsReportColumn.getStandardColumns();
+			keyRow = CsReportColumn.KEY_ROW;
 			break;
 		}
 		
