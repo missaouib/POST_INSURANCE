@@ -17,6 +17,6 @@ import com.gdpost.web.entity.component.CsReport;
  */
 public interface CsReportDAO extends JpaRepository<CsReport, Long>, JpaSpecificationExecutor<CsReport> {
 
-	CsReport getCsRportByPolicyNoAndMoney(String policyNo, double money);
+	CsReport getCsRportByPolicyPolicyNoAndMoney(String policyNo, double money);
 
 }

@@ -177,7 +177,7 @@ public class CsReport implements Idable<Long> {
 		this.insured = insured;
 	}
 
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "cs_date", length = 10)
 
 	public Date getCsDate() {
