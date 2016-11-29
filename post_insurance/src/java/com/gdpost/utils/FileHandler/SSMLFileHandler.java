@@ -55,7 +55,7 @@ public class SSMLFileHandler extends AbstractFileHandler {
 	            dt.TableName = sheet.getName();
 	
 	            for (int i = 1; i <= cellCount; i++) {
-	                column = new DataColumn(headerRow.getCellAt(i).getData$());
+	                column = new DataColumn(headerRow.getCellAt(i).getData$().trim());
 	                dt.Columns.Add(column);
 	            }
 	

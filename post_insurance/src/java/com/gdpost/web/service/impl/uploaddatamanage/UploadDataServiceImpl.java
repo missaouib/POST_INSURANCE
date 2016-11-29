@@ -394,7 +394,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			for (DataRow row : dt.Rows) {
 				line = new StringBuffer("(");
 	        	for(ColumnItem item : standardColumns) {
-	        		val = row.getValue(item.getDisplayName());
+	        		val = StringUtil.trimStr(row.getValue(item.getDisplayName()));
         			
 	        		if(item.getDisplayName().contains("回访日期")) {
 	        			if(val == null || val.toString().trim().length() <= 0) {
@@ -436,7 +436,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			for (DataRow row : dt.Rows) {
 				line = new StringBuffer("(");
 	        	for(ColumnItem item : standardColumns) {
-	        		val = row.getValue(item.getDisplayName());
+	        		val = row.getValue(item.getDisplayName()).toString().trim();
 	        		
 	        		if(item.getDisplayName().contains("二访日期")) {
 	        			if(val == null || val.toString().trim().length() <= 0) {
@@ -584,7 +584,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        }
 			sql.deleteCharAt(sql.length() - 1);
 			sql.append(" ON DUPLICATE KEY UPDATE mail_fail_reason=VALUES(mail_fail_reason), ");
-			sql.append("mail_fail_date=VALUES(mail_fail_date);");
+			sql.append("mail_fail_date=VALUES(mail_fail_date),has_letter=VALUES(has_letter);");
 			log.debug("----------------batch update : " + sql);
 			sql2 = "delete from t_call_fail_list where issue_no is null";
 			break;

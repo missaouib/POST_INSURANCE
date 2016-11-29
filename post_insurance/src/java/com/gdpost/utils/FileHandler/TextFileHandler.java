@@ -62,7 +62,7 @@ public class TextFileHandler extends AbstractFileHandler {
 			dt.TableName = strFileName;
 			for(int i = 0; i < headers.length; i++) {
 				if(headers[i] == null) break;
-				column = new DataColumn(headers[i]);
+				column = new DataColumn(headers[i].trim());
 				dt.Columns.Add(column);
 			}
 		} catch (IOException e) {

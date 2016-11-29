@@ -71,7 +71,7 @@ public class XlsFileHandler_Converter extends AbstractFileHandler {
 	            dt.TableName = sheet.getSheetName();
 	
 	            for (int i = headerRow.getFirstCellNum(); i < cellCount; i++) {
-	                column = new DataColumn(headerRow.getCell(i).getStringCellValue());
+	                column = new DataColumn(headerRow.getCell(i).getStringCellValue().trim());
 	                dt.Columns.Add(column);
 	            }
 	

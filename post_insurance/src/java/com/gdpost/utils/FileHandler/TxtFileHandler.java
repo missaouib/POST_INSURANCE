@@ -49,7 +49,7 @@ public class TxtFileHandler extends AbstractFileHandler {
 		dt = new DataTable();
 		dt.TableName = strFileName;
 		for(int i = 0; i < headers.length; i++) {
-			column = new DataColumn(headers[i]);
+			column = new DataColumn(headers[i].trim());
 			dt.Columns.Add(column);
 		}
 

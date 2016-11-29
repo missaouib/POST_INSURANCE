@@ -77,7 +77,7 @@ public class XlsxFileHandler_NoHeader extends AbstractFileHandler {
 	            	if(headerRow.getCell(i) == null) {
 	            		break;
 	            	}
-	                column = new DataColumn(headerRow.getCell(i).getStringCellValue());
+	                column = new DataColumn(headerRow.getCell(i).getStringCellValue().trim());
 	                dt.Columns.Add(column);
 	            }
 	

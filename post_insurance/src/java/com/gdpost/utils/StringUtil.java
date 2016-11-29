@@ -47,7 +47,7 @@ public class StringUtil {
 		if(obj == null) {
 			return "";
 		}
-		String str = obj.toString();
+		String str = obj.toString().trim();
 		Pattern p = Pattern.compile("\\t|\r|\n|\\\\");
         Matcher m = p.matcher(str);
         String dest = m.replaceAll("");

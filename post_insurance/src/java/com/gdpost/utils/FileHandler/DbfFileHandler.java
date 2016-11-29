@@ -49,7 +49,7 @@ public class DbfFileHandler extends AbstractFileHandler {
 			ResultSetMetaData data = rs.getMetaData();
 			
 			for (int i = 1; i <= data.getColumnCount(); i++) {
-				column = new DataColumn(data.getColumnName(i));
+				column = new DataColumn(data.getColumnName(i).trim());
 				dt.Columns.Add(column);
 			}
 			

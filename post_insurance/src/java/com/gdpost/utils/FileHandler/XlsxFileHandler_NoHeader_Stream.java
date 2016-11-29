@@ -65,7 +65,7 @@ public class XlsxFileHandler_NoHeader_Stream extends AbstractFileHandler {
 	            dt.TableName = handler.getSheetName().get(iSheet);
 	
 	            for (int i : headerRow.keySet()) {
-	                column = new DataColumn(headerRow.get(i).toString());
+	                column = new DataColumn(headerRow.get(i).toString().trim());
 	                dt.Columns.Add(column);
 	            }
 	
