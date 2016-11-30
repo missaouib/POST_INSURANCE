@@ -17,6 +17,7 @@ import System.Data.DataColumn;
 import System.Data.DataRow;
 import System.Data.DataTable;
 
+import com.gdpost.utils.StringUtil;
 import com.gdpost.utils.TemplateHelper.ColumnItem;
 
 public class SSMLFileHandler extends AbstractFileHandler {
@@ -55,7 +56,7 @@ public class SSMLFileHandler extends AbstractFileHandler {
 	            dt.TableName = sheet.getName();
 	
 	            for (int i = 1; i <= cellCount; i++) {
-	                column = new DataColumn(headerRow.getCellAt(i).getData$().trim());
+	                column = new DataColumn(StringUtil.trimStr(headerRow.getCellAt(i).getData$()));
 	                dt.Columns.Add(column);
 	            }
 	
@@ -132,13 +133,13 @@ public class SSMLFileHandler extends AbstractFileHandler {
     			continue;
     		}
     		
-			columnName = item.getMapColumnName();
+			columnName = StringUtil.trimStr(item.getMapColumnName());
 			if(item.isMapColumn() || item.isFromColumn()) {
 				bFlag = false;
 				for(int i=1; i<=row.size(); i++) {
 					// 在行中查找每个标准列，如果有一个找不到，则认为非表头
 					cell = row.getCellAt(i);
-					if(cell != null && cell.hasData() && cell.getData$().trim().equalsIgnoreCase(columnName.trim())) {
+					if(cell != null && cell.hasData() && cell.getData$().trim().equalsIgnoreCase(columnName)) {
 						bFlag = true;
 						break;
 					}

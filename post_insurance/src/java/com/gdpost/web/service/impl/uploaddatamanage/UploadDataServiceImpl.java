@@ -436,7 +436,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			for (DataRow row : dt.Rows) {
 				line = new StringBuffer("(");
 	        	for(ColumnItem item : standardColumns) {
-	        		val = row.getValue(item.getDisplayName()).toString().trim();
+	        		val = row.getValue(item.getDisplayName());
 	        		
 	        		if(item.getDisplayName().contains("二访日期")) {
 	        			if(val == null || val.toString().trim().length() <= 0) {

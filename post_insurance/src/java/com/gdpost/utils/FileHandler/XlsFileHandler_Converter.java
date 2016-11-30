@@ -14,6 +14,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.gdpost.utils.StringUtil;
 import com.gdpost.utils.TemplateHelper.ColumnItem;
 
 import System.Data.DataColumn;
@@ -71,7 +72,7 @@ public class XlsFileHandler_Converter extends AbstractFileHandler {
 	            dt.TableName = sheet.getSheetName();
 	
 	            for (int i = headerRow.getFirstCellNum(); i < cellCount; i++) {
-	                column = new DataColumn(headerRow.getCell(i).getStringCellValue().trim());
+	                column = new DataColumn(StringUtil.trimStr(headerRow.getCell(i).getStringCellValue()));
 	                dt.Columns.Add(column);
 	            }
 	

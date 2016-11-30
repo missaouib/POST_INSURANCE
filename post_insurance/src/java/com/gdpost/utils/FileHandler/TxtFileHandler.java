@@ -18,6 +18,7 @@ import System.Data.DataColumn;
 import System.Data.DataRow;
 import System.Data.DataTable;
 
+import com.gdpost.utils.StringUtil;
 import com.gdpost.utils.UploadDataHelper.UploadDataUtils;
 
 public class TxtFileHandler extends AbstractFileHandler {
@@ -49,7 +50,7 @@ public class TxtFileHandler extends AbstractFileHandler {
 		dt = new DataTable();
 		dt.TableName = strFileName;
 		for(int i = 0; i < headers.length; i++) {
-			column = new DataColumn(headers[i].trim());
+			column = new DataColumn(StringUtil.trimStr(headers[i]));
 			dt.Columns.Add(column);
 		}
 

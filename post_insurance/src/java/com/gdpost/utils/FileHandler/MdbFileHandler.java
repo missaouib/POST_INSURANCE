@@ -11,6 +11,8 @@ import java.sql.Statement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.gdpost.utils.StringUtil;
+
 import System.Data.DataColumn;
 import System.Data.DataRow;
 import System.Data.DataTable;
@@ -51,7 +53,7 @@ public class MdbFileHandler extends AbstractFileHandler {
 			ResultSetMetaData data = rs.getMetaData();
 			
 			for (int i = 1; i <= data.getColumnCount(); i++) {
-				column = new DataColumn(data.getColumnName(i).trim());
+				column = new DataColumn(StringUtil.trimStr(data.getColumnName(i)));
 				dt.Columns.Add(column);
 			}
 			

@@ -17,6 +17,7 @@ import System.Data.DataRow;
 import System.Data.DataTable;
 
 import com.gdpost.utils.MyException;
+import com.gdpost.utils.StringUtil;
 import com.gdpost.utils.TemplateHelper.ColumnItem;
 
 public class XlsFileHandler_NoHeader extends AbstractFileHandler {
@@ -71,7 +72,7 @@ public class XlsFileHandler_NoHeader extends AbstractFileHandler {
 	            	if(headerRow.getCell(i) == null) {
 	            		break;
 	            	}
-	                column = new DataColumn(headerRow.getCell(i).getStringCellValue().trim());
+	                column = new DataColumn(StringUtil.trimStr(headerRow.getCell(i).getStringCellValue()));
 	                dt.Columns.Add(column);
 	            }
 	
@@ -172,7 +173,7 @@ public class XlsFileHandler_NoHeader extends AbstractFileHandler {
     			//continue;
     		//}
     		log.debug("---------check row:" + item.getColumnName() + ":" + item.getDisplayName());
-			columnName = item.getMapColumnName();
+			columnName = StringUtil.trimStr(item.getMapColumnName());
 			log.debug("---------check row:" + columnName + ", isMapColumn:" + item.isMapColumn() + ",isFromColumn:" + item.isFromColumn());
 			if(item.isMapColumn() || item.isFromColumn()) {
 				bFlag = false;
@@ -182,7 +183,7 @@ public class XlsFileHandler_NoHeader extends AbstractFileHandler {
 					}
 					log.debug("---------check cell:" + row.getCell(i));
 					// 在行中查找每个标准列，如果有一个找不到，则认为非表头
-					if(row.getCell(i) != null && row.getCell(i).toString().trim().equalsIgnoreCase(columnName.trim())) {
+					if(row.getCell(i) != null && row.getCell(i).toString().trim().equalsIgnoreCase(columnName)) {
 						bFlag = true;
 					}
 				}

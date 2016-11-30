@@ -53,7 +53,7 @@ public class CsvFileHandler extends AbstractFileHandler {
 			headers = reader.getHeader(true);
 			String h = null;
 			for(int i=0; i<headers.length; i++) {
-				h = headers[i].trim();
+				h = StringUtil.trimStr(headers[i]);
 				if (h!=null && h.equals(keyRow)) {
 					hasKeyRow = true;
 					keyRowIdx = i;
@@ -67,7 +67,7 @@ public class CsvFileHandler extends AbstractFileHandler {
 			dt.TableName = strFileName;
 			for(int i = 0; i < headers.length; i++) {
 				if(headers[i] == null) break;
-				column = new DataColumn(headers[i].trim());
+				column = new DataColumn(StringUtil.trimStr(headers[i]));
 				dt.Columns.Add(column);
 			}
 		} catch (IOException e) {

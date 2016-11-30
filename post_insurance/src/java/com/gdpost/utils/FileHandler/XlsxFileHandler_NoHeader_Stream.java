@@ -14,6 +14,7 @@ import System.Data.DataColumn;
 import System.Data.DataRow;
 import System.Data.DataTable;
 
+import com.gdpost.utils.StringUtil;
 import com.gdpost.utils.FileHandler.XlsxFileStreamHandler.SheetDatasHandler;
 import com.gdpost.utils.FileHandler.XlsxFileStreamHandler.XlsxStreamHandler;
 import com.gdpost.utils.TemplateHelper.ColumnItem;
@@ -141,12 +142,12 @@ public class XlsxFileHandler_NoHeader_Stream extends AbstractFileHandler {
     			continue;
     		}
     		
-			columnName = item.getMapColumnName();
+			columnName = StringUtil.trimStr(item.getMapColumnName());
 			if(item.isMapColumn() || item.isFromColumn()) {
 				bFlag = false;
 				for(int i : row.keySet()) {
 					// 在行中查找每个标准列，如果有一个找不到，则认为非表头
-					if(row.get(i) != null && row.get(i).toString().trim().equalsIgnoreCase(columnName.trim())) {
+					if(row.get(i) != null && row.get(i).toString().trim().equalsIgnoreCase(columnName)) {
 						bFlag = true;
 						break;
 					}
