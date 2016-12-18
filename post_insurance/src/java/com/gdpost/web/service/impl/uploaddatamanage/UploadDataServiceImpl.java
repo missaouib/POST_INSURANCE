@@ -766,7 +766,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			break;
 		case RenewedProvList://总部的催收
 			standardColumns = RenewedProvListColumn.getStandardColumns();
-			sql = new StringBuffer("INSERT INTO t_renewed_list(policy_no, prd_name, prov_deal_date, prov_deal_rst) VALUES ");
+			sql = new StringBuffer("INSERT INTO t_renewed_list(policy_no, prd_name, prov_deal_date, prov_deal_rst, prov_activity) VALUES ");
 			line = null;
 			isFail = false;
 			val = null;
@@ -785,7 +785,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        }
 			sql.deleteCharAt(sql.length() - 1);
 			sql.append(" ON DUPLICATE KEY UPDATE ");
-			sql.append("prov_deal_date=VALUES(prov_deal_date), prov_deal_rst=VALUES(prov_deal_rst);");
+			sql.append("prov_deal_date=VALUES(prov_deal_date), prov_deal_rst=VALUES(prov_deal_rst), prov_activity=VALUES(prov_activity);");
 			log.debug("----------------prov update status batch sql : " + sql);
 			sql2 = "delete from t_renewed_list where holder is null";
 			sql3 = "update t_renewed_list t1, t_renewed_list t2 set t1.prov_deal_date=t2.prov_deal_date,t1.prov_deal_rst=t2.prov_deal_rst where t1.prd_name=\"中邮附加重大疾病保险\" and t1.policy_no=t2.policy_no and t2.prov_deal_rst is not null;";
