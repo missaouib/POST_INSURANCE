@@ -25,7 +25,7 @@
 		</p>
 		<p>
 			<label>回单日期：</label>
-			<span class="unit"><fmt:formatDate value="${issue.policy.billBackDate }" pattern="yyyy-MM-dd"/></span>
+			<span class="unit"><fmt:formatDate value="${issue.billBackDate }" pattern="yyyy-MM-dd"/></span>
 		</p>
 		<p>
 			<label>险种名称：</label>
@@ -45,7 +45,7 @@
 		</p>
 		<p>
 			<label>所属机构：</label>
-			<span class="unit">${issue.organization.name }</span>
+			<span class="unit">${issue.issueOrg }</span>
 		</p>
 		<p class="nowrap">
 			<label>出单网点：</label>

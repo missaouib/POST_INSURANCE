@@ -44,7 +44,7 @@ background: linear-gradient(top,#42a4e0,#2e88c0);
 
 <div class="pageContent" style="margin: 0 10px" layoutH="50">
 	<label>模板:</label>
-	<form:select path="myTemplate.templateValue" name="template" id="template" style="width:100px;" items="${templateList}" itemLabel="desc" onchange="javascript:displayTips(this.value);"/>
+	<form:select path="myTemplate.templateValue" name="template" id="template" style="width:150px;" items="${templateList}" itemLabel="desc" onchange="javascript:displayTips(this.value);"/>
 	<div id="uploader" class="wu-example">
 	    <!--用来存放文件信息-->
 	    <div id="thelist" class="uploader-list"></div>
