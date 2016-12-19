@@ -39,6 +39,7 @@ import com.gdpost.utils.TemplateHelper.ColumnType;
 import com.gdpost.utils.TemplateHelper.ConversationReqColumn;
 import com.gdpost.utils.TemplateHelper.CsReportColumn;
 import com.gdpost.utils.TemplateHelper.IssueColumn;
+import com.gdpost.utils.TemplateHelper.IssuePFRColumn;
 import com.gdpost.utils.TemplateHelper.PayFailListColumn;
 import com.gdpost.utils.TemplateHelper.PolicyBackDateColumn;
 import com.gdpost.utils.TemplateHelper.PolicyColumn;
@@ -140,12 +141,22 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case Issue:
 			standardColumns = IssueColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_issue character set utf8 (";
-			sql1 = "update t_call_fail_list set finish_date=\"2015-01-01 00:00:00\" where finish_date<\"2000-11-01 09:00:00\";";
+			//sql1 = "update t_call_fail_list set finish_date=\"2015-01-01 00:00:00\" where finish_date<\"2000-11-01 09:00:00\";";
+			break;
+		case IssuePFR:
+			standardColumns = IssuePFRColumn.getStandardColumns();
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_issue character set utf8 (";
+			//sql1 = "update t_call_fail_list set finish_date=\"2015-01-01 00:00:00\" where finish_date<\"2000-11-01 09:00:00\";";
 			break;
 		case CallFail:
 			standardColumns = IssueColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_call_fail_list character set utf8 (";
 			sql1 = "update t_call_fail_list set finish_date=\"2015-01-01 00:00:00\" where finish_date<\"2000-11-01 09:00:00\";";
+			break;
+		case CallFailPFR:
+			standardColumns = IssuePFRColumn.getStandardColumns();
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_call_fail_list character set utf8 (";
+			//sql1 = "update t_call_fail_list set finish_date=\"2015-01-01 00:00:00\" where finish_date<\"2000-11-01 09:00:00\";";
 			break;
 		case CallFailStatus:
 			standardColumns = CallFailHQListColumn.getStandardColumns();
@@ -1079,6 +1090,14 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case ConversationReport:
 			standardColumns = CsReportColumn.getStandardColumns();
 			keyRow = CsReportColumn.KEY_ROW;
+			break;
+		case IssuePFR:
+			standardColumns = IssuePFRColumn.getStandardColumns();
+			keyRow = IssuePFRColumn.KEY_ROW;
+			break;
+		case CallFailPFR:
+			standardColumns = IssuePFRColumn.getStandardColumns();
+			keyRow = IssuePFRColumn.KEY_ROW;
 			break;
 		}
 		

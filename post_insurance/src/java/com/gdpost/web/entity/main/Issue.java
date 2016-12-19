@@ -70,6 +70,30 @@ public class Issue implements Idable<Long> {
 	private String addr;
 	private String idCard;
 	
+	private String taskType;
+	private String clientSexy;
+	//private String issueRemark;
+	private String clientName;
+	private String issueOrg;
+	private String clientNo;
+	private String issueProv;
+	private String issueCity;
+	private String issueArea;
+	private String dealDep;
+	private String manualStatus;
+	private String callType;
+	private String fixCallRst;
+	private String attrProd;
+	private Double attrFee;
+	private String attrYear;
+	private String attrType;
+	private String attrFeeYear;
+	//private String autoStatus;
+	private Date billBackDate;
+	private Integer policyTerm;
+	private String policyFeeType;
+	private Integer policyFeeYear;
+	
 	@Transient
 	private Date readyDate1;
 	@Transient
@@ -497,5 +521,212 @@ public class Issue implements Idable<Long> {
 	}
 	public void setIdCard(String idCard) {
 		this.idCard = idCard;
+	}
+	
+	@Column(name="task_type")
+	public String getTaskType() {
+		return taskType;
+	}
+
+	public void setTaskType(String taskType) {
+		this.taskType = taskType;
+	}
+	/*
+	@Column(name="issue_remark")
+	public String getIssueRemark() {
+		return issueRemark;
+	}
+
+	public void setIssueRemark(String issueRemark) {
+		this.issueRemark = issueRemark;
+	}
+	*/
+	@Column(name="issue_org")
+	public String getIssueOrg() {
+		return issueOrg;
+	}
+
+	public void setIssueOrg(String issueOrg) {
+		this.issueOrg = issueOrg;
+	}
+
+	@Column(name="client_no")
+	public String getClientNo() {
+		return clientNo;
+	}
+
+	public void setClientNo(String clientNo) {
+		this.clientNo = clientNo;
+	}
+
+	@Column(name="issue_prov")
+	public String getIssueProv() {
+		return issueProv;
+	}
+
+	public void setIssueProv(String issueProv) {
+		this.issueProv = issueProv;
+	}
+
+	@Column(name="issue_city")
+	public String getIssueCity() {
+		return issueCity;
+	}
+
+	public void setIssueCity(String issueCity) {
+		this.issueCity = issueCity;
+	}
+
+	@Column(name="issue_area")
+	public String getIssueArea() {
+		return issueArea;
+	}
+
+	public void setIssueArea(String issueArea) {
+		this.issueArea = issueArea;
+	}
+
+	@Column(name="deal_dep")
+	public String getDealDep() {
+		return dealDep;
+	}
+
+	public void setDealDep(String dealDep) {
+		this.dealDep = dealDep;
+	}
+
+	@Column(name="manual_status")
+	public String getManualStatus() {
+		return manualStatus;
+	}
+
+	public void setManualStatus(String manualStatus) {
+		this.manualStatus = manualStatus;
+	}
+
+	@Column(name="call_type")
+	public String getCallType() {
+		return callType;
+	}
+
+	public void setCallType(String callType) {
+		this.callType = callType;
+	}
+
+	@Column(name="fix_call_rst")
+	public String getFixCallRst() {
+		return fixCallRst;
+	}
+
+	public void setFixCallRst(String fixCallRst) {
+		this.fixCallRst = fixCallRst;
+	}
+
+	@Column(name="attr_prod")
+	public String getAttrProd() {
+		return attrProd;
+	}
+
+	public void setAttrProd(String attrProd) {
+		this.attrProd = attrProd;
+	}
+
+	@Column(name="attr_fee")
+	public Double getAttrFee() {
+		return attrFee;
+	}
+
+	public void setAttrFee(Double attrFee) {
+		this.attrFee = attrFee;
+	}
+
+	@Column(name="attr_year")
+	public String getAttrYear() {
+		return attrYear;
+	}
+
+	public void setAttrYear(String attrYear) {
+		this.attrYear = attrYear;
+	}
+
+	@Column(name="attr_type")
+	public String getAttrType() {
+		return attrType;
+	}
+
+	public void setAttrType(String attrType) {
+		this.attrType = attrType;
+	}
+
+	@Column(name="attr_fee_year")
+	public String getAttrFeeYear() {
+		return attrFeeYear;
+	}
+
+	public void setAttrFeeYear(String attrFeeYear) {
+		this.attrFeeYear = attrFeeYear;
+	}
+	/*
+	@Column(name="auto_status")
+	public String getAutoStatus() {
+		return autoStatus;
+	}
+
+	public void setAutoStatus(String autoStatus) {
+		this.autoStatus = autoStatus;
+	}
+	*/
+	@Column(name="client_name")
+	public String getClientName() {
+		return clientName;
+	}
+
+	public void setClientName(String clientName) {
+		this.clientName = clientName;
+	}
+
+	@Column(name="client_sexy")
+	public String getClientSexy() {
+		return clientSexy;
+	}
+
+	public void setClientSexy(String clientSexy) {
+		this.clientSexy = clientSexy;
+	}
+	@Temporal(TemporalType.DATE)
+	@Column(name="bill_back_date")
+	public Date getBillBackDate() {
+		return billBackDate;
+	}
+
+	public void setBillBackDate(Date billBackDate) {
+		this.billBackDate = billBackDate;
+	}
+
+	@Column(name="policy_term")
+	public Integer getPolicyTerm() {
+		return policyTerm;
+	}
+
+	public void setPolicyTerm(Integer policyTerm) {
+		this.policyTerm = policyTerm;
+	}
+
+	@Column(name="policy_fee_type")
+	public String getPolicyFeeType() {
+		return policyFeeType;
+	}
+
+	public void setPolicyFeeType(String policyFeeType) {
+		this.policyFeeType = policyFeeType;
+	}
+
+	@Column(name="policy_fee_year")
+	public Integer getPolicyFeeYear() {
+		return policyFeeYear;
+	}
+
+	public void setPolicyFeeYear(Integer policyFeeYear) {
+		this.policyFeeYear = policyFeeYear;
 	}
 }

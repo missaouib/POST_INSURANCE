@@ -6,7 +6,8 @@ public class Template {
 	
 	public enum FileTemplate {Policy("承保清单", "QY"), PolicyIngor("承保清单（略）", "QY"), PolicyDtl("承保业务信息清单", "QY"), 
 		PolicyBackDate("保单回单数据", "QY"), PolicyUnderWrite("人核件回单数据", "QY"), UnderWriteSentData("人核件打印数据", "QY"), 
-		Issue("问题件工单", "KF"), CallFail("回访不成功清单", "HF"), CallFailStatus("11185回访数据", "HF"), MiniCallFailStatus("简单二访数据", "HF"), 
+		Issue("问题件工单", "KF"), IssuePFR("问题件工单（新）", "KF"), CallFail("回访不成功清单", "HF"), 
+		CallFailPFR("回访不成功清单（新）", "HF"), CallFailStatus("11185回访数据", "HF"), MiniCallFailStatus("简单二访数据", "HF"), 
 		CallFailMailStatus("已发信函数据", "HF"), CallFailMailBackStatus("退信信函数据", "HF"), CallFailMailSuccessStatus("信函成功回邮数据", "HF"), 
 		CallFailNeedDoorStatus("需上门回访数据", "HF"), CallFailCityStatus("市县上门回访数据", "HF"), CallFailMiniCityStatus("市县回访详细数据", "HF"), 
 		CallFailCloseStatus("回访结案数据", "HF"), CallFailPhoneStatus("二访通话清单", "HF"), 

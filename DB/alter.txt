@@ -699,3 +699,64 @@ create table t_cs_report
    primary key (id)
 )
 engine=innodb auto_increment=1 default charset=utf8;
+
+/*==========20161210===========*/
+alter table t_call_fail_list modify column issue_no VARCHAR(21);
+alter table t_call_fail_list add column task_type VARCHAR(32);
+alter table t_call_fail_list add column issue_org VARCHAR(32);
+alter table t_call_fail_list add column client_no VARCHAR(16);
+alter table t_call_fail_list add column client_name VARCHAR(16);
+alter table t_call_fail_list add column client_sexy VARCHAR(6);
+alter table t_call_fail_list add column issue_prov VARCHAR(16);
+alter table t_call_fail_list add column issue_city VARCHAR(16);
+alter table t_call_fail_list add column issue_area VARCHAR(16);
+alter table t_call_fail_list add column deal_dep VARCHAR(64);
+alter table t_call_fail_list add column manual_status VARCHAR(32);
+/*alter table t_call_fail_list add column auto_status VARCHAR(32);*/
+alter table t_call_fail_list add column call_type VARCHAR(32);
+alter table t_call_fail_list add column bill_back_date date;
+alter table t_call_fail_list add column policy_term integer;
+alter table t_call_fail_list add column policy_fee_type VARCHAR(6);
+alter table t_call_fail_list add column policy_fee_year integer;
+alter table t_call_fail_list add column fix_call_rst VARCHAR(32);
+alter table t_call_fail_list add column attr_prod VARCHAR(32);
+alter table t_call_fail_list add column attr_fee double;
+alter table t_call_fail_list add column attr_year VARCHAR(32);
+alter table t_call_fail_list add column attr_type VARCHAR(32);
+alter table t_call_fail_list add column attr_fee_year VARCHAR(32);
+
+CREATE OR REPLACE  ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `v_call_fail_list`
+AS
+select
+  `a`.*,
+  (`b`.`policy_date` + interval 12 day) AS `check_date`,
+  (`b`.`policy_date` + interval 15 day) AS `end_date`,
+  (to_days((`b`.`policy_date` + interval 15 day)) - to_days(now())) AS `last_date_num`
+from
+  (`t_call_fail_list` `a`
+  join `t_policy` `b`)
+where
+  (`a`.`policy_no` = `b`.`policy_no` and b.flag=0);
+  
+alter table t_issue modify column issue_no VARCHAR(21);
+alter table t_issue add column task_type VARCHAR(32);
+alter table t_issue add column issue_org VARCHAR(32);
+alter table t_issue add column client_no VARCHAR(16);
+alter table t_issue add column client_name VARCHAR(16);
+alter table t_issue add column client_sexy VARCHAR(6);
+alter table t_issue add column issue_prov VARCHAR(16);
+alter table t_issue add column issue_city VARCHAR(16);
+alter table t_issue add column issue_area VARCHAR(16);
+alter table t_issue add column deal_dep VARCHAR(64);
+alter table t_issue add column manual_status VARCHAR(32);
+alter table t_issue add column call_type VARCHAR(32);
+alter table t_issue add column bill_back_date date;
+alter table t_issue add column policy_term integer;
+alter table t_issue add column policy_fee_type VARCHAR(6);
+alter table t_issue add column policy_fee_year integer;
+alter table t_issue add column fix_call_rst VARCHAR(32);
+alter table t_issue add column attr_prod VARCHAR(32);
+alter table t_issue add column attr_fee double;
+alter table t_issue add column attr_year VARCHAR(32);
+alter table t_issue add column attr_type VARCHAR(32);
+alter table t_issue add column attr_fee_year VARCHAR(32);

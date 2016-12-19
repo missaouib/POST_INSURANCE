@@ -66,7 +66,8 @@ background: linear-gradient(top,#42a4e0,#2e88c0);
 
 function displayTips(val) {
 	if(val=="Policy" || val=="PolicyDtl" || val=="Issue" || val=="CallFail" || val =="Renewed" 
-			|| val=="CheckWrite" || val=="CheckRecord" || val=="PayToFailList" || val=="PayFromFailList" || val =="PaySuccessList") {
+			|| val=="CheckWrite" || val=="CheckRecord" || val=="PayToFailList" || val=="PayFromFailList" || val =="PaySuccessList" 
+			|| val =="IssuePFR" || val =="CallFailPFR") {
 		$("#tipsDesc").html("模板格式直接使用系统下载的原始表，请勿修改列名称。");
 		return;
 	}
