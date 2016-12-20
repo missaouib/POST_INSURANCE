@@ -543,7 +543,7 @@ public class HfglController {
 		}
 		
 		if(page.getOrderField() == null || page.getOrderField().trim().length() <= 0) {
-			page.setOrderField("issueNo");
+			page.setOrderField("readyDate");
 			page.setOrderDirection("DESC");
 		}
 		
@@ -692,7 +692,7 @@ public class HfglController {
 		issue.setStatus(status);
 		
 		if(page.getOrderField() == null) {
-			page.setOrderField("issueNo");
+			page.setOrderField("readyDate");
 			page.setOrderDirection("DESC");
 		}
 		

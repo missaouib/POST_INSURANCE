@@ -146,7 +146,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case IssuePFR:
 			standardColumns = IssuePFRColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_issue character set utf8 (";
-			//sql1 = "update t_call_fail_list set finish_date=\"2015-01-01 00:00:00\" where finish_date<\"2000-11-01 09:00:00\";";
+			sql1 = "update t_issue set should_date=ready_date where should_date is null or should_date<\"2000-11-01 09:00:00\";";
 			break;
 		case CallFail:
 			standardColumns = IssueColumn.getStandardColumns();
@@ -282,6 +282,13 @@ public class UploadDataServiceImpl implements UploadDataService{
         			if(item.getDisplayName().equals("结案时间") && cell != null && StringUtil.trimStr(cell).length()<=0) {
         				log.debug("----------- 结案时间: " + cell);
         	            builder.append("2015-01-01 00:00:00\t");
+        	            continue;
+        			}
+        		}
+        		if(ft.name().equals(FileTemplate.CallFailPFR.name()) || ft.name().equals(FileTemplate.IssuePFR.name())) {
+        			if(item.getDisplayName().equals("附加险保费") && (cell == null || StringUtil.trimStr(cell).length()<=0)) {
+        				log.debug("----------- 附加险保费: " + cell);
+        	            builder.append("0\t");
         	            continue;
         			}
         		}

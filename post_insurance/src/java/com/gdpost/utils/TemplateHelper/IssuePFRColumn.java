@@ -159,14 +159,14 @@ public class IssuePFRColumn {
 		column.setColumnName("call_man");
 		column.setColumnType(ColumnType.string);
 		standardColumns.add(column);
-		
+		/*
 		column = new ColumnItem();
 		column.setDisplayName("自动催办状态");
 		column.setColumnName("status");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
-		
+		*/
 		column = new ColumnItem();
 		column.setDisplayName("手动催办状态");
 		column.setColumnName("manual_status");
@@ -287,6 +287,7 @@ public class IssuePFRColumn {
 		column.setColumnName("attr_fee");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
+		column.setStaticValue("0");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();

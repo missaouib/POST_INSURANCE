@@ -155,9 +155,9 @@ mail_success
 	private String attrFeeYear;
 	//private String autoStatus;
 	private Date billBackDate;
-	private Integer policyTerm;
+	private String policyTerm;
 	private String policyFeeType;
-	private Integer policyFeeYear;
+	private String policyFeeYear;
 	
 	@Column(name = "operate_id")
 	public Long getOperateId() {
@@ -1265,11 +1265,11 @@ mail_success
 	}
 
 	@Column(name="policy_term")
-	public Integer getPolicyTerm() {
+	public String getPolicyTerm() {
 		return policyTerm;
 	}
 
-	public void setPolicyTerm(Integer policyTerm) {
+	public void setPolicyTerm(String policyTerm) {
 		this.policyTerm = policyTerm;
 	}
 
@@ -1283,11 +1283,11 @@ mail_success
 	}
 
 	@Column(name="policy_fee_year")
-	public Integer getPolicyFeeYear() {
+	public String getPolicyFeeYear() {
 		return policyFeeYear;
 	}
 
-	public void setPolicyFeeYear(Integer policyFeeYear) {
+	public void setPolicyFeeYear(String policyFeeYear) {
 		this.policyFeeYear = policyFeeYear;
 	}
 	

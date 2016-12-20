@@ -161,9 +161,9 @@ public class VCallFailList implements Idable<Long>, java.io.Serializable {
 	private String attrFeeYear;
 	//private String autoStatus;
 	private Date billBackDate;
-	private Integer policyTerm;
+	private String policyTerm;
 	private String policyFeeType;
-	private Integer policyFeeYear;
+	private String policyFeeYear;
 
 	// Constructors
 
@@ -1207,11 +1207,11 @@ public class VCallFailList implements Idable<Long>, java.io.Serializable {
 	}
 	
 	@Column(name="policy_term")
-	public Integer getPolicyTerm() {
+	public String getPolicyTerm() {
 		return policyTerm;
 	}
 
-	public void setPolicyTerm(Integer policyTerm) {
+	public void setPolicyTerm(String policyTerm) {
 		this.policyTerm = policyTerm;
 	}
 	@Column(name="policy_fee_type")
@@ -1224,11 +1224,11 @@ public class VCallFailList implements Idable<Long>, java.io.Serializable {
 	}
 
 	@Column(name="policy_fee_year")
-	public Integer getPolicyFeeYear() {
+	public String getPolicyFeeYear() {
 		return policyFeeYear;
 	}
 
-	public void setPolicyFeeYear(Integer policyFeeYear) {
+	public void setPolicyFeeYear(String policyFeeYear) {
 		this.policyFeeYear = policyFeeYear;
 	}
 	

@@ -294,7 +294,7 @@ public class KfglController {
 		issue.setStatus(status);
 		
 		if(page.getOrderField() == null) {
-			page.setOrderField("shouldDate");
+			page.setOrderField("readyDate");
 			page.setOrderDirection("ASC");
 		}
 		
@@ -391,7 +391,7 @@ public class KfglController {
 		request.setAttribute("status", status);
 		
 		if(page.getOrderField() == null) {
-			page.setOrderField("shouldDate");
+			page.setOrderField("readyDate");
 			page.setOrderDirection("ASC");
 		}
 		

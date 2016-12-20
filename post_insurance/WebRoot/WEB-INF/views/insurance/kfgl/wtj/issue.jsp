@@ -70,7 +70,25 @@
         <td>工单内容：${issue.issueContent } </td>
       </tr>
       <tr>
-        <td>工单转办/下发意见：转营运部契约岗处理 <br />
+        <td>工单转办/下发意见：
+         <c:choose>  
+		    <c:when test="${fn:contains(issue.issueType,'退保')}">  
+		        转业务岗处理
+		    </c:when>
+		    <c:when test="${fn:contains(issue.issueType,'条款解释不清')}">  
+		        转业务岗处理
+		    </c:when>
+		    <c:when test="${fn:contains(issue.issueType,'保单未送达')}">  
+		        转契约岗处理
+		    </c:when> 
+		    <c:when test="${fn:contains(issue.issueType,'代签名')}">  
+		        转契约岗处理
+		    </c:when> 
+		   <c:otherwise>  
+		      &nbsp;
+		    </c:otherwise>  
+		</c:choose>
+          <br />
           <br />
           <br />
           签字：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
