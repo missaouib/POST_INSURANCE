@@ -96,6 +96,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 	public DoRst importData(FileTemplate ft, HttpServletRequest request, DataTable dt, long member_id, int ny) {		
 		log.debug("---------   into import data");
 		DoRst dr = new DoRst();
+		dr.setNum(dt.Rows.size());
 		java.sql.Connection connection = null;
 		com.mysql.jdbc.Statement statement = null;
 		try {
