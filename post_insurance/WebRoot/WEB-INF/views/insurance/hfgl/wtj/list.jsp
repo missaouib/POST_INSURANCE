@@ -200,49 +200,49 @@
 		<tbody>
 			<c:forEach var="item" items="${issues}">
 			<tr target="slt_uid" rel="${item.id}">
-				<td><input name="ids" value="${item.id}" type="checkbox"></td>
-				<td title="${item.policy.organization.name}">
-				<c:choose>  
-				    <c:when test="${fn:contains(item.policy.organization.name, '直属')}">  
-				        <c:out value="${fn:replace(item.policy.organization.name,'邮政局直属中邮保险局','直属')}" />  
-				    </c:when>
-				    <c:when test="${fn:contains(item.policy.organization.name, '仲恺')}">  
-				        ${fn:substring(item.policy.organization.name, 0, 7)}
-				    </c:when>
-				   <c:otherwise>
-				      <c:out value="${fn:replace(item.policy.organization.name,'邮政局中邮保险局','')}" />  
-				    </c:otherwise>  
-				</c:choose>
-				</td>
-				<td>${item.canCallAgainRemark}&nbsp;&nbsp;${item.resetPhone}&nbsp;&nbsp;<fmt:formatDate value="${item.resetDate }" pattern="yyyy-MM-dd"/></td>
-				<td>${item.issueNo}</td>
-				<td>${item.status}</td>
-				<td title="${item.issueContent}">${fn:substring(item.issueContent, 0, 15)}</td>
-				<td title="${item.hqDealTypeElse}">${fn:substring(item.hqDealRst, 0, 15)}</td>
-				<td>${item.phoneNum}</td>
-				<td><fmt:formatDate value="${item.readyDate }" pattern="yyyy-MM-dd"/></td>
-				<td><span style="color:red; height:50%; margin-bottom:-contentheight;"><c:if test="${item.lastDateNum<0 }">0</c:if><c:if test="${item.lastDateNum>=0 }">${item.lastDateNum }</c:if></span></td>
-				<td>${item.policy.policyNo}</td>
-				<td>${fn:replace(item.organization.name,'邮政局中邮保险局','')}</td>
-				<td><fmt:formatDate value="${item.policy.policyDate }" pattern="yyyy-MM-dd"/></td>
-				<td>${item.policy.holder}</td>
-				<td>${item.holderMobile eq ""?item.holderPhone:item.holderMobile}</td>
-				<td>${item.addr}</td>
-				<td>${item.policy.prodName}</td>
-				<td>
-					<c:choose>  
-					    <c:when test="${fn:length(item.bankName) > 14}">  
-					        <c:out value="${fn:substring(item.bankName, 14, 30)}" />  
-					    </c:when>  
-					   <c:otherwise>  
-					      <c:out value="${item.bankName}" />  
-					    </c:otherwise>  
-					</c:choose>
-				</td>
-				<shiro:hasPermission name="Callfail:provEdit">
-				<td>${item.hasLetter}</td>
-				</shiro:hasPermission>
-			</tr>
+               <td><input name="ids" value="${item.id}" type="checkbox"></td>
+               <td title="${item.policy.organization.name}">
+               <c:choose>
+                   <c:when test="${fn:contains(item.policy.organization.name, '直属')}">
+                       <c:out value="${fn:replace(item.policy.organization.name,'邮政局直属中邮保险局','直属')}" />
+                   </c:when>
+                   <c:when test="${fn:contains(item.policy.organization.name, '仲恺')}">
+                       ${fn:substring(item.policy.organization.name, 0, 7)}
+                   </c:when>
+                  <c:otherwise>
+                     <c:out value="${fn:replace(item.policy.organization.name,'邮政局中邮保险局','')}" />
+                   </c:otherwise>
+               </c:choose>
+               </td>
+               <td>${item.canCallAgainRemark}&nbsp;&nbsp;${item.resetPhone}&nbsp;&nbsp;<fmt:formatDate value="${item.resetDate }" pattern="yyyy-MM-dd"/></td>
+               <td>${item.issueNo}</td>
+               <td>${item.status}</td>
+               <td title="${item.issueContent}">${fn:substring(item.issueContent, 0, 15)}</td>
+               <td title="${item.hqDealRst}">${fn:substring(item.hqDealRst, 0, 15)}</td>
+               <td>${item.phoneNum}</td>
+               <td><fmt:formatDate value="${item.readyDate }" pattern="yyyy-MM-dd"/></td>
+               <td><span style="color:red; height:50%; margin-bottom:-contentheight;"><c:if test="${item.lastDateNum<0 }">0</c:if><c:if test="${item.lastDateNum>=0 }">${item.lastDateNum }</c:if></span></td>
+               <td>${item.policy.policyNo}</td>
+               <td>${fn:replace(item.organization.name,'邮政局中邮保险局','')}</td>
+               <td><fmt:formatDate value="${item.policy.policyDate }" pattern="yyyy-MM-dd"/></td>
+               <td>${item.policy.holder}</td>
+               <td>${item.holderMobile eq ""?item.holderPhone:item.holderMobile}</td>
+               <td>${item.addr}</td>
+               <td>${item.policy.prodName}</td>
+               <td>
+                       <c:choose>
+                           <c:when test="${fn:length(item.bankName) > 14}">
+                               <c:out value="${fn:substring(item.bankName, 14, 30)}" />
+                           </c:when>
+                          <c:otherwise>
+                             <c:out value="${item.bankName}" />
+                           </c:otherwise>
+                       </c:choose>
+               </td>
+               <shiro:hasPermission name="Callfail:provEdit">
+               <td>${item.hasLetter}</td>
+               </shiro:hasPermission>
+       		</tr>
 			</c:forEach>
 		</tbody>
 	</table>

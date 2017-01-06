@@ -76,17 +76,20 @@
 	<fieldset>
 		<legend>省分二访中心回访处理详情</legend>
 		<p>
-			<label>二访类别：</label>
-			<span class="unit">${issue.hqDealTypeElse }</span>
-		</p>
-		<p>
-			<label>客户资料备注：</label>
-			<span class="unit">${issue.clientRemark }</span>
-		</p>
-		<p class="nowrap">
-			<label>二访详情：</label>
-			<span class="unit">${issue.hqDealRst }</span>
-		</p>
+           <label>二访类别：</label>
+           <span class="unit">${issue.hqDealTypeElse }</span>
+        </p>
+        <p>
+           <label>客户资料备注：</label>
+           <span class="unit">${issue.clientRemark }</span>
+        </p>
+        <dl>
+           <dt>二访详情：</dt>
+           <dd><textarea name="textarea1" cols="80" rows="3">${issue.hqDealRst }</textarea></dd>
+        </dl>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
 		<p>
 			<label>二访结果：</label>
 			<span class="unit">${issue.hqDealType }</span>

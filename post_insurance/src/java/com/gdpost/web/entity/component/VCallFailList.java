@@ -739,7 +739,7 @@ public class VCallFailList implements Idable<Long>, java.io.Serializable {
 	public Integer getLastDateNum() {
 		if(this.policy != null) {
 			try {
-				int check = StringUtil.getBetweenDay(this.policy.getBillBackDate()==null?this.getShouldDate():this.policy.getBillBackDate(), new Date());
+				int check = StringUtil.getBetweenDay(getBillBackDate()==null?this.policy.getBillBackDate():this.getBillBackDate(), new Date());
 				int c = 15-check;
 				if(c<0) {
 					return 0;
