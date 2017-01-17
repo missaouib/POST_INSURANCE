@@ -10,17 +10,13 @@ response.setHeader("Content-Disposition", "inline; filename=InvoiceReq.xls");
 			<tr>
 				<th>序号</th>
                 <th>投保人</th>
-                <th>保单号</th>
                 <th>险种</th>
                 <th>期间</th>
                 <th>保单金额</th>
                 <th>保单机构</th>
                 <th>电子发票</th>
-                <th>发票金额</th>
-                <th>发票标记</th>
-                <th>发票缴费日期</th>
-                <th>被保险人</th>
-                <th>被保险人</th>
+                <th>发票备注</th>
+                <th>保单号</th>
                 <td>出单日期</td>
                 <td>申请日期</td>
                 <th>接收邮箱</th>
@@ -34,17 +30,14 @@ response.setHeader("Content-Disposition", "inline; filename=InvoiceReq.xls");
         <tr>
                 <td><c:out value="${status.index+1}"/></td>
                 <td>${item.policy.holder}</td>
-                <td style="vnd.ms-excel.numberformat:@">${item.policy.policyNo}</td>
                 <td>${item.policy.prodName}</td>
                 <td>${item.policy.feeFrequency}</td>
                 <td>${item.policy.policyFee}</td>
                 <td>${item.policy.organization.name}</td>
                 <td>${item.isElectiveBill}</td>
-                <td>${item.fee}</td>
-                <td>${item.flag}</td>
-                <td><fmt:formatDate value="${item.feeDate }" pattern="yyyy-MM-dd"/></td>
-                <td>被保险人:</td>
-                <td>${item.policy.insured}</td>
+                <td>保单号：${item.policy.policyNo}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+发票金额：${item.fee}元，${item.flag}，续费日期：<fmt:formatDate value="${item.feeDate }" pattern="yyyy-MM-dd"/>，被保险人:${item.policy.insured}</td>
+                <td style="vnd.ms-excel.numberformat:@">${item.policy.policyNo}</td>
                 <td><fmt:formatDate value="${item.policy.policyDate }" pattern="yyyy-MM-dd"/></td>
                 <td><fmt:formatDate value="${item.reqDate }" pattern="yyyy-MM-dd"/></td>
                 <td>${item.billAddr}</td>
