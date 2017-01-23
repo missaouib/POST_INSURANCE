@@ -765,3 +765,14 @@ alter table t_issue add column attr_fee double ;
 alter table t_issue add column attr_year VARCHAR(6);
 alter table t_issue add column attr_type VARCHAR(32);
 alter table t_issue add column attr_fee_year VARCHAR(6);
+
+
+create table t_staff
+(
+   id                   bigint not null auto_increment,
+   name            	    varchar(17),
+   id_card   	    	    varchar(64),
+   status		     	      varchar(2),
+   primary key (id)
+)
+engine=innodb auto_increment=1 default charset=utf8;
