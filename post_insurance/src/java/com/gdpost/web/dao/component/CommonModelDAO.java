@@ -2,9 +2,6 @@ package com.gdpost.web.dao.component;
 
 import java.util.List;
 
-import javax.persistence.NamedNativeQueries;
-import javax.persistence.NamedNativeQuery;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -22,11 +19,10 @@ import com.gdpost.web.entity.component.CommonModel;
  * @author MyEclipse Persistence Tools
  */
 public interface CommonModelDAO extends JpaRepository<CommonModel, Long>, JpaSpecificationExecutor<CommonModel> {
-	@NamedNativeQueries{
-		@NamedNativeQuery(
-				query="",
-				resultClass=CommonModel.class
-				)
-	}
+	@Query(value="select tp.id as id, tp.organ_name as organ_name,sum(policy_fee) as policy_fee "
+			+ "from t_policy tp, t_cs_report csr,t_bank_code tbc "
+			+ "where tp.policy_no=csr.policy_no and csr.cs_date-tp.policy_date>15 and tp.bank_code=tbc.cpi_code "
+			+ "group by tp.organ_name;",
+			nativeQuery=true)
 	List<CommonModel> getTuiBaoWarning();
 }

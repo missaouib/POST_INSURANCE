@@ -9,8 +9,10 @@ package com.gdpost.web.service.component;
 
 import java.util.List;
 
+import com.gdpost.web.entity.component.CommonModel;
+
 public interface StasticsService {
 	
-	List<Object> getTuiBaoWarnning(Long id);
+	List<CommonModel> getTuiBaoWarnning();
 	
 }
