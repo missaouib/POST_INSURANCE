@@ -1,0 +1,3 @@
+select tp.organ_name,sum(policy_fee) from t_policy tp, t_cs_report csr where tp.policy_no=csr.policy_no and csr.cs_date-tp.policy_date>15 and tp.policy_date>="2016-01-01" group by tp.organ_name;  
+
+select tp.organ_name,sum(policy_fee) from t_policy tp, t_cs_report csr,t_bank_code tbc where tp.policy_no=csr.policy_no and csr.cs_date-tp.policy_date>15 and tp.bank_code=tbc.bank_code and tp.policy_date>="2016-01-01" group by tp.organ_name;
