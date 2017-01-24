@@ -563,7 +563,6 @@ public class QyglController {
 		}
 	}
 		
-		
 	@Log(message="更新了{0}人核件的信息。", level=LogLevel.WARN, module=LogModule.QYGL)
 	@RequiresPermissions(value={"UnderWrite:edit","UnderWrite:provEdit","UnderWrite:cityEdit","UnderWrite:areaEdit"}, logical=Logical.OR)
 	@RequestMapping(value="/underwrite/sendRecUpdate", method=RequestMethod.POST)
@@ -601,6 +600,93 @@ public class QyglController {
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicyNo()}));
 		return	AjaxObject.newOk("更新人核件成功！").toString(); 
+	}
+	
+	@RequiresPermissions(value={"UnderWrite:edit","UnderWrite:provEdit","UnderWrite:cityEdit","UnderWrite:areaEdit"}, logical=Logical.OR)
+	@RequestMapping(value="/underwrite/{flag}", method=RequestMethod.POST)
+	public String preManyMailRecDateUpdate(@PathVariable String flag, @PathVariable Long id, Map<String, Object> map) {
+		UnderWrite underwrite = qyglService.getUnderWrite(id);
+		
+		map.put("underwrite", underwrite);
+		map.put("flag", flag);
+		if(flag.contains("Send")) {
+			switch(flag) {
+			case "provSend":
+				underwrite.setSendDate(underwrite.getProvSendDate());
+				underwrite.setEmsNo(underwrite.getProvEmsNo());
+				break;
+			case "citySend":
+				underwrite.setSendDate(underwrite.getCitySendDate());
+				underwrite.setEmsNo(underwrite.getCityEmsNo());
+				break;
+			case "areaSend":
+				underwrite.setSendDate(underwrite.getAreaSendDate());
+				underwrite.setEmsNo(underwrite.getAreaEmsNo());
+				break;
+			}
+			return UW_MAIL_DATE;
+		} else {
+			switch(flag) {
+			case "provRec":
+				underwrite.setReceiveDate(underwrite.getProvReceiveDate());
+				break;
+			case "cityRec":
+				underwrite.setReceiveDate(underwrite.getCityReceiveDate());
+				break;
+			case "areaRec":
+				underwrite.setReceiveDate(underwrite.getAreaReceiveDate());
+				break;
+			}
+			return UW_REC_DATE;
+		}
+	}
+	
+	@Log(message="批量更新了{0}人核件记录申请。", level=LogLevel.WARN, module=LogModule.QYGL)
+	@RequiresPermissions(value={"UnderWrite:edit","UnderWrite:provEdit","UnderWrite:cityEdit","UnderWrite:areaEdit"}, logical=Logical.OR)
+	@RequestMapping(value="/underwrite/manySendRecUpdate", method=RequestMethod.POST)
+	public @ResponseBody String batchUpdateMailDate(ServletRequest request, Long[] ids) {
+		String[] policys = new String[ids.length];
+		try {
+			for (int i = 0; i < ids.length; i++) {
+				UnderWrite src = qyglService.getUnderWrite(ids[i]);
+				String flag = request.getParameter("flag");
+				switch(flag) {
+				case "provSend":
+					src.setProvSendDate(src.getSendDate());
+					src.setProvEmsNo(src.getEmsNo());
+					break;
+				case "citySend":
+					src.setCitySendDate(src.getSendDate());
+					src.setCityEmsNo(src.getEmsNo());
+					break;
+				case "areaSend":
+					src.setAreaSendDate(src.getSendDate());
+					src.setAreaEmsNo(src.getEmsNo());
+					break;
+				case "provRec":
+					src.setProvReceiveDate(src.getReceiveDate());
+					break;
+				case "cityRec":
+					src.setCityReceiveDate(src.getReceiveDate());
+					break;
+				case "areaRec":
+					src.setAreaReceiveDate(src.getReceiveDate());
+					break;
+					default:
+						log.warn("-------------人核件的寄发标记缺失!");
+						break;
+				}
+				
+				qyglService.saveOrUpdateUnderWrite(src);
+				
+				policys[i] = src.getFormNo();
+			}
+		} catch (ServiceException e) {
+			return AjaxObject.newError("更新人核件信息失败：" + e.getMessage()).setCallbackType("").toString();
+		}
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{Arrays.toString(policys)}));
+		return AjaxObject.newOk("成功更新人核件信息！").setCallbackType("").toString();
 	}
 	
 	@RequiresPermissions("UnderWrite:view")
