@@ -16,7 +16,6 @@ public class CommonModel implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 6953817886114363056L;
-	private Long id;
 	private String organName;
 	private String policyFee;
 
@@ -28,14 +27,6 @@ public class CommonModel implements java.io.Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
 	@Column(name="organ_name")
 	public String getOrganName() {
 		return organName;

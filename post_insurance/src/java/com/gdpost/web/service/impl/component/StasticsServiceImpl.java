@@ -19,10 +19,18 @@ public class StasticsServiceImpl implements StasticsService {
 	private CommonModelDAO cmDAO;
 
 	@Override
-	public List<CommonModel> getTuiBaoWarnning() {
-		List<CommonModel> test = cmDAO.getTuiBaoWarning();
-		return test;
+	public List<CommonModel> getTuiBaoWarnningWithPolicyDate(String organCode, String d1, String d2) {
+		return cmDAO.getTuiBaoWarningWithPolicyDate(organCode, d1, d2);
 	}
-		
+
+	@Override
+	public List<CommonModel> getTuiBaoWarnningWithCsDate(String organCode, String d1, String d2) {
+		return cmDAO.getTuiBaoWarningWithCsDate(organCode, d1, d2);
+	}
+
+	@Override
+	public List<CommonModel> getTuiBaoWarnningWithPolicyDateAndCsDate(String organCode, String d1, String d2, String d3, String d4) {
+		return cmDAO.getTuiBaoWarningWithPolicyDateAndCsDate(organCode, d1, d2, d3, d4);
+	}
 		
 }

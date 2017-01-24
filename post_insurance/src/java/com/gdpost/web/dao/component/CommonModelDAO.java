@@ -19,10 +19,31 @@ import com.gdpost.web.entity.component.CommonModel;
  * @author MyEclipse Persistence Tools
  */
 public interface CommonModelDAO extends JpaRepository<CommonModel, Long>, JpaSpecificationExecutor<CommonModel> {
-	@Query(value="select tp.id as id, tp.organ_name as organ_name,sum(policy_fee) as policy_fee "
+	@Query(value="select tp.organ_name as organ_name,sum(policy_fee) as policy_fee "
 			+ "from t_policy tp, t_cs_report csr,t_bank_code tbc "
 			+ "where tp.policy_no=csr.policy_no and csr.cs_date-tp.policy_date>15 and tp.bank_code=tbc.cpi_code "
+			+ "and tp.organ_code like ?1 "
+			+ "and tp.policy_date between ?2 and ?3 "
 			+ "group by tp.organ_name;",
 			nativeQuery=true)
-	List<CommonModel> getTuiBaoWarning();
+	List<CommonModel> getTuiBaoWarningWithPolicyDate(String organCode, String pd1, String pd2);
+	
+	@Query(value="select tp.organ_name as organ_name,sum(policy_fee) as policy_fee "
+			+ "from t_policy tp, t_cs_report csr,t_bank_code tbc "
+			+ "where tp.policy_no=csr.policy_no and csr.cs_date-tp.policy_date>15 and tp.bank_code=tbc.cpi_code "
+			+ "and tp.organ_code like ?1 "
+			+ "and csr.cs_date between ?2 and ?3 "
+			+ "group by tp.organ_name;",
+			nativeQuery=true)
+	List<CommonModel> getTuiBaoWarningWithCsDate(String organCode, String pd1, String pd2);
+	
+	@Query(value="select tp.organ_name as organ_name,sum(policy_fee) as policy_fee "
+			+ "from t_policy tp, t_cs_report csr,t_bank_code tbc "
+			+ "where tp.policy_no=csr.policy_no and csr.cs_date-tp.policy_date>15 and tp.bank_code=tbc.cpi_code "
+			+ "and tp.organ_code like ?1 "
+			+ "and tp.policy_date between ?2 and ?3 "
+			+ "and csr.cs_date between ?4 and ?5 "
+			+ "group by tp.organ_name;",
+			nativeQuery=true)
+	List<CommonModel> getTuiBaoWarningWithPolicyDateAndCsDate(String organCode, String pd1, String pd2, String csd1, String csd2);
 }
