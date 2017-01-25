@@ -297,6 +297,7 @@ public class CommonController {
 		SerializeConfig mapping = new SerializeConfig();
 		HashMap<String, String> fm = new HashMap<String, String>();
 		fm.put("id", "id");
+		fm.put("prdCode", "prdCode");
 		fm.put("prdName", "prdName");
 		fm.put("prdFullName", "prdFullName");
 		mapping.put(Prd.class, new JavaBeanSerializer(Prd.class, fm));

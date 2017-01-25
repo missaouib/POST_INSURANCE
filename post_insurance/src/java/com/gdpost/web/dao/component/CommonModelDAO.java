@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.gdpost.web.entity.component.CommonModel;
 
@@ -19,31 +20,30 @@ import com.gdpost.web.entity.component.CommonModel;
  * @author MyEclipse Persistence Tools
  */
 public interface CommonModelDAO extends JpaRepository<CommonModel, Long>, JpaSpecificationExecutor<CommonModel> {
-	@Query(value="select tp.organ_name as organ_name,sum(policy_fee) as policy_fee "
-			+ "from t_policy tp, t_cs_report csr,t_bank_code tbc "
-			+ "where tp.policy_no=csr.policy_no and csr.cs_date-tp.policy_date>15 and tp.bank_code=tbc.cpi_code "
-			+ "and tp.organ_code like ?1 "
-			+ "and tp.policy_date between ?2 and ?3 "
-			+ "group by tp.organ_name;",
+	@Query(value="select left(tp.organ_name,2) as organ_name,sum(policy_fee) as policy_fee,"
+			+ "(select sum(t4.policy_fee) from t_policy t4 where t4.policy_date between :p1 and :p2 and t4.organ_code=tp.organ_code) as sum_policy_fee "
+			+ "from t_policy tp, t_cs_report csr "
+			+ "where tp.policy_no=csr.policy_no and csr.cs_date-tp.policy_date>15 "
+			+ "and tp.organ_code like :orgCode "
+			+ "and tp.policy_date between :p1 and :p2 "
+			+ "and csr.cs_date between :c1 and :c2 "
+			+ "and tp.prod_code like :prdCode "
+			+ "group by left(tp.organ_name,2) "
+			+ "order by tp.organ_code;",
 			nativeQuery=true)
-	List<CommonModel> getTuiBaoWarningWithPolicyDate(String organCode, String pd1, String pd2);
+	List<CommonModel> getProvTuiBaoWarningWithPolicyDateAndCsDateNoBankCode(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("prdCode")String prdCode);
 	
-	@Query(value="select tp.organ_name as organ_name,sum(policy_fee) as policy_fee "
+	@Query(value="select left(tp.organ_name,2) as organ_name,sum(policy_fee) as policy_fee,"
+			+ "(select sum(t4.policy_fee) from t_policy t4 where t4.policy_date between :p1 and :p2 and t4.organ_code=tp.organ_code) as sum_policy_fee "
 			+ "from t_policy tp, t_cs_report csr,t_bank_code tbc "
-			+ "where tp.policy_no=csr.policy_no and csr.cs_date-tp.policy_date>15 and tp.bank_code=tbc.cpi_code "
-			+ "and tp.organ_code like ?1 "
-			+ "and csr.cs_date between ?2 and ?3 "
-			+ "group by tp.organ_name;",
+			+ "where tp.policy_no=csr.policy_no and tp.bank_code=tbc.cpi_code and csr.cs_date-tp.policy_date>15 "
+			+ "and tp.organ_code like :orgCode "
+			+ "and tp.policy_date between :p1 and :p2 "
+			+ "and csr.cs_date between :c1 and :c2 "
+			+ "and tbc.flag=:flag "
+			+ "and tp.prod_code like :prdCode "
+			+ "group by left(tp.organ_name,2) "
+			+ "order by tp.organ_code;",
 			nativeQuery=true)
-	List<CommonModel> getTuiBaoWarningWithCsDate(String organCode, String pd1, String pd2);
-	
-	@Query(value="select tp.organ_name as organ_name,sum(policy_fee) as policy_fee "
-			+ "from t_policy tp, t_cs_report csr,t_bank_code tbc "
-			+ "where tp.policy_no=csr.policy_no and csr.cs_date-tp.policy_date>15 and tp.bank_code=tbc.cpi_code "
-			+ "and tp.organ_code like ?1 "
-			+ "and tp.policy_date between ?2 and ?3 "
-			+ "and csr.cs_date between ?4 and ?5 "
-			+ "group by tp.organ_name;",
-			nativeQuery=true)
-	List<CommonModel> getTuiBaoWarningWithPolicyDateAndCsDate(String organCode, String pd1, String pd2, String csd1, String csd2);
+	List<CommonModel> getProvTuiBaoWarningWithPolicyDateAndCsDate(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("flag")String flag, @Param("prdCode")String prdCode);
 }

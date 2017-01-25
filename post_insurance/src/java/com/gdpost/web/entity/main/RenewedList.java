@@ -213,8 +213,6 @@ public class RenewedList implements Idable<Long> {
 		this.feeDate = feeDate;
 	}
 
-//	@ManyToOne
-//	@JoinColumn(name="policy_no", referencedColumnName="policy_no", unique=false)
 	@ManyToOne(cascade = CascadeType.REFRESH, targetEntity = Policy.class)
 	@JoinColumnsOrFormulas(value={
 	@JoinColumnOrFormula(column=@JoinColumn(name ="policy_no", referencedColumnName ="policy_no", insertable =false, updatable = false)),

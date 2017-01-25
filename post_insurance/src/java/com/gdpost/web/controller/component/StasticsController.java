@@ -12,9 +12,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.gdpost.utils.StringUtil;
 import com.gdpost.web.controller.insurance.BaseDataController;
+import com.gdpost.web.entity.basedata.Prd;
 import com.gdpost.web.entity.component.CommonModel;
 import com.gdpost.web.service.component.StasticsService;
+import com.gdpost.web.service.insurance.BaseDataService;
 import com.gdpost.web.util.dwz.Page;
 
 @Controller
@@ -24,68 +27,98 @@ public class StasticsController {
 	
 	@Autowired
 	private StasticsService stasticsService;
+	@Autowired
+	private BaseDataService prdService;
 	
-	private static final String TEST_LIST = "insurance/stastics/list";
+	private static final String TUIBAO_LIST = "insurance/stastics/tuibao";
 	
 	/*
 	 * =======================================
-	 * call deal type 回访类型
+	 * tuibao
 	 * =======================================
 	 * 
 	 */
 	//@RequiresPermissions("CallDealType:view")
-	@RequestMapping(value="/stastics/list", method={RequestMethod.GET, RequestMethod.POST})
-	public String listCallDealType(ServletRequest request, Page page, Map<String, Object> map) {
+	@RequestMapping(value="/stastics/tuibao", method={RequestMethod.GET, RequestMethod.POST})
+	public String listCallDealType(ServletRequest request, Map<String, Object> map) {
 		LOG.debug("-------------------here----------");
-		String organCode = request.getParameter("organCode");
-		String organName = request.getParameter("organName");
+		String organCode = request.getParameter("orgCode");
+		String organName = request.getParameter("name");
 		String pd1 = request.getParameter("policyDate1");
 		String pd2 = request.getParameter("policyDate2");
 		String csd1 = request.getParameter("csDate1");
 		String csd2 = request.getParameter("csDate2");
+		String flag = request.getParameter("flag");
+		String netFlag = request.getParameter("netFlag");
+		String prdCode = request.getParameter("prd.prdCode");
+		String prdName = request.getParameter("prd.prdName");
 		if(organCode == null || organCode.trim().length()<=0) {
 			organCode = "8644";
 		}
-		request.setAttribute("organCode", organCode);
-		request.setAttribute("organName", organName);
-		request.setAttribute("policyDate1", pd1);
-		request.setAttribute("policyDate2", pd2);
-		request.setAttribute("csDate1", csd1);
-		request.setAttribute("csDate2", csd2);
-		boolean isPd = false;
-		if((pd1!= null && pd1.trim().length()>0) || (pd2!= null && pd2.trim().length()>0)) {
-			isPd = true;
+		String toPrdCode = prdCode;
+		if(prdCode == null || prdCode.trim().length()<=0) {
+			toPrdCode = "%%";
 		}
+		
+		request.setAttribute("orgCode", organCode);
+		request.setAttribute("name", organName);
+		request.setAttribute("flag", flag);
+		request.setAttribute("netFlag", netFlag);
+		request.setAttribute("prdCode", prdCode);
+		request.setAttribute("prdName", prdName);
+		if(flag == null || !flag.trim().equals("city")) {
+			flag = "prov";
+		}
+		boolean hasNet = true;
+		if(netFlag == null || netFlag.trim().length()<=0) {
+			hasNet = false;
+		}
+		CommonModel cm = new CommonModel();
+		cm.setFlag(flag);
+		cm.setNetFlag(netFlag);
+		cm.setPrdCode(prdCode);
+		request.setAttribute("CommonModel", cm);
+	
+		String fd = StringUtil.getFirstDayOfYear("yyyy-MM-dd");
 		if(pd1 == null || pd1.trim().length()<=0) {
-			pd1 = "1900-01-01";
+			pd1 = fd;
 		}
 		if(pd2 == null || pd2.trim().length()<=0) {
 			pd2 = "9999-12-31";
 		}
-		boolean isCsd = false;
-		if((csd1!= null && csd1.trim().length()>0) || (csd2!= null && csd2.trim().length()>0)) {
-			isCsd = true;
-		}
 		if(csd1 == null || csd1.trim().length()<=0) {
-			csd1 = "1900-01-01";
+			csd1 = fd;
 		}
 		if(csd2 == null || csd2.trim().length()<=0) {
 			csd2 = "9999-12-31";
 		}
-		isPd = true;
-		if(!isPd && !isCsd) {
-			return TEST_LIST;
-		}
+		request.setAttribute("policyDate1", pd1);
+		request.setAttribute("policyDate2", pd2);
+		request.setAttribute("csDate1", csd1);
+		request.setAttribute("csDate2", csd2);
+		
 		List<CommonModel> temp = null;
-		if(isPd && isCsd) {
-			temp = stasticsService.getTuiBaoWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, csd1, csd2);
-		} else if(isPd) {
-			temp = stasticsService.getTuiBaoWarnningWithPolicyDate(organCode + "%", pd1, pd2);
+		if(hasNet) {
+			temp = stasticsService.getProvTuiBaoWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, csd1, csd2, netFlag, toPrdCode);
 		} else {
-			temp = stasticsService.getTuiBaoWarnningWithCsDate(organCode + "%", csd1, csd2);
+			temp = stasticsService.getProvTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(organCode + "%", pd1, pd2, csd1, csd2, toPrdCode);
 		}
 		
+		request.setAttribute("cmRst", temp);
+		String col = "";
+		String colData = "";
+		for(CommonModel tcm:temp) {
+			col += "\"" + tcm.getOrganName() + "\",";
+			colData += "\"" + tcm.getPolicyFee()/tcm.getSumPolicyFee() + "\",";
+		}
+		request.setAttribute("col", col);
+		request.setAttribute("colData", colData);
+		
+		Page page = new Page();
+		page.setNumPerPage(50);
+		List<Prd> prds = prdService.findAllPrd(page);
+		request.setAttribute("prds", prds);
 		LOG.debug(" ------------ result size:" + temp.size());
-		return TEST_LIST;
+		return TUIBAO_LIST;
 	}
 }

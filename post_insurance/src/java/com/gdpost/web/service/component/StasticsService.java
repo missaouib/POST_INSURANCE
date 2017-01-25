@@ -13,10 +13,7 @@ import com.gdpost.web.entity.component.CommonModel;
 
 public interface StasticsService {
 	
-	List<CommonModel> getTuiBaoWarnningWithPolicyDate(String organCode, String d1, String d2);
+	List<CommonModel> getProvTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(String organCode, String d1, String d2, String d3, String d4, String prdCode);
 	
-	List<CommonModel> getTuiBaoWarnningWithCsDate(String organCode, String d1, String d2);
-	
-	List<CommonModel> getTuiBaoWarnningWithPolicyDateAndCsDate(String organCode, String d1, String d2, String d3, String d4);
-	
+	List<CommonModel> getProvTuiBaoWarnningWithPolicyDateAndCsDate(String organCode, String d1, String d2, String d3, String d4, String flag, String prdCode);
 }

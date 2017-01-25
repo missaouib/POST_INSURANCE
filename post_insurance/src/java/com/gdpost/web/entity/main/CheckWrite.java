@@ -106,9 +106,7 @@ public class CheckWrite implements Idable<Long> {
 	public void setNeedFix(String needFix) {
 		this.needFix = needFix;
 	}
-
-//	@ManyToOne
-//	@JoinColumn(name = "policy_no", referencedColumnName="policy_no")
+	
 	@ManyToOne(cascade = CascadeType.REFRESH, targetEntity = Policy.class)
 	@JoinColumnsOrFormulas(value={
 	@JoinColumnOrFormula(column=@JoinColumn(name ="policy_no", referencedColumnName ="policy_no", insertable =false, updatable = false)),
