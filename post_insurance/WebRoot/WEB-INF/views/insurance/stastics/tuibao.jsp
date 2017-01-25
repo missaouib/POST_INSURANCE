@@ -22,10 +22,10 @@
 				</li>
 				<li>
 				<label>产品：</label>
-				<input type="hidden" name="prd.prdCode" value="${prdCode}" />
-				<input name="prd.prdName" type="text" postField="search_LIKE_prdName" suggestFields="prdName" class="input-medium validate[required,maxSize[32]] required"
-						value="${prdName}" suggestUrl="/common/lookupPrdSuggest" lookupGroup="prd"/>
-					</li>
+				<form:select path="CommonModel.prdCode" id="prdCode" class="combox">
+						<form:option value=""> -- </form:option>
+						<form:options items="${prds }" itemLabel="prdName" itemValue="prdCode"/>
+					</form:select>
 			</ul>
 			<ul class="searchContent">
 				<li>

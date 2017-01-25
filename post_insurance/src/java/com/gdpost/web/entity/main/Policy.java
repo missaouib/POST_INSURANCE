@@ -1,11 +1,8 @@
 package com.gdpost.web.entity.main;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -24,7 +20,6 @@ import org.hibernate.annotations.ColumnTransformer;
 
 import com.gdpost.web.entity.Idable;
 import com.gdpost.web.entity.basedata.Prd;
-import com.gdpost.web.entity.nouse.CallFail;
 
 /**
  * policy entity. @author MyEclipse Persistence Tools
@@ -75,9 +70,9 @@ public class Policy implements Idable<Long>, Serializable{
 	private String customer_manager;
 	private Integer flag;
 	
-	private List<CheckRecordDtl> checkRecordDtls = new ArrayList<CheckRecordDtl>(0);
-	private List<CheckWriteDtl> checkWriteDtls = new ArrayList<CheckWriteDtl>(0);
-	private List<CallFail> callFails = new ArrayList<CallFail>(0);
+//	private List<CheckRecordDtl> checkRecordDtls = new ArrayList<CheckRecordDtl>(0);
+//	private List<CheckWriteDtl> checkWriteDtls = new ArrayList<CheckWriteDtl>(0);
+//	private List<CallFail> callFails = new ArrayList<CallFail>(0);
 
 	// Constructors
 
@@ -88,7 +83,7 @@ public class Policy implements Idable<Long>, Serializable{
 	/** full constructor */
 	public Policy(String prodName, String bankName, String salesName,
 			String salesId, String status, Integer perm, Double policyFee, String copies, String insuredAmount, String holder, String insured, Date policyDate, Integer renewalSucessFlag,
-			Integer resetValidFlag, List<Issue> issues, List<CheckRecordDtl> TCheckRecordDtls, List<CheckWriteDtl> TCheckWriteDtls, List<CallFail> TCallFails) {
+			Integer resetValidFlag) {
 		this.prodName = prodName;
 		this.bankName = bankName;
 		this.salesName = salesName;
@@ -103,9 +98,6 @@ public class Policy implements Idable<Long>, Serializable{
 		this.policyDate = policyDate;
 		this.renewalSucessFlag = renewalSucessFlag;
 		this.resetValidFlag = resetValidFlag;
-		this.checkRecordDtls = TCheckRecordDtls;
-		this.checkWriteDtls = TCheckWriteDtls;
-		this.callFails = TCallFails;
 	}
 
 	// Property accessors
@@ -428,31 +420,31 @@ public class Policy implements Idable<Long>, Serializable{
 		this.flag = flag;
 	}
 
-	@OneToMany(mappedBy="policy", cascade={CascadeType.REMOVE}, orphanRemoval=true)
-	public List<CheckRecordDtl> getCheckRecordDtls() {
-		return this.checkRecordDtls;
-	}
-
-	public void setCheckRecordDtls(List<CheckRecordDtl> checkRecordDtls) {
-		this.checkRecordDtls = checkRecordDtls;
-	}
-
-	@OneToMany(mappedBy="policy", cascade={CascadeType.REMOVE}, orphanRemoval=true)
-	public List<CheckWriteDtl> getCheckWriteDtls() {
-		return this.checkWriteDtls;
-	}
-
-	public void setCheckWriteDtls(List<CheckWriteDtl> checkWriteDtls) {
-		this.checkWriteDtls = checkWriteDtls;
-	}
-
-	@OneToMany(mappedBy="policy", cascade={CascadeType.REMOVE}, orphanRemoval=true)
-	public List<CallFail> getCallFails() {
-		return this.callFails;
-	}
-
-	public void setCallFails(List<CallFail> callFails) {
-		this.callFails = callFails;
-	}
+//	@OneToMany(mappedBy="policy", cascade={CascadeType.REMOVE}, orphanRemoval=true)
+//	public List<CheckRecordDtl> getCheckRecordDtls() {
+//		return this.checkRecordDtls;
+//	}
+//
+//	public void setCheckRecordDtls(List<CheckRecordDtl> checkRecordDtls) {
+//		this.checkRecordDtls = checkRecordDtls;
+//	}
+//
+//	@OneToMany(mappedBy="policy", cascade={CascadeType.REMOVE}, orphanRemoval=true)
+//	public List<CheckWriteDtl> getCheckWriteDtls() {
+//		return this.checkWriteDtls;
+//	}
+//
+//	public void setCheckWriteDtls(List<CheckWriteDtl> checkWriteDtls) {
+//		this.checkWriteDtls = checkWriteDtls;
+//	}
+//
+//	@OneToMany(mappedBy="policy", cascade={CascadeType.REMOVE}, orphanRemoval=true)
+//	public List<CallFail> getCallFails() {
+//		return this.callFails;
+//	}
+//
+//	public void setCallFails(List<CallFail> callFails) {
+//		this.callFails = callFails;
+//	}
 
 }

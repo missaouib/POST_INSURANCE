@@ -32,6 +32,8 @@ public class StasticsController {
 	
 	private static final String TUIBAO_LIST = "insurance/stastics/tuibao";
 	
+	private static final String TUIBAO_TOXLS = "insurance/stastics/tuibaoXls";
+	
 	/*
 	 * =======================================
 	 * tuibao
@@ -40,7 +42,7 @@ public class StasticsController {
 	 */
 	//@RequiresPermissions("CallDealType:view")
 	@RequestMapping(value="/stastics/tuibao", method={RequestMethod.GET, RequestMethod.POST})
-	public String listCallDealType(ServletRequest request, Map<String, Object> map) {
+	public String getTuiBaoStastics(ServletRequest request, Map<String, Object> map) {
 		LOG.debug("-------------------here----------");
 		String organCode = request.getParameter("orgCode");
 		String organName = request.getParameter("name");
@@ -48,10 +50,9 @@ public class StasticsController {
 		String pd2 = request.getParameter("policyDate2");
 		String csd1 = request.getParameter("csDate1");
 		String csd2 = request.getParameter("csDate2");
-		String flag = request.getParameter("flag");
 		String netFlag = request.getParameter("netFlag");
-		String prdCode = request.getParameter("prd.prdCode");
-		String prdName = request.getParameter("prd.prdName");
+		String flag = request.getParameter("flag");
+		String prdCode = request.getParameter("prdCode");
 		if(organCode == null || organCode.trim().length()<=0) {
 			organCode = "8644";
 		}
@@ -60,21 +61,21 @@ public class StasticsController {
 			toPrdCode = "%%";
 		}
 		
+		boolean isCity = false;
+		if(flag != null && flag.trim().equals("city")) {
+			isCity = true;
+		}
+		
 		request.setAttribute("orgCode", organCode);
 		request.setAttribute("name", organName);
-		request.setAttribute("flag", flag);
 		request.setAttribute("netFlag", netFlag);
 		request.setAttribute("prdCode", prdCode);
-		request.setAttribute("prdName", prdName);
-		if(flag == null || !flag.trim().equals("city")) {
-			flag = "prov";
-		}
+		
 		boolean hasNet = true;
 		if(netFlag == null || netFlag.trim().length()<=0) {
 			hasNet = false;
 		}
 		CommonModel cm = new CommonModel();
-		cm.setFlag(flag);
 		cm.setNetFlag(netFlag);
 		cm.setPrdCode(prdCode);
 		request.setAttribute("CommonModel", cm);
@@ -98,10 +99,18 @@ public class StasticsController {
 		request.setAttribute("csDate2", csd2);
 		
 		List<CommonModel> temp = null;
-		if(hasNet) {
-			temp = stasticsService.getProvTuiBaoWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, csd1, csd2, netFlag, toPrdCode);
+		if(isCity) {
+			if(hasNet) {
+				temp = stasticsService.getTuiBaoWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, csd1, csd2, netFlag, toPrdCode);
+			} else {
+				temp = stasticsService.getTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(organCode + "%", pd1, pd2, csd1, csd2, toPrdCode);
+			}
 		} else {
-			temp = stasticsService.getProvTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(organCode + "%", pd1, pd2, csd1, csd2, toPrdCode);
+			if(hasNet) {
+				temp = stasticsService.getProvTuiBaoWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, csd1, csd2, netFlag, toPrdCode);
+			} else {
+				temp = stasticsService.getProvTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(organCode + "%", pd1, pd2, csd1, csd2, toPrdCode);
+			}
 		}
 		
 		request.setAttribute("cmRst", temp);
@@ -120,5 +129,67 @@ public class StasticsController {
 		request.setAttribute("prds", prds);
 		LOG.debug(" ------------ result size:" + temp.size());
 		return TUIBAO_LIST;
+	}
+	
+	@RequestMapping(value="/stastics/tuibao/toXls", method={RequestMethod.GET, RequestMethod.POST})
+	public String tuibaoStasticsToXls(ServletRequest request, Map<String, Object> map) {
+		LOG.debug("-------------------here----------");
+		String organCode = request.getParameter("orgCode");
+		String pd1 = request.getParameter("policyDate1");
+		String pd2 = request.getParameter("policyDate2");
+		String csd1 = request.getParameter("csDate1");
+		String csd2 = request.getParameter("csDate2");
+		String netFlag = request.getParameter("netFlag");
+		String flag = request.getParameter("flag");
+		String prdCode = request.getParameter("prdCode");
+		if(organCode == null || organCode.trim().length()<=0) {
+			organCode = "8644";
+		}
+		String toPrdCode = prdCode;
+		if(prdCode == null || prdCode.trim().length()<=0) {
+			toPrdCode = "%%";
+		}
+		boolean isCity = false;
+		if(flag != null && flag.trim().equals("city")) {
+			isCity = true;
+		}
+		
+		boolean hasNet = true;
+		if(netFlag == null || netFlag.trim().length()<=0) {
+			hasNet = false;
+		}
+	
+		String fd = StringUtil.getFirstDayOfYear("yyyy-MM-dd");
+		if(pd1 == null || pd1.trim().length()<=0) {
+			pd1 = fd;
+		}
+		if(pd2 == null || pd2.trim().length()<=0) {
+			pd2 = "9999-12-31";
+		}
+		if(csd1 == null || csd1.trim().length()<=0) {
+			csd1 = fd;
+		}
+		if(csd2 == null || csd2.trim().length()<=0) {
+			csd2 = "9999-12-31";
+		}
+		
+		List<CommonModel> temp = null;
+		if(isCity) {
+			if(hasNet) {
+				temp = stasticsService.getTuiBaoWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, csd1, csd2, netFlag, toPrdCode);
+			} else {
+				temp = stasticsService.getTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(organCode + "%", pd1, pd2, csd1, csd2, toPrdCode);
+			}
+		} else {
+			if(hasNet) {
+				temp = stasticsService.getProvTuiBaoWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, csd1, csd2, netFlag, toPrdCode);
+			} else {
+				temp = stasticsService.getProvTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(organCode + "%", pd1, pd2, csd1, csd2, toPrdCode);
+			}
+		}
+		
+		request.setAttribute("cmRst", temp);
+		LOG.debug(" ------------ result size:" + temp.size());
+		return TUIBAO_TOXLS;
 	}
 }
