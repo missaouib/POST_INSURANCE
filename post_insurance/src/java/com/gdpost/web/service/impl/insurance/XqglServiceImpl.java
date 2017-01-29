@@ -129,8 +129,8 @@ public class XqglServiceImpl implements XqglService {
 	}
 
 	@Override
-	public List<RenewalType> getRenewedDealTypeList(int flag) {
-		return rnwDAO.getByFlag(flag);
+	public List<RenewalType> getRenewedDealTypeList(int typeFlag) {
+		return rnwDAO.getByTypeFlag(typeFlag);
 	}
 
 	@Override

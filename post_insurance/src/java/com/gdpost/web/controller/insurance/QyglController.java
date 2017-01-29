@@ -525,14 +525,14 @@ public class QyglController {
 	}
 	
 	@RequiresPermissions(value={"UnderWrite:edit","UnderWrite:provEdit","UnderWrite:cityEdit","UnderWrite:areaEdit"}, logical=Logical.OR)
-	@RequestMapping(value="/underwrite/{flag}/{id}", method=RequestMethod.GET)
-	public String preMailRecDateUpdate(@PathVariable String flag, @PathVariable Long id, Map<String, Object> map) {
+	@RequestMapping(value="/underwrite/{mailFlag}/{id}", method=RequestMethod.GET)
+	public String preMailRecDateUpdate(@PathVariable String mailFlag, @PathVariable Long id, Map<String, Object> map) {
 		UnderWrite underwrite = qyglService.getUnderWrite(id);
 		
 		map.put("underwrite", underwrite);
-		map.put("flag", flag);
-		if(flag.contains("Send")) {
-			switch(flag) {
+		map.put("mailFlag", mailFlag);
+		if(mailFlag.contains("Send")) {
+			switch(mailFlag) {
 			case "provSend":
 				underwrite.setSendDate(underwrite.getProvSendDate());
 				underwrite.setEmsNo(underwrite.getProvEmsNo());
@@ -548,7 +548,7 @@ public class QyglController {
 			}
 			return UW_MAIL_DATE;
 		} else {
-			switch(flag) {
+			switch(mailFlag) {
 			case "provRec":
 				underwrite.setReceiveDate(underwrite.getProvReceiveDate());
 				break;
@@ -568,8 +568,8 @@ public class QyglController {
 	@RequestMapping(value="/underwrite/sendRecUpdate", method=RequestMethod.POST)
 	public @ResponseBody String mailDateUpdate(ServletRequest request, UnderWrite underwrite) {
 		UnderWrite src = qyglService.getUnderWrite(underwrite.getId());
-		String flag = request.getParameter("flag");
-		switch(flag) {
+		String mailFlag = request.getParameter("mailFlag");
+		switch(mailFlag) {
 		case "provSend":
 			src.setProvSendDate(underwrite.getSendDate());
 			src.setProvEmsNo(underwrite.getEmsNo());
@@ -603,14 +603,14 @@ public class QyglController {
 	}
 	
 	@RequiresPermissions(value={"UnderWrite:edit","UnderWrite:provEdit","UnderWrite:cityEdit","UnderWrite:areaEdit"}, logical=Logical.OR)
-	@RequestMapping(value="/underwrite/{flag}", method=RequestMethod.POST)
-	public String preManyMailRecDateUpdate(@PathVariable String flag, @PathVariable Long id, Map<String, Object> map) {
+	@RequestMapping(value="/underwrite/{mailFlag}", method=RequestMethod.POST)
+	public String preManyMailRecDateUpdate(@PathVariable String mailFlag, @PathVariable Long id, Map<String, Object> map) {
 		UnderWrite underwrite = qyglService.getUnderWrite(id);
 		
 		map.put("underwrite", underwrite);
-		map.put("flag", flag);
-		if(flag.contains("Send")) {
-			switch(flag) {
+		map.put("mailFlag", mailFlag);
+		if(mailFlag.contains("Send")) {
+			switch(mailFlag) {
 			case "provSend":
 				underwrite.setSendDate(underwrite.getProvSendDate());
 				underwrite.setEmsNo(underwrite.getProvEmsNo());
@@ -626,7 +626,7 @@ public class QyglController {
 			}
 			return UW_MAIL_DATE;
 		} else {
-			switch(flag) {
+			switch(mailFlag) {
 			case "provRec":
 				underwrite.setReceiveDate(underwrite.getProvReceiveDate());
 				break;
@@ -649,8 +649,8 @@ public class QyglController {
 		try {
 			for (int i = 0; i < ids.length; i++) {
 				UnderWrite src = qyglService.getUnderWrite(ids[i]);
-				String flag = request.getParameter("flag");
-				switch(flag) {
+				String mailFlag = request.getParameter("mailFlag");
+				switch(mailFlag) {
 				case "provSend":
 					src.setProvSendDate(src.getSendDate());
 					src.setProvEmsNo(src.getEmsNo());

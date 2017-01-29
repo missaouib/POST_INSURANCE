@@ -28,7 +28,7 @@ public interface ProvinceDAO extends JpaRepository<Province, Long>, JpaSpecifica
 			@QueryHint(name="org.hibernate.cacheRegion",value="com.gdpost.web.entity.member.Province")
 		}
 	)
-	@Query("from Province o order by o.id ASC")
+	@Query(name="ProvinceDAO.findAllWithCache", value="from Province o order by o.id ASC")
 	List<Province> findAllWithCache();
 	
 	@QueryHints(value={
@@ -36,6 +36,6 @@ public interface ProvinceDAO extends JpaRepository<Province, Long>, JpaSpecifica
 			@QueryHint(name="org.hibernate.cacheRegion",value="com.gdpost.web.entity.member.Province")
 		}
 	)
-	@Query("select distinct o from Province o where o.provinceCode=:provinceCode")
+	@Query(name="ProvinceDAO.findDistinctProvinceByProvinceCode", value="select distinct o from Province o where o.provinceCode=:provinceCode")
 	List<Province> findDistinctProvinceByProvinceCode(@Param("provinceCode") String provinceCode);
 }

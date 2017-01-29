@@ -14,6 +14,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -27,7 +28,7 @@ import com.gdpost.web.entity.Idable;
  * TCheckRecordDtl entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "t_check_write")
+@Table(name = "t_check_write", uniqueConstraints={@UniqueConstraint(columnNames={"policy_no", "prd_name"})})
 @Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="com.gdpost.web.entity.main.CheckWrite")
 public class CheckWrite implements Idable<Long> {
 
@@ -107,10 +108,10 @@ public class CheckWrite implements Idable<Long> {
 		this.needFix = needFix;
 	}
 	
-	@ManyToOne(cascade = CascadeType.REFRESH, targetEntity = Policy.class)
+	@ManyToOne(cascade = CascadeType.REMOVE, targetEntity = Policy.class)
 	@JoinColumnsOrFormulas(value={
 	@JoinColumnOrFormula(column=@JoinColumn(name ="policy_no", referencedColumnName ="policy_no", insertable =false, updatable = false)),
-	@JoinColumnOrFormula(formula=@JoinFormula(value="0", referencedColumnName = "flag"))
+	@JoinColumnOrFormula(formula=@JoinFormula(value="0", referencedColumnName = "attached_flag"))
 	})
 	public Policy getPolicy() {
 		return policy;

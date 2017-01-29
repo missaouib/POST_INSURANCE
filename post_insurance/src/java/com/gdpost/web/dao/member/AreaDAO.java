@@ -28,7 +28,7 @@ public interface AreaDAO extends JpaRepository<Area, Long>, JpaSpecificationExec
 			@QueryHint(name="org.hibernate.cacheRegion",value="com.gdpost.web.entity.member.Area")
 		}
 	)
-	@Query("from Area o where cityCode=:cityCode order by o.id ASC")
+	@Query(name="AreaDAO.findByCityCodeWithCache", value="from Area o where cityCode=:cityCode order by o.id ASC")
 	List<Area> findByCityCodeWithCache(@Param("cityCode") String cityCode);
 	
 	@QueryHints(value={
@@ -36,6 +36,6 @@ public interface AreaDAO extends JpaRepository<Area, Long>, JpaSpecificationExec
 			@QueryHint(name="org.hibernate.cacheRegion",value="com.gdpost.web.entity.member.Area")
 		}
 	)
-	@Query("select distinct o from Area o where o.areaCode=:areaCode")
+	@Query(name="AreaDAO.findDistinctAreaByAreaCode", value="select distinct o from Area o where o.areaCode=:areaCode")
 	List<Area> findDistinctAreaByAreaCode(@Param("areaCode") String areaCode);
 }

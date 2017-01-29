@@ -21,7 +21,7 @@
 		</p>
 		<p>
 			<label>发票标记：</label>
-			<label>首期<form:radiobutton path="req.flag" value="首期"/>续期<form:radiobutton path="req.flag" value="续期"/></label>
+			<label>首期<form:radiobutton path="req.reqFlag" value="首期"/>续期<form:radiobutton path="req.reqFlag" value="续期"/></label>
 		</p>
 		<p>
 			<label>电子发票标记：</label>

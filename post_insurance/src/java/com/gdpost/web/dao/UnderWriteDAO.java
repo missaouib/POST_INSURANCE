@@ -19,7 +19,8 @@ public interface UnderWriteDAO extends JpaRepository<UnderWrite, Long>, JpaSpeci
 	UnderWrite getByPolicyNo(String policyNo);
 	UnderWrite getByFormNo(String formNo);
 	
-	@Query("select t1 from UnderWrite t1,Organization t2 where t1.organization.id=t2.id and "
+	@Query(name="UnderWriteDAO.findDistinctUnderWrite2Pop",
+			value="select t1 from UnderWrite t1,Organization t2 where t1.organization.id=t2.id and "
 					+ "((t1.provSendDate is not null and t1.citySendDate is null and t1.areaSendDate is null and NOW()-t1.provSendDate>3) or "
 					+ "(t1.citySendDate is not null and t1.toNet=1 and t1.signInputDate is null and NOW()-t1.citySendDate>5) or "
 					+ "(t1.citySendDate is not null and t1.areaSendDate is null and NOW()-t1.citySendDate>3) or "
@@ -30,7 +31,8 @@ public interface UnderWriteDAO extends JpaRepository<UnderWrite, Long>, JpaSpeci
 	)
 	Page<UnderWrite> findDistinctUnderWrite2Pop(String orgCode, String status, Pageable pageable);
 	
-	@Query("select t1 from UnderWrite t1,Organization t2 where t1.organization.id=t2.id and "
+	@Query(name="UnderWriteDAO.findDistinctUnderWrite2Call",
+			value="select t1 from UnderWrite t1,Organization t2 where t1.organization.id=t2.id and "
 					+ "((t1.citySendDate is not null and t1.toNet=1 and NOW()-t1.citySendDate>10) or "
 					+ "(t1.areaSendDate is not null and NOW()-t1.areaSendDate>10) or "
 					+ "(t1.sysDate is not null and now()-t1.sysDate>15)) "
@@ -38,7 +40,8 @@ public interface UnderWriteDAO extends JpaRepository<UnderWrite, Long>, JpaSpeci
 					+ "t1.signInputDate is null and t1.status=:status")
 	Page<UnderWrite> findDistinctUnderWrite2Call(@Param("orgCode") String orgCode, @Param("status") String status, Pageable pageable);
 	
-	@Query("select u from UnderWrite u, Organization o where u.organization.id=o.id and"
+	@Query(name="UnderWriteDAO.findDistinctUnderWrite2Weixin",
+			value="select u from UnderWrite u, Organization o where u.organization.id=o.id and"
 			+ "(u.sysDate is not null and NOW()-u.sysDate>20) "
 			+ "and o.orgCode like :orgCode and "
 			+ "u.signInputDate is null and u.status=:status")

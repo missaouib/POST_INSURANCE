@@ -5,53 +5,49 @@
 <form method="post" id="hfForm" action="${contextPath }/component/stastics/tuibao" onsubmit="return navTabSearch(this)">
 	<div class="pageHeader">
 		<div class="searchBar">
-			<ul class="searchContent">
-				<li>
-					<label>所属机构：</label>
+			<table class="searchContent">
+				<tr>
+					<td>
+					所属机构：
 					<input name="orgCode" id="uw_orgCode" type="hidden" value="${orgCode }"/>
 					<input class="validate[required] required" name="name" id="uw_orgName" type="text" readonly="readonly" style="width: 120px;" value="${name }"/>
 					<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="" title="选择机构" width="400">查</a>
-				</li>
-				<li>
-					<label>承保日期起：</label>
+					</td>
+					<td>承保日期起：
 					<input type="text" name="policyDate1" id="uwDate1" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${policyDate1 }"/><a class="inputDateButton" href="javascript:;">选</a>
-				</li>
-				<li>
-					<label>承保日期止：</label>
+					</td>
+					<td>承保日期止：
 					<input type="text" name="policyDate2" id="uwDate2" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${policyDate2 }"/><a class="inputDateButton" href="javascript:;">选</a>
-				</li>
-				<li>
-				<label>产品：</label>
+					</td>
+					<td><label>产品：</label>
 				<form:select path="CommonModel.prdCode" id="prdCode" class="combox">
 						<form:option value=""> -- </form:option>
 						<form:options items="${prds }" itemLabel="prdName" itemValue="prdCode"/>
 					</form:select>
-			</ul>
-			<ul class="searchContent">
-				<li>
-					<label>标记</label>
-					<form:select path="CommonModel.flag" id="tbflag" class="combox">
+					</td>
+				</tr>
+				<tr>
+					<td><label>标记：</label>
+					<form:select path="CommonModel.levelFlag" id="tbflag" class="combox">
 						<form:option value="prov"> 省级 </form:option>
 						<form:option value="city"> 市级 </form:option>
 					</form:select>
-				</li>
-				<li>
-					<label>退保日期起：</label>
+					</td>
+					<td>退保日期起：
 					<input type="text" name="csDate1" id="uwDate1" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${csDate1 }"/><a class="inputDateButton" href="javascript:;">选</a>
-				</li>
-				<li>
-					<label>退保日期止：</label>
+					</td>
+					<td>退保日期止：
 					<input type="text" name="csDate2" id="uwDate2" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${csDate2 }"/><a class="inputDateButton" href="javascript:;">选</a>
-				</li>
-				<li>
-					<label>银邮标记</label>
+					</td>
+					<td><label>银邮：</label>
 					<form:select path="CommonModel.netFlag" id="netflag" class="combox">
 						<form:option value="">  --  </form:option>
 						<form:option value="1"> 邮政代理 </form:option>
 						<form:option value="2"> 银行自营 </form:option>
 					</form:select>
-				</li>
-			</ul>
+					</td>
+				</tr>
+			</table>
 			<div class="subBar">
 				<ul>						
 					<li><div class="button"><div class="buttonContent"><button type="submit">搜索</button></div></div></li>

@@ -110,10 +110,10 @@ public class CheckRecord implements Idable<Long> {
 
 //	@ManyToOne
 //	@JoinColumn(name = "policy_no", referencedColumnName="policy_no")
-	@ManyToOne(cascade = CascadeType.REFRESH, targetEntity = Policy.class)
+	@ManyToOne(cascade = CascadeType.REMOVE, targetEntity = Policy.class)
 	@JoinColumnsOrFormulas(value={
 	@JoinColumnOrFormula(column=@JoinColumn(name ="policy_no", referencedColumnName ="policy_no", insertable =false, updatable = false)),
-	@JoinColumnOrFormula(formula=@JoinFormula(value="0", referencedColumnName = "flag"))
+	@JoinColumnOrFormula(formula=@JoinFormula(value="0", referencedColumnName = "attached_flag"))
 	})
 	public Policy getPolicy() {
 		return policy;

@@ -131,8 +131,8 @@ public class ClientController {
 			page.setOrderField("printDate");
 			page.setOrderDirection("DESC");
 		}
-		String flag = request.getParameter("flag");
-		if(flag == null) flag = "";
+		String plFlag = request.getParameter("plFlag");
+		if(plFlag == null) plFlag = "";
 		
 		String orgCode = request.getParameter("orgCode");
 		if(orgCode == null || orgCode.trim().length() <= 0) {
@@ -152,13 +152,13 @@ public class ClientController {
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("orgCode", Operator.LIKE, orgCode));
 		
-		if(flag != null && flag.trim().length()>0) {
-			csf.add(new SearchFilter("flag", Operator.EQ, flag));
+		if(plFlag != null && plFlag.trim().length()>0) {
+			csf.add(new SearchFilter("plFlag", Operator.EQ, plFlag));
 		}
 		Specification<PolicyReprintDtl> specification = DynamicSpecifications.bySearchFilter(request, PolicyReprintDtl.class, csf);
 		List<PolicyReprintDtl> policies = policyService.findByPolicyReprintDtlExample(specification, page);
 		
-		map.put("flag", flag);
+		map.put("plFlag", plFlag);
 		map.put("page", page);
 		map.put("policies", policies);
 		return RE_PRINT_LIST;

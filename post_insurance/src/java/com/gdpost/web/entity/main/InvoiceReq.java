@@ -29,7 +29,7 @@ public class InvoiceReq implements Idable<Long> {
 
 	private Long id;
 	private Policy policy;
-	private String flag;
+	private String reqFlag;
 	private Date feeDate;
 	private Double fee;
 	private Long dealMan;
@@ -59,10 +59,10 @@ public class InvoiceReq implements Idable<Long> {
 	}
 
 	/** full constructor */
-	public InvoiceReq(Policy policy, String flag, Date feeDate, Double fee, Long dealMan, Date reqDate, String reqAddr, String reqMan, String phone,
+	public InvoiceReq(Policy policy, String reqFlag, Date feeDate, Double fee, Long dealMan, Date reqDate, String reqAddr, String reqMan, String phone,
 			String status, Date sendDate, Long sendMan, Long receiveMan, Date receiveDate) {
 		this.policy = policy;
-		this.flag = flag;
+		this.reqFlag = reqFlag;
 		this.feeDate = feeDate;
 		this.fee = fee;
 		this.dealMan = dealMan;
@@ -94,7 +94,7 @@ public class InvoiceReq implements Idable<Long> {
 	@ManyToOne
 	@JoinColumnsOrFormulas(value={
 	@JoinColumnOrFormula(column=@JoinColumn(name ="policy_no", referencedColumnName ="policy_no")),
-	@JoinColumnOrFormula(formula=@JoinFormula(value="0", referencedColumnName = "flag"))
+	@JoinColumnOrFormula(formula=@JoinFormula(value="0", referencedColumnName = "attached_flag"))
 	})
 	public Policy getPolicy() {
 		return this.policy;
@@ -104,13 +104,13 @@ public class InvoiceReq implements Idable<Long> {
 		this.policy = policy;
 	}
 
-	@Column(name = "flag", length = 2)
-	public String getFlag() {
-		return this.flag;
+	@Column(name = "req_flag", length = 2)
+	public String getReqFlag() {
+		return this.reqFlag;
 	}
 
-	public void setFlag(String flag) {
-		this.flag = flag;
+	public void setReqFlag(String reqFlag) {
+		this.reqFlag = reqFlag;
 	}
 
 	@Column(name = "fee_date", length = 10)

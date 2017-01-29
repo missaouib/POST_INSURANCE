@@ -752,12 +752,12 @@ public class BqglController {
 	}
 	
 	@RequiresPermissions(value={"CsReissue:edit","CsReissue:provEdit","CsReissue:cityEdit","CsReissue:areaEdit"}, logical=Logical.OR)
-	@RequestMapping(value="/reissue/{flag}", method=RequestMethod.GET)
-	public String preMailRecDateUpdate(@PathVariable String flag, String ids, Map<String, Object> map) {
+	@RequestMapping(value="/reissue/{mailFlag}", method=RequestMethod.GET)
+	public String preMailRecDateUpdate(@PathVariable String mailFlag, String ids, Map<String, Object> map) {
 		
 		map.put("reissueIds", ids);
-		map.put("flag", flag);
-		if(flag.contains("Sent")) {
+		map.put("mailFlag", mailFlag);
+		if(mailFlag.contains("Sent")) {
 			return RI_MAIL_DATE;
 		} else {
 			return RI_REC_DATE;
@@ -770,7 +770,7 @@ public class BqglController {
 	@RequestMapping(value="/reissue/sendRecUpdate", method=RequestMethod.POST)
 	public @ResponseBody String mailDateUpdate(ServletRequest request, String ids) {
 		LOG.debug("ready to update re issue : " + ids);
-		String flag = request.getParameter("flag");
+		String mailFlag = request.getParameter("mailFlag");
 		String[] sids = ids.split(",");
 		String[] policys = new String[sids.length];
 		String sentDate = request.getParameter("provSentDate");
@@ -782,7 +782,7 @@ public class BqglController {
 		for (int i = 0; i<sids.length; i++) {
 			CsReissue cssrc = bqglService.getCsReissue(new Long(sids[i]));
 			
-			switch(flag) {
+			switch(mailFlag) {
 			case "batchSent":
 				cssrc.setProvSentDate(StringUtil.str2Date(sentDate, "yyyy-MM-dd"));
 				cssrc.setProvExpressNo(expNo);

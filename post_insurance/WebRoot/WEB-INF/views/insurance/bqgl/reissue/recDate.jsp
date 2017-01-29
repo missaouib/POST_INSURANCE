@@ -3,7 +3,7 @@
 <div class="pageContent">
 <form method="post" action="${contextPath }/bqgl/reissue/sendRecUpdate" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogAjaxDone);">
 	<input type="hidden" name="ids" value="${reissueIds }">
-	<input type="hidden" name="flag" value="${flag }">
+	<input type="hidden" name="mailFlag" value="${mailFlag }">
 	<div class="pageFormContent" layouth="58">
 		<p>
 			<label>补发合同收到日期：</label>

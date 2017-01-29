@@ -73,7 +73,7 @@
 				<td>${item.organization.name}</td>
 				<td>
 					<c:choose>  
-					    <c:when test="${item.flag == 1}">  
+					    <c:when test="${item.netFlag == 1}">  
 					                    邮政网点
 					    </c:when>  
 					   <c:otherwise>  

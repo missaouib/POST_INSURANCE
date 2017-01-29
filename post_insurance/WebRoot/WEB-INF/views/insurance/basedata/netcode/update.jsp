@@ -28,7 +28,7 @@
 		</p>
 		<p>
 			<label>网点属性：</label>
-			<input type="text" name="flag" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${basedata.flag }"/>(邮政:1,银行:2)
+			<input type="text" name="netFlag" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${basedata.netFlag }"/>(邮政:1,银行:2)
 		</p>	
 		<p>
 			<label>网点状态：</label>

@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -25,7 +26,7 @@ import com.gdpost.web.entity.basedata.Prd;
  * policy entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "t_policy")
+@Table(name = "t_policy", uniqueConstraints={@UniqueConstraint(columnNames={"policy_no","prod_code","attached_flag"})})
 @Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="com.gdpost.web.entity.main.Policy")
 public class Policy implements Idable<Long>, Serializable{
 
@@ -68,7 +69,7 @@ public class Policy implements Idable<Long>, Serializable{
 	private String bankCode;
 	private String customerManagerCode;
 	private String customer_manager;
-	private Integer flag;
+	private Integer attachedFlag;
 	
 //	private List<CheckRecordDtl> checkRecordDtls = new ArrayList<CheckRecordDtl>(0);
 //	private List<CheckWriteDtl> checkWriteDtls = new ArrayList<CheckWriteDtl>(0);
@@ -411,13 +412,13 @@ public class Policy implements Idable<Long>, Serializable{
 		this.customer_manager = customer_manager;
 	}
 
-	@Column(name="flag")
-	public Integer getFlag() {
-		return flag;
+	@Column(name="attached_flag")
+	public Integer getAttachedFlag() {
+		return attachedFlag;
 	}
 
-	public void setFlag(Integer flag) {
-		this.flag = flag;
+	public void setAttachedFlag(Integer attachedFlag) {
+		this.attachedFlag = attachedFlag;
 	}
 
 //	@OneToMany(mappedBy="policy", cascade={CascadeType.REMOVE}, orphanRemoval=true)

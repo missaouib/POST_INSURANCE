@@ -60,8 +60,8 @@
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
 				<td>
-				<c:if test="${item.flag==1}">二次回访中心类型</c:if>
-				<c:if test="${item.flag==2}">地市回访类型</c:if>
+				<c:if test="${item.typeFlag==1}">二次回访中心类型</c:if>
+				<c:if test="${item.typeFlag==2}">地市回访类型</c:if>
 				</td>
 				<td>${item.typeName}</td>
 				<td>${item.typeDesc}</td>

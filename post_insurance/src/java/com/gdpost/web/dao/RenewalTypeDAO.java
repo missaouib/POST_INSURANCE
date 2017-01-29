@@ -20,6 +20,6 @@ import com.gdpost.web.entity.basedata.RenewalType;
 public interface RenewalTypeDAO extends JpaRepository<RenewalType, Long>, JpaSpecificationExecutor<RenewalType> {
 	RenewalType getByTypeName(String typeName);
 
-	List<RenewalType> getByFlag(int flag);
+	List<RenewalType> getByTypeFlag(int typeFlag);
 
 }

@@ -24,7 +24,7 @@ public interface ModuleDAO extends JpaRepository<Module, Long>, JpaSpecification
 			@QueryHint(name="org.hibernate.cacheRegion",value="com.gdpost.web.entity.main.Module")
 		}
 	)
-	@Query("from Module m order by m.priority ASC")
+	@Query(name="ModuleDAO.findAllWithCache", value="from Module m order by m.priority ASC")
 	List<Module> findAllWithCache();
 	
 	Module getBySn(String sn);

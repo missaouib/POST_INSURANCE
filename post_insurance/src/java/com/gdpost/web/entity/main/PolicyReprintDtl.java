@@ -35,7 +35,7 @@ public class PolicyReprintDtl implements Idable<Long> {
 	private String policyNo;
 	private String emsNo;
 	private Date printDate;
-	private String flag;
+	private String plFlag;
 	private Long operateId;
 	private Date operateTime;
 
@@ -46,7 +46,7 @@ public class PolicyReprintDtl implements Idable<Long> {
 	}
 
 	/** full constructor */
-	public PolicyReprintDtl(String printNo, String status, String orgCode, String formNo, String policyNo, String emsNo, Timestamp printDate, String flag) {
+	public PolicyReprintDtl(String printNo, String status, String orgCode, String formNo, String policyNo, String emsNo, Timestamp printDate, String plflag) {
 		this.printNo = printNo;
 		this.status = status;
 		this.orgCode = orgCode;
@@ -54,7 +54,7 @@ public class PolicyReprintDtl implements Idable<Long> {
 		this.policyNo = policyNo;
 		this.emsNo = emsNo;
 		this.printDate = printDate;
-		this.flag = flag;
+		this.plFlag = plflag;
 	}
 
 	// Property accessors
@@ -133,13 +133,13 @@ public class PolicyReprintDtl implements Idable<Long> {
 		this.printDate = printDate;
 	}
 
-	@Column(name = "flag", length = 1)
-	public String getFlag() {
-		return this.flag;
+	@Column(name = "pl_flag ", length = 1)
+	public String getPlFlag() {
+		return this.plFlag;
 	}
 
-	public void setFlag(String flag) {
-		this.flag = flag;
+	public void setPlFlag(String plFlag) {
+		this.plFlag = plFlag;
 	}
 	
 	@Column(name = "operate_id")

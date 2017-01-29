@@ -21,7 +21,7 @@ public interface OrganizationDAO extends JpaRepository<Organization, Long>, JpaS
 			@QueryHint(name="org.hibernate.cacheRegion",value="com.gdpost.web.entity.main.Organization")
 		}
 	)
-	@Query("from Organization o order by o.priority ASC")
+	@Query(name="OrganizationDAO.findAllWithCache", value="from Organization o order by o.priority ASC")
 	List<Organization> findAllWithCache();
 	
 	@QueryHints(value={
@@ -29,7 +29,7 @@ public interface OrganizationDAO extends JpaRepository<Organization, Long>, JpaS
 			@QueryHint(name="org.hibernate.cacheRegion",value="com.gdpost.web.entity.main.Organization")
 		}
 	)
-	@Query("from Organization o where id=:id order by o.priority ASC")
+	@Query(name="OrganizationDAO.findAllByOrgIdWithCache", value="from Organization o where id=:id order by o.priority ASC")
 	List<Organization> findAllByOrgIdWithCache(@Param("id")Long id);
 	
 	List<Organization> findByIdOrParent(Long id, Organization parent);

@@ -19,6 +19,10 @@
 			<label>银行网点名称：</label>
 			<input type="text" name="bankName" class="input-medium validate[required,maxSize[32]] required" maxlength="32"/>
 		</p>
+		<p>
+			<label>网点属性：</label>
+			<input type="text" name="netFlag" class="input-medium validate[required,maxSize[32]] required" maxlength="32"/>(邮政:1,银行:2)
+		</p>
 	</div>
 			
 	<div class="formBar">

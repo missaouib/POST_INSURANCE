@@ -28,7 +28,7 @@ public interface CityDAO extends JpaRepository<City, Long>, JpaSpecificationExec
 			@QueryHint(name="org.hibernate.cacheRegion",value="com.gdpost.web.entity.member.City")
 		}
 	)
-	@Query("from City o where provinceCode=:provinceCode order by o.id ASC")
+	@Query(name="CityDAO.findByProvinceCodeWithCache", value="from City o where provinceCode=:provinceCode order by o.id ASC")
 	List<City> findByProvinceCodeWithCache(@Param("provinceCode") String provinceCode);
 	
 	@QueryHints(value={
@@ -36,6 +36,6 @@ public interface CityDAO extends JpaRepository<City, Long>, JpaSpecificationExec
 			@QueryHint(name="org.hibernate.cacheRegion",value="com.gdpost.web.entity.member.City")
 		}
 	)
-	@Query("select distinct o from City o where o.cityCode=:cityCode")
+	@Query(name="CityDAO.findDistinctCityBycityCode", value="select distinct o from City o where o.cityCode=:cityCode")
 	List<City> findDistinctCityBycityCode(@Param("cityCode") String cityCode);
 }

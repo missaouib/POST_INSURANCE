@@ -7,7 +7,7 @@
 	<input type="hidden" name="search_LIKE_formNo" value="${param.search_LIKE_formNo }"/>
 	<input type="hidden" name="orgCode" value="${orgCode }"/>
 	<input type="hidden" name="name" value="${name }"/>
-	<input type="hidden" name="flag" value="${flag }"/>
+	<input type="hidden" name="plFlag" value="${plFlag }"/>
 </dwz:paginationForm>
 
 <form method="post" id="payqyForm" action="${contextPath }/client/listPolicyReprintDtl" onsubmit="return navTabSearch(this)">
@@ -23,10 +23,10 @@
 					</td>
 					<td>
 						<label>标记：</label>
-						<select name="flag" id="policyFlag" class="combox">
+						<select name="plFlag" id="policyFlag" class="combox">
 							<option value=""> -- -- </option>
-							<option value="P" <%if(request.getAttribute("flag") != null && request.getAttribute("flag").equals("P")){%>selected<%} %>>新单打印</option>
-							<option value="L" <%if(request.getAttribute("flag") != null && request.getAttribute("flag").equals("L")){%>selected<%} %>>合同补发</option>
+							<option value="P" <%if(request.getAttribute("plFlag") != null && request.getAttribute("plFlag").equals("P")){%>selected<%} %>>新单打印</option>
+							<option value="L" <%if(request.getAttribute("plFlag") != null && request.getAttribute("plFlag").equals("L")){%>selected<%} %>>合同补发</option>
 						</select>
 					</td>
 					<td>
@@ -77,7 +77,7 @@
 				<td><fmt:formatDate value="${item.printDate }" pattern="yyyy-MM-dd"/></td>
 				<td>
 					<c:choose>
-					<c:when test="${item.flag eq 'P'}">
+					<c:when test="${item.plFlag eq 'P'}">
 						新单打印
 					</c:when>
 					<c:otherwise>

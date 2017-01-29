@@ -39,5 +39,5 @@ public interface HfglService {
 
 	List<CallFailList> batchMail(List<CallFailList> list);
 	
-	List<CallDealType> getCallDealTypeList(Integer flag);
+	List<CallDealType> getCallDealTypeList(Integer typeFlag);
 }

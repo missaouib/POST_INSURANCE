@@ -137,22 +137,22 @@ public class FileUtils {
             return false;
         }
         
-        boolean flag = true;
+        boolean delflag = true;
         //删除文件夹下的所有文件(包括子目录)
         File[] files = dirFile.listFiles();
         for (int i = 0; i < files.length; i++) {
             //删除子文件
             if (files[i].isFile()) {
-                flag = deleteFile(files[i].getAbsolutePath());
-                if (!flag) break;
+                delflag = deleteFile(files[i].getAbsolutePath());
+                if (!delflag) break;
             } //删除子目录
             else {
-                flag = deleteDirectory(files[i].getAbsolutePath());
-                if (!flag) break;
+                delflag = deleteDirectory(files[i].getAbsolutePath());
+                if (!delflag) break;
             }
         }
         
-        return(flag);
+        return(delflag);
     }
 
     /**
@@ -172,22 +172,22 @@ public class FileUtils {
             return false;
         }
         
-        boolean flag = true;
+        boolean delFlag = true;
         //删除文件夹下的所有文件(包括子目录)
         File[] files = dirFile.listFiles();
         for (int i = 0; i < files.length; i++) {
             //删除子文件
             if (files[i].isFile()) {
-                flag = deleteFile(files[i].getAbsolutePath());
-                if (!flag) break;
+                delFlag = deleteFile(files[i].getAbsolutePath());
+                if (!delFlag) break;
             } //删除子目录
             else {
-                flag = deleteDirectory(files[i].getAbsolutePath());
-                if (!flag) break;
+                delFlag = deleteDirectory(files[i].getAbsolutePath());
+                if (!delFlag) break;
             }
         }
         
-        if (!flag) {
+        if (!delFlag) {
         	return false;
         }
         
@@ -205,14 +205,14 @@ public class FileUtils {
      * @return 单个文件删除成功返回true，否则返回false
      */
     public static boolean deleteFile(String sPath) {
-    	boolean flag = false;
+    	boolean isFlag = false;
     	File file = new File(sPath);
         // 路径为文件且不为空则进行删除
         if (file.exists() && file.isFile()) {
             file.delete();
-            flag = true;
+            isFlag = true;
         }
         
-        return flag;
+        return isFlag;
     }
 }

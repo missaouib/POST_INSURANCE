@@ -77,9 +77,6 @@ public class IndexController {
 	@Autowired
 	private ModuleService moduleService;
 	
-//	@Autowired
-//	private OrganizationService organizationService;
-	
 	@Autowired
 	private KfglService kfglService;
 	

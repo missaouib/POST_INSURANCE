@@ -51,7 +51,7 @@ public class StasticsController {
 		String csd1 = request.getParameter("csDate1");
 		String csd2 = request.getParameter("csDate2");
 		String netFlag = request.getParameter("netFlag");
-		String flag = request.getParameter("flag");
+		String levelFlag = request.getParameter("levelFlag");
 		String prdCode = request.getParameter("prdCode");
 		if(organCode == null || organCode.trim().length()<=0) {
 			organCode = "8644";
@@ -62,7 +62,7 @@ public class StasticsController {
 		}
 		
 		boolean isCity = false;
-		if(flag != null && flag.trim().equals("city")) {
+		if(levelFlag != null && levelFlag.trim().equals("city")) {
 			isCity = true;
 		}
 		
@@ -78,6 +78,7 @@ public class StasticsController {
 		CommonModel cm = new CommonModel();
 		cm.setNetFlag(netFlag);
 		cm.setPrdCode(prdCode);
+		cm.setLevelFlag(levelFlag);
 		request.setAttribute("CommonModel", cm);
 	
 		String fd = StringUtil.getFirstDayOfYear("yyyy-MM-dd");
@@ -140,7 +141,7 @@ public class StasticsController {
 		String csd1 = request.getParameter("csDate1");
 		String csd2 = request.getParameter("csDate2");
 		String netFlag = request.getParameter("netFlag");
-		String flag = request.getParameter("flag");
+		String levelFlag = request.getParameter("levelFlag");
 		String prdCode = request.getParameter("prdCode");
 		if(organCode == null || organCode.trim().length()<=0) {
 			organCode = "8644";
@@ -150,7 +151,7 @@ public class StasticsController {
 			toPrdCode = "%%";
 		}
 		boolean isCity = false;
-		if(flag != null && flag.trim().equals("city")) {
+		if(levelFlag != null && levelFlag.trim().equals("city")) {
 			isCity = true;
 		}
 		

@@ -2,15 +2,15 @@ package com.gdpost.web.util;
 
 public class DoRst {
 
-	public boolean flag = true;
+	public boolean rstFlag = true;
 	public String msg = null;
 	public int num = 0;
 	public int updateRow = -1;
 	public boolean isFlag() {
-		return flag;
+		return rstFlag;
 	}
 	public void setFlag(boolean flag) {
-		this.flag = flag;
+		this.rstFlag = flag;
 	}
 	public String getMsg() {
 		return msg;

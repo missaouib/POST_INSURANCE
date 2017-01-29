@@ -27,7 +27,7 @@ public class CallDealType implements Idable<Long> {
 	private Long id;
 	private String typeName;
 	private String typeDesc;
-	private Integer flag;
+	private Integer typeFlag;
 	// Constructors
 
 	/** default constructor */
@@ -69,13 +69,13 @@ public class CallDealType implements Idable<Long> {
 		this.typeDesc = typeDesc;
 	}
 
-	@Column(name = "flag")
-	public Integer getFlag() {
-		return flag;
+	@Column(name = "type_flag")
+	public Integer getTypeFlag() {
+		return typeFlag;
 	}
 
-	public void setFlag(Integer flag) {
-		this.flag = flag;
+	public void setTypeFlag(Integer typeFlag) {
+		this.typeFlag = typeFlag;
 	}
 
 	@Override

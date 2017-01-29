@@ -67,7 +67,7 @@ private static List<ColumnItem> standardColumns;
 		
 		column = new ColumnItem();
 		column.setDisplayName("标记");
-		column.setColumnName("flag");
+		column.setColumnName("pl_flag");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);

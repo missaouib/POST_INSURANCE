@@ -25,11 +25,11 @@ import com.gdpost.web.entity.main.User;
  * @author MyEclipse Persistence Tools
  */
 public interface NoticeDAO extends JpaRepository<Notice, Long>, JpaSpecificationExecutor<Notice> {
-	@Query("select distinct o from Notice o left join o.organization org "
+	@Query(name="NoticeDAO.findValidList", value="select distinct o from Notice o left join o.organization org "
 			+ "where ((o.organization is not null and o.organization.orgCode like :orgCode) or o.role in (:roles) or o.user=:user or o.sender=:sender) and o.invalidDate>=:invalidDate")
 	Page<Notice> findValidList(@Param("orgCode") String orgCode, @Param("roles") List<Role> roles, @Param("user") User user, @Param("sender") User sender, @Param("invalidDate") Date invalidDate, Pageable pageable);
 	
-	@Query("select distinct o from Notice o left join o.organization org "
+	@Query(name="NoticeDAO.findBetweenList", value="select distinct o from Notice o left join o.organization org "
 			+ "where ((o.organization is not null and o.organization.orgCode like :orgCode) or o.role in (:roles) or o.user=:user or o.sender=:sender) and o.sendDate between :d1 and :d2")
 	Page<Notice> findBetweenList(@Param("orgCode") String orgCode, @Param("roles") List<Role> roles, @Param("user") User user, @Param("sender") User sender, @Param("d1") Date d1, @Param("d2") Date d2, Pageable pageable);
 }

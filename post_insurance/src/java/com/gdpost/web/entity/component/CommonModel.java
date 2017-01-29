@@ -21,7 +21,7 @@ public class CommonModel implements java.io.Serializable {
 	private Double policyFee;
 	private Double sumPolicyFee;
 	@Transient
-	private String flag;
+	private String levelFlag;
 	@Transient
 	private String netFlag;
 	@Transient
@@ -63,13 +63,13 @@ public class CommonModel implements java.io.Serializable {
 	}
 
 	@Transient
-	public String getFlag() {
-		return flag;
+	public String getLevelFlag() {
+		return levelFlag;
 	}
 
 	@Transient
-	public void setFlag(String flag) {
-		this.flag = flag;
+	public void setLevelFlag(String levelFlag) {
+		this.levelFlag = levelFlag;
 	}
 
 	@Transient

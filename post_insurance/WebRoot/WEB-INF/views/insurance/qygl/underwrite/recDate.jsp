@@ -3,7 +3,7 @@
 <div class="pageContent">
 <form method="post" action="${contextPath }/qygl/underwrite/sendRecUpdate" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogAjaxDone);">
 	<input type="hidden" name="id" value="${id }">
-	<input type="hidden" name="flag" value="${flag }">
+	<input type="hidden" name="mailFlag" value="${mailFlag }">
 	<div class="pageFormContent" layouth="58">
 		<p>
 			<label>人核件收到日期：</label>

@@ -37,7 +37,7 @@ public class BankCode implements Idable<Long>,Serializable {
 	private String bankCode;
 	private String name;
 	private Organization organization;
-	private Integer flag;
+	private Integer netFlag;
 	private Integer status;
 
 	// Constructors
@@ -111,13 +111,13 @@ public class BankCode implements Idable<Long>,Serializable {
 		this.organization = organization;
 	}
 
-	@Column(name = "flag")
-	public Integer getFlag() {
-		return flag;
+	@Column(name = "net_flag")
+	public Integer getNetFlag() {
+		return netFlag;
 	}
 
-	public void setFlag(Integer flag) {
-		this.flag = flag;
+	public void setNetFlag(Integer netFlag) {
+		this.netFlag = netFlag;
 	}
 
 	@Column(name = "status")

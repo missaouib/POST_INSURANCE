@@ -161,7 +161,7 @@ public class QyglServiceImpl implements QyglService {
 		}
 		Page page = new Page();
 		page.setNumPerPage(100);
-		LOG.debug("------------ ready to search todo write:");
+		LOG.debug("------------ ready to search todo check write:");
 		List<CheckWrite> issues = this.findByCheckWriteExample(specification, page);
 		if (issues == null || issues.isEmpty()) {
 			issues = new ArrayList<CheckWrite>();
@@ -199,7 +199,7 @@ public class QyglServiceImpl implements QyglService {
 		}
 		Page page = new Page();
 		page.setNumPerPage(100);
-		LOG.debug("------------ ready to search record issue:");
+		LOG.debug("------------ ready to search check record issue:");
 		List<CheckRecord> issues = this.findByCheckRecordExample(specification, page);
 		if (issues == null || issues.isEmpty()) {
 			issues = new ArrayList<CheckRecord>();
