@@ -1,5 +1,6 @@
 package com.gdpost.web.controller.component;
 
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -85,19 +86,19 @@ public class StasticsController {
 		if(pd1 == null || pd1.trim().length()<=0) {
 			pd1 = fd;
 		}
+		request.setAttribute("policyDate1", pd1);
+		request.setAttribute("policyDate2", pd2);
 		if(pd2 == null || pd2.trim().length()<=0) {
 			pd2 = "9999-12-31";
 		}
 		if(csd1 == null || csd1.trim().length()<=0) {
 			csd1 = fd;
 		}
+		request.setAttribute("csDate1", csd1);
+		request.setAttribute("csDate2", csd2);
 		if(csd2 == null || csd2.trim().length()<=0) {
 			csd2 = "9999-12-31";
 		}
-		request.setAttribute("policyDate1", pd1);
-		request.setAttribute("policyDate2", pd2);
-		request.setAttribute("csDate1", csd1);
-		request.setAttribute("csDate2", csd2);
 		
 		List<CommonModel> temp = null;
 		if(isCity) {
@@ -116,13 +117,33 @@ public class StasticsController {
 		
 		request.setAttribute("cmRst", temp);
 		String col = "";
-		String colData = "";
+		String zhanbi = "";
+		String tuibao = "";
+		double maxZB = 0;
+		int maxTB = 0;
+		DecimalFormat df = new DecimalFormat("#.00"); 
 		for(CommonModel tcm:temp) {
-			col += "\"" + tcm.getOrganName() + "\",";
-			colData += "\"" + tcm.getPolicyFee()/tcm.getSumPolicyFee() + "\",";
+			col += "'" + tcm.getOrganName() + "',";
+			zhanbi += df.format(tcm.getPolicyFee()/tcm.getSumPolicyFee()) + ",";
+			if(tcm.getPolicyFee()/tcm.getSumPolicyFee() > maxZB) {
+				maxZB = Math.ceil(tcm.getPolicyFee()/tcm.getSumPolicyFee());
+			}
+			tuibao += tcm.getPolicyFee()/10000 + ",";
+			if(tcm.getPolicyFee()/10000 > maxTB) {
+				maxTB = (int)Math.ceil(tcm.getPolicyFee()/10000);
+			}
 		}
+		int m = 1;
+		for (int i = 0; i < (int) Math.log10(maxTB); i++) {  
+		    m *= 10;  
+		}  
+		// 第一位  
+		maxTB = (maxTB / m +1) *m; 
 		request.setAttribute("col", col);
-		request.setAttribute("colData", colData);
+		request.setAttribute("zhanbi", zhanbi);
+		request.setAttribute("tuibao", tuibao);
+		request.setAttribute("maxZB", maxZB);
+		request.setAttribute("maxTB", maxTB);
 		
 		Page page = new Page();
 		page.setNumPerPage(50);

@@ -332,28 +332,17 @@ public class StringUtil {
 	}
 	
 	public static void main(String[] args) {
-		/*
-		String str = "search.id";
-		System.out.println(str.indexOf("."));
-		System.out.println(str.replaceAll("\\.", "_"));
-		*？
-		*/
-		String src = "信函已发";
-		String str = Base64Utils.encodeToString(src.getBytes());
-		System.out.println(str);
-		try {
-			str = URLEncoder.encode(str, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-		System.out.println(str);
-		try {
-			String dstr = URLDecoder.decode(str, "UTF-8");
-			System.out.println(dstr);
-			System.out.println(new String(Base64Utils.decodeFromString(dstr)));
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
+		int a = 4504;  
+		// 最后一位  
+		System.out.println(a % 10);  
+		  
+		int m = 1;  
+		for (int i = 0; i < (int) Math.log10(a); i++) {  
+		    m *= 10;  
+		}  
+		// 第一位  
+		System.out.println(m); 
+		System.out.println((a / m +1) *m); 
 		
 	}
 }

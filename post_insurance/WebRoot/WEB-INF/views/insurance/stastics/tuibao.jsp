@@ -56,16 +56,17 @@
 		</div>
 	</div>
 </form>
-
-<div class="pageContent">
-<div class="row" style="padding: 0 10px;">
+<h2 class="contentTitle"><label>统计结果</label><a class="buttonActive" target="_blank" href="${contextPath }/component/stastics/tuibao/toXls?orgCode=${orgCode }&status=${status }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&csDate1=${csDate1 }&csDate2=${csDate2 }&prdCode=${prdCode}&levelFlag=${levelFlag}&netFlag=${netFlag}"><span>导出</span></a></h2>
+<br>
+<div class="pageContent" layoutH="42">
+<div class="row" style="padding: 0 5px;">
 	<div class="sortDrag" style="width:30%;border:1px solid #e66;margin:5px;float:left;min-height:100px">
-	<h2 class="contentTitle">列表展示（单位：万元）&nbsp;&nbsp;&nbsp;&nbsp;<a class="icon" target="_blank" href="${contextPath }/qygl/underwrite/toXls?search_LIKE_formNo=${param.search_LIKE_formNo }&orgCode=${orgCode }&status=${status }&search_LTE_sysDate=${param.search_LTE_sysDate }&search_GTE_sysDate=${param.search_GTE_sysDate }&search_EQ_provReceiveDate=${param.search_EQ_provReceiveDate}"><span>导出</span></a></h2>
+	<h2 class="contentTitle">列表展示（单位：万元）&nbsp;&nbsp;&nbsp;&nbsp;</h2>
 		<table class="table" layoutH="220" width="100%">
 		<thead>
 			<tr>
 				<th>序号</th>
-				<th>机构名称</th>
+				<th>机构</th>
 				<th>退保费</th>
 				<th>总保费</th>
 				<th>占比</th>
@@ -90,24 +91,75 @@
 	        // 基于准备好的dom，初始化echarts实例
 	        var myChart = echarts.init(document.getElementById('main'));
 	
-	        // 指定图表的配置项和数据
-	        var option = {
-	            title: {
+	        option = {
+        		title: {
 	                text: '退保预警图表'
 	            },
-	            tooltip: {},
+	            tooltip: {
+	                trigger: 'axis'
+	            },
+	            toolbox: {
+	                feature: {
+	                    dataView: {show: true, readOnly: false},
+	                    magicType: {show: true, type: ['line', 'bar']},
+	                    restore: {show: true},
+	                    saveAsImage: {show: true}
+	                }
+	            },
 	            legend: {
-	                data:['占比']
+	                data:['退保保费','占比']
 	            },
-	            xAxis: {
-	                data: [${col}]
-	            },
-	            yAxis: {},
-	            series: [{
-	                name: '占比',
-	                type: 'bar',
-	                data: [${colData}]
-	            }]
+	            xAxis: [
+	                {
+	                    type: 'category',
+	                    data: [${col}]
+	                }
+	            ],
+	            yAxis: [
+	                {
+	                    type: 'value',
+	                    name: '退保金额',
+	                    min: 0,
+	                    max: ${maxTB},
+	                    interval: 500,
+	                    axisLabel: {
+	                        formatter: '{value} 万元'
+	                    }
+	                },
+	                {
+	                    type: 'value',
+	                    name: '占比',
+	                    min: 0,
+	                    max: ${maxZB},
+	                    interval: ${maxZB/10},
+	                    axisLabel: {
+	                        formatter: '{value} %'
+	                    }
+	                }
+	            ],
+	            series: [
+	                {
+	                    name:'退保金额',
+	                    type:'bar',
+	                    label: {
+	                        normal: {
+	                            show: true
+	                        }
+	                    },
+	                    data:[${tuibao}]
+	                },
+	                {
+	                    name:'占比',
+	                    type:'line',
+	                    yAxisIndex: 1,
+	                    label: {
+	                        normal: {
+	                            show: true
+	                        }
+	                    },
+	                    data:[${zhanbi}]
+	                }
+	            ]
 	        };
 	
 	        // 使用刚指定的配置项和数据显示图表。
