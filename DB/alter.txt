@@ -841,3 +841,4 @@ alter table t_call_fail_list add index idx_cfl_hdf(`hq_deal_flag`);
 alter table t_issue add index idx_i_p(`policy_no`);
 alter table t_issue add index idx_i_s(`status`);
 alter table t_issue add index idx_i_sd(`should_date`);
+alter table t_issue_type add column type_code varchar(12);
