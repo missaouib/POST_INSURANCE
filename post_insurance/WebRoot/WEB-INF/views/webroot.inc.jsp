@@ -7,7 +7,7 @@
 <a href="#">留言</a> &nbsp;&nbsp; |&nbsp;&nbsp; 
 <shiro:guest><a href="/login?t=web">后台管理登录</a></shiro:guest><shiro:user><a href="/management/index">后台管理界面 </a></shiro:user>
 <div class="contact">
-CHINA POST INSURANCE 中邮保险广东分公司 TEL:020-38181638 Aming（QQ:6901028）<br>(建议使用Chrome、360、QQ、搜狗等浏览器且选则极速模式)
+CHINA POST INSURANCE 中邮保险广东分公司 Copyright &copy; 2013-2017, All Rights Reserve. TEL:020-38181638 Aming（QQ:6901028）<br>(建议使用Chrome、360、QQ、搜狗等浏览器且选则极速模式)
 </div>
 
 <script language=javascript>
