@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.ServletRequest;
 
+import org.apache.shiro.authz.annotation.RequiresUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +14,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.gdpost.utils.SecurityUtils;
 import com.gdpost.utils.StringUtil;
 import com.gdpost.web.controller.insurance.BaseDataController;
 import com.gdpost.web.entity.basedata.Prd;
 import com.gdpost.web.entity.component.CommonModel;
+import com.gdpost.web.entity.main.Organization;
+import com.gdpost.web.entity.main.User;
 import com.gdpost.web.service.component.StasticsService;
 import com.gdpost.web.service.insurance.BaseDataService;
+import com.gdpost.web.shiro.ShiroUser;
 import com.gdpost.web.util.dwz.Page;
 
 @Controller
@@ -41,7 +46,7 @@ public class StasticsController {
 	 * =======================================
 	 * 
 	 */
-	//@RequiresPermissions("CallDealType:view")
+	@RequiresUser
 	@RequestMapping(value="/stastics/tuibao", method={RequestMethod.GET, RequestMethod.POST})
 	public String getTuiBaoStastics(ServletRequest request, Map<String, Object> map) {
 		LOG.debug("-------------------here----------");
@@ -54,15 +59,28 @@ public class StasticsController {
 		String netFlag = request.getParameter("netFlag");
 		String levelFlag = request.getParameter("levelFlag");
 		String prdCode = request.getParameter("prdCode");
+		
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
 		if(organCode == null || organCode.trim().length()<=0) {
-			organCode = "8644";
+			organCode = userOrg.getOrgCode();
+			organName = userOrg.getName();
+		} else if(!organCode.contains(userOrg.getOrgCode())){
+			organCode = userOrg.getOrgCode();
+			organName = userOrg.getName();
 		}
+		
 		String toPrdCode = prdCode;
 		if(prdCode == null || prdCode.trim().length()<=0) {
 			toPrdCode = "%%";
 		}
 		
 		boolean isCity = false;
+		if(organCode.length()>4) {
+			levelFlag = "city";
+		}
+		
 		if(levelFlag != null && levelFlag.trim().equals("city")) {
 			isCity = true;
 		}
