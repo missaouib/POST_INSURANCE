@@ -60,6 +60,7 @@ response.setHeader("Content-Disposition", "inline; filename=call_fail_dtl.xls");
                 <td>${item.issueContent}</td>
                 <td>${item.status}</td>
                 <td><fmt:formatDate value="${item.readyDate }" pattern="yyyy-MM-dd"/></td>
+                <td><c:if test="${item.lastDateNum<0 }">0</c:if><c:if test="${item.lastDateNum>=0 }">${item.lastDateNum }</c:if></td>
                 <td style="vnd.ms-excel.numberformat:@">${item.policy.policyNo}</td>
                 <td>${fn:replace(item.organization.name,'邮政局中邮保险局','')}</td>
                 <td>${item.policy.policyDate}</td>

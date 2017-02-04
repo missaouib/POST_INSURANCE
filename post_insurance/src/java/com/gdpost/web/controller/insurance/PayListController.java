@@ -65,6 +65,7 @@ public class PayListController {
 	private static final String QY_PAY_FROM_LIST = "insurance/qygl/from/list";
 	private static final String LP_PAY_TO_LIST = "insurance/lpgl/to/list";
 	private static final String BQ_PAY_TO_SUCCESS_LIST = "insurance/bqgl/paySuccess/list";
+	private static final String LP_PAY_TO_SUCCESS_LIST = "insurance/lpgl/paySuccess/list";
 	private static final String TO_HELP = "insurance/help/feefailgl";
 	
 	private static final String TO_TOXLS = "insurance/bqgl/to/toXls";
@@ -251,7 +252,7 @@ public class PayListController {
 		case "bq":
 			return BQ_PAY_TO_SUCCESS_LIST;
 		case "lp":
-			return LP_PAY_TO_LIST;
+			return LP_PAY_TO_SUCCESS_LIST;
 			default:
 				return BQ_PAY_TO_SUCCESS_LIST;
 		}

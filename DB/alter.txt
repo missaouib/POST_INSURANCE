@@ -783,7 +783,7 @@ alter table t_bank_code change flag net_flag tinyint(1);
 alter table t_call_deal_type change flag type_flag tinyint(1);
 alter table t_renewal_type change flag type_flag tinyint(1);
 alter table t_invoice_req change flag req_flag varchar(2) DEFAULT NULL COMMENT '首期 续期';
-alter table t_policy change flag attached_flag int(1);
+alter table t_policy change flag attached_flag int(1) default 0;
 drop table t_call_feedback;
 drop table t_convicted_info;
 drop table t_call_fail;

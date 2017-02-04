@@ -19,7 +19,7 @@ function doRel(val) {
 function dformat(did, dval) {
 	if(dval.length == 4) {
 		var pattern = /(\d{2})(\d{2})/;
-		$(did).val(dval.replace(pattern, '2016-$1-$2'));
+		$(did).val(dval.replace(pattern, '2017-$1-$2'));
 		return;
 	}
 	var pattern = /(\d{4})(\d{2})(\d{2})/;
