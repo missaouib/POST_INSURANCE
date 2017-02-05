@@ -19,6 +19,7 @@ import com.gdpost.web.dao.IssueTypeDAO;
 import com.gdpost.web.dao.PrdDAO;
 import com.gdpost.web.dao.ProvOrgCodeDAO;
 import com.gdpost.web.dao.RenewalTypeDAO;
+import com.gdpost.web.dao.component.StaffDAO;
 import com.gdpost.web.entity.basedata.BankCode;
 import com.gdpost.web.entity.basedata.CallDealType;
 import com.gdpost.web.entity.basedata.CheckFixType;
@@ -26,6 +27,7 @@ import com.gdpost.web.entity.basedata.ConservationError;
 import com.gdpost.web.entity.basedata.IssueType;
 import com.gdpost.web.entity.basedata.Prd;
 import com.gdpost.web.entity.basedata.RenewalType;
+import com.gdpost.web.entity.component.Staff;
 import com.gdpost.web.entity.main.ConservationType;
 import com.gdpost.web.entity.main.ProvOrgCode;
 import com.gdpost.web.exception.ExistedException;
@@ -64,6 +66,9 @@ public class BaseDataServiceImpl implements BaseDataService {
 	
 	@Autowired
 	private ProvOrgCodeDAO provOrgCodeDAO;
+	
+	@Autowired
+	private StaffDAO staffDAO;
 	
 	/*
 	 * (non-Javadoc)
@@ -487,5 +492,53 @@ public class BaseDataServiceImpl implements BaseDataService {
 	@Override
 	public ProvOrgCode getByProvOrgCodeOrgCode(String orgCode) {
 		return provOrgCodeDAO.getByOrgCode(orgCode);
+	}
+	
+	/*
+	 * ========================
+	 *  Staff
+	 *  =======================
+	 */
+	@Override
+	public Staff getStaff(Long id) {
+		return staffDAO.findOne(id);
+	}
+
+	@Override
+	public void saveOrUpdateStaff(Staff staff) {
+		if (staff.getId() == null) {
+			if (staffDAO.getByIdCard(staff.getIdCard()) != null) {
+				throw new ExistedException("证件号码" + staff.getIdCard() + "已存在。");
+			}
+		}
+		
+		staffDAO.save(staff);
+		
+	}
+
+	@Override
+	public void deleteStaff(Long id) {
+		Staff staff = staffDAO.findOne(id);
+		staffDAO.delete(staff);
+		
+	}
+
+	@Override
+	public List<Staff> findAllStaff(Page page) {
+		org.springframework.data.domain.Page<Staff> springDataPage = staffDAO.findAll(PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
+	}
+
+	@Override
+	public List<Staff> findByStaffExample(Specification<Staff> specification, Page page) {
+		org.springframework.data.domain.Page<Staff> springDataPage = staffDAO.findAll(specification, PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
+	}
+	
+	@Override
+	public Staff getByStaffIdCard(String idCard) {
+		return staffDAO.getByIdCard(idCard);
 	}
 }

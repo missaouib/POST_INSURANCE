@@ -33,6 +33,7 @@ import com.gdpost.web.entity.basedata.ConservationError;
 import com.gdpost.web.entity.basedata.IssueType;
 import com.gdpost.web.entity.basedata.Prd;
 import com.gdpost.web.entity.basedata.RenewalType;
+import com.gdpost.web.entity.component.Staff;
 import com.gdpost.web.entity.main.ConservationType;
 import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.ProvOrgCode;
@@ -95,6 +96,10 @@ public class BaseDataController {
 	private static final String PROV_ORG_CODE_CREATE = "insurance/basedata/provOrgCode/create";
 	private static final String PROV_ORG_CODE_UPDATE = "insurance/basedata/provOrgCode/update";
 	private static final String PROV_ORG_CODE_LIST = "insurance/basedata/provOrgCode/list";
+	
+	private static final String STAFF_CREATE = "insurance/basedata/staff/create";
+	private static final String STAFF_UPDATE = "insurance/basedata/staff/update";
+	private static final String STAFF_LIST = "insurance/basedata/staff/list";
 	/*
 	 * =======================================
 	 * call deal type 回访类型
@@ -926,5 +931,97 @@ public class BaseDataController {
 		map.put("page", page);
 		map.put("basedata", basedata);
 		return PROV_ORG_CODE_LIST;
+	}
+
+	/*
+	 * =======================================
+	 * Staff 员工信息
+	 * =======================================
+	 * 
+	 */
+	@RequiresPermissions("Staff:save")
+	@RequestMapping(value="/staff/create", method=RequestMethod.GET)
+	public String preCreateStaff() {
+		return STAFF_CREATE;
+	}
+
+	@Log(message="添加了{0}员工信息。", level=LogLevel.WARN, module=LogModule.BaseDate)
+	@RequiresPermissions("Staff:save")
+	@RequestMapping(value="/staff/create", method=RequestMethod.POST)
+	public @ResponseBody String createStaff(@Valid Staff staff) {	
+		try {
+			baseService.saveOrUpdateStaff(staff);
+		} catch (ExistedException e) {
+			return AjaxObject.newError("添加员工信息失败：" + e.getMessage()).setCallbackType("").toString();
+		}
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{staff.getIdCard()}));
+		return AjaxObject.newOk("添加员工信息成功！").toString();
+	}
+
+	@RequiresPermissions("Staff:edit")
+	@RequestMapping(value="/staff/update/{id}", method=RequestMethod.GET)
+	public String preUpdateStaff(@PathVariable Long id, Map<String, Object> map) {
+		Staff basedata = baseService.getStaff(id);
+		
+		map.put("basedata", basedata);
+		return STAFF_UPDATE;
+	}
+
+	@Log(message="修改了{0}员工信息的信息。", level=LogLevel.WARN, module=LogModule.BaseDate)
+	@RequiresPermissions("Staff:edit")
+	@RequestMapping(value="/staff/update", method=RequestMethod.POST)
+	public @ResponseBody String updateStaff(Staff staff) {
+		baseService.saveOrUpdateStaff(staff);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{staff.getIdCard()}));
+		return	AjaxObject.newOk("修改员工信息成功！").toString(); 
+	}
+
+	@Log(message="删除了{0}员工信息。", level=LogLevel.WARN, module=LogModule.BaseDate)
+	@RequiresPermissions("Staff:delete")
+	@RequestMapping(value="/staff/delete/{id}", method=RequestMethod.POST)
+	public @ResponseBody String deleteStaff(@PathVariable Long id) {
+		Staff staff = null;
+		try {
+			staff = baseService.getStaff(id);
+			baseService.deleteStaff(staff.getId());
+		} catch (ServiceException e) {
+			return AjaxObject.newError("删除员工信息失败：" + e.getMessage()).setCallbackType("").toString();
+		}
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{staff.getIdCard()}));
+		return AjaxObject.newOk("删除员工信息成功！").setCallbackType("").toString();
+	}
+
+	@Log(message="删除了{0}员工信息。", level=LogLevel.WARN, module=LogModule.BaseDate)
+	@RequiresPermissions("Staff:delete")
+	@RequestMapping(value="/staff/delete", method=RequestMethod.POST)
+	public @ResponseBody String deleteManyStaff(Long[] ids) {
+		String[] staffs = new String[ids.length];
+		try {
+			for (int i = 0; i < ids.length; i++) {
+				Staff staff = baseService.getStaff(ids[i]);
+				baseService.deleteStaff(staff.getId());
+				
+				staffs[i] = staff.getIdCard();
+			}
+		} catch (ServiceException e) {
+			return AjaxObject.newError("删除员工信息失败：" + e.getMessage()).setCallbackType("").toString();
+		}
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{Arrays.toString(staffs)}));
+		return AjaxObject.newOk("删除员工信息成功！").setCallbackType("").toString();
+	}
+
+	@RequiresPermissions("Staff:view")
+	@RequestMapping(value="/staff/list", method={RequestMethod.GET, RequestMethod.POST})
+	public String listStaff(ServletRequest request, Page page, Map<String, Object> map) {
+		Specification<Staff> specification = DynamicSpecifications.bySearchFilter(request, Staff.class);
+		List<Staff> basedata = baseService.findByStaffExample(specification, page);
+	
+		map.put("page", page);
+		map.put("basedata", basedata);
+		return STAFF_LIST;
 	}
 }

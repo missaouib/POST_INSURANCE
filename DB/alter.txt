@@ -842,3 +842,5 @@ alter table t_issue add index idx_i_p(`policy_no`);
 alter table t_issue add index idx_i_s(`status`);
 alter table t_issue add index idx_i_sd(`should_date`);
 alter table t_issue_type add column type_code varchar(12);
+
+CREATE UNIQUE INDEX idx_idcard ON t_staff(id_card); 

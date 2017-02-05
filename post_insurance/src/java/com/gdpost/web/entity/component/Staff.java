@@ -1,5 +1,7 @@
 package com.gdpost.web.entity.component;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,8 +19,12 @@ import com.gdpost.web.entity.Idable;
 @Entity
 @Table(name = "t_staff")
 
-public class Staff implements Idable<Long> {
+public class Staff implements Idable<Long>,Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -9220037676242339927L;
 	// Fields
 
 	private Long id;

@@ -18,6 +18,7 @@ import com.gdpost.web.entity.basedata.ConservationError;
 import com.gdpost.web.entity.basedata.IssueType;
 import com.gdpost.web.entity.basedata.Prd;
 import com.gdpost.web.entity.basedata.RenewalType;
+import com.gdpost.web.entity.component.Staff;
 import com.gdpost.web.entity.main.ConservationType;
 import com.gdpost.web.entity.main.ProvOrgCode;
 import com.gdpost.web.util.dwz.Page;
@@ -175,4 +176,21 @@ public interface BaseDataService {
 	List<ProvOrgCode> findByProvOrgCodeExample(Specification<ProvOrgCode> specification, Page page);
 	
 	ProvOrgCode getByProvOrgCodeOrgCode(String orgCode);
+	
+	/*
+	 * ==============
+	 * Staff
+	 * ==============
+	 */
+	Staff getStaff(Long id);
+
+	void saveOrUpdateStaff(Staff type);
+
+	void deleteStaff(Long id);
+	
+	List<Staff> findAllStaff(Page page);
+	
+	List<Staff> findByStaffExample(Specification<Staff> specification, Page page);
+	
+	Staff getByStaffIdCard(String idCard);
 }

@@ -16,4 +16,5 @@ import com.gdpost.web.entity.component.Staff;
  * @author MyEclipse Persistence Tools
  */
 public interface StaffDAO extends JpaRepository<Staff, Long>, JpaSpecificationExecutor<Staff> {
+	Staff getByIdCard(String idCard);
 }

@@ -1,5 +1,6 @@
 package com.gdpost.web.entity.main;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -7,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -16,6 +19,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.ColumnTransformer;
 
 import com.gdpost.web.entity.Idable;
+import com.gdpost.web.entity.component.Staff;
 
 /**
  * TPolicyDtl entity. @author MyEclipse Persistence Tools
@@ -23,15 +27,19 @@ import com.gdpost.web.entity.Idable;
 @Entity
 @Table(name = "t_policy_dtl")
 @Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="com.gdpost.web.entity.main.PolicyDtl")
-public class PolicyDtl implements Idable<Long> {
+public class PolicyDtl implements Idable<Long>,Serializable {
 
 	// Fields
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6965025646998800405L;
 	private Long id;
 	private String organCode;
 	private String policyNo;
 	private String holder;
-	private Integer holderSexy;
+	private String holderSexy;
 	private String insured;
 	private String prodName;
 	private String insuredAmount;
@@ -42,10 +50,12 @@ public class PolicyDtl implements Idable<Long> {
 	private String holderMobile;
 	private String holderAddr;
 	private String holderPostcode;
-	private Integer holderCardType;
+	private String holderCardType;
 	private String holderCardNum;
 	private Long operateId;
 	private Date operateTime;
+	
+	private Staff staff;
 
 	// Constructors
 
@@ -54,9 +64,9 @@ public class PolicyDtl implements Idable<Long> {
 	}
 
 	/** full constructor */
-	public PolicyDtl(String organCode, String policyNo, String holder, Integer holderSexy, String insured, String prodName, String insuredAmount,
+	public PolicyDtl(String organCode, String policyNo, String holder, String holderSexy, String insured, String prodName, String insuredAmount,
 			String policyFee, String salesName, Date policyDate, String holderPhone, String holderMobile, String holderAddr, String holderPostcode,
-			Integer holderCardType, String holderCardNum, Long operateId, Date operateTime) {
+			String holderCardType, String holderCardNum, Long operateId, Date operateTime) {
 		this.organCode = organCode;
 		this.policyNo = policyNo;
 		this.holder = holder;
@@ -121,11 +131,11 @@ public class PolicyDtl implements Idable<Long> {
 	}
 
 	@Column(name = "holder_sexy")
-	public Integer getHolderSexy() {
+	public String getHolderSexy() {
 		return this.holderSexy;
 	}
 
-	public void setHolderSexy(Integer holderSexy) {
+	public void setHolderSexy(String holderSexy) {
 		this.holderSexy = holderSexy;
 	}
 
@@ -241,11 +251,11 @@ public class PolicyDtl implements Idable<Long> {
 	}
 
 	@Column(name = "holder_card_type")
-	public Integer getHolderCardType() {
+	public String getHolderCardType() {
 		return this.holderCardType;
 	}
 
-	public void setHolderCardType(Integer holderCardType) {
+	public void setHolderCardType(String holderCardType) {
 		this.holderCardType = holderCardType;
 	}
 
@@ -279,6 +289,16 @@ public class PolicyDtl implements Idable<Long> {
 
 	public void setOperateTime(Date operateTime) {
 		this.operateTime = operateTime;
+	}
+
+	@OneToOne(optional=true)
+	@JoinColumn(name="holder_card_num", referencedColumnName="id_Card", insertable=false, updatable=false, nullable=true)
+	public Staff getStaff() {
+		return staff;
+	}
+
+	public void setStaff(Staff staff) {
+		this.staff = staff;
 	}
 
 }

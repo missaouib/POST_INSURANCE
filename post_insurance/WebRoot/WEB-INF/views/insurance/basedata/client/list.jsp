@@ -114,6 +114,7 @@
 				<th>交费期间</th>
 				<th>承保日期</th>
 				<th>状态</th>
+				<th>员工单</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -143,6 +144,7 @@
 				<td>${item.perm}</td>
 				<td><fmt:formatDate value="${item.policyDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.status}</td>
+				<td>${item.isStaff}</td>
 			</tr>
 			</c:forEach>
 		</tbody>

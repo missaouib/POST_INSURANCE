@@ -11,7 +11,7 @@ import javax.persistence.Transient;
  * VCallFailList entity. @author MyEclipse Persistence Tools
  */
 @Entity
-public class CommonModel implements java.io.Serializable {
+public class TuiBaoModel implements java.io.Serializable {
 
 	/**
 	 * 
@@ -30,7 +30,7 @@ public class CommonModel implements java.io.Serializable {
 	// Constructors
 
 	/** default constructor */
-	public CommonModel() {
+	public TuiBaoModel() {
 	}
 
 	@Id

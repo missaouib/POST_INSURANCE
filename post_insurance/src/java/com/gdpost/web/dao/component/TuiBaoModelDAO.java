@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.gdpost.web.entity.component.CommonModel;
+import com.gdpost.web.entity.component.TuiBaoModel;
 
 /**
  * A data access object (DAO) providing persistence and search support for
@@ -19,7 +19,7 @@ import com.gdpost.web.entity.component.CommonModel;
  * @see com.gdpost.web.entity.main.ConservationDtl
  * @author MyEclipse Persistence Tools
  */
-public interface CommonModelDAO extends JpaRepository<CommonModel, String>, JpaSpecificationExecutor<CommonModel> {
+public interface TuiBaoModelDAO extends JpaRepository<TuiBaoModel, String>, JpaSpecificationExecutor<TuiBaoModel> {
 	
 	@Query(name="getProvTuiBaoWarningWithPolicyDateAndCsDateNoBankCode",
 			value="select left(tp.organ_name,2) as organ_name,sum(policy_fee) as policy_fee,"
@@ -33,7 +33,7 @@ public interface CommonModelDAO extends JpaRepository<CommonModel, String>, JpaS
 			+ "group by left(tp.organ_name,2) "
 			+ "order by tp.organ_code;",
 			nativeQuery=true)
-	List<CommonModel> getProvTuiBaoWarningWithPolicyDateAndCsDateNoBankCode(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("prdCode")String prdCode);
+	List<TuiBaoModel> getProvTuiBaoWarningWithPolicyDateAndCsDateNoBankCode(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("prdCode")String prdCode);
 	
 	@Query(name="getProvTuiBaoWarningWithPolicyDateAndCsDate",
 			value="select left(tp.organ_name,2) as organ_name,sum(policy_fee) as policy_fee,"
@@ -48,7 +48,7 @@ public interface CommonModelDAO extends JpaRepository<CommonModel, String>, JpaS
 			+ "group by left(tp.organ_name,2) "
 			+ "order by tp.organ_code;",
 			nativeQuery=true)
-	List<CommonModel> getProvTuiBaoWarningWithPolicyDateAndCsDate(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode);
+	List<TuiBaoModel> getProvTuiBaoWarningWithPolicyDateAndCsDate(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode);
 	
 	@Query(name="getTuiBaoWarningWithPolicyDateAndCsDateNoBankCode",
 			value="select tp.organ_name as organ_name,sum(policy_fee) as policy_fee,"
@@ -62,7 +62,7 @@ public interface CommonModelDAO extends JpaRepository<CommonModel, String>, JpaS
 			+ "group by tp.organ_name "
 			+ "order by tp.organ_code;",
 			nativeQuery=true)
-	List<CommonModel> getTuiBaoWarningWithPolicyDateAndCsDateNoBankCode(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("prdCode")String prdCode);
+	List<TuiBaoModel> getTuiBaoWarningWithPolicyDateAndCsDateNoBankCode(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("prdCode")String prdCode);
 	
 	@Query(name="getTuiBaoWarningWithPolicyDateAndCsDate",
 			value="select tp.organ_name as organ_name,sum(policy_fee) as policy_fee,"
@@ -77,5 +77,5 @@ public interface CommonModelDAO extends JpaRepository<CommonModel, String>, JpaS
 			+ "group by tp.organ_name "
 			+ "order by tp.organ_code;",
 			nativeQuery=true)
-	List<CommonModel> getTuiBaoWarningWithPolicyDateAndCsDate(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode);
+	List<TuiBaoModel> getTuiBaoWarningWithPolicyDateAndCsDate(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode);
 }

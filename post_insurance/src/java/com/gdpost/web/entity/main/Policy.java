@@ -10,9 +10,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Cache;
@@ -70,6 +72,11 @@ public class Policy implements Idable<Long>, Serializable{
 	private String customerManagerCode;
 	private String customer_manager;
 	private Integer attachedFlag;
+	
+	private PolicyDtl policyDtl;
+	
+	@Transient
+	private Boolean isStaff;
 	
 //	private List<CheckRecordDtl> checkRecordDtls = new ArrayList<CheckRecordDtl>(0);
 //	private List<CheckWriteDtl> checkWriteDtls = new ArrayList<CheckWriteDtl>(0);
@@ -421,6 +428,34 @@ public class Policy implements Idable<Long>, Serializable{
 		this.attachedFlag = attachedFlag;
 	}
 
+	@OneToOne(optional=true)
+	@JoinColumn(name="policy_no", referencedColumnName="policy_no", insertable=false, updatable=false, nullable=true)
+	public PolicyDtl getPolicyDtl() {
+		return policyDtl;
+	}
+
+	public void setPolicyDtl(PolicyDtl policyDtl) {
+		this.policyDtl = policyDtl;
+	}
+
+	@Transient
+	public Boolean getIsStaff() {
+		this.isStaff = false;
+		if(this.getPolicyDtl() != null && this.getPolicyDtl().getHolderCardNum() != null) {
+			PolicyDtl dtl = this.getPolicyDtl();
+			if(dtl.getStaff() != null && dtl.getStaff().getIdCard() != null) {
+				this.isStaff = true;
+			}
+		}
+		return this.isStaff;
+	}
+
+	@Transient
+	public void setIsStaff(Boolean isStaff) {
+		this.isStaff = isStaff;
+	}
+	
+	
 //	@OneToMany(mappedBy="policy", cascade={CascadeType.REMOVE}, orphanRemoval=true)
 //	public List<CheckRecordDtl> getCheckRecordDtls() {
 //		return this.checkRecordDtls;
