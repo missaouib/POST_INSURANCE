@@ -42,6 +42,7 @@ import com.alibaba.fastjson.serializer.JavaBeanSerializer;
 import com.alibaba.fastjson.serializer.SerializeConfig;
 import com.gdpost.utils.SecurityUtils;
 import com.gdpost.web.entity.main.InvoiceReq;
+import com.gdpost.web.entity.main.Policy;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.exception.ExistedException;
 import com.gdpost.web.exception.ServiceException;
@@ -51,6 +52,7 @@ import com.gdpost.web.log.LogMessageObject;
 import com.gdpost.web.log.LogModule;
 import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.insurance.FpglService;
+import com.gdpost.web.service.insurance.PolicyService;
 import com.gdpost.web.util.StatusDefine.FP_STATUS;
 import com.gdpost.web.util.dwz.AjaxObject;
 import com.gdpost.web.util.dwz.Page;
@@ -65,6 +67,9 @@ public class FpglController {
 	
 	@Autowired
 	private FpglService fpglService;
+	
+	@Autowired
+	private PolicyService policyService;
 
 	private static final String CREATE = "insurance/fpgl/create";
 	private static final String UPDATE = "insurance/fpgl/update";
@@ -96,6 +101,8 @@ public class FpglController {
 			req.setReqDate(new Date());
 			req.setStatus(FP_STATUS.NewStatus.name());
 			LOG.debug("---------" + req.getPolicy().getPolicyNo());
+			Policy p = policyService.get(req.getPolicy().getId());
+			req.setPolicy(p);
 			fpglService.saveOrUpdate(req);
 		} catch (ExistedException e) {
 			return AjaxObject.newError("添加发票申请失败：" + e.getMessage()).toString();
@@ -127,6 +134,8 @@ public class FpglController {
 	@RequiresPermissions("InvoiceReq:edit")
 	@RequestMapping(value="/update", method=RequestMethod.POST)
 	public @ResponseBody String update(InvoiceReq req) {
+		Policy p = policyService.get(req.getPolicy().getId());
+		req.setPolicy(p);
 		fpglService.saveOrUpdate(req);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{req.getPolicy().getPolicyNo()}));

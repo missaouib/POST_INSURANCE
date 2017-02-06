@@ -77,6 +77,10 @@ public class StasticsController {
 		String toPrdCode = prdCode;
 		if(prdCode == null || prdCode.trim().length()<=0) {
 			toPrdCode = "%%";
+		} else {
+			if(prdCode.indexOf("_") > 0) {
+				toPrdCode = prdCode.substring(0, prdCode.indexOf("_"));
+			}
 		}
 		
 		boolean isCity = false;
@@ -192,6 +196,10 @@ public class StasticsController {
 		String toPrdCode = prdCode;
 		if(prdCode == null || prdCode.trim().length()<=0) {
 			toPrdCode = "%%";
+		} else {
+			if(prdCode.indexOf("_") > 0) {
+				toPrdCode = prdCode.substring(0, prdCode.indexOf("_"));
+			}
 		}
 		boolean isCity = false;
 		if(levelFlag != null && levelFlag.trim().equals("city")) {
@@ -269,6 +277,10 @@ public class StasticsController {
 		String toPrdCode = prdCode;
 		if(prdCode == null || prdCode.trim().length()<=0) {
 			toPrdCode = "%%";
+		} else {
+			if(prdCode.indexOf("_") > 0) {
+				toPrdCode = prdCode.substring(0, prdCode.indexOf("_"));
+			}
 		}
 		
 		boolean isCity = false;
@@ -374,6 +386,10 @@ public class StasticsController {
 		String toPrdCode = prdCode;
 		if(prdCode == null || prdCode.trim().length()<=0) {
 			toPrdCode = "%%";
+		} else {
+			if(prdCode.indexOf("_") > 0) {
+				toPrdCode = prdCode.substring(0, prdCode.indexOf("_"));
+			}
 		}
 		boolean isCity = false;
 		if(levelFlag != null && levelFlag.trim().equals("city")) {

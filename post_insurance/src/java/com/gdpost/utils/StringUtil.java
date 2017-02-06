@@ -332,17 +332,8 @@ public class StringUtil {
 	}
 	
 	public static void main(String[] args) {
-		int a = 4504;  
-		// 最后一位  
-		System.out.println(a % 10);  
-		  
-		int m = 1;  
-		for (int i = 0; i < (int) Math.log10(a); i++) {  
-		    m *= 10;  
-		}  
-		// 第一位  
-		System.out.println(m); 
-		System.out.println((a / m +1) *m); 
+		String test = "125005_1";
+		System.out.println(test.substring(0, test.indexOf("_")));
 		
 	}
 }

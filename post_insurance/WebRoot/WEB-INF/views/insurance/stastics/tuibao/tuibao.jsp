@@ -20,7 +20,7 @@
 					<input type="text" name="policyDate2" id="uwDate2" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${policyDate2 }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td><label>产品：</label>
-				<form:select path="CommonModel.prdCode" id="prdCode" class="combox">
+				<form:select path="TuiBaoModel.prdCode" id="prdCode" class="combox">
 						<form:option value=""> -- </form:option>
 						<form:options items="${prds }" itemLabel="prdName" itemValue="prdCode"/>
 					</form:select>
@@ -28,7 +28,7 @@
 				</tr>
 				<tr>
 					<td><label>标记：</label>
-					<form:select path="CommonModel.levelFlag" id="tbflag" class="combox">
+					<form:select path="TuiBaoModel.levelFlag" id="tbflag" class="combox">
 						<form:option value="prov"> 省级 </form:option>
 						<form:option value="city"> 市级 </form:option>
 					</form:select>
@@ -40,7 +40,7 @@
 					<input type="text" name="csDate2" id="uwDate2" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${csDate2 }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td><label>银邮：</label>
-					<form:select path="CommonModel.netFlag" id="netflag" class="combox">
+					<form:select path="TuiBaoModel.netFlag" id="netflag" class="combox">
 						<form:option value="">  --  </form:option>
 						<form:option value="1"> 邮政代理 </form:option>
 						<form:option value="2"> 银行自营 </form:option>
