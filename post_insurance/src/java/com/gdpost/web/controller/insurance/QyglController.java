@@ -38,6 +38,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gdpost.utils.SecurityUtils;
+import com.gdpost.utils.StringUtil;
 import com.gdpost.web.entity.basedata.CheckFixType;
 import com.gdpost.web.entity.main.CheckRecord;
 import com.gdpost.web.entity.main.CheckWrite;
@@ -87,6 +88,8 @@ public class QyglController {
 	private static final String UW_SIGNDATEUPDATE = "insurance/qygl/underwrite/signDateUpdate";
 	private static final String UW_MAIL_DATE = "insurance/qygl/underwrite/mailDate";
 	private static final String UW_REC_DATE = "insurance/qygl/underwrite/recDate";
+	private static final String UW_MAIL_DATES = "insurance/qygl/underwrite/mailDates";
+	private static final String UW_REC_DATES = "insurance/qygl/underwrite/recDates";
 	
 	private static final String UW_POP = "insurance/qygl/underwrite/uwPop";
 	private static final String UW_CALL = "insurance/qygl/underwrite/uwCall";
@@ -604,73 +607,65 @@ public class QyglController {
 	
 	@RequiresPermissions(value={"UnderWrite:edit","UnderWrite:provEdit","UnderWrite:cityEdit","UnderWrite:areaEdit"}, logical=Logical.OR)
 	@RequestMapping(value="/underwrite/{mailFlag}", method=RequestMethod.POST)
-	public String preManyMailRecDateUpdate(@PathVariable String mailFlag, @PathVariable Long id, Map<String, Object> map) {
-		UnderWrite underwrite = qyglService.getUnderWrite(id);
-		
-		map.put("underwrite", underwrite);
+	public String preManyMailRecDateUpdate(@PathVariable String mailFlag, @PathVariable Long[] id, Map<String, Object> map) {
+		String ids = null;
+		for(Long t:id) {
+			ids = t + ",";
+		}
+		if(ids != null && ids.length()>0) {
+			ids.substring(0, ids.length()-1);
+		}
+		map.put("ids", ids);
 		map.put("mailFlag", mailFlag);
 		if(mailFlag.contains("Send")) {
-			switch(mailFlag) {
-			case "provSend":
-				underwrite.setSendDate(underwrite.getProvSendDate());
-				underwrite.setEmsNo(underwrite.getProvEmsNo());
-				break;
-			case "citySend":
-				underwrite.setSendDate(underwrite.getCitySendDate());
-				underwrite.setEmsNo(underwrite.getCityEmsNo());
-				break;
-			case "areaSend":
-				underwrite.setSendDate(underwrite.getAreaSendDate());
-				underwrite.setEmsNo(underwrite.getAreaEmsNo());
-				break;
-			}
-			return UW_MAIL_DATE;
+			return UW_MAIL_DATES;
 		} else {
-			switch(mailFlag) {
-			case "provRec":
-				underwrite.setReceiveDate(underwrite.getProvReceiveDate());
-				break;
-			case "cityRec":
-				underwrite.setReceiveDate(underwrite.getCityReceiveDate());
-				break;
-			case "areaRec":
-				underwrite.setReceiveDate(underwrite.getAreaReceiveDate());
-				break;
-			}
-			return UW_REC_DATE;
+			return UW_REC_DATES;
 		}
 	}
 	
 	@Log(message="批量更新了{0}人核件记录申请。", level=LogLevel.WARN, module=LogModule.QYGL)
 	@RequiresPermissions(value={"UnderWrite:edit","UnderWrite:provEdit","UnderWrite:cityEdit","UnderWrite:areaEdit"}, logical=Logical.OR)
 	@RequestMapping(value="/underwrite/manySendRecUpdate", method=RequestMethod.POST)
-	public @ResponseBody String batchUpdateMailDate(ServletRequest request, Long[] ids) {
+	public @ResponseBody String batchUpdateMailDate(ServletRequest request) {
+		String sids = request.getParameter("ids");
+		String[] ids = sids.split(",");
 		String[] policys = new String[ids.length];
 		try {
 			for (int i = 0; i < ids.length; i++) {
-				UnderWrite src = qyglService.getUnderWrite(ids[i]);
+				UnderWrite src = qyglService.getUnderWrite(new Long(ids[i]));
 				String mailFlag = request.getParameter("mailFlag");
+				Date sendDate = StringUtil.str2Date(request.getParameter("sendDate"),"yyyy-MM-dd");
+				String emsNo = request.getParameter("emsNo");
+				String toNet = request.getParameter("toNet");
+				boolean isToNet = false;
+				if(toNet != null && toNet.equals("1")) {
+					isToNet = true;
+				}
 				switch(mailFlag) {
 				case "provSend":
-					src.setProvSendDate(src.getSendDate());
-					src.setProvEmsNo(src.getEmsNo());
+					src.setProvSendDate(sendDate);
+					src.setProvEmsNo(emsNo);
+					src.setToNet(isToNet);
 					break;
 				case "citySend":
-					src.setCitySendDate(src.getSendDate());
-					src.setCityEmsNo(src.getEmsNo());
+					src.setCitySendDate(sendDate);
+					src.setCityEmsNo(emsNo);
+					src.setToNet(isToNet);
 					break;
 				case "areaSend":
-					src.setAreaSendDate(src.getSendDate());
-					src.setAreaEmsNo(src.getEmsNo());
+					src.setAreaSendDate(sendDate);
+					src.setAreaEmsNo(emsNo);
+					src.setToNet(isToNet);
 					break;
 				case "provRec":
-					src.setProvReceiveDate(src.getReceiveDate());
+					src.setProvReceiveDate(sendDate);
 					break;
 				case "cityRec":
-					src.setCityReceiveDate(src.getReceiveDate());
+					src.setCityReceiveDate(sendDate);
 					break;
 				case "areaRec":
-					src.setAreaReceiveDate(src.getReceiveDate());
+					src.setAreaReceiveDate(sendDate);
 					break;
 					default:
 						log.warn("-------------人核件的寄发标记缺失!");
