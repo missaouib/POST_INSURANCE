@@ -607,15 +607,15 @@ public class QyglController {
 	
 	@RequiresPermissions(value={"UnderWrite:edit","UnderWrite:provEdit","UnderWrite:cityEdit","UnderWrite:areaEdit"}, logical=Logical.OR)
 	@RequestMapping(value="/underwrite/{mailFlag}", method=RequestMethod.POST)
-	public String preManyMailRecDateUpdate(@PathVariable String mailFlag, @PathVariable Long[] id, Map<String, Object> map) {
-		String ids = null;
-		for(Long t:id) {
-			ids = t + ",";
+	public String preManyMailRecDateUpdate(@PathVariable String mailFlag, Long[] ids, Map<String, Object> map) {
+		String sids = null;
+		for(Long t:ids) {
+			sids = t + ",";
 		}
-		if(ids != null && ids.length()>0) {
-			ids.substring(0, ids.length()-1);
+		if(sids != null && sids.length()>0) {
+			sids.substring(0, sids.length()-1);
 		}
-		map.put("ids", ids);
+		map.put("ids", sids);
 		map.put("mailFlag", mailFlag);
 		if(mailFlag.contains("Send")) {
 			return UW_MAIL_DATES;
