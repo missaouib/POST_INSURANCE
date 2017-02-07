@@ -76,6 +76,26 @@ public class XlsFileHandler extends AbstractFileHandler {
 					skipRow = sheet.getMergedRegion(sheetmergerCount-1).getLastRow();
 				}
 				lastRow = sheet.getLastRowNum();
+				if(mkeyRow.equals("保全受理号") || mkeyRow.equals("保单号码")) {
+					for(int i=0; i<=7; i++) {
+						headerRow = (HSSFRow) sheet.getRow(i);
+						if (headerRow == null) {
+							continue;
+						}
+						Iterator<Cell> iter = headerRow.cellIterator();
+						count = 0;
+						while(iter.hasNext()) {
+							checkCell = iter.next();
+							if(checkCell.getStringCellValue() != null && checkCell.getStringCellValue().trim().equals("序号")) {
+								skipRow = i-1;
+								break;
+							}
+							if(count++>1) {
+								break;
+							}
+						}
+					}
+				}
 				for (int i = skipRow+1; i < lastRow; i++) {
 					count = -1;
 					headerRow = (HSSFRow) sheet.getRow(i);

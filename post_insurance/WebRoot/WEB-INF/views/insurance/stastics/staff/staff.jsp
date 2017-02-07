@@ -78,10 +78,10 @@
 				<td>${item.organName}</td>
 				<td><fmt:formatNumber value="${item.staffCount}" pattern="#,###" /></td>
 				<td><fmt:formatNumber value="${item.sumStaffCount}" pattern="#,###" /></td>
-				<td><fmt:formatNumber value="${item.staffCount/item.sumStaffCount}" pattern="#,###.##" />%</td>
-				<td>${item.policyFee/10000}</td>
-				<td>${item.sumPolicyFee/10000}</td>
-				<td><fmt:formatNumber value="${item.policyFee/item.sumPolicyFee}" pattern="#,###.##" />%</td>
+				<td><fmt:formatNumber value="${item.staffCount/item.sumStaffCount*100}" pattern="#,###.#" />%</td>
+				<td><fmt:formatNumber value="${item.policyFee/10000}" pattern="#,###.#" /></td>
+				<td><fmt:formatNumber value="${item.sumPolicyFee/10000}" pattern="#,###.#" /></td>
+				<td><fmt:formatNumber value="${item.policyFee/item.sumPolicyFee*100}" pattern="#,###.#" />%</td>
 			</tr>
 			</c:forEach>
 		</tbody>
