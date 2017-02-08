@@ -32,10 +32,11 @@ public interface TuiBaoModelDAO extends JpaRepository<TuiBaoModel, String>, JpaS
 			+ "and tp.organ_code like :orgCode "
 			+ "and tp.prod_code like :prdCode "
 			+ "and tp.fee_frequency like :toPerm "
+			+ "and tp.staff_flag like :staffFlag "
 			+ "group by left(tp.organ_name,2) "
 			+ "order by tp.organ_code;",
 			nativeQuery=true)
-	List<TuiBaoModel> getProvTuiBaoWarningWithPolicyDateAndCsDateNoBankCode(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm);
+	List<TuiBaoModel> getProvTuiBaoWarningWithPolicyDateAndCsDateNoBankCode(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag);
 	
 	@Query(name="getProvTuiBaoWarningWithPolicyDateAndCsDate",
 			value="select left(tp.organ_name,2) as organ_name,sum(policy_fee) as policy_fee,"
@@ -49,10 +50,11 @@ public interface TuiBaoModelDAO extends JpaRepository<TuiBaoModel, String>, JpaS
 			+ "and tp.organ_code like :orgCode "
 			+ "and tp.prod_code like :prdCode "
 			+ "and tp.fee_frequency like :toPerm "
+			+ "and tp.staff_flag like :staffFlag "
 			+ "group by left(tp.organ_name,2) "
 			+ "order by tp.organ_code;",
 			nativeQuery=true)
-	List<TuiBaoModel> getProvTuiBaoWarningWithPolicyDateAndCsDate(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm);
+	List<TuiBaoModel> getProvTuiBaoWarningWithPolicyDateAndCsDate(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag);
 	
 	@Query(name="getTuiBaoWarningWithPolicyDateAndCsDateNoBankCode",
 			value="select tp.organ_name as organ_name,sum(policy_fee) as policy_fee,"
@@ -64,10 +66,11 @@ public interface TuiBaoModelDAO extends JpaRepository<TuiBaoModel, String>, JpaS
 			+ "and csr.cs_date between :c1 and :c2 "
 			+ "and tp.prod_code like :prdCode "
 			+ "and tp.fee_frequency like :toPerm "
+			+ "and tp.staff_flag like :staffFlag "
 			+ "group by tp.organ_name "
 			+ "order by tp.organ_code;",
 			nativeQuery=true)
-	List<TuiBaoModel> getTuiBaoWarningWithPolicyDateAndCsDateNoBankCode(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm);
+	List<TuiBaoModel> getTuiBaoWarningWithPolicyDateAndCsDateNoBankCode(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag);
 	
 	@Query(name="getTuiBaoWarningWithPolicyDateAndCsDate",
 			value="select tp.organ_name as organ_name,sum(policy_fee) as policy_fee,"
@@ -81,8 +84,9 @@ public interface TuiBaoModelDAO extends JpaRepository<TuiBaoModel, String>, JpaS
 			+ "and tp.prod_code like :prdCode "
 			+ "and tp.organ_code like :orgCode "
 			+ "and tp.fee_frequency like :toPerm "
+			+ "and tp.staff_flag like :staffFlag "
 			+ "group by tp.organ_name "
 			+ "order by tp.organ_code;",
 			nativeQuery=true)
-	List<TuiBaoModel> getTuiBaoWarningWithPolicyDateAndCsDate(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm);
+	List<TuiBaoModel> getTuiBaoWarningWithPolicyDateAndCsDate(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag);
 }

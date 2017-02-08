@@ -119,25 +119,26 @@ public class UploadDataServiceImpl implements UploadDataService{
 		String strEncrypt = "";
 		String sql1 = null;
 		String sql2 = null;
-		String delSql3 = null;
+		String sql3 = null;
 		switch(ft) {
 		case Policy:
 			standardColumns = PolicyColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_policy character set utf8 (";
-			delSql3 = "update t_under_write as uw inner join t_policy tp on uw.form_no=tp.form_no set uw.policy_no=tp.policy_no,uw.sign_date=tp.policy_date where uw.policy_no is null;";
+			sql3 = "update t_under_write as uw inner join t_policy tp on uw.form_no=tp.form_no set uw.policy_no=tp.policy_no,uw.sign_date=tp.policy_date where uw.policy_no is null;";
 			sql2 = "update t_policy set attached_flag = 1 where prod_name like \"%附加%\";";
 			sql1 = "delete from t_policy where form_no is null;";
 	        break;
 		case PolicyIngor:
 			standardColumns = PolicyColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_policy character set utf8 (";
-			delSql3 = "update t_under_write as uw inner join t_policy tp on uw.form_no=tp.form_no set uw.policy_no=tp.policy_no,uw.sign_date=tp.policy_date where uw.policy_no is null;";
+			sql3 = "update t_under_write as uw inner join t_policy tp on uw.form_no=tp.form_no set uw.policy_no=tp.policy_no,uw.sign_date=tp.policy_date where uw.policy_no is null;";
 			sql2 = "update t_policy set attached_flag = 1 where prod_name like \"%附加%\";";
 			sql1 = "delete from t_policy where form_no is null;";
 			break;
 		case PolicyDtl:
 			standardColumns = PolicyDtlColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_policy_dtl character set utf8 (";
+			sql1 = "update t_policy tp, t_policy_dtl tpd, t_staff ts set tp.staff_flag=true where tp.staff_flag=0 and tp.policy_no=tpd.policy_no and tpd.holder_card_num=ts.id_card";
 			break;
 		case Issue:
 			standardColumns = IssueColumn.getStandardColumns();
@@ -207,7 +208,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_pay_success_list character set utf8 (pay_type, status, ";
 			sql1 = "update t_pay_fail_list set status='CloseStatus' where rel_no in (select rel_no from t_pay_success_list);";
 			sql2 = "update t_renewed_list set fee_status='交费成功' where fee_status<>\"交费成功\" and policy_no in (select rel_no from t_pay_success_list where pay_type=2 and policy_fee=money);";
-			delSql3 = "update t_renewed_list t0 set t0.fee_status='交费成功' where t0.fee_status<>\"交费成功\" "
+			sql3 = "update t_renewed_list t0 set t0.fee_status='交费成功' where t0.fee_status<>\"交费成功\" "
 					+ "and t0.policy_no in (select t2.policy_no from t_pay_success_list t1, t_cs_report t2 "
 					+ "where t1.pay_type=2 and t0.policy_fee=t1.money and t1.rel_no=t2.cs_no and t2.cs_code='RE');";
 			break;
@@ -226,6 +227,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 					+ "and t0.policy_no in (select t2.policy_no from t_pay_success_list t1, t_cs_report t2 "
 					+ "where t1.pay_type=2 and t0.policy_fee=t1.money and t1.rel_no=t2.cs_no and t2.cs_code='RE');";
 			sql2 = "update t_call_fail_list t1, t_cs_report t2 set t1.status=\"已退保\" where t1.policy_no=t2.policy_no and t2.cs_code=\"CT\";";
+			sql3 = "update t_cs_report tsr, t_policy_dtl tpd, t_staff ts set tsr.staff_flag=true where tsr.staff_flag=0 and tsr.policy_no=tpd.policy_no and tpd.holder_card_num=ts.id_card;";
 			break;
 			default:
 				log.warn("------------reach the default FileTemplate?? oh no!!");
@@ -331,8 +333,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 			if(sql2 != null) {
         		statement.execute(sql2);
         	}
-			if(delSql3 != null) {
-        		statement.execute(delSql3);
+			if(sql3 != null) {
+        		statement.execute(sql3);
         	}
 			dr.setFlag(true);
 		} catch (SQLException e) {

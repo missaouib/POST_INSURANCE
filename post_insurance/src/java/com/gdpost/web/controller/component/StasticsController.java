@@ -64,6 +64,7 @@ public class StasticsController {
 		String levelFlag = request.getParameter("levelFlag");
 		String prdCode = request.getParameter("prdCode");
 		String perm = request.getParameter("perm");
+		String staffFlag = request.getParameter("staffFlag");
 		
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
@@ -91,6 +92,10 @@ public class StasticsController {
 		} else if(perm.trim().length()<=0) {
 			toPerm = "%%";
 		}
+		String isStaff = staffFlag;
+		if(staffFlag == null || staffFlag.trim().length()<=0) {
+			isStaff = "%%";
+		}
 		
 		boolean isCity = false;
 		if(organCode.length()>4) {
@@ -107,6 +112,7 @@ public class StasticsController {
 		request.setAttribute("prdCode", prdCode);
 		request.setAttribute("levelFlag", levelFlag);
 		request.setAttribute("perm", perm);
+		request.setAttribute("staffFlag", staffFlag);
 		
 		boolean hasNet = true;
 		if(netFlag == null || netFlag.trim().length()<=0) {
@@ -117,6 +123,7 @@ public class StasticsController {
 		cm.setPrdCode(prdCode);
 		cm.setLevelFlag(levelFlag);
 		cm.setPerm(perm);
+		cm.setStaffFlag(staffFlag);
 		request.setAttribute("TuiBaoModel", cm);
 	
 		String fd = StringUtil.getFirstDayOfYear("yyyy-MM-dd");
@@ -140,15 +147,15 @@ public class StasticsController {
 		List<TuiBaoModel> temp = null;
 		if(isCity) {
 			if(hasNet) {
-				temp = stasticsService.getTuiBaoWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, csd1, csd2, netFlag, toPrdCode, toPerm);
+				temp = stasticsService.getTuiBaoWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, csd1, csd2, netFlag, toPrdCode, toPerm, isStaff);
 			} else {
-				temp = stasticsService.getTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(organCode + "%", pd1, pd2, csd1, csd2, toPrdCode, toPerm);
+				temp = stasticsService.getTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(organCode + "%", pd1, pd2, csd1, csd2, toPrdCode, toPerm, isStaff);
 			}
 		} else {
 			if(hasNet) {
-				temp = stasticsService.getProvTuiBaoWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, csd1, csd2, netFlag, toPrdCode, toPerm);
+				temp = stasticsService.getProvTuiBaoWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, csd1, csd2, netFlag, toPrdCode, toPerm, isStaff);
 			} else {
-				temp = stasticsService.getProvTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(organCode + "%", pd1, pd2, csd1, csd2, toPrdCode, toPerm);
+				temp = stasticsService.getProvTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(organCode + "%", pd1, pd2, csd1, csd2, toPrdCode, toPerm, isStaff);
 			}
 		}
 		
@@ -202,6 +209,7 @@ public class StasticsController {
 		String levelFlag = request.getParameter("levelFlag");
 		String prdCode = request.getParameter("prdCode");
 		String perm = request.getParameter("perm");
+		String staffFlag = request.getParameter("staffFlag");
 		if(organCode == null || organCode.trim().length()<=0) {
 			organCode = "8644";
 		}
@@ -219,6 +227,10 @@ public class StasticsController {
 			perm = "年交";
 		} else if(perm.trim().length()<=0) {
 			toPerm = "%%";
+		}
+		String isStaff = staffFlag;
+		if(staffFlag == null || staffFlag.trim().length()<=0) {
+			isStaff = "%%";
 		}
 		boolean isCity = false;
 		if(levelFlag != null && levelFlag.trim().equals("city")) {
@@ -247,15 +259,15 @@ public class StasticsController {
 		List<TuiBaoModel> temp = null;
 		if(isCity) {
 			if(hasNet) {
-				temp = stasticsService.getTuiBaoWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, csd1, csd2, netFlag, toPrdCode, toPerm);
+				temp = stasticsService.getTuiBaoWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, csd1, csd2, netFlag, toPrdCode, toPerm, isStaff);
 			} else {
-				temp = stasticsService.getTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(organCode + "%", pd1, pd2, csd1, csd2, toPrdCode, toPerm);
+				temp = stasticsService.getTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(organCode + "%", pd1, pd2, csd1, csd2, toPrdCode, toPerm, isStaff);
 			}
 		} else {
 			if(hasNet) {
-				temp = stasticsService.getProvTuiBaoWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, csd1, csd2, netFlag, toPrdCode, toPerm);
+				temp = stasticsService.getProvTuiBaoWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, csd1, csd2, netFlag, toPrdCode, toPerm, isStaff);
 			} else {
-				temp = stasticsService.getProvTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(organCode + "%", pd1, pd2, csd1, csd2, toPrdCode, toPerm);
+				temp = stasticsService.getProvTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(organCode + "%", pd1, pd2, csd1, csd2, toPrdCode, toPerm, isStaff);
 			}
 		}
 		

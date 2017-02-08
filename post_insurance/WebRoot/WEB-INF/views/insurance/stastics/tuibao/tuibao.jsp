@@ -53,7 +53,14 @@
 						<form:option value="2"> 银行自营 </form:option>
 					</form:select>
 					</td>
-					<td>&nbsp;</td>
+					<td>
+					<label>员工单标记：</label>
+					<form:select path="TuiBaoModel.staffFlag" id="tbstaffflag" class="combox">
+						<form:option value="">  --  </form:option>
+						<form:option value="0"> 普通客户 </form:option>
+						<form:option value="1"> 员工单 </form:option>
+					</form:select>
+					</td>
 				</tr>
 			</table>
 			<div class="subBar">
@@ -64,7 +71,7 @@
 		</div>
 	</div>
 </form>
-<h2 class="contentTitle"><label>统计结果</label><a class="buttonActive" target="_blank" href="${contextPath }/component/stastics/tuibao/toXls?orgCode=${orgCode }&status=${status }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&csDate1=${csDate1 }&csDate2=${csDate2 }&prdCode=${prdCode}&levelFlag=${levelFlag}&netFlag=${netFlag}"><span>导出</span></a></h2>
+<h2 class="contentTitle"><label>统计结果</label><a class="buttonActive" target="_blank" href="${contextPath }/component/stastics/tuibao/toXls?orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&csDate1=${csDate1 }&csDate2=${csDate2 }&prdCode=${prdCode}&levelFlag=${levelFlag}&netFlag=${netFlag}&perm=${perm}&staffFlag=${staffFlag}"><span>导出</span></a></h2>
 <br>
 <div class="pageContent" layoutH="70" width="150%">
 <div class="row" style="padding: 0 3px;">

@@ -75,6 +75,8 @@ public class Policy implements Idable<Long>, Serializable{
 	
 	private PolicyDtl policyDtl;
 	
+	private Boolean staffFlag;
+	
 	@Transient
 	private Boolean isStaff;
 	
@@ -426,6 +428,15 @@ public class Policy implements Idable<Long>, Serializable{
 
 	public void setAttachedFlag(Integer attachedFlag) {
 		this.attachedFlag = attachedFlag;
+	}
+	
+	@Column(name="staff_flag")
+	public Boolean getStaffFlag() {
+		return staffFlag;
+	}
+
+	public void setStaffFlag(Boolean staffFlag) {
+		this.staffFlag = staffFlag;
 	}
 
 	@OneToOne(optional=true)

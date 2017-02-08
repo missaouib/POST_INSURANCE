@@ -844,3 +844,7 @@ alter table t_issue add index idx_i_sd(`should_date`);
 alter table t_issue_type add column type_code varchar(12);
 
 CREATE UNIQUE INDEX idx_idcard ON t_staff(id_card); 
+
+alter table t_policy add column staff_flag boolean default false;
+alter table t_cs_report add column staff_flag boolean default false;
+alter table t_policy add index idx_tpsf(`staff_flag`);

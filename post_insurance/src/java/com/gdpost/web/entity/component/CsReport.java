@@ -44,6 +44,8 @@ public class CsReport implements Idable<Long> {
 	private String csDeal;
 	private Long operateId;
 	private Date operateTime;
+	
+	private Boolean staffFlag;
 
 	// Constructors
 
@@ -237,6 +239,15 @@ public class CsReport implements Idable<Long> {
 
 	public void setOperateTime(Date operateTime) {
 		this.operateTime = operateTime;
+	}
+	
+	@Column(name="staff_flag")
+	public Boolean getStaffFlag() {
+		return staffFlag;
+	}
+
+	public void setStaffFlag(Boolean staffFlag) {
+		this.staffFlag = staffFlag;
 	}
 
 }
