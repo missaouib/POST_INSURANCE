@@ -8,7 +8,7 @@
 			<table class="searchContent">
 				<tr>
 					<td>
-					所属机构：
+					<label>所属机构：</label>
 					<input name="orgCode" id="uw_orgCode" type="hidden" value="${orgCode }"/>
 					<input class="validate[required] required" name="name" id="uw_orgName" type="text" readonly="readonly" style="width: 120px;" value="${name }"/>
 					<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="" title="选择机构" width="400">查</a>
@@ -40,7 +40,13 @@
 						<form:option value="2"> 银行自营 </form:option>
 					</form:select>
 					</td>
-					<td>&nbsp;</td>
+					<td><label>趸/期缴：</label>
+					<form:select path="StaffModel.perm" id="tbperm" class="combox">
+						<form:option value="">  --  </form:option>
+						<form:option value="年交"> 年交 </form:option>
+						<form:option value="趸交"> 趸交 </form:option>
+					</form:select>
+					</td>
 					<td>&nbsp;</td>
 				</tr>
 			</table>

@@ -8,7 +8,7 @@
 			<table class="searchContent">
 				<tr>
 					<td>
-					所属机构：
+					<label>所属机构：</label>
 					<input name="orgCode" id="uw_orgCode" type="hidden" value="${orgCode }"/>
 					<input class="validate[required] required" name="name" id="uw_orgName" type="text" readonly="readonly" style="width: 120px;" value="${name }"/>
 					<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="" title="选择机构" width="400">查</a>
@@ -23,6 +23,13 @@
 				<form:select path="TuiBaoModel.prdCode" id="prdCode" class="combox">
 						<form:option value=""> -- </form:option>
 						<form:options items="${prds }" itemLabel="prdName" itemValue="prdCode"/>
+					</form:select>
+					</td>
+					<td><label>趸/期缴：</label>
+					<form:select path="TuiBaoModel.perm" id="tbperm" class="combox">
+						<form:option value="">  --  </form:option>
+						<form:option value="年交"> 年交 </form:option>
+						<form:option value="趸交"> 趸交 </form:option>
 					</form:select>
 					</td>
 				</tr>
@@ -46,6 +53,7 @@
 						<form:option value="2"> 银行自营 </form:option>
 					</form:select>
 					</td>
+					<td>&nbsp;</td>
 				</tr>
 			</table>
 			<div class="subBar">
@@ -58,8 +66,8 @@
 </form>
 <h2 class="contentTitle"><label>统计结果</label><a class="buttonActive" target="_blank" href="${contextPath }/component/stastics/tuibao/toXls?orgCode=${orgCode }&status=${status }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&csDate1=${csDate1 }&csDate2=${csDate2 }&prdCode=${prdCode}&levelFlag=${levelFlag}&netFlag=${netFlag}"><span>导出</span></a></h2>
 <br>
-<div class="pageContent" layoutH="42">
-<div class="row" style="padding: 0 5px;">
+<div class="pageContent" layoutH="70" width="150%">
+<div class="row" style="padding: 0 3px;">
 	<div class="sortDrag" style="width:30%;border:1px solid #e66;margin:5px;float:left;min-height:100px">
 	<h2 class="contentTitle">列表展示（单位：万元）&nbsp;&nbsp;&nbsp;&nbsp;</h2>
 		<table class="table" layoutH="220" width="100%">
@@ -85,7 +93,7 @@
 		</tbody>
 	</table>
 	</div>
-	<div class="sortDrag" style="width:65%;border:1px solid #e66;margin:5px;float:left;min-height:100px">
+	<div class="sortDrag" style="width:65%;border:1px solid #e66;margin:5px;float:left;min-height:10px">
 	<div id="main" style="width: 800px;height:400px;"></div>
 	    <script type="text/javascript">
 	        // 基于准备好的dom，初始化echarts实例
@@ -118,12 +126,12 @@
 	            yAxis: [
 	                {
 	                    type: 'value',
-	                    name: '退保金额',
+	                    name: '退保金额（万元）',
 	                    min: 0,
 	                    max: ${maxTB},
 	                    interval: 500,
 	                    axisLabel: {
-	                        formatter: '{value} 万元'
+	                        formatter: '{value} '
 	                    }
 	                },
 	                {

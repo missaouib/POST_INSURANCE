@@ -28,6 +28,8 @@ public class StaffModel implements java.io.Serializable {
 	private String netFlag;
 	@Transient
 	private String prdCode;
+	@Transient
+	private String perm;
 
 	// Constructors
 
@@ -110,6 +112,16 @@ public class StaffModel implements java.io.Serializable {
 	@Transient
 	public void setPrdCode(String prdCode) {
 		this.prdCode = prdCode;
+	}
+
+	@Transient
+	public String getPerm() {
+		return perm;
+	}
+
+	@Transient
+	public void setPerm(String perm) {
+		this.perm = perm;
 	}
 	
 }
