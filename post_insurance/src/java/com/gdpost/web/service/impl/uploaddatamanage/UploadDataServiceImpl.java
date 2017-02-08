@@ -225,6 +225,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql1 = "update t_renewed_list t0 set t0.fee_status='交费成功' where t0.fee_status<>\"交费成功\" "
 					+ "and t0.policy_no in (select t2.policy_no from t_pay_success_list t1, t_cs_report t2 "
 					+ "where t1.pay_type=2 and t0.policy_fee=t1.money and t1.rel_no=t2.cs_no and t2.cs_code='RE');";
+			sql2 = "update t_call_fail_list t1, t_cs_report t2 set t1.status=\"已退保\" where t1.policy_no=t2.policy_no and t2.cs_code=\"CT\";";
 			break;
 			default:
 				log.warn("------------reach the default FileTemplate?? oh no!!");
