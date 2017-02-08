@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.JoinColumnOrFormula;
 import org.hibernate.annotations.JoinColumnsOrFormulas;
@@ -46,8 +47,18 @@ public class CsReport implements Idable<Long> {
 	private Date operateTime;
 	
 	private Boolean staffFlag;
+	
+	@Transient
+	private String search_LIKE_staffFlag;
 
-	// Constructors
+	@Transient
+	public String getSearch_LIKE_staffFlag() {
+		return search_LIKE_staffFlag;
+	}
+	@Transient
+	public void setSearch_LIKE_staffFlag(String search_LIKE_staffFlag) {
+		this.search_LIKE_staffFlag = search_LIKE_staffFlag;
+	}
 
 	/** default constructor */
 	public CsReport() {

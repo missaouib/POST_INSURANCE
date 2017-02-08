@@ -989,6 +989,10 @@ public class BqglController {
 		request.setAttribute("orgCode", orgCode);
 		request.setAttribute("name", orgName);
 		//默认返回未处理工单
+		String sf = request.getParameter("search_LIKE_staffFlag");
+		CsReport cr = new CsReport();
+		cr.setSearch_LIKE_staffFlag(sf);
+		request.setAttribute("csReport", cr);
 		
 		String orderField = request.getParameter("orderField");
 		if(orderField == null || orderField.trim().length()<=0) {

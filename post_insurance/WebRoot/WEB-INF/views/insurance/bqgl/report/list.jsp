@@ -9,7 +9,8 @@
 	<input type="hidden" name="search_LTE_csDate" value="${param.search_LTE_csDate }"/>
 	<input type="hidden" name="search_GTE_csDate" value="${param.search_GTE_csDate }"/>
 	<input type="hidden" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
-	<input type="hidden" name="search_LIKE_csCode" value="search_LIKE_csCode">
+	<input type="hidden" name="search_LIKE_csCode" value="${param.search_LIKE_csCode }">
+	<input type="hidden" name="search_LIKE_staffFlag" value="${param.search_LIKE_staffFlag }">
 </dwz:paginationForm>
 
 <form method="post" id="paySuccessForm" action="${contextPath }/bqgl/report/list" onsubmit="return navTabSearch(this)">
@@ -30,6 +31,14 @@
 						<input name="orgCode" id="pay_orgCode" type="hidden" value="${orgCode }"/>
 						<input class="validate[required] required" name="name" id="pay_orgName" type="text" readonly="readonly" style="width: 100px;" value="${name }"/><a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="" title="选择机构" width="400">查</a>
 					</td>
+					<td>
+					<label>员工单标记：</label>
+					<form:select path="csReport.search_LIKE_staffFlag" id="tbstaffflags" class="combox">
+						<form:option value="">  --  </form:option>
+						<form:option value="0"> 普通客户 </form:option>
+						<form:option value="1"> 员工单 </form:option>
+					</form:select>
+					</td>
 				</tr>
 				<tr>
 					<td>
@@ -43,6 +52,7 @@
 					<td>
 						保全编码：<input type="text" style="width: 100px;" id="csCode" name="search_LIKE_csCode" value="${param.search_LIKE_csCode }"/>
 					</td>
+					<td>&nbsp;</td>
 				</tr>
 			</table>
 			<div class="subBar">
