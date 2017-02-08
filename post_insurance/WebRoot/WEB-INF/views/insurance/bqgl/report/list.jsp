@@ -2,7 +2,7 @@
 <%@page import="java.util.Date"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 
-<dwz:paginationForm action="${contextPath }/report/list" page="${page }">
+<dwz:paginationForm action="${contextPath }/bqgl/report/list" page="${page }">
 	<input type="hidden" name="search_LIKE_csNo" value="${param.search_LIKE_csNo }"/>
 	<input type="hidden" name="orgCode" value="${orgCode }"/>
 	<input type="hidden" name="name" value="${name }"/>
@@ -12,7 +12,7 @@
 	<input type="hidden" name="search_LIKE_csCode" value="search_LIKE_csCode">
 </dwz:paginationForm>
 
-<form method="post" id="paySuccessForm" action="${contextPath }/report/list" onsubmit="return navTabSearch(this)">
+<form method="post" id="paySuccessForm" action="${contextPath }/bqgl/report/list" onsubmit="return navTabSearch(this)">
 	<input type="hidden" name="flag" value="bq">
 	<div class="pageHeader">
 		<div class="searchBar">

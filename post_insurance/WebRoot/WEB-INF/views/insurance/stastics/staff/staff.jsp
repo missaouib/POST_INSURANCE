@@ -88,10 +88,10 @@
 	</table>
 	</div>
 	<div class="sortDrag" style="width:65%;border:1px solid #e66;margin:5px;float:left;min-height:100px">
-	<div id="main" style="width: 800px;height:400px;"></div>
+	<div id="staffMain" style="width: 800px;height:400px;"></div>
 	    <script type="text/javascript">
 	        // 基于准备好的dom，初始化echarts实例
-	        var myChart = echarts.init(document.getElementById('main'));
+	        var myChart = echarts.init(document.getElementById('staffMain'));
 	
 	        option = {
         		title: {

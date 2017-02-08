@@ -1,6 +1,7 @@
 package com.gdpost.web.controller.component;
 
 import java.text.DecimalFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -118,7 +119,7 @@ public class StasticsController {
 			pd2 = "9999-12-31";
 		}
 		if(csd1 == null || csd1.trim().length()<=0) {
-			csd1 = fd;
+			csd1 = StringUtil.date2Str(new Date(), "yyyy-MM-dd");
 		}
 		request.setAttribute("csDate1", csd1);
 		request.setAttribute("csDate2", csd2);
@@ -147,12 +148,12 @@ public class StasticsController {
 		String tuibao = "";
 		double maxZB = 0;
 		int maxTB = 0;
-		DecimalFormat df = new DecimalFormat("#.00"); 
+		DecimalFormat df = new DecimalFormat("#.#"); 
 		for(TuiBaoModel tcm:temp) {
 			col += "'" + tcm.getOrganName() + "',";
-			zhanbi += df.format(tcm.getPolicyFee()/tcm.getSumPolicyFee()) + ",";
-			if(tcm.getPolicyFee()/tcm.getSumPolicyFee() > maxZB) {
-				maxZB = Math.ceil(tcm.getPolicyFee()/tcm.getSumPolicyFee());
+			zhanbi += df.format(tcm.getPolicyFee()/tcm.getSumPolicyFee()*100) + ",";
+			if((tcm.getPolicyFee()/tcm.getSumPolicyFee()*100+1) > maxZB) {
+				maxZB = Math.ceil(tcm.getPolicyFee()/tcm.getSumPolicyFee()*100) +1;
 			}
 			tuibao += tcm.getPolicyFee()/10000 + ",";
 			if(tcm.getPolicyFee()/10000 > maxTB) {
@@ -219,7 +220,7 @@ public class StasticsController {
 			pd2 = "9999-12-31";
 		}
 		if(csd1 == null || csd1.trim().length()<=0) {
-			csd1 = fd;
+			csd1 = StringUtil.date2Str(new Date(), "yyyy-MM-dd");
 		}
 		if(csd2 == null || csd2.trim().length()<=0) {
 			csd2 = "9999-12-31";
@@ -308,7 +309,7 @@ public class StasticsController {
 		cm.setLevelFlag(levelFlag);
 		request.setAttribute("StaffModel", cm);
 	
-		String fd = StringUtil.getFirstDayOfYear("yyyy-MM-dd");
+		String fd = StringUtil.date2Str(new Date(), "yyyy-MM-dd");
 		if(pd1 == null || pd1.trim().length()<=0) {
 			pd1 = fd;
 		}
@@ -339,12 +340,12 @@ public class StasticsController {
 		String tuibao = "";
 		double maxZB = 0;
 		int maxTB = 0;
-		DecimalFormat df = new DecimalFormat("#.00"); 
+		DecimalFormat df = new DecimalFormat("#.#"); 
 		for(StaffModel tcm:temp) {
 			col += "'" + tcm.getOrganName() + "',";
-			zhanbi += df.format(tcm.getPolicyFee()/tcm.getSumPolicyFee()) + ",";
-			if(tcm.getPolicyFee()/tcm.getSumPolicyFee() > maxZB) {
-				maxZB = Math.ceil(tcm.getPolicyFee()/tcm.getSumPolicyFee());
+			zhanbi += df.format(tcm.getPolicyFee()/tcm.getSumPolicyFee()*100) + ",";
+			if(tcm.getPolicyFee()/tcm.getSumPolicyFee()*100+1 > maxZB) {
+				maxZB = Math.ceil((tcm.getPolicyFee()/tcm.getSumPolicyFee())*100) + 1;
 			}
 			tuibao += tcm.getPolicyFee()/10000 + ",";
 			if(tcm.getPolicyFee()/10000 > maxTB) {
