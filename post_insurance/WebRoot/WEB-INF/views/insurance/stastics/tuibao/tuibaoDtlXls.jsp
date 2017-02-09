@@ -4,23 +4,31 @@
 <meta http-equiv=”X-UA-Compatible” content=”IE=edge,chrome=1″ />
 <%
 response.setContentType("application/vnd.ms-excel");  
-response.setHeader("Content-Disposition", "inline; filename=tuibao_warnning.xls");
+response.setHeader("Content-Disposition", "inline; filename=tuibao_dtl.xls");
 %>
 <table border="1" cellspacing="1" cellpadding="0">
 	<tr>
 		<th>序号</th>
 		<th>机构名称</th>
-		<th>退保费</th>
-		<th>总保费</th>
-		<th>占比</th>
+		<th>保单号</th>
+		<th>险种名称</th>
+		<th>保费</th>
+		<th>保单日期</th>
+		<th>保全号</th>
+		<th>保全日期</th>
+		<th>保全代码</th>
 	</tr>
 	<c:forEach var="item" items="${cmRst}" varStatus="idx">
-	<tr target="slt_uid" rel="${item.organName}">
+	<tr>
 		<td>${idx.index+1 }</td>
 		<td>${item.organName}</td>
-		<td>${item.policyFee/10000}</td>
-		<td>${item.sumPolicyFee/10000}</td>
-		<td><fmt:formatNumber value="${item.policyFee/item.sumPolicyFee*100}" pattern="#,###.##" />%</td>
+		<td style="vnd.ms-excel.numberformat:@">${item.policyNo}</td>
+		<td>${item.prodName}</td>
+		<td>${item.policyFee}</td>
+		<td><fmt:formatDate value="${item.policyDate}" pattern="yyyy-MM-dd"/></td>
+		<td>${item.csNo}</td>
+		<td><fmt:formatDate value="${item.csDate}" pattern="yyyy-MM-dd"/></td>
+		<td>${item.csCode}</td>
 	</tr>
 	</c:forEach>
 </table>

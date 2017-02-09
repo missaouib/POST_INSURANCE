@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gdpost.web.dao.component.StaffModelDAO;
+import com.gdpost.web.dao.component.TuiBaoDtlModelDAO;
 import com.gdpost.web.dao.component.TuiBaoModelDAO;
 import com.gdpost.web.entity.component.StaffModel;
+import com.gdpost.web.entity.component.TuiBaoDtlModel;
 import com.gdpost.web.entity.component.TuiBaoModel;
 import com.gdpost.web.service.component.StasticsService;
 
@@ -19,6 +21,9 @@ public class StasticsServiceImpl implements StasticsService {
 	
 	@Autowired
 	private TuiBaoModelDAO cmDAO;
+	
+	@Autowired
+	private TuiBaoDtlModelDAO tbdDAO;
 	
 	@Autowired
 	private StaffModelDAO smDAO;
@@ -35,12 +40,22 @@ public class StasticsServiceImpl implements StasticsService {
 	
 	@Override
 	public List<TuiBaoModel> getProvTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(String organCode, String d1, String d2, String d3, String d4, String prdCode, String toPerm, String staffFlag) {
-		return cmDAO.getProvTuiBaoWarningWithPolicyDateAndCsDateNoBankCode(organCode, d1, d2, d3, d4, prdCode, toPerm, staffFlag);
+		return cmDAO.getProvAllCityTuiBaoWarning(organCode, d1, d2, d3, d4, prdCode, toPerm, staffFlag);
 	}
 	
 	@Override
 	public List<TuiBaoModel> getProvTuiBaoWarnningWithPolicyDateAndCsDate(String organCode, String d1, String d2, String d3, String d4, String flag, String prdCode, String toPerm, String staffFlag) {
-		return cmDAO.getProvTuiBaoWarningWithPolicyDateAndCsDate(organCode, d1, d2, d3, d4, flag, prdCode, toPerm, staffFlag);
+		return cmDAO.getProvAllCityTuiBaoWarningWithBankCode(organCode, d1, d2, d3, d4, flag, prdCode, toPerm, staffFlag);
+	}
+	
+	@Override
+	public List<TuiBaoDtlModel> getProvTuiBaoWarnningDetail(String organCode, String d1, String d2, String d3, String d4, String prdCode, String toPerm, String staffFlag) {
+		return tbdDAO.getProvAllCityTuiBaoWarningDetail(organCode, d1, d2, d3, d4, prdCode, toPerm, staffFlag);
+	}
+	
+	@Override
+	public List<TuiBaoDtlModel> getProvTuiBaoWarnningDetailWithBankCode(String organCode, String d1, String d2, String d3, String d4, String flag, String prdCode, String toPerm, String staffFlag) {
+		return tbdDAO.getProvAllCityTuiBaoWarningDetailWithBankCode(organCode, d1, d2, d3, d4, flag, prdCode, toPerm, staffFlag);
 	}
 	
 	/*

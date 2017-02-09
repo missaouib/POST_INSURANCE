@@ -120,6 +120,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 		String sql1 = null;
 		String sql2 = null;
 		String sql3 = null;
+		String sql4 = null;
+		String sql5 = null;
 		switch(ft) {
 		case Policy:
 			standardColumns = PolicyColumn.getStandardColumns();
@@ -228,6 +230,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 					+ "where t1.pay_type=2 and t0.policy_fee=t1.money and t1.rel_no=t2.cs_no and t2.cs_code='RE');";
 			sql2 = "update t_call_fail_list t1, t_cs_report t2 set t1.status=\"已退保\" where t1.policy_no=t2.policy_no and t2.cs_code=\"CT\";";
 			sql3 = "update t_cs_report tsr, t_policy_dtl tpd, t_staff ts set tsr.staff_flag=true where tsr.staff_flag=0 and tsr.policy_no=tpd.policy_no and tpd.holder_card_num=ts.id_card;";
+			sql4 = "update t_policy tp, t_cs_report tcr set tp.cs_flag=1 where tp.policy_no=tcr.policy_no and tcr.cs_code=\"CT\" and datediff(tcr.cs_date,tp.policy_date)<=15;";
+			sql5 = "update t_policy tp, t_cs_report tcr set tp.cs_flag=2 where tp.policy_no=tcr.policy_no and tcr.cs_code=\"CT\" and datediff(tcr.cs_date,tp.policy_date)>15;";
 			break;
 			default:
 				log.warn("------------reach the default FileTemplate?? oh no!!");
@@ -335,6 +339,12 @@ public class UploadDataServiceImpl implements UploadDataService{
         	}
 			if(sql3 != null) {
         		statement.execute(sql3);
+        	}
+			if(sql4 != null) {
+        		statement.execute(sql4);
+        	}
+			if(sql5 != null) {
+        		statement.execute(sql5);
         	}
 			dr.setFlag(true);
 		} catch (SQLException e) {

@@ -14,10 +14,10 @@
 					<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="" title="选择机构" width="400">查</a>
 					</td>
 					<td>承保日期起：
-					<input type="text" name="policyDate1" id="uwDate1" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${policyDate1 }"/><a class="inputDateButton" href="javascript:;">选</a>
+					<input type="text" name="policyDate1" id="uwDate1" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" value="${policyDate1 }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>承保日期止：
-					<input type="text" name="policyDate2" id="uwDate2" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${policyDate2 }"/><a class="inputDateButton" href="javascript:;">选</a>
+					<input type="text" name="policyDate2" id="uwDate2" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" value="${policyDate2 }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td><label>产品：</label>
 				<form:select path="StaffModel.prdCode" id="prdCode" class="combox">
@@ -79,17 +79,27 @@
 		</thead>
 		<tbody>
 			<c:forEach var="item" items="${cmRst}" varStatus="idx">
-			<tr target="slt_uid" rel="${item.organName}">
+			<tr>
 				<td>${idx.index+1 }</td>
 				<td>${item.organName}</td>
-				<td><fmt:formatNumber value="${item.staffCount}" pattern="#,###" /></td>
-				<td><fmt:formatNumber value="${item.sumStaffCount}" pattern="#,###" /></td>
-				<td><fmt:formatNumber value="${item.staffCount/item.sumStaffCount*100}" pattern="#,###.#" />%</td>
-				<td><fmt:formatNumber value="${item.policyFee/10000}" pattern="#,###.#" /></td>
-				<td><fmt:formatNumber value="${item.sumPolicyFee/10000}" pattern="#,###.#" /></td>
-				<td><fmt:formatNumber value="${item.policyFee/item.sumPolicyFee*100}" pattern="#,###.#" />%</td>
+				<td style="text-align: right;"><fmt:formatNumber value="${item.staffCount}" pattern="#,###" /></td>
+				<td style="text-align: right;"><fmt:formatNumber value="${item.sumStaffCount}" pattern="#,###" /></td>
+				<td style="text-align: right;"><fmt:formatNumber value="${item.staffCount/item.sumStaffCount*100}" pattern="#,###.#" />%</td>
+				<td style="text-align: right;"><fmt:formatNumber value="${item.policyFee/10000}" pattern="#,###.#" /></td>
+				<td style="text-align: right;"><fmt:formatNumber value="${item.sumPolicyFee/10000}" pattern="#,###.#" /></td>
+				<td style="text-align: right;"><fmt:formatNumber value="${item.policyFee/item.sumPolicyFee*100}" pattern="#,###.#" />%</td>
 			</tr>
 			</c:forEach>
+			<tr>
+				<td>&nbsp;</td>
+				<td>合计：</td>
+				<td style="text-align: right;"><fmt:formatNumber value="${csumTb}" pattern="#,###.#" /></td>
+				<td style="text-align: right;"><fmt:formatNumber value="${ctotalTb}" pattern="#,###.#" /></td>
+				<td style="text-align: right;"><fmt:formatNumber value="${csumTb/ctotalTb*100}" pattern="#,###.#" />%</td>
+				<td style="text-align: right;"><fmt:formatNumber value="${ssumTb}" pattern="#,###.#" /></td>
+				<td style="text-align: right;"><fmt:formatNumber value="${stotalTb}" pattern="#,###.#" /></td>
+				<td style="text-align: right;"><fmt:formatNumber value="${ssumTb/stotalTb*100}" pattern="#,###.#" />%</td>
+			</tr>
 		</tbody>
 	</table>
 	</div>

@@ -14,10 +14,10 @@
 					<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="" title="选择机构" width="400">查</a>
 					</td>
 					<td>承保日期起：
-					<input type="text" name="policyDate1" id="uwDate1" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${policyDate1 }"/><a class="inputDateButton" href="javascript:;">选</a>
+					<input type="text" name="policyDate1" id="uwDate1" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" value="${policyDate1 }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>承保日期止：
-					<input type="text" name="policyDate2" id="uwDate2" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${policyDate2 }"/><a class="inputDateButton" href="javascript:;">选</a>
+					<input type="text" name="policyDate2" id="uwDate2" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" value="${policyDate2 }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td><label>产品：</label>
 				<form:select path="TuiBaoModel.prdCode" id="prdCode" class="combox">
@@ -41,10 +41,10 @@
 					</form:select>
 					</td>
 					<td>退保日期起：
-					<input type="text" name="csDate1" id="uwDate1" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${csDate1 }"/><a class="inputDateButton" href="javascript:;">选</a>
+					<input type="text" name="csDate1" id="uwDate1" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" value="${csDate1 }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>退保日期止：
-					<input type="text" name="csDate2" id="uwDate2" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${csDate2 }"/><a class="inputDateButton" href="javascript:;">选</a>
+					<input type="text" name="csDate2" id="uwDate2" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" value="${csDate2 }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td><label>银邮：</label>
 					<form:select path="TuiBaoModel.netFlag" id="netflag" class="combox">
@@ -71,7 +71,11 @@
 		</div>
 	</div>
 </form>
-<h2 class="contentTitle"><label>统计结果</label><a class="buttonActive" target="_blank" href="${contextPath }/component/stastics/tuibao/toXls?orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&csDate1=${csDate1 }&csDate2=${csDate2 }&prdCode=${prdCode}&levelFlag=${levelFlag}&netFlag=${netFlag}&perm=${perm}&staffFlag=${staffFlag}"><span>导出</span></a></h2>
+<h2 class="contentTitle"><label>统计结果</label>
+<a class="buttonActive" target="_blank" href="${contextPath }/component/stastics/tuibao/toXls?orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&csDate1=${csDate1 }&csDate2=${csDate2 }&prdCode=${prdCode}&levelFlag=${levelFlag}&netFlag=${netFlag}&perm=${perm}&staffFlag=${staffFlag}"><span>导出统计结果</span></a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<a class="buttonActive" target="_blank" href="${contextPath }/component/stastics/tuibao/dtlXls?orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&csDate1=${csDate1 }&csDate2=${csDate2 }&prdCode=${prdCode}&levelFlag=${levelFlag}&netFlag=${netFlag}&perm=${perm}&staffFlag=${staffFlag}"><span>导出明细数据</span></a>
+</h2>
 <br>
 <div class="pageContent" layoutH="70" width="150%">
 <div class="row" style="padding: 0 3px;">
@@ -90,13 +94,20 @@
 		<tbody>
 			<c:forEach var="item" items="${cmRst}" varStatus="idx">
 			<tr target="slt_uid" rel="${item.organName}">
-				<td>${idx.index+1 }</td>
+				<td style="text-align: center;">${idx.index+1 }</td>
 				<td>${item.organName}</td>
-				<td>${item.policyFee/10000}</td>
-				<td>${item.sumPolicyFee/10000}</td>
-				<td><fmt:formatNumber value="${item.policyFee/item.sumPolicyFee}" pattern="#,###.##" />%</td>
+				<td style="text-align: right;"><fmt:formatNumber value="${item.policyFee/10000}" pattern="#,###.#" /></td>
+				<td style="text-align: right;"><fmt:formatNumber value="${item.sumPolicyFee/10000}" pattern="#,###.#" /></td>
+				<td style="text-align: right;"><fmt:formatNumber value="${item.policyFee/item.sumPolicyFee*100}" pattern="#,###.#" />%</td>
 			</tr>
 			</c:forEach>
+			<tr>
+				<td>&nbsp;</td>
+				<td>合计：</td>
+				<td style="text-align: right;"><fmt:formatNumber value="${sumTb}" pattern="#,###.#" /></td>
+				<td style="text-align: right;"><fmt:formatNumber value="${totalTb}" pattern="#,###.#" /></td>
+				<td style="text-align: right;"><fmt:formatNumber value="${sumTb/totalTb*100}" pattern="#,###.#" />%</td>
+			</tr>
 		</tbody>
 	</table>
 	</div>

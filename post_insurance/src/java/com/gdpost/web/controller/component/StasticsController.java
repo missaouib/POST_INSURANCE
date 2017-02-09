@@ -1,6 +1,7 @@
 package com.gdpost.web.controller.component;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,7 @@ import com.gdpost.utils.StringUtil;
 import com.gdpost.web.controller.insurance.BaseDataController;
 import com.gdpost.web.entity.basedata.Prd;
 import com.gdpost.web.entity.component.StaffModel;
+import com.gdpost.web.entity.component.TuiBaoDtlModel;
 import com.gdpost.web.entity.component.TuiBaoModel;
 import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.User;
@@ -40,6 +42,7 @@ public class StasticsController {
 	
 	private static final String TUIBAO_LIST = "insurance/stastics/tuibao/tuibao";
 	private static final String TUIBAO_TOXLS = "insurance/stastics/tuibao/tuibaoXls";
+	private static final String TUIBAO_DTL_TOXLS = "insurance/stastics/tuibao/tuibaoDtlXls";
 	
 	private static final String STAFF_LIST = "insurance/stastics/staff/staff";
 	private static final String STAFF_TOXLS = "insurance/stastics/staff/staffXls";
@@ -165,15 +168,19 @@ public class StasticsController {
 		String tuibao = "";
 		double maxZB = 0;
 		int maxTB = 0;
+		double sumTb = 0;
+		double totalTb = 0;
 		DecimalFormat df = new DecimalFormat("#.#"); 
 		for(TuiBaoModel tcm:temp) {
 			col += "'" + tcm.getOrganName() + "',";
-			zhanbi += df.format(tcm.getPolicyFee()/tcm.getSumPolicyFee()*100) + ",";
-			if((tcm.getPolicyFee()/tcm.getSumPolicyFee()*100+1) > maxZB) {
-				maxZB = Math.ceil(tcm.getPolicyFee()/tcm.getSumPolicyFee()*100) +1;
+			sumTb += tcm.getPolicyFee()==null?0:tcm.getPolicyFee();
+			totalTb += tcm.getSumPolicyFee();
+			zhanbi += df.format(tcm.getPolicyFee()==null?0:tcm.getPolicyFee()/tcm.getSumPolicyFee()*100) + ",";
+			if(((tcm.getPolicyFee()==null?0:tcm.getPolicyFee())/tcm.getSumPolicyFee()*100+1) > maxZB) {
+				maxZB = Math.ceil(tcm.getPolicyFee()==null?0:tcm.getPolicyFee()/tcm.getSumPolicyFee()*100) +1;
 			}
-			tuibao += tcm.getPolicyFee()/10000 + ",";
-			if(tcm.getPolicyFee()/10000 > maxTB) {
+			tuibao += (tcm.getPolicyFee()==null?0:tcm.getPolicyFee())/10000 + ",";
+			if((tcm.getPolicyFee()==null?0:tcm.getPolicyFee())/10000 > maxTB) {
 				maxTB = (int)Math.ceil(tcm.getPolicyFee()/10000);
 			}
 		}
@@ -188,6 +195,8 @@ public class StasticsController {
 		request.setAttribute("tuibao", tuibao);
 		request.setAttribute("maxZB", maxZB);
 		request.setAttribute("maxTB", maxTB);
+		request.setAttribute("sumTb", sumTb/10000);
+		request.setAttribute("totalTb", totalTb/10000);
 		
 		Page page = new Page();
 		page.setNumPerPage(50);
@@ -274,6 +283,81 @@ public class StasticsController {
 		request.setAttribute("cmRst", temp);
 		LOG.debug(" ------------ result size:" + temp.size());
 		return TUIBAO_TOXLS;
+	}
+	
+	@RequestMapping(value="/stastics/tuibao/dtlXls", method={RequestMethod.GET, RequestMethod.POST})
+	public String tuibaoDtlToXls(ServletRequest request, Map<String, Object> map) {
+		LOG.debug("-------------------here----------");
+		String organCode = request.getParameter("orgCode");
+		String pd1 = request.getParameter("policyDate1");
+		String pd2 = request.getParameter("policyDate2");
+		String csd1 = request.getParameter("csDate1");
+		String csd2 = request.getParameter("csDate2");
+		String netFlag = request.getParameter("netFlag");
+		String levelFlag = request.getParameter("levelFlag");
+		String prdCode = request.getParameter("prdCode");
+		String perm = request.getParameter("perm");
+		String staffFlag = request.getParameter("staffFlag");
+		if(organCode == null || organCode.trim().length()<=0) {
+			organCode = "8644";
+		}
+		String toPrdCode = prdCode;
+		if(prdCode == null || prdCode.trim().length()<=0) {
+			toPrdCode = "%%";
+		} else {
+			if(prdCode.indexOf("_") > 0) {
+				toPrdCode = prdCode.substring(0, prdCode.indexOf("_"));
+			}
+		}
+		String toPerm = perm;
+		if(perm == null) {
+			toPerm = "年交";
+			perm = "年交";
+		} else if(perm.trim().length()<=0) {
+			toPerm = "%%";
+		}
+		String isStaff = staffFlag;
+		if(staffFlag == null || staffFlag.trim().length()<=0) {
+			isStaff = "%%";
+		}
+		boolean isCity = false;
+		if(levelFlag != null && levelFlag.trim().equals("city")) {
+			isCity = true;
+		}
+		
+		boolean hasNet = true;
+		if(netFlag == null || netFlag.trim().length()<=0) {
+			hasNet = false;
+		}
+	
+		String fd = StringUtil.getFirstDayOfYear("yyyy-MM-dd");
+		if(pd1 == null || pd1.trim().length()<=0) {
+			pd1 = fd;
+		}
+		if(pd2 == null || pd2.trim().length()<=0) {
+			pd2 = "9999-12-31";
+		}
+		if(csd1 == null || csd1.trim().length()<=0) {
+			csd1 = StringUtil.date2Str(new Date(), "yyyy-MM-dd");
+		}
+		if(csd2 == null || csd2.trim().length()<=0) {
+			csd2 = "9999-12-31";
+		}
+		
+		List<TuiBaoDtlModel> temp = null;
+		if(isCity) {
+			temp = new ArrayList<TuiBaoDtlModel>();
+		} else {
+			if(hasNet) {
+				temp = stasticsService.getProvTuiBaoWarnningDetailWithBankCode(organCode + "%", pd1, pd2, csd1, csd2, netFlag, toPrdCode, toPerm, isStaff);
+			} else {
+				temp = stasticsService.getProvTuiBaoWarnningDetail(organCode + "%", pd1, pd2, csd1, csd2, toPrdCode, toPerm, isStaff);
+			}
+		}
+		
+		request.setAttribute("cmRst", temp);
+		LOG.debug(" ------------ result size:" + temp.size());
+		return TUIBAO_DTL_TOXLS;
 	}
 	
 	/*
@@ -380,9 +464,17 @@ public class StasticsController {
 		String tuibao = "";
 		double maxZB = 0;
 		int maxTB = 0;
+		int csumTb = 0;
+		int ctotalTb = 0;
+		double ssumTb = 0;
+		double stotalTb = 0;
 		DecimalFormat df = new DecimalFormat("#.#"); 
 		for(StaffModel tcm:temp) {
 			col += "'" + tcm.getOrganName() + "',";
+			csumTb += tcm.getStaffCount();
+			ctotalTb += tcm.getSumStaffCount();
+			ssumTb += tcm.getPolicyFee();
+			stotalTb += tcm.getSumPolicyFee();
 			zhanbi += df.format(tcm.getPolicyFee()/tcm.getSumPolicyFee()*100) + ",";
 			if(tcm.getPolicyFee()/tcm.getSumPolicyFee()*100+1 > maxZB) {
 				maxZB = Math.ceil((tcm.getPolicyFee()/tcm.getSumPolicyFee())*100) + 1;
@@ -403,6 +495,10 @@ public class StasticsController {
 		request.setAttribute("staff", tuibao);
 		request.setAttribute("maxZB", maxZB);
 		request.setAttribute("maxTB", maxTB);
+		request.setAttribute("csumTb", csumTb);
+		request.setAttribute("ctotalTb", ctotalTb);
+		request.setAttribute("ssumTb", ssumTb/10000);
+		request.setAttribute("stotalTb", stotalTb/10000);
 		
 		Page page = new Page();
 		page.setNumPerPage(50);
