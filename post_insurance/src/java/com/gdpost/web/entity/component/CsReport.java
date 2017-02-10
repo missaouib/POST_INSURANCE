@@ -46,7 +46,7 @@ public class CsReport implements Idable<Long> {
 	private Long operateId;
 	private Date operateTime;
 	
-	private Boolean staffFlag;
+	private String staffFlag;
 	
 	@Transient
 	private String search_LIKE_staffFlag;
@@ -253,11 +253,11 @@ public class CsReport implements Idable<Long> {
 	}
 	
 	@Column(name="staff_flag")
-	public Boolean getStaffFlag() {
+	public String getStaffFlag() {
 		return staffFlag;
 	}
 
-	public void setStaffFlag(Boolean staffFlag) {
+	public void setStaffFlag(String staffFlag) {
 		this.staffFlag = staffFlag;
 	}
 

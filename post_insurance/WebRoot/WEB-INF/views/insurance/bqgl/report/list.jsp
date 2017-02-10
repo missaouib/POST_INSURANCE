@@ -24,7 +24,7 @@
 					</td>
 					<td>
 						<label>保单号：</label>
-						<input type="text" style="width: 100px;" id="cspolicyNo" name="search_LIKE_policy.policyNo" value="${search_LIKE_csNo_policy_policyNo }"/>
+						<input type="text" style="width: 100px;" id="cspolicyNo" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
 					</td>
 					<td>
 						<label>所属机构：</label>
@@ -68,9 +68,9 @@
 
 	<div class="panelBar">
 		<ul class="toolBar">
-			<!-- 
 			<li class="line">line</li>
-			<li><a class="icon" target="_blank" href="${contextPath }/report/toXls?flag=bq&orgCode=${orgCode}&search_LTE_csDate=${param.search_LTE_csDate}&search_GTE_csDate=${param.search_GTE_csDate}&status=${status}"><span>导出Excel</span></a></li>
+			<li><a class="icon" target="_blank" href="${contextPath }/bqgl/report/list/toXls?orgCode=${orgCode}&search_LTE_csDate=${param.search_LTE_csDate}&search_GTE_csDate=${param.search_GTE_csDate}&search_LIKE_csNo=${param.search_LIKE_csNo}&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo}&search_LIKE_staffFlag=${csReport.search_LIKE_staffFlag}&search_LIKE_csCode=${param.search_LIKE_csCode}"><span>导出Excel</span></a></li>
+			<!-- 
 			<li class="line">line</li>
 			<li><a class="icon" target="dialog" href="${contextPath }/pay/help" mask="true" width="530" height="430"><span>功能说明</span></a></li>
 			保全受理号 保单号 	保单所属机构 网点名称 	渠道 	操作机构代码 投保人姓名 	被保险人姓名 	保全复核通过日期 项目编码 金额 申请方式 

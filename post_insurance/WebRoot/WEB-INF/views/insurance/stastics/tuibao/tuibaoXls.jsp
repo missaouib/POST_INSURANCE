@@ -15,7 +15,7 @@ response.setHeader("Content-Disposition", "inline; filename=tuibao_warnning.xls"
 		<th>占比</th>
 	</tr>
 	<c:forEach var="item" items="${cmRst}" varStatus="idx">
-	<tr target="slt_uid" rel="${item.organName}">
+	<tr>
 		<td>${idx.index+1 }</td>
 		<td>${item.organName}</td>
 		<td>${item.policyFee/10000}</td>
