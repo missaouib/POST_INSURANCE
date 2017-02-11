@@ -848,3 +848,4 @@ CREATE UNIQUE INDEX idx_idcard ON t_staff(id_card);
 alter table t_policy add column staff_flag boolean default false;
 alter table t_cs_report add column staff_flag boolean default false;
 alter table t_policy add index idx_tpsf(`staff_flag`);
+alter table t_policy add column cs_flag tinyint default 0;

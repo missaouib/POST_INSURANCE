@@ -18,6 +18,7 @@ public class TuiBaoDtlModel implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 3288285191150301593L;
+	private Long id;
 	private String organName;
 	private String policyNo;
 	private Double policyFee;
@@ -34,6 +35,15 @@ public class TuiBaoDtlModel implements java.io.Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="id")
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	@Column(name="policy_no")
 	public String getPolicyNo() {
 		return policyNo;

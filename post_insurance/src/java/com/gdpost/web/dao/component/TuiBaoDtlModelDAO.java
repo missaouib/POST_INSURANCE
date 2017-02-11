@@ -22,7 +22,7 @@ import com.gdpost.web.entity.component.TuiBaoDtlModel;
 public interface TuiBaoDtlModelDAO extends JpaRepository<TuiBaoDtlModel, String>, JpaSpecificationExecutor<TuiBaoDtlModel> {
 	
 	@Query(name="getProvAllCityTuiBaoWarningDetail",
-			value="select itp.organ_name, itp.policy_no, itp.policy_date, itp.policy_fee, itp.prod_name, itcr.cs_no, itcr.cs_code, itcr.cs_date "
+			value="select itp.id, itp.organ_name, itp.policy_no, itp.policy_date, itp.policy_fee, itp.prod_name, itcr.cs_no, itcr.cs_code, itcr.cs_date "
 			+ "from t_policy itp, t_cs_report itcr "
 			+ "where itp.policy_no=itcr.policy_no and itcr.cs_code=\"CT\" and itp.cs_flag<>1 "
 			+ "and itp.organ_code like :orgCode "
@@ -36,7 +36,7 @@ public interface TuiBaoDtlModelDAO extends JpaRepository<TuiBaoDtlModel, String>
 	List<TuiBaoDtlModel> getProvAllCityTuiBaoWarningDetail(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag);
 	
 	@Query(name="getProvAllCityTuiBaoWarningDetailWithBankCode",
-			value="select itp.organ_name, itp.policy_no, itp.policy_date, itp.policy_fee, itp.prod_name, itcr.cs_no, itcr.cs_code, itcr.cs_date "
+			value="select itp.id, itp.organ_name, itp.policy_no, itp.policy_date, itp.policy_fee, itp.prod_name, itcr.cs_no, itcr.cs_code, itcr.cs_date "
 			+ "from t_policy itp, t_cs_report itcr, t_bank_code itbc "
 			+ "where itp.policy_no=itcr.policy_no and itp.bank_code=itbc.cpi_code and itcr.cs_code=\"CT\" and itp.cs_flag<>1 "
 			+ "and itp.organ_code like :orgCode "
