@@ -27,6 +27,11 @@ response.setHeader("Content-Disposition", "inline; filename=underwrite.xls");
 				<th>签单日期</th>
 				<th>省分收到合同日</th>
 				<th>省分寄出合同日</th>
+				<th>快递单号</th>
+				<th>市局收到合同日</th>
+				<th>市局寄出合同日</th>
+				<th>县局收到合同日</th>
+				<th>县局寄出合同日</th>
 				<th>合同签收日期</th>
 				<th>回执录入日期</th>
 			</tr>
@@ -51,6 +56,11 @@ response.setHeader("Content-Disposition", "inline; filename=underwrite.xls");
 				<td><fmt:formatDate value="${item.signDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.provReceiveDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.provSendDate }" pattern="yyyy-MM-dd"/></td>
+				<td>${item.provEmsNo }</td>
+				<td><fmt:formatDate value="${item.cityReceiveDate }" pattern="yyyy-MM-dd"/></td>
+				<td><fmt:formatDate value="${item.citySendDate }" pattern="yyyy-MM-dd"/></td>
+				<td><fmt:formatDate value="${item.areaReceiveDate }" pattern="yyyy-MM-dd"/></td>
+				<td><fmt:formatDate value="${item.areaSendDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.clientReceiveDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.signInputDate }" pattern="yyyy-MM-dd"/></td>
 			</tr>
