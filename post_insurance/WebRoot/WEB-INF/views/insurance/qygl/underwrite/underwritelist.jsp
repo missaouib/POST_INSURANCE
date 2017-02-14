@@ -14,27 +14,27 @@
 	<div class="panelBar">
 		<ul class="toolBar">
 			<shiro:hasPermission name="UnderWrite:view">
-				<li><a iconClass="user_edit" target="dialog" rel="underwrite_edit" mask="true" width="850" height="580" href="${contextPath }/qygl/underwrite/view/{slt_uid}"><span>查看人核件</span></a></li>
+				<li><a class="edit" target="dialog" rel="underwrite_edit" mask="true" width="850" height="580" href="${contextPath }/qygl/underwrite/view/{slt_uid}"><span>查看人核件</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="UnderWrite:edit">
 			<li class="line">line</li>
-				<li><a iconClass="user_edit" target="dialog" rel="underwrite_edit" mask="true" width="850" height="580" href="${contextPath }/qygl/underwrite/update/{slt_uid}"><span>更新人核件</span></a></li>
-				<li><a iconClass="user_go" href="${contextPath}/qygl/underwrite/signDateUpdate/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>回销登记</span></a></li>
+				<li><a class="edit" target="dialog" rel="underwrite_edit" mask="true" width="850" height="580" href="${contextPath }/qygl/underwrite/update/{slt_uid}"><span>更新人核件</span></a></li>
+				<li><a class="delete" href="${contextPath}/qygl/underwrite/signDateUpdate/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>回销登记</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="UnderWrite:provEdit">
 			<li class="line">line</li>
-				<li><a iconClass="user_edit" target="dialog" rel="underwrite_edit" mask="true" width="850" height="620" href="${contextPath }/qygl/underwrite/create"><span>新建人核件</span></a></li>
-				<li><a iconClass="user_go" href="${contextPath}/qygl/underwrite/provSend/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>省分寄出</span></a></li>
+				<li><a class="edit" target="dialog" rel="underwrite_edit" mask="true" width="850" height="620" href="${contextPath }/qygl/underwrite/create"><span>新建人核件</span></a></li>
+				<li><a class="delete" href="${contextPath}/qygl/underwrite/provSend/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>省分寄出</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="UnderWrite:cityEdit">
 			<li class="line">line</li>
-				<li><a iconClass="user_go" href="${contextPath}/qygl/underwrite/cityRec/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>地市接收</span></a></li>
-				<li><a iconClass="user_go" href="${contextPath}/qygl/underwrite/citySend/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>地市寄出</span></a></li>
+				<li><a class="delete" href="${contextPath}/qygl/underwrite/cityRec/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>地市接收</span></a></li>
+				<li><a class="delete" href="${contextPath}/qygl/underwrite/citySend/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>地市寄出</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="UnderWrite:areaEdit">
 			<li class="line">line</li>
-				<li><a iconClass="user_go" href="${contextPath}/qygl/underwrite/areaRec/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>县区接收</span></a></li>
-				<li><a iconClass="user_go" href="${contextPath}/qygl/underwrite/areaSend/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>县区寄出</span></a></li>
+				<li><a class="delete" href="${contextPath}/qygl/underwrite/areaRec/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>县区接收</span></a></li>
+				<li><a class="delete" href="${contextPath}/qygl/underwrite/areaSend/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>县区寄出</span></a></li>
 			</shiro:hasPermission>
 			<li class="line">line</li>
 			<li><a class="icon" target="dialog" href="${contextPath }/qygl/underwrite/help" mask="true" width="530" height="430"><span>功能说明</span></a></li>

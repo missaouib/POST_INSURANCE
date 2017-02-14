@@ -10,16 +10,16 @@
 <form method="post" action="${contextPath }/basedata/prd/list" onsubmit="return navTabSearch(this)">
 	<div class="pageHeader">
 		<div class="searchBar">
-			<ul class="searchContent">
-				<li>
-					<label>产品代码：</label>
+			<table class="searchContent">
+			<tr>
+				<td>产品代码：
 					<input type="text" name="search_LIKE_prdCode" value="${param.search_LIKE_prdCode }"/>
-				</li>
-				<li>
-					<label>产品名称：</label>
+				</td>
+				<td>产品名称：
 					<input type="text" name="search_LIKE_prdName" value="${param.search_LIKE_prdName }"/>
-				</li>
-			</ul>
+				</td>
+			</tr>
+			</table>
 			<div class="subBar">
 				<ul>						
 					<li><div class="button"><div class="buttonContent"><button type="submit">搜索</button></div></div></li>
@@ -34,13 +34,13 @@
 	<div class="panelBar">
 		<ul class="toolBar">
 			<shiro:hasPermission name="Prd:save">
-				<li><a iconClass="user_add" target="dialog" rel="lookup2organization_add" mask="true" width="530" height="330" href="${contextPath }/basedata/prd/create"><span>添加产品</span></a></li>
+				<li><a class="add" target="dialog" rel="lookup2organization_add" mask="true" width="530" height="330" href="${contextPath }/basedata/prd/create"><span>添加产品</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Prd:edit">
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="330" href="${contextPath }/basedata/prd/update/{slt_uid}"><span>编辑产品</span></a></li>
+				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="330" href="${contextPath }/basedata/prd/update/{slt_uid}"><span>编辑产品</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Prd:delete">
-				<li><a iconClass="user_delete" target="selectedTodo" rel="ids" href="${contextPath }/basedata/prd/delete" title="确认要删除?"><span>删除产品</span></a></li>
+				<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/basedata/prd/delete" title="确认要删除?"><span>删除产品</span></a></li>
 			</shiro:hasPermission>
 		</ul>
 	</div>

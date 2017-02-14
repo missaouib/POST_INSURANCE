@@ -13,35 +13,34 @@
 <form method="post" id="fpForm" action="${contextPath }/fpgl/list" onsubmit="return navTabSearch(this)">
 	<div class="pageHeader">
 		<div class="searchBar">
-			<ul class="searchContent">
-				<li>
-					<label>保单号：</label>
+			<table class="searchContent">
+			<tr>
+				<td>保单号：
 					<input type="text" id="fqPolicyNo" name="search_LIKE_policy.policyNo" style="width: 100px;" value="${search_LIKE_policy_policyNo }"/>
-				</li>
-				<li>
-					<label>投保人：</label>
+				</td>
+				<td>投保人：
 					<input type="text" id="fpholder" name="search_LIKE_policy.holder" style="width: 100px;" value="${search_LIKE_policy_holder }"/>
-				</li>
-				<li>
+				</td>
+				<td>
 					<label>状态：</label>
 					<form:select path="req.status" id="fpStatus" class="combox">
 						<form:option value=""> -- -- </form:option>
 						<form:options items="${fpStatusList }" itemLabel="desc"/>
 					</form:select>
-				</li>
-			</ul>
-			<ul class="searchContent">
-				<li>
-					<label>申请开始日期：</label>
+				</td>
+			</tr>
+			<tr>
+				<td><label>申请开始日期：</label>
 					<input type="text" name="search_GTE_reqDate" id="fqReqDate1" style="width: 80px;" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_reqDate }"/>
 					<a class="inputDateButton" href="javascript:;">选择</a>
-				</li>
-				<li>
-					<label>申请结束日期：</label>
+				</td>
+				<td><label>申请结束日期：</label>
 					<input type="text" name="search_LTE_reqDate" id="fqReqDate2" style="width: 80px;" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_reqDate }"/>
 					<a class="inputDateButton" href="javascript:;">选择</a>
-				</li>
-			</ul>
+				</td>
+				<td>&nbsp;</td>
+			</tr>
+			</table>
 			<div class="subBar">
 				<ul>						
 					<li><div class="button"><div class="buttonContent"><button type="submit">搜索</button></div></div></li>
@@ -56,24 +55,24 @@
 	<div class="panelBar">
 		<ul class="toolBar">
 			<shiro:hasPermission name="InvoiceReq:save">
-				<li><a iconClass="user_add" target="dialog" rel="lookup2organization_add" mask="true" width="530" height="430" href="${contextPath }/fpgl/create"><span>添加申请</span></a></li>
+				<li><a class="add" target="dialog" rel="lookup2organization_add" mask="true" width="530" height="430" href="${contextPath }/fpgl/create"><span>添加申请</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="InvoiceReq:edit">
 				<li class="line">line</li>
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="430" href="${contextPath }/fpgl/update/{slt_uid}"><span>编辑</span></a></li>
+				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="430" href="${contextPath }/fpgl/update/{slt_uid}"><span>编辑</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="InvoiceReq:delete">
 				<li class="line">line</li>
-				<li><a iconClass="user_delete" target="selectedTodo" rel="ids" href="${contextPath }/fpgl/delete" title="确认要删除?"><span>删除申请</span></a></li>
+				<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/fpgl/delete" title="确认要删除?"><span>删除申请</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="InvoiceReq:deal">
 				<li class="line">line</li>
-				<li><a iconClass="user_go" target="ajaxTodo" href="${contextPath }/fpgl/ReceiveStatus/{slt_uid}" title="确认更新状态?"><span>已接收</span></a></li>
+				<li><a class="delete" target="ajaxTodo" href="${contextPath }/fpgl/ReceiveStatus/{slt_uid}" title="确认更新状态?"><span>已接收</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="InvoiceReq:reset">
 				<li class="line">line</li>
-				<li><a iconClass="user_go" href="${contextPath}/fpgl/updateDealStatus/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>已寄出</span></a></li>
-				<li><a iconClass="user_go" target="ajaxTodo" href="${contextPath }/fpgl/CloseStatus/{slt_uid}" title="确认关闭?"><span>关闭</span></a></li>
+				<li><a class="delete" href="${contextPath}/fpgl/updateDealStatus/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>已寄出</span></a></li>
+				<li><a class="delete" target="ajaxTodo" href="${contextPath }/fpgl/CloseStatus/{slt_uid}" title="确认关闭?"><span>关闭</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="InvoiceReq:view">
 				<li class="line">line</li>

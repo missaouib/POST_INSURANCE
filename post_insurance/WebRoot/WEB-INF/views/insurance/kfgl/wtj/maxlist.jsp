@@ -61,20 +61,20 @@
 	<div class="panelBar">
 		<ul class="toolBar">
 			<shiro:hasPermission name="Wtgd:view">
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/kfgl/issue/view/{slt_uid}"><span>查看详情</span></a></li>
+				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/kfgl/issue/view/{slt_uid}"><span>查看详情</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Wtgd:edit">
 				<li class="line">line</li>
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/kfgl/issue/update/{slt_uid}"><span>回复</span></a></li>
+				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/kfgl/issue/update/{slt_uid}"><span>回复</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Wtgd:provEdit">
 				<li class="line">line</li>
-				<li><a iconClass="user_go" target="ajaxTodo" href="${contextPath }/kfgl/issue/close/{slt_uid}" title="确认要结案关闭?"><span>单个结案关闭</span></a></li>
+				<li><a class="delete" target="ajaxTodo" href="${contextPath }/kfgl/issue/close/{slt_uid}" title="确认要结案关闭?"><span>单个结案关闭</span></a></li>
 			</shiro:hasPermission>
 			<li class="line">line</li>
-			<li><a iconClass="user_edit" target="navTab" rel="printIssue" mask="true" width="820" height="520" href="${contextPath }/kfgl/issue/print/{slt_uid}"><span>打印工单</span></a></li>
+			<li><a class="edit" target="navTab" rel="printIssue" mask="true" width="820" height="520" href="${contextPath }/kfgl/issue/print/{slt_uid}"><span>打印工单</span></a></li>
 			<li class="line">line</li>
-			<li><a iconClass="user_edit" target="navTab" rel="printIssueList" mask="true" width="820" height="520" href="${contextPath }/kfgl/issues/print"><span>批打工单</span></a></li>
+			<li><a class="edit" target="navTab" rel="printIssueList" mask="true" width="820" height="520" href="${contextPath }/kfgl/issues/print"><span>批打工单</span></a></li>
 			<shiro:hasPermission name="Wtgd:view">
 				<li class="line">line</li>
 				<li><a class="icon" target="_blank" href="${contextPath }/kfgl/toXls?search_LIKE_issueNo=${param.search_LIKE_issueNo }&orgCode=${orgCode }&search_LTE_shouldDate=${param.search_LTE_shouldDate }&search_GTE_shouldDate=${param.search_GTE_shouldDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&status=${encodeStatus==null?'null':encodeStatus }"><span>导出Excel</span></a></li>

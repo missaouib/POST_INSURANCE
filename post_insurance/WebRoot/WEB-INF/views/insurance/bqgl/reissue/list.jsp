@@ -62,20 +62,20 @@
 		<ul class="toolBar">
 		<!-- 
 			<shiro:hasPermission name="CsReissue:save">
-				<li><a iconClass="user_add" target="dialog" rel="lookup2organization_add" mask="true" width="530" height="430" href="${contextPath }/bqgl/reissue/create"><span>登记合同补发</span></a></li>
+				<li><a class="add" target="dialog" rel="lookup2organization_add" mask="true" width="530" height="430" href="${contextPath }/bqgl/reissue/create"><span>登记合同补发</span></a></li>
 			</shiro:hasPermission>
 		 -->
 			<shiro:hasPermission name="CsReissue:provEdit">
 			<!-- 
 				<shiro:hasPermission name="CsReissue:delete">
 					<li class="line">line</li>
-					<li><a iconClass="user_delete" target="selectedTodo" rel="ids" href="${contextPath }/bqgl/reissue/delete" title="确认要删除?"><span>删除</span></a></li>
+					<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/bqgl/reissue/delete" title="确认要删除?"><span>删除</span></a></li>
 				</shiro:hasPermission>
 			-->
 				<li class="line">line</li>
 				<li><a target="myDialog" rel="ids" href="${contextPath }/bqgl/reissue/batchSent" class="edit"><span>批量寄出（省分）</span></a></li>
 				<li class="line">line</li>
-				<li><a iconClass="user_go" target="selectedTodo" rel="ids" href="${contextPath }/bqgl/reissue/CloseStatus" title="确认批量关闭?"><span>批量关闭</span></a></li>
+				<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/bqgl/reissue/CloseStatus" title="确认批量关闭?"><span>批量关闭</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="CsReissue:cityEdit">
 				<li class="line">line</li>

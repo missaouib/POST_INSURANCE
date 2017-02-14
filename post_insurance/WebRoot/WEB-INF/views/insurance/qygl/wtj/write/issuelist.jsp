@@ -14,10 +14,10 @@
 	<div class="panelBar">
 		<ul class="toolBar">
 			<shiro:hasPermission name="CheckWrite:view">
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="680" href="${contextPath }/qygl/issue/write/view/{slt_uid}"><span>查看新契约不合格件</span></a></li>
+				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="680" href="${contextPath }/qygl/issue/write/view/{slt_uid}"><span>查看新契约不合格件</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="CheckWrite:edit">
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/qygl/issue/write/update/{slt_uid}"><span>回复新契约不合格件</span></a></li>
+				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/qygl/issue/write/update/{slt_uid}"><span>回复新契约不合格件</span></a></li>
 			</shiro:hasPermission>
 		</ul>
 	</div>

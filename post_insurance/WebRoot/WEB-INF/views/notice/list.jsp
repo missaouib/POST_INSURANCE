@@ -11,22 +11,23 @@
 <form method="post" action="${contextPath }/notice/list" onsubmit="return navTabSearch(this)">
 	<div class="pageHeader">
 		<div class="searchBar">
-			<ul class="searchContent">
-				<li>
-					<label>标题：</label>
+			<table class="searchContent">
+			<tr>
+				<td>标题：
 					<input type="text" name="search_LIKE_noticeTitle" value="${param.search_LIKE_noticeTitle }"/>
-				</li>
-				<li>
+				</td>
+				<td>
 					<label>开始日期：</label>
 					<input type="text" name="sendDate1" id="fqSendDate1" style="width: 80px;" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="${sendDate1 }"/>
 					<a class="inputDateButton" href="javascript:;">选择</a>
-				</li>
-				<li>
+				</td>
+				<td>
 					<label>结束日期：</label>
 					<input type="text" name="sendDate2" id="fqSendDate2" style="width: 80px;" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="${sendDate2 }"/>
 					<a class="inputDateButton" href="javascript:;">选择</a>
-				</li>
-			</ul>
+				</td>
+			</tr>
+			</table>
 			<div class="subBar">
 				<ul>
 					<li><div class="button"><div class="buttonContent"><button type="submit">搜索</button></div></div></li>
@@ -40,15 +41,15 @@
 
 	<div class="panelBar">
 		<ul class="toolBar">
-			<li><a iconClass="user_add" target="dialog" rel="lookup2organization_add" mask="true" width="630" height="450" href="${contextPath }/notice/view/{slt_uid}"><span>查看</span></a></li>
+			<li><a class="add" target="dialog" rel="lookup2organization_add" mask="true" width="630" height="450" href="${contextPath }/notice/view/{slt_uid}"><span>查看</span></a></li>
 			<shiro:hasPermission name="Notice:save">
-				<li><a iconClass="user_add" target="dialog" rel="lookup2organization_add" mask="true" width="630" height="430" href="${contextPath }/notice/create"><span>添加发布</span></a></li>
+				<li><a class="add" target="dialog" rel="lookup2organization_add" mask="true" width="630" height="430" href="${contextPath }/notice/create"><span>添加发布</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Notice:edit">
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="630" height="330" href="${contextPath }/notice/update/{slt_uid}"><span>修改</span></a></li>
+				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="630" height="330" href="${contextPath }/notice/update/{slt_uid}"><span>修改</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Notice:delete">
-				<li><a iconClass="user_delete" target="selectedTodo" rel="ids" href="${contextPath }/notice/delete" title="确认要删除?"><span>删除</span></a></li>
+				<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/notice/delete" title="确认要删除?"><span>删除</span></a></li>
 			</shiro:hasPermission>
 		</ul>
 	</div>

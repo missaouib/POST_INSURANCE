@@ -15,43 +15,44 @@
 <form method="post" id="hfForm" action="${contextPath }/qygl/underwrite/list" onsubmit="return navTabSearch(this)">
 	<div class="pageHeader">
 		<div class="searchBar">
-			<ul class="searchContent">
-				<li>
-					<label>投保单号：</label>
+			<table class="searchContent">
+			<tr>
+				<td>投保单号：
 					<input type="text" id="uwFormNo" style="width: 100px;" name="search_LIKE_formNo" value="${param.search_LIKE_formNo }"/>
-				</li>
-				<li>
-					<label>投保人：</label>
+				</td>
+				<td>投保人：
 					<input type="text" id="uwHolder" style="width: 100px;" name="search_LIKE_holder" value="${param.search_LIKE_holder }"/>
-				</li>
-				<li>
-					<label>所属机构：</label>
+				</td>
+				<td>
+					<label>机构：</label>
 					<input name="orgCode" id="uw_orgCode" type="hidden" value="${orgCode }"/>
 					<input class="validate[required] required" name="name" id="uw_orgName" type="text" readonly="readonly" style="width: 120px;" value="${name }"/>
 					<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="" title="选择机构" width="400">查</a>
-				</li>
-				<li>
+				</td>
+				<td>
 					<label>省分收到日期：</label>
 					<input type="text" name="search_EQ_provReceiveDate" id="uwpsDate" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_EQ_provReceiveDate }"/><a class="inputDateButton" href="javascript:;">选</a>
-				</li>
-			</ul>
-			<ul class="searchContent">
-				<li>
+				</td>
+			</tr>
+			<tr>
+				<td>
 					<label>录入日期起：</label>
 					<input type="text" name="search_GTE_sysDate" id="uwDate1" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_sysDate }"/><a class="inputDateButton" href="javascript:;">选</a>
-				</li>
-				<li>
+				</td>
+				<td>
 					<label>录入日期止：</label>
 					<input type="text" name="search_LTE_sysDate" id="uwDate2" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_sysDate }"/><a class="inputDateButton" href="javascript:;">选</a>
-				</li>
-				<li>
-					<label>状态</label>
+				</td>
+				<td>
+					<label>状态：</label>
 					<form:select path="underwrite.status" id="uwStatus" class="combox">
 						<form:option value=""> -- -- </form:option>
 						<form:options items="${UWStatusList }" itemLabel="desc"/>
 					</form:select>
-				</li>
-			</ul>
+				</td>
+				<td>&nbsp;</td>
+			</tr>
+			</table>
 			<div class="subBar">
 				<ul>						
 					<li><div class="button"><div class="buttonContent"><button type="submit">搜索</button></div></div></li>
@@ -66,34 +67,34 @@
 	<div class="panelBar">
 		<ul class="toolBar">
 			<shiro:hasPermission name="UnderWrite:view">
-				<li><a iconClass="user_edit" target="dialog" rel="underwrite_edit" mask="true" width="850" height="440" href="${contextPath }/qygl/underwrite/view/{slt_uid}"><span>查看</span></a></li>
+				<li><a class="edit" target="dialog" rel="underwrite_edit" mask="true" width="850" height="440" href="${contextPath }/qygl/underwrite/view/{slt_uid}"><span>查看</span></a></li>
 				<li class="line">line</li>
 				<li><a class="icon" target="_blank" target="dwzExport" href="${contextPath }/qygl/underwrite/toXls?search_LIKE_formNo=${param.search_LIKE_formNo }&orgCode=${orgCode }&status=${status }&search_LTE_sysDate=${param.search_LTE_sysDate }&search_GTE_sysDate=${param.search_GTE_sysDate }&search_EQ_provReceiveDate=${param.search_EQ_provReceiveDate}"><span>导出</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="UnderWrite:edit">
 			<li class="line">line</li>
-			<li><a iconClass="user_edit" target="dialog" rel="underwrite_edit" mask="true" width="800" height="440" href="${contextPath }/qygl/underwrite/create"><span>新建</span></a></li>
+			<li><a class="edit" target="dialog" rel="underwrite_edit" mask="true" width="800" height="440" href="${contextPath }/qygl/underwrite/create"><span>新建</span></a></li>
 			<li class="line">line</li>
-			<li><a iconClass="user_edit" target="ajaxTodo" href="${contextPath }/qygl/underwrite/DelStatus/{slt_uid}" title="确认作废此人核件?"><span>作废</span></a></li>
+			<li><a class="edit" target="ajaxTodo" href="${contextPath }/qygl/underwrite/DelStatus/{slt_uid}" title="确认作废此人核件?"><span>作废</span></a></li>
 			<li class="line">line</li>
-				<li><a iconClass="user_edit" target="dialog" rel="underwrite_edit" mask="true" width="800" height="440" href="${contextPath }/qygl/underwrite/update/{slt_uid}"><span>更新</span></a></li>
-				<li><a iconClass="user_go" href="${contextPath}/qygl/underwrite/signDateUpdate/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>回销登记</span></a></li>
+				<li><a class="edit" target="dialog" rel="underwrite_edit" mask="true" width="800" height="440" href="${contextPath }/qygl/underwrite/update/{slt_uid}"><span>更新</span></a></li>
+				<li><a class="delete" href="${contextPath}/qygl/underwrite/signDateUpdate/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>回销登记</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="UnderWrite:provEdit">
 				<shiro:hasPermission name="UnderWrite:delete">
 					<li class="line">line</li>
-					<li><a iconClass="user_delete" target="selectedTodo" rel="ids" href="${contextPath }/qygl/underwrite/delete" title="确认要删除?"><span>删除</span></a></li>
+					<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/qygl/underwrite/delete" title="确认要删除?"><span>删除</span></a></li>
 				</shiro:hasPermission>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="UnderWrite:cityEdit">
 			<li class="line">line</li>
-				<li><a iconClass="user_go" href="${contextPath}/qygl/underwrite/cityRec/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>地市接收</span></a></li>
-				<li><a iconClass="user_go" href="${contextPath}/qygl/underwrite/citySend/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>地市寄出</span></a></li>
+				<li><a class="delete" href="${contextPath}/qygl/underwrite/cityRec/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>地市接收</span></a></li>
+				<li><a class="delete" href="${contextPath}/qygl/underwrite/citySend/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>地市寄出</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="UnderWrite:areaEdit">
 			<li class="line">line</li>
-				<li><a iconClass="user_go" href="${contextPath}/qygl/underwrite/areaRec/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>县区接收</span></a></li>
-				<li><a iconClass="user_go" href="${contextPath}/qygl/underwrite/areaSend/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>县区寄出</span></a></li>
+				<li><a class="delete" href="${contextPath}/qygl/underwrite/areaRec/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>县区接收</span></a></li>
+				<li><a class="delete" href="${contextPath}/qygl/underwrite/areaSend/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>县区寄出</span></a></li>
 			</shiro:hasPermission>
 			<li class="line">line</li>
 			<li><a class="icon" target="dialog" href="${contextPath }/qygl/underwrite/help" mask="true" width="530" height="430"><span>功能说明</span></a></li>

@@ -100,15 +100,15 @@
 	<div class="panelBar">
 		<ul class="toolBar">
 			<shiro:hasPermission name="Renewed:view">
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="580" href="${contextPath }/xqgl/issue/view/{slt_uid}"><span>查看详情</span></a></li>
+				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="580" href="${contextPath }/xqgl/issue/view/{slt_uid}"><span>查看详情</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Renewed:edit">
 				<li class="line">line</li>
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/xqgl/issue/update/{slt_uid}"><span>市/县续期催收登记</span></a></li>
+				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/xqgl/issue/update/{slt_uid}"><span>市/县续期催收登记</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Renewed:provEdit">
 				<li class="line">line</li>
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/xqgl/issue/provUpdate/{slt_uid}"><span>省分续期催登记</span></a></li>
+				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/xqgl/issue/provUpdate/{slt_uid}"><span>省分续期催登记</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Renewed:view">
 				<li class="line">line</li>

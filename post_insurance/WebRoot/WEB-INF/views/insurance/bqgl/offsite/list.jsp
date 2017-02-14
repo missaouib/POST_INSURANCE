@@ -61,29 +61,29 @@
 	<div class="panelBar">
 		<ul class="toolBar">
 			<shiro:hasPermission name="OffsiteConservation:save">
-				<li><a iconClass="user_add" target="dialog" rel="lookup2organization_add" mask="true" width="530" height="430" href="${contextPath }/bqgl/offsite/create"><span>登记异地保全</span></a></li>
+				<li><a class="add" target="dialog" rel="lookup2organization_add" mask="true" width="530" height="430" href="${contextPath }/bqgl/offsite/create"><span>登记异地保全</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="OffsiteConservation:edit">
 				<li class="line">line</li>
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="430" href="${contextPath }/bqgl/offsite/update/{slt_uid}"><span>编辑</span></a></li>
+				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="430" href="${contextPath }/bqgl/offsite/update/{slt_uid}"><span>编辑</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="OffsiteConservation:provEdit">
 				<li class="line">line</li>
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="430" href="${contextPath }/bqgl/offsite/provupdate/{slt_uid}"><span>省分更新</span></a></li>
+				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="430" href="${contextPath }/bqgl/offsite/provupdate/{slt_uid}"><span>省分更新</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="OffsiteConservation:delete">
 				<li class="line">line</li>
-				<li><a iconClass="user_delete" target="selectedTodo" rel="ids" href="${contextPath }/bqgl/offsite/delete" title="确认要删除?"><span>删除</span></a></li>
+				<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/bqgl/offsite/delete" title="确认要删除?"><span>删除</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="OffsiteConservation:deal">
 				<li class="line">line</li>
-				<li><a iconClass="user_go" target="ajaxTodo" href="${contextPath }/bqgl/offsite/DealStatus/{slt_uid}" title="确认更新状态?"><span>已处理</span></a></li>
+				<li><a class="delete" target="ajaxTodo" href="${contextPath }/bqgl/offsite/DealStatus/{slt_uid}" title="确认更新状态?"><span>已处理</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="OffsiteConservation:reset">
 				<li class="line">line</li>
-				<li><a iconClass="user_go" target="ajaxTodo" href="${contextPath }/bqgl/offsite/CloseStatus/{slt_uid}" title="确认关闭?"><span>关闭</span></a></li>
+				<li><a class="delete" target="ajaxTodo" href="${contextPath }/bqgl/offsite/CloseStatus/{slt_uid}" title="确认关闭?"><span>关闭</span></a></li>
 				<li class="line">line</li>
-				<li><a iconClass="user_go" target="selectedTodo" rel="ids" href="${contextPath }/bqgl/offsite/CloseStatus" title="确认批量关闭?"><span>批量关闭</span></a></li>
+				<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/bqgl/offsite/CloseStatus" title="确认批量关闭?"><span>批量关闭</span></a></li>
 			</shiro:hasPermission>
 			<li class="line">line</li>
 			<li><a class="icon" target="_blank" href="${contextPath }/bqgl/offsite/toXls?search_LIKE_policyNo=${param.search_LIKE_policyNo }&orgCode=${orgCode }&search_LTE_dealDate=${param.search_LTE_dealDate }&search_GTE_dealDate=${param.search_GTE_dealDate }&status=${param.status }"><span>导出Excel</span></a></li>

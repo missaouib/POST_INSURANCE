@@ -9,12 +9,13 @@
 <form method="post" action="${contextPath }/basedata/issueType/list" onsubmit="return navTabSearch(this)">
 	<div class="pageHeader">
 		<div class="searchBar">
-			<ul class="searchContent">
-				<li>
-					<label>工单类型：</label>
+			<table class="searchContent">
+			<tr>
+				<td>工单类型：
 					<input type="text" name="search_LIKE_typeName" value="${param.search_LIKE_typeName }"/>
-				</li>
-			</ul>
+				</td>
+			</tr>
+			</table>
 			<div class="subBar">
 				<ul>						
 					<li><div class="button"><div class="buttonContent"><button type="submit">搜索</button></div></div></li>
@@ -29,13 +30,13 @@
 	<div class="panelBar">
 		<ul class="toolBar">
 			<shiro:hasPermission name="IssueType:save">
-				<li><a iconClass="user_add" target="dialog" rel="lookup2organization_add" mask="true" width="530" height="330" href="${contextPath }/basedata/issueType/create"><span>添加工单类型</span></a></li>
+				<li><a class="add" target="dialog" rel="lookup2organization_add" mask="true" width="530" height="330" href="${contextPath }/basedata/issueType/create"><span>添加工单类型</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="IssueType:edit">
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="330" href="${contextPath }/basedata/issueType/update/{slt_uid}"><span>编辑工单类型</span></a></li>
+				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="330" href="${contextPath }/basedata/issueType/update/{slt_uid}"><span>编辑工单类型</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="IssueType:delete">
-				<li><a iconClass="user_delete" target="selectedTodo" rel="ids" href="${contextPath }/basedata/issueType/delete" title="确认要删除?"><span>删除工单类型</span></a></li>
+				<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/basedata/issueType/delete" title="确认要删除?"><span>删除工单类型</span></a></li>
 			</shiro:hasPermission>
 		</ul>
 	</div>

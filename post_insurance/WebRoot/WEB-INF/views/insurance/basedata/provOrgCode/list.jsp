@@ -10,16 +10,16 @@
 <form method="post" action="${contextPath }/basedata/provOrgCode/list" onsubmit="return navTabSearch(this)">
 	<div class="pageHeader">
 		<div class="searchBar">
-			<ul class="searchContent">
-				<li>
-					<label>省分机构代码：</label>
+			<table class="searchContent">
+			<tr>
+				<td>省分机构代码：
 					<input type="text" name="search_LIKE_orgCode" value="${param.search_LIKE_orgCode }"/>
-				</li>
-				<li>
-					<label>省分机构名称：</label>
+				</td>
+				<td>省分机构名称：
 					<input type="text" name="search_LIKE_orgName" value="${param.search_LIKE_orgName }"/>
-				</li>
-			</ul>
+				</td>
+			</tr>
+			</table>
 			<div class="subBar">
 				<ul>						
 					<li><div class="button"><div class="buttonContent"><button type="submit">搜索</button></div></div></li>
@@ -34,13 +34,13 @@
 	<div class="panelBar">
 		<ul class="toolBar">
 			<shiro:hasPermission name="ProvOrgCode:save">
-				<li><a iconClass="user_add" target="dialog" rel="lookup2organization_add" mask="true" width="530" height="330" href="${contextPath }/basedata/provOrgCode/create"><span>添加省分机构代码对照</span></a></li>
+				<li><a class="add" target="dialog" rel="lookup2organization_add" mask="true" width="530" height="330" href="${contextPath }/basedata/provOrgCode/create"><span>添加省分机构代码对照</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="ProvOrgCode:edit">
-				<li><a iconClass="user_edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="330" href="${contextPath }/basedata/provOrgCode/update/{slt_uid}"><span>编辑省分机构代码对照</span></a></li>
+				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="330" href="${contextPath }/basedata/provOrgCode/update/{slt_uid}"><span>编辑省分机构代码对照</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="ProvOrgCode:delete">
-				<li><a iconClass="user_delete" target="selectedTodo" rel="ids" href="${contextPath }/basedata/provOrgCode/delete" title="确认要删除?"><span>删除省分机构代码对照</span></a></li>
+				<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/basedata/provOrgCode/delete" title="确认要删除?"><span>删除省分机构代码对照</span></a></li>
 			</shiro:hasPermission>
 		</ul>
 	</div>

@@ -81,7 +81,7 @@
 <div class="row" style="padding: 0 3px;">
 	<div class="sortDrag" style="width:30%;border:1px solid #e66;margin:5px;float:left;min-height:100px">
 	<h2 class="contentTitle">列表展示（单位：万元）&nbsp;&nbsp;&nbsp;&nbsp;</h2>
-		<table class="table" layoutH="220" width="100%">
+		<table class="table" width="100%">
 		<thead>
 			<tr>
 				<th>序号</th>
