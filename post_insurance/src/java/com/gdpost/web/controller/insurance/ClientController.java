@@ -81,6 +81,12 @@ public class ClientController {
 		Policy policy = new Policy();
 		policy.setStatus(status);
 		
+		map.put("policy", policy);
+		map.put("page", page);
+		if(request.getParameterMap().size()<=1) {
+			return LIST;
+		}
+		
 		if(page.getOrderField() == null || page.getOrderField().trim().length() <= 0) {
 			page.setOrderField("policyNo");
 			page.setOrderDirection("DESC");
@@ -115,8 +121,6 @@ public class ClientController {
 		Specification<Policy> specification = DynamicSpecifications.bySearchFilter(request, Policy.class, csf);
 		List<Policy> policies = policyService.findByExample(specification, page);
 		
-		map.put("policy", policy);
-		map.put("page", page);
 		map.put("policies", policies);
 		return LIST;
 	}

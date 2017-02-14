@@ -149,7 +149,7 @@ body, #splitBar { background:#e5edef;}
 
 #header, #header .headerNav { background:url(./images/header_bg.png) repeat-x;}
 #header { background-color:#102c4a;}
-#header .logo { }
+#header .logo { background:url(./images/logo.png) no-repeat;}
 #header .nav li { float:left; margin-left:-1px; padding:0 8px; line-height:11px; background:url(./images/listLine.png) no-repeat;}
 #header .nav li a { color:#b9ccda;}
 #header .themeList li div { background:url(./images/themeButton.png) no-repeat;}
@@ -199,3 +199,7 @@ body, #splitBar { background:#e5edef;}
 .combox .select a  { color:#183152; }
 .comboxop { border-color:#B8D0D6; }
 .combox, .combox div, .combox div a { background:url(../default/images/search-bg.gif) no-repeat; }
+
+
+
+

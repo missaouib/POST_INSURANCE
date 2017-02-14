@@ -144,8 +144,8 @@
 				<li><a class="delete" href="${contextPath}/hfgl/updateResetStatus/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>电话重置</span></a></li>
 				 -->
 				<li class="line">line</li>
-				<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath}/hfgl/batchCallReset" title="确认要设置为可再次二访?"><span>批量可再访</span></a></li>
-				<li><a class="delete" href="${contextPath}/hfgl/callReset/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>可再访</span></a></li>
+				<li><a class="edit" target="selectedTodo" rel="ids" href="${contextPath}/hfgl/batchCallReset" title="确认要设置为可再次二访?"><span>批量可再访</span></a></li>
+				<li><a class="edit" href="${contextPath}/hfgl/callReset/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>可再访</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Callfail:provEdit">
 			<li class="line">line</li>

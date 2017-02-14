@@ -75,7 +75,7 @@
 			<li class="line">line</li>
 			<li><a class="edit" target="dialog" rel="underwrite_edit" mask="true" width="800" height="440" href="${contextPath }/qygl/underwrite/create"><span>新建</span></a></li>
 			<li class="line">line</li>
-			<li><a class="edit" target="ajaxTodo" href="${contextPath }/qygl/underwrite/DelStatus/{slt_uid}" title="确认作废此人核件?"><span>作废</span></a></li>
+			<li><a class="delete" target="ajaxTodo" href="${contextPath }/qygl/underwrite/DelStatus/{slt_uid}" title="确认作废此人核件?"><span>作废</span></a></li>
 			<li class="line">line</li>
 				<li><a class="edit" target="dialog" rel="underwrite_edit" mask="true" width="800" height="440" href="${contextPath }/qygl/underwrite/update/{slt_uid}"><span>更新</span></a></li>
 				<li><a class="delete" href="${contextPath}/qygl/underwrite/signDateUpdate/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>回销登记</span></a></li>
@@ -88,13 +88,13 @@
 			</shiro:hasPermission>
 			<shiro:hasPermission name="UnderWrite:cityEdit">
 			<li class="line">line</li>
-				<li><a class="delete" href="${contextPath}/qygl/underwrite/cityRec/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>地市接收</span></a></li>
-				<li><a class="delete" href="${contextPath}/qygl/underwrite/citySend/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>地市寄出</span></a></li>
+				<li><a class="edit" href="${contextPath}/qygl/underwrite/cityRec" target="selectedToDialog" relIds="ids" mask="true" width="550" height="250"><span>地市接收</span></a></li>
+				<li><a class="edit" href="${contextPath}/qygl/underwrite/citySend" target="selectedToDialog" relIds="ids" mask="true" width="550" height="250"><span>地市寄出</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="UnderWrite:areaEdit">
 			<li class="line">line</li>
-				<li><a class="delete" href="${contextPath}/qygl/underwrite/areaRec/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>县区接收</span></a></li>
-				<li><a class="delete" href="${contextPath}/qygl/underwrite/areaSend/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>县区寄出</span></a></li>
+				<li><a class="edit" href="${contextPath}/qygl/underwrite/areaRec" target="selectedToDialog" relIds="ids" mask="true" width="550" height="250"><span>县区接收</span></a></li>
+				<li><a class="edit" href="${contextPath}/qygl/underwrite/areaSend" target="selectedToDialog" relIds="ids" mask="true" width="550" height="250"><span>县区寄出</span></a></li>
 			</shiro:hasPermission>
 			<li class="line">line</li>
 			<li><a class="icon" target="dialog" href="${contextPath }/qygl/underwrite/help" mask="true" width="530" height="430"><span>功能说明</span></a></li>
@@ -110,21 +110,12 @@
 				<th orderField=policyNo class="${page.orderField eq 'policyNo' ? page.orderDirection : ''}">保单号</th>
 				<th>合同寄出</th>
 				<th>快递单号</th>
+				<th>地市接收</th>
+				<th>县区接收</th>
 				<th>投保人</th>
-				<!-- 
-				<th>年龄</th>
-				<th>关系</th>
-				<th orderField=underwriteReason class="${page.orderField eq 'underwriteReason' ? page.orderDirection : ''}">转核原因</th>
-				<th orderField=policyFee class="${page.orderField eq 'policyFee' ? page.orderDirection : ''}">保费</th>
-				<th>问题件</th>
-				<th orderField=signDate class="${page.orderField eq 'signDate' ? page.orderDirection : ''}">签单日期</th>
-				<th>核保日期</th>
-				 -->
-				<th>被保人</th>
 				<th orderField=prd.prdName class="${page.orderField eq 'prd.prdName' ? page.orderDirection : ''}">产品</th>
 				<th orderField=ybtDate class="${page.orderField eq 'ybtDate' ? page.orderDirection : ''}">邮保通录入</th>
 				<th orderField=sysDate class="${page.orderField eq 'sysDate' ? page.orderDirection : ''}">核心录入</th>
-				<th orderField=checkDate class="${page.orderField eq 'checkDate' ? page.orderDirection : ''}">复核时间</th>
 				<th>合同签收</th>
 				<th>回执录入</th>
 			</tr>
@@ -150,21 +141,12 @@
 				<td title="${item.policyNo}">${item.policyNo}</td>
 				<td><fmt:formatDate value="${item.provSendDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.provEmsNo}</td>
+				<td><fmt:formatDate value="${item.cityReceiveDate }" pattern="yyyy-MM-dd"/></td>
+				<td><fmt:formatDate value="${item.areaReceiveDate }" pattern="yyyy-MM-dd"/></td>
 				<td title="${item.holder}">${fn:substring(item.holder, 0, 4)}</td>
-				<!-- 
-				<td>${item.holderAge}</td>
-				<td>${item.relation}</td>
-				<td>${item.underwriteReason}</td>
-				<td>${item.policyFee}</td>
-				<td>${item.issueFlag}</td>
-				<td><fmt:formatDate value="${item.underwriteDate }" pattern="yyyy-MM-dd"/></td>
-				<td><fmt:formatDate value="${item.signDate }" pattern="yyyy-MM-dd"/></td>
-				-->
-				<td title="${item.insured}">${fn:substring(item.insured, 0, 4)}</td>
 				<td>${item.prd.prdName}</td>
 				<td><fmt:formatDate value="${item.ybtDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.sysDate }" pattern="yyyy-MM-dd"/></td>
-				<td><fmt:formatDate value="${item.checkDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.clientReceiveDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.signInputDate }" pattern="yyyy-MM-dd"/></td>
 			</tr>

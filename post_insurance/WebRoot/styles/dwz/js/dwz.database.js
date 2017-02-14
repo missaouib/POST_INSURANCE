@@ -384,7 +384,6 @@
 		},
 		
 		selectedTodo: function(){
-			
 			function _getIds(selectedIds, targetType){
 				var ids = "";
 				var $box = targetType == "dialog" ? $.pdialog.getCurrent() : navTab.getCurrentPanel();

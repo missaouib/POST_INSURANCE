@@ -606,16 +606,9 @@ public class QyglController {
 	}
 	
 	@RequiresPermissions(value={"UnderWrite:edit","UnderWrite:provEdit","UnderWrite:cityEdit","UnderWrite:areaEdit"}, logical=Logical.OR)
-	@RequestMapping(value="/underwrite/{mailFlag}", method=RequestMethod.POST)
-	public String preManyMailRecDateUpdate(@PathVariable String mailFlag, Long[] ids, Map<String, Object> map) {
-		String sids = null;
-		for(Long t:ids) {
-			sids = t + ",";
-		}
-		if(sids != null && sids.length()>0) {
-			sids.substring(0, sids.length()-1);
-		}
-		map.put("ids", sids);
+	@RequestMapping(value="/underwrite/{mailFlag}", method=RequestMethod.GET)
+	public String preManyMailRecDateUpdate(@PathVariable String mailFlag, String ids, Map<String, Object> map) {
+		map.put("ids", ids);
 		map.put("mailFlag", mailFlag);
 		if(mailFlag.contains("Send")) {
 			return UW_MAIL_DATES;
@@ -624,7 +617,7 @@ public class QyglController {
 		}
 	}
 	
-	@Log(message="批量更新了{0}人核件记录申请。", level=LogLevel.WARN, module=LogModule.QYGL)
+	@Log(message="批量更新了{0}人核件记录接收时间。", level=LogLevel.WARN, module=LogModule.QYGL)
 	@RequiresPermissions(value={"UnderWrite:edit","UnderWrite:provEdit","UnderWrite:cityEdit","UnderWrite:areaEdit"}, logical=Logical.OR)
 	@RequestMapping(value="/underwrite/manySendRecUpdate", method=RequestMethod.POST)
 	public @ResponseBody String batchUpdateMailDate(ServletRequest request) {
@@ -681,7 +674,7 @@ public class QyglController {
 		}
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{Arrays.toString(policys)}));
-		return AjaxObject.newOk("成功更新人核件信息！").setCallbackType("").toString();
+		return AjaxObject.newOk("成功更新人核件信息！").toString();
 	}
 	
 	@RequiresPermissions("UnderWrite:view")
