@@ -14,7 +14,7 @@
 	<div class="panelBar">
 		<ul class="toolBar">
 			<shiro:hasPermission name="Callfail:view">
-				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="680" href="${contextPath }/hfgl/issue/view/{slt_uid}"><span>查看回访不成功件</span></a></li>
+				<li><a iconClass="magnifier" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="680" href="${contextPath }/hfgl/issue/view/{slt_uid}"><span>查看回访不成功件</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Callfail:edit">
 				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/hfgl/issue/update/{slt_uid}"><span>回复回访不成功件</span></a></li>

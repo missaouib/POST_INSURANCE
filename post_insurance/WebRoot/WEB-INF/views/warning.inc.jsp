@@ -35,7 +35,7 @@ ul, li {
 		String[] s = ods.split("\\|");
 		if(s[0] != null && new Integer(s[0]) > 0) {
 		%>
-		<li><a target="dialog" mask="true" width="800" height="440" style="color:#F00;font-weight: bold;" href="${contextPath}/qygl/uwlist2pop">共<%=s[0] %>件人核件寄出时效逾期（弹窗提醒），点解查看</a></li>
+		<li><a target="dialog" mask="true" width="800" height="440" style="color:#F00;font-weight: bold;" href="${contextPath}/qygl/uwlist2pop">共<%=s[0] %>件人核件寄出时效逾期（弹窗提醒），点击查看</a></li>
 		<%
 		};
 		if(s[1] != null && new Integer(s[1]) >0) {

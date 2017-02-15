@@ -67,7 +67,7 @@
 	<div class="panelBar">
 		<ul class="toolBar">
 			<shiro:hasPermission name="UnderWrite:view">
-				<li><a class="edit" target="dialog" rel="underwrite_edit" mask="true" width="850" height="440" href="${contextPath }/qygl/underwrite/view/{slt_uid}"><span>查看</span></a></li>
+				<li><a iconClass="magnifier" target="dialog" rel="underwrite_edit" mask="true" width="850" height="440" href="${contextPath }/qygl/underwrite/view/{slt_uid}"><span>查看</span></a></li>
 				<li class="line">line</li>
 				<li><a class="icon" target="_blank" target="dwzExport" href="${contextPath }/qygl/underwrite/toXls?search_LIKE_formNo=${param.search_LIKE_formNo }&orgCode=${orgCode }&status=${status }&search_LTE_sysDate=${param.search_LTE_sysDate }&search_GTE_sysDate=${param.search_GTE_sysDate }&search_EQ_provReceiveDate=${param.search_EQ_provReceiveDate}"><span>导出</span></a></li>
 			</shiro:hasPermission>

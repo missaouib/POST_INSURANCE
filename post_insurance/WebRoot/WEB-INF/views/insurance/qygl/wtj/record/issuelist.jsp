@@ -14,7 +14,7 @@
 	<div class="panelBar">
 		<ul class="toolBar">
 			<shiro:hasPermission name="CheckRecord:view">
-				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="680" href="${contextPath }/qygl/issue/record/view/{slt_uid}"><span>查看新契约不合格件</span></a></li>
+				<li><a iconClass="magnifier" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="680" href="${contextPath }/qygl/issue/record/view/{slt_uid}"><span>查看新契约不合格件</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="CheckRecord:edit">
 				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/qygl/issue/record/update/{slt_uid}"><span>回复新契约不合格件</span></a></li>

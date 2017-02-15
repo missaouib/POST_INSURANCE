@@ -134,7 +134,7 @@
 	<div class="panelBar">
 		<ul class="toolBar">
 			<shiro:hasPermission name="Callfail:view">
-				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/hfgl/issue/view/{slt_uid}"><span>查看详情</span></a></li>
+				<li><a iconClass="magnifier" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/hfgl/issue/view/{slt_uid}"><span>查看详情</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Callfail:edit">
 				<li class="line">line</li>
@@ -162,7 +162,7 @@
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Callfail:view">
 				<li class="line">line</li>
-				<li><a class="icon" href="${contextPath }/hfgl/issue/maxlist?search_LIKE_issueNo=${param.search_LIKE_issueNo }&policy.orgCode=${policy_orgCode }&policy.name=${policy_name }&search_LTE_readyDate=${param.search_LTE_readyDate }&search_GTE_readyDate=${param.search_GTE_readyDate }&search_GTE_policy.policyDate=${search_GTE_policy_policyDate }&search_LTE_policy.policyDate=${search_LTE_policy_policyDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&encodeHasLetter=${encodeHasLetter }&encodeStatus=${encodeStatus == null?'null':encodeStatus }" target="dialog" rel="dlg_page1" max="true" title="回访不成功列表" width="800" height="480"><span>全屏查看</span></a></li>
+				<li><a iconClass="magnifier" href="${contextPath }/hfgl/issue/maxlist?search_LIKE_issueNo=${param.search_LIKE_issueNo }&policy.orgCode=${policy_orgCode }&policy.name=${policy_name }&search_LTE_readyDate=${param.search_LTE_readyDate }&search_GTE_readyDate=${param.search_GTE_readyDate }&search_GTE_policy.policyDate=${search_GTE_policy_policyDate }&search_LTE_policy.policyDate=${search_LTE_policy_policyDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&encodeHasLetter=${encodeHasLetter }&encodeStatus=${encodeStatus == null?'null':encodeStatus }" target="dialog" rel="dlg_page1" max="true" title="回访不成功列表" width="800" height="480"><span>全屏查看</span></a></li>
 				<li class="line">line</li>
 				<li><a class="icon" target="_blank" href="${contextPath }/hfgl/toXls?dealType=${dealType }&hqDealType=${hqDealType }&hqDealFlag=${hqDealFlag }&orgDealFlag=${orgDealFlag }&canCallAgain=${canCallAgain }&search_LIKE_issueNo=${param.search_LIKE_issueNo }&policy.orgCode=${policy_orgCode }&search_LTE_readyDate=${param.search_LTE_readyDate }&search_GTE_readyDate=${param.search_GTE_readyDate }&search_GTE_policy.policyDate=${search_GTE_policy_policyDate }&search_LTE_policy.policyDate=${search_LTE_policy_policyDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&encodeHasLetter=${encodeHasLetter }&encodeStatus=${encodeStatus == null?'null':encodeStatus }"><span>导出Excel</span></a></li>
 			</shiro:hasPermission>

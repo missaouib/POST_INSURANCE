@@ -65,11 +65,11 @@
 				<li class="line">line</li>
 				<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/fpgl/delete" title="确认要删除?"><span>删除申请</span></a></li>
 			</shiro:hasPermission>
-			<shiro:hasPermission name="InvoiceReq:deal">
+			<shiro:hasPermission name="InvoiceReq:edit">
 				<li class="line">line</li>
 				<li><a class="edit" target="ajaxTodo" href="${contextPath }/fpgl/ReceiveStatus/{slt_uid}" title="确认更新状态?"><span>已接收</span></a></li>
 			</shiro:hasPermission>
-			<shiro:hasPermission name="InvoiceReq:reset">
+			<shiro:hasPermission name="InvoiceReq:edit">
 				<li class="line">line</li>
 				<li><a class="edit" href="${contextPath}/fpgl/updateDealStatus/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>已寄出</span></a></li>
 				<li><a class="delete" target="ajaxTodo" href="${contextPath }/fpgl/CloseStatus/{slt_uid}" title="确认关闭?"><span>关闭</span></a></li>

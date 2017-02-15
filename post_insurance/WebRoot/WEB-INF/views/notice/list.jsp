@@ -41,7 +41,7 @@
 
 	<div class="panelBar">
 		<ul class="toolBar">
-			<li><a class="add" target="dialog" rel="lookup2organization_add" mask="true" width="630" height="450" href="${contextPath }/notice/view/{slt_uid}"><span>查看</span></a></li>
+			<li><a iconClass="magnifier" target="dialog" rel="lookup2organization_add" mask="true" width="630" height="450" href="${contextPath }/notice/view/{slt_uid}"><span>查看</span></a></li>
 			<shiro:hasPermission name="Notice:save">
 				<li><a class="add" target="dialog" rel="lookup2organization_add" mask="true" width="630" height="430" href="${contextPath }/notice/create"><span>添加发布</span></a></li>
 			</shiro:hasPermission>

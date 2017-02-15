@@ -14,7 +14,7 @@
 	<div class="panelBar">
 		<ul class="toolBar">
 			<shiro:hasPermission name="UnderWrite:view">
-				<li><a class="edit" target="dialog" rel="underwrite_edit" mask="true" width="850" height="580" href="${contextPath }/qygl/underwrite/view/{slt_uid}"><span>查看人核件</span></a></li>
+				<li><a iconClass="magnifier" target="dialog" rel="underwrite_edit" mask="true" width="850" height="580" href="${contextPath }/qygl/underwrite/view/{slt_uid}"><span>查看人核件</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="UnderWrite:edit">
 			<li class="line">line</li>

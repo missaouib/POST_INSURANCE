@@ -61,7 +61,7 @@
 	<div class="panelBar">
 		<ul class="toolBar">
 			<shiro:hasPermission name="Wtgd:view">
-				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/kfgl/issue/view/{slt_uid}"><span>查看详情</span></a></li>
+				<li><a iconClass="magnifier" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/kfgl/issue/view/{slt_uid}"><span>查看详情</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Wtgd:edit">
 				<li class="line">line</li>
