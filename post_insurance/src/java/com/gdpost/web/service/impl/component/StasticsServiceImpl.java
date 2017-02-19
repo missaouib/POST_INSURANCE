@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gdpost.web.dao.component.StaffDtlModelDAO;
 import com.gdpost.web.dao.component.StaffModelDAO;
 import com.gdpost.web.dao.component.TuiBaoDtlModelDAO;
 import com.gdpost.web.dao.component.TuiBaoModelDAO;
+import com.gdpost.web.entity.component.StaffDtlModel;
 import com.gdpost.web.entity.component.StaffModel;
 import com.gdpost.web.entity.component.TuiBaoDtlModel;
 import com.gdpost.web.entity.component.TuiBaoModel;
@@ -27,6 +29,9 @@ public class StasticsServiceImpl implements StasticsService {
 	
 	@Autowired
 	private StaffModelDAO smDAO;
+	
+	@Autowired
+	private StaffDtlModelDAO sdDAO;
 
 	@Override
 	public List<TuiBaoModel> getTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(String organCode, String d1, String d2, String d3, String d4, String prdCode, String toPerm, String staffFlag) {
@@ -81,6 +86,11 @@ public class StasticsServiceImpl implements StasticsService {
 	@Override
 	public List<StaffModel> getProvStaffCountWithPolicyDate(String organCode, String d1, String d2, String flag, String prdCode, String toPerm) {
 		return smDAO.getProvStaffCountWithPolicyDate(organCode, d1, d2, flag, prdCode, toPerm);
+	}
+
+	@Override
+	public List<StaffDtlModel> getStaffDetailWithPolicyDate(String organCode, String d1, String d2, String flag, String prdCode, String toPerm) {
+		return sdDAO.getProvAllStaffDetailWithBankCode(organCode, d1, d2, flag, prdCode, toPerm);
 	}
 	
 }

@@ -20,6 +20,7 @@ import com.gdpost.utils.SecurityUtils;
 import com.gdpost.utils.StringUtil;
 import com.gdpost.web.controller.insurance.BaseDataController;
 import com.gdpost.web.entity.basedata.Prd;
+import com.gdpost.web.entity.component.StaffDtlModel;
 import com.gdpost.web.entity.component.StaffModel;
 import com.gdpost.web.entity.component.TuiBaoDtlModel;
 import com.gdpost.web.entity.component.TuiBaoModel;
@@ -46,6 +47,7 @@ public class StasticsController {
 	
 	private static final String STAFF_LIST = "insurance/stastics/staff/staff";
 	private static final String STAFF_TOXLS = "insurance/stastics/staff/staffXls";
+	private static final String STAFF_DTL_TOXLS = "insurance/stastics/staff/staffDtlXls";
 	
 	/*
 	 * =======================================
@@ -219,8 +221,13 @@ public class StasticsController {
 		String prdCode = request.getParameter("prdCode");
 		String perm = request.getParameter("perm");
 		String staffFlag = request.getParameter("staffFlag");
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
 		if(organCode == null || organCode.trim().length()<=0) {
-			organCode = "8644";
+			organCode = userOrg.getOrgCode();
+		} else if(!organCode.contains(userOrg.getOrgCode())){
+			organCode = userOrg.getOrgCode();
 		}
 		String toPrdCode = prdCode;
 		if(prdCode == null || prdCode.trim().length()<=0) {
@@ -298,8 +305,14 @@ public class StasticsController {
 		String prdCode = request.getParameter("prdCode");
 		String perm = request.getParameter("perm");
 		String staffFlag = request.getParameter("staffFlag");
+		
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
 		if(organCode == null || organCode.trim().length()<=0) {
-			organCode = "8644";
+			organCode = userOrg.getOrgCode();
+		} else if(!organCode.contains(userOrg.getOrgCode())){
+			organCode = userOrg.getOrgCode();
 		}
 		String toPrdCode = prdCode;
 		if(prdCode == null || prdCode.trim().length()<=0) {
@@ -518,8 +531,13 @@ public class StasticsController {
 		String levelFlag = request.getParameter("levelFlag");
 		String prdCode = request.getParameter("prdCode");
 		String perm = request.getParameter("perm");
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
 		if(organCode == null || organCode.trim().length()<=0) {
-			organCode = "8644";
+			organCode = userOrg.getOrgCode();
+		} else if(!organCode.contains(userOrg.getOrgCode())){
+			organCode = userOrg.getOrgCode();
 		}
 		String toPrdCode = prdCode;
 		if(prdCode == null || prdCode.trim().length()<=0) {
@@ -572,5 +590,55 @@ public class StasticsController {
 		request.setAttribute("cmRst", temp);
 		LOG.debug(" ------------ result size:" + temp.size());
 		return STAFF_TOXLS;
+	}
+
+	@RequestMapping(value="/stastics/staff/dtlXls", method={RequestMethod.GET, RequestMethod.POST})
+	public String staffDtlToXls(ServletRequest request, Map<String, Object> map) {
+		LOG.debug("-------------------here----------");
+		String organCode = request.getParameter("orgCode");
+		String pd1 = request.getParameter("policyDate1");
+		String pd2 = request.getParameter("policyDate2");
+		String netFlag = request.getParameter("netFlag");
+		String prdCode = request.getParameter("prdCode");
+		String perm = request.getParameter("perm");
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
+		if(organCode == null || organCode.trim().length()<=0) {
+			organCode = userOrg.getOrgCode();
+		} else if(!organCode.contains(userOrg.getOrgCode())){
+			organCode = userOrg.getOrgCode();
+		}
+		String toPrdCode = prdCode;
+		if(prdCode == null || prdCode.trim().length()<=0) {
+			toPrdCode = "%%";
+		} else {
+			if(prdCode.indexOf("_") > 0) {
+				toPrdCode = prdCode.substring(0, prdCode.indexOf("_"));
+			}
+		}
+		if(netFlag == null || netFlag.trim().length()<=0) {
+			netFlag = "%%";
+		}
+		String toPerm = perm;
+		if(perm == null) {
+			toPerm = "年交";
+			perm = "年交";
+		} else if(perm.trim().length()<=0) {
+			toPerm = "%%";
+		}
+		String fd = StringUtil.getFirstDayOfYear("yyyy-MM-dd");
+		if(pd1 == null || pd1.trim().length()<=0) {
+			pd1 = fd;
+		}
+		if(pd2 == null || pd2.trim().length()<=0) {
+			pd2 = "9999-12-31";
+		}
+		
+		List<StaffDtlModel> temp = stasticsService.getStaffDetailWithPolicyDate(organCode + "%", pd1, pd2, netFlag, toPrdCode, toPerm);
+		
+		request.setAttribute("cmRst", temp);
+		LOG.debug(" ------------ result size:" + temp.size());
+		return STAFF_DTL_TOXLS;
 	}
 }
