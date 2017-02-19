@@ -1,7 +1,6 @@
 package com.gdpost.web.controller.component;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -301,7 +300,6 @@ public class StasticsController {
 		String csd1 = request.getParameter("csDate1");
 		String csd2 = request.getParameter("csDate2");
 		String netFlag = request.getParameter("netFlag");
-		String levelFlag = request.getParameter("levelFlag");
 		String prdCode = request.getParameter("prdCode");
 		String perm = request.getParameter("perm");
 		String staffFlag = request.getParameter("staffFlag");
@@ -333,10 +331,6 @@ public class StasticsController {
 		if(staffFlag == null || staffFlag.trim().length()<=0) {
 			isStaff = "%%";
 		}
-		boolean isCity = false;
-		if(levelFlag != null && levelFlag.trim().equals("city")) {
-			isCity = true;
-		}
 		
 		boolean hasNet = true;
 		if(netFlag == null || netFlag.trim().length()<=0) {
@@ -358,14 +352,10 @@ public class StasticsController {
 		}
 		
 		List<TuiBaoDtlModel> temp = null;
-		if(isCity) {
-			temp = new ArrayList<TuiBaoDtlModel>();
+		if(hasNet) {
+			temp = stasticsService.getProvTuiBaoWarnningDetailWithBankCode(organCode + "%", pd1, pd2, csd1, csd2, netFlag, toPrdCode, toPerm, isStaff);
 		} else {
-			if(hasNet) {
-				temp = stasticsService.getProvTuiBaoWarnningDetailWithBankCode(organCode + "%", pd1, pd2, csd1, csd2, netFlag, toPrdCode, toPerm, isStaff);
-			} else {
-				temp = stasticsService.getProvTuiBaoWarnningDetail(organCode + "%", pd1, pd2, csd1, csd2, toPrdCode, toPerm, isStaff);
-			}
+			temp = stasticsService.getProvTuiBaoWarnningDetail(organCode + "%", pd1, pd2, csd1, csd2, toPrdCode, toPerm, isStaff);
 		}
 		
 		request.setAttribute("cmRst", temp);
