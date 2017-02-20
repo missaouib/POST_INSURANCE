@@ -54,13 +54,8 @@ public class StasticsServiceImpl implements StasticsService {
 	}
 	
 	@Override
-	public List<TuiBaoDtlModel> getProvTuiBaoWarnningDetail(String organCode, String d1, String d2, String d3, String d4, String prdCode, String toPerm, String staffFlag) {
-		return tbdDAO.getProvAllCityTuiBaoWarningDetail(organCode, d1, d2, d3, d4, prdCode, toPerm, staffFlag);
-	}
-	
-	@Override
-	public List<TuiBaoDtlModel> getProvTuiBaoWarnningDetailWithBankCode(String organCode, String d1, String d2, String d3, String d4, String flag, String prdCode, String toPerm, String staffFlag) {
-		return tbdDAO.getProvAllCityTuiBaoWarningDetailWithBankCode(organCode, d1, d2, d3, d4, flag, prdCode, toPerm, staffFlag);
+	public List<TuiBaoDtlModel> getTuiBaoWarnningDetailWithBankCode(String organCode, String d1, String d2, String d3, String d4, String flag, String prdCode, String toPerm, String staffFlag) {
+		return tbdDAO.getAllTuiBaoWarningDetailWithBankCode(organCode, d1, d2, d3, d4, flag, prdCode, toPerm, staffFlag);
 	}
 	
 	/*

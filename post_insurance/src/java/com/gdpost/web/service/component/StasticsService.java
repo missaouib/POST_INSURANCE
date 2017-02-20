@@ -24,9 +24,7 @@ public interface StasticsService {
 	
 	List<TuiBaoModel> getProvTuiBaoWarnningWithPolicyDateAndCsDate(String organCode, String d1, String d2, String d3, String d4, String flag, String prdCode, String toPerm, String staffFlag);
 	
-	List<TuiBaoDtlModel> getProvTuiBaoWarnningDetail(String organCode, String d1, String d2, String d3, String d4, String prdCode, String toPerm, String staffFlag);
-	
-	List<TuiBaoDtlModel> getProvTuiBaoWarnningDetailWithBankCode(String organCode, String d1, String d2, String d3, String d4, String flag, String prdCode, String toPerm, String staffFlag);
+	List<TuiBaoDtlModel> getTuiBaoWarnningDetailWithBankCode(String organCode, String d1, String d2, String d3, String d4, String flag, String prdCode, String toPerm, String staffFlag);
 	
 	List<StaffModel> getStaffCountWithPolicyDateNoBankCode(String organCode, String d1, String d2, String prdCode, String toPerm);
 	

@@ -18,6 +18,7 @@ response.setHeader("Content-Disposition", "inline; filename=staff_dtl.xls");
 		<th>保单日期</th>
 		<th>缴费方式</th>
 		<th>缴费期限</th>
+		<th>网点属性</th>
 		<th>网点名称</th>
 	</tr>
 	<c:forEach var="item" items="${cmRst}" varStatus="idx">
@@ -32,6 +33,7 @@ response.setHeader("Content-Disposition", "inline; filename=staff_dtl.xls");
 		<td>${item.feeFrequency}</td>
 		<td>${item.perm}</td>
 		<td>${item.bankName}</td>
+		<td>${item.netFlag eq "1"?"邮政":"银行"}</td>
 	</tr>
 	</c:forEach>
 </table>

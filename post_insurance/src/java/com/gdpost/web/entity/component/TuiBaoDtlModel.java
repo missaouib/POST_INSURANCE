@@ -27,6 +27,8 @@ public class TuiBaoDtlModel implements java.io.Serializable {
 	private Date csDate;
 	private String csCode;
 	private String csNo;
+	private String holder;
+	private String netFlag;
 	// Constructors
 
 	/** default constructor */
@@ -114,5 +116,23 @@ public class TuiBaoDtlModel implements java.io.Serializable {
 
 	public void setCsNo(String csNo) {
 		this.csNo = csNo;
+	}
+
+	@Column(name="holder")
+	public String getHolder() {
+		return holder;
+	}
+
+	public void setHolder(String holder) {
+		this.holder = holder;
+	}
+
+	@Column(name="net_flag")
+	public String getNetFlag() {
+		return netFlag;
+	}
+
+	public void setNetFlag(String netFlag) {
+		this.netFlag = netFlag;
 	}
 }

@@ -332,9 +332,8 @@ public class StasticsController {
 			isStaff = "%%";
 		}
 		
-		boolean hasNet = true;
 		if(netFlag == null || netFlag.trim().length()<=0) {
-			hasNet = false;
+			netFlag = "%%";
 		}
 	
 		String fd = StringUtil.getFirstDayOfYear("yyyy-MM-dd");
@@ -351,12 +350,7 @@ public class StasticsController {
 			csd2 = "9999-12-31";
 		}
 		
-		List<TuiBaoDtlModel> temp = null;
-		if(hasNet) {
-			temp = stasticsService.getProvTuiBaoWarnningDetailWithBankCode(organCode + "%", pd1, pd2, csd1, csd2, netFlag, toPrdCode, toPerm, isStaff);
-		} else {
-			temp = stasticsService.getProvTuiBaoWarnningDetail(organCode + "%", pd1, pd2, csd1, csd2, toPrdCode, toPerm, isStaff);
-		}
+		List<TuiBaoDtlModel> temp = stasticsService.getTuiBaoWarnningDetailWithBankCode(organCode + "%", pd1, pd2, csd1, csd2, netFlag, toPrdCode, toPerm, isStaff);
 		
 		request.setAttribute("cmRst", temp);
 		LOG.debug(" ------------ result size:" + temp.size());

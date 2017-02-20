@@ -28,6 +28,7 @@ public class StaffDtlModel implements java.io.Serializable {
 	private String bankName;
 	private String feeFrequency;
 	private String perm;
+	private String netFlag;
 	// Constructors
 
 	/** default constructor */
@@ -124,6 +125,15 @@ public class StaffDtlModel implements java.io.Serializable {
 
 	public void setPerm(String perm) {
 		this.perm = perm;
+	}
+
+	@Column(name="net_flag")
+	public String getNetFlag() {
+		return netFlag;
+	}
+
+	public void setNetFlag(String netFlag) {
+		this.netFlag = netFlag;
 	}
 
 }
