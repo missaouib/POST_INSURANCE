@@ -22,7 +22,7 @@
 					<td><label>产品：</label>
 				<form:select path="StaffModel.prdCode" id="prdCode" class="combox">
 						<form:option value=""> -- </form:option>
-						<form:options items="${prds }" itemLabel="prdName" itemValue="prdCode"/>
+						<form:options items="${prds }" itemLabel="prdName" itemValue="prdName"/>
 					</form:select>
 					</td>
 				</tr>

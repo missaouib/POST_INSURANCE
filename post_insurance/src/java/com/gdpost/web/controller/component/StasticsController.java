@@ -67,6 +67,7 @@ public class StasticsController {
 		String netFlag = request.getParameter("netFlag");
 		String levelFlag = request.getParameter("levelFlag");
 		String prdCode = request.getParameter("prdCode");
+		//String prdName = request.getParameter("prdName");
 		String perm = request.getParameter("perm");
 		String staffFlag = request.getParameter("staffFlag");
 		
@@ -86,7 +87,9 @@ public class StasticsController {
 			toPrdCode = "%%";
 		} else {
 			if(prdCode.indexOf("_") > 0) {
-				toPrdCode = prdCode.substring(0, prdCode.indexOf("_"));
+				toPrdCode = "%" + prdCode.substring(0, prdCode.indexOf("_")) + "%";
+			} else {
+				toPrdCode = "%" + toPrdCode + "%";
 			}
 		}
 		String toPerm = perm;
@@ -233,7 +236,9 @@ public class StasticsController {
 			toPrdCode = "%%";
 		} else {
 			if(prdCode.indexOf("_") > 0) {
-				toPrdCode = prdCode.substring(0, prdCode.indexOf("_"));
+				toPrdCode = "%" + prdCode.substring(0, prdCode.indexOf("_")) + "%";
+			} else {
+				toPrdCode = "%" + toPrdCode + "%";
 			}
 		}
 		String toPerm = perm;
@@ -317,7 +322,9 @@ public class StasticsController {
 			toPrdCode = "%%";
 		} else {
 			if(prdCode.indexOf("_") > 0) {
-				toPrdCode = prdCode.substring(0, prdCode.indexOf("_"));
+				toPrdCode = "%" + prdCode.substring(0, prdCode.indexOf("_")) + "%";
+			} else {
+				toPrdCode = "%" + toPrdCode + "%";
 			}
 		}
 		String toPerm = perm;
@@ -392,7 +399,9 @@ public class StasticsController {
 			toPrdCode = "%%";
 		} else {
 			if(prdCode.indexOf("_") > 0) {
-				toPrdCode = prdCode.substring(0, prdCode.indexOf("_"));
+				toPrdCode = "%" + prdCode.substring(0, prdCode.indexOf("_")) + "%";
+			} else {
+				toPrdCode = "%" + toPrdCode + "%";
 			}
 		}
 		String toPerm = perm;
@@ -528,7 +537,9 @@ public class StasticsController {
 			toPrdCode = "%%";
 		} else {
 			if(prdCode.indexOf("_") > 0) {
-				toPrdCode = prdCode.substring(0, prdCode.indexOf("_"));
+				toPrdCode = "%" + prdCode.substring(0, prdCode.indexOf("_")) + "%";
+			} else {
+				toPrdCode = "%" + toPrdCode + "%";
 			}
 		}
 		String toPerm = perm;
@@ -598,7 +609,9 @@ public class StasticsController {
 			toPrdCode = "%%";
 		} else {
 			if(prdCode.indexOf("_") > 0) {
-				toPrdCode = prdCode.substring(0, prdCode.indexOf("_"));
+				toPrdCode = "%" + prdCode.substring(0, prdCode.indexOf("_")) + "%";
+			} else {
+				toPrdCode = "%" + toPrdCode + "%";
 			}
 		}
 		if(netFlag == null || netFlag.trim().length()<=0) {

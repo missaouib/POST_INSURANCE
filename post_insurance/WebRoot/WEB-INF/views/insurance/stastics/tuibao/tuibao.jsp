@@ -20,9 +20,9 @@
 					<input type="text" name="policyDate2" id="uwDate2" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" value="${policyDate2 }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td><label>产品：</label>
-				<form:select path="TuiBaoModel.prdCode" id="prdCode" class="combox">
+					<form:select path="TuiBaoModel.prdCode" id="prdCode" class="combox">
 						<form:option value=""> -- </form:option>
-						<form:options items="${prds }" itemLabel="prdName" itemValue="prdCode"/>
+						<form:options items="${prds }" itemLabel="prdName" itemValue="prdName"/>
 					</form:select>
 					</td>
 					<td><label>趸/期缴：</label>

@@ -27,6 +27,8 @@ public class TuiBaoModel implements java.io.Serializable {
 	@Transient
 	private String prdCode;
 	@Transient
+	private String prdName;
+	@Transient
 	private String perm;
 	@Transient
 	private String staffFlag;
@@ -94,6 +96,16 @@ public class TuiBaoModel implements java.io.Serializable {
 	@Transient
 	public void setPrdCode(String prdCode) {
 		this.prdCode = prdCode;
+	}
+
+	@Transient
+	public String getPrdName() {
+		return prdName;
+	}
+
+	@Transient
+	public void setPrdName(String prdName) {
+		this.prdName = prdName;
 	}
 
 	@Transient
