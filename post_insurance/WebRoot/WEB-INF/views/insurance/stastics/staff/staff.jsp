@@ -64,7 +64,7 @@
 <a class="buttonActive" target="_blank" href="${contextPath }/component/stastics/staff/dtlXls?orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&prdCode=${prdCode}&levelFlag=${levelFlag}&netFlag=${netFlag}&perm=${perm}"><span>导出明细数据</span></a>
 </h2>
 <br>
-<div class="pageContent" layoutH="42">
+<div class="pageContent" layoutH="120">
 <div class="row" style="padding: 0 5px;">
 	<div class="sortDrag" style="width:30%;border:1px solid #e66;margin:5px;float:left;min-height:100px">
 	<h2 class="contentTitle">列表展示（单位：万元）&nbsp;&nbsp;&nbsp;&nbsp;</h2>
