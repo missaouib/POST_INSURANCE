@@ -22,14 +22,14 @@
 					<td><label>产品：</label>
 					<form:select path="TuiBaoModel.prdCode" id="prdCode" class="combox">
 						<form:option value=""> -- </form:option>
-						<form:options items="${prds }" itemLabel="prdName" itemValue="prdName"/>
+						<form:options items="${prds }" itemLabel="prdName" itemValue="prdCode"/>
 					</form:select>
 					</td>
 					<td><label>趸/期缴：</label>
 					<form:select path="TuiBaoModel.perm" id="tbperm" class="combox">
 						<form:option value="">  --  </form:option>
-						<form:option value="年交"> 年交 </form:option>
-						<form:option value="趸交"> 趸交 </form:option>
+						<form:option value="1"> 年交 </form:option>
+						<form:option value="0"> 趸交 </form:option>
 					</form:select>
 					</td>
 				</tr>

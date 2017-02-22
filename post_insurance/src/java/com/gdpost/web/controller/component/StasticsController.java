@@ -82,22 +82,28 @@ public class StasticsController {
 			organName = userOrg.getName();
 		}
 		
-		String toPrdCode = prdCode;
+		String toPrdName = prdCode;
 		if(prdCode == null || prdCode.trim().length()<=0) {
-			toPrdCode = "%%";
+			toPrdName = "%%";
 		} else {
-			if(prdCode.indexOf("_") > 0) {
-				toPrdCode = "%" + prdCode.substring(0, prdCode.indexOf("_")) + "%";
+			Prd prd = prdService.getByPrdCode(prdCode);
+			toPrdName = prd.getPrdName();
+			if(toPrdName.indexOf("_") > 0) {
+				toPrdName = "%" + toPrdName.substring(0, toPrdName.indexOf("_")) + "%";
 			} else {
-				toPrdCode = "%" + toPrdCode + "%";
+				toPrdName = "%" + toPrdName + "%";
 			}
 		}
 		String toPerm = perm;
 		if(perm == null) {
 			toPerm = "年交";
-			perm = "年交";
+			perm = "1";
 		} else if(perm.trim().length()<=0) {
 			toPerm = "%%";
+		} else if(perm.equals("1")) {
+			toPerm = "年交";
+		} else {
+			toPerm = "趸交";
 		}
 		String isStaff = staffFlag;
 		if(staffFlag == null || staffFlag.trim().length()<=0) {
@@ -154,15 +160,15 @@ public class StasticsController {
 		List<TuiBaoModel> temp = null;
 		if(isCity) {
 			if(hasNet) {
-				temp = stasticsService.getTuiBaoWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, csd1, csd2, netFlag, toPrdCode, toPerm, isStaff);
+				temp = stasticsService.getTuiBaoWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, csd1, csd2, netFlag, toPrdName, toPerm, isStaff);
 			} else {
-				temp = stasticsService.getTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(organCode + "%", pd1, pd2, csd1, csd2, toPrdCode, toPerm, isStaff);
+				temp = stasticsService.getTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(organCode + "%", pd1, pd2, csd1, csd2, toPrdName, toPerm, isStaff);
 			}
 		} else {
 			if(hasNet) {
-				temp = stasticsService.getProvTuiBaoWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, csd1, csd2, netFlag, toPrdCode, toPerm, isStaff);
+				temp = stasticsService.getProvTuiBaoWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, csd1, csd2, netFlag, toPrdName, toPerm, isStaff);
 			} else {
-				temp = stasticsService.getProvTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(organCode + "%", pd1, pd2, csd1, csd2, toPrdCode, toPerm, isStaff);
+				temp = stasticsService.getProvTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(organCode + "%", pd1, pd2, csd1, csd2, toPrdName, toPerm, isStaff);
 			}
 		}
 		
@@ -231,22 +237,28 @@ public class StasticsController {
 		} else if(!organCode.contains(userOrg.getOrgCode())){
 			organCode = userOrg.getOrgCode();
 		}
-		String toPrdCode = prdCode;
+		String toPrdName = prdCode;
 		if(prdCode == null || prdCode.trim().length()<=0) {
-			toPrdCode = "%%";
+			toPrdName = "%%";
 		} else {
-			if(prdCode.indexOf("_") > 0) {
-				toPrdCode = "%" + prdCode.substring(0, prdCode.indexOf("_")) + "%";
+			Prd prd = prdService.getByPrdCode(prdCode);
+			toPrdName = prd.getPrdName();
+			if(toPrdName.indexOf("_") > 0) {
+				toPrdName = "%" + toPrdName.substring(0, toPrdName.indexOf("_")) + "%";
 			} else {
-				toPrdCode = "%" + toPrdCode + "%";
+				toPrdName = "%" + toPrdName + "%";
 			}
 		}
 		String toPerm = perm;
 		if(perm == null) {
 			toPerm = "年交";
-			perm = "年交";
+			perm = "1";
 		} else if(perm.trim().length()<=0) {
 			toPerm = "%%";
+		} else if(perm.equals("1")) {
+			toPerm = "年交";
+		} else {
+			toPerm = "趸交";
 		}
 		String isStaff = staffFlag;
 		if(staffFlag == null || staffFlag.trim().length()<=0) {
@@ -279,15 +291,15 @@ public class StasticsController {
 		List<TuiBaoModel> temp = null;
 		if(isCity) {
 			if(hasNet) {
-				temp = stasticsService.getTuiBaoWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, csd1, csd2, netFlag, toPrdCode, toPerm, isStaff);
+				temp = stasticsService.getTuiBaoWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, csd1, csd2, netFlag, toPrdName, toPerm, isStaff);
 			} else {
-				temp = stasticsService.getTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(organCode + "%", pd1, pd2, csd1, csd2, toPrdCode, toPerm, isStaff);
+				temp = stasticsService.getTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(organCode + "%", pd1, pd2, csd1, csd2, toPrdName, toPerm, isStaff);
 			}
 		} else {
 			if(hasNet) {
-				temp = stasticsService.getProvTuiBaoWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, csd1, csd2, netFlag, toPrdCode, toPerm, isStaff);
+				temp = stasticsService.getProvTuiBaoWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, csd1, csd2, netFlag, toPrdName, toPerm, isStaff);
 			} else {
-				temp = stasticsService.getProvTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(organCode + "%", pd1, pd2, csd1, csd2, toPrdCode, toPerm, isStaff);
+				temp = stasticsService.getProvTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(organCode + "%", pd1, pd2, csd1, csd2, toPrdName, toPerm, isStaff);
 			}
 		}
 		
@@ -317,22 +329,28 @@ public class StasticsController {
 		} else if(!organCode.contains(userOrg.getOrgCode())){
 			organCode = userOrg.getOrgCode();
 		}
-		String toPrdCode = prdCode;
+		String toPrdName = prdCode;
 		if(prdCode == null || prdCode.trim().length()<=0) {
-			toPrdCode = "%%";
+			toPrdName = "%%";
 		} else {
-			if(prdCode.indexOf("_") > 0) {
-				toPrdCode = "%" + prdCode.substring(0, prdCode.indexOf("_")) + "%";
+			Prd prd = prdService.getByPrdCode(prdCode);
+			toPrdName = prd.getPrdName();
+			if(toPrdName.indexOf("_") > 0) {
+				toPrdName = "%" + toPrdName.substring(0, toPrdName.indexOf("_")) + "%";
 			} else {
-				toPrdCode = "%" + toPrdCode + "%";
+				toPrdName = "%" + toPrdName + "%";
 			}
 		}
 		String toPerm = perm;
 		if(perm == null) {
 			toPerm = "年交";
-			perm = "年交";
+			perm = "1";
 		} else if(perm.trim().length()<=0) {
 			toPerm = "%%";
+		} else if(perm.equals("1")) {
+			toPerm = "年交";
+		} else {
+			toPerm = "趸交";
 		}
 		String isStaff = staffFlag;
 		if(staffFlag == null || staffFlag.trim().length()<=0) {
@@ -357,7 +375,7 @@ public class StasticsController {
 			csd2 = "9999-12-31";
 		}
 		
-		List<TuiBaoDtlModel> temp = stasticsService.getTuiBaoWarnningDetailWithBankCode(organCode + "%", pd1, pd2, csd1, csd2, netFlag, toPrdCode, toPerm, isStaff);
+		List<TuiBaoDtlModel> temp = stasticsService.getTuiBaoWarnningDetailWithBankCode(organCode + "%", pd1, pd2, csd1, csd2, netFlag, toPrdName, toPerm, isStaff);
 		
 		request.setAttribute("cmRst", temp);
 		LOG.debug(" ------------ result size:" + temp.size());
@@ -394,22 +412,28 @@ public class StasticsController {
 			organName = userOrg.getName();
 		}
 		
-		String toPrdCode = prdCode;
+		String toPrdName = prdCode;
 		if(prdCode == null || prdCode.trim().length()<=0) {
-			toPrdCode = "%%";
+			toPrdName = "%%";
 		} else {
-			if(prdCode.indexOf("_") > 0) {
-				toPrdCode = "%" + prdCode.substring(0, prdCode.indexOf("_")) + "%";
+			Prd prd = prdService.getByPrdCode(prdCode);
+			toPrdName = prd.getPrdName();
+			if(toPrdName.indexOf("_") > 0) {
+				toPrdName = "%" + toPrdName.substring(0, toPrdName.indexOf("_")) + "%";
 			} else {
-				toPrdCode = "%" + toPrdCode + "%";
+				toPrdName = "%" + toPrdName + "%";
 			}
 		}
 		String toPerm = perm;
 		if(perm == null) {
 			toPerm = "年交";
-			perm = "年交";
+			perm = "1";
 		} else if(perm.trim().length()<=0) {
 			toPerm = "%%";
+		} else if(perm.equals("1")) {
+			toPerm = "年交";
+		} else {
+			toPerm = "趸交";
 		}
 		
 		boolean isCity = false;
@@ -452,15 +476,15 @@ public class StasticsController {
 		List<StaffModel> temp = null;
 		if(isCity) {
 			if(hasNet) {
-				temp = stasticsService.getStaffCountWithPolicyDate(organCode + "%", pd1, pd2, netFlag, toPrdCode, toPerm);
+				temp = stasticsService.getStaffCountWithPolicyDate(organCode + "%", pd1, pd2, netFlag, toPrdName, toPerm);
 			} else {
-				temp = stasticsService.getStaffCountWithPolicyDateNoBankCode(organCode + "%", pd1, pd2, toPrdCode, toPerm);
+				temp = stasticsService.getStaffCountWithPolicyDateNoBankCode(organCode + "%", pd1, pd2, toPrdName, toPerm);
 			}
 		} else {
 			if(hasNet) {
-				temp = stasticsService.getProvStaffCountWithPolicyDate(organCode + "%", pd1, pd2, netFlag, toPrdCode, toPerm);
+				temp = stasticsService.getProvStaffCountWithPolicyDate(organCode + "%", pd1, pd2, netFlag, toPrdName, toPerm);
 			} else {
-				temp = stasticsService.getProvStaffCountWithPolicyDateNoBankCode(organCode + "%", pd1, pd2, toPrdCode, toPerm);
+				temp = stasticsService.getProvStaffCountWithPolicyDateNoBankCode(organCode + "%", pd1, pd2, toPrdName, toPerm);
 			}
 		}
 		
@@ -532,22 +556,28 @@ public class StasticsController {
 		} else if(!organCode.contains(userOrg.getOrgCode())){
 			organCode = userOrg.getOrgCode();
 		}
-		String toPrdCode = prdCode;
+		String toPrdName = prdCode;
 		if(prdCode == null || prdCode.trim().length()<=0) {
-			toPrdCode = "%%";
+			toPrdName = "%%";
 		} else {
-			if(prdCode.indexOf("_") > 0) {
-				toPrdCode = "%" + prdCode.substring(0, prdCode.indexOf("_")) + "%";
+			Prd prd = prdService.getByPrdCode(prdCode);
+			toPrdName = prd.getPrdName();
+			if(toPrdName.indexOf("_") > 0) {
+				toPrdName = "%" + toPrdName.substring(0, toPrdName.indexOf("_")) + "%";
 			} else {
-				toPrdCode = "%" + toPrdCode + "%";
+				toPrdName = "%" + toPrdName + "%";
 			}
 		}
 		String toPerm = perm;
 		if(perm == null) {
 			toPerm = "年交";
-			perm = "年交";
+			perm = "1";
 		} else if(perm.trim().length()<=0) {
 			toPerm = "%%";
+		} else if(perm.equals("1")) {
+			toPerm = "年交";
+		} else {
+			toPerm = "趸交";
 		}
 		boolean isCity = false;
 		if(levelFlag != null && levelFlag.trim().equals("city")) {
@@ -570,15 +600,15 @@ public class StasticsController {
 		List<StaffModel> temp = null;
 		if(isCity) {
 			if(hasNet) {
-				temp = stasticsService.getStaffCountWithPolicyDate(organCode + "%", pd1, pd2, netFlag, toPrdCode, toPerm);
+				temp = stasticsService.getStaffCountWithPolicyDate(organCode + "%", pd1, pd2, netFlag, toPrdName, toPerm);
 			} else {
-				temp = stasticsService.getStaffCountWithPolicyDateNoBankCode(organCode + "%", pd1, pd2, toPrdCode, toPerm);
+				temp = stasticsService.getStaffCountWithPolicyDateNoBankCode(organCode + "%", pd1, pd2, toPrdName, toPerm);
 			}
 		} else {
 			if(hasNet) {
-				temp = stasticsService.getProvStaffCountWithPolicyDate(organCode + "%", pd1, pd2, netFlag, toPrdCode, toPerm);
+				temp = stasticsService.getProvStaffCountWithPolicyDate(organCode + "%", pd1, pd2, netFlag, toPrdName, toPerm);
 			} else {
-				temp = stasticsService.getProvStaffCountWithPolicyDateNoBankCode(organCode + "%", pd1, pd2, toPrdCode, toPerm);
+				temp = stasticsService.getProvStaffCountWithPolicyDateNoBankCode(organCode + "%", pd1, pd2, toPrdName, toPerm);
 			}
 		}
 		
@@ -604,14 +634,16 @@ public class StasticsController {
 		} else if(!organCode.contains(userOrg.getOrgCode())){
 			organCode = userOrg.getOrgCode();
 		}
-		String toPrdCode = prdCode;
+		String toPrdName = prdCode;
 		if(prdCode == null || prdCode.trim().length()<=0) {
-			toPrdCode = "%%";
+			toPrdName = "%%";
 		} else {
-			if(prdCode.indexOf("_") > 0) {
-				toPrdCode = "%" + prdCode.substring(0, prdCode.indexOf("_")) + "%";
+			Prd prd = prdService.getByPrdCode(prdCode);
+			toPrdName = prd.getPrdName();
+			if(toPrdName.indexOf("_") > 0) {
+				toPrdName = "%" + toPrdName.substring(0, toPrdName.indexOf("_")) + "%";
 			} else {
-				toPrdCode = "%" + toPrdCode + "%";
+				toPrdName = "%" + toPrdName + "%";
 			}
 		}
 		if(netFlag == null || netFlag.trim().length()<=0) {
@@ -620,9 +652,13 @@ public class StasticsController {
 		String toPerm = perm;
 		if(perm == null) {
 			toPerm = "年交";
-			perm = "年交";
+			perm = "1";
 		} else if(perm.trim().length()<=0) {
 			toPerm = "%%";
+		} else if(perm.equals("1")) {
+			toPerm = "年交";
+		} else {
+			toPerm = "趸交";
 		}
 		String fd = StringUtil.getFirstDayOfYear("yyyy-MM-dd");
 		if(pd1 == null || pd1.trim().length()<=0) {
@@ -632,7 +668,7 @@ public class StasticsController {
 			pd2 = "9999-12-31";
 		}
 		
-		List<StaffDtlModel> temp = stasticsService.getStaffDetailWithPolicyDate(organCode + "%", pd1, pd2, netFlag, toPrdCode, toPerm);
+		List<StaffDtlModel> temp = stasticsService.getStaffDetailWithPolicyDate(organCode + "%", pd1, pd2, netFlag, toPrdName, toPerm);
 		
 		request.setAttribute("cmRst", temp);
 		LOG.debug(" ------------ result size:" + temp.size());

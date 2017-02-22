@@ -28,7 +28,7 @@ public interface TuiBaoDtlModelDAO extends JpaRepository<TuiBaoDtlModel, String>
 			+ "and itp.organ_code like :orgCode "
 			+ "and itp.policy_date between :p1 and :p2 "
 			+ "and itcr.cs_date between :c1 and :c2 "
-			+ "and itp.prod_code like :prdCode "
+			+ "and itp.prod_name like :prdCode "
 			+ "and itbc.net_flag like :netFlag "
 			+ "and itp.fee_frequency like :toPerm "
 			+ "and itp.staff_flag like :staffFlag "

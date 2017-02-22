@@ -28,7 +28,7 @@ public interface StaffDtlModelDAO extends JpaRepository<StaffDtlModel, String>, 
 			+ "and tp.organ_code like :orgCode "
 			+ "and tp.policy_date between :p1 and :p2 "
 			+ "and tbc.net_flag like :netFlag "
-			+ "and tp.prod_code like :prdCode "
+			+ "and tp.prod_name like :prdCode "
 			+ "order by tp.organ_code;",
 			nativeQuery=true)
 	List<StaffDtlModel> getProvAllStaffDetailWithBankCode(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm);
