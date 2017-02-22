@@ -600,10 +600,10 @@ public class HfglController {
 		} else if (user.getOrganization().getOrgCode().length() > 4) {
 			if(status == null) {
 				LOG.debug("-------------- 111: " );
-				csf.add(new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.NewStatus.getDesc()));
+				//csf.add(new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.NewStatus.getDesc()));
 				csf.add(new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.ResetStatus.getDesc()));
-				csf.add(new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.CallFailStatus.getDesc()));
-				//csf.add(new SearchFilter("lastDateNum", Operator.LTE, 3));
+				//csf.add(new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.CallFailStatus.getDesc()));
+				issue.setStatus(HF_STATUS.ResetStatus.getDesc());
 			} else if(status.trim().length() > 0) {
 				csf.add(new SearchFilter("status", Operator.EQ, status));
 			}
@@ -764,10 +764,10 @@ public class HfglController {
 		} else if (user.getOrganization().getOrgCode().length() > 4) {
 			if(status == null) {
 				LOG.debug("-------------- 111: " );
-				csf.add(new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.NewStatus.getDesc()));
+				//csf.add(new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.NewStatus.getDesc()));
 				csf.add(new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.ResetStatus.getDesc()));
 				csf.add(new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.CallFailStatus.getDesc()));
-				csf.add(new SearchFilter("lastDateNum", Operator.LTE, 3));
+				//csf.add(new SearchFilter("lastDateNum", Operator.LTE, 3));
 			} else if(status.trim().length() > 0) {
 				csf.add(new SearchFilter("status", Operator.EQ, status));
 			}

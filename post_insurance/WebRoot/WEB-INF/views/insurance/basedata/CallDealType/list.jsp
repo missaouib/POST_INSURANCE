@@ -4,7 +4,7 @@
 
 <dwz:paginationForm action="${contextPath }/basedata/callDealType/list" page="${page }">
 	<input type="hidden" name="search_LIKE_typeName" value="${param.search_LIKE_typeName }"/>
-	<input type="hidden" name="search_EQ_flag" value="${param.search_EQ_flag }"/>
+	<input type="hidden" name="search_EQ_typeFlag" value="${param.search_EQ_typeFlag }"/>
 </dwz:paginationForm>
 
 <form method="post" action="${contextPath }/basedata/callDealType/list" onsubmit="return navTabSearch(this)">
@@ -17,8 +17,8 @@
 				</td>
 				<td>
 					<label>类型标记：</label>
-					<input type="radio" name="search_EQ_flag" value="1" <c:if test="${param.search_EQ_flag==1 }">checked="checked"</c:if>/>二次回访中心类型
-					<input type="radio" name="search_EQ_flag" value="2" <c:if test="${param.search_EQ_flag==2 }">checked="checked"</c:if>/>地市回访类型
+					<input type="radio" name="search_EQ_typeFlag" value="1" <c:if test="${param.search_EQ_typeFlag==1 }">checked="checked"</c:if>/>二次回访中心类型
+					<input type="radio" name="search_EQ_typeFlag" value="2" <c:if test="${param.search_EQ_typeFlag==2 }">checked="checked"</c:if>/>地市回访类型
 				</td>
 			</tr>
 			</table>

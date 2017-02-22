@@ -493,6 +493,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			log.debug("----------------batch update : " + sql);
 			sql2 = "delete from t_call_fail_list where issue_no is null";
 			sql3 = "update t_call_fail_list set hq_deal_flag = 1 where status='二访成功';";
+			sql4 = "update t_call_fail_list set status = \"重点跟进\" where status='二访失败' and 15-datediff(now(),bill_back_date)<=3;";
 			break;
 		case CallFailMiniCityStatus:
 			standardColumns = CallFailCityMiniListColumn.getStandardColumns();

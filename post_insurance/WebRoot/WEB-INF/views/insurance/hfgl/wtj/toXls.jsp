@@ -12,7 +12,7 @@ response.setHeader("Content-Disposition", "inline; filename=call_fail_dtl.xls");
                 <th>保单机构</th>
                 <th>事件编号</th>
                 <th>工单内容</th>
-                <th>工单状态</th>
+                <th>${status eq "已退保"?"核心系统退保":"工单状态"}</th>
                 <th>待处理时间</th>
                 <th>离犹豫期(天)</th>
                 <th>保单号</th>
