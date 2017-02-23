@@ -80,7 +80,6 @@ public class Province implements Comparable<Province>, Idable<Long> {
 */
 	@Override
 	public int compareTo(Province o) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 

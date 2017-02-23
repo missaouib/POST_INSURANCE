@@ -22,7 +22,8 @@ import com.gdpost.web.entity.component.TuiBaoDtlModel;
 public interface TuiBaoDtlModelDAO extends JpaRepository<TuiBaoDtlModel, String>, JpaSpecificationExecutor<TuiBaoDtlModel> {
 	
 	@Query(name="getAllTuiBaoWarningDetailWithBankCode",
-			value="select itp.id, itp.organ_name, itp.policy_no, itp.policy_date, itp.policy_fee, itp.prod_name, itcr.cs_no, itcr.cs_code, itcr.cs_date, itp.holder, itbc.net_flag "
+			value="select itp.id, itp.organ_name, itp.policy_no, itp.policy_date, itp.total_fee as policy_fee, itp.prod_name, itcr.cs_no, itcr.cs_code, itcr.cs_date, "
+			+ "(case itp.attached_flag when \"1\" then 0 else itcr.money end) as cs_fee, itp.holder, itbc.net_flag "
 			+ "from t_policy itp, t_cs_report itcr, t_bank_code itbc "
 			+ "where itp.policy_no=itcr.policy_no and itp.bank_code=itbc.cpi_code and itcr.cs_code=\"CT\" and itp.cs_flag<>1 "
 			+ "and itp.organ_code like :orgCode "

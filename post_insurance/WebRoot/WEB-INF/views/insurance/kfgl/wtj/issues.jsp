@@ -61,7 +61,7 @@
 		<ul class="toolBar">
 			<li><a class="icon" href="javascript:$.printBox('IssueListPrintContent')"><span>批打工单列表</span></a></li>
 			<li class="line">line</li>
-				<li><a class="icon" target="_blank" href="${contextPath }/kfgl/issuesToXls?search_LIKE_issueNo=${param.search_LIKE_issueNo }&orgCode=${orgCode }&search_LTE_shouldDate=${param.search_LTE_shouldDate }&search_GTE_shouldDate=${param.search_GTE_shouldDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&status=${encodeStatus==null?'null':encodeStatus }"><span>导出Excel</span></a></li>
+				<li><a class="icon" target="_blank" href="${contextPath }/kfgl/issuesToXls?search_LIKE_issueNo=${param.search_LIKE_issueNo }&orgCode=${orgCode }&search_LTE_shouldDate=${param.search_LTE_shouldDate }&search_GTE_shouldDate=${param.search_GTE_shouldDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&status=${status }"><span>导出Excel</span></a></li>
 		</ul>
 	</div>
 <div id="IssueListPrintContent">

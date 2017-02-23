@@ -80,13 +80,14 @@
 <div class="pageContent" layoutH="120" width="150%">
 <div class="row" style="padding: 0 3px;">
 	<div class="sortDrag" style="width:30%;border:1px solid #e66;margin:5px;float:left;min-height:100px">
-	<h2 class="contentTitle">列表展示（单位：万元）&nbsp;&nbsp;&nbsp;&nbsp;</h2>
+	<h2 class="contentTitle">列表展示（单位：万元 &nbsp;&nbsp;&nbsp;&nbsp;</h2>
 		<table class="table" width="100%">
 		<thead>
 			<tr>
 				<th>序号</th>
 				<th>机构</th>
-				<th>退保费</th>
+				<th>承保退费</th>
+				<th>保全退费</th>
 				<th>总保费</th>
 				<th>占比</th>
 			</tr>
@@ -97,6 +98,7 @@
 				<td style="text-align: center;">${idx.index+1 }</td>
 				<td>${item.organName}</td>
 				<td style="text-align: right;"><fmt:formatNumber value="${item.policyFee/10000}" pattern="#,###.#" /></td>
+				<td style="text-align: right;"><fmt:formatNumber value="${item.sumCsFee/10000}" pattern="#,###.#" /></td>
 				<td style="text-align: right;"><fmt:formatNumber value="${item.sumPolicyFee/10000}" pattern="#,###.#" /></td>
 				<td style="text-align: right;"><fmt:formatNumber value="${item.policyFee/item.sumPolicyFee*100}" pattern="#,###.#" />%</td>
 			</tr>
@@ -105,6 +107,7 @@
 				<td>&nbsp;</td>
 				<td>合计：</td>
 				<td style="text-align: right;"><fmt:formatNumber value="${sumTb}" pattern="#,###.#" /></td>
+				<td style="text-align: right;"><fmt:formatNumber value="${totalCS}" pattern="#,###.#" /></td>
 				<td style="text-align: right;"><fmt:formatNumber value="${totalTb}" pattern="#,###.#" /></td>
 				<td style="text-align: right;"><fmt:formatNumber value="${sumTb/totalTb*100}" pattern="#,###.#" />%</td>
 			</tr>

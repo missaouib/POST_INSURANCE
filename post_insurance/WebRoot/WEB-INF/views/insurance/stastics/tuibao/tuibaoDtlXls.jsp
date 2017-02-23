@@ -18,6 +18,7 @@ response.setHeader("Content-Disposition", "inline; filename=tuibao_dtl.xls");
 		<th>保全号</th>
 		<th>保全日期</th>
 		<th>保全代码</th>
+		<th>保全金额</th>
 		<th>渠道</th>
 	</tr>
 	<c:forEach var="item" items="${cmRst}" varStatus="idx">
@@ -32,6 +33,7 @@ response.setHeader("Content-Disposition", "inline; filename=tuibao_dtl.xls");
 		<td>${item.csNo}</td>
 		<td><fmt:formatDate value="${item.csDate}" pattern="yyyy-MM-dd"/></td>
 		<td>${item.csCode}</td>
+		<td>${item.csFee}</td>
 		<td>${item.netFlag eq "1"?"邮政":"银行"}</td>
 	</tr>
 	</c:forEach>

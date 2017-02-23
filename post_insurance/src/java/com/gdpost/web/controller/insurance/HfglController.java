@@ -7,9 +7,6 @@
  */
 package com.gdpost.web.controller.insurance;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,7 +26,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.Base64Utils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -513,21 +509,33 @@ public class HfglController {
 		
 		//默认返回未处理工单
 		String status = request.getParameter("status");
-		if(status != null && status.trim().length() > 0) {
-			request.setAttribute("encodeStatus", Base64Utils.encodeToString(status.getBytes()));
+		String statusNull = request.getParameter("statusNull");
+		if(statusNull != null && statusNull.trim().length()>0 ) {
+			if(status != null && status.trim().length()>0) {
+				statusNull = "";
+			} else {
+				status = null;
+			}
+		} else {
+			statusNull = "NULL";
 		}
+		String encodeStatus = "";
+		org.apache.catalina.util.URLEncoder urlEncoder = new org.apache.catalina.util.URLEncoder();
+		if(status != null) {
+			encodeStatus = urlEncoder.encode(status, "UTF-8");
+		} else {
+			request.setAttribute("statusNull", statusNull);
+		}
+		//request.setAttribute("encodeStatus", Base64Utils.encodeToString(status.getBytes()));
+		request.setAttribute("status", encodeStatus);
 		LOG.debug("-------------- status: " + status + ", user org code:" + userOrg.getOrgCode());
 		String hasLetter = request.getParameter("search_LIKE_hasLetter");
 		if(hasLetter == null) {
 			hasLetter = "";
-		} else {
-			try {
-				//String tmp = 
-				request.setAttribute("encodeHasLetter", Base64Utils.encodeToString(URLEncoder.encode(hasLetter, "UTF-8").getBytes()));
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			}
 		}
+		//request.setAttribute("encodeHasLetter", Base64Utils.encodeToString(URLEncoder.encode(hasLetter, "UTF-8").getBytes()));
+		request.setAttribute("hasLetter", urlEncoder.encode(hasLetter, "UTF-8"));
+		
 		issue.setSearch_LIKE_hasLetter(hasLetter);
 		issue.setStatus(status);
 		
@@ -600,10 +608,10 @@ public class HfglController {
 		} else if (user.getOrganization().getOrgCode().length() > 4) {
 			if(status == null) {
 				LOG.debug("-------------- 111: " );
-				//csf.add(new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.NewStatus.getDesc()));
+				csf.add(new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.NewStatus.getDesc()));
 				csf.add(new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.ResetStatus.getDesc()));
-				//csf.add(new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.CallFailStatus.getDesc()));
-				issue.setStatus(HF_STATUS.ResetStatus.getDesc());
+				csf.add(new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.CallFailStatus.getDesc()));
+				//issue.setStatus(HF_STATUS.ResetStatus.getDesc());
 			} else if(status.trim().length() > 0) {
 				csf.add(new SearchFilter("status", Operator.EQ, status));
 			}
@@ -654,42 +662,43 @@ public class HfglController {
 		
 		//默认返回未处理工单
 		String status = request.getParameter("status");
-		String encodeStatus = request.getParameter("encodeStatus");
-//		if(status == null) {
-//			status = "";
-//		}
-		if(encodeStatus != null && encodeStatus.trim().equals("null")) {
-			status = "";
+		String statusNull = request.getParameter("statusNull");
+		if(statusNull != null && statusNull.trim().length()>0 ) {
+			if(status != null && status.trim().length()>0) {
+				statusNull = "";
+			} else {
+				status = null;
+			}
+		} else {
+			statusNull = "NULL";
 		}
-		
-		if(encodeStatus != null && encodeStatus.trim().length() > 0 && !encodeStatus.trim().equals("null")) {
-			status = new String(Base64Utils.decodeFromString(encodeStatus));
-		} else if(status != null && status.trim().length()>0) {
-			encodeStatus = Base64Utils.encodeToString(status.getBytes());
-		}
-		request.setAttribute("encodeStatus", encodeStatus);
 		
 		LOG.debug("-------------- status: " + status + ", user org code:" + userOrg.getOrgCode());
-		String hasLetter = request.getParameter("hasLetter");
-		String encodeHasLetter = request.getParameter("encodeHasLetter");
-		request.setAttribute("encodeHasLetter", encodeHasLetter);
-		if(encodeHasLetter != null) {
-			hasLetter = new String(Base64Utils.decodeFromString(encodeHasLetter));
-			try {
-				hasLetter = URLDecoder.decode(hasLetter, "UTF-8");
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			}
-			//request.setAttribute("hasLetter", hasLetter);
-			
-		}
+		String hasLetter = request.getParameter("search_LIKE_hasLetter");
 		LOG.debug("-------------- hasLetter: " + hasLetter);
 		issue.setSearch_LIKE_hasLetter(hasLetter);
 		request.setAttribute("search_LIKE_hasLetter", hasLetter);
-		request.setAttribute("hasLetter", hasLetter);
-		request.setAttribute("status", status);
+		//request.setAttribute("hasLetter", hasLetter);
+		//request.setAttribute("status", status);
 		issue.setHasLetter(hasLetter);
 		issue.setStatus(status);
+		
+		String encodeStatus = "";
+		org.apache.catalina.util.URLEncoder urlEncoder = new org.apache.catalina.util.URLEncoder();
+		if(status != null) {
+			encodeStatus = urlEncoder.encode(status, "UTF-8");
+		} else {
+			request.setAttribute("statusNull", statusNull);
+		}
+		
+		//request.setAttribute("encodeStatus", Base64Utils.encodeToString(status.getBytes()));
+		request.setAttribute("status", encodeStatus);
+		LOG.debug("-------------- status: " + status + ", user org code:" + userOrg.getOrgCode());
+		if(hasLetter == null) {
+			hasLetter = "";
+		}
+		//request.setAttribute("encodeHasLetter", Base64Utils.encodeToString(URLEncoder.encode(hasLetter, "UTF-8").getBytes()));
+		request.setAttribute("hasLetter", urlEncoder.encode(hasLetter, "UTF-8"));
 		
 		if(page.getOrderField() == null) {
 			page.setOrderField("readyDate");
@@ -818,24 +827,9 @@ public class HfglController {
 		
 		//默认返回未处理工单
 		String status = request.getParameter("status");
-		String encodeStatus = request.getParameter("encodeStatus");
-//		if(status == null) {
-//			status = "";
-//		}
-		if(encodeStatus != null && encodeStatus.trim().equals("null")) {
-			status = "";
-		}
-		
-		if(encodeStatus != null && encodeStatus.trim().length() > 0 && !encodeStatus.trim().equals("null")) {
-			status = new String(Base64Utils.decodeFromString(encodeStatus));
-		} else if(status != null && status.trim().length()>0) {
-			encodeStatus = Base64Utils.encodeToString(status.getBytes());
-		}
-		request.setAttribute("encodeStatus", encodeStatus);
 		
 		LOG.debug("-------------- status: " + status + ", user org code:" + userOrg.getOrgCode());
-		String hasLetter = request.getParameter("hasLetter");
-		String encodeHasLetter = request.getParameter("encodeHasLetter");
+		String hasLetter = request.getParameter("search_LIKE_hasLetter");
 		String canCallAgainStr = request.getParameter("canCallAgain");
 		String orgDeal = request.getParameter("orgDealFlag");
 		String hqDealFlag = request.getParameter("hqDealFlag");
@@ -843,16 +837,6 @@ public class HfglController {
 		boolean canCallAgain = false;
 		if(canCallAgainStr != null && canCallAgainStr.equals("true")) {
 			canCallAgain = true;
-		}
-		
-		request.setAttribute("encodeHasLetter", encodeHasLetter);
-		if(encodeHasLetter != null) {
-			hasLetter = new String(Base64Utils.decodeFromString(encodeHasLetter));
-			try {
-				hasLetter = URLDecoder.decode(hasLetter, "UTF-8");
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			}
 		}
 		
 		if(page.getOrderField() == null) {

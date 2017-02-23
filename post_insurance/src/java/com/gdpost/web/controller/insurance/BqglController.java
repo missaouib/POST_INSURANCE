@@ -585,6 +585,7 @@ public class BqglController {
 		}
 		
 		String orderField = request.getParameter("orderField");
+		page.setNumPerPage(Integer.MAX_VALUE);
 		if(orderField == null || orderField.trim().length()<=0) {
 			page.setOrderField("operateTime");
 			page.setOrderDirection("DESC");
@@ -953,6 +954,8 @@ public class BqglController {
 			status = "";
 		}
 		String orderField = request.getParameter("orderField");
+		page.setNumPerPage(Integer.MAX_VALUE);
+		
 		if(orderField == null || orderField.trim().length()<=0) {
 			page.setOrderField("reqDate");
 			page.setOrderDirection("DESC");
@@ -1028,6 +1031,7 @@ public class BqglController {
 		//默认返回未处理工单
 		
 		String orderField = request.getParameter("orderField");
+		page.setNumPerPage(Integer.MAX_VALUE);
 		if(orderField == null || orderField.trim().length()<=0) {
 			page.setOrderField("csDate");
 			page.setOrderDirection("DESC");

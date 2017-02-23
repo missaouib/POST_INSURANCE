@@ -22,11 +22,12 @@ import com.gdpost.web.entity.component.TuiBaoModel;
 public interface TuiBaoModelDAO extends JpaRepository<TuiBaoModel, String>, JpaSpecificationExecutor<TuiBaoModel> {
 	
 	@Query(name="getProvTuiBaoWarningWithPolicyDateAndCsDateNoBankCode",
-			value="select left(tp.organ_name,2) as organ_name,sum(policy_fee) as policy_fee,"
-			+ "(select sum(t4.policy_fee) from t_policy t4 where left(t4.organ_name,2)=left(tp.organ_name,2) and t4.cs_flag<>1 and t4.fee_frequency like :toPerm "
+			value="select left(tp.organ_name,2) as organ_name,sum(tp.total_fee) as policy_fee,"
+			+ "(case tp.attached_flag when \"1\" then 0 else csr.money end) as sum_cs_fee, "
+			+ "(select sum(t4.total_fee) from t_policy t4 where left(t4.organ_name,2)=left(tp.organ_name,2) and t4.cs_flag<>1 and t4.fee_frequency like :toPerm "
 			+ "and t4.policy_date between :p1 and :p2) as sum_policy_fee "
 			+ "from t_policy tp, t_cs_report csr "
-			+ "where tp.policy_no=csr.policy_no and csr.cs_code=\"CT\" and datediff(csr.cs_date,tp.policy_date)>15 "
+			+ "where tp.policy_no=csr.policy_no and csr.cs_code=\"CT\" and tp.cs_flag<>1 "
 			+ "and tp.policy_date between :p1 and :p2 "
 			+ "and csr.cs_date between :c1 and :c2 "
 			+ "and tp.organ_code like :orgCode "
@@ -39,11 +40,12 @@ public interface TuiBaoModelDAO extends JpaRepository<TuiBaoModel, String>, JpaS
 	List<TuiBaoModel> getProvTuiBaoWarningWithPolicyDateAndCsDateNoBankCode(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag);
 	
 	@Query(name="getProvTuiBaoWarningWithPolicyDateAndCsDate",
-			value="select left(tp.organ_name,2) as organ_name,sum(policy_fee) as policy_fee,"
-			+ "(select sum(t4.policy_fee) from t_policy t4, t_bank_code t5  where t4.bank_code=t5.cpi_code and left(t4.organ_name,2)=left(tp.organ_name,2) and t4.cs_flag<>1 and t4.fee_frequency like :toPerm "
+			value="select left(tp.organ_name,2) as organ_name,sum(tp.total_fee) as policy_fee,"
+			+ "(case tp.attached_flag when \"1\" then 0 else csr.money end) as sum_cs_fee, "
+			+ "(select sum(t4.total_fee) from t_policy t4, t_bank_code t5  where t4.bank_code=t5.cpi_code and left(t4.organ_name,2)=left(tp.organ_name,2) and t4.cs_flag<>1 and t4.fee_frequency like :toPerm "
 			+ "and t4.policy_date between :p1 and :p2 and t5.net_flag=:netFlag and t4.organ_code like :orgCode and t4.prod_name like :prdCode ) as sum_policy_fee "
 			+ "from t_policy tp, t_cs_report csr,t_bank_code tbc "
-			+ "where tp.policy_no=csr.policy_no and tp.bank_code=tbc.cpi_code and csr.cs_code=\"CT\" and datediff(csr.cs_date,tp.policy_date)>15 "
+			+ "where tp.policy_no=csr.policy_no and tp.bank_code=tbc.cpi_code and csr.cs_code=\"CT\" and tp.cs_flag<>1 "
 			+ "and tp.policy_date between :p1 and :p2 "
 			+ "and csr.cs_date between :c1 and :c2 "
 			+ "and tbc.net_flag=:netFlag "
@@ -57,8 +59,8 @@ public interface TuiBaoModelDAO extends JpaRepository<TuiBaoModel, String>, JpaS
 	List<TuiBaoModel> getProvTuiBaoWarningWithPolicyDateAndCsDate(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag);
 	
 	@Query(name="getProvAllCityTuiBaoWarning",
-			value="select left(tp.organ_name,2) as organ_name,sum(policy_fee) as sum_policy_fee, "
-			+ "(select sum(policy_fee) as policy_fee "
+			value="select left(tp.organ_name,2) as organ_name,sum(tp.total_fee) as sum_policy_fee, "
+			+ "(select sum(total_fee) as policy_fee "
 			+ "from t_policy itp, t_cs_report itcr "
 			+ "where itp.policy_no=itcr.policy_no and itcr.cs_code=\"CT\" and itp.cs_flag<>1 "
 			+ "and left(itp.organ_name,2)=left(tp.organ_name,2) "
@@ -66,7 +68,16 @@ public interface TuiBaoModelDAO extends JpaRepository<TuiBaoModel, String>, JpaS
 			+ "and itcr.cs_date between :c1 and :c2 "
 			+ "and itp.prod_name like :prdCode "
 			+ "and itp.fee_frequency like :toPerm "
-			+ "and itp.staff_flag like :staffFlag ) as policy_fee "
+			+ "and itp.staff_flag like :staffFlag ) as policy_fee, "
+			+ "(select sum(money) "
+			+ "from t_policy itp, t_cs_report itcr "
+			+ "where itp.policy_no=itcr.policy_no and itcr.cs_code=\"CT\" and itp.cs_flag<>1 and itp.attached_flag=0 "
+			+ "and left(itp.organ_name,2)=left(tp.organ_name,2) "
+			+ "and itp.policy_date between :p1 and :p2 "
+			+ "and itcr.cs_date between :c1 and :c2 "
+			+ "and itp.prod_name like :prdCode "
+			+ "and itp.fee_frequency like :toPerm "
+			+ "and itp.staff_flag like :staffFlag ) as sum_cs_fee "
 			+ "from t_policy tp "
 			+ "where tp.cs_flag<>1 "
 			+ "and tp.policy_date between :p1 and :p2 "
@@ -80,8 +91,8 @@ public interface TuiBaoModelDAO extends JpaRepository<TuiBaoModel, String>, JpaS
 	List<TuiBaoModel> getProvAllCityTuiBaoWarning(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag);
 	
 	@Query(name="getProvAllCityTuiBaoWarningWithBankCode",
-			value="select left(tp.organ_name,2) as organ_name,sum(policy_fee) as sum_policy_fee, "
-			+ "(select sum(policy_fee) as policy_fee "
+			value="select left(tp.organ_name,2) as organ_name,sum(tp.total_fee) as sum_policy_fee, "
+			+ "(select sum(total_fee) as policy_fee "
 			+ "from t_policy itp, t_cs_report itcr, t_bank_code itbc "
 			+ "where itp.policy_no=itcr.policy_no and itp.bank_code=itbc.cpi_code and itcr.cs_code=\"CT\" and itp.cs_flag<>1 "
 			+ "and left(itp.organ_name,2)=left(tp.organ_name,2) "
@@ -90,7 +101,17 @@ public interface TuiBaoModelDAO extends JpaRepository<TuiBaoModel, String>, JpaS
 			+ "and itp.prod_name like :prdCode "
 			+ "and itbc.net_flag=:netFlag "
 			+ "and itp.fee_frequency like :toPerm "
-			+ "and itp.staff_flag like :staffFlag ) as policy_fee "
+			+ "and itp.staff_flag like :staffFlag ) as policy_fee, "
+			+ "(select sum(itcr.money) "
+			+ "from t_policy itp, t_cs_report itcr, t_bank_code itbc "
+			+ "where itp.policy_no=itcr.policy_no and itp.bank_code=itbc.cpi_code and itcr.cs_code=\"CT\" and itp.cs_flag<>1 and itp.attached_flag=0 "
+			+ "and left(itp.organ_name,2)=left(tp.organ_name,2) "
+			+ "and itp.policy_date between :p1 and :p2 "
+			+ "and itcr.cs_date between :c1 and :c2 "
+			+ "and itp.prod_name like :prdCode "
+			+ "and itbc.net_flag=:netFlag "
+			+ "and itp.fee_frequency like :toPerm "
+			+ "and itp.staff_flag like :staffFlag ) as sum_cs_fee "
 			+ "from t_policy tp, t_bank_code tbc "
 			+ "where tp.bank_code=tbc.cpi_code and tp.cs_flag<>1 "
 			+ "and tp.policy_date between :p1 and :p2 "
@@ -105,8 +126,9 @@ public interface TuiBaoModelDAO extends JpaRepository<TuiBaoModel, String>, JpaS
 	List<TuiBaoModel> getProvAllCityTuiBaoWarningWithBankCode(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag);
 	
 	@Query(name="getTuiBaoWarningWithPolicyDateAndCsDateNoBankCode",
-			value="select tp.organ_name,sum(policy_fee) as sum_policy_fee, "
-			+ "(select sum(policy_fee) as policy_fee "
+			value="select tp.organ_name,sum(tp.total_fee) as sum_policy_fee, "
+			+ "(case tp.attached_flag when \"1\" then 0 else csr.money end) as sum_cs_fee, "
+			+ "(select sum(itp.total_fee) as policy_fee "
 			+ "from t_policy itp, t_cs_report itcr "
 			+ "where itp.policy_no=itcr.policy_no and itcr.cs_code=\"CT\" and itp.cs_flag<>1 "
 			+ "and itp.organ_code=tp.organ_code "
@@ -128,8 +150,8 @@ public interface TuiBaoModelDAO extends JpaRepository<TuiBaoModel, String>, JpaS
 	List<TuiBaoModel> getTuiBaoWarningWithPolicyDateAndCsDateNoBankCode(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag);
 	
 	@Query(name="getTuiBaoWarningWithPolicyDateAndCsDate",
-			value="select tp.organ_name,sum(policy_fee) as sum_policy_fee, "
-			+ "(select sum(policy_fee) as policy_fee "
+			value="select tp.organ_name,sum(tp.total_fee) as sum_policy_fee, "
+			+ "(select sum(itp.total_fee) as policy_fee "
 			+ "from t_policy itp, t_cs_report itcr, t_bank_code itbc "
 			+ "where itp.policy_no=itcr.policy_no and itp.bank_code=itbc.cpi_code and itcr.cs_code=\"CT\" and itp.cs_flag<>1 "
 			+ "and itp.organ_code=tp.organ_code "
@@ -138,7 +160,17 @@ public interface TuiBaoModelDAO extends JpaRepository<TuiBaoModel, String>, JpaS
 			+ "and itp.prod_name like :prdCode "
 			+ "and itbc.net_flag=:netFlag "
 			+ "and itp.fee_frequency like :toPerm "
-			+ "and itp.staff_flag like :staffFlag ) as policy_fee "
+			+ "and itp.staff_flag like :staffFlag ) as policy_fee, "
+			+ "(select sum(itcr.money) "
+			+ "from t_policy itp, t_cs_report itcr, t_bank_code itbc "
+			+ "where itp.policy_no=itcr.policy_no and itp.bank_code=itbc.cpi_code and itcr.cs_code=\"CT\" and itp.cs_flag<>1 and itp.attached_flag=0 "
+			+ "and itp.organ_code=tp.organ_code "
+			+ "and itp.policy_date between :p1 and :p2 "
+			+ "and itcr.cs_date between :c1 and :c2 "
+			+ "and itp.prod_name like :prdCode "
+			+ "and itbc.net_flag=:netFlag "
+			+ "and itp.fee_frequency like :toPerm "
+			+ "and itp.staff_flag like :staffFlag ) as sum_cs_fee "
 			+ "from t_policy tp, t_bank_code tbc "
 			+ "where tp.bank_code=tbc.cpi_code and tp.cs_flag<>1 "
 			+ "and tp.policy_date between :p1 and :p2 "

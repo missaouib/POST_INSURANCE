@@ -82,7 +82,6 @@ public class City implements Comparable<City>, Idable<Long> {
 
 	@Override
 	public int compareTo(City o) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 

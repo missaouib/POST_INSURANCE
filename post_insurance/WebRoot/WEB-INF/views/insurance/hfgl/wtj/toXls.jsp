@@ -35,7 +35,7 @@ response.setHeader("Content-Disposition", "inline; filename=call_fail_dtl.xls");
                 <th>二访类型</th>
                 <th>二访详情</th>
                 <th>二访人</th>
-                <th>二访工单内容</th>
+                <th>省分回访结果</th>
                 <th>可再访</th>
                 <th>市县反馈</th>
                 <th>重置时间</th>

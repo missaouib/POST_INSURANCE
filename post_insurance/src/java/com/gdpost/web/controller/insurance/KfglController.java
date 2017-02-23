@@ -26,7 +26,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.Base64Utils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -124,10 +123,13 @@ public class KfglController {
 		}
 		issue.setStatus(status);
 		
-		if(status != null) {
-			request.setAttribute("encodeStatus", Base64Utils.encodeToString(status.getBytes()));
+		org.apache.catalina.util.URLEncoder urlEncoder = new org.apache.catalina.util.URLEncoder();
+		if(status == null) {
+			status = "";
 		}
-		request.setAttribute("status", status);
+		//request.setAttribute("encodeStatus", Base64Utils.encodeToString(status.getBytes()));
+		request.setAttribute("status", urlEncoder.encode(status, "UTF-8"));
+		//request.setAttribute("status", status);
 		
 		map.put("issue", issue);
 		map.put("statusList", STATUS.values());
@@ -282,15 +284,17 @@ public class KfglController {
 		
 		//默认返回未处理工单
 		String status = request.getParameter("status");
-		LOG.debug("-------------- status: " + status);
+		String encodeStatus = "";
+		org.apache.catalina.util.URLEncoder urlEncoder = new org.apache.catalina.util.URLEncoder();
 		if(status != null) {
-			request.setAttribute("encodeStatus", Base64Utils.encodeToString(status.getBytes()));
+			encodeStatus = urlEncoder.encode(status, "UTF-8");
 		}
-		request.setAttribute("status", status);
+		//request.setAttribute("encodeStatus", Base64Utils.encodeToString(status.getBytes()));
+		request.setAttribute("status", encodeStatus);
+		request.setAttribute("srcStatus", status);
+		LOG.debug("-------------- status: " + status + ", user org code:" + userOrg.getOrgCode());
+		
 		Issue issue = new Issue();
-//		if(status == null) {
-//			status = "待处理";
-//		}
 		issue.setStatus(status);
 		
 		if(page.getOrderField() == null) {
@@ -315,9 +319,10 @@ public class KfglController {
 			if(status == null) {
 				LOG.debug("-------------- 333: " );
 				issue.setStatus(STATUS.DealStatus.getDesc());
-				request.setAttribute("status", STATUS.DealStatus.getDesc());
-				request.setAttribute("encodeStatus", Base64Utils.encodeToString(STATUS.DealStatus.getDesc().getBytes()));
+				request.setAttribute("status", urlEncoder.encode(STATUS.DealStatus.getDesc(),"UTF-8"));
+				request.setAttribute("srcStatus", urlEncoder.encode(STATUS.DealStatus.getDesc(),"iso8859-1"));
 				csf.add(new SearchFilter("status", Operator.EQ, STATUS.DealStatus.getDesc()));
+				
 			} else if(status.trim().length() > 0) {
 				csf.add(new SearchFilter("status", Operator.EQ, status));
 			}
@@ -374,21 +379,16 @@ public class KfglController {
 		}
 		//默认返回未处理工单
 		String status = request.getParameter("status");
-		String encodeStatus = request.getParameter("encodeStatus");
-		request.setAttribute("encodeStatus", encodeStatus);
-		if((status != null && status.trim().equals("null")) || (encodeStatus!= null && encodeStatus.equals("null"))) {
-			status = null;
+		org.apache.catalina.util.URLEncoder urlEncoder = new org.apache.catalina.util.URLEncoder();
+		String encodeStatus = "";
+		if(status != null) {
+			encodeStatus = urlEncoder.encode(status, "UTF-8");
 		}
-		if(encodeStatus != null && encodeStatus.trim().length() > 0 ){
-			status = new String(Base64Utils.decodeFromString(encodeStatus));
-		} else if(status != null && status.trim().length()>0) {
-			encodeStatus = Base64Utils.encodeToString(status.getBytes());
-			request.setAttribute("encodeStatus", encodeStatus);
-		}
-		LOG.debug("---------kf max list status" + status);
+		//request.setAttribute("encodeStatus", Base64Utils.encodeToString(status.getBytes()));
+		request.setAttribute("status", encodeStatus);
+		LOG.debug("-------------- status: " + status + ", user org code:" + userOrg.getOrgCode());
 		Issue issue = new Issue();
 		issue.setStatus(status);
-		request.setAttribute("status", status);
 		
 		if(page.getOrderField() == null) {
 			page.setOrderField("readyDate");
@@ -412,7 +412,8 @@ public class KfglController {
 			if(status == null) {
 				LOG.debug("-------------- 333: " );
 				issue.setStatus(STATUS.DealStatus.getDesc());
-				request.setAttribute("status", STATUS.DealStatus.getDesc());
+				request.setAttribute("status", urlEncoder.encode(status, "UTF-8"));
+				request.setAttribute("srcStatus", urlEncoder.encode(STATUS.DealStatus.getDesc(),"iso8859-1"));
 				csf.add(new SearchFilter("status", Operator.EQ, STATUS.DealStatus.getDesc()));
 			} else if(status.trim().length() > 0) {
 				csf.add(new SearchFilter("status", Operator.EQ, status));
@@ -435,11 +436,6 @@ public class KfglController {
 		String status = request.getParameter("status");
 		if(status == null || (status != null && status.trim().equals("null"))) {
 			status = "";
-		} else if(status != null && status.trim().length() > 0 ){
-			status = new String(Base64Utils.decodeFromString(status));
-			if(status.equals("null")) {
-				status = "";
-			}
 		}
 		
 		page.setOrderField("policy.organization.orgCode");
@@ -506,11 +502,6 @@ public class KfglController {
 		String status = request.getParameter("status");
 		if(status == null || (status != null && status.trim().equals("null"))) {
 			status = "";
-		} else if(status != null && status.trim().length() > 0 ){
-			status = new String(Base64Utils.decodeFromString(status));
-			if(status.equals("null")) {
-				status = "";
-			}
 		}
 		
 		page.setOrderField("policy.organization.orgCode");

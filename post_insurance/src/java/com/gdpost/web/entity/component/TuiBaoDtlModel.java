@@ -27,6 +27,7 @@ public class TuiBaoDtlModel implements java.io.Serializable {
 	private Date csDate;
 	private String csCode;
 	private String csNo;
+	private String csFee;
 	private String holder;
 	private String netFlag;
 	// Constructors
@@ -116,6 +117,15 @@ public class TuiBaoDtlModel implements java.io.Serializable {
 
 	public void setCsNo(String csNo) {
 		this.csNo = csNo;
+	}
+
+	@Column(name="cs_fee")
+	public String getCsFee() {
+		return csFee;
+	}
+
+	public void setCsFee(String csFee) {
+		this.csFee = csFee;
 	}
 
 	@Column(name="holder")

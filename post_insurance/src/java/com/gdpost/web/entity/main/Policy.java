@@ -78,6 +78,7 @@ public class Policy implements Idable<Long>, Serializable{
 	private Boolean staffFlag;
 	
 	private Integer csFlag;
+	private Double totalFee;
 	
 	@Transient
 	private Boolean isStaff;
@@ -448,6 +449,15 @@ public class Policy implements Idable<Long>, Serializable{
 
 	public void setCsFlag(Integer csFlag) {
 		this.csFlag = csFlag;
+	}
+
+	@Column(name="total_fee")
+	public Double getTotalFee() {
+		return totalFee;
+	}
+
+	public void setTotalFee(Double totalFee) {
+		this.totalFee = totalFee;
 	}
 
 	@OneToOne(optional=true)

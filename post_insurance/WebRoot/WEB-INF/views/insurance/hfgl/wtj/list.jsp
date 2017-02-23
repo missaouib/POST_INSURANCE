@@ -1,7 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@page import="java.util.Date"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
-
+<script type="text/javascript" >
+	function setStatus(val) {
+		//alert(val);
+		$("#statusNull").val("");
+		return;
+	}
+</script>
 <dwz:paginationForm action="${contextPath }/hfgl/issue/list" page="${page }">
 	<input type="hidden" name="search_LIKE_issueNo" value="${param.search_LIKE_issueNo }"/>
 	<input type="hidden" name="policy.orgCode" value="${policy_orgCode }"/>
@@ -19,9 +25,11 @@
 	<input type="hidden" name="search_LIKE_policy.holder" value="${search_LIKE_policy_holder}"/>
 	<input type="hidden" name="hqDealType" value="${hqDealType}"/>
 	<input type="hidden" name="dealType" value="${dealType}"/>
+	<input type="hidden" name="statusNull" id="statusNull" value="${statusNull }">
 </dwz:paginationForm>
 
 <form method="post" id="hfForm" action="${contextPath }/hfgl/issue/list" onsubmit="return navTabSearch(this)">
+<input type="hidden" name="statusNull" id="statusNull" value="${statusNull }">
 	<div class="pageHeader">
 		<div class="searchBar">
 			<table class="searchContent">
@@ -31,7 +39,7 @@
 					</td>
 					<td>
 						<label>状态：</label>
-						<form:select path="issue.status" id="hfStatus" class="combox">
+						<form:select path="issue.status" id="hfStatus" class="combox" onchange="javascript:setStatus();">
 							<form:option value=""> -- -- </form:option>
 							<form:options items="${hfStatusList }" itemLabel="desc" itemValue="desc"/>
 						</form:select>
@@ -162,9 +170,9 @@
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Callfail:view">
 				<li class="line">line</li>
-				<li><a iconClass="magnifier" href="${contextPath }/hfgl/issue/maxlist?search_LIKE_issueNo=${param.search_LIKE_issueNo }&policy.orgCode=${policy_orgCode }&policy.name=${policy_name }&search_LTE_readyDate=${param.search_LTE_readyDate }&search_GTE_readyDate=${param.search_GTE_readyDate }&search_GTE_policy.policyDate=${search_GTE_policy_policyDate }&search_LTE_policy.policyDate=${search_LTE_policy_policyDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&encodeHasLetter=${encodeHasLetter }&encodeStatus=${encodeStatus == null?'null':encodeStatus }" target="dialog" rel="dlg_page1" max="true" title="回访不成功列表" width="800" height="480"><span>全屏查看</span></a></li>
+				<li><a iconClass="magnifier" href="${contextPath }/hfgl/issue/maxlist?search_LIKE_issueNo=${param.search_LIKE_issueNo }&policy.orgCode=${policy_orgCode }&policy.name=${policy_name }&search_LTE_readyDate=${param.search_LTE_readyDate }&search_GTE_readyDate=${param.search_GTE_readyDate }&search_LTE_policy.policyDate=${search_LTE_policy_policyDate }&search_GTE_policy.policyDate=${search_GTE_policy_policyDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&search_LIKE_hasLetter=${hasLetter }&status=${status }&canCallAgain=${canCallAgain }&hqDealFlag=${hqDealFlag }&orgDealFlag=${orgDealFlag }&search_LIKE_policy.holder=${search_LIKE_policy_holder}&hqDealType=${hqDealType}&dealType=${dealType}&encodeHasLetter=${encodeHasLetter }&encodeStatus=${encodeStatus == null?'null':encodeStatus }" target="dialog" rel="dlg_page1" max="true" title="回访不成功列表" width="800" height="480"><span>全屏查看</span></a></li>
 				<li class="line">line</li>
-				<li><a class="icon" target="_blank" href="${contextPath }/hfgl/toXls?dealType=${dealType }&hqDealType=${hqDealType }&hqDealFlag=${hqDealFlag }&orgDealFlag=${orgDealFlag }&canCallAgain=${canCallAgain }&search_LIKE_issueNo=${param.search_LIKE_issueNo }&policy.orgCode=${policy_orgCode }&search_LTE_readyDate=${param.search_LTE_readyDate }&search_GTE_readyDate=${param.search_GTE_readyDate }&search_GTE_policy.policyDate=${search_GTE_policy_policyDate }&search_LTE_policy.policyDate=${search_LTE_policy_policyDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&encodeHasLetter=${encodeHasLetter }&encodeStatus=${encodeStatus == null?'null':encodeStatus }"><span>导出Excel</span></a></li>
+				<li><a class="icon" target="_blank" href="${contextPath }/hfgl/toXls?search_LIKE_issueNo=${param.search_LIKE_issueNo }&policy.orgCode=${policy_orgCode }&policy.name=${policy_name }&search_LTE_readyDate=${param.search_LTE_readyDate }&search_GTE_readyDate=${param.search_GTE_readyDate }&search_LTE_policy.policyDate=${search_LTE_policy_policyDate }&search_GTE_policy.policyDate=${search_GTE_policy_policyDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&search_LIKE_hasLetter=${hasLetter }&status=${status }&canCallAgain=${canCallAgain }&hqDealFlag=${hqDealFlag }&orgDealFlag=${orgDealFlag }&search_LIKE_policy.holder=${search_LIKE_policy_holder}&hqDealType=${hqDealType}&dealType=${dealType}&encodeHasLetter=${encodeHasLetter }&encodeStatus=${encodeStatus == null?'null':encodeStatus }"><span>导出Excel</span></a></li>
 			</shiro:hasPermission>
 			<li class="line">line</li>
 			<li><a class="icon" target="dialog" href="${contextPath }/hfgl/help" mask="true" width="530" height="430"><span>功能说明</span></a></li>
@@ -180,7 +188,7 @@
 				<th orderField=issueNo class="${page.orderField eq 'issueNo' ? page.orderDirection : ''}">工单编号</th>
 				<th orderField=status class="${page.orderField eq 'status' ? page.orderDirection : ''}">工单状态</th>
 				<th>一访工单内容</th>
-				<th>二访工单内容</th>
+				<th>省分回访结果</th>
 				<th>拨打电话</th>
 				<th orderField=readyDate class="${page.orderField eq 'readyDate' ? page.orderDirection : ''}">工单下发日期</th>
 				<th>犹豫期</th>

@@ -82,7 +82,6 @@ public class Area implements Comparable<Area>, Idable<Long> {
 
 	@Override
 	public int compareTo(Area o) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 

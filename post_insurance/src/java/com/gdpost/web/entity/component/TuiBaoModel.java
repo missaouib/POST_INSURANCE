@@ -19,6 +19,7 @@ public class TuiBaoModel implements java.io.Serializable {
 	private static final long serialVersionUID = 6953817886114363056L;
 	private String organName;
 	private Double policyFee;
+	private Double sumCsFee;
 	private Double sumPolicyFee;
 	@Transient
 	private String levelFlag;
@@ -57,6 +58,15 @@ public class TuiBaoModel implements java.io.Serializable {
 
 	public void setPolicyFee(Double policyFee) {
 		this.policyFee = policyFee;
+	}
+
+	@Column(name="sum_cs_fee")
+	public Double getSumCsFee() {
+		return sumCsFee;
+	}
+
+	public void setSumCsFee(Double sumCsFee) {
+		this.sumCsFee = sumCsFee;
 	}
 
 	@Column(name="sum_policy_fee")

@@ -180,11 +180,13 @@ public class StasticsController {
 		int maxTB = 0;
 		double sumTb = 0;
 		double totalTb = 0;
+		double totalCS = 0;
 		DecimalFormat df = new DecimalFormat("#.#"); 
 		for(TuiBaoModel tcm:temp) {
 			col += "'" + tcm.getOrganName() + "',";
 			sumTb += tcm.getPolicyFee()==null?0:tcm.getPolicyFee();
 			totalTb += tcm.getSumPolicyFee();
+			totalCS += tcm.getSumCsFee()==null?0:tcm.getSumCsFee();
 			zhanbi += df.format(tcm.getPolicyFee()==null?0:tcm.getPolicyFee()/tcm.getSumPolicyFee()*100) + ",";
 			if(((tcm.getPolicyFee()==null?0:tcm.getPolicyFee())/tcm.getSumPolicyFee()*100+1) > maxZB) {
 				maxZB = Math.ceil(tcm.getPolicyFee()==null?0:tcm.getPolicyFee()/tcm.getSumPolicyFee()*100) +1;
@@ -206,6 +208,7 @@ public class StasticsController {
 		request.setAttribute("maxZB", maxZB);
 		request.setAttribute("maxTB", maxTB);
 		request.setAttribute("sumTb", sumTb/10000);
+		request.setAttribute("totalCS", totalCS/10000);
 		request.setAttribute("totalTb", totalTb/10000);
 		
 		Page page = new Page();

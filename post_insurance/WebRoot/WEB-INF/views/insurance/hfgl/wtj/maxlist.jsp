@@ -17,9 +17,11 @@
 	<input type="hidden" name="hqDealFlag" value="${hqDealFlag }" />
 	<input type="hidden" name="orgDealFlag" value="${orgDealFlag }" />
 	<input type="hidden" name="search_LIKE_policy.holder" value="${search_LIKE_policy_holder}"/>
+	<input type="hidden" name="statusNull" id="statusNull" value="${statusNull }">
 </dwz:paginationForm>
 
 <form method="post" rel="hfForm" action="${contextPath }/hfgl/issue/maxlist" onsubmit="return dwzSearch(this, 'dialog');">
+<input type="hidden" name="statusNull" id="statusNull" value="${statusNull }">
 	<div class="pageHeader">
 		<div class="searchBar">
 			<table class="searchContent">
@@ -153,7 +155,7 @@
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Callfail:view">
 				<li class="line">line</li>
-				<li><a class="icon" target="_blank" href="${contextPath }/hfgl/toXls?dealType=${dealType }&hqDealType=${hqDealType }&search_LIKE_issueNo=${param.search_LIKE_issueNo }&policy.orgCode=${policy_orgCode }&search_LTE_readyDate=${param.search_LTE_readyDate }&search_GTE_readyDate=${param.search_GTE_readyDate }&search_GTE_policy.policyDate=${search_GTE_policy_policyDate }&search_LTE_policy.policyDate=${search_LTE_policy_policyDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&hasLetter=${encodeHasLetter }&encodeStatus=${encodeStatus == null?'null':encodeStatus }"><span>导出Excel</span></a></li>
+				<li><a class="icon" target="_blank" href="${contextPath }/hfgl/toXls?search_LIKE_issueNo=${param.search_LIKE_issueNo }&policy.orgCode=${policy_orgCode }&policy.name=${policy_name }&search_LTE_readyDate=${param.search_LTE_readyDate }&search_GTE_readyDate=${param.search_GTE_readyDate }&search_LTE_policy.policyDate=${search_LTE_policy_policyDate }&search_GTE_policy.policyDate=${search_GTE_policy_policyDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&search_LIKE_hasLetter=${hasLetter }&status=${status }&canCallAgain=${canCallAgain }&hqDealFlag=${hqDealFlag }&orgDealFlag=${orgDealFlag }&search_LIKE_policy.holder=${search_LIKE_policy_holder}&hqDealType=${hqDealType}&dealType=${dealType}&encodeHasLetter=${encodeHasLetter }&encodeStatus=${encodeStatus == null?'null':encodeStatus }"><span>导出Excel</span></a></li>
 			</shiro:hasPermission>
 		</ul>
 	</div>
