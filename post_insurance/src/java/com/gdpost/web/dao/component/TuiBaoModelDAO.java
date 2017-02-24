@@ -60,7 +60,7 @@ public interface TuiBaoModelDAO extends JpaRepository<TuiBaoModel, String>, JpaS
 	
 	@Query(name="getProvAllCityTuiBaoWarning",
 			value="select left(tp.organ_name,2) as organ_name,sum(tp.total_fee) as sum_policy_fee, "
-			+ "(select sum(total_fee) as policy_fee "
+			+ "(select sum(itp.total_fee) as policy_fee "
 			+ "from t_policy itp, t_cs_report itcr "
 			+ "where itp.policy_no=itcr.policy_no and itcr.cs_code=\"CT\" and itp.cs_flag<>1 "
 			+ "and left(itp.organ_name,2)=left(tp.organ_name,2) "
@@ -69,7 +69,7 @@ public interface TuiBaoModelDAO extends JpaRepository<TuiBaoModel, String>, JpaS
 			+ "and itp.prod_name like :prdCode "
 			+ "and itp.fee_frequency like :toPerm "
 			+ "and itp.staff_flag like :staffFlag ) as policy_fee, "
-			+ "(select sum(money) "
+			+ "(select sum(itcr.money) "
 			+ "from t_policy itp, t_cs_report itcr "
 			+ "where itp.policy_no=itcr.policy_no and itcr.cs_code=\"CT\" and itp.cs_flag<>1 and itp.attached_flag=0 "
 			+ "and left(itp.organ_name,2)=left(tp.organ_name,2) "
@@ -92,7 +92,7 @@ public interface TuiBaoModelDAO extends JpaRepository<TuiBaoModel, String>, JpaS
 	
 	@Query(name="getProvAllCityTuiBaoWarningWithBankCode",
 			value="select left(tp.organ_name,2) as organ_name,sum(tp.total_fee) as sum_policy_fee, "
-			+ "(select sum(total_fee) as policy_fee "
+			+ "(select sum(itp.total_fee) as policy_fee "
 			+ "from t_policy itp, t_cs_report itcr, t_bank_code itbc "
 			+ "where itp.policy_no=itcr.policy_no and itp.bank_code=itbc.cpi_code and itcr.cs_code=\"CT\" and itp.cs_flag<>1 "
 			+ "and left(itp.organ_name,2)=left(tp.organ_name,2) "
@@ -127,7 +127,6 @@ public interface TuiBaoModelDAO extends JpaRepository<TuiBaoModel, String>, JpaS
 	
 	@Query(name="getTuiBaoWarningWithPolicyDateAndCsDateNoBankCode",
 			value="select tp.organ_name,sum(tp.total_fee) as sum_policy_fee, "
-			+ "(case tp.attached_flag when \"1\" then 0 else csr.money end) as sum_cs_fee, "
 			+ "(select sum(itp.total_fee) as policy_fee "
 			+ "from t_policy itp, t_cs_report itcr "
 			+ "where itp.policy_no=itcr.policy_no and itcr.cs_code=\"CT\" and itp.cs_flag<>1 "
@@ -136,7 +135,16 @@ public interface TuiBaoModelDAO extends JpaRepository<TuiBaoModel, String>, JpaS
 			+ "and itcr.cs_date between :c1 and :c2 "
 			+ "and itp.prod_name like :prdCode "
 			+ "and itp.fee_frequency like :toPerm "
-			+ "and itp.staff_flag like :staffFlag ) as policy_fee "
+			+ "and itp.staff_flag like :staffFlag ) as policy_fee, "
+			+ "(select sum(itcr.money) "
+			+ "from t_policy itp, t_cs_report itcr "
+			+ "where itp.policy_no=itcr.policy_no and itcr.cs_code=\"CT\" and itp.cs_flag<>1 and itp.attached_flag=0 "
+			+ "and itp.organ_code=tp.organ_code "
+			+ "and itp.policy_date between :p1 and :p2 "
+			+ "and itcr.cs_date between :c1 and :c2 "
+			+ "and itp.prod_name like :prdCode "
+			+ "and itp.fee_frequency like :toPerm "
+			+ "and itp.staff_flag like :staffFlag ) as sum_cs_fee "
 			+ "from t_policy tp "
 			+ "where tp.cs_flag<>1 "
 			+ "and tp.policy_date between :p1 and :p2 "
