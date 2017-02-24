@@ -120,20 +120,23 @@
 	<fieldset>
 		<legend>省分二访中心回访处理详情</legend>
 		<p>
-			<label>客户资料备注：</label>
-			<span class="unit">${issue.clientRemark }</span>
-		</p>
-		<p>
-			<label>二访类别：</label>
-			<span class="unit">${issue.hqDealTypeElse }</span>
-		</p>
+           <label>二访类别：</label>
+           <span class="unit">${issue.hqDealTypeElse }</span>
+        </p>
+        <p>
+           <label>客户资料备注：</label>
+           <span class="unit">${issue.clientRemark }</span>
+        </p>
+        <dl>
+           <dt>二访详情：</dt>
+           <dd><textarea name="textarea1" cols="80" rows="3">${issue.hqDealRst }</textarea></dd>
+        </dl>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
 		<p>
 			<label>二访结果：</label>
 			<span class="unit">${issue.hqDealType }</span>
-		</p>
-		<p>
-			<label>回访详情：</label>
-			<span class="unit">${issue.hqDealRst }</span>
 		</p>
 		<p>
 			<label>经办人：</label>
@@ -144,15 +147,15 @@
 			<span class="unit"><fmt:formatDate value='${issue.hqDealDate }' pattern='yyyy-MM-dd'/></span>
 		</p>
 		<p>
-			<label>拨打电话（通话号码）：</label>
+			<label>拨打电话：</label>
 			<span class="unit">${issue.phoneNum }</span>
 		</p>
 		<p>
-			<label>通话开始时间：</label>
+			<label>通话开始：</label>
 			<span class="unit">${issue.phoneStart }</span>
 		</p>
 		<p>
-			<label>通话结束时间：</label>
+			<label>通话结束：</label>
 			<span class="unit">${issue.phoneEnd }</span>
 		</p>
 		<p>

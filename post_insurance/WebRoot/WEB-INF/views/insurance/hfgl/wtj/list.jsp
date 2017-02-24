@@ -189,11 +189,9 @@
 				<th orderField=status class="${page.orderField eq 'status' ? page.orderDirection : ''}">工单状态</th>
 				<th>一访工单内容</th>
 				<th>省分回访结果</th>
-				<th>拨打电话</th>
 				<th orderField=readyDate class="${page.orderField eq 'readyDate' ? page.orderDirection : ''}">工单下发日期</th>
 				<th>犹豫期</th>
 				<th orderField=policy.policyNo class="${page.orderField eq 'policy.policyNo' ? page.orderDirection : ''}">所属保单号</th>
-				<th orderField=organization.name class="${page.orderField eq 'organization.name' ? page.orderDirection : ''}">所属机构</th>
 				<th>承保日期</th>
 				<th>投保人</th>
 				<th>联系电话</th>
@@ -226,12 +224,10 @@
                <td>${item.issueNo}</td>
                <td>${item.status}</td>
                <td title="${item.issueContent}">${fn:substring(item.issueContent, 0, 15)}</td>
-               <td title="${item.hqDealRst}">${fn:substring(item.hqDealRst, 0, 15)}</td>
-               <td>${item.phoneNum}</td>
+               <td title="${item.hqDealTypeElse}">${fn:substring(item.hqDealTypeElse, 0, 15)}</td>
                <td><fmt:formatDate value="${item.readyDate }" pattern="yyyy-MM-dd"/></td>
-               <td><span style="color:red; height:50%; margin-bottom:-contentheight;"><c:if test="${item.lastDateNum<0 }">0</c:if><c:if test="${item.lastDateNum>=0 }">${item.lastDateNum }</c:if></span></td>
+               <td><span style="color:red; height:50%; margin-bottom:-contentheight;"><c:if test="${item.lastDateNum<0 }">0</c:if><c:if test="${item.lastDateNum>=0 }">${item.lastDateNum-1 }</c:if></span></td>
                <td>${item.policy.policyNo}</td>
-               <td>${fn:replace(item.organization.name,'邮政局中邮保险局','')}</td>
                <td><fmt:formatDate value="${item.policy.policyDate }" pattern="yyyy-MM-dd"/></td>
                <td>${item.policy.holder}</td>
                <td>${item.holderMobile eq ""?item.holderPhone:item.holderMobile}</td>

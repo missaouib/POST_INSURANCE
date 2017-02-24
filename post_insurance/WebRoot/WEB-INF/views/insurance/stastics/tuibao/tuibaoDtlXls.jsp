@@ -20,6 +20,7 @@ response.setHeader("Content-Disposition", "inline; filename=tuibao_dtl.xls");
 		<th>保全代码</th>
 		<th>保全金额</th>
 		<th>渠道</th>
+		<th>网点名称</th>
 	</tr>
 	<c:forEach var="item" items="${cmRst}" varStatus="idx">
 	<tr>
@@ -35,6 +36,7 @@ response.setHeader("Content-Disposition", "inline; filename=tuibao_dtl.xls");
 		<td>${item.csCode}</td>
 		<td>${item.csFee}</td>
 		<td>${item.netFlag eq "1"?"邮政":"银行"}</td>
+		<td>${item.bankName}</td>
 	</tr>
 	</c:forEach>
 </table>
