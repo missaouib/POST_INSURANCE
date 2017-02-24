@@ -290,8 +290,8 @@ public class KfglController {
 			encodeStatus = urlEncoder.encode(status, "UTF-8");
 		}
 		//request.setAttribute("encodeStatus", Base64Utils.encodeToString(status.getBytes()));
-		request.setAttribute("status", encodeStatus);
-		request.setAttribute("srcStatus", status);
+		request.setAttribute("status", status);
+		request.setAttribute("eStatus", encodeStatus);
 		LOG.debug("-------------- status: " + status + ", user org code:" + userOrg.getOrgCode());
 		
 		Issue issue = new Issue();
@@ -319,8 +319,8 @@ public class KfglController {
 			if(status == null) {
 				LOG.debug("-------------- 333: " );
 				issue.setStatus(STATUS.DealStatus.getDesc());
-				request.setAttribute("status", urlEncoder.encode(STATUS.DealStatus.getDesc(),"UTF-8"));
-				request.setAttribute("srcStatus", urlEncoder.encode(STATUS.DealStatus.getDesc(),"iso8859-1"));
+				request.setAttribute("status", STATUS.DealStatus.getDesc());
+				request.setAttribute("eStatus", urlEncoder.encode(STATUS.DealStatus.getDesc(),"iso8859-1"));
 				csf.add(new SearchFilter("status", Operator.EQ, STATUS.DealStatus.getDesc()));
 				
 			} else if(status.trim().length() > 0) {
@@ -385,7 +385,8 @@ public class KfglController {
 			encodeStatus = urlEncoder.encode(status, "UTF-8");
 		}
 		//request.setAttribute("encodeStatus", Base64Utils.encodeToString(status.getBytes()));
-		request.setAttribute("status", encodeStatus);
+		request.setAttribute("status", status);
+		request.setAttribute("eStatus", encodeStatus);
 		LOG.debug("-------------- status: " + status + ", user org code:" + userOrg.getOrgCode());
 		Issue issue = new Issue();
 		issue.setStatus(status);
@@ -412,8 +413,8 @@ public class KfglController {
 			if(status == null) {
 				LOG.debug("-------------- 333: " );
 				issue.setStatus(STATUS.DealStatus.getDesc());
-				request.setAttribute("status", urlEncoder.encode(status, "UTF-8"));
-				request.setAttribute("srcStatus", urlEncoder.encode(STATUS.DealStatus.getDesc(),"iso8859-1"));
+				request.setAttribute("status", status);
+				request.setAttribute("eStatus", urlEncoder.encode(STATUS.DealStatus.getDesc(),"iso8859-1"));
 				csf.add(new SearchFilter("status", Operator.EQ, STATUS.DealStatus.getDesc()));
 			} else if(status.trim().length() > 0) {
 				csf.add(new SearchFilter("status", Operator.EQ, status));
