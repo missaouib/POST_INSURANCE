@@ -528,7 +528,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			log.debug("----------------batch update : " + sql);
 			sql2 = "delete from t_call_fail_list where issue_no is null";
 			sql3 = "update t_call_fail_list set org_deal_flag = 1 where status='上门成功';";
-			sql4 = "update t_call_fail_list t1 set status=\"需上门回访\" where TO_DAYS(NOW())-TO_DAYS(should_date)>15 and status=\"二访失败\";";
+			sql4 = "update t_call_fail_list t1 set status=\"需上门回访\" where TO_DAYS(NOW())-TO_DAYS(should_date)>15 and status=\"二访失败\" or status=\"重点跟进\";";
 			break;
 		case CallFailCityStatus:
 			standardColumns = CallFailDoorBackListColumn.getStandardColumns();
@@ -673,7 +673,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			log.debug("----------------batch update : " + sql);
 			sql2 = "delete from t_call_fail_list where issue_no is null";
 			//sql3 = "update t_call_fail_list set status=deal_status where deal_status is not null and status<>\"二访成功\"";
-			sql4 = "update t_call_fail_list t1 set status=\"需上门回访\" where TO_DAYS(NOW())-TO_DAYS(should_date)>15 and status=\"二访失败\";";
+			sql4 = "update t_call_fail_list t1 set status=\"需上门回访\" where TO_DAYS(NOW())-TO_DAYS(should_date)>15 and status=\"二访失败\" or status=\"重点跟进\";";
 			break;
 		case CallFailPhoneStatus:
 			standardColumns = CallFailNeedDoorListColumn.getStandardColumns();
@@ -885,9 +885,11 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql.append("client_receive_date=VALUES(client_receive_date), sign_input_date=VALUES(sign_input_date), status=VALUES(status);");
 			log.debug("----------------city update status batch sql : " + sql);
 			sql2 = "delete from t_under_write where form_no is null";
-			sql4 = "update t_policy t1, t_under_write t2 set t1.bill_back_date=t2.client_receive_date, t2.status=\"CloseStatus\" "
-					+ "where t1.policy_no=t2.policy_no and t2.client_receive_date is not null;";
 			sql3 = "update t_policy set bill_back_date=policy_date where bill_back_date is null;";
+			sql4 = "update t_policy t1, t_under_write t2 set t1.bill_back_date=t2.client_receive_date "
+					+ "where t1.policy_no=t2.policy_no and t2.client_receive_date is not null;";
+			sql5 = "update t_under_write t2 set t2.status=\"CloseStatus\" "
+					+ "where t2.status<>\"CloseStatus\" and t2.client_receive_date is not null;";
 			break;
 		case PolicyBackDate:
 			standardColumns = PolicyBackDateColumn.getStandardColumns();
