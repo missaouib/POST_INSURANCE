@@ -42,11 +42,11 @@
 				</tr>
 				<tr>
 					<td>
-						<label>回盘开始日期：</label>
+						<label>开始日期：</label>
 						<input type="text" id="payCsDate1" name="search_GTE_csDate" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_csDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
-						<label>回盘结束日期：</label>
+						<label>结束日期：</label>
 						<input type="text" id="payCsDate2" name="search_LTE_csDate" class="date validate[required] required" style="width: 80px;"dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_csDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>

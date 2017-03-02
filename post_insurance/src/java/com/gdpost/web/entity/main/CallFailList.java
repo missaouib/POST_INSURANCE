@@ -209,10 +209,10 @@ mail_success
 //				Calendar now = Calendar.getInstance();
 //				now.setTime(new Date());
 				
-				int check = StringUtil.getBetweenDay(this.policy.getBillBackDate()==null?this.getShouldDate():this.policy.getBillBackDate(), new Date());
+				int check = StringUtil.getBetweenDay(this.policy.getBillBackDate()==null?this.getBillBackDate():this.policy.getBillBackDate(), new Date());
 				int c = 15-check+1;
 				if(c<0) {
-					return 0;
+					return -1;
 				} else {
 					return c;
 				}

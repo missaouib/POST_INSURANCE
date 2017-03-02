@@ -496,6 +496,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql2 = "delete from t_call_fail_list where issue_no is null";
 			sql3 = "update t_call_fail_list set hq_deal_flag = 1 where status='二访成功';";
 			sql4 = "update t_call_fail_list set status = \"重点跟进\" where status='二访失败' and 15-datediff(now(),bill_back_date)<=3;";
+			sql5 = "update t_call_fail_list set status = \"重点跟进\" where status='二访失败' and (hq_deal_type_else like '%电话错误%' or hq_deal_type_else like '%挂断%' or hq_deal_type_else like '%拒接%' or hq_deal_type_else like '%不配合%' or hq_deal_type_else like '%过期%' or hq_deal_type_else like '%空号%' or hq_deal_type_else like '%无法联系本人%' or hq_deal_type_else like '%不信任%');";
 			break;
 		case CallFailMiniCityStatus:
 			standardColumns = CallFailCityMiniListColumn.getStandardColumns();
@@ -528,7 +529,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 			log.debug("----------------batch update : " + sql);
 			sql2 = "delete from t_call_fail_list where issue_no is null";
 			sql3 = "update t_call_fail_list set org_deal_flag = 1 where status='上门成功';";
-			sql4 = "update t_call_fail_list t1 set status=\"需上门回访\" where TO_DAYS(NOW())-TO_DAYS(should_date)>15 and status=\"二访失败\" or status=\"重点跟进\";";
+			sql4 = "update t_call_fail_list t1 set status=\"需上门回访\" where TO_DAYS(NOW())-TO_DAYS(bill_back_date)>15 and (status=\"二访失败\" or status=\"重点跟进\");";
+			sql5 = "update t_call_fail_list set status = \"重点跟进\" where status='二访失败' and (hq_deal_type_else like '%电话错误%' or hq_deal_type_else like '%挂断%' or hq_deal_type_else like '%拒接%' or hq_deal_type_else like '%不配合%' or hq_deal_type_else like '%过期%' or hq_deal_type_else like '%空号%' or hq_deal_type_else like '%无法联系本人%' or hq_deal_type_else like '%不信任%');";
 			break;
 		case CallFailCityStatus:
 			standardColumns = CallFailDoorBackListColumn.getStandardColumns();
@@ -673,7 +675,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			log.debug("----------------batch update : " + sql);
 			sql2 = "delete from t_call_fail_list where issue_no is null";
 			//sql3 = "update t_call_fail_list set status=deal_status where deal_status is not null and status<>\"二访成功\"";
-			sql4 = "update t_call_fail_list t1 set status=\"需上门回访\" where TO_DAYS(NOW())-TO_DAYS(should_date)>15 and status=\"二访失败\" or status=\"重点跟进\";";
+			sql4 = "update t_call_fail_list t1 set status=\"需上门回访\" where TO_DAYS(NOW())-TO_DAYS(bill_back_date)>15 and (status=\"二访失败\" or status=\"重点跟进\");";
 			break;
 		case CallFailPhoneStatus:
 			standardColumns = CallFailNeedDoorListColumn.getStandardColumns();
