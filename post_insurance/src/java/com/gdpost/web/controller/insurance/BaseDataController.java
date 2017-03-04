@@ -33,6 +33,7 @@ import com.gdpost.web.entity.basedata.ConservationError;
 import com.gdpost.web.entity.basedata.IssueType;
 import com.gdpost.web.entity.basedata.Prd;
 import com.gdpost.web.entity.basedata.RenewalType;
+import com.gdpost.web.entity.component.CsAddr;
 import com.gdpost.web.entity.component.Staff;
 import com.gdpost.web.entity.main.ConservationType;
 import com.gdpost.web.entity.main.Organization;
@@ -100,6 +101,10 @@ public class BaseDataController {
 	private static final String STAFF_CREATE = "insurance/basedata/staff/create";
 	private static final String STAFF_UPDATE = "insurance/basedata/staff/update";
 	private static final String STAFF_LIST = "insurance/basedata/staff/list";
+	
+	private static final String CS_ADDR_CREATE = "insurance/basedata/csaddr/create";
+	private static final String CS_ADDR_UPDATE = "insurance/basedata/csaddr/update";
+	private static final String CS_ADDR_LIST = "insurance/basedata/csaddr/list";
 	/*
 	 * =======================================
 	 * call deal type 回访类型
@@ -1023,5 +1028,97 @@ public class BaseDataController {
 		map.put("page", page);
 		map.put("basedata", basedata);
 		return STAFF_LIST;
+	}
+	
+	/*
+	 * =======================================
+	 * CsAddr 异地保全地址
+	 * =======================================
+	 * 
+	 */
+	@RequiresPermissions("CsAddr:save")
+	@RequestMapping(value="/csAddr/create", method=RequestMethod.GET)
+	public String preCreateCsAddr() {
+		return CS_ADDR_CREATE;
+	}
+
+	@Log(message="添加了{0}异地保全地址。", level=LogLevel.WARN, module=LogModule.BaseDate)
+	@RequiresPermissions("CsAddr:save")
+	@RequestMapping(value="/csAddr/create", method=RequestMethod.POST)
+	public @ResponseBody String createCsAddr(@Valid CsAddr csAddr) {	
+		try {
+			baseService.saveOrUpdateCsAddr(csAddr);
+		} catch (ExistedException e) {
+			return AjaxObject.newError("添加异地保全地址失败：" + e.getMessage()).setCallbackType("").toString();
+		}
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{csAddr.getCity()}));
+		return AjaxObject.newOk("添加异地保全地址成功！").toString();
+	}
+
+	@RequiresPermissions("CsAddr:edit")
+	@RequestMapping(value="/csAddr/update/{id}", method=RequestMethod.GET)
+	public String preUpdateCsAddr(@PathVariable Long id, Map<String, Object> map) {
+		CsAddr basedata = baseService.getCsAddr(id);
+		
+		map.put("basedata", basedata);
+		return CS_ADDR_UPDATE;
+	}
+
+	@Log(message="修改了{0}异地保全地址的信息。", level=LogLevel.WARN, module=LogModule.BaseDate)
+	@RequiresPermissions("CsAddr:edit")
+	@RequestMapping(value="/csAddr/update", method=RequestMethod.POST)
+	public @ResponseBody String updateCsAddr(CsAddr csAddr) {
+		baseService.saveOrUpdateCsAddr(csAddr);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{csAddr.getCity()}));
+		return	AjaxObject.newOk("修改异地保全地址成功！").toString(); 
+	}
+
+	@Log(message="删除了{0}异地保全地址。", level=LogLevel.WARN, module=LogModule.BaseDate)
+	@RequiresPermissions("CsAddr:delete")
+	@RequestMapping(value="/csAddr/delete/{id}", method=RequestMethod.POST)
+	public @ResponseBody String deleteCsAddr(@PathVariable Long id) {
+		CsAddr csAddr = null;
+		try {
+			csAddr = baseService.getCsAddr(id);
+			baseService.deleteCsAddr(csAddr.getId());
+		} catch (ServiceException e) {
+			return AjaxObject.newError("删除异地保全地址失败：" + e.getMessage()).setCallbackType("").toString();
+		}
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{csAddr.getCity()}));
+		return AjaxObject.newOk("删除异地保全地址成功！").setCallbackType("").toString();
+	}
+
+	@Log(message="删除了{0}异地保全地址。", level=LogLevel.WARN, module=LogModule.BaseDate)
+	@RequiresPermissions("CsAddr:delete")
+	@RequestMapping(value="/csAddr/delete", method=RequestMethod.POST)
+	public @ResponseBody String deleteManyCsAddr(Long[] ids) {
+		String[] csAddrs = new String[ids.length];
+		try {
+			for (int i = 0; i < ids.length; i++) {
+				CsAddr csAddr = baseService.getCsAddr(ids[i]);
+				baseService.deleteCsAddr(csAddr.getId());
+				
+				csAddrs[i] = csAddr.getCity();
+			}
+		} catch (ServiceException e) {
+			return AjaxObject.newError("删除异地保全地址失败：" + e.getMessage()).setCallbackType("").toString();
+		}
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{Arrays.toString(csAddrs)}));
+		return AjaxObject.newOk("删除异地保全地址成功！").setCallbackType("").toString();
+	}
+
+	@RequiresPermissions("CsAddr:view")
+	@RequestMapping(value="/csAddr/list", method={RequestMethod.GET, RequestMethod.POST})
+	public String listCsAddr(ServletRequest request, Page page, Map<String, Object> map) {
+		Specification<CsAddr> specification = DynamicSpecifications.bySearchFilter(request, CsAddr.class);
+		List<CsAddr> basedata = baseService.findByCsAddrExample(specification, page);
+	
+		map.put("page", page);
+		map.put("basedata", basedata);
+		return CS_ADDR_LIST;
 	}
 }

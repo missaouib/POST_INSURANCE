@@ -26,7 +26,7 @@
 		<p>
 			<label>保单号：</label>
 			<input name="policyNo" type="text" postField="policyNo" suggestFields="policyNo" class="input-medium validate[required] required"
-					suggestUrl="/common/lookupPolicyProvsuggest" lookupGroup="" value=""/>
+					suggestUrl="/common/lookupCsAddrSuggest" lookupGroup="" value=""/>
 		</p>
 		<p>
 			<label>出单省</label>
@@ -51,7 +51,7 @@
 		</p>
 		<p class="nowrap">
 			<label>寄件地址：</label>
-			<textarea type="text" name="mailAddr" class="input-medium">${offsite.mailAddr}</textarea>
+			<textarea type="text" name="mailAddr" cols="35" rows="3" class="input-medium">${offsite.mailAddr}</textarea>
 		</p>
 	</div>
 			

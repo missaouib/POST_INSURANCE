@@ -80,7 +80,7 @@
 <div class="pageContent" layoutH="120" width="150%">
 <div class="row" style="padding: 0 3px;">
 	<div class="sortDrag" style="width:30%;border:1px solid #e66;margin:5px;float:left;min-height:100px">
-	<h2 class="contentTitle">列表展示（单位：万元 &nbsp;&nbsp;&nbsp;&nbsp;</h2>
+	<h2 class="contentTitle">列表展示（单位：万元）注：剔除了犹撤 &nbsp;&nbsp;&nbsp;&nbsp;</h2>
 		<table class="table" width="100%">
 		<thead>
 			<tr>

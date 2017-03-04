@@ -33,6 +33,7 @@ import com.alibaba.fastjson.serializer.SimpleDateFormatSerializer;
 import com.gdpost.utils.SecurityUtils;
 import com.gdpost.web.entity.basedata.ConservationError;
 import com.gdpost.web.entity.basedata.Prd;
+import com.gdpost.web.entity.component.CsAddr;
 import com.gdpost.web.entity.main.ConservationType;
 import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.Policy;
@@ -303,6 +304,43 @@ public class CommonController {
 		mapping.put(Prd.class, new JavaBeanSerializer(Prd.class, fm));
 		String str = JSON.toJSONString(org, mapping);
 		LOG.debug("---------------- bq issue suggest: " + str);
+		return str;
+	}
+	
+	@RequestMapping(value="/lookupCsAddrSuggest", method={RequestMethod.POST})
+	public @ResponseBody String lookuCsAddrSuggest(ServletRequest request, Map<String, Object> map) {
+		String policyNo = request.getParameter("policyNo");
+		if(policyNo.trim().length()<6) {
+			return "[{}]";
+		}
+		String organCode = policyNo.substring(0,6);
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("organCode", Operator.EQ, organCode));
+		Specification<CsAddr> specification = DynamicSpecifications.bySearchFilter(request, CsAddr.class, csf);
+		Page page = new Page();
+		page.setNumPerPage(1);
+		List<CsAddr> css = basedataService.findByCsAddrExample(specification, page);
+		if(css == null || css.size() <=0) {
+			String pre = policyNo.substring(0, 4);
+			ProvOrgCode org = basedataService.getByProvOrgCodeOrgCode(pre);
+			String str = "[{\"policyNo\":\"" + policyNo + "\", \"orginProv\":\"" + org.getOrgName() + "\"}]";
+			LOG.debug("---------------- prov policy prov suggest: " + str);
+			return str;
+		}
+		CsAddr csAddr = css.get(0);
+//		SerializeConfig mapping = new SerializeConfig();
+//		HashMap<String, String> fm = new HashMap<String, String>();
+//		fm.put("id", "id");
+//		fm.put("prov", "prov");
+//		fm.put("linker", "linker");
+//		fm.put("phone", "phone");
+//		fm.put("addr", "addr");
+//		fm.put("postCode", "postCode");
+//		mapping.put(Prd.class, new JavaBeanSerializer(CsAddr.class, fm));
+//		String str = JSON.toJSONString(org, mapping);
+		
+		String str = "[{\"policyNo\":\"" + policyNo + "\", \"orginProv\":\"" + csAddr.getProv() + "\",\"mailAddr\":\"" + csAddr.getAddr() + "，" + csAddr.getPostCode() + "，" + csAddr.getLinker() + "，" + csAddr.getPhone()  + "\"}]";
+		LOG.debug("----------------cs addr suggest: " + str);
 		return str;
 	}
 }

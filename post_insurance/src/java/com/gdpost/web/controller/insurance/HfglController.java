@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -510,15 +511,30 @@ public class HfglController {
 		//默认返回未处理工单
 		String status = request.getParameter("status");
 		String statusNull = request.getParameter("statusNull");
-		if(statusNull != null && statusNull.trim().length()>0 ) {
-			if(status != null && status.trim().length()>0) {
-				statusNull = "";
-			} else {
-				status = null;
+		Enumeration<String> params = request.getParameterNames();
+		String param = null;
+		boolean check = false;
+		while(params.hasMoreElements()) {
+			param = params.nextElement();
+			if(!param.equals("statusNull") && !param.equals("_") && !param.contains("page") && !param.contains("Page") && !param.contains("order") && !param.equals("totalCount") && request.getParameter(param).trim().length()>0) {
+				check = true;
 			}
+		}
+		if(check) {
+			statusNull = "";
 		} else {
+			status = null;
 			statusNull = "NULL";
 		}
+//		if(statusNull != null && statusNull.trim().length()>0 ) {
+//			if(check || (status != null && status.trim().length()>0)) {
+//				statusNull = "";
+//			} else {
+//				status = null;
+//			}
+//		} else {
+//			statusNull = "NULL";
+//		}
 		String encodeStatus = "";
 		org.apache.catalina.util.URLEncoder urlEncoder = new org.apache.catalina.util.URLEncoder();
 		if(status != null) {
@@ -663,6 +679,8 @@ public class HfglController {
 		//默认返回未处理工单
 		String status = request.getParameter("status");
 		String statusNull = request.getParameter("statusNull");
+		Map<String, String[]> params = request.getParameterMap();
+		LOG.debug("---- params names:" + params);
 		if(statusNull != null && statusNull.trim().length()>0 ) {
 			if(status != null && status.trim().length()>0) {
 				statusNull = "";

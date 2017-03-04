@@ -19,6 +19,7 @@ import com.gdpost.web.dao.IssueTypeDAO;
 import com.gdpost.web.dao.PrdDAO;
 import com.gdpost.web.dao.ProvOrgCodeDAO;
 import com.gdpost.web.dao.RenewalTypeDAO;
+import com.gdpost.web.dao.component.CsAddrDAO;
 import com.gdpost.web.dao.component.StaffDAO;
 import com.gdpost.web.entity.basedata.BankCode;
 import com.gdpost.web.entity.basedata.CallDealType;
@@ -27,6 +28,7 @@ import com.gdpost.web.entity.basedata.ConservationError;
 import com.gdpost.web.entity.basedata.IssueType;
 import com.gdpost.web.entity.basedata.Prd;
 import com.gdpost.web.entity.basedata.RenewalType;
+import com.gdpost.web.entity.component.CsAddr;
 import com.gdpost.web.entity.component.Staff;
 import com.gdpost.web.entity.main.ConservationType;
 import com.gdpost.web.entity.main.ProvOrgCode;
@@ -69,6 +71,9 @@ public class BaseDataServiceImpl implements BaseDataService {
 	
 	@Autowired
 	private StaffDAO staffDAO;
+	
+	@Autowired
+	private CsAddrDAO csAddrDAO;
 	
 	/*
 	 * (non-Javadoc)
@@ -540,5 +545,53 @@ public class BaseDataServiceImpl implements BaseDataService {
 	@Override
 	public Staff getByStaffIdCard(String idCard) {
 		return staffDAO.getByIdCard(idCard);
+	}
+	
+	/*
+	 * ========================
+	 *  CsAddr
+	 *  =======================
+	 */
+	@Override
+	public CsAddr getCsAddr(Long id) {
+		return csAddrDAO.findOne(id);
+	}
+
+	@Override
+	public void saveOrUpdateCsAddr(CsAddr csAddr) {
+		if (csAddr.getId() == null) {
+			if (csAddrDAO.getByCity(csAddr.getCity()) != null) {
+				throw new ExistedException("证件号码" + csAddr.getCity() + "已存在。");
+			}
+		}
+		
+		csAddrDAO.save(csAddr);
+		
+	}
+
+	@Override
+	public void deleteCsAddr(Long id) {
+		CsAddr csAddr = csAddrDAO.findOne(id);
+		csAddrDAO.delete(csAddr);
+		
+	}
+
+	@Override
+	public List<CsAddr> findAllCsAddr(Page page) {
+		org.springframework.data.domain.Page<CsAddr> springDataPage = csAddrDAO.findAll(PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
+	}
+
+	@Override
+	public List<CsAddr> findByCsAddrExample(Specification<CsAddr> specification, Page page) {
+		org.springframework.data.domain.Page<CsAddr> springDataPage = csAddrDAO.findAll(specification, PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
+	}
+	
+	@Override
+	public CsAddr getByCsAddrCity(String city) {
+		return csAddrDAO.getByCity(city);
 	}
 }

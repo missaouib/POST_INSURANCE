@@ -18,6 +18,7 @@ import com.gdpost.web.entity.basedata.ConservationError;
 import com.gdpost.web.entity.basedata.IssueType;
 import com.gdpost.web.entity.basedata.Prd;
 import com.gdpost.web.entity.basedata.RenewalType;
+import com.gdpost.web.entity.component.CsAddr;
 import com.gdpost.web.entity.component.Staff;
 import com.gdpost.web.entity.main.ConservationType;
 import com.gdpost.web.entity.main.ProvOrgCode;
@@ -193,4 +194,21 @@ public interface BaseDataService {
 	List<Staff> findByStaffExample(Specification<Staff> specification, Page page);
 	
 	Staff getByStaffIdCard(String idCard);
+	
+	/*
+	 * ==============
+	 * CS ADDR
+	 * ==============
+	 */
+	CsAddr getCsAddr(Long id);
+
+	void saveOrUpdateCsAddr(CsAddr csAddr);
+
+	void deleteCsAddr(Long id);
+	
+	List<CsAddr> findAllCsAddr(Page page);
+	
+	List<CsAddr> findByCsAddrExample(Specification<CsAddr> specification, Page page);
+	
+	CsAddr getByCsAddrCity(String city);
 }

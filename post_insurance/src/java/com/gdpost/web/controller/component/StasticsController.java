@@ -504,17 +504,17 @@ public class StasticsController {
 		DecimalFormat df = new DecimalFormat("#.#"); 
 		for(StaffModel tcm:temp) {
 			col += "'" + tcm.getOrganName() + "',";
-			csumTb += tcm.getStaffCount();
+			csumTb += tcm.getStaffCount()==null?0:tcm.getStaffCount();
 			ctotalTb += tcm.getSumStaffCount();
-			ssumTb += tcm.getPolicyFee();
+			ssumTb += tcm.getPolicyFee()==null?0:tcm.getPolicyFee();
 			stotalTb += tcm.getSumPolicyFee();
-			zhanbi += df.format(tcm.getPolicyFee()/tcm.getSumPolicyFee()*100) + ",";
-			if(tcm.getPolicyFee()/tcm.getSumPolicyFee()*100+1 > maxZB) {
-				maxZB = Math.ceil((tcm.getPolicyFee()/tcm.getSumPolicyFee())*100) + 1;
+			zhanbi += df.format((tcm.getPolicyFee()==null?0:tcm.getPolicyFee())/tcm.getSumPolicyFee()*100) + ",";
+			if((tcm.getPolicyFee()==null?0:tcm.getPolicyFee())/tcm.getSumPolicyFee()*100+1 > maxZB) {
+				maxZB = Math.ceil(((tcm.getPolicyFee()==null?0:tcm.getPolicyFee())/tcm.getSumPolicyFee())*100) + 1;
 			}
-			tuibao += tcm.getPolicyFee()/10000 + ",";
-			if(tcm.getPolicyFee()/10000 > maxTB) {
-				maxTB = (int)Math.ceil(tcm.getPolicyFee()/10000);
+			tuibao += (tcm.getPolicyFee()==null?0:tcm.getPolicyFee())/10000 + ",";
+			if((tcm.getPolicyFee()==null?0:tcm.getPolicyFee())/10000 > maxTB) {
+				maxTB = (int)Math.ceil((tcm.getPolicyFee()==null?0:tcm.getPolicyFee())/10000);
 			}
 		}
 		int m = 1;

@@ -262,7 +262,12 @@
 			<key-column name="id" type="Long" />
 		</primary-key>
 	</table>
-<table name="t_staff" catalog="postinsurance">
+	<table name="t_staff" catalog="postinsurance">
+		<primary-key>
+			<key-column name="id" type="Long" />
+		</primary-key>
+	</table>
+<table name="t_cs_addr" catalog="postinsurance" class="CsAddr">
 	<primary-key>
 		<key-column name="id" type="Long"/>
 	</primary-key>
