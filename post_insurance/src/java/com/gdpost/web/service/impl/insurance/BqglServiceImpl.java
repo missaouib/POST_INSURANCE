@@ -17,10 +17,10 @@ import com.gdpost.web.dao.ConservationDtlDAO;
 import com.gdpost.web.dao.ConservationReqDAO;
 import com.gdpost.web.dao.CsReissueDAO;
 import com.gdpost.web.dao.OffsiteConservationDAO;
-import com.gdpost.web.dao.component.CsAddrDAO;
 import com.gdpost.web.dao.component.CsReportDAO;
-import com.gdpost.web.entity.component.CsAddr;
+import com.gdpost.web.dao.component.TinyCsAddrDAO;
 import com.gdpost.web.entity.component.CsReport;
+import com.gdpost.web.entity.component.TinyCsAddr;
 import com.gdpost.web.entity.main.ConservationDtl;
 import com.gdpost.web.entity.main.ConservationReq;
 import com.gdpost.web.entity.main.CsReissue;
@@ -56,7 +56,7 @@ public class BqglServiceImpl implements BqglService {
 	private CsReportDAO csReportDao;
 	
 	@Autowired
-	private CsAddrDAO csaDao;
+	private TinyCsAddrDAO csaDao;
 	
 	/*
 	 * (non-Javadoc)
@@ -261,7 +261,7 @@ public class BqglServiceImpl implements BqglService {
 	}
 
 	@Override
-	public List<CsAddr> findCsAddrByExample(String addr) {
+	public List<TinyCsAddr> findCsAddrByExample(String addr) {
 		return csaDao.findCsAddrByAddr(addr);
 	}
 	

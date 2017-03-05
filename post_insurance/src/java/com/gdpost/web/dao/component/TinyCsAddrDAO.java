@@ -1,9 +1,13 @@
 package com.gdpost.web.dao.component;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-import com.gdpost.web.entity.component.CsAddr;
+import com.gdpost.web.entity.component.TinyCsAddr;
 
 /**
  * A data access object (DAO) providing persistence and search support for
@@ -15,7 +19,8 @@ import com.gdpost.web.entity.component.CsAddr;
  * @see com.gdpost.web.entity.main.ConservationDtl
  * @author MyEclipse Persistence Tools
  */
-public interface CsAddrDAO extends JpaRepository<CsAddr, Long>, JpaSpecificationExecutor<CsAddr> {
-	CsAddr getByCity(String city);
+public interface TinyCsAddrDAO extends JpaRepository<TinyCsAddr, String>, JpaSpecificationExecutor<TinyCsAddr> {
 	
+	@Query(value="select distinct mail_addr as id, mail_addr as mail_addr from t_offsite_conservation where mail_addr like :addr", nativeQuery=true)
+	List<TinyCsAddr> findCsAddrByAddr(@Param("addr")String addr);
 }

@@ -34,6 +34,7 @@ import com.gdpost.utils.SecurityUtils;
 import com.gdpost.web.entity.basedata.ConservationError;
 import com.gdpost.web.entity.basedata.Prd;
 import com.gdpost.web.entity.component.CsAddr;
+import com.gdpost.web.entity.component.TinyCsAddr;
 import com.gdpost.web.entity.main.ConservationType;
 import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.Policy;
@@ -195,12 +196,12 @@ public class CommonController {
 		}
 		Page page = new Page();
 		page.setNumPerPage(15);
-		List<CsAddr> org = bqglService.findCsAddrByExample("%" + csAddr + "%");
+		List<TinyCsAddr> org = bqglService.findCsAddrByExample("%" + csAddr + "%");
 		SerializeConfig mapping = new SerializeConfig();
 		HashMap<String, String> fm = new HashMap<String, String>();
-		fm.put("addr", "csAddr");
-		fm.put("city", "mailAddr");
-		mapping.put(CsAddr.class, new JavaBeanSerializer(CsAddr.class, fm));
+		fm.put("mailAddr", "csAddr");
+		fm.put("id", "mailAddr");
+		mapping.put(TinyCsAddr.class, new JavaBeanSerializer(TinyCsAddr.class, fm));
 		String str = JSON.toJSONString(org, mapping);
 		LOG.debug("---------------- prov policy prov suggest: " + str);
 		return str;
