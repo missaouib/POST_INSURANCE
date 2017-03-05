@@ -194,7 +194,7 @@ public class CommonController {
 			return "[{}]";
 		}
 		Page page = new Page();
-		page.setNumPerPage(5);
+		page.setNumPerPage(15);
 		List<CsAddr> org = bqglService.findCsAddrByExample("%" + csAddr + "%");
 		SerializeConfig mapping = new SerializeConfig();
 		HashMap<String, String> fm = new HashMap<String, String>();

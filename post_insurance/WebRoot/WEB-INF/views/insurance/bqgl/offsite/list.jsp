@@ -69,7 +69,7 @@
 			</shiro:hasPermission>
 			<shiro:hasPermission name="OffsiteConservation:provEdit">
 				<li class="line">line</li>
-				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="500" href="${contextPath }/bqgl/offsite/provupdate/{slt_uid}"><span>省分更新</span></a></li>
+				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="530" href="${contextPath }/bqgl/offsite/provupdate/{slt_uid}"><span>省分更新</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="OffsiteConservation:delete">
 				<li class="line">line</li>
