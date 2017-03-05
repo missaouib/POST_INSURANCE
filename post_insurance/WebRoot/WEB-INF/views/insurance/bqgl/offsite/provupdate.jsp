@@ -23,7 +23,7 @@
 		<p>
 			<label>保单号：</label>
 			<input name="policyNo" type="text" postField="policyNo" suggestFields="policyNo" class="input-medium validate[required] required"
-					suggestUrl="/common/lookupPolicyProvsuggest" lookupGroup="" value="${offsite.policyNo }"/>
+					suggestUrl="/common/lookupCsAddrSuggest" lookupGroup="" value="${offsite.policyNo }"/>
 		</p>
 		<p>
 			<label>出单省</label>
@@ -56,9 +56,14 @@
 			<label>异地联系人</label>
 			<input type="text" class="input-medium validate[required] required" name="linker" value="${offsite.linker }" />
 		</p>
+		<p>
+			<label>地址模糊查询返回：</label>
+			<input name="csAddr" type="text" postField="csAddr" suggestFields="csAddr" class="input-medium"
+					suggestUrl="/common/lookupByCsAddrSuggest" lookupGroup="" value=""/>
+		</p>
 		<p class="nowrap">
 			<label>寄送地址：</label>
-			<textarea type="text" name="mailAddr" class="input-medium">${offsite.mailAddr}</textarea>
+			<textarea type="text" name="mailAddr" class="input-medium" cols="35" rows="3">${offsite.mailAddr}</textarea>
 		</p>
 	</div>
 			

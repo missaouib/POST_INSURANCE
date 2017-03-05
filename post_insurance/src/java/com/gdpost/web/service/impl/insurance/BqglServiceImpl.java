@@ -17,7 +17,9 @@ import com.gdpost.web.dao.ConservationDtlDAO;
 import com.gdpost.web.dao.ConservationReqDAO;
 import com.gdpost.web.dao.CsReissueDAO;
 import com.gdpost.web.dao.OffsiteConservationDAO;
+import com.gdpost.web.dao.component.CsAddrDAO;
 import com.gdpost.web.dao.component.CsReportDAO;
+import com.gdpost.web.entity.component.CsAddr;
 import com.gdpost.web.entity.component.CsReport;
 import com.gdpost.web.entity.main.ConservationDtl;
 import com.gdpost.web.entity.main.ConservationReq;
@@ -52,6 +54,9 @@ public class BqglServiceImpl implements BqglService {
 	
 	@Autowired
 	private CsReportDAO csReportDao;
+	
+	@Autowired
+	private CsAddrDAO csaDao;
 	
 	/*
 	 * (non-Javadoc)
@@ -254,4 +259,10 @@ public class BqglServiceImpl implements BqglService {
 		page.setTotalCount(springDataPage.getTotalElements());
 		return springDataPage.getContent();
 	}
+
+	@Override
+	public List<CsAddr> findCsAddrByExample(String addr) {
+		return csaDao.findCsAddrByAddr(addr);
+	}
+	
 }

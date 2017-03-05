@@ -26,7 +26,7 @@
 		<p>
 			<label>保单号：</label>
 			<input name="policyNo" type="text" postField="policyNo" suggestFields="policyNo" class="input-medium validate[required] required"
-					suggestUrl="/common/lookupCsAddrSuggest" lookupGroup="" value=""/>
+					suggestUrl="/common/lookupPolicyProvsuggest" lookupGroup="" value=""/>
 		</p>
 		<p>
 			<label>出单省</label>

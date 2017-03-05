@@ -1,7 +1,11 @@
 package com.gdpost.web.dao;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.gdpost.web.entity.main.OffsiteConservation;
 
@@ -18,5 +22,5 @@ import com.gdpost.web.entity.main.OffsiteConservation;
 public interface OffsiteConservationDAO extends JpaRepository<OffsiteConservation, Long>, JpaSpecificationExecutor<OffsiteConservation> {
 
 	OffsiteConservation getByPolicyNo(String policyNo);
-
+	
 }

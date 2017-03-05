@@ -43,6 +43,7 @@ import com.gdpost.web.entity.main.User;
 import com.gdpost.web.service.RoleService;
 import com.gdpost.web.service.UserService;
 import com.gdpost.web.service.insurance.BaseDataService;
+import com.gdpost.web.service.insurance.BqglService;
 import com.gdpost.web.service.insurance.CommonService;
 import com.gdpost.web.shiro.ShiroUser;
 import com.gdpost.web.util.dwz.Page;
@@ -91,6 +92,9 @@ public class CommonController {
 	
 	@Autowired
 	private RoleService roleService;
+	
+	@Autowired
+	private BqglService bqglService;
 	
 	private static final String LOOK_CVE = "insurance/common/lookup_cve";
 	
@@ -179,6 +183,25 @@ public class CommonController {
 		page.setNumPerPage(1);
 		ProvOrgCode org = basedataService.getByProvOrgCodeOrgCode(pre);
 		String str = "[{\"policyNo\":\"" + policyNo + "\", \"orginProv\":\"" + org.getOrgName() + "\"}]";
+		LOG.debug("---------------- prov policy prov suggest: " + str);
+		return str;
+	}
+	
+	@RequestMapping(value="/lookupByCsAddrSuggest", method={RequestMethod.POST})
+	public @ResponseBody String lookupByCsAddrSuggest(ServletRequest request, Map<String, Object> map) {
+		String csAddr = request.getParameter("csAddr");
+		if(csAddr == null || csAddr.trim().length() < 2) {
+			return "[{}]";
+		}
+		Page page = new Page();
+		page.setNumPerPage(5);
+		List<CsAddr> org = bqglService.findCsAddrByExample("%" + csAddr + "%");
+		SerializeConfig mapping = new SerializeConfig();
+		HashMap<String, String> fm = new HashMap<String, String>();
+		fm.put("addr", "csAddr");
+		fm.put("city", "mailAddr");
+		mapping.put(CsAddr.class, new JavaBeanSerializer(CsAddr.class, fm));
+		String str = JSON.toJSONString(org, mapping);
 		LOG.debug("---------------- prov policy prov suggest: " + str);
 		return str;
 	}

@@ -61,15 +61,15 @@
 	<div class="panelBar">
 		<ul class="toolBar">
 			<shiro:hasPermission name="OffsiteConservation:save">
-				<li><a class="add" target="dialog" rel="lookup2organization_add" mask="true" width="530" height="430" href="${contextPath }/bqgl/offsite/create"><span>登记异地保全</span></a></li>
+				<li><a class="add" target="dialog" rel="lookup2organization_add" mask="true" width="530" height="450" href="${contextPath }/bqgl/offsite/create"><span>登记异地保全</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="OffsiteConservation:edit">
 				<li class="line">line</li>
-				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="430" href="${contextPath }/bqgl/offsite/update/{slt_uid}"><span>编辑</span></a></li>
+				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="450" href="${contextPath }/bqgl/offsite/update/{slt_uid}"><span>编辑</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="OffsiteConservation:provEdit">
 				<li class="line">line</li>
-				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="430" href="${contextPath }/bqgl/offsite/provupdate/{slt_uid}"><span>省分更新</span></a></li>
+				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="500" href="${contextPath }/bqgl/offsite/provupdate/{slt_uid}"><span>省分更新</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="OffsiteConservation:delete">
 				<li class="line">line</li>
