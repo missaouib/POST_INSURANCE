@@ -33,6 +33,13 @@ public class RenewedProvListColumn {
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
+		column.setDisplayName("保单年度");
+		column.setColumnName("policy_year");
+		column.setColumnType(ColumnType.numeric);
+		column.setNullable(false);
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
 		column.setDisplayName("一访时间");
 		column.setColumnName("prov_deal_date");
 		column.setColumnType(ColumnType.string);

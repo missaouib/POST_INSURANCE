@@ -12,6 +12,7 @@
 	<input type="hidden" name="hqIssueType" value="${hqIssueType }"/>
 	<input type="hidden" name="dealType" value="${dealType }"/>
 	<input type="hidden" name="provActivity" value="${provActivity }"/>
+	<input type="hidden" name="feeMatch" value="${feeMatch }"/>
 	<input type="hidden" name="feeFailReason" value="${feeFailReason }"/>
 </dwz:paginationForm>
 
@@ -76,7 +77,11 @@
 						</form:select>
 					</td>
 					<td>
-						&nbsp;
+						<label>余额匹配结果：</label>
+						<form:select path="issue.feeMatch" id="xqfeeMatchs" class="combox">
+							<form:option value=""> -- -- </form:option>
+							<form:options items="${feeMatches }"/>
+						</form:select>
 					</td>
 					<td>
 						&nbsp;
@@ -130,6 +135,7 @@
 				<th orderField=feeStatus class="${page.orderField eq 'feeStatus' ? page.orderDirection : ''}">状态</th>
 				<th orderField=feeFailReason class="${page.orderField eq 'feeFailReason' ? page.orderDirection : ''}">交费失败原因</th>
 				<th>账号</th>
+				<th>余额匹配</th>
 				<th>网点</th>
 				<th>总部催收情况</th>
 				<th>省分催收情况</th>
@@ -152,7 +158,8 @@
 				<td><span style="color:red; height:50%; margin-bottom:-contentheight;">${item.lastDateNum }</span></td>
 				<td>${item.feeStatus }</td>
 				<td>${item.feeFailReason}</td>
-				<td>${item.account}</td>
+				<td><c:out value="${fn:substring(item.account, 0, 4)}" />******<c:out value="${fn:substring(item.account, item.account.length()-4, item.account.length())}" /></td>
+				<td>${item.feeMatch}</td>
 				<td>
 					<c:choose>  
 					    <c:when test="${fn:length(item.netName) > 14}">  

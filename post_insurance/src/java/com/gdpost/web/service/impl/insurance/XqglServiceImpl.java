@@ -146,4 +146,13 @@ public class XqglServiceImpl implements XqglService {
 		}
 		return rst;
 	}
+	
+	@Override
+	public List<String> getFeeMatch() {
+		List<String> rst = renewedListDAO.getFeeMatchs();
+		if(rst == null || rst.isEmpty() || rst.get(0) == null) {
+			rst.remove(0);
+		}
+		return rst;
+	}
 }

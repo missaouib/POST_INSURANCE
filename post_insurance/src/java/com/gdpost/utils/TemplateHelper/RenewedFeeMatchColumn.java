@@ -3,11 +3,11 @@ package com.gdpost.utils.TemplateHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RenewedCityListColumn {
+public class RenewedFeeMatchColumn {
 
 	private static List<ColumnItem> standardColumns;
 	
-	public static String KEY_ROW = "催交结果";
+	public static String KEY_ROW = "匹配结果";
 	
 	public static List<ColumnItem> getStandardColumns() {
 		if(standardColumns != null) {
@@ -17,12 +17,10 @@ public class RenewedCityListColumn {
 		standardColumns = new ArrayList<ColumnItem>();
 		
 		ColumnItem column = new ColumnItem();
-		column.setDisplayName("保险单号码");
+		column.setDisplayName("保单号");
 		column.setColumnName("policy_no");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setiOutputOrder(16);
-		column.setOutputName("QD");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -40,15 +38,8 @@ public class RenewedCityListColumn {
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("催交时间");
-		column.setColumnName("deal_time");
-		column.setColumnType(ColumnType.string);
-		column.setNullable(true);
-		standardColumns.add(column);
-		
-		column = new ColumnItem();
-		column.setDisplayName("催交结果");
-		column.setColumnName("fix_status");
+		column.setDisplayName("匹配结果");
+		column.setColumnName("fee_match");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);

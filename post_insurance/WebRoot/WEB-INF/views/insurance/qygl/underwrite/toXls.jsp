@@ -28,6 +28,8 @@ response.setHeader("Content-Disposition", "inline; filename=underwrite.xls");
 				<th>省分收到合同日</th>
 				<th>省分寄出合同日</th>
 				<th>快递单号</th>
+				<th>跟进日期</th>
+				<th>备注</th>
 				<th>市局收到合同日</th>
 				<th>市局寄出合同日</th>
 				<th>县局收到合同日</th>
@@ -57,6 +59,8 @@ response.setHeader("Content-Disposition", "inline; filename=underwrite.xls");
 				<td><fmt:formatDate value="${item.provReceiveDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.provSendDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.provEmsNo }</td>
+				<td><fmt:formatDate value="${item.planDate }" pattern="yyyy-MM-dd"/></td>
+				<td>${item.remark }</td>
 				<td><fmt:formatDate value="${item.cityReceiveDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.citySendDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.areaReceiveDate }" pattern="yyyy-MM-dd"/></td>

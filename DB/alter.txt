@@ -866,3 +866,6 @@ create table t_cs_addr
    primary key (id)
 )
 engine=innodb auto_increment=1 default charset=utf8;
+
+alter table t_renewed_list add column fee_match varchar(24);
+调整续期催收列表主键加上年度。

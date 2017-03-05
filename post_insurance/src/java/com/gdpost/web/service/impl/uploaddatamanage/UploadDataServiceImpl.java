@@ -48,6 +48,7 @@ import com.gdpost.utils.TemplateHelper.PolicySentDataColumn;
 import com.gdpost.utils.TemplateHelper.PolicyUnderWriteColumn;
 import com.gdpost.utils.TemplateHelper.RenewedCityListColumn;
 import com.gdpost.utils.TemplateHelper.RenewedColumn;
+import com.gdpost.utils.TemplateHelper.RenewedFeeMatchColumn;
 import com.gdpost.utils.TemplateHelper.RenewedHQListColumn;
 import com.gdpost.utils.TemplateHelper.RenewedProvListColumn;
 import com.gdpost.utils.TemplateHelper.RenewedStatusColumn;
@@ -122,6 +123,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 		String sql3 = null;
 		String sql4 = null;
 		String sql5 = null;
+		String sql6 = null;
 		switch(ft) {
 		case Policy:
 			standardColumns = PolicyColumn.getStandardColumns();
@@ -234,6 +236,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql3 = "update t_cs_report tsr, t_policy_dtl tpd, t_staff ts set tsr.staff_flag=true where tsr.staff_flag=0 and tsr.policy_no=tpd.policy_no and tpd.holder_card_num=ts.id_card;";
 			sql4 = "update t_policy tp, t_cs_report tcr set tp.cs_flag=1 where tp.policy_no=tcr.policy_no and tp.cs_flag=0 and tcr.cs_code=\"CT\" and (0-tcr.money)=tp.total_fee;";//TODO 标记犹撤
 			sql5 = "update t_policy tp, t_cs_report tcr set tp.cs_flag=2 where tp.policy_no=tcr.policy_no and tp.cs_flag=0 and tcr.cs_code=\"CT\" and (0-tcr.money)<>tp.total_fee;";
+			sql6 = "update t_renewed_list t1, t_cs_report t2 set t1.fee_status=\"已终止\" where t1.policy_no=t2.policy_no and t2.cs_code=\"CT\";";
 			break;
 			default:
 				log.warn("------------reach the default FileTemplate?? oh no!!");
@@ -347,6 +350,9 @@ public class UploadDataServiceImpl implements UploadDataService{
         	}
 			if(sql5 != null) {
         		statement.execute(sql5);
+        	}
+			if(sql6 != null) {
+        		statement.execute(sql6);
         	}
 			dr.setFlag(true);
 		} catch (SQLException e) {
@@ -723,7 +729,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			return dr;
 		case RenewedStatus://继续率清单
 			standardColumns = RenewedStatusColumn.getStandardColumns();
-			sql = new StringBuffer("INSERT INTO t_renewed_list(policy_no, prd_name, fee_status, fee_fail_reason) VALUES ");
+			sql = new StringBuffer("INSERT INTO t_renewed_list(policy_no, prd_name, policy_year, fee_status, fee_fail_reason) VALUES ");
 			line = null;
 			isFail = false;
 			val = null;
@@ -763,7 +769,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			break;
 		case RenewedHQList://总部的催收
 			standardColumns = RenewedHQListColumn.getStandardColumns();
-			sql = new StringBuffer("INSERT INTO t_renewed_list(policy_no, prd_name, hq_issue_type, hq_deal_rst, hq_deal_date, hq_deal_remark) VALUES ");
+			sql = new StringBuffer("INSERT INTO t_renewed_list(policy_no, prd_name, policy_year, hq_issue_type, hq_deal_rst, hq_deal_date, hq_deal_remark) VALUES ");
 			line = null;
 			isFail = false;
 			val = null;
@@ -803,7 +809,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			break;
 		case RenewedProvList://总部的催收
 			standardColumns = RenewedProvListColumn.getStandardColumns();
-			sql = new StringBuffer("INSERT INTO t_renewed_list(policy_no, prd_name, prov_deal_date, prov_deal_rst, prov_activity) VALUES ");
+			sql = new StringBuffer("INSERT INTO t_renewed_list(policy_no, prd_name, policy_year, prov_deal_date, prov_deal_rst, prov_activity) VALUES ");
 			line = null;
 			isFail = false;
 			val = null;
@@ -827,9 +833,34 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql2 = "delete from t_renewed_list where holder is null";
 			sql3 = "update t_renewed_list t1, t_renewed_list t2 set t1.prov_deal_date=t2.prov_deal_date,t1.prov_deal_rst=t2.prov_deal_rst where t1.prd_name=\"中邮附加重大疾病保险\" and t1.policy_no=t2.policy_no and t2.prov_deal_rst is not null;";
 			break;
+		case RenewedFeeMatchList://总部的催收
+			standardColumns = RenewedFeeMatchColumn.getStandardColumns();
+			sql = new StringBuffer("INSERT INTO t_renewed_list(policy_no, prd_name, policy_year, fee_date, fee_match) VALUES ");
+			line = null;
+			isFail = false;
+			val = null;
+			for (DataRow row : dt.Rows) {
+				isFail = false;
+				val = null;
+				line = new StringBuffer("(");
+	        	for(ColumnItem item : standardColumns) {
+	        		val = row.getValue(item.getDisplayName());
+                	
+	        		line.append("\"" + StringUtil.trimStr(val, true) + "\",");
+	        	}
+	        	line.deleteCharAt(line.length() - 1);
+	        	line.append("),");
+	        	sql.append(line);
+	        }
+			sql.deleteCharAt(sql.length() - 1);
+			sql.append(" ON DUPLICATE KEY UPDATE ");
+			sql.append("fee_match=VALUES(fee_match);");
+			log.debug("----------------fee match batch sql : " + sql);
+			sql2 = "delete from t_renewed_list where holder is null";
+			break;
 		case RenewedCityList://总部的催收
 			standardColumns = RenewedCityListColumn.getStandardColumns();
-			sql = new StringBuffer("INSERT INTO t_renewed_list(policy_no, prd_name, deal_time, fix_status) VALUES ");
+			sql = new StringBuffer("INSERT INTO t_renewed_list(policy_no, prd_name, policy_year, deal_time, fix_status) VALUES ");
 			line = null;
 			isFail = false;
 			val = null;
@@ -1127,6 +1158,9 @@ public class UploadDataServiceImpl implements UploadDataService{
 			standardColumns = IssuePFRColumn.getStandardColumns();
 			keyRow = IssuePFRColumn.KEY_ROW;
 			break;
+		case RenewedFeeMatchList:
+			standardColumns = RenewedFeeMatchColumn.getStandardColumns();
+			keyRow = RenewedFeeMatchColumn.KEY_ROW;
 		}
 		
 	    boolean bFlag = true;
@@ -1201,7 +1235,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 						|| t.name().equals(FileTemplate.PolicyUnderWrite.name())
 						|| t.name().equals(FileTemplate.UnderWriteSentData.name())
 						|| t.name().equals(FileTemplate.CallFailMiniCityStatus.name())
-						|| t.name().equals(FileTemplate.PolicyBackDate.name())) {
+						|| t.name().equals(FileTemplate.PolicyBackDate.name())
+						|| t.name().equals(FileTemplate.RenewedFeeMatchList.name())) {
 					
 					dr = updateStatusData(t, request, dt);
 					

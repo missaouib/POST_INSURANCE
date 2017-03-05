@@ -37,4 +37,6 @@ public interface XqglService {
 	List<RenewalType> getAllRenewedDealTypeList();
 	
 	List<String> getProvAcitivity();
+	
+	List<String> getFeeMatch();
 }

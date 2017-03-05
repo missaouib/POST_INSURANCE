@@ -112,19 +112,23 @@ function displayTips(val) {
 		return;
 	}
 	if(val=="RenewedStatus") {
-		$("#tipsDesc").html("续期继续率清单。须含列：保单号\t险种名称\t保单当前状态\t交费失败原因，关键列：保单号");
+		$("#tipsDesc").html("续期继续率清单。须含列：保单号\t险种名称\t保单年度\t保单当前状态\t交费失败原因，关键列：保单号");
 		return;
 	}
 	if(val=="RenewedHQList") {
-		$("#tipsDesc").html("总部催收清单。须含列：保单号\t险种名称\t备注\t工单子类\t回访日期\t工单内容，关键列：保单号");
+		$("#tipsDesc").html("总部催收清单。须含列：保单号\t险种名称\t保单年度\t备注\t工单子类\t回访日期\t工单内容，关键列：保单号");
 		return;
 	}
 	if(val=="RenewedProvList") {
-		$("#tipsDesc").html("省分（二访中心）催收清单须含列：保险单号码\t险种名称\t一访时间\t一访结果\t标记，关键列：一访结果");
+		$("#tipsDesc").html("省分（二访中心）催收清单须含列：保险单号码\t险种名称\t保单年度\t一访时间\t一访结果\t标记，关键列：一访结果");
+		return;
+	}
+	if(val=="RenewedFeeMatchList") {
+		$("#tipsDesc").html("省分（二访中心）催收清单须含列：保险单号码\t险种名称\t保单年度\t匹配结果，关键列：匹配结果");
 		return;
 	}
 	if(val=="RenewedCityList") {
-		$("#tipsDesc").html("市县催收清单。须含列：保险单号码\t险种名称\t催交时间\t催交结果，关键列：催交结果");
+		$("#tipsDesc").html("市县催收清单。须含列：保险单号码\t险种名称\t保单年度\t催交时间\t催交结果，关键列：催交结果");
 		return;
 	}
 }

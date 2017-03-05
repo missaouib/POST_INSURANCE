@@ -72,6 +72,8 @@ public class RenewedList implements Idable<Long> {
 	private String provDealMan;
 	private String provActivity;
 	
+	private String feeMatch;
+	
 	
 	@Transient
 	private Integer lastDateNum;
@@ -523,6 +525,15 @@ public class RenewedList implements Idable<Long> {
 
 	public void setProvActivity(String provActivity) {
 		this.provActivity = provActivity;
+	}
+
+	@Column(name="fee_match")
+	public String getFeeMatch() {
+		return feeMatch;
+	}
+
+	public void setFeeMatch(String feeMatch) {
+		this.feeMatch = feeMatch;
 	}
 
 	@Override

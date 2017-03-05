@@ -31,6 +31,13 @@ public class RenewedHQListColumn {
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
+		column.setDisplayName("保单年度");
+		column.setColumnName("policy_year");
+		column.setColumnType(ColumnType.numeric);
+		column.setNullable(false);
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
 		column.setDisplayName("备注");
 		column.setColumnName("hq_issue_type");
 		column.setColumnType(ColumnType.string);

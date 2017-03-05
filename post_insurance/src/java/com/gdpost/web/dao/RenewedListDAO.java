@@ -24,4 +24,7 @@ public interface RenewedListDAO extends JpaRepository<RenewedList, Long>, JpaSpe
 	
 	@Query(name="RenewedListDAO.getProvActivitys", value="select distinct prov_activity from t_renewed_list", nativeQuery=true)
 	List<String> getProvActivitys();
+	
+	@Query(name="RenewedListDAO.getFeeMatch", value="select distinct fee_match from t_renewed_list", nativeQuery=true)
+	List<String> getFeeMatchs();
 }

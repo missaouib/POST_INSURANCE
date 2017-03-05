@@ -20,6 +20,7 @@ response.setHeader("Content-Disposition", "inline; filename=XQ_Xls.xls");
 				<th>状态</th>
 				<th>交费失败原因</th>
 				<th>账号</th>
+				<th>余额匹配</th>
 				<th>网点</th>
 				<th>总部催收情况</th>
 				<th>总部催收详情</th>
@@ -44,7 +45,9 @@ response.setHeader("Content-Disposition", "inline; filename=XQ_Xls.xls");
 				<td><span style="color:red; height:50%; margin-bottom:-contentheight;">${item.lastDateNum }</span></td>
 				<td>${item.feeStatus }</td>
 				<td>${item.feeFailReason}</td>
-				<td style="vnd.ms-excel.numberformat:@">${item.account}</td>
+				<%-- <td style="vnd.ms-excel.numberformat:@">${item.account}</td> --%>
+				<td><c:out value="${fn:substring(item.account, 0, 4)}" />******<c:out value="${fn:substring(item.account, item.account.length()-4, item.account.length())}" /></td>
+				<td>${item.feeMatch}</td>
 				<td>
 					<c:choose>  
 					    <c:when test="${fn:length(item.netName) > 14}">  
