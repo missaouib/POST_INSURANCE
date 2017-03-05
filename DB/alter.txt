@@ -851,6 +851,8 @@ alter table t_policy add index idx_tpsf(`staff_flag`);
 alter table t_policy add column cs_flag tinyint default 0;
 
 alter table t_policy add fulltext index idx_p_pn(`prod_name`);
+alter table t_under_write add column plan_date date default NULL;
+alter table t_under_write add column plan_flag boolean default false;
 create table t_cs_addr
 (
    id                  bigint not null auto_increment,

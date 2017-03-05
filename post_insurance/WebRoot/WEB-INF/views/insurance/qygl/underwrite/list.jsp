@@ -86,6 +86,8 @@
 					<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/qygl/underwrite/delete" title="确认要删除?"><span>删除</span></a></li>
 				</shiro:hasPermission>
 			</shiro:hasPermission>
+			<li class="line">line</li>
+			<li><a class="edit" target="dialog" rel="underwrite_edit" mask="true" width="450" height="340" href="${contextPath }/qygl/underwrite/plan/{slt_uid}"><span>跟进设置</span></a></li>
 			<shiro:hasPermission name="UnderWrite:cityEdit">
 			<li class="line">line</li>
 				<li><a class="edit" href="${contextPath}/qygl/underwrite/cityRec" target="selectedToDialog" relIds="ids" mask="true" width="550" height="250"><span>地市接收</span></a></li>
@@ -116,6 +118,8 @@
 				<th orderField=prd.prdName class="${page.orderField eq 'prd.prdName' ? page.orderDirection : ''}">产品</th>
 				<th orderField=ybtDate class="${page.orderField eq 'ybtDate' ? page.orderDirection : ''}">邮保通录入</th>
 				<th orderField=sysDate class="${page.orderField eq 'sysDate' ? page.orderDirection : ''}">核心录入</th>
+				<th orderField=planDate class="${page.orderField eq 'planDate' ? page.orderDirection : ''}">跟进日期</th>
+				<th>备注</th>
 				<th>合同签收</th>
 				<th>回执录入</th>
 			</tr>
@@ -147,6 +151,8 @@
 				<td>${item.prd.prdName}</td>
 				<td><fmt:formatDate value="${item.ybtDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.sysDate }" pattern="yyyy-MM-dd"/></td>
+				<td><fmt:formatDate value="${item.planDate }" pattern="yyyy-MM-dd"/></td>
+				<td>${item.remark}</td>
 				<td><fmt:formatDate value="${item.clientReceiveDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.signInputDate }" pattern="yyyy-MM-dd"/></td>
 			</tr>

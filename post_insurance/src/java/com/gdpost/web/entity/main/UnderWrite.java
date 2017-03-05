@@ -63,6 +63,8 @@ public class UnderWrite implements Idable<Long> {
 	private Integer hasRecord;
 	private String recordDesc;
 	private String status;
+	private Date planDate;
+	private Boolean planFlag;
 
 	@Transient
 	private Date receiveDate;
@@ -467,6 +469,21 @@ public class UnderWrite implements Idable<Long> {
 		this.status = status;
 	}
 	
+	@Column(name="plan_date")
+	public Date getPlanDate() {
+		return planDate;
+	}
+	public void setPlanDate(Date planDate) {
+		this.planDate = planDate;
+	}
+	
+	@Column(name="plan_flag")
+	public Boolean getPlanFlag() {
+		return planFlag;
+	}
+	public void setPlanFlag(Boolean planFlag) {
+		this.planFlag = planFlag;
+	}
 	@Column(name="holder_age")
 	public String getHolderAge() {
 		return holderAge;

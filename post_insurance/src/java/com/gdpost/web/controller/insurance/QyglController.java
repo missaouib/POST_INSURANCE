@@ -90,6 +90,8 @@ public class QyglController {
 	private static final String UW_REC_DATE = "insurance/qygl/underwrite/recDate";
 	private static final String UW_MAIL_DATES = "insurance/qygl/underwrite/mailDates";
 	private static final String UW_REC_DATES = "insurance/qygl/underwrite/recDates";
+	private static final String UW_PLAN = "insurance/qygl/underwrite/setPlan";
+	private static final String UW_PLAN_LIST = "insurance/qygl/underwrite/planList";
 	
 	private static final String UW_POP = "insurance/qygl/underwrite/uwPop";
 	private static final String UW_CALL = "insurance/qygl/underwrite/uwCall";
@@ -727,6 +729,72 @@ public class QyglController {
 		log.debug(" ------------------ " + ods);
 		
 		return UW_LIST;
+	}
+	
+	@RequiresPermissions(value={"UnderWrite:edit","UnderWrite:provEdit","UnderWrite:cityEdit","UnderWrite:areaEdit"}, logical=Logical.OR)
+	@RequestMapping(value="/underwrite/plan/{id}", method=RequestMethod.GET)
+	public String preUwPlan(@PathVariable Long id, Map<String, Object> map) {
+		map.put("id", id);
+		UnderWrite uw = qyglService.getUnderWrite(id);
+		map.put("UnderWrite", uw);
+		return UW_PLAN;
+	}
+	
+	@Log(message="设置了{0}人核件的跟进信息。", level=LogLevel.WARN, module=LogModule.QYGL)
+	@RequiresPermissions("UnderWrite:edit")
+	@RequestMapping(value="/underwrite/plan", method=RequestMethod.POST)
+	public @ResponseBody String planUnderWrite(UnderWrite underwrite) {
+		UnderWrite src = qyglService.getUnderWrite(underwrite.getId());
+		src.setPlanDate(underwrite.getPlanDate());
+		if(underwrite.getPlanDate() == null || underwrite.getPlanDate().before(new Date())) {
+			src.setPlanFlag(false);
+		} else {
+			src.setPlanFlag(true);
+		}
+		if(underwrite.getClientReceiveDate() != null) {
+			src.setClientReceiveDate(underwrite.getClientReceiveDate());
+			src.setPlanFlag(false);
+			src.setStatus(UW_STATUS.CloseStatus.name());
+		}
+		src.setRemark(underwrite.getRemark());
+		qyglService.saveOrUpdateUnderWrite(src);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getFormNo()}));
+		return	AjaxObject.newOk("成功设置人核件跟进信息！").toString(); 
+	}
+	
+	@RequiresPermissions("PlanList:view")
+	@RequestMapping(value="/underwrite/planList", method={RequestMethod.GET, RequestMethod.POST})
+	public String listUwPlan(ServletRequest request, Page page, Map<String, Object> map) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
+		String orgCode = request.getParameter("orgCode");
+		if(orgCode == null || orgCode.trim().length()<=0) {
+			orgCode = userOrg.getOrgCode();
+		} else if(!orgCode.contains(userOrg.getOrgCode())){
+			orgCode = userOrg.getOrgCode();
+		}
+		
+		if(page.getOrderField() == null || page.getOrderField().trim().length() <= 0) {
+			page.setOrderField("planDate");
+			page.setOrderDirection("ASC");
+		}
+		
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("status", Operator.OR_EQ, UW_STATUS.SendStatus.name()));
+		csf.add(new SearchFilter("status", Operator.OR_EQ, UW_STATUS.NewStatus.name()));
+		csf.add(new SearchFilter("planFlag", Operator.EQ, 1));
+		
+		Specification<UnderWrite> specification = DynamicSpecifications.bySearchFilter(request, UnderWrite.class, csf);
+		
+		List<UnderWrite> underwrites = qyglService.findByUnderWriteExample(specification, page);
+		
+		map.put("underwrites", underwrites);
+		map.put("page", page);
+		
+		return UW_PLAN_LIST;
 	}
 	
 	@RequiresPermissions("UnderWrite:view")
