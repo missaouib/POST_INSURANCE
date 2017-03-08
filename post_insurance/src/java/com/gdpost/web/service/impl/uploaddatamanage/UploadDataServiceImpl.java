@@ -213,10 +213,25 @@ public class UploadDataServiceImpl implements UploadDataService{
 			standardColumns = PayFailListColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_pay_success_list character set utf8 (pay_type, status, ";
 			sql1 = "update t_pay_fail_list set status='CloseStatus' where rel_no in (select rel_no from t_pay_success_list);";
+//			sql2 = "update t_renewed_list set fee_status='交费成功' where fee_status<>\"交费成功\" and policy_no in (select rel_no from t_pay_success_list where pay_type=2 and policy_fee=money);";
+//			sql3 = "update t_renewed_list t0 set t0.fee_status='交费成功' where t0.fee_status<>\"交费成功\" "
+//					+ "and t0.policy_no in (select t2.policy_no from t_pay_success_list t1, t_cs_report t2 "
+//					+ "where t1.pay_type=2 and t0.policy_fee=t1.money and t1.rel_no=t2.cs_no and t2.cs_code='RE');";
+//			sql4 = "update t_policy t0 set t0.status='有效' where t0.policy_no in (select t2.policy_no from t_pay_success_list t1, t_cs_report t2 "
+//					+ "where t1.pay_type=2 and t1.rel_no=t2.cs_no and t2.cs_code='RE');";
+			
+			break;
+		case PayFromSuccessList:
+			standardColumns = PayFailListColumn.getStandardColumns();
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_pay_success_list character set utf8 (pay_type, status, ";
+			sql1 = "update t_pay_fail_list set status='CloseStatus' where rel_no in (select rel_no from t_pay_success_list);";
 			sql2 = "update t_renewed_list set fee_status='交费成功' where fee_status<>\"交费成功\" and policy_no in (select rel_no from t_pay_success_list where pay_type=2 and policy_fee=money);";
 			sql3 = "update t_renewed_list t0 set t0.fee_status='交费成功' where t0.fee_status<>\"交费成功\" "
 					+ "and t0.policy_no in (select t2.policy_no from t_pay_success_list t1, t_cs_report t2 "
 					+ "where t1.pay_type=2 and t0.policy_fee=t1.money and t1.rel_no=t2.cs_no and t2.cs_code='RE');";
+			sql4 = "update t_policy t0 set t0.status='有效' where t0.policy_no in (select t2.policy_no from t_pay_success_list t1, t_cs_report t2 "
+					+ "where t1.pay_type=2 and t1.rel_no=t2.cs_no and t2.cs_code='RE');";
+			
 			break;
 		case UnderWriteSentData:
 			standardColumns = PolicySentDataColumn.getStandardColumns();
@@ -234,8 +249,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 					+ "where t1.pay_type=2 and t0.policy_fee=t1.money and t1.rel_no=t2.cs_no and t2.cs_code='RE');";
 			sql2 = "update t_call_fail_list t1, t_cs_report t2 set t1.status=\"已退保\" where t1.policy_no=t2.policy_no and t2.cs_code=\"CT\";";
 			sql3 = "update t_cs_report tsr, t_policy_dtl tpd, t_staff ts set tsr.staff_flag=true where tsr.staff_flag=0 and tsr.policy_no=tpd.policy_no and tpd.holder_card_num=ts.id_card;";
-			sql4 = "update t_policy tp, t_cs_report tcr set tp.cs_flag=1 where tp.policy_no=tcr.policy_no and tp.cs_flag=0 and tcr.cs_code=\"CT\" and (0-tcr.money)=tp.total_fee;";//TODO 标记犹撤
-			sql5 = "update t_policy tp, t_cs_report tcr set tp.cs_flag=2 where tp.policy_no=tcr.policy_no and tp.cs_flag=0 and tcr.cs_code=\"CT\" and (0-tcr.money)<>tp.total_fee;";
+			sql4 = "update t_policy tp, t_cs_report tcr set tp.cs_flag=1,tp.status=\"终止\" where tp.policy_no=tcr.policy_no and tp.cs_flag=0 and tcr.cs_code=\"CT\" and (0-tcr.money)=tp.total_fee;";//TODO 标记犹撤
+			sql5 = "update t_policy tp, t_cs_report tcr set tp.cs_flag=2,tp.status=\"终止\" where tp.policy_no=tcr.policy_no and tp.cs_flag=0 and tcr.cs_code=\"CT\" and (0-tcr.money)<>tp.total_fee;";
 			sql6 = "update t_renewed_list t1, t_cs_report t2 set t1.fee_status=\"已终止\" where t1.policy_no=t2.policy_no and t2.cs_code=\"CT\";";
 			break;
 			default:
@@ -279,6 +294,11 @@ public class UploadDataServiceImpl implements UploadDataService{
 	            builder.append('\t');
     		} else if(ft.name().equals(FileTemplate.PaySuccessList.name())) {
     			builder.append(PayFailList.PAY_TO);
+	            builder.append('\t');
+	            builder.append(FEE_FAIL_STATUS.NewStatus.name());
+	            builder.append('\t');
+    		} else if(ft.name().equals(FileTemplate.PayFromSuccessList.name())) {
+    			builder.append(PayFailList.PAY_FROM);
 	            builder.append('\t');
 	            builder.append(FEE_FAIL_STATUS.NewStatus.name());
 	            builder.append('\t');
@@ -408,7 +428,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 		String sql3 = null;
 		String sql4 = null;
 		String sql5 = null;
-		//String sql6 = null;
+		String sql6 = null;
 		boolean isFail = false;
 		//boolean updateRst = true;
 		Object val = null;
@@ -503,6 +523,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql3 = "update t_call_fail_list set hq_deal_flag = 1 where status='二访成功';";
 			sql4 = "update t_call_fail_list set status = \"重点跟进\" where status='二访失败' and 15-datediff(now(),bill_back_date)<=3;";
 			sql5 = "update t_call_fail_list set status = \"重点跟进\" where status='二访失败' and (hq_deal_type_else like '%电话错误%' or hq_deal_type_else like '%挂断%' or hq_deal_type_else like '%拒接%' or hq_deal_type_else like '%不配合%' or hq_deal_type_else like '%过期%' or hq_deal_type_else like '%空号%' or hq_deal_type_else like '%无法联系本人%' or hq_deal_type_else like '%不信任%');";
+			sql6 = "update t_call_fail_list set status=\"上门成功\" where org_deal_flag=1 and (status=\"重点跟进\" or status=\"需上门回访\");";
 			break;
 		case CallFailMiniCityStatus:
 			standardColumns = CallFailCityMiniListColumn.getStandardColumns();
@@ -537,6 +558,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql3 = "update t_call_fail_list set org_deal_flag = 1 where status='上门成功';";
 			sql4 = "update t_call_fail_list t1 set status=\"需上门回访\" where TO_DAYS(NOW())-TO_DAYS(bill_back_date)>15 and (status=\"二访失败\" or status=\"重点跟进\");";
 			sql5 = "update t_call_fail_list set status = \"重点跟进\" where status='二访失败' and (hq_deal_type_else like '%电话错误%' or hq_deal_type_else like '%挂断%' or hq_deal_type_else like '%拒接%' or hq_deal_type_else like '%不配合%' or hq_deal_type_else like '%过期%' or hq_deal_type_else like '%空号%' or hq_deal_type_else like '%无法联系本人%' or hq_deal_type_else like '%不信任%');";
+			sql6 = "update t_call_fail_list set status=\"上门成功\" where org_deal_flag=1 and (status=\"重点跟进\" or status=\"需上门回访\");";
 			break;
 		case CallFailCityStatus:
 			standardColumns = CallFailDoorBackListColumn.getStandardColumns();
@@ -682,6 +704,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql2 = "delete from t_call_fail_list where issue_no is null";
 			//sql3 = "update t_call_fail_list set status=deal_status where deal_status is not null and status<>\"二访成功\"";
 			sql4 = "update t_call_fail_list t1 set status=\"需上门回访\" where TO_DAYS(NOW())-TO_DAYS(bill_back_date)>15 and (status=\"二访失败\" or status=\"重点跟进\");";
+			sql6 = "update t_call_fail_list set status=\"上门成功\" where org_deal_flag=1 and (status=\"重点跟进\" or status=\"需上门回访\");";
 			break;
 		case CallFailPhoneStatus:
 			standardColumns = CallFailNeedDoorListColumn.getStandardColumns();
@@ -729,7 +752,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			return dr;
 		case RenewedStatus://继续率清单
 			standardColumns = RenewedStatusColumn.getStandardColumns();
-			sql = new StringBuffer("INSERT INTO t_renewed_list(policy_no, prd_name, policy_year, fee_status, fee_fail_reason) VALUES ");
+			sql = new StringBuffer("INSERT INTO t_renewed_list(policy_no, prd_name, fee_status, fee_fail_reason) VALUES ");
 			line = null;
 			isFail = false;
 			val = null;
@@ -835,7 +858,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			break;
 		case RenewedFeeMatchList://总部的催收
 			standardColumns = RenewedFeeMatchColumn.getStandardColumns();
-			sql = new StringBuffer("INSERT INTO t_renewed_list(policy_no, prd_name, policy_year, fee_date, fee_match) VALUES ");
+			sql = new StringBuffer("INSERT INTO t_renewed_list(policy_no, prd_name, policy_year, fee_match) VALUES ");
 			line = null;
 			isFail = false;
 			val = null;
@@ -893,6 +916,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case PayFromFailList:
 			return dr;
 		case PaySuccessList:
+			return dr;
+		case PayFromSuccessList:
 			return dr;
 		case PolicyUnderWrite:
 			standardColumns = PolicyUnderWriteColumn.getStandardColumns();
@@ -993,6 +1018,9 @@ public class UploadDataServiceImpl implements UploadDataService{
 			}
 			if(sql5 != null) {
 				statement.execute(sql5);
+			}
+			if(sql6 != null) {
+				statement.execute(sql6);
 			}
 			//log.info("------------renewed status update result:" + updateRst);
 			dr.setFlag(true);
@@ -1111,6 +1139,10 @@ public class UploadDataServiceImpl implements UploadDataService{
 			keyRow = PayFailListColumn.KEY_ROW;
 			break;
 		case PaySuccessList:
+			standardColumns = PayFailListColumn.getStandardColumns();
+			keyRow = PayFailListColumn.KEY_ROW;
+			break;
+		case PayFromSuccessList:
 			standardColumns = PayFailListColumn.getStandardColumns();
 			keyRow = PayFailListColumn.KEY_ROW;
 			break;

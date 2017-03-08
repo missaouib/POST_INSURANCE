@@ -80,7 +80,7 @@
 						<label>余额匹配结果：</label>
 						<form:select path="issue.feeMatch" id="xqfeeMatchs" class="combox">
 							<form:option value=""> -- -- </form:option>
-							<form:options items="${feeMatches }"/>
+							<form:options items="${feeMatchs }"/>
 						</form:select>
 					</td>
 					<td>
@@ -168,7 +168,7 @@
 				<td>${item.mobile eq ""?item.phone:item.mobile}</td>
 				<td>${item.policyFee}</td>
 				<td><fmt:formatDate value="${item.feeDate }" pattern="yyyy-MM-dd"/></td>
-				<td><span style="color:red; height:50%; margin-bottom:-contentheight;">${item.lastDateNum }</span></td>
+				<td><div style="color: red;vertical-align:middle;font-weight:bold;">${item.lastDateNum }</div></td>
 				<td>${item.feeStatus }</td>
 				<td>${item.feeFailReason}</td>
 				<td><c:out value="${fn:substring(item.account, 0, 4)}" />******<c:out value="${fn:substring(item.account, item.account.length()-4, item.account.length())}" /></td>

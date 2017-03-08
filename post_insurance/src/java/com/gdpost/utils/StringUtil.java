@@ -332,8 +332,9 @@ public class StringUtil {
 	}
 	
 	public static void main(String[] args) {
-		String test = "125005_1";
-		System.out.println(test.substring(0, test.indexOf("_")));
+		Date date1 = new Date();
+		Date date2 = StringUtil.str2Date("2017-03-06", "yyyy-MM-dd");
+		System.out.println(StringUtil.getBetweenDay(date2, date1));
 		
 	}
 }

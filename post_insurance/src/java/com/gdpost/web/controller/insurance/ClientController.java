@@ -81,6 +81,9 @@ public class ClientController {
 		Policy policy = new Policy();
 		policy.setStatus(status);
 		
+		String attachedFlag = request.getParameter("attachedFlag");
+		policy.setAttachedFlag((attachedFlag==null||attachedFlag.trim().length()<=0)?null:new Integer(attachedFlag));
+		
 		map.put("policy", policy);
 		map.put("page", page);
 		if(request.getParameterMap().size()<=1) {
@@ -116,6 +119,10 @@ public class ClientController {
 		if(prdName != null && prdName.trim().length()>0) {
 			csf.add(new SearchFilter("prodName", Operator.EQ, prdName));
 			request.setAttribute("prd_name", prdName);
+		}
+		if(attachedFlag != null && attachedFlag.trim().length()>0) {
+			csf.add(new SearchFilter("attachedFlag", Operator.EQ, attachedFlag));
+			request.setAttribute("attachedFlag", attachedFlag);
 		}
 		
 		Specification<Policy> specification = DynamicSpecifications.bySearchFilter(request, Policy.class, csf);

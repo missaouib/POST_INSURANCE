@@ -10,7 +10,7 @@ response.setHeader("Content-Disposition", "inline; filename=call_fail_dtl.xls");
 			<tr>
 				<th>序号</th>
                 <th>保单机构</th>
-                <!-- <th>事件编号</th> -->
+                <th>事件编号</th>
                 <th>保单号</th>
                 <th>投保人</th>
                 <th>联系电话</th>
@@ -56,7 +56,7 @@ response.setHeader("Content-Disposition", "inline; filename=call_fail_dtl.xls");
 			<tr>
 				<td><c:out value="${status.index+1}"/></td>
                 <td>${fn:replace(item.policy.organization.name,'邮政局中邮保险局','')}</td>
-                <%-- <td>${item.issueNo}</td> --%>
+                <td>${item.issueNo}</td>
                 <td style="vnd.ms-excel.numberformat:@">${item.policy.policyNo}</td>
                 <td>${item.policy.holder}</td>
                 <td>${item.holderMobile eq ""?item.holderPhone:item.holderMobile}</td>

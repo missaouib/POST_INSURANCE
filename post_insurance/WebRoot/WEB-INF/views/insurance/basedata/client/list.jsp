@@ -15,6 +15,7 @@
 	<input type="hidden" name="search_LTE_perm" value="${param.search_LTE_perm }"/>
 	<input type="hidden" name="status" value="${param.status }"/>
 	<input type="hidden" name="prd.prdName" value="${prd_name }"/>
+	<input type="hidden" name="attachedFlag" value="${attachedFlag }"/>
 	<input type="hidden" name="search_LIKE_holder" value="${param.search_LIKE_holder}"/>
 </dwz:paginationForm>
 
@@ -74,7 +75,12 @@
 						<input type="text" name="search_LTE_perm" id="ff2" class="validate[required] required" style="width: 80px;" value="${param.search_LTE_perm }"/>
 					</td>
 					<td>
-						&nbsp;
+						<label>主附险标记：</label>
+						<form:select path="policy.attachedFlag" id="attacheFlag" class="combox">
+							<form:option value=""> -- -- </form:option>
+							<form:option value="0">主险</form:option>
+							<form:option value="1">附加险</form:option>
+						</form:select>
 					</td>
 				</tr>
 			</table>

@@ -226,7 +226,16 @@
                <td title="${item.issueContent}">${fn:substring(item.issueContent, 0, 15)}</td>
                <td title="${item.hqDealTypeElse}">${fn:substring(item.hqDealTypeElse, 0, 15)}</td>
                <td><fmt:formatDate value="${item.readyDate }" pattern="yyyy-MM-dd"/></td>
-               <td><span style="color:red; height:50%; margin-bottom:-contentheight;"><c:if test="${item.lastDateNum<0 }">0</c:if><c:if test="${item.lastDateNum>=0 }">${item.lastDateNum-1 }</c:if></span></td>
+               <td><div style="color: red;vertical-align:middle;font-weight:bold;">
+               <c:choose>  
+				    <c:when test="${item.lastDateNum<-5}">  
+				        --
+				    </c:when>  
+				   <c:otherwise>  
+				      ${item.lastDateNum}
+				    </c:otherwise>  
+				</c:choose>
+               </div></td>
                <td>${item.policy.policyNo}</td>
                <td><fmt:formatDate value="${item.policy.policyDate }" pattern="yyyy-MM-dd"/></td>
                <td>${item.policy.holder}</td>

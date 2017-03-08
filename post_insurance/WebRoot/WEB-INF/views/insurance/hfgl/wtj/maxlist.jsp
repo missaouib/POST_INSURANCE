@@ -224,7 +224,16 @@
 				<td title="${item.hqDealRst}">${fn:substring(item.hqDealRst, 0, 15)}</td>
 				<td>${item.phoneNum}</td>
 				<td><fmt:formatDate value="${item.operateTime }" pattern="yyyy-MM-dd"/></td>
-				<td><span style="color:red; height:50%; margin-bottom:-contentheight;"><c:if test="${item.lastDateNum<0 }">0</c:if><c:if test="${item.lastDateNum>=0 }">${item.lastDateNum }</c:if></span></td>
+				<td><div style="color: red;vertical-align:middle;font-weight:bold;">
+               <c:choose>  
+				    <c:when test="${item.lastDateNum<-5}">  
+				        --
+				    </c:when>  
+				   <c:otherwise>  
+				      ${item.lastDateNum}
+				    </c:otherwise>  
+				</c:choose>
+               </div></td>
 				<td>${item.policy.policyNo}</td>
 				<td><fmt:formatDate value="${item.policy.policyDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.policy.holder}</td>

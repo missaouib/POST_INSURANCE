@@ -15,7 +15,7 @@ public class Template {
 		RenewedProvList("省分催收详情", "XQ"), RenewedCityList("市县催收详情", "XQ"), RenewedFeeMatchList("余额匹配数据", "XQ"),
 		CheckWrite("抽检填写明细", "QY"), CheckRecord("抽检录入明细", "QY"), ConversationReq("保全免填单申请", "BQ"), 
 		ConversationReport("保全月报", "BQ"), PayToFailList("付费失败清单", "ALL"), 
-		PayFromFailList("收费失败清单", "ALL"), PaySuccessList("付费成功清单", "ALL");
+		PayFromFailList("收费失败清单", "ALL"), PaySuccessList("付费成功清单", "ALL"), PayFromSuccessList("扣费成功清单", "ALL");
 		private String desc;
 		private String type;
 		FileTemplate (String desc, String type) {
