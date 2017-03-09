@@ -681,6 +681,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql.append("mail_back_date=VALUES(mail_back_date), client_sign_date=VALUES(client_sign_date);");
 			log.debug("----------------batch update : " + sql);
 			sql2 = "delete from t_call_fail_list where issue_no is null";
+			sql3 = "update t_call_fail_list set status=\"信函成功\" where has_letter=\"信函成功\" and (status=\"上门成功\" or status=\"需上门回访\" or status=\"上门失败\" or status=\"拒访\" or status=\"重点跟进\" or status=\"二访失败\" or status=\"已结案\");";
 			break;
 		case CallFailNeedDoorStatus:
 			standardColumns = CallFailNeedDoorListColumn.getStandardColumns();

@@ -28,7 +28,7 @@ public class TaskService {
 	}
 
 	public void updateDB() {		
-		log.debug("---------   into import data");
+		log.info("---------   task to update hfgl's data");
 		java.sql.Connection connection = null;
 		com.mysql.jdbc.Statement statement = null;
 		try {
@@ -44,11 +44,13 @@ public class TaskService {
 		String sql3 = null;
 		String sql4 = null;
 		String sql5 = null;
+		String sql6 = null;
 		sql1 = "update t_call_fail_list set status = \"重点跟进\" where status='二访失败' and 15-datediff(now(),bill_back_date)<=3;";
 		sql2 = "update t_call_fail_list set status = \"重点跟进\" where status='二访失败' and (hq_deal_type_else like '%电话错误%' or hq_deal_type_else like '%挂断%' or hq_deal_type_else like '%拒接%' or hq_deal_type_else like '%不配合%' or hq_deal_type_else like '%过期%' or hq_deal_type_else like '%空号%' or hq_deal_type_else like '%无法联系本人%' or hq_deal_type_else like '%不信任%');";
 		sql3 = "update t_call_fail_list t1 set status=\"需上门回访\" where datediff(NOW(),bill_back_date)>15 and (status=\"二访失败\" or status=\"重点跟进\");";
 		sql4 = "update t_call_fail_list set status=\"上门成功\" where org_deal_flag=1 and (status=\"重点跟进\" or status=\"需上门回访\");";
 		sql5 = "update t_call_fail_list set status=\"上门成功\" where org_deal_flag=1 and (status=\"二访成功\");";
+		sql6 = "update t_call_fail_list set status=\"信函成功\" where has_letter=\"信函成功\" and (status=\"上门成功\" or status=\"需上门回访\" or status=\"上门失败\" or status=\"拒访\" or status=\"重点跟进\" or status=\"二访失败\" or status=\"已结案\");";
 
         try {
         	statement.executeUpdate(sql1);
@@ -64,7 +66,10 @@ public class TaskService {
 			if(sql5 != null) {
 				statement.executeUpdate(sql5);
 			}
-			//log.info("------------renewed status update result:" + updateRst);
+			if(sql6 != null) {
+				statement.executeUpdate(sql6);
+			}
+			log.info("------------ task service update finish");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
