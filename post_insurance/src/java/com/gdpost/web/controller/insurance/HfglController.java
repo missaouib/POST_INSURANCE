@@ -718,7 +718,7 @@ public class HfglController {
 		//request.setAttribute("encodeHasLetter", Base64Utils.encodeToString(URLEncoder.encode(hasLetter, "UTF-8").getBytes()));
 		request.setAttribute("hasLetter", urlEncoder.encode(hasLetter, "UTF-8"));
 		
-		if(page.getOrderField() == null) {
+		if(page.getOrderField() == null || page.getOrderField().trim().length()<=0) {
 			page.setOrderField("readyDate");
 			page.setOrderDirection("DESC");
 		}
@@ -857,7 +857,7 @@ public class HfglController {
 			canCallAgain = true;
 		}
 		
-		if(page.getOrderField() == null) {
+		if(page.getOrderField() == null || page.getOrderField().trim().length()<=0) {
 			page.setOrderField("issueNo");
 			page.setOrderDirection("DESC");
 		}

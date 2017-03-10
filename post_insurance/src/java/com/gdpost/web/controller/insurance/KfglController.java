@@ -297,7 +297,7 @@ public class KfglController {
 		Issue issue = new Issue();
 		issue.setStatus(status);
 		
-		if(page.getOrderField() == null) {
+		if(page.getOrderField() == null || page.getOrderField().trim().length()<=0) {
 			page.setOrderField("readyDate");
 			page.setOrderDirection("ASC");
 		}
@@ -391,7 +391,7 @@ public class KfglController {
 		Issue issue = new Issue();
 		issue.setStatus(status);
 		
-		if(page.getOrderField() == null) {
+		if(page.getOrderField() == null || page.getOrderField().trim().length()<=0) {
 			page.setOrderField("readyDate");
 			page.setOrderDirection("ASC");
 		}

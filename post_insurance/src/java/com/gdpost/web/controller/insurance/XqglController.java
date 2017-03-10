@@ -11,6 +11,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
@@ -25,6 +26,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Base64Utils;
@@ -236,9 +239,13 @@ public class XqglController {
 			request.setAttribute("policy_name", orgName);
 		}
 		
-		if(page.getOrderField() == null) {
-			page.setOrderField("policy.policyDate");
-			page.setOrderDirection("ASC");
+		if(page.getOrderField() == null || page.getOrderField().trim().length()<=0) {
+//			page.setOrderField("policy.policyDate");
+//			page.setOrderDirection("ASC");
+			List<Order> orders=new ArrayList<Order>();
+			orders.add(new Order(Direction.DESC, "feeDate"));
+			orders.add(new Order(Direction.ASC, "policy.policyDate"));
+			page.setOrders(orders);
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
@@ -376,9 +383,11 @@ public class XqglController {
 			request.setAttribute("policy_name", orgName);
 		}
 		
-		if(page.getOrderField() == null) {
-			page.setOrderField("policy.policyDate");
-			page.setOrderDirection("ASC");
+		if(page.getOrderField() == null || page.getOrderField().trim().length()<=0) {
+			List<Order> orders=new ArrayList<Order>();
+			orders.add(new Order(Direction.DESC, "feeDate"));
+			orders.add(new Order(Direction.ASC, "policy.policyDate"));
+			page.setOrders(orders);
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
@@ -459,9 +468,11 @@ public class XqglController {
 		} else if(!orgCode.contains(user.getOrganization().getOrgCode())){
 			orgCode = user.getOrganization().getOrgCode();
 		}
-		if(page.getOrderField() == null) {
-			page.setOrderField("policy.policyDate");
-			page.setOrderDirection("ASC");
+		if(page.getOrderField() == null || page.getOrderField().trim().length()<=0) {
+			List<Order> orders=new ArrayList<Order>();
+			orders.add(new Order(Direction.DESC, "feeDate"));
+			orders.add(new Order(Direction.ASC, "policy.policyDate"));
+			page.setOrders(orders);
 		}
 		page.setNumPerPage(65564);
 		
