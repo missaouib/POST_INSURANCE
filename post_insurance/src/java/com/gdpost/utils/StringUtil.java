@@ -332,9 +332,16 @@ public class StringUtil {
 	}
 	
 	public static void main(String[] args) {
-		Date date1 = new Date();
-		Date date2 = StringUtil.str2Date("2017-03-06", "yyyy-MM-dd");
-		System.out.println(StringUtil.getBetweenDay(date2, date1));
+		Calendar ca = Calendar.getInstance();
+		Date d = StringUtil.str2Date("2016-03-20", "yyyy-MM-dd");
+		ca.setTime(d);
+		ca.set(Calendar.DAY_OF_YEAR, 1);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String p1 = sdf.format(ca.getTime());
+		ca.set(Calendar.YEAR, 2016);
+        ca.roll(Calendar.DAY_OF_YEAR, -1);
+		String p2 = sdf.format(ca.getTime());
+		System.out.println(p1 + ":" + p2);
 		
 	}
 }

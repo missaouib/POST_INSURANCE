@@ -17,5 +17,6 @@ import com.gdpost.web.entity.main.Policy;
  */
 public interface PolicyDAO extends JpaRepository<Policy, Long>, JpaSpecificationExecutor<Policy> {
 	Policy getByPolicyNo(String policyNo);
-
+	
+	Policy getByPolicyDtlHolderCardNum(String idCardNum);
 }

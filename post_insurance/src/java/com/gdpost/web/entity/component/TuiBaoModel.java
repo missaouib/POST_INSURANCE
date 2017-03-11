@@ -137,5 +137,12 @@ public class TuiBaoModel implements java.io.Serializable {
 	public void setStaffFlag(String staffFlag) {
 		this.staffFlag = staffFlag;
 	}
+
+	@Override
+	public String toString() {
+		return "TuiBaoModel [organName=" + organName + ", policyFee=" + policyFee + ", sumCsFee=" + sumCsFee
+				+ ", sumPolicyFee=" + sumPolicyFee + ", levelFlag=" + levelFlag + ", netFlag=" + netFlag + ", prdCode="
+				+ prdCode + ", prdName=" + prdName + ", perm=" + perm + ", staffFlag=" + staffFlag + "]";
+	}
 	
 }

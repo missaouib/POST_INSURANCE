@@ -76,6 +76,11 @@ public class PolicyServiceImpl implements PolicyService {
 	public Policy getByPolicyNo(String policyNo) {
 		return policyDAO.getByPolicyNo(policyNo);
 	}
+	
+	@Override
+	public Policy getByHolderIdCardNum(String idCardNum) {
+		return policyDAO.getByPolicyDtlHolderCardNum(idCardNum);
+	}
 
 	/*
 	 * ===================================================
