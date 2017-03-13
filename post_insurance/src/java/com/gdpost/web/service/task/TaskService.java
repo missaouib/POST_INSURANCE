@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.gdpost.web.log.Log;
+import com.gdpost.web.log.LogLevel;
+import com.gdpost.web.log.LogModule;
 
 @Service
 @Transactional
@@ -27,6 +30,7 @@ public class TaskService {
 		this.dateSource = dateSource;
 	}
 
+	@Log(message="spring task update batch job。", level=LogLevel.WARN, module=LogModule.HFGL)
 	public void updateDB() {		
 		log.info("---------   task to update hfgl's data");
 		java.sql.Connection connection = null;
@@ -45,30 +49,49 @@ public class TaskService {
 		String sql4 = null;
 		String sql5 = null;
 		String sql6 = null;
+		int iRst1 = -1;
+		int iRst2 = -1;
+		int iRst3 = -1;
+		int iRst4 = -1;
+		int iRst5 = -1;
+		int iRst6 = -1;
 		sql1 = "update t_call_fail_list set status = \"重点跟进\" where status='二访失败' and 15-datediff(now(),bill_back_date)<=3;";
 		sql2 = "update t_call_fail_list set status = \"重点跟进\" where status='二访失败' and (hq_deal_type_else like '%电话错误%' or hq_deal_type_else like '%挂断%' or hq_deal_type_else like '%拒接%' or hq_deal_type_else like '%不配合%' or hq_deal_type_else like '%过期%' or hq_deal_type_else like '%空号%' or hq_deal_type_else like '%无法联系本人%' or hq_deal_type_else like '%不信任%');";
-		sql3 = "update t_call_fail_list t1 set status=\"需上门回访\" where datediff(NOW(),bill_back_date)>15 and (status=\"二访失败\" or status=\"重点跟进\");";
+		sql3 = "update t_call_fail_list set status=\"需上门回访\" where datediff(NOW(),bill_back_date)>15 and (status=\"二访失败\" or status=\"重点跟进\");";
 		sql4 = "update t_call_fail_list set status=\"上门成功\" where org_deal_flag=1 and (status=\"重点跟进\" or status=\"需上门回访\");";
 		sql5 = "update t_call_fail_list set status=\"上门成功\" where org_deal_flag=1 and (status=\"二访成功\");";
 		sql6 = "update t_call_fail_list set status=\"信函成功\" where has_letter=\"信函成功\" and (status=\"上门成功\" or status=\"需上门回访\" or status=\"上门失败\" or status=\"拒访\" or status=\"重点跟进\" or status=\"二访失败\" or status=\"已结案\");";
 
         try {
-        	statement.executeUpdate(sql1);
+        	log.info("------------ task service 1 :" + sql1);
+        	iRst1 = statement.executeUpdate(sql1);
+        	log.info("------------ task service 1 rst :" + iRst1);
 			if(sql2 != null) {
-				statement.executeUpdate(sql2);
+				log.info("------------ task service 2 :" + sql2);
+				iRst2 = statement.executeUpdate(sql2);
+				log.info("------------ task service 2 rst :" + iRst2);
 			}
 			if(sql3 != null) {
-				statement.executeUpdate(sql3);
+				log.info("------------ task service 3 :" + sql3);
+				iRst3 = statement.executeUpdate(sql3);
+				log.info("------------ task service 3 rst :" + iRst3);
 			}
 			if(sql4 != null) {
-				statement.executeUpdate(sql4);
+				log.info("------------ task service 4 :" + sql4);
+				iRst4 = statement.executeUpdate(sql4);
+				log.info("------------ task service 4 rst :" + iRst4);
 			}
 			if(sql5 != null) {
-				statement.executeUpdate(sql5);
+				log.info("------------ task service 5 :" + sql5);
+				iRst5 = statement.executeUpdate(sql5);
+				log.info("------------ task service 5 rst :" + iRst5);
 			}
 			if(sql6 != null) {
-				statement.executeUpdate(sql6);
+				log.info("------------ task service 6 :" + sql6);
+				iRst6 = statement.executeUpdate(sql6);
+				log.info("------------ task service 6 rst :" + iRst6);
 			}
+			connection.commit();
 			log.info("------------ task service update finish");
 		} catch (SQLException e) {
 			e.printStackTrace();

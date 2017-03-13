@@ -65,9 +65,9 @@ public class Log4JDBCImpl extends LogAdapter {
 		LogInfo logInfo = new LogInfo();
 		logInfo.setCreateTime(new Date());
 		
-		logInfo.setUsername(shiroUser.getLoginName());
+		logInfo.setUsername(shiroUser==null?"admin":(shiroUser.getLoginName() + shiroUser.getUser().getUsername()));
 		logInfo.setMessage(result);
-		logInfo.setIpAddress(shiroUser.getIpAddress());
+		logInfo.setIpAddress(shiroUser==null?"127.0.0.1":shiroUser.getIpAddress());
 		logInfo.setLogLevel(logLevel);
 		logInfo.setModule(module.getDesc());
 		
