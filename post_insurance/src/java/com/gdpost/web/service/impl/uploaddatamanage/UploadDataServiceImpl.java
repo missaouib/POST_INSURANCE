@@ -494,7 +494,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql.append("hq_deal_date6=VALUES(hq_deal_date6), hq_deal_man6=VALUES(hq_deal_man6), ");
 			sql.append("hq_deal_type6=VALUES(hq_deal_type6), hq_deal_rst6=VALUES(hq_deal_rst6);");
 			log.debug("----------------batch update : " + sql);
-			sql2 = "delete from t_call_fail_list where issue_no is null";
+			sql2 = "delete from t_call_fail_list where issue_no is null;";
 			break;
 		case MiniCallFailStatus:
 			standardColumns = CallFailHQMiniListColumn.getStandardColumns();

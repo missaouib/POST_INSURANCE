@@ -868,3 +868,7 @@ create table t_cs_addr
 
 alter table t_renewed_list add column fee_match varchar(24);
 调整续期催收列表主键加上年度。
+
+delete from t_bank_code where id=1849;
+ delete from t_bank_code where id=228;
+ delete from t_bank_code where id=223;
