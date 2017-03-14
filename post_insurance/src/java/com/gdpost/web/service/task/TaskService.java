@@ -64,6 +64,10 @@ public class TaskService {
 
         try {
         	log.info("------------ task service 1 :" + sql1);
+        	String sql = "insert into t_log_info (username, message,ip_address,log_level,module) values "
+					+ "('admin','spring task update batch job start.','127.0.0.1','WARN','回访管理');";
+        	statement.executeUpdate(sql);
+        	
         	iRst1 = statement.executeUpdate(sql1);
         	log.info("------------ task service 1 rst :" + iRst1);
 			if(sql2 != null) {
@@ -91,7 +95,17 @@ public class TaskService {
 				iRst6 = statement.executeUpdate(sql6);
 				log.info("------------ task service 6 rst :" + iRst6);
 			}
+			
+			sql = "update t_under_write t1,t_policy_reprint_dtl t2 set t1.prov_ems_no=t2.ems_no, t1.status='SendStatus', "
+					+ "t1.prov_send_date=t2.print_date where t1.policy_no is not null and (t1.policy_no=t2.policy_no or t1.form_no=t2.form_no) "
+					+ "and t1.status='NewStatus';";
+			statement.executeUpdate(sql);
+			
 			connection.commit();
+			
+			sql = "insert into t_log_info (username, message,ip_address,log_level,module) values "
+					+ "('admin','spring task end。犹豫期设重点跟进" + iRst1 + ",其他重点跟进" + iRst2 + ",犹豫期外需上门" + iRst3 + ",信函成功" + iRst6 + "','127.0.0.1','WARN','回访管理');";
+			statement.executeUpdate(sql);
 			log.info("------------ task service update finish");
 		} catch (SQLException e) {
 			e.printStackTrace();
