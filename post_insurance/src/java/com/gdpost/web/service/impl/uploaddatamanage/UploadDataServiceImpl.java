@@ -355,32 +355,25 @@ public class UploadDataServiceImpl implements UploadDataService{
 			//statement.execute(strStatementText);
         	int updateRow = statement.executeUpdate(strStatementText);
         	dr.setUpdateRow(updateRow);
-        	connection.commit();
+        	
 			if(sql1 != null) {
         		statement.executeUpdate(sql1);
-        		connection.commit();
         	}
 			if(sql2 != null) {
         		statement.executeUpdate(sql2);
-        		connection.commit();
         	}
 			if(sql3 != null) {
         		statement.executeUpdate(sql3);
-        		connection.commit();
         	}
 			if(sql4 != null) {
         		statement.executeUpdate(sql4);
-        		connection.commit();
         	}
 			if(sql5 != null) {
         		statement.executeUpdate(sql5);
-        		connection.commit();
         	}
 			if(sql6 != null) {
         		statement.executeUpdate(sql6);
-        		connection.commit();
         	}
-			connection.commit();
 			
 			dr.setFlag(true);
 		} catch (SQLException e) {
@@ -1016,26 +1009,21 @@ public class UploadDataServiceImpl implements UploadDataService{
         try {
         	int updateRow = statement.executeUpdate(sql.toString());
         	dr.setUpdateRow(updateRow);
-        	connection.commit();
+        	
 			if(sql2 != null) {
 				statement.execute(sql2);
-				connection.commit();
 			}
 			if(sql3 != null) {
 				statement.execute(sql3);
-				connection.commit();
 			}
 			if(sql4 != null) {
 				statement.execute(sql4);
-				connection.commit();
 			}
 			if(sql5 != null) {
 				statement.execute(sql5);
-				connection.commit();
 			}
 			if(sql6 != null) {
 				statement.execute(sql6);
-				connection.commit();
 			}
 			//log.info("------------renewed status update result:" + updateRst);
 			dr.setFlag(true);
