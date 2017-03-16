@@ -48,6 +48,10 @@ public class StasticsController {
 	private static final String STAFF_TOXLS = "insurance/stastics/staff/staffXls";
 	private static final String STAFF_DTL_TOXLS = "insurance/stastics/staff/staffDtlXls";
 	
+	private static final String UW_LIST = "insurance/stastics/underwrite/stats";
+	private static final String UW_TOXLS = "insurance/stastics/underwrite/UW_Xls";
+	private static final String UW_DTL_TOXLS = "insurance/stastics/underwrite/UW_DtlXls";
+	
 	/*
 	 * =======================================
 	 * tuibao

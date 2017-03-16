@@ -53,6 +53,7 @@ import com.gdpost.utils.TemplateHelper.RenewedHQListColumn;
 import com.gdpost.utils.TemplateHelper.RenewedProvListColumn;
 import com.gdpost.utils.TemplateHelper.RenewedStatusColumn;
 import com.gdpost.utils.TemplateHelper.Template.FileTemplate;
+import com.gdpost.utils.TemplateHelper.UnderWriteDtlColumn;
 import com.gdpost.utils.TemplateHelper.UnderWriteSentDataColumn;
 import com.gdpost.utils.UploadDataHelper.UploadDataUtils;
 import com.gdpost.web.dao.uploaddatamanage.UploadDataDAO;
@@ -237,6 +238,9 @@ public class UploadDataServiceImpl implements UploadDataService{
 			standardColumns = PolicySentDataColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_policy_reprint_dtl character set utf8 (";
 			break;
+		case UnderWriteDtlData:
+			standardColumns = UnderWriteDtlColumn.getStandardColumns();
+			return dr;
 		case ConversationReq:
 			standardColumns = ConversationReqColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_conservation_req character set utf8 (";
@@ -1003,6 +1007,51 @@ public class UploadDataServiceImpl implements UploadDataService{
 			log.debug("----------------city update status batch sql : " + sql);
 			sql2 = "delete from t_under_write where holder is null";
 			break;
+		case UnderWriteDtlData:
+			standardColumns = UnderWriteDtlColumn.getStandardColumns();
+			sql = new StringBuffer("INSERT INTO t_under_write(policy_no, issue_desc, status, issue_type, issue_content, "
+					+ "hq_deal_date, hq_deal_man, hq_deal_type, hq_deal_rst, "
+					+ "hq_deal_date2, hq_deal_man2, hq_deal_type2, hq_deal_rst2, hq_deal_date3, hq_deal_man3, hq_deal_type3, hq_deal_rst3, "
+					+ "hq_deal_date4, hq_deal_man4, hq_deal_type4, hq_deal_rst4, hq_deal_date5, hq_deal_man5, hq_deal_type5, hq_deal_rst5, "
+					+ "hq_deal_date6, hq_deal_man6, hq_deal_type6, hq_deal_rst6) VALUES ");
+			line = null;
+			for (DataRow row : dt.Rows) {
+				line = new StringBuffer("(");
+	        	for(ColumnItem item : standardColumns) {
+	        		val = StringUtil.trimStr(row.getValue(item.getDisplayName()));
+        			
+	        		if(item.getDisplayName().contains("回访日期")) {
+	        			if(val == null || val.toString().trim().length() <= 0) {
+	        				line.append("null,");
+	        			} else {
+	        				line.append("\"" + StringUtil.trimStr(val, true) + "\",");
+	        			}
+	        		} else {
+	        			line.append("\"" + StringUtil.trimStr(val, true) + "\",");
+	        		}
+	        	}
+	        	line.deleteCharAt(line.length() - 1);
+	        	line.append("),");
+	        	sql.append(line);
+	        }
+			sql.deleteCharAt(sql.length() - 1);
+			sql.append(" ON DUPLICATE KEY UPDATE issue_desc=VALUES(issue_desc), status=VALUES(status), ");
+			sql.append("issue_type=VALUES(issue_type), issue_content=VALUES(issue_content), ");
+			sql.append("hq_deal_date=VALUES(hq_deal_date), hq_deal_man=VALUES(hq_deal_man), ");
+			sql.append("hq_deal_type=VALUES(hq_deal_type), hq_deal_rst=VALUES(hq_deal_rst), ");
+			sql.append("hq_deal_date2=VALUES(hq_deal_date2), hq_deal_man2=VALUES(hq_deal_man2), ");
+			sql.append("hq_deal_type2=VALUES(hq_deal_type2), hq_deal_rst2=VALUES(hq_deal_rst2), ");
+			sql.append("hq_deal_date3=VALUES(hq_deal_date3), hq_deal_man3=VALUES(hq_deal_man3), ");
+			sql.append("hq_deal_type3=VALUES(hq_deal_type3), hq_deal_rst3=VALUES(hq_deal_rst3), ");
+			sql.append("hq_deal_date4=VALUES(hq_deal_date4), hq_deal_man4=VALUES(hq_deal_man4), ");
+			sql.append("hq_deal_type4=VALUES(hq_deal_type4), hq_deal_rst4=VALUES(hq_deal_rst4), ");
+			sql.append("hq_deal_date5=VALUES(hq_deal_date5), hq_deal_man5=VALUES(hq_deal_man5), ");
+			sql.append("hq_deal_type5=VALUES(hq_deal_type5), hq_deal_rst5=VALUES(hq_deal_rst5), ");
+			sql.append("hq_deal_date6=VALUES(hq_deal_date6), hq_deal_man6=VALUES(hq_deal_man6), ");
+			sql.append("hq_deal_type6=VALUES(hq_deal_type6), hq_deal_rst6=VALUES(hq_deal_rst6);");
+			log.debug("----------------batch update : " + sql);
+			sql2 = "delete from t_under_write where form_no is null;";
+			break;
 		default:
 			break;
 		}
@@ -1197,6 +1246,9 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case RenewedFeeMatchList:
 			standardColumns = RenewedFeeMatchColumn.getStandardColumns();
 			keyRow = RenewedFeeMatchColumn.KEY_ROW;
+		case UnderWriteDtlData:
+			standardColumns = UnderWriteDtlColumn.getStandardColumns();
+			keyRow = UnderWriteDtlColumn.KEY_ROW;
 		}
 		
 	    boolean bFlag = true;
@@ -1272,7 +1324,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 						|| t.name().equals(FileTemplate.UnderWriteSentData.name())
 						|| t.name().equals(FileTemplate.CallFailMiniCityStatus.name())
 						|| t.name().equals(FileTemplate.PolicyBackDate.name())
-						|| t.name().equals(FileTemplate.RenewedFeeMatchList.name())) {
+						|| t.name().equals(FileTemplate.RenewedFeeMatchList.name())
+						|| t.name().equals(FileTemplate.UnderWriteDtlData.name())) {
 					
 					dr = updateStatusData(t, request, dt);
 					
