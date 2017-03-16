@@ -18,5 +18,5 @@ import com.gdpost.web.entity.main.InvoiceReq;
  * @author MyEclipse Persistence Tools
  */
 public interface InvoiceReqDAO extends JpaRepository<InvoiceReq, Long>, JpaSpecificationExecutor<InvoiceReq> {
-	InvoiceReq getByPolicyPolicyNoAndFeeDate(String policyNo, Date feeDate);
+	InvoiceReq getByPolicyPolicyNoAndFeeDateBetween(String policyNo, Date feeDate1, Date feeDate2);
 }

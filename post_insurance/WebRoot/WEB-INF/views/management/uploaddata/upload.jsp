@@ -124,7 +124,7 @@ function displayTips(val) {
 		return;
 	}
 	if(val=="RenewedFeeMatchList") {
-		$("#tipsDesc").html("省分（二访中心）催收清单须含列：保险单号码\t险种名称\t保单年度\t匹配结果，关键列：匹配结果");
+		$("#tipsDesc").html("省分（二访中心）催收清单须含列：保险单号码\t险种名称\t保单年度\t匹配结果\t一访时间\t催收类型\t一访结果\t一访详情，关键列：匹配结果");
 		return;
 	}
 	if(val=="RenewedCityList") {

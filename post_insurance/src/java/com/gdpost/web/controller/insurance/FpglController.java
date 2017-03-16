@@ -41,6 +41,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.JavaBeanSerializer;
 import com.alibaba.fastjson.serializer.SerializeConfig;
 import com.gdpost.utils.SecurityUtils;
+import com.gdpost.utils.StringUtil;
 import com.gdpost.web.entity.main.InvoiceReq;
 import com.gdpost.web.entity.main.Policy;
 import com.gdpost.web.entity.main.User;
@@ -93,7 +94,10 @@ public class FpglController {
 	@RequiresPermissions("InvoiceReq:save")
 	@RequestMapping(value="/create", method=RequestMethod.POST)
 	public @ResponseBody String create(@Valid InvoiceReq req) {
-		if(fpglService.getByPolicyAndFeeDate(req.getPolicy(), req.getFeeDate()) != null) {
+		Date feeDate = req.getFeeDate();
+		Date feeDate1 = StringUtil.dateAdd(feeDate, -30);
+		Date feeDate2 = StringUtil.dateAdd(feeDate, 30);
+		if(fpglService.getByPolicyAndFeeDate(req.getPolicy(), feeDate1, feeDate2) != null) {
 			return AjaxObject.newError("此发票申请已申请当期发票：").toString();
 		}
 		try {

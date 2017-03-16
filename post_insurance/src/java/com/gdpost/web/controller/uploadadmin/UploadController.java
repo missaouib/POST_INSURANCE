@@ -66,7 +66,7 @@ public class UploadController {
 		List<String> roleDefine = new ArrayList<String>();
 		boolean isCity = false;
 		for(Role r:roles) {
-			if(r.getName().contains("地市")) {
+			if(r.getName().contains("地市") || r.getName().contains("县市")) {
 				isCity = true;
 			}
 			if(r.getName().contains("契约") || r.getName().contains("管理员")) {
@@ -88,7 +88,9 @@ public class UploadController {
 				roleDefine.add("LP");
 			}
 		}
-		roleDefine.add("ALL");
+		if (!isCity) {
+			roleDefine.add("ALL");
+		}
 		FileTemplate[] fts = FileTemplate.values();
 		List<FileTemplate> temp = new ArrayList<FileTemplate>();
 		for(FileTemplate ft:fts) {

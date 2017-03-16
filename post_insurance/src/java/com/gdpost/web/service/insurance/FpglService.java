@@ -27,5 +27,5 @@ public interface FpglService {
 	
 	List<InvoiceReq> findByExample(Specification<InvoiceReq> specification, Page page);
 	
-	InvoiceReq getByPolicyAndFeeDate(Policy policy, Date feeDate);
+	InvoiceReq getByPolicyAndFeeDate(Policy policy, Date feeDate1, Date feeDate2);
 }

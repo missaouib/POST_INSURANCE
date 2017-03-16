@@ -331,6 +331,13 @@ public class StringUtil {
 		return sdf.format(date);
 	}
 	
+	public static Date dateAdd(Date date, int addDay) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.add(Calendar.DAY_OF_MONTH, addDay);
+		return cal.getTime();
+	}
+	
 	public static void main(String[] args) {
 		Calendar ca = Calendar.getInstance();
 		Date d = StringUtil.str2Date("2016-03-20", "yyyy-MM-dd");

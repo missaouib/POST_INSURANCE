@@ -44,6 +44,34 @@ public class RenewedFeeMatchColumn {
 		column.setNullable(true);
 		standardColumns.add(column);
 		
+		column = new ColumnItem();
+		column.setDisplayName("一访时间");
+		column.setColumnName("prov_deal_date");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(true);
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
+		column.setDisplayName("催收类型");
+		column.setColumnName("prov_issue_type");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(true);
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
+		column.setDisplayName("一访结果");
+		column.setColumnName("prov_deal_rst");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(true);
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
+		column.setDisplayName("一访详情");
+		column.setColumnName("prov_deal_remark");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(true);
+		standardColumns.add(column);
+		
 		return(standardColumns);
 	}
 }

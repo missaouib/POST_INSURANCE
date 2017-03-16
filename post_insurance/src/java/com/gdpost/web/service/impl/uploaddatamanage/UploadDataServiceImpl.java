@@ -860,7 +860,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			break;
 		case RenewedFeeMatchList://总部的催收
 			standardColumns = RenewedFeeMatchColumn.getStandardColumns();
-			sql = new StringBuffer("INSERT INTO t_renewed_list(policy_no, prd_name, policy_year, fee_match) VALUES ");
+			sql = new StringBuffer("INSERT INTO t_renewed_list(policy_no, prd_name, policy_year, fee_match, prov_deal_date, prov_issue_type, prov_deal_rst, prov_deal_remark) VALUES ");
 			line = null;
 			isFail = false;
 			val = null;
@@ -879,7 +879,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        }
 			sql.deleteCharAt(sql.length() - 1);
 			sql.append(" ON DUPLICATE KEY UPDATE ");
-			sql.append("fee_match=VALUES(fee_match);");
+			sql.append("fee_match=VALUES(fee_match), prov_deal_date=VALUES(prov_deal_date), prov_issue_type=VALUES(prov_issue_type), "
+					+ "prov_deal_rst=VALUES(prov_deal_rst), prov_deal_remark=VALUES(prov_deal_remark);");
 			log.debug("----------------fee match batch sql : " + sql);
 			sql2 = "delete from t_renewed_list where holder is null";
 			break;
