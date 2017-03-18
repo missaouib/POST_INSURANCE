@@ -872,3 +872,15 @@ alter table t_renewed_list add column fee_match varchar(24);
 delete from t_bank_code where id=1849;
  delete from t_bank_code where id=228;
  delete from t_bank_code where id=223;
+ 
+create table t_mtd_code
+(
+   id  bigint not null auto_increment,
+   prod_code  varchar(8),
+   duty_code  varchar(12),
+   prod_name varchar(64),
+   prod_attr varchar(64),
+   perm integer,
+   match_code varchar(12),
+   primary key (id)
+)engine=innodb auto_increment=1 default charset=utf8;

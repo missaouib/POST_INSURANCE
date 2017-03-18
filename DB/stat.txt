@@ -1,0 +1,6 @@
+select organ_id,
+count(form_no) as un_count,
+sum(IFNULL(datediff(sign_input_date,ybt_date),datediff(now(),ybt_date))) as length_time '全时�?
+from t_under_write 
+where ybt_date>='2017-01-01' or sign_date>='2017-01-01'
+group by organ_id
