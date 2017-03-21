@@ -30,8 +30,11 @@
 					<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="" title="选择机构" width="400">查</a>
 				</td>
 				<td>
-					<label>省分收到日期：</label>
-					<input type="text" name="search_EQ_provReceiveDate" id="uwpsDate" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_EQ_provReceiveDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+					<label>状态：</label>
+					<form:select path="underwrite.status" id="uwStatus" class="combox">
+						<form:option value=""> -- -- </form:option>
+						<form:options items="${UWStatusList }" itemLabel="desc"/>
+					</form:select>
 				</td>
 			</tr>
 			<tr>
@@ -44,13 +47,13 @@
 					<input type="text" name="search_LTE_sysDate" id="uwDate2" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_sysDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 				</td>
 				<td>
-					<label>状态：</label>
-					<form:select path="underwrite.status" id="uwStatus" class="combox">
-						<form:option value=""> -- -- </form:option>
-						<form:options items="${UWStatusList }" itemLabel="desc"/>
-					</form:select>
+					<label>合同寄出起：</label>
+					<input type="text" name="search_GTE_provSendDate" id="uwDate1" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_provSendDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 				</td>
-				<td>&nbsp;</td>
+				<td>
+					<label>合同寄出止：</label>
+					<input type="text" name="search_LTE_provSendDate" id="uwDate2" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_provSendDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+				</td>
 			</tr>
 			</table>
 			<div class="subBar">
@@ -69,7 +72,7 @@
 			<shiro:hasPermission name="UnderWrite:view">
 				<li><a iconClass="magnifier" target="dialog" rel="underwrite_edit" mask="true" width="850" height="440" href="${contextPath }/qygl/underwrite/view/{slt_uid}"><span>查看</span></a></li>
 				<li class="line">line</li>
-				<li><a class="icon" target="_blank" target="dwzExport" href="${contextPath }/qygl/underwrite/toXls?search_LIKE_formNo=${param.search_LIKE_formNo }&orgCode=${orgCode }&status=${status }&search_LTE_sysDate=${param.search_LTE_sysDate }&search_GTE_sysDate=${param.search_GTE_sysDate }&search_EQ_provReceiveDate=${param.search_EQ_provReceiveDate}"><span>导出</span></a></li>
+				<li><a class="icon" target="_blank" target="dwzExport" href="${contextPath }/qygl/underwrite/toXls?search_LIKE_formNo=${param.search_LIKE_formNo }&orgCode=${orgCode }&status=${status }&search_LTE_sysDate=${param.search_LTE_sysDate }&search_GTE_sysDate=${param.search_GTE_sysDate }&search_GTE_provSendDate=${param.search_GTE_provSendDate}&search_LTE_provSendDate=${param.search_LTE_provSendDate}"><span>导出</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="UnderWrite:edit">
 			<li class="line">line</li>
@@ -110,7 +113,7 @@
 				<th orderField=organization.name class="${page.orderField eq 'organization.name' ? page.orderDirection : ''}">市县机构</th>
 				<th orderField=formNo class="${page.orderField eq 'formNo' ? page.orderDirection : ''}">投保单号</th>
 				<th orderField=policyNo class="${page.orderField eq 'policyNo' ? page.orderDirection : ''}">保单号</th>
-				<th>合同寄出</th>
+				<th orderField=provSendDate class="${page.orderField eq 'provSendDate' ? page.orderDirection : ''}">合同寄出</th>
 				<th>快递单号</th>
 				<th>地市接收</th>
 				<th>县区接收</th>

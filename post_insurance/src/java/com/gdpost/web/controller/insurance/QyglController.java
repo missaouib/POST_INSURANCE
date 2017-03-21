@@ -698,6 +698,9 @@ public class QyglController {
 		String status = request.getParameter("status");
 		if(status == null) {
 			status = UW_STATUS.NewStatus.name();
+			if(orgCode.length()>4) {
+				status = UW_STATUS.SendStatus.name();
+			}
 			request.setAttribute("status", status);
 		}
 		UnderWrite uw = new UnderWrite();
