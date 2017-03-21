@@ -798,10 +798,11 @@ public class UploadDataServiceImpl implements UploadDataService{
 			break;
 		case RenewedHQList://总部的催收
 			standardColumns = RenewedHQListColumn.getStandardColumns();
-			sql = new StringBuffer("INSERT INTO t_renewed_list(policy_no, prd_name, policy_year, hq_issue_type, hq_deal_rst, hq_deal_date, hq_deal_remark) VALUES ");
+			sql = new StringBuffer("INSERT INTO t_renewed_list(policy_no, prd_name, hq_issue_type, hq_deal_rst, hq_deal_date, hq_deal_remark) VALUES ");
 			line = null;
 			isFail = false;
 			val = null;
+			String tmpName = null;
 			for (DataRow row : dt.Rows) {
 				isFail = false;
 				val = null;
@@ -809,17 +810,19 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        	for(ColumnItem item : standardColumns) {
 	        		val = row.getValue(item.getDisplayName());
                 	
-	        		if(item.getDisplayName().equals("工单子类")) {
+	        		if(item.getDisplayName().equals("回访结果")) {
 	        			if(val == null || val.toString().length() <= 0) {
 	        				line.append("\"已告知\",");
 	        			} else {
 	        				line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        			}
-	        		} else if(item.getDisplayName().equals("回访日期")) {
+	        		} else if(item.getDisplayName().equals("主险名称")) {
 	        			if(val == null || val.toString().length() <= 0) {
 	        				line.append("null,");
 	        			} else {
-	        				line.append("\"" + StringUtil.trimStr(val, true) + "\",");
+	        				tmpName = StringUtil.trimStr(val, true);
+	        				tmpName = tmpName.replace("主险-", "");
+	        				line.append("\"" + tmpName + "\",");
 	        			}
 	        		} else {
 	        			line.append("\"" + StringUtil.trimStr(val, true) + "\",");

@@ -17,42 +17,42 @@ public class RenewedHQListColumn {
 		standardColumns = new ArrayList<ColumnItem>();
 		
 		ColumnItem column = new ColumnItem();
-		column.setDisplayName("保险单号码");
+		column.setDisplayName("保单号");
 		column.setColumnName("policy_no");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("保险产品");
+		column.setDisplayName("主险名称");
 		column.setColumnName("prd_name");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(false);
 		standardColumns.add(column);
 		
-		column = new ColumnItem();
-		column.setDisplayName("保单年度");
-		column.setColumnName("policy_year");
-		column.setColumnType(ColumnType.numeric);
-		column.setNullable(false);
-		standardColumns.add(column);
+//		column = new ColumnItem();
+//		column.setDisplayName("保单年度");
+//		column.setColumnName("policy_year");
+//		column.setColumnType(ColumnType.numeric);
+//		column.setNullable(false);
+//		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("备注");
+		column.setDisplayName("回访结果分类");
 		column.setColumnName("hq_issue_type");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("工单子类");
+		column.setDisplayName("回访结果");
 		column.setColumnName("hq_deal_rst");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("回访日期");
+		column.setDisplayName("创建时间");
 		column.setColumnName("hq_deal_date");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
