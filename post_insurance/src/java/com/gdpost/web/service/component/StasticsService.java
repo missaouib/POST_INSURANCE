@@ -13,6 +13,7 @@ import com.gdpost.web.entity.component.StaffDtlModel;
 import com.gdpost.web.entity.component.StaffModel;
 import com.gdpost.web.entity.component.TuiBaoDtlModel;
 import com.gdpost.web.entity.component.TuiBaoModel;
+import com.gdpost.web.entity.component.UwModel;
 
 public interface StasticsService {
 	
@@ -35,4 +36,8 @@ public interface StasticsService {
 	List<StaffModel> getProvStaffCountWithPolicyDate(String organCode, String d1, String d2, String flag, String prdCode, String toPerm);
 	
 	List<StaffDtlModel> getStaffDetailWithPolicyDate(String organCode, String d1, String d2, String flag, String prdCode, String toPerm);
+	
+	List<UwModel> getProvUwStastics(String organCode, String d1, String d2);
+	
+	List<UwModel> getCityUwStastics(String organCode, String d1, String d2);
 }
