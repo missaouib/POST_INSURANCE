@@ -1012,18 +1012,15 @@ public class UploadDataServiceImpl implements UploadDataService{
 			break;
 		case UnderWriteDtlData:
 			standardColumns = UnderWriteDtlColumn.getStandardColumns();
-			sql = new StringBuffer("INSERT INTO t_under_write(policy_no, issue_desc, status, issue_type, issue_content, "
-					+ "hq_deal_date, hq_deal_man, hq_deal_type, hq_deal_rst, "
-					+ "hq_deal_date2, hq_deal_man2, hq_deal_type2, hq_deal_rst2, hq_deal_date3, hq_deal_man3, hq_deal_type3, hq_deal_rst3, "
-					+ "hq_deal_date4, hq_deal_man4, hq_deal_type4, hq_deal_rst4, hq_deal_date5, hq_deal_man5, hq_deal_type5, hq_deal_rst5, "
-					+ "hq_deal_date6, hq_deal_man6, hq_deal_type6, hq_deal_rst6) VALUES ");
+			sql = new StringBuffer("INSERT INTO t_under_write(form_no,policy_no,prd_name,policy_fee,perm,underwrite_reason,issue,ybt_date,sys_date,check_date,"
+					+ "body_check_date1,body_check_date2,hb_end_date,prov_send_date,sign_date,client_receive_date,sign_input_date,form_write_date) VALUES ");
 			line = null;
 			for (DataRow row : dt.Rows) {
 				line = new StringBuffer("(");
 	        	for(ColumnItem item : standardColumns) {
 	        		val = StringUtil.trimStr(row.getValue(item.getDisplayName()));
         			
-	        		if(item.getDisplayName().contains("回访日期")) {
+	        		if(item.getDisplayName().contains("日期")) {
 	        			if(val == null || val.toString().trim().length() <= 0) {
 	        				line.append("null,");
 	        			} else {
@@ -1038,20 +1035,15 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        	sql.append(line);
 	        }
 			sql.deleteCharAt(sql.length() - 1);
-			sql.append(" ON DUPLICATE KEY UPDATE issue_desc=VALUES(issue_desc), status=VALUES(status), ");
-			sql.append("issue_type=VALUES(issue_type), issue_content=VALUES(issue_content), ");
-			sql.append("hq_deal_date=VALUES(hq_deal_date), hq_deal_man=VALUES(hq_deal_man), ");
-			sql.append("hq_deal_type=VALUES(hq_deal_type), hq_deal_rst=VALUES(hq_deal_rst), ");
-			sql.append("hq_deal_date2=VALUES(hq_deal_date2), hq_deal_man2=VALUES(hq_deal_man2), ");
-			sql.append("hq_deal_type2=VALUES(hq_deal_type2), hq_deal_rst2=VALUES(hq_deal_rst2), ");
-			sql.append("hq_deal_date3=VALUES(hq_deal_date3), hq_deal_man3=VALUES(hq_deal_man3), ");
-			sql.append("hq_deal_type3=VALUES(hq_deal_type3), hq_deal_rst3=VALUES(hq_deal_rst3), ");
-			sql.append("hq_deal_date4=VALUES(hq_deal_date4), hq_deal_man4=VALUES(hq_deal_man4), ");
-			sql.append("hq_deal_type4=VALUES(hq_deal_type4), hq_deal_rst4=VALUES(hq_deal_rst4), ");
-			sql.append("hq_deal_date5=VALUES(hq_deal_date5), hq_deal_man5=VALUES(hq_deal_man5), ");
-			sql.append("hq_deal_type5=VALUES(hq_deal_type5), hq_deal_rst5=VALUES(hq_deal_rst5), ");
-			sql.append("hq_deal_date6=VALUES(hq_deal_date6), hq_deal_man6=VALUES(hq_deal_man6), ");
-			sql.append("hq_deal_type6=VALUES(hq_deal_type6), hq_deal_rst6=VALUES(hq_deal_rst6);");
+			sql.append(" ON DUPLICATE KEY UPDATE policy_no=VALUES(policy_no), prd_name=VALUES(prd_name), ");
+			sql.append("policy_fee=VALUES(policy_fee), perm=VALUES(perm), ");
+			sql.append("underwrite_reason=VALUES(underwrite_reason), issue=VALUES(issue), ");
+			sql.append("ybt_date=VALUES(ybt_date), sys_date=VALUES(sys_date), ");
+			sql.append("check_date=VALUES(check_date), body_check_date1=VALUES(body_check_date1), ");
+			sql.append("body_check_date2=VALUES(body_check_date2), hb_end_date=VALUES(hb_end_date), ");
+			sql.append("prov_send_date=VALUES(prov_send_date), sign_date=VALUES(sign_date), ");
+			sql.append("client_receive_date=VALUES(client_receive_date), sign_input_date=VALUES(sign_input_date), ");
+			sql.append("form_write_date=VALUES(form_write_date);");
 			log.debug("----------------batch update : " + sql);
 			sql2 = "delete from t_under_write where form_no is null;";
 			break;

@@ -884,3 +884,19 @@ create table t_mtd_code
    match_code varchar(12),
    primary key (id)
 )engine=innodb auto_increment=1 default charset=utf8;
+
+ alter table t_under_write modify underwrite_reason varchar(128);
+alter table t_under_write add column prd_name varchar(64);
+alter table t_under_write add column insured_age integer;
+alter table t_under_write add column perm integer;
+alter table t_under_write add column issue integer;
+alter table t_under_write add column body_check_date1 date;
+alter table t_under_write add column body_check_date2 date;
+alter table t_under_write add column hb_end_date date;
+alter table t_under_write add column form_write_date date;
+alter table t_under_write add column sync boolean default false;
+
+update t_under_write set policy_no='86440100019944' where form_no='281060004357376';
+delete yuesu policy_no from t_under_write;
+update t_under_write uw, t_policy tp set uw.policy_no=tp.policy_no, uw.holder=tp.holder, uw.insured=tp.insured, uw.sign_date=tp.policy_date, uw.policy_fee=tp.policy_fee, uw.sync=true where uw.form_no=tp.form_no and sync=false;
+

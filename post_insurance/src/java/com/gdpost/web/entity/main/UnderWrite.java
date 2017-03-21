@@ -65,6 +65,15 @@ public class UnderWrite implements Idable<Long> {
 	private String status;
 	private Date planDate;
 	private Boolean planFlag;
+	
+	private String prdName;
+	private Integer perm;
+	private Integer insuredAage;
+	private Integer issue;
+	private Date bodyCheckDate1;
+	private Date bodyCheckDate2;
+	private Date hbEndDate;
+	private Date formWriteDate;
 
 	@Transient
 	private Date receiveDate;
@@ -491,4 +500,62 @@ public class UnderWrite implements Idable<Long> {
 	public void setHolderAge(String holderAge) {
 		this.holderAge = holderAge;
 	}
+	@Column(name="prd_name")
+	public String getPrdName() {
+		return prdName;
+	}
+	public void setPrdName(String prdName) {
+		this.prdName = prdName;
+	}
+	@Column(name="perm")
+	public Integer getPerm() {
+		return perm;
+	}
+	public void setPerm(Integer perm) {
+		this.perm = perm;
+	}
+	@Column(name="insured_age")
+	public Integer getInsuredAage() {
+		return insuredAage;
+	}
+	public void setInsuredAage(Integer insuredAage) {
+		this.insuredAage = insuredAage;
+	}
+	@Column(name="issue")
+	public Integer getIssue() {
+		return issue;
+	}
+	public void setIssue(Integer issue) {
+		this.issue = issue;
+	}
+	@Column(name="body_check_date1")
+	public Date getBodyCheckDate1() {
+		return bodyCheckDate1;
+	}
+	public void setBodyCheckDate1(Date bodyCheckDate1) {
+		this.bodyCheckDate1 = bodyCheckDate1;
+	}
+	@Column(name="body_check_date2")
+	public Date getBodyCheckDate2() {
+		return bodyCheckDate2;
+	}
+	public void setBodyCheckDate2(Date bodyCheckDate2) {
+		this.bodyCheckDate2 = bodyCheckDate2;
+	}
+	@Column(name="hb_end_date")
+	public Date getHbEndDate() {
+		return hbEndDate;
+	}
+	public void setHbEndDate(Date hbEndDate) {
+		this.hbEndDate = hbEndDate;
+	}
+	@Column(name="form_write_date")
+	public Date getFormWriteDate() {
+		return formWriteDate;
+	}
+	public void setFormWriteDate(Date formWriteDate) {
+		this.formWriteDate = formWriteDate;
+	}
+	
+	
 }

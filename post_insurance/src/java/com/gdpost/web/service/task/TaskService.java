@@ -162,6 +162,15 @@ public class TaskService {
 					+ "('admin','spring task end。犹豫期设重点跟进" + iRst1 + ",其他重点跟进" + iRst2 + ",犹豫期外需上门" + iRst3 + ",信函成功" + iRst6 + "','127.0.0.1','WARN','回访管理');";
 			statement.executeUpdate(sql);
 			log.info("------------ sql :" + sql);
+			
+			sql = "update t_under_write uw, t_policy tp set uw.policy_no=tp.policy_no, uw.holder=tp.holder, uw.sign_date=tp.policy_date, uw.policy_fee=tp.policy_fee, uw.perm=tp.perm, uw.sync=true where uw.form_no=tp.form_no and sync=false;";
+			statement.executeUpdate(sql);
+			
+			sql = "update t_under_write uw, t_policy tp, t_organization org set uw.organ_id=org.id where uw.policy_no=tp.policy_no and tp.organ_code=org.org_code;";
+			statement.executeUpdate(sql);
+			
+			sql = "update t_under_write uw, t_policy tp, t_prd prd set uw.product_id=prd.id where uw.policy_no=tp.policy_no and tp.prod_code=left(prd.prd_code,6);";
+			statement.executeUpdate(sql);
 			log.info("------------ task service update finish");
 			
 		} catch (SQLException e) {
