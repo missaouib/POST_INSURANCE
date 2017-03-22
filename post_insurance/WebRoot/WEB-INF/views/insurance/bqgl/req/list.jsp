@@ -69,7 +69,7 @@
 			<li class="line">line</li>
 			<li><a target="selectedTodo" rel="ids" href="${contextPath }/bqgl/req/DealStatus" class="edit"><span>批量已处理</span></a></li>
 			<li class="line">line</li>
-			<li><a class="icon" target="_blank" href="${contextPath }/bqgl/req/toXls?search_LIKE_conservationDtl.policy.policyNo=${search_LIKE_conservationDtl_policy_policyNo }&orgCode=${orgCode }&search_LTE_reqDate=${search_LTE_conservationDtl_csDate }&search_GTE_reqDate=${search_GTE_conservationDtl_csDate }&status=${param.status }"><span>导出Excel</span></a></li>
+			<li><a class="icon" target="_blank" href="${contextPath }/bqgl/req/toXls?search_LIKE_formNo=${param.search_LIKE_formNo }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&orgCode=${orgCode }&search_LTE_reqDate=${param.search_LTE_reqDate }&search_GTE_reqDate=${param.search_GTE_reqDate }&status=${status }"><span>导出Excel</span></a></li>
 			<li class="line">line</li>
 			<li><a class="icon" target="dialog" href="${contextPath }/bqgl/help" mask="true" width="530" height="430"><span>功能说明</span></a></li>
 		</ul>

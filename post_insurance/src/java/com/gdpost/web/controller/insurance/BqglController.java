@@ -936,7 +936,7 @@ public class BqglController {
 		return	AjaxObject.newOk("批量" + status + "免填单数据成功！").setCallbackType("").toString();
 	}
 	
-	@RequiresPermissions("Conservation:view")
+	@RequiresPermissions("ConservationReq:view")
 	@RequestMapping(value="/req/toXls", method=RequestMethod.GET)
 	public String cReqtoXls(ServletRequest request, Page page, Map<String, Object> map) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();

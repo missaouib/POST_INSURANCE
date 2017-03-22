@@ -183,8 +183,8 @@
 		<thead>
 			<tr>
 				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>
-				<th>保单机构</th>
-				<th>可再访</th>
+				<th orderField=policy.organization.name class="${page.orderField eq 'policy.organization.name' ? page.orderDirection : ''}">保单机构</th>
+				<th orderField=canCallAgain class="${page.orderField eq 'canCallAgain' ? page.orderDirection : ''}">可再访</th>
 				<th orderField=issueNo class="${page.orderField eq 'issueNo' ? page.orderDirection : ''}">工单编号</th>
 				<th orderField=status class="${page.orderField eq 'status' ? page.orderDirection : ''}">工单状态</th>
 				<th>一访工单内容</th>
