@@ -50,8 +50,8 @@ public class StasticsController {
 	private static final String STAFF_DTL_TOXLS = "insurance/stastics/staff/staffDtlXls";
 	
 	private static final String UW_LIST = "insurance/stastics/underwrite/stats";
-	private static final String UW_TOXLS = "insurance/stastics/underwrite/UW_Xls";
-	private static final String UW_DTL_TOXLS = "insurance/stastics/underwrite/UW_DtlXls";
+	private static final String UW_TOXLS = "insurance/stastics/underwrite/uw_xls";
+	private static final String UW_DTL_TOXLS = "insurance/stastics/underwrite/uw_dtl_xls";
 	
 	/*
 	 * =======================================
@@ -723,6 +723,11 @@ public class StasticsController {
 			isCity = true;
 		}
 		
+		UwModel cm = new UwModel();
+		cm.setLevelFlag(levelFlag);
+		request.setAttribute("UwModel", cm);
+		
+		request.setAttribute("levelFlag", levelFlag);
 		request.setAttribute("orgCode", organCode);
 		request.setAttribute("name", organName);
 	
@@ -744,6 +749,25 @@ public class StasticsController {
 		}
 		
 		request.setAttribute("cmRst", temp);
+		
+		Integer tl50 = 0;
+		Integer tl30 = 0;
+		Integer tl20 = 0;
+		Integer tl10 = 0;
+		Integer tsc = 0;
+		
+		for(UwModel uw:temp) {
+			tl50 += (uw.getL50()==null?0:uw.getL50());
+			tl30 += (uw.getL30()==null?0:uw.getL30());
+			tl20 += (uw.getL20()==null?0:uw.getL20());
+			tl10 += (uw.getL10()==null?0:uw.getL10());
+			tsc += (uw.getSc()==null?0:uw.getSc());
+		}
+		request.setAttribute("tl50", tl50);
+		request.setAttribute("tl30", tl30);
+		request.setAttribute("tl20", tl20);
+		request.setAttribute("tl10", tl10);
+		request.setAttribute("tsc", tsc);
 		
 		Page page = new Page();
 		page.setNumPerPage(50);

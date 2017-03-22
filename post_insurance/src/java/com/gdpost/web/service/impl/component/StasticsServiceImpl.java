@@ -105,6 +105,6 @@ public class StasticsServiceImpl implements StasticsService {
 
 	@Override
 	public List<UwModel> getCityUwStastics(String organCode, String d1, String d2) {
-		return umDAO.getCityUwStastics(organCode, d1, d2);
+		return umDAO.getCityUwStastic(organCode, d1, d2);
 	}
 }

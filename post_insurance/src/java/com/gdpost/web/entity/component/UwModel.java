@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 /**
  * VCallFailList entity. @author MyEclipse Persistence Tools
@@ -23,7 +24,19 @@ public class UwModel implements java.io.Serializable {
 	private Integer l10;
 	private Integer sc;
 
+	@Transient
+	private String levelFlag;
 	// Constructors
+
+	@Transient
+	public String getLevelFlag() {
+		return levelFlag;
+	}
+
+	@Transient
+	public void setLevelFlag(String levelFlag) {
+		this.levelFlag = levelFlag;
+	}
 
 	/** default constructor */
 	public UwModel() {
