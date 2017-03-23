@@ -147,9 +147,9 @@ add column   customer_manager              varchar(16);
 
 INSERT INTO t_renewed_list(policy_no, fee_status, fee_fail_reason, prd_name) 
 VALUES
-('86440100003942', 'ÄãºÃ', 'Eliot', 'ÖĞÓÊ¸½¼ÓÖØ´ó¼²²¡±£ÏÕ'),
-('86440100003942', 'hello', 'Jhon', 'ÖĞÓÊÄêÄêºÃB¿îÄê½ğ±£ÏÕ£¨·ÖºìĞÍ£©'), 
-('86440100005030', 'ÎûÎû', 'Jim', 'ÖĞÓÊÄêÄêºÃ°Ù±¶±£Á½È«±£ÏÕ') 
+('86440100003942', 'ä½ å¥½', 'Eliot', 'ä¸­é‚®é™„åŠ é‡å¤§ç–¾ç—…ä¿é™©'),
+('86440100003942', 'hello', 'Jhon', 'ä¸­é‚®å¹´å¹´å¥½Bæ¬¾å¹´é‡‘ä¿é™©ï¼ˆåˆ†çº¢å‹ï¼‰'), 
+('86440100005030', 'å˜»å˜»', 'Jim', 'ä¸­é‚®å¹´å¹´å¥½ç™¾å€ä¿ä¸¤å…¨ä¿é™©') 
 ON DUPLICATE KEY UPDATE 
 policy_no=VALUES(policy_no), prd_name=VALUES(prd_name), 
 fee_status=VALUES(fee_status), fee_fail_reason=VALUES(fee_fail_reason);
@@ -502,7 +502,7 @@ ALTER TABLE `t_renewed_list` MODIFY COLUMN `policy_no` VARCHAR(18) COLLATE utf8_
 update t_call_fail_list t1, t_call_fail_list t2
 set t1.status=t2.status
 where t1.policy_no=t2.policy_no
-and t2.status="¶ş·Ã³É¹¦"
+and t2.status="äºŒè®¿æˆåŠŸ"
 
 alter table t_call_fail_list add column client_remark varchar(254) default null;
 alter table t_call_fail_list add column hq_deal_type_else varchar(254) default null;
@@ -702,7 +702,7 @@ engine=innodb auto_increment=1 default charset=utf8;
 
 /*==========20161210===========*/
 alter table t_call_fail_list modify column issue_no VARCHAR(21);
-alter table t_call_fail_list modify column status VARCHAR(16) not null default "´ı´¦Àí";
+alter table t_call_fail_list modify column status VARCHAR(16) not null default "å¾…å¤„ç†";
 alter table t_call_fail_list modify column issue_type VARCHAR(16);
 alter table t_call_fail_list modify column finish_date timestamp default current_timestamp;
 alter table t_call_fail_list add column task_type VARCHAR(32);
@@ -741,7 +741,7 @@ where
   (`a`.`policy_no` = `b`.`policy_no` and b.flag=0);
   
 alter table t_issue modify column issue_no VARCHAR(21);
-alter table t_issue modify column status VARCHAR(16) not null default "´ı´¦Àí";
+alter table t_issue modify column status VARCHAR(16) not null default "å¾…å¤„ç†";
 alter table t_issue modify column issue_type VARCHAR(16);
 alter table t_issue modify column finish_date timestamp default current_timestamp;
 alter table t_issue add column task_type VARCHAR(32);
@@ -782,7 +782,7 @@ alter table t_policy_reprint_dtl change flag pl_flag varchar(1);
 alter table t_bank_code change flag net_flag tinyint(1);
 alter table t_call_deal_type change flag type_flag tinyint(1);
 alter table t_renewal_type change flag type_flag tinyint(1);
-alter table t_invoice_req change flag req_flag varchar(2) DEFAULT NULL COMMENT 'Ê×ÆÚ ĞøÆÚ';
+alter table t_invoice_req change flag req_flag varchar(2) DEFAULT NULL COMMENT 'é¦–æœŸ ç»­æœŸ';
 alter table t_policy change flag attached_flag int(1) default 0;
 drop table t_call_feedback;
 drop table t_convicted_info;
@@ -867,7 +867,7 @@ create table t_cs_addr
 )engine=innodb auto_increment=1 default charset=utf8;
 
 alter table t_renewed_list add column fee_match varchar(24);
-è°ƒæ•´ç»­æœŸå‚¬æ”¶åˆ—è¡¨ä¸»é”®åŠ ä¸Šå¹´åº¦ã€‚
+ç’‹å†©æš£ç¼î…Ÿæ¹¡éŒî„æ•¹é’æ¥„ã€ƒæ¶“å©šæ•­é”çŠ±ç¬‚éªæ‘å®³éŠ†?
 
 delete from t_bank_code where id=1849;
  delete from t_bank_code where id=228;
@@ -900,3 +900,4 @@ update t_under_write set policy_no='86440100019944' where form_no='2810600043573
 delete yuesu policy_no from t_under_write;
 update t_under_write uw, t_policy tp set uw.policy_no=tp.policy_no, uw.holder=tp.holder, uw.insured=tp.insured, uw.sign_date=tp.policy_date, uw.policy_fee=tp.policy_fee, uw.sync=true where uw.form_no=tp.form_no and sync=false;
 
+alter table t_under_write add column net_name varchar(128);

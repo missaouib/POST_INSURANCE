@@ -39,9 +39,9 @@
 	<div class="panelBar">
 		<ul class="toolBar">
 			<li class="line">line</li>
-			<li><a class="icon" target="_blank" href="${contextPath }/component/stastics/underwrite/toXls?orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&prdCode=${prdCode}&levelFlag=${levelFlag}&netFlag=${netFlag}&perm=${perm}"><span>导出统计结果</span></a></li>
+			<li><a class="icon" target="_blank" href="${contextPath }/component/stastics/underwrite/toXls?orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&levelFlag=${levelFlag}"><span>导出统计结果</span></a></li>
 			<li class="line">line</li>
-			<li><a class="icon" target="_blank" href="${contextPath }/component/stastics/underwrite/dtlXls?orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&prdCode=${prdCode}&levelFlag=${levelFlag}&netFlag=${netFlag}&perm=${perm}"><span>导出明细数据</span></a></li>
+			<li><a class="icon" target="_blank" href="${contextPath }/component/stastics/underwrite/dtlXls?orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&levelFlag=${levelFlag}"><span>导出明细数据</span></a></li>
 		</ul>
 	</div>
 	<div id="w_list_print">
@@ -61,7 +61,7 @@
 			<c:forEach var="item" items="${cmRst}" varStatus="idx">
 			<tr>
 				<td>${idx.index+1 }</td>
-				<td>${item.organName}</td>
+				<td>${item.orgName}</td>
 				<td style="text-align: right;width: 100px;font-weight:800; "><fmt:formatNumber value="${item.l10 eq 0?'':item.l10}" pattern="#,###" /></td>
 				<td style="text-align: right;width: 100px;font-weight:800;"><fmt:formatNumber value="${item.l20 eq 0?'':item.l20}" pattern="#,###" /></td>
 				<td style="text-align: right;width: 100px;font-weight:800;"><fmt:formatNumber value="${item.l30 eq 0?'':item.l30}" pattern="#,###.#" /></td>

@@ -10,11 +10,13 @@ import com.gdpost.web.dao.component.StaffDtlModelDAO;
 import com.gdpost.web.dao.component.StaffModelDAO;
 import com.gdpost.web.dao.component.TuiBaoDtlModelDAO;
 import com.gdpost.web.dao.component.TuiBaoModelDAO;
+import com.gdpost.web.dao.component.UwDtlModelDAO;
 import com.gdpost.web.dao.component.UwModelDAO;
 import com.gdpost.web.entity.component.StaffDtlModel;
 import com.gdpost.web.entity.component.StaffModel;
 import com.gdpost.web.entity.component.TuiBaoDtlModel;
 import com.gdpost.web.entity.component.TuiBaoModel;
+import com.gdpost.web.entity.component.UwDtlModel;
 import com.gdpost.web.entity.component.UwModel;
 import com.gdpost.web.service.component.StasticsService;
 
@@ -37,6 +39,9 @@ public class StasticsServiceImpl implements StasticsService {
 	
 	@Autowired
 	private UwModelDAO umDAO;
+	
+	@Autowired
+	private UwDtlModelDAO udDAO;
 
 	@Override
 	public List<TuiBaoModel> getTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(String organCode, String d1, String d2, String d3, String d4, String prdCode, String toPerm, String staffFlag) {
@@ -106,5 +111,10 @@ public class StasticsServiceImpl implements StasticsService {
 	@Override
 	public List<UwModel> getCityUwStastics(String organCode, String d1, String d2) {
 		return umDAO.getCityUwStastic(organCode, d1, d2);
+	}
+
+	@Override
+	public List<UwDtlModel> getUwDtlStastics(String organCode, String d1, String d2) {
+		return udDAO.getUwDtlStastic(organCode, d1, d2);
 	}
 }

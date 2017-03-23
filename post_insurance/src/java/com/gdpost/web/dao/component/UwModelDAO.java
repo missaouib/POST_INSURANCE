@@ -22,12 +22,12 @@ import com.gdpost.web.entity.component.UwModel;
 public interface UwModelDAO extends JpaRepository<UwModel, String>, JpaSpecificationExecutor<UwModel> {
 	
 	@Query(name="getProvUwStastic",
-			value="select left(hb.name,2) as organ_name,count(hb.L50) as 'l50',count(hb.L30) as 'l30',count(hb.L20) as 'l20', count(hb.L10) as 'l10',(count(hb.L50)+count(hb.L30)+count(hb.L20)+ count(hb.L10)) as 'sc' from "
+			value="select left(hb.name,2) as org_name,SUM(hb.L50) as 'l50',SUM(hb.L30) as 'l30',SUM(hb.L20) as 'l20', SUM(hb.L10) as 'l10',(SUM(hb.L50)+SUM(hb.L30)+SUM(hb.L20)+ SUM(hb.L10)) as 'sc' from "
 			+ "(select tb.org_code, tb.name, "
-			+ "max(case when longPerm='L50' then 'L50' end) as 'L50', "
-			+ "max(case when longPerm='L30' then 'L30' end) as 'L30', "
-			+ "max(case when longPerm='L20' then 'L20' end) as 'L20', "
-			+ "max(case when longPerm='L10' then 'L10' end) as 'L10' "
+			+ "count(case when longPerm='L50' then 'L50' else null end) as 'L50', "
+			+ "count(case when longPerm='L30' then 'L30' else NULL end) as 'L30', "
+			+ "count(case when longPerm='L20' then 'L20' else NULL end) as 'L20', "
+			+ "count(case when longPerm='L10' then 'L10' else NULL end) as 'L10' "
 			+ "from ( "
 			+ "select org.org_code, org.name, "
 			+ "case when DATEDIFF(now(),prov_send_date)>=50 then 'L50' "
@@ -49,12 +49,12 @@ public interface UwModelDAO extends JpaRepository<UwModel, String>, JpaSpecifica
 	List<UwModel> getProvUwStastic(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2);
 	
 	@Query(name="getCityUwStastic",
-			value="select hb.name as organ_name,count(hb.L50) as 'l50',count(hb.L30) as 'l30',count(hb.L20) as 'l20', count(hb.L10) as 'l10',(count(hb.L50)+count(hb.L30)+count(hb.L20)+ count(hb.L10)) as 'sc' from "
+			value="select hb.name as org_name,SUM(hb.L50) as 'l50',SUM(hb.L30) as 'l30',SUM(hb.L20) as 'l20', SUM(hb.L10) as 'l10',(SUM(hb.L50)+SUM(hb.L30)+SUM(hb.L20)+ SUM(hb.L10)) as 'sc' from "
 			+ "(select tb.org_code, tb.name, "
-			+ "max(case when longPerm='L50' then 'L50' end) as 'L50', "
-			+ "max(case when longPerm='L30' then 'L30' end) as 'L30', "
-			+ "max(case when longPerm='L20' then 'L20' end) as 'L20', "
-			+ "max(case when longPerm='L10' then 'L10' end) as 'L10' "
+			+ "count(case when longPerm='L50' then 'L50' else null end) as 'L50', "
+			+ "count(case when longPerm='L30' then 'L30' else NULL end) as 'L30', "
+			+ "count(case when longPerm='L20' then 'L20' else NULL end) as 'L20', "
+			+ "count(case when longPerm='L10' then 'L10' else NULL end) as 'L10' "
 			+ "from ( "
 			+ "select org.org_code, org.name, "
 			+ "case when DATEDIFF(now(),prov_send_date)>=50 then 'L50' "

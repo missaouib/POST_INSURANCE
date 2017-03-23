@@ -10,30 +10,34 @@ response.setHeader("Content-Disposition", "inline; filename=staff_dtl.xls");
 <table border="1" cellspacing="1" cellpadding="0">
 	<tr>
 		<th>序号</th>
+		<th>机构代码</th>
 		<th>机构名称</th>
 		<th>保单号</th>
+		<th>投保单号</th>
 		<th>投保人</th>
 		<th>险种名称</th>
 		<th>保费</th>
-		<th>保单日期</th>
-		<th>缴费方式</th>
-		<th>缴费期限</th>
-		<th>网点属性</th>
+		<th>签单日期</th>
+		<th>合同寄出</th>
+		<th>快递单号</th>
 		<th>网点名称</th>
+		<th>L+逾期日）</th>
 	</tr>
 	<c:forEach var="item" items="${cmRst}" varStatus="idx">
 	<tr>
 		<td>${idx.index+1 }</td>
-		<td>${item.organName}</td>
+		<td>${item.orgCode}</td>
+		<td>${item.orgName}</td>
 		<td style="vnd.ms-excel.numberformat:@">${item.policyNo}</td>
+		<td style="vnd.ms-excel.numberformat:@">${item.formNo}</td>
 		<td>${item.holder}</td>
-		<td>${item.prodName}</td>
+		<td>${item.prdName}</td>
 		<td>${item.policyFee}</td>
-		<td><fmt:formatDate value="${item.policyDate}" pattern="yyyy-MM-dd"/></td>
-		<td>${item.feeFrequency}</td>
-		<td>${item.perm}</td>
-		<td>${item.bankName}</td>
-		<td>${item.netFlag eq "1"?"邮政":"银行"}</td>
+		<td><fmt:formatDate value="${item.signDate}" pattern="yyyy-MM-dd"/></td>
+		<td><fmt:formatDate value="${item.provSendDate}" pattern="yyyy-MM-dd"/></td>
+		<td>${item.provEmsNo}</td>
+		<td>${item.netName}</td>
+		<td>${item.longPerm}</td>
 	</tr>
 	</c:forEach>
 </table>

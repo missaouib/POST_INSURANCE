@@ -123,8 +123,8 @@
 				<th orderField=sysDate class="${page.orderField eq 'sysDate' ? page.orderDirection : ''}">核心录入</th>
 				<th orderField=planDate class="${page.orderField eq 'planDate' ? page.orderDirection : ''}">跟进日期</th>
 				<th>备注</th>
+				<th>网点名称</th>
 				<th>合同签收</th>
-				<th>回执录入</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -140,7 +140,7 @@
 				        <c:out value="营业本部" />  
 				    </c:when>
 				   <c:otherwise>
-				      <c:out value="${fn:replace(item.organization.name,'邮政局中邮保险局','')}" />  
+				      <c:out value="${fn:substring(fn:replace(item.organization.name,'邮政局中邮保险局',''),0,5)}" />  
 				    </c:otherwise>  
 				</c:choose>
 				</td>
@@ -155,9 +155,9 @@
 				<td><fmt:formatDate value="${item.ybtDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.sysDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.planDate }" pattern="yyyy-MM-dd"/></td>
-				<td>${item.remark}</td>
+				<td title="${item.remark}">${fn:substring(item.remark,0,10)}</td>
+				<td>${item.netName}</td>
 				<td><fmt:formatDate value="${item.clientReceiveDate }" pattern="yyyy-MM-dd"/></td>
-				<td><fmt:formatDate value="${item.signInputDate }" pattern="yyyy-MM-dd"/></td>
 			</tr>
 			</c:forEach>
 		</tbody>

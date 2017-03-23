@@ -134,6 +134,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql3 = "update t_policy set attached_flag = 2 where prod_name like \"%禄禄通%\";";
 			sql1 = "delete from t_policy where form_no is null;";
 			sql5 = "update t_policy tp inner join (select sum(policy_fee) as total_fee, policy_no from t_policy where total_fee=0 group by policy_no) as tp2 set tp.total_fee=tp2.total_fee where tp.total_fee=0 and tp.attached_flag=0 and tp.policy_no=tp2.policy_no;";
+			sql6 = "update t_under_write uw,t_policy tp,t_bank_code bc set uw.net_name=bc.name where uw.policy_no is not null and uw.net_name is not null and uw.policy_no=tp.policy_no and tp.bank_code=bc.cpi_code;";
 	        break;
 		case PolicyIngor:
 			standardColumns = PolicyColumn.getStandardColumns();

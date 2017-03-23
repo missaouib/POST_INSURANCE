@@ -23,6 +23,7 @@ import com.gdpost.web.entity.component.StaffDtlModel;
 import com.gdpost.web.entity.component.StaffModel;
 import com.gdpost.web.entity.component.TuiBaoDtlModel;
 import com.gdpost.web.entity.component.TuiBaoModel;
+import com.gdpost.web.entity.component.UwDtlModel;
 import com.gdpost.web.entity.component.UwModel;
 import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.User;
@@ -784,10 +785,8 @@ public class StasticsController {
 		String organCode = request.getParameter("orgCode");
 		String pd1 = request.getParameter("policyDate1");
 		String pd2 = request.getParameter("policyDate2");
-		String netFlag = request.getParameter("netFlag");
 		String levelFlag = request.getParameter("levelFlag");
-		String prdCode = request.getParameter("prdCode");
-		String perm = request.getParameter("perm");
+		
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
 		Organization userOrg = user.getOrganization();
@@ -796,40 +795,17 @@ public class StasticsController {
 		} else if(!organCode.contains(userOrg.getOrgCode())){
 			organCode = userOrg.getOrgCode();
 		}
-		String toPrdName = prdCode;
-		if(prdCode == null || prdCode.trim().length()<=0) {
-			toPrdName = "%%";
-		} else {
-			Prd prd = prdService.getByPrdCode(prdCode);
-			toPrdName = prd.getPrdName();
-			if(toPrdName.indexOf("_") > 0) {
-				toPrdName = "%" + toPrdName.substring(0, toPrdName.indexOf("_")) + "%";
-			} else {
-				toPrdName = "%" + toPrdName + "%";
-			}
-		}
-		String toPerm = perm;
-		if(perm == null) {
-			toPerm = "年交";
-			perm = "1";
-		} else if(perm.trim().length()<=0) {
-			toPerm = "%%";
-		} else if(perm.equals("1")) {
-			toPerm = "年交";
-		} else {
-			toPerm = "趸交";
-		}
+		
 		boolean isCity = false;
+		if(organCode.length()>4) {
+			levelFlag = "city";
+		}
+		
 		if(levelFlag != null && levelFlag.trim().equals("city")) {
 			isCity = true;
 		}
 		
-		boolean hasNet = true;
-		if(netFlag == null || netFlag.trim().length()<=0) {
-			hasNet = false;
-		}
-	
-		String fd = StringUtil.getFirstDayOfYear("yyyy-MM-dd");
+		String fd = StringUtil.date2Str(new Date(), "yyyy-MM-dd");
 		if(pd1 == null || pd1.trim().length()<=0) {
 			pd1 = fd;
 		}
@@ -837,22 +813,34 @@ public class StasticsController {
 			pd2 = "9999-12-31";
 		}
 		
-		List<StaffModel> temp = null;
+		List<UwModel> temp = null;
 		if(isCity) {
-			if(hasNet) {
-				temp = stasticsService.getStaffCountWithPolicyDate(organCode + "%", pd1, pd2, netFlag, toPrdName, toPerm);
-			} else {
-				temp = stasticsService.getStaffCountWithPolicyDateNoBankCode(organCode + "%", pd1, pd2, toPrdName, toPerm);
-			}
+			temp = stasticsService.getCityUwStastics(organCode + "%", pd1, pd2);
 		} else {
-			if(hasNet) {
-				temp = stasticsService.getProvStaffCountWithPolicyDate(organCode + "%", pd1, pd2, netFlag, toPrdName, toPerm);
-			} else {
-				temp = stasticsService.getProvStaffCountWithPolicyDateNoBankCode(organCode + "%", pd1, pd2, toPrdName, toPerm);
-			}
+			temp = stasticsService.getProvUwStastics(organCode + "%", pd1, pd2);
 		}
 		
 		request.setAttribute("cmRst", temp);
+		
+		Integer tl50 = 0;
+		Integer tl30 = 0;
+		Integer tl20 = 0;
+		Integer tl10 = 0;
+		Integer tsc = 0;
+		
+		for(UwModel uw:temp) {
+			tl50 += (uw.getL50()==null?0:uw.getL50());
+			tl30 += (uw.getL30()==null?0:uw.getL30());
+			tl20 += (uw.getL20()==null?0:uw.getL20());
+			tl10 += (uw.getL10()==null?0:uw.getL10());
+			tsc += (uw.getSc()==null?0:uw.getSc());
+		}
+		request.setAttribute("tl50", tl50);
+		request.setAttribute("tl30", tl30);
+		request.setAttribute("tl20", tl20);
+		request.setAttribute("tl10", tl10);
+		request.setAttribute("tsc", tsc);
+		
 		LOG.debug(" ------------ result size:" + temp.size());
 		return UW_TOXLS;
 	}
@@ -864,9 +852,7 @@ public class StasticsController {
 		String organCode = request.getParameter("orgCode");
 		String pd1 = request.getParameter("policyDate1");
 		String pd2 = request.getParameter("policyDate2");
-		String netFlag = request.getParameter("netFlag");
-		String prdCode = request.getParameter("prdCode");
-		String perm = request.getParameter("perm");
+		
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
 		Organization userOrg = user.getOrganization();
@@ -875,33 +861,8 @@ public class StasticsController {
 		} else if(!organCode.contains(userOrg.getOrgCode())){
 			organCode = userOrg.getOrgCode();
 		}
-		String toPrdName = prdCode;
-		if(prdCode == null || prdCode.trim().length()<=0) {
-			toPrdName = "%%";
-		} else {
-			Prd prd = prdService.getByPrdCode(prdCode);
-			toPrdName = prd.getPrdName();
-			if(toPrdName.indexOf("_") > 0) {
-				toPrdName = "%" + toPrdName.substring(0, toPrdName.indexOf("_")) + "%";
-			} else {
-				toPrdName = "%" + toPrdName + "%";
-			}
-		}
-		if(netFlag == null || netFlag.trim().length()<=0) {
-			netFlag = "%%";
-		}
-		String toPerm = perm;
-		if(perm == null) {
-			toPerm = "年交";
-			perm = "1";
-		} else if(perm.trim().length()<=0) {
-			toPerm = "%%";
-		} else if(perm.equals("1")) {
-			toPerm = "年交";
-		} else {
-			toPerm = "趸交";
-		}
-		String fd = StringUtil.getFirstDayOfYear("yyyy-MM-dd");
+		
+		String fd = StringUtil.date2Str(new Date(), "yyyy-MM-dd");
 		if(pd1 == null || pd1.trim().length()<=0) {
 			pd1 = fd;
 		}
@@ -909,7 +870,7 @@ public class StasticsController {
 			pd2 = "9999-12-31";
 		}
 		
-		List<StaffDtlModel> temp = stasticsService.getStaffDetailWithPolicyDate(organCode + "%", pd1, pd2, netFlag, toPrdName, toPerm);
+		List<UwDtlModel> temp = stasticsService.getUwDtlStastics(organCode + "%", pd1, pd2);
 		
 		request.setAttribute("cmRst", temp);
 		LOG.debug(" ------------ result size:" + temp.size());

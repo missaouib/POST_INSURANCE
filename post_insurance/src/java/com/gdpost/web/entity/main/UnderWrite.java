@@ -74,6 +74,8 @@ public class UnderWrite implements Idable<Long> {
 	private Date bodyCheckDate2;
 	private Date hbEndDate;
 	private Date formWriteDate;
+	
+	private String netName;
 
 	@Transient
 	private Date receiveDate;
@@ -555,6 +557,14 @@ public class UnderWrite implements Idable<Long> {
 	}
 	public void setFormWriteDate(Date formWriteDate) {
 		this.formWriteDate = formWriteDate;
+	}
+	
+	@Column(name="net_name")
+	public String getNetName() {
+		return netName;
+	}
+	public void setNetName(String netName) {
+		this.netName = netName;
 	}
 	
 	

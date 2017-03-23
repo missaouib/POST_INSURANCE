@@ -17,7 +17,7 @@ public class UwModel implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 6953817886114363056L;
-	private String organName;
+	private String orgName;
 	private Integer l50;
 	private Integer l30;
 	private Integer l20;
@@ -44,13 +44,13 @@ public class UwModel implements java.io.Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="organ_name")
-	public String getOrganName() {
-		return organName;
+	@Column(name="org_name")
+	public String getOrgName() {
+		return orgName;
 	}
 
-	public void setOrganName(String organName) {
-		this.organName = organName;
+	public void setOrgName(String organName) {
+		this.orgName = organName;
 	}
 
 	@Column(name="l50")

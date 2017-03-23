@@ -13,6 +13,7 @@ import com.gdpost.web.entity.component.StaffDtlModel;
 import com.gdpost.web.entity.component.StaffModel;
 import com.gdpost.web.entity.component.TuiBaoDtlModel;
 import com.gdpost.web.entity.component.TuiBaoModel;
+import com.gdpost.web.entity.component.UwDtlModel;
 import com.gdpost.web.entity.component.UwModel;
 
 public interface StasticsService {
@@ -40,4 +41,6 @@ public interface StasticsService {
 	List<UwModel> getProvUwStastics(String organCode, String d1, String d2);
 	
 	List<UwModel> getCityUwStastics(String organCode, String d1, String d2);
+	
+	List<UwDtlModel> getUwDtlStastics(String organCode, String d1, String d2);
 }
