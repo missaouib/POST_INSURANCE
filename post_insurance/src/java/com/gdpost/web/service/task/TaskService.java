@@ -51,9 +51,9 @@ public class TaskService {
 		int iRst4 = -1;
 		int iRst5 = -1;
 		int iRst6 = -1;
-		sql1 = "update t_call_fail_list set status = \"重点跟进\" where status='二访失败' and 15-datediff(now(),bill_back_date)<=3;";
-		sql2 = "update t_call_fail_list set status = \"重点跟进\" where status='二访失败' and (hq_deal_type_else like '%电话错误%' or hq_deal_type_else like '%挂断%' or hq_deal_type_else like '%拒接%' or hq_deal_type_else like '%不配合%' or hq_deal_type_else like '%过期%' or hq_deal_type_else like '%空号%' or hq_deal_type_else like '%无法联系本人%' or hq_deal_type_else like '%不信任%');";
-		sql3 = "update t_call_fail_list set status=\"需上门回访\" where datediff(NOW(),bill_back_date)>15 and (status=\"二访失败\" or status=\"重点跟进\");";
+		sql1 = "update t_call_fail_list set status = \"重点跟进\" where (status='二访失败' or status='待处理') and 15-datediff(now(),bill_back_date)<=3;";
+		sql2 = "update t_call_fail_list set status = \"重点跟进\" where (status='二访失败' or status='待处理') and (hq_deal_type_else like '%电话错误%' or hq_deal_type_else like '%挂断%' or hq_deal_type_else like '%拒接%' or hq_deal_type_else like '%不配合%' or hq_deal_type_else like '%过期%' or hq_deal_type_else like '%空号%' or hq_deal_type_else like '%无法联系本人%' or hq_deal_type_else like '%不信任%');";
+		sql3 = "update t_call_fail_list set status=\"需上门回访\" where datediff(NOW(),bill_back_date)>15 and (status=\"二访失败\" or status=\"重点跟进\" or status='待处理');";
 		sql4 = "update t_call_fail_list set status=\"上门成功\" where org_deal_flag=1 and (status=\"重点跟进\" or status=\"需上门回访\");";
 		sql5 = "update t_call_fail_list set status=\"上门成功\" where org_deal_flag=1 and (status=\"二访成功\");";
 		sql6 = "update t_call_fail_list set status=\"信函成功\" where has_letter=\"信函成功\" and (status=\"上门成功\" or status=\"需上门回访\" or status=\"上门失败\" or status=\"拒访\" or status=\"重点跟进\" or status=\"二访失败\" or status=\"已结案\");";
@@ -158,11 +158,6 @@ public class TaskService {
 			statement.executeUpdate(sql);
 			log.info("------------ sql :" + sql);
 			
-			sql = "insert into t_log_info (username, message,ip_address,log_level,module) values "
-					+ "('admin','spring task end。犹豫期设重点跟进" + iRst1 + ",其他重点跟进" + iRst2 + ",犹豫期外需上门" + iRst3 + ",信函成功" + iRst6 + "','127.0.0.1','WARN','回访管理');";
-			statement.executeUpdate(sql);
-			log.info("------------ sql :" + sql);
-			
 			sql = "update t_under_write uw, t_policy tp set uw.policy_no=tp.policy_no, uw.holder=tp.holder, uw.sign_date=tp.policy_date, uw.policy_fee=tp.policy_fee, uw.perm=tp.perm, uw.sync=true where uw.form_no=tp.form_no and sync=false;";
 			statement.executeUpdate(sql);
 			
@@ -171,6 +166,11 @@ public class TaskService {
 			
 			sql = "update t_under_write uw, t_policy tp, t_prd prd set uw.product_id=prd.id where uw.policy_no=tp.policy_no and tp.prod_code=left(prd.prd_code,6);";
 			statement.executeUpdate(sql);
+			
+			sql = "insert into t_log_info (username, message,ip_address,log_level,module) values "
+					+ "('admin','spring task end。犹豫期设重点跟进" + iRst1 + ",其他重点跟进" + iRst2 + ",犹豫期外需上门" + iRst3 + ",信函成功" + iRst6 + "','127.0.0.1','WARN','回访管理');";
+			statement.executeUpdate(sql);
+			log.info("------------ sql :" + sql);
 			log.info("------------ task service update finish");
 			
 		} catch (SQLException e) {
