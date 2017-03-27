@@ -61,7 +61,7 @@ public class TaskService {
         try {
         	log.info("------------ task service 1 :" + sql1);
         	String sql = "insert into t_log_info (username, message,ip_address,log_level,module) values "
-					+ "('admin','spring task update batch job start.','127.0.0.1','WARN','回访管理');";
+					+ "('admin','spring task update batch job start.','127.0.0.1','WARN','其他操作');";
         	statement.executeUpdate(sql);
         	
         	iRst1 = statement.executeUpdate(sql1);
@@ -168,7 +168,7 @@ public class TaskService {
 			statement.executeUpdate(sql);
 			
 			sql = "insert into t_log_info (username, message,ip_address,log_level,module) values "
-					+ "('admin','spring task end。犹豫期设重点跟进" + iRst1 + ",其他重点跟进" + iRst2 + ",犹豫期外需上门" + iRst3 + ",信函成功" + iRst6 + "','127.0.0.1','WARN','回访管理');";
+					+ "('admin','spring task end。犹豫期设重点跟进" + iRst1 + ",其他重点跟进" + iRst2 + ",犹豫期外需上门" + iRst3 + ",信函成功" + iRst6 + "','127.0.0.1','WARN','其他操作');";
 			statement.executeUpdate(sql);
 			log.info("------------ sql :" + sql);
 			log.info("------------ task service update finish");
@@ -176,7 +176,7 @@ public class TaskService {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			String sql = "insert into t_log_info (username, message,ip_address,log_level,module) values "
-					+ "('admin','spring task error:" + e.getMessage() + "','127.0.0.1','WARN','回访管理');";
+					+ "('admin','spring task error:" + e.getMessage() + "','127.0.0.1','WARN','其他操作');";
 			try {
 				statement.executeUpdate(sql);
 			} catch (SQLException e1) {
