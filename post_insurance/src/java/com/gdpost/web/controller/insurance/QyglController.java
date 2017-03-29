@@ -696,12 +696,17 @@ public class QyglController {
 		request.setAttribute("name", orgName);
 		//默认返回未处理工单
 		String status = request.getParameter("status");
+		boolean isEmpty = false;
 		if(status == null) {
 			status = UW_STATUS.NewStatus.name();
 			if(orgCode.length()>4) {
 				status = UW_STATUS.SendStatus.name();
 			}
 			request.setAttribute("status", status);
+		} else {
+			if(status.trim().length()<=0) {
+				isEmpty = true;
+			}
 		}
 		UnderWrite uw = new UnderWrite();
 		uw.setStatus(status);
@@ -711,9 +716,14 @@ public class QyglController {
 			page.setOrderDirection("ASC");
 		}
 		
-		Specification<UnderWrite> specification = DynamicSpecifications.bySearchFilter(request, UnderWrite.class,
-				new SearchFilter("status", Operator.LIKE, status),
-				new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		if(isEmpty) {
+			csf.add(new SearchFilter("status", Operator.NEQ, UW_STATUS.DelStatus.name()));
+		} else {
+			csf.add(new SearchFilter("status", Operator.EQ, status));
+		}
+		Specification<UnderWrite> specification = DynamicSpecifications.bySearchFilter(request, UnderWrite.class, csf);
 		
 		List<UnderWrite> underwrites = qyglService.findByUnderWriteExample(specification, page);
 		

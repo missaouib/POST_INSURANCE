@@ -37,6 +37,8 @@ response.setHeader("Content-Disposition", "inline; filename=underwrite.xls");
 				<th>县局寄出合同日</th>
 				<th>合同签收日期</th>
 				<th>回执录入日期</th>
+				<th>状态</th>
+				<th>网点</th>
 			</tr>
 			<c:forEach var="item" items="${reqs}" varStatus="status">
 			<tr>
@@ -68,6 +70,8 @@ response.setHeader("Content-Disposition", "inline; filename=underwrite.xls");
 				<td><fmt:formatDate value="${item.areaSendDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.clientReceiveDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.signInputDate }" pattern="yyyy-MM-dd"/></td>
+				<td>${item.status }</td>
+				<td>${item.netName }</td>
 			</tr>
 			</c:forEach>
 	</table>

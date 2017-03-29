@@ -134,7 +134,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql3 = "update t_policy set attached_flag = 2 where prod_name like \"%禄禄通%\";";
 			sql1 = "delete from t_policy where form_no is null;";
 			sql5 = "update t_policy tp inner join (select sum(policy_fee) as total_fee, policy_no from t_policy where total_fee=0 group by policy_no) as tp2 set tp.total_fee=tp2.total_fee where tp.total_fee=0 and tp.attached_flag=0 and tp.policy_no=tp2.policy_no;";
-			sql6 = "update t_under_write uw,t_policy tp,t_bank_code bc set uw.net_name=bc.name where uw.policy_no is not null and uw.net_name is not null and uw.policy_no=tp.policy_no and tp.bank_code=bc.cpi_code;";
+			sql6 = "update t_under_write uw,t_policy tp,t_bank_code bc set uw.net_name=bc.name where uw.policy_no is not null and uw.net_name is null and uw.policy_no=tp.policy_no and tp.bank_code=bc.cpi_code;";
 	        break;
 		case PolicyIngor:
 			standardColumns = PolicyColumn.getStandardColumns();
@@ -254,7 +254,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 					+ "where t1.pay_type=2 and t0.policy_fee=t1.money and t1.rel_no=t2.cs_no and t2.cs_code='RE');";
 			sql2 = "update t_call_fail_list t1, t_cs_report t2 set t1.status=\"已退保\" where t1.policy_no=t2.policy_no and t2.cs_code=\"CT\";";
 			sql3 = "update t_cs_report tsr, t_policy_dtl tpd, t_staff ts set tsr.staff_flag=true where tsr.staff_flag=0 and tsr.policy_no=tpd.policy_no and tpd.holder_card_num=ts.id_card;";
-			sql4 = "update t_policy tp, t_cs_report tcr set tp.cs_flag=1,tp.status=\"终止\" where tp.policy_no=tcr.policy_no and tp.cs_flag=0 and tcr.cs_code=\"CT\" and (0-tcr.money)=tp.total_fee;";//TODO 标记犹撤
+			sql4 = "update t_policy tp, t_cs_report tcr set tp.cs_flag=1,tp.status=\"终止\" where tp.policy_no=tcr.policy_no and tp.cs_flag=0 and tcr.cs_code=\"CT\" and (0-tcr.money)=tp.total_fee;";
 			sql5 = "update t_policy tp, t_cs_report tcr set tp.cs_flag=2,tp.status=\"终止\" where tp.policy_no=tcr.policy_no and tp.cs_flag=0 and tcr.cs_code=\"CT\" and (0-tcr.money)<>tp.total_fee;";
 			sql6 = "update t_renewed_list t1, t_cs_report t2 set t1.fee_status=\"已终止\" where t1.policy_no=t2.policy_no and t2.cs_code=\"CT\";";
 			break;

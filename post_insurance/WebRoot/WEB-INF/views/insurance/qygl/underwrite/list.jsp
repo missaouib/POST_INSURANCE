@@ -5,8 +5,8 @@
 <dwz:paginationForm action="${contextPath }/qygl/underwrite/list" page="${page }">
 	<input type="hidden" name="search_LIKE_formNo" value="${search_LIKE_formNo }"/>
 	<input type="hidden" name="search_LIKE_holder" value="${search_LIKE_holder }"/>
-	<input type="hidden" name="orgCode" value="${policy_orgCode }"/>
-	<input type="hidden" name="name" value="${policy_name }"/>
+	<input type="hidden" name="orgCode" value="${orgCode }"/>
+	<input type="hidden" name="name" value="${name }"/>
 	<input type="hidden" name="status" value="${status }"/>
 	<input type="hidden" name="search_LTE_sysDate" value="${param.search_LTE_sysDate }"/>
 	<input type="hidden" name="search_GTE_sysDate" value="${param.search_GTE_sysDate }"/>
@@ -25,8 +25,8 @@
 				</td>
 				<td>
 					<label>机构：</label>
-					<input name="orgCode" id="uw_orgCode" type="hidden" value="${policy_orgCode }"/>
-					<input class="validate[required] required" name="name" id="uw_orgName" type="text" readonly="readonly" style="width: 120px;" value="${policy_name }"/>
+					<input name="orgCode" id="uw_orgCode" type="hidden" value="${orgCode }"/>
+					<input class="validate[required] required" name="name" id="uw_orgName" type="text" readonly="readonly" style="width: 120px;" value="${name }"/>
 					<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="" title="选择机构" width="400">查</a>
 				</td>
 				<td>
@@ -72,7 +72,7 @@
 			<shiro:hasPermission name="UnderWrite:view">
 				<li><a iconClass="magnifier" target="dialog" rel="underwrite_edit" mask="true" width="850" height="440" href="${contextPath }/qygl/underwrite/view/{slt_uid}"><span>查看</span></a></li>
 				<li class="line">line</li>
-				<li><a class="icon" target="_blank" target="dwzExport" href="${contextPath }/qygl/underwrite/toXls?search_LIKE_formNo=${param.search_LIKE_formNo }&orgCode=${policy_orgCode }&status=${status }&search_LTE_sysDate=${param.search_LTE_sysDate }&search_GTE_sysDate=${param.search_GTE_sysDate }&search_GTE_provSendDate=${param.search_GTE_provSendDate}&search_LTE_provSendDate=${param.search_LTE_provSendDate}"><span>导出</span></a></li>
+				<li><a class="icon" target="_blank" target="dwzExport" href="${contextPath }/qygl/underwrite/toXls?search_LIKE_formNo=${param.search_LIKE_formNo }&orgCode=${orgCode }&status=${status }&search_LTE_sysDate=${param.search_LTE_sysDate }&search_GTE_sysDate=${param.search_GTE_sysDate }&search_GTE_provSendDate=${param.search_GTE_provSendDate}&search_LTE_provSendDate=${param.search_LTE_provSendDate}"><span>导出</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="UnderWrite:edit">
 			<li class="line">line</li>
@@ -106,13 +106,14 @@
 		</ul>
 	</div>
 	
-	<table class="table" layoutH="220" width="100%">
+	<table class="table" layoutH="220" width="110%">
 		<thead>
 			<tr>
 				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
 				<th orderField=organization.name class="${page.orderField eq 'organization.name' ? page.orderDirection : ''}">市县机构</th>
 				<th orderField=formNo class="${page.orderField eq 'formNo' ? page.orderDirection : ''}">投保单号</th>
 				<th orderField=policyNo class="${page.orderField eq 'policyNo' ? page.orderDirection : ''}">保单号</th>
+				<th orderField=signDate class="${page.orderField eq 'signDate' ? page.orderDirection : ''}">签单日期</th>
 				<th orderField=provSendDate class="${page.orderField eq 'provSendDate' ? page.orderDirection : ''}">合同寄出</th>
 				<th>快递单号</th>
 				<th>地市接收</th>
@@ -146,6 +147,7 @@
 				</td>
 				<td>${item.formNo}</td>
 				<td title="${item.policyNo}">${item.policyNo}</td>
+				<td><fmt:formatDate value="${item.signDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.provSendDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.provEmsNo}</td>
 				<td><fmt:formatDate value="${item.cityReceiveDate }" pattern="yyyy-MM-dd"/></td>

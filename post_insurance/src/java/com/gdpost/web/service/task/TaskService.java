@@ -144,7 +144,7 @@ public class TaskService {
 			sql = "update t_cs_report tsr, t_policy_dtl tpd, t_staff ts set tsr.staff_flag=true where tsr.staff_flag=0 and tsr.policy_no=tpd.policy_no and tpd.holder_card_num=ts.id_card;";
 			statement.executeUpdate(sql);
 			log.info("------------ sql :" + sql);
-			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=1,tp.status=\"终止\" where tp.policy_no=tcr.policy_no and tp.cs_flag=0 and tcr.cs_code=\"CT\" and (0-tcr.money)=tp.total_fee;";//TODO 标记犹撤
+			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=1,tp.status=\"终止\" where tp.policy_no=tcr.policy_no and tp.cs_flag=0 and tcr.cs_code=\"CT\" and (0-tcr.money)=tp.total_fee;";
 			statement.executeUpdate(sql);
 			log.info("------------ sql :" + sql);
 			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=2,tp.status=\"终止\" where tp.policy_no=tcr.policy_no and tp.cs_flag=0 and tcr.cs_code=\"CT\" and (0-tcr.money)<>tp.total_fee;";

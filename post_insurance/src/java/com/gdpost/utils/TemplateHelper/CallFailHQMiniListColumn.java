@@ -67,7 +67,7 @@ public class CallFailHQMiniListColumn {
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("回访结果");//TODO 改为回访结果。
+		column.setDisplayName("回访结果");
 		column.setColumnName("hq_deal_type_else");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
