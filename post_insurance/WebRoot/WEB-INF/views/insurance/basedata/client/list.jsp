@@ -36,9 +36,10 @@
 						</form:select>
 					</td>
 					<td>
-						<label>所属机构：</label>
-						<input name="orgCode" id="c_orgCode" type="hidden" value="${policy_orgCode }"/>
-						<input class="validate[required] required" name="name" id="c_orgName" type="text" readonly="readonly" style="width: 100px;" value="${policy_name }"/><a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="policy" title="选择机构" width="400">查</a>
+						<label>机构：</label>
+						<input name="orgCode" id="uw_orgCode" type="hidden" value="${policy_orgCode }"/>
+						<input class="validate[required] required" name="name" id="uw_orgName" type="text" readonly="readonly" style="width: 120px;" value="${policy_name }"/>
+						<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="" title="选择机构" width="400">查</a>
 					</td>
 					<td>
 					投保人：<input type="text" id="policy_holder" style="width: 100px;" name="search_LIKE_holder" value="${param.search_LIKE_holder }"/>

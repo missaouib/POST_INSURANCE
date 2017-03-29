@@ -5,8 +5,8 @@
 <dwz:paginationForm action="${contextPath }/qygl/underwrite/list" page="${page }">
 	<input type="hidden" name="search_LIKE_formNo" value="${search_LIKE_formNo }"/>
 	<input type="hidden" name="search_LIKE_holder" value="${search_LIKE_holder }"/>
-	<input type="hidden" name="orgCode" value="${orgCode }"/>
-	<input type="hidden" name="name" value="${name }"/>
+	<input type="hidden" name="orgCode" value="${policy_orgCode }"/>
+	<input type="hidden" name="name" value="${policy_name }"/>
 	<input type="hidden" name="status" value="${status }"/>
 	<input type="hidden" name="search_LTE_sysDate" value="${param.search_LTE_sysDate }"/>
 	<input type="hidden" name="search_GTE_sysDate" value="${param.search_GTE_sysDate }"/>
@@ -25,8 +25,8 @@
 				</td>
 				<td>
 					<label>机构：</label>
-					<input name="orgCode" id="uw_orgCode" type="hidden" value="${orgCode }"/>
-					<input class="validate[required] required" name="name" id="uw_orgName" type="text" readonly="readonly" style="width: 120px;" value="${name }"/>
+					<input name="orgCode" id="uw_orgCode" type="hidden" value="${policy_orgCode }"/>
+					<input class="validate[required] required" name="name" id="uw_orgName" type="text" readonly="readonly" style="width: 120px;" value="${policy_name }"/>
 					<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="" title="选择机构" width="400">查</a>
 				</td>
 				<td>
@@ -72,7 +72,7 @@
 			<shiro:hasPermission name="UnderWrite:view">
 				<li><a iconClass="magnifier" target="dialog" rel="underwrite_edit" mask="true" width="850" height="440" href="${contextPath }/qygl/underwrite/view/{slt_uid}"><span>查看</span></a></li>
 				<li class="line">line</li>
-				<li><a class="icon" target="_blank" target="dwzExport" href="${contextPath }/qygl/underwrite/toXls?search_LIKE_formNo=${param.search_LIKE_formNo }&orgCode=${orgCode }&status=${status }&search_LTE_sysDate=${param.search_LTE_sysDate }&search_GTE_sysDate=${param.search_GTE_sysDate }&search_GTE_provSendDate=${param.search_GTE_provSendDate}&search_LTE_provSendDate=${param.search_LTE_provSendDate}"><span>导出</span></a></li>
+				<li><a class="icon" target="_blank" target="dwzExport" href="${contextPath }/qygl/underwrite/toXls?search_LIKE_formNo=${param.search_LIKE_formNo }&orgCode=${policy_orgCode }&status=${status }&search_LTE_sysDate=${param.search_LTE_sysDate }&search_GTE_sysDate=${param.search_GTE_sysDate }&search_GTE_provSendDate=${param.search_GTE_provSendDate}&search_LTE_provSendDate=${param.search_LTE_provSendDate}"><span>导出</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="UnderWrite:edit">
 			<li class="line">line</li>

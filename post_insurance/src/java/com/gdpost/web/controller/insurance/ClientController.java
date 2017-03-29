@@ -96,6 +96,7 @@ public class ClientController {
 		}
 		
 		String orgCode = request.getParameter("orgCode");
+		String orgName = request.getParameter("name");
 		if(orgCode == null || orgCode.trim().length() <= 0) {
 			orgCode = user.getOrganization().getOrgCode();
 			if(orgCode.contains("11185")) {
@@ -104,11 +105,12 @@ public class ClientController {
 		} else {
 			if(!orgCode.contains(user.getOrganization().getOrgCode())){
 				orgCode = user.getOrganization().getOrgCode();
+				orgName = user.getOrganization().getName();
 			}
-			String orgName = request.getParameter("name");
-			request.setAttribute("policy_orgCode", orgCode);
-			request.setAttribute("policy_name", orgName);
 		}
+		
+		request.setAttribute("policy_orgCode", orgCode);
+		request.setAttribute("policy_name", orgName);
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));

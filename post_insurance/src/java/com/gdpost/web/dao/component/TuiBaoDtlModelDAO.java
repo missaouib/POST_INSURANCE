@@ -25,7 +25,7 @@ public interface TuiBaoDtlModelDAO extends JpaRepository<TuiBaoDtlModel, String>
 			value="select itp.id, itp.organ_name, itp.policy_no, itp.policy_date, itp.total_fee as policy_fee, itp.prod_name, itcr.cs_no, itcr.cs_code, itcr.cs_date, "
 			+ "(case itp.attached_flag when \"1\" then 0 else itcr.money end) as cs_fee, itp.holder, itbc.net_flag, itbc.name as bank_name "
 			+ "from t_policy itp, t_cs_report itcr, t_bank_code itbc "
-			+ "where itp.policy_no=itcr.policy_no and itp.bank_code=itbc.cpi_code and itcr.cs_code=\"CT\" and itp.cs_flag<>1 "
+			+ "where itp.policy_no=itcr.policy_no and itp.attached_flag=0 and itp.bank_code=itbc.cpi_code and itcr.cs_code=\"CT\" and itp.cs_flag<>1 "
 			+ "and itp.organ_code like :orgCode "
 			+ "and itp.policy_date between :p1 and :p2 "
 			+ "and itcr.cs_date between :c1 and :c2 "
