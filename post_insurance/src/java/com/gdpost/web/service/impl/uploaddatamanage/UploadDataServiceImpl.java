@@ -1242,9 +1242,11 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case RenewedFeeMatchList:
 			standardColumns = RenewedFeeMatchColumn.getStandardColumns();
 			keyRow = RenewedFeeMatchColumn.KEY_ROW;
+			break;
 		case UnderWriteDtlData:
 			standardColumns = UnderWriteDtlColumn.getStandardColumns();
 			keyRow = UnderWriteDtlColumn.KEY_ROW;
+			break;
 		}
 		
 	    boolean bFlag = true;
