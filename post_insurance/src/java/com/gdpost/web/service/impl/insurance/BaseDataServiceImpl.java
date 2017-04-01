@@ -147,11 +147,11 @@ public class BaseDataServiceImpl implements BaseDataService {
 
 	@Override
 	public void saveOrUpdateCallDealType(CallDealType type) {
-		if (type.getId() == null) {
-			if (callDealTypeDAO.getByTypeNameAndTypeFlag(type.getTypeName(), type.getTypeFlag()) != null) {
-				throw new ExistedException("回访类型 " + type.getTypeName() + "已存在。");
-			}
-		}
+//		if (type.getId() == null) {
+//			if (callDealTypeDAO.getByTypeNameAndTypeFlag(type.getTypeName(), type.getTypeFlag()) != null) {
+//				throw new ExistedException("回访类型 " + type.getTypeName() + "已存在。");
+//			}
+//		}
 		
 		callDealTypeDAO.save(type);
 	}

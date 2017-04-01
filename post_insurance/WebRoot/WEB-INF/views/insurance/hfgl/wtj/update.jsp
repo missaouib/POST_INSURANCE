@@ -107,6 +107,11 @@
 		</p>
 		<p>&nbsp;</p><p>&nbsp;</p>
 		<p class="nowrap">
+			<label>签收回访函日期：</label>
+			<input type="text" name="clientSignDate" class="date validate[required,maxSize[12]] required" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value="${issue.clientSignDate }" pattern="yyyy-MM-dd"/>"/>
+				<a class="inputDateButton" href="javascript:;">选择</a>
+		</p>
+		<p class="nowrap">
 			<label>经办人：</label>
 			<input type="text" name="dealMan" class="input-medium validate[required,maxSize[12]] required" maxlength="32" value="${issue.dealMan }"/>
 		</p>

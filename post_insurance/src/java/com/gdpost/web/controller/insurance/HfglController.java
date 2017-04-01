@@ -159,7 +159,7 @@ public class HfglController {
 			src.setCanCallAgain(true);
 			src.setCanCallAgainRemark(issue.getDealDesc());
 			src.setResetDate(new Date());
-		} else if(issue.getDealType().equals("成功件")) {
+		} else if(issue.getDealType().equals("成功件") || issue.getDealType().equals("标准件") || issue.getDealType().equals("问题件")) {
 			if(!hqDone) {
 				src.setStatus(HF_STATUS.DoorSuccessStatus.getDesc());
 			}
