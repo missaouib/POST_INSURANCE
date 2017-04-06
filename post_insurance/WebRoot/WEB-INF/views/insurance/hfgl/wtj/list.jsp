@@ -228,7 +228,7 @@
                <td><fmt:formatDate value="${item.readyDate }" pattern="yyyy-MM-dd"/></td>
                <td><div style="color: red;vertical-align:middle;font-weight:bold;">
                <c:choose>  
-				    <c:when test="${item.lastDateNum<-5}">  
+				    <c:when test="${item.lastDateNum<-30}">  
 				        --
 				    </c:when>  
 				   <c:otherwise>  

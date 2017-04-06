@@ -45,6 +45,7 @@ public class TaskService {
 		String sql4 = null;
 		String sql5 = null;
 		String sql6 = null;
+		String sql7 = null;
 		int iRst1 = -1;
 		int iRst2 = -1;
 		int iRst3 = -1;
@@ -53,11 +54,11 @@ public class TaskService {
 		int iRst6 = -1;
 		sql1 = "update t_call_fail_list set status = \"重点跟进\" where (status='二访失败' or status='待处理') and 15-datediff(now(),bill_back_date)<=3;";
 		sql2 = "update t_call_fail_list set status = \"重点跟进\" where (status='二访失败' or status='待处理') and (hq_deal_type_else like '%电话错误%' or hq_deal_type_else like '%挂断%' or hq_deal_type_else like '%拒接%' or hq_deal_type_else like '%不配合%' or hq_deal_type_else like '%过期%' or hq_deal_type_else like '%空号%' or hq_deal_type_else like '%无法联系本人%' or hq_deal_type_else like '%不信任%');";
-		sql3 = "update t_call_fail_list set status=\"需上门回访\" where datediff(NOW(),bill_back_date)>15 and (status=\"二访失败\" or status=\"重点跟进\" or status='待处理');";
+		sql3 = "update t_call_fail_list set status=\"需上门回访\" where datediff(NOW(),bill_back_date)>=15 and (status=\"二访失败\" or status=\"重点跟进\" or status='待处理');";
 		sql4 = "update t_call_fail_list set status=\"上门成功\" where org_deal_flag=1 and (status=\"重点跟进\" or status=\"需上门回访\");";
 		sql5 = "update t_call_fail_list set status=\"上门成功\" where org_deal_flag=1 and (status=\"二访成功\");";
 		sql6 = "update t_call_fail_list set status=\"信函成功\" where has_letter=\"信函成功\" and (status=\"上门成功\" or status=\"需上门回访\" or status=\"上门失败\" or status=\"拒访\" or status=\"重点跟进\" or status=\"二访失败\" or status=\"已结案\");";
-
+		sql7 = "update t_call_fail_list set status=\"二访成功\" where prov_deal_flag=1 and status<>\"二访成功\";";
         try {
         	log.info("------------ task service 1 :" + sql1);
         	String sql = "insert into t_log_info (username, message,ip_address,log_level,module) values "
@@ -92,7 +93,10 @@ public class TaskService {
 				iRst6 = statement.executeUpdate(sql6);
 				log.info("------------ task service 6 rst :" + iRst6);
 			}
-			
+			if(sql7 != null) {
+				log.info("------------ task service 7:" + sql7);
+				statement.executeUpdate(sql7);
+			}
 			sql = "update t_under_write t1,t_policy_reprint_dtl t2 set t1.prov_ems_no=t2.ems_no, t1.status='SendStatus', "
 					+ "t1.prov_send_date=t2.print_date where t1.policy_no is not null and (t1.policy_no=t2.policy_no or t1.form_no=t2.form_no) "
 					+ "and t1.status='NewStatus';";
