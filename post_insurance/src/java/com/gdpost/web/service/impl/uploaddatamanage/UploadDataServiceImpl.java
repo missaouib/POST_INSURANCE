@@ -54,6 +54,7 @@ import com.gdpost.utils.TemplateHelper.RenewedProvListColumn;
 import com.gdpost.utils.TemplateHelper.RenewedStatusColumn;
 import com.gdpost.utils.TemplateHelper.Template.FileTemplate;
 import com.gdpost.utils.TemplateHelper.UnderWriteDtlColumn;
+import com.gdpost.utils.TemplateHelper.UnderWriteRemarkColumn;
 import com.gdpost.utils.TemplateHelper.UnderWriteSentDataColumn;
 import com.gdpost.utils.UploadDataHelper.UploadDataUtils;
 import com.gdpost.web.dao.uploaddatamanage.UploadDataDAO;
@@ -241,6 +242,9 @@ public class UploadDataServiceImpl implements UploadDataService{
 			break;
 		case UnderWriteDtlData:
 			standardColumns = UnderWriteDtlColumn.getStandardColumns();
+			return dr;
+		case UnderWriteRemark:
+			standardColumns = UnderWriteRemarkColumn.getStandardColumns();
 			return dr;
 		case ConversationReq:
 			standardColumns = ConversationReqColumn.getStandardColumns();
@@ -1048,6 +1052,31 @@ public class UploadDataServiceImpl implements UploadDataService{
 			log.debug("----------------batch update : " + sql);
 			sql2 = "delete from t_under_write where form_no is null;";
 			break;
+		case UnderWriteRemark:
+			standardColumns = UnderWriteRemarkColumn.getStandardColumns();
+			sql = new StringBuffer("INSERT INTO t_under_write(form_no, plan_date, remark) VALUES ");
+			line = null;
+			isFail = false;
+			val = null;
+			for (DataRow row : dt.Rows) {
+				isFail = false;
+				val = null;
+				line = new StringBuffer("(");
+	        	for(ColumnItem item : standardColumns) {
+	        		val = row.getValue(item.getDisplayName());
+                	
+	        		line.append("\"" + StringUtil.trimStr(val, true) + "\",");
+	        	}
+	        	line.deleteCharAt(line.length() - 1);
+	        	line.append("),");
+	        	sql.append(line);
+	        }
+			sql.deleteCharAt(sql.length() - 1);
+			sql.append(" ON DUPLICATE KEY UPDATE ");
+			sql.append("plan_date=VALUES(plan_date), remark=VALUES(remark);");
+			log.debug("----------------city update status batch sql : " + sql);
+			sql2 = "delete from t_under_write where holder is null";
+			break;
 		default:
 			break;
 		}
@@ -1219,6 +1248,10 @@ public class UploadDataServiceImpl implements UploadDataService{
 			standardColumns = UnderWriteSentDataColumn.getStandardColumns();
 			keyRow = UnderWriteSentDataColumn.KEY_ROW;
 			break;
+		case UnderWriteRemark:
+			standardColumns = UnderWriteRemarkColumn.getStandardColumns();
+			keyRow = UnderWriteRemarkColumn.KEY_ROW;
+			break;
 		case PolicyBackDate:
 			standardColumns = PolicyBackDateColumn.getStandardColumns();
 			keyRow = PolicyBackDateColumn.KEY_ROW;
@@ -1323,7 +1356,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 						|| t.name().equals(FileTemplate.CallFailMiniCityStatus.name())
 						|| t.name().equals(FileTemplate.PolicyBackDate.name())
 						|| t.name().equals(FileTemplate.RenewedFeeMatchList.name())
-						|| t.name().equals(FileTemplate.UnderWriteDtlData.name())) {
+						|| t.name().equals(FileTemplate.UnderWriteDtlData.name())
+						|| t.name().equals(FileTemplate.UnderWriteRemark.name())) {
 					
 					dr = updateStatusData(t, request, dt);
 					
