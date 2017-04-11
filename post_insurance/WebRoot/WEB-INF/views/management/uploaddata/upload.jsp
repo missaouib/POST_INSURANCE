@@ -131,6 +131,10 @@ function displayTips(val) {
 		$("#tipsDesc").html("市县催收清单。须含列：保险单号码\t险种名称\t保单年度\t催交时间\t催交结果，关键列：催交结果");
 		return;
 	}
+	if(val=="UnderWriteRemark") {
+		$("#tipsDesc").html("市县人核件跟进详情。须含列：投保单号\t计划跟进日期\t跟进情况，关键列：投保单号");
+		return;
+	}
 }
 
 var strFileGroup = new Date().Format("yyyyMMddhhmmss");

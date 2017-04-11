@@ -239,6 +239,7 @@ public class StasticsController {
 		String prdCode = request.getParameter("prdCode");
 		String perm = request.getParameter("perm");
 		String staffFlag = request.getParameter("staffFlag");
+		String bankName = request.getParameter("bankName");
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
 		Organization userOrg = user.getOrganization();
@@ -275,8 +276,11 @@ public class StasticsController {
 			isStaff = "%%";
 		}
 		boolean isCity = false;
+		boolean isNet = false;
 		if(levelFlag != null && levelFlag.trim().equals("city")) {
 			isCity = true;
+		} else if(levelFlag != null && levelFlag.trim().equals("net")) {
+			isNet = true;
 		}
 		
 		boolean hasNet = true;
@@ -297,9 +301,16 @@ public class StasticsController {
 		if(csd2 == null || csd2.trim().length()<=0) {
 			csd2 = "9999-12-31";
 		}
+		if(bankName == null || bankName.trim().length()<=0) {
+			bankName= "%%";
+		} else {
+			bankName = "&" + bankName + "%";
+		}
 		
 		List<TuiBaoModel> temp = null;
-		if(isCity) {
+		if(isNet) {
+			temp = stasticsService.getNetTuiBaoWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, csd1, csd2, netFlag, toPrdName, toPerm, isStaff, bankName);
+		} else if(isCity) {
 			if(hasNet) {
 				temp = stasticsService.getTuiBaoWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, csd1, csd2, netFlag, toPrdName, toPerm, isStaff);
 			} else {
@@ -331,6 +342,7 @@ public class StasticsController {
 		String prdCode = request.getParameter("prdCode");
 		String perm = request.getParameter("perm");
 		String staffFlag = request.getParameter("staffFlag");
+		String bankName = request.getParameter("bankName");
 		
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
@@ -385,8 +397,13 @@ public class StasticsController {
 		if(csd2 == null || csd2.trim().length()<=0) {
 			csd2 = "9999-12-31";
 		}
+		if(bankName == null || bankName.trim().length()<=0) {
+			bankName= "%%";
+		} else {
+			bankName = "&" + bankName + "%";
+		}
 		
-		List<TuiBaoDtlModel> temp = stasticsService.getTuiBaoWarnningDetailWithBankCode(organCode + "%", pd1, pd2, csd1, csd2, netFlag, toPrdName, toPerm, isStaff);
+		List<TuiBaoDtlModel> temp = stasticsService.getTuiBaoWarnningDetailWithBankCode(organCode + "%", pd1, pd2, csd1, csd2, netFlag, toPrdName, toPerm, isStaff, bankName);
 		
 		request.setAttribute("cmRst", temp);
 		LOG.debug(" ------------ result size:" + temp.size());

@@ -166,4 +166,37 @@ public interface TuiBaoModelDAO extends JpaRepository<TuiBaoModel, String>, JpaS
 			nativeQuery=true)
 	List<TuiBaoModel> getTuiBaoWarningWithPolicyDateAndCsDate(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag);
 	
+	@Query(name="getNetTuiBaoWarningWithPolicyDateAndCsDate",
+			value="select tp.bank_name as organ_name,sum(tp.total_fee) as sum_policy_fee, "
+					+ "(select sum(itp.total_fee) as policy_fee "
+					+ "from t_policy itp, t_cs_report itcr "
+					+ "where itp.policy_no=itcr.policy_no and itp.attached_flag=0 and itcr.cs_code=\"CT\" and itp.cs_flag<>1 "
+					+ "and itp.bank_name=tp.bank_name "
+					+ "and itp.policy_date between :p1 and :p2 "
+					+ "and itcr.cs_date between :c1 and :c2 "
+					+ "and itp.prod_name like :prdCode "
+					+ "and itp.fee_frequency like :toPerm "
+					+ "and itp.staff_flag like :staffFlag ) as policy_fee, "
+					+ "(select sum(itcr.money) "
+					+ "from t_policy itp, t_cs_report itcr "
+					+ "where itp.policy_no=itcr.policy_no and itcr.cs_code=\"CT\" and itp.cs_flag<>1 and itp.attached_flag=0 "
+					+ "and itp.bank_name=tp.bank_name "
+					+ "and itp.policy_date between :p1 and :p2 "
+					+ "and itcr.cs_date between :c1 and :c2 "
+					+ "and itp.prod_name like :prdCode "
+					+ "and itp.fee_frequency like :toPerm "
+					+ "and itp.staff_flag like :staffFlag ) as sum_cs_fee "
+					+ "from t_policy tp "
+					+ "where tp.cs_flag<>1 and tp.attached_flag=0 "
+					+ "and tp.policy_date between :p1 and :p2 "
+					+ "and tp.organ_code like :orgCode "
+					+ "and tp.bank_name like :bankName "
+					+ "and tp.prod_name like :prdCode "
+					+ "and tp.fee_frequency like :toPerm "
+					+ "and tp.staff_flag like :staffFlag "
+					+ "group by tp.bank_name "
+					+ "order by tp.organ_code;",
+			nativeQuery=true)
+	List<TuiBaoModel> getNetTuiBaoWarningWithPolicyDateAndCsDate(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("bankName")String bankName);
+	
 }

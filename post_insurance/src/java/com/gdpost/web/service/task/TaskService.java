@@ -158,7 +158,7 @@ public class TaskService {
 			statement.executeUpdate(sql);
 			log.info("------------ sql :" + sql);
 			
-			sql = "update t_policy t1, t_bank_code t2 set t1.bank_name=t2.name where t1.bank_name like '%邮政局%' and t1.prod_name not like '%禄禄通%' and t1.bank_code=t2.cpi_code;";
+			sql = "update t_policy t1, t_bank_code t2 set t1.bank_name=t2.name where (t1.bank_name like '%邮政局%' or t1.bank_name='') and t1.prod_name not like '%禄禄通%' and t1.bank_code=t2.cpi_code;";
 			statement.executeUpdate(sql);
 			log.info("------------ sql :" + sql);
 			
