@@ -70,8 +70,35 @@ public interface UwModelDAO extends JpaRepository<UwModel, String>, JpaSpecifica
 			+ ") as tb "
 			+ "GROUP BY tb.org_code, tb.name "
 			+ ") as hb "
-			+ "group by hb.hb.name "
+			+ "group by hb.name "
 			+ "order by hb.org_code;",
 			nativeQuery=true)
 	List<UwModel> getCityUwStastic(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2);
+	
+	@Query(name="getNetUwStastic",
+			value="select hb.name as org_name,SUM(hb.L50) as 'l50',SUM(hb.L30) as 'l30',SUM(hb.L20) as 'l20', SUM(hb.L10) as 'l10',(SUM(hb.L50)+SUM(hb.L30)+SUM(hb.L20)+ SUM(hb.L10)) as 'sc' from "
+			+ "(select tb.org_code, tb.name, "
+			+ "count(case when longPerm='L50' then 'L50' else null end) as 'L50', "
+			+ "count(case when longPerm='L30' then 'L30' else NULL end) as 'L30', "
+			+ "count(case when longPerm='L20' then 'L20' else NULL end) as 'L20', "
+			+ "count(case when longPerm='L10' then 'L10' else NULL end) as 'L10' "
+			+ "from ( "
+			+ "select org.org_code, org.name, "
+			+ "case when DATEDIFF(now(),ybt_date)>=50 then 'L50' "
+			+ "when DATEDIFF(now(),ybt_date)>=30 then 'L30' "
+			+ "when DATEDIFF(now(),ybt_date)>=20 then 'L20' "
+			+ "else 'L10' "
+			+ "end as longPerm "
+			+ "from t_under_write uw, t_organization org "
+			+ "where uw.organ_id=org.id and policy_no is not null "
+			+ "and client_receive_date is null "
+			+ "and uw.sign_date between :p1 and :p2 "
+			+ "and org.org_code like :orgCode "
+			+ ") as tb "
+			+ "GROUP BY tb.org_code, tb.name "
+			+ ") as hb "
+			+ "group by hb.name "
+			+ "order by hb.org_code;",
+			nativeQuery=true)
+	List<UwModel> getNetUwStastic(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2);
 }

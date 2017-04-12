@@ -76,6 +76,7 @@ public class StasticsController {
 		//String prdName = request.getParameter("prdName");
 		String perm = request.getParameter("perm");
 		String staffFlag = request.getParameter("staffFlag");
+		String bankName = request.getParameter("bankName");
 		
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
@@ -117,12 +118,17 @@ public class StasticsController {
 		}
 		
 		boolean isCity = false;
-		if(organCode.length()>4) {
+		boolean isNet = false;
+		if(organCode.length()>=8) {
+			levelFlag = "net";
+		} else if(organCode.length()>4) {
 			levelFlag = "city";
 		}
 		
 		if(levelFlag != null && levelFlag.trim().equals("city")) {
 			isCity = true;
+		} else if(levelFlag != null && levelFlag.trim().equals("net")) {
+			isNet = true;
 		}
 		
 		request.setAttribute("orgCode", organCode);
@@ -162,9 +168,22 @@ public class StasticsController {
 		if(csd2 == null || csd2.trim().length()<=0) {
 			csd2 = "9999-12-31";
 		}
+		if(bankName == null || bankName.trim().length()<=0) {
+			bankName= "%%";
+		} else {
+			bankName = "&" + bankName + "%";
+		}
 		
 		List<TuiBaoModel> temp = null;
-		if(isCity) {
+		List<TuiBaoModel> temp1 = null;
+		if(isNet) {
+			temp = stasticsService.getNetTuiBaoWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, csd1, csd2, toPrdName, toPerm, isStaff, bankName);
+			if(hasNet) {
+				temp1 = stasticsService.getTuiBaoWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, csd1, csd2, netFlag, toPrdName, toPerm, isStaff);
+			} else {
+				temp1 = stasticsService.getTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(organCode + "%", pd1, pd2, csd1, csd2, toPrdName, toPerm, isStaff);
+			}
+		} else if(isCity) {
 			if(hasNet) {
 				temp = stasticsService.getTuiBaoWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, csd1, csd2, netFlag, toPrdName, toPerm, isStaff);
 			} else {
@@ -188,7 +207,7 @@ public class StasticsController {
 		double totalTb = 0;
 		double totalCS = 0;
 		DecimalFormat df = new DecimalFormat("#.#"); 
-		for(TuiBaoModel tcm:temp) {
+		for(TuiBaoModel tcm:(isNet?temp1:temp)) {
 			col += "'" + tcm.getOrganName() + "',";
 			sumTb += tcm.getPolicyFee()==null?0:tcm.getPolicyFee();
 			totalTb += tcm.getSumPolicyFee();
@@ -733,12 +752,17 @@ public class StasticsController {
 		}
 		
 		boolean isCity = false;
-		if(organCode.length()>4) {
+		boolean isNet = false;
+		if(organCode.length()>=8) {
+			levelFlag = "net";
+		} else if(organCode.length()>4) {
 			levelFlag = "city";
 		}
 		
 		if(levelFlag != null && levelFlag.trim().equals("city")) {
 			isCity = true;
+		} else if(levelFlag != null && levelFlag.trim().equals("net")) {
+			isNet = true;
 		}
 		
 		UwModel cm = new UwModel();
@@ -760,7 +784,9 @@ public class StasticsController {
 		}
 		
 		List<UwModel> temp = null;
-		if(isCity) {
+		if(isNet) {
+			temp = stasticsService.getCityUwStastics(organCode + "%", pd1, pd2);
+		} else if(isCity) {
 			temp = stasticsService.getCityUwStastics(organCode + "%", pd1, pd2);
 		} else {
 			temp = stasticsService.getProvUwStastics(organCode + "%", pd1, pd2);

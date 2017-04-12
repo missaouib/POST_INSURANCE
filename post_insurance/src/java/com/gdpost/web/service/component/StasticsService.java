@@ -44,5 +44,7 @@ public interface StasticsService {
 	
 	List<UwModel> getCityUwStastics(String organCode, String d1, String d2);
 	
+	List<UwModel> getNetUwStastics(String organCode, String d1, String d2);
+	
 	List<UwDtlModel> getUwDtlStastics(String organCode, String d1, String d2);
 }
