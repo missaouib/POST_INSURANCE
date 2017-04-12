@@ -309,7 +309,7 @@ public class StasticsController {
 		
 		List<TuiBaoModel> temp = null;
 		if(isNet) {
-			temp = stasticsService.getNetTuiBaoWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, csd1, csd2, netFlag, toPrdName, toPerm, isStaff, bankName);
+			temp = stasticsService.getNetTuiBaoWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, csd1, csd2, toPrdName, toPerm, isStaff, bankName);
 		} else if(isCity) {
 			if(hasNet) {
 				temp = stasticsService.getTuiBaoWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, csd1, csd2, netFlag, toPrdName, toPerm, isStaff);

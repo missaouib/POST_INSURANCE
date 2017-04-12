@@ -197,6 +197,6 @@ public interface TuiBaoModelDAO extends JpaRepository<TuiBaoModel, String>, JpaS
 					+ "group by tp.bank_name "
 					+ "order by tp.organ_code;",
 			nativeQuery=true)
-	List<TuiBaoModel> getNetTuiBaoWarningWithPolicyDateAndCsDate(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("bankName")String bankName);
+	List<TuiBaoModel> getNetTuiBaoWarningWithPolicyDateAndCsDate(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("bankName")String bankName);
 	
 }

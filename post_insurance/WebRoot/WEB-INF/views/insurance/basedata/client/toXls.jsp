@@ -20,6 +20,8 @@ response.setHeader("Content-Disposition", "inline; filename=policy_list.xls");
 				<th>交费期间</th>
 				<th>承保日期</th>
 				<th>状态</th>
+				<th>网点</th>
+				<th>员工单</th>
 			</tr>
 			<c:forEach var="item" items="${policies}" varStatus="idx">
 			<tr target="slt_uid" rel="${item.id}">
@@ -46,6 +48,8 @@ response.setHeader("Content-Disposition", "inline; filename=policy_list.xls");
 				<td>${item.perm}</td>
 				<td><fmt:formatDate value="${item.policyDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.status}</td>
+				<td>${item.bankName}</td>
+				<td>${item.isStaff}</td>
 			</tr>
 			</c:forEach>
 	</table>
