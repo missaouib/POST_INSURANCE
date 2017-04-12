@@ -85,7 +85,7 @@ jQuery(document).ready(setKeyFunc);
 			<label>保险产品：</label>
 			<input type="hidden" name="prd.id" value="" />
 			<input name="prd.prdName" type="text" postField="search_LIKE_prdName" suggestFields="prdName" class="input-medium validate[required,maxSize[32]] required"
-					suggestUrl="/common/lookupPrdSuggest" lookupGroup="prd"/>
+					suggestUrl="/common/lookupPrdSuggest?status=1" lookupGroup="prd"/>
 		</p>
 		<p>
 			<label>保费：</label>

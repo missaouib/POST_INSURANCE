@@ -314,7 +314,10 @@ public class CommonController {
 	@RequestMapping(value="/lookupPrdSuggest", method={RequestMethod.POST})
 	public @ResponseBody String lookupPrdSuggest(ServletRequest request, Map<String, Object> map) {
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("prdStatus", Operator.EQ, "1"));
+		String status = request.getParameter("status");
+		if(status != null && status.trim().equals("1")) {
+			csf.add(new SearchFilter("prdStatus", Operator.EQ, "1"));
+		}
 		Specification<Prd> specification = DynamicSpecifications.bySearchFilter(request, Prd.class, csf);
 		Page page = new Page();
 		page.setNumPerPage(60);
