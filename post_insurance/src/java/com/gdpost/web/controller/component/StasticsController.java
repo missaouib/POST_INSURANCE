@@ -119,10 +119,12 @@ public class StasticsController {
 		
 		boolean isCity = false;
 		boolean isNet = false;
-		if(organCode.length()>=8) {
-			levelFlag = "net";
-		} else if(organCode.length()>4) {
-			levelFlag = "city";
+		if(levelFlag == null) {
+			if(organCode.length()>=8) {
+				levelFlag = "net";
+			} else if(organCode.length()>4) {
+				levelFlag = "city";
+			}
 		}
 		
 		if(levelFlag != null && levelFlag.trim().equals("city")) {
@@ -753,10 +755,12 @@ public class StasticsController {
 		
 		boolean isCity = false;
 		boolean isNet = false;
-		if(organCode.length()>=8) {
-			levelFlag = "net";
-		} else if(organCode.length()>4) {
-			levelFlag = "city";
+		if(levelFlag == null) {
+			if(organCode.length()>=8) {
+				levelFlag = "net";
+			} else if(organCode.length()>4) {
+				levelFlag = "city";
+			}
 		}
 		
 		if(levelFlag != null && levelFlag.trim().equals("city")) {
@@ -785,7 +789,7 @@ public class StasticsController {
 		
 		List<UwModel> temp = null;
 		if(isNet) {
-			temp = stasticsService.getCityUwStastics(organCode + "%", pd1, pd2);
+			temp = stasticsService.getNetUwStastics(organCode + "%", pd1, pd2);
 		} else if(isCity) {
 			temp = stasticsService.getCityUwStastics(organCode + "%", pd1, pd2);
 		} else {
@@ -840,12 +844,12 @@ public class StasticsController {
 		}
 		
 		boolean isCity = false;
-		if(organCode.length()>4) {
-			levelFlag = "city";
-		}
+		boolean isNet = false;
 		
 		if(levelFlag != null && levelFlag.trim().equals("city")) {
 			isCity = true;
+		} else if(levelFlag != null && levelFlag.trim().equals("net")) {
+			isNet = true;
 		}
 		
 		String fd = StringUtil.date2Str(new Date(), "yyyy-MM-dd");
@@ -857,7 +861,9 @@ public class StasticsController {
 		}
 		
 		List<UwModel> temp = null;
-		if(isCity) {
+		if(isNet) {
+			temp = stasticsService.getNetUwStastics(organCode + "%", pd1, pd2);
+		} else if(isCity) {
 			temp = stasticsService.getCityUwStastics(organCode + "%", pd1, pd2);
 		} else {
 			temp = stasticsService.getProvUwStastics(organCode + "%", pd1, pd2);

@@ -5,7 +5,7 @@
 <!--
 function toTips(val) {
 	if(val=="net") {
-		alert("请选择具体地市县机构");
+		alert("hi, 请选择具体地市县机构 ~~");
 		return false;
 	}
 }

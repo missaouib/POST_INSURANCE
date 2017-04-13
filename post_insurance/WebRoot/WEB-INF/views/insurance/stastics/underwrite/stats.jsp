@@ -1,6 +1,16 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@page import="java.util.Date"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
+<script type="text/javascript">
+<!--
+function toTips(val) {
+	if(val=="net") {
+		alert("hi! 请选择具体地市县机构！~~");
+		return false;
+	}
+}
+//-->
+</script>
 <form method="post" id="hfForm" action="${contextPath }/component/stastics/underwrite" onsubmit="return navTabSearch(this)">
 	<div class="pageHeader">
 		<div class="searchBar">
@@ -19,9 +29,10 @@
 					<input type="text" name="policyDate2" id="uwDate2" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" value="${policyDate2 }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td><label>标记：</label>
-					<form:select path="UwModel.levelFlag" id="uwflag" class="combox">
+					<form:select path="UwModel.levelFlag" id="uwflag" class="combox" onchange="javascript:toTips(this.value);">
 						<form:option value="prov"> 省级 </form:option>
 						<form:option value="city"> 市级 </form:option>
+						<form:option value="net"> 网点 </form:option>
 					</form:select>
 					</td>
 				</tr>

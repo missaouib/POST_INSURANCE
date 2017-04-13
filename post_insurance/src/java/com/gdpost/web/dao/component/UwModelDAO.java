@@ -83,7 +83,7 @@ public interface UwModelDAO extends JpaRepository<UwModel, String>, JpaSpecifica
 			+ "count(case when longPerm='L20' then 'L20' else NULL end) as 'L20', "
 			+ "count(case when longPerm='L10' then 'L10' else NULL end) as 'L10' "
 			+ "from ( "
-			+ "select org.org_code, org.name, "
+			+ "select org.org_code, uw.net_name as name, "
 			+ "case when DATEDIFF(now(),ybt_date)>=50 then 'L50' "
 			+ "when DATEDIFF(now(),ybt_date)>=30 then 'L30' "
 			+ "when DATEDIFF(now(),ybt_date)>=20 then 'L20' "
