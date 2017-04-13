@@ -1,6 +1,16 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@page import="java.util.Date"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
+<script type="text/javascript">
+<!--
+function toTips(val) {
+	if(val=="net") {
+		alert("请选择具体地市县机构");
+		return false;
+	}
+}
+//-->
+</script>
 <script src="${contextPath}/js/echarts.common.min.js"></script>
 <form method="post" id="hfForm" action="${contextPath }/component/stastics/tuibao" onsubmit="return navTabSearch(this)">
 	<div class="pageHeader">
@@ -35,7 +45,7 @@
 				</tr>
 				<tr>
 					<td><label>标记：</label>
-					<form:select path="TuiBaoModel.levelFlag" id="tbflag" class="combox">
+					<form:select path="TuiBaoModel.levelFlag" id="tbflag" class="combox" onchange="javascript:toTips(this.value);">
 						<form:option value="prov"> 省级 </form:option>
 						<form:option value="city"> 市级 </form:option>
 						<form:option value="net"> 网点 </form:option>
