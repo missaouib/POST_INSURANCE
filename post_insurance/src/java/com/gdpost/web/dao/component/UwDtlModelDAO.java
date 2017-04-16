@@ -24,9 +24,9 @@ public interface UwDtlModelDAO extends JpaRepository<UwDtlModel, Long>, JpaSpeci
 	@Query(name="getUwDtlStastic",
 			value="select uw.id, uw.policy_no, uw.form_no, uw.holder, uw.policy_fee, uw.prd_name, uw.net_name, "
 					+ "uw.ybt_date, uw.sign_date, uw.prov_send_date, uw.prov_ems_no, org.org_code, org.name as org_name, "
-			+ "case when DATEDIFF(now(),ybt_date)>=50 then 'L50' "
-			+ "when DATEDIFF(now(),ybt_date)>=30 then 'L30' "
-			+ "when DATEDIFF(now(),ybt_date)>=20 then 'L20' "
+			+ "case when DATEDIFF(now(),sign_date)>=50 then 'L50' "
+			+ "when DATEDIFF(now(),sign_date)>=30 then 'L30' "
+			+ "when DATEDIFF(now(),sign_date)>=20 then 'L20' "
 			+ "else 'L10' "
 			+ "end as long_perm "
 			+ "from t_under_write uw, t_organization org "
