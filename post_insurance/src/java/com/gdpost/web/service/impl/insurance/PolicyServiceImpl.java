@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gdpost.web.dao.PolicyDAO;
 import com.gdpost.web.dao.PolicyReprintDtlDAO;
+import com.gdpost.web.dao.component.PolicyDataDAO;
+import com.gdpost.web.entity.component.PolicyDataModel;
 import com.gdpost.web.entity.main.Policy;
 import com.gdpost.web.entity.main.PolicyReprintDtl;
 import com.gdpost.web.service.insurance.PolicyService;
@@ -29,6 +31,8 @@ public class PolicyServiceImpl implements PolicyService {
 	@Autowired
 	private PolicyReprintDtlDAO policyReprintDtlDAO;
 	
+	@Autowired
+	private PolicyDataDAO pdDAO;
 	/*
 	 * (non-Javadoc)
 	 * @see com.gdpost.web.service.UserService#get(java.lang.Long)  
@@ -112,6 +116,11 @@ public class PolicyServiceImpl implements PolicyService {
 		org.springframework.data.domain.Page<PolicyReprintDtl> springDataPage = policyReprintDtlDAO.findAll(specification, PageUtils.createPageable(page));
 		page.setTotalCount(springDataPage.getTotalElements());
 		return springDataPage.getContent();
+	}
+
+	@Override
+	public List<PolicyDataModel> getPolicyDate(String organCode, String pd1, String pd2) {
+		return pdDAO.getPolicyDate(organCode, pd1, pd2);
 	}
 	
 }
