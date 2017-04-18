@@ -42,6 +42,7 @@ public class PolicyDataModel implements java.io.Serializable {
 	private String bankAccount;
 	private String csFlag;
 	private String uwFlag;
+	private String holderCardType;
 	
 	// Constructors
 
@@ -266,4 +267,14 @@ public class PolicyDataModel implements java.io.Serializable {
 	public void setUwFlag(String uwFlag) {
 		this.uwFlag = uwFlag;
 	}
+
+	@Column(name="holder_card_type")
+	public String getHolderCardType() {
+		return holderCardType;
+	}
+
+	public void setHolderCardType(String holderCardType) {
+		this.holderCardType = holderCardType;
+	}
+	
 }

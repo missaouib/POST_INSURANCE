@@ -25,6 +25,7 @@ public interface PolicyDataDAO extends JpaRepository<PolicyDataModel, Long>, Jpa
 			value="select tp.id,tp.policy_no,tp.form_no,tp.holder, "
 					+ "cast(aes_decrypt(unhex(tpd.holder_phone), 'GDPost') as char(100)) as holder_phone, "
 					+ "cast(aes_decrypt(unhex(tpd.holder_mobile), 'GDPost') as char(100)) as holder_mobile, "
+					+ "tpd.holder_card_type, "
 					+ "cast(aes_decrypt(unhex(tpd.holder_card_num), 'GDPost') as char(100)) as holder_card_num, "
 					+ "cast(aes_decrypt(unhex(tpd.insured), 'GDPost') as char(100)) as insured, "
 					+ "'' as insured_phone,'' as insured_card_num, "
@@ -38,6 +39,6 @@ public interface PolicyDataDAO extends JpaRepository<PolicyDataModel, Long>, Jpa
 					+ "and tp.organ_code<>'86440001' "
 					+ "order by tp.organ_code, tp.policy_date; ",
 			nativeQuery=true)
-	List<PolicyDataModel> getPolicyDate(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2);
+	List<PolicyDataModel> getPolicyDate(@Param("orgCode")String orgCode, @Param("pd1")String pd1, @Param("pd2")String pd2);
 	
 }
