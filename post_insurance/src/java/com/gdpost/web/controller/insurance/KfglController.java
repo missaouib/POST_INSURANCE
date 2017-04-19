@@ -448,46 +448,16 @@ public class KfglController {
 		} else if(!orgCode.contains(user.getOrganization().getOrgCode())){
 			orgCode = user.getOrganization().getOrgCode();
 		}
-		/*
-		Specification<Issue> specification = DynamicSpecifications.bySearchFilter(request, Issue.class,
-				new SearchFilter("status", Operator.LIKE, s),
-				new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
-				*/
+		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 		
-//		String startDate = request.getParameter("search_GTE_shouldDate");
-//		String endDate = request.getParameter("search_GTE_shouldDate");
-//		Date d=new Date();   
-//		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");   
-
-//		if(startDate == null || startDate.trim().length()<=0) {
-//			csf.add(new SearchFilter("shouldDate", Operator.GTE, df.format(new Date(d.getTime() - (long)30 * 24 * 60 * 60 * 1000))));
-//		}
-//		
-//		if(endDate == null || endDate.trim().length()<=0) {
-//			csf.add(new SearchFilter("shouldDate", Operator.LTE, new Date()));
-//		}
-		
-		//如果是县区局登录的机构号为8位，需要根据保单的所在机构进行筛选
-		if (user.getOrganization().getOrgCode().length() > 4) {
-			if(status.length() <= 0) {
-				LOG.debug("-------------- 111: " );
-				csf.add(new SearchFilter("status", Operator.OR_EQ, STATUS.NewStatus.getDesc()));
-				csf.add(new SearchFilter("status", Operator.OR_EQ, STATUS.IngStatus.getDesc()));
-				csf.add(new SearchFilter("status", Operator.OR_EQ, STATUS.ReopenStatus.getDesc()));
-			} else {
-				LOG.debug("-------------- 222: " );
-				csf.add(new SearchFilter("status", Operator.EQ, status));
-			}
+		if(status.length() <= 0) {
+			LOG.debug("-------------- 111: " );
+			csf.add(new SearchFilter("status", Operator.LIKE, status));
 		} else {
-			if(status.length() <= 0) {
-				LOG.debug("-------------- 333: " );
-				csf.add(new SearchFilter("status", Operator.EQ, STATUS.DealStatus.getDesc()));
-			} else {
-				LOG.debug("-------------- 444: " );
-				csf.add(new SearchFilter("status", Operator.EQ, status));
-			}
+			LOG.debug("-------------- 222: " );
+			csf.add(new SearchFilter("status", Operator.EQ, status));
 		}
 		Specification<Issue> specification = DynamicSpecifications.bySearchFilter(request, Issue.class, csf);
 		List<Issue> reqs = kfglService.findByExample(specification, page);

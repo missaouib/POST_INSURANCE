@@ -18,7 +18,7 @@ response.setHeader("Content-Disposition", "inline; filename=call_fail_dtl.xls");
                 <th>市县反馈</th>
                 <th>重置时间</th>
                 <th>离犹豫期(天)</th>
-                <!-- <th>工单内容</th> -->
+                <th>工单内容</th>
                 <th>${status eq "已退保"?"核心系统退保":"工单状态"}</th>
                 <th>省分回访结果</th>
                 <th>出单网点</th>
@@ -65,7 +65,7 @@ response.setHeader("Content-Disposition", "inline; filename=call_fail_dtl.xls");
                 <td>${item.canCallAgainRemark}（<fmt:formatDate value="${item.resetDate }" pattern="yyyy-MM-dd"/>）</td>
                 <td><fmt:formatDate value="${item.resetDate }" pattern="yyyy-MM-dd"/></td>
                 <td><c:if test="${item.lastDateNum<0 }">-1</c:if><c:if test="${item.lastDateNum>=0 }">${item.lastDateNum }</c:if></td>
-                <%-- <td>${item.issueContent}</td> --%>
+                <td>${item.issueType eq null?item.issueContent:item.issueType}</td>
                 <td>${item.status}</td>
                 <td>${item.hqDealTypeElse}</td>
                 <td>
