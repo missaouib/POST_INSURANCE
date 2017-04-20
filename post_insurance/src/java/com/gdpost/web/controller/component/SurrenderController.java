@@ -118,15 +118,66 @@ public class SurrenderController {
 
 		String c2 = "9999-12-31";
 
+		Double permpolicyFee = 0.0;
+		Double permsumPolicyFee = 0.0;
+		Double permpf = 0.0;
+		Double permspf = 0.0;
+		
+		Double permstaffpolicyFee = 0.0;
+		Double permstaffsumPolicyFee = 0.0;
+		Double permstaffpf = 0.0;
+		Double permstaffspf = 0.0;
+		
+		/*
 		Double policyFee = 0.0;
 		Double sumPolicyFee = 0.0;
 		Double pf = 0.0;
 		Double spf = 0.0;
-		Double curRate = 0.0;
-		Double newRate = 0.0;
-		Double orgCurRate = 0.0;
-		Double orgNewRate = 0.0;
-		List<TuiBaoModel> list = statService.getTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(orgCode + "%", p1, p2, p1, c2, "%%", "%%", "1");
+		
+		Double staffpolicyFee = 0.0;
+		Double staffsumPolicyFee = 0.0;
+		Double staffpf = 0.0;
+		Double staffspf = 0.0;
+		*/
+		//Double curPermRate = 0.0;
+		Double newPermRate = 0.0;
+		//Double orgCurPermRate = 0.0;
+		Double orgNewPermRate = 0.0;
+		
+		Double orgCurStaffRate = 0.0;
+		Double orgNewStaffRate = 0.0;
+		Double curStaffRate = 0.0;
+		Double newStaffRate = 0.0;
+		
+		/*
+		Double curStaffRate = 0.0;
+		Double newStaffRate = 0.0;
+		Double orgCurStaffRate = 0.0;
+		Double orgNewStaffRate = 0.0;
+		*/
+		List<TuiBaoModel> permlist = statService.getTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(orgCode + "%", p1, p2, p1, c2, "%%", "%年交%", "%%");
+		List<TuiBaoModel> permStafflist = statService.getTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(orgCode + "%", p1, p2, p1, c2, "%%", "%年交%", "1");
+		//List<TuiBaoModel> list = statService.getTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(orgCode + "%", p1, p2, p1, c2, "%%", "%%", "%%");
+		//List<TuiBaoModel> Stafflist = statService.getTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(orgCode + "%", p1, p2, p1, c2, "%%", "%%", "1");
+		for (TuiBaoModel tbm : permlist) {
+			if (tbm.getOrganName().equals(orgName)) {
+				permpf = tbm.getPolicyFee() == null ? 0 : tbm.getPolicyFee();
+				permspf = tbm.getSumPolicyFee() == null ? 0 : tbm.getSumPolicyFee();
+			}
+			permpolicyFee += tbm.getPolicyFee() == null ? 0 : tbm.getPolicyFee();
+			permsumPolicyFee += tbm.getSumPolicyFee() == null ? 0 : tbm.getSumPolicyFee();
+			LOG.debug(tbm.toString());
+		}
+		for (TuiBaoModel tbm : permStafflist) {
+			if (tbm.getOrganName().equals(orgName)) {
+				permstaffpf = tbm.getPolicyFee() == null ? 0 : tbm.getPolicyFee();
+				permstaffspf = tbm.getSumPolicyFee() == null ? 0 : tbm.getSumPolicyFee();
+			}
+			permstaffpolicyFee += tbm.getPolicyFee() == null ? 0 : tbm.getPolicyFee();
+			permstaffsumPolicyFee += tbm.getSumPolicyFee() == null ? 0 : tbm.getSumPolicyFee();
+			LOG.debug(tbm.toString());
+		}
+		/*
 		for (TuiBaoModel tbm : list) {
 			if (tbm.getOrganName().equals(orgName)) {
 				pf = tbm.getPolicyFee() == null ? 0 : tbm.getPolicyFee();
@@ -136,22 +187,50 @@ public class SurrenderController {
 			sumPolicyFee += tbm.getSumPolicyFee() == null ? 0 : tbm.getSumPolicyFee();
 			LOG.debug(tbm.toString());
 		}
+		for (TuiBaoModel tbm : Stafflist) {
+			if (tbm.getOrganName().equals(orgName)) {
+				staffpf = tbm.getPolicyFee() == null ? 0 : tbm.getPolicyFee();
+				staffspf = tbm.getSumPolicyFee() == null ? 0 : tbm.getSumPolicyFee();
+			}
+			staffpolicyFee += tbm.getPolicyFee() == null ? 0 : tbm.getPolicyFee();
+			staffsumPolicyFee += tbm.getSumPolicyFee() == null ? 0 : tbm.getSumPolicyFee();
+			LOG.debug(tbm.toString());
+		}
+		
+		orgCurStaffRate = (staffpf / staffspf) * 100;
+		orgNewStaffRate = ((staffpf + reqFee) / staffspf) * 100;
+		curStaffRate = (staffpolicyFee / staffsumPolicyFee) * 100;
+		newStaffRate = ((staffpolicyFee + reqFee) / staffsumPolicyFee) * 100;
+		*/
+		//orgCurPermRate = (permpf / permspf) * 100;
+		orgNewPermRate = ((permpf + reqFee) / permspf) * 100;
+		//curPermRate = (permpolicyFee / permsumPolicyFee) * 100;
+		newPermRate = ((permpolicyFee + reqFee) / permsumPolicyFee) * 100;
+		
+		orgCurStaffRate = (permstaffpf / permstaffspf) * 100;
+		orgNewStaffRate = ((permstaffpf + reqFee) / permstaffspf) * 100;
+		
+		curStaffRate = (permstaffpolicyFee / permstaffsumPolicyFee) * 100;
+		newStaffRate = ((permstaffpolicyFee+ reqFee) / permstaffsumPolicyFee) * 100;
 
-		curRate = (policyFee / sumPolicyFee) * 100;
-		newRate = ((policyFee + reqFee) / sumPolicyFee) * 100;
-
-		orgCurRate = (pf / spf) * 100;
-		orgNewRate = ((pf + reqFee) / spf) * 100;
-		LOG.debug(" -------------- " + curRate + "," + newRate + "," + orgCurRate + "," + orgNewRate);
-
+		request.setAttribute("year", policyYear);
+		
+		request.setAttribute("totalAreaFee", permpolicyFee/10000);
+		request.setAttribute("staffAreaFee", permstaffpolicyFee/10000);
+		request.setAttribute("orgCurStaffRate", String.format("%.2f", orgCurStaffRate) + "%");
+		request.setAttribute("orgNewStaffRate", String.format("%.2f", orgNewStaffRate) + "%");
+		request.setAttribute("orgNewPermRate", String.format("%.2f", orgNewPermRate) + "%");
+		
+		request.setAttribute("totalCityFee", permsumPolicyFee/10000);
+		request.setAttribute("staffCityFee", permstaffsumPolicyFee/10000);
+		request.setAttribute("curStaffRate", String.format("%.2f", curStaffRate) + "%");
+		request.setAttribute("newStaffRate", String.format("%.2f", newStaffRate) + "%");
+		request.setAttribute("newPermRate", String.format("%.2f", newPermRate) + "%");
+		
 		request.setAttribute("holder", policy.getHolder());
 		request.setAttribute("policyNo", policyNo);
 		request.setAttribute("policyFee", reqFee.toString());
 		request.setAttribute("tbReason", tbReason);
-		request.setAttribute("totalRate", String.format("%.2f", orgCurRate) + "%");
-		request.setAttribute("newRate", String.format("%.2f", orgNewRate) + "%");
-		request.setAttribute("cityTotalRate", String.format("%.2f", curRate) + "%");
-		request.setAttribute("cityNewRate", String.format("%.2f", newRate) + "%");
 		request.setAttribute("orgName", orgName);
 		
 		String templatePath = request.getServletContext().getRealPath("/") + File.separator + "doc/template.doc";
@@ -163,15 +242,25 @@ public class SurrenderController {
 			is = new FileInputStream(templatePath);
 			doc = new HWPFDocument(is);
 			Range range = doc.getRange();
+			range.replaceText("${year}", new Integer(policyYear).toString());
+			
+			range.replaceText("${totalAreaFee}", (permpolicyFee/10000) + "");
+			range.replaceText("${staffAreaFee}", (permstaffpolicyFee/10000) + "");
+			range.replaceText("${orgCurStaffRate}", String.format("%.2f", orgCurStaffRate) + "%");
+			range.replaceText("${orgNewStaffRate}", String.format("%.2f", orgNewStaffRate) + "%");
+			range.replaceText("${orgNewPermRate}", String.format("%.2f", orgNewPermRate) + "%");
+			
+			range.replaceText("${totalCityFee}", (permsumPolicyFee/10000) + "");
+			range.replaceText("${staffCityFee}", (permstaffsumPolicyFee/10000) + "");
+			range.replaceText("${curStaffRate}", String.format("%.2f", curStaffRate) + "%");
+			range.replaceText("${newStaffRate}", String.format("%.2f", newStaffRate) + "%");
+			range.replaceText("${newPermRate}", String.format("%.2f", newPermRate) + "%");
+			
 			range.replaceText("${holder}", policy.getHolder());
-			range.replaceText("${orgName}", orgName);
 			range.replaceText("${policyNo}", policyNo);
 			range.replaceText("${policyFee}", reqFee.toString());
 			range.replaceText("${tbReason}", tbReason);
-			range.replaceText("${totalRate}", String.format("%.2f", orgCurRate) + "%");
-			range.replaceText("${newRate}", String.format("%.2f", orgNewRate) + "%");
-			range.replaceText("${cityTotalRate}", String.format("%.2f", curRate) + "%");
-			range.replaceText("${cityNewRate}", String.format("%.2f", newRate) + "%");
+			range.replaceText("${orgName}", orgName);
 			os = new FileOutputStream(newPath);
 			// 把doc输出到输出流中
 			doc.write(os);

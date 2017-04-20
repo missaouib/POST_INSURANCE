@@ -11,7 +11,8 @@ response.setHeader("Content-Disposition", "inline; filename=XQ_Xls.xls");
 			<tr>
 				<th>序号</th>
 				<th>所属机构</th>
-				<th>保单号</th>
+				<th>保险单号码</th>
+				<th>保单年度</th>
 				<th>险种名称</th>
 				<th>姓名</th>
 				<th>联系电话</th>
@@ -38,6 +39,7 @@ response.setHeader("Content-Disposition", "inline; filename=XQ_Xls.xls");
 				<td><c:out value="${status.index+1}"/></td>
 				<td>${fn:replace(item.policy.organization.name,'中邮保险局','')}</td>
 				<td style="vnd.ms-excel.numberformat:@">${item.policy.policyNo}</td>
+				<td>${item.policyYear}</td>
 				<td>${item.prdName}</td>
 				<td>${item.holder}</td>
 				<td>${item.mobile eq ""?item.phone:item.mobile}</td>

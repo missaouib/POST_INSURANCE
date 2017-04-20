@@ -30,22 +30,22 @@
 		<legend>结果描述：</legend>
 		<p>
 		<div style="font-size: 16px; text-align: center;">
-		员工单退保申请
+		  员工单退保签批函
 		</div>
 		<br>
 		<div style="font-size: 16px">
-		&nbsp;&nbsp;&nbsp;&nbsp;员工单信息如下。员工姓名：<span style="font-weight: bold; font-size: 16px;">${holder}</span>，
-		所属机构：<span style="font-weight: bold;font-size: 16px;">${orgName}</span>，
-		保单号码：<span style="font-weight: bold;font-size: 16px;">${policyNo}</span>，
-		保险费：<span style="font-weight: bold;font-size: 16px;">${policyFee}</span>。
-		申请退保原因：<span style="font-weight: bold;font-size: 16px;">${tbReason}</span>。<br><br>
-		&nbsp;&nbsp;&nbsp;&nbsp;员工的所在县区局（${orgName }）的当前员工单退保率为：<span style="font-weight: bold;font-size: 16px;">${totalRate}</span>，
-		如该员工退保后退保率变化为：<span style="font-weight: bold;font-size: 16px;">${newRate}</span>。<br><br>
-		&nbsp;&nbsp;&nbsp;&nbsp;市局当前员工单退保率为：<span style="font-weight: bold;font-size: 16px;">${cityTotalRate}</span>，
-		如该员工退保后退保率变化为：<span style="font-weight: bold;font-size: 16px;">${cityNewRate}</span>。
+		  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		  员工单信息如下。员工姓名：${holder}，所属机构：${orgName}，保单号码：${policyNo}，保险费：${policyFee}元。 <br /><br />
+		  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		  所属县区${year}年期交总保费${totalAreaFee}万元，员工单期交保费${staffAreaFee}万元，所属县区局（${orgName}）的当前员工单期交退保率为：${orgCurStaffRate}，如该员工退保后期交退保率变化为：${orgNewStaffRate}，期交总退保率变为${orgNewPermRate}。 <br /><br />
+		  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		  所属市局${year}年期交总保费${totalCityFee}万元，员工单期交保费${staffCityFee}万元，市局当前员工单期交退保率为：${curStaffRate}，如该员工退保后期交退保率变化为：${newStaffRate}，期交总退保率变为${newPermRate}。 <br /><br />
+		  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		  该员工申请退保原因：${tbReason}。 <br /><br />
+		<p >&nbsp;</p>
+		                            中邮保险局局长签字：
 		</div>
 		<br>
-		</p>
 </fieldset>
 <a class="buttonActive" target="_blank" href="${contextPath }/doc/${policyNo }.doc"><span>点我下载申请书（.doc）</span></a>
 </div>
