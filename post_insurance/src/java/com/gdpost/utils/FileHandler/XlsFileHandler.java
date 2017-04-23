@@ -2,7 +2,6 @@ package com.gdpost.utils.FileHandler;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,12 +19,12 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.gdpost.utils.MyException;
+import com.gdpost.utils.StringUtil;
+
 import System.Data.DataColumn;
 import System.Data.DataRow;
 import System.Data.DataTable;
-
-import com.gdpost.utils.MyException;
-import com.gdpost.utils.StringUtil;
 
 public class XlsFileHandler extends AbstractFileHandler {
 	public static Logger log = LoggerFactory.getLogger(XlsFileHandler.class);
@@ -40,7 +39,7 @@ public class XlsFileHandler extends AbstractFileHandler {
 		try {
 			// 设置访问密码
 			// Biff8EncryptionKey.setCurrentUserPassword(this.m_strPassword);
-
+			log.debug("-------- xls file -----------" + strFilePath + File.separator + strFileName);
 			workbook = new HSSFWorkbook(new FileInputStream(strFilePath + File.separator + strFileName));
 			HSSFSheet sheet = null;
 			HSSFRow headerRow = null;
@@ -255,7 +254,7 @@ public class XlsFileHandler extends AbstractFileHandler {
 		} finally {
 			try {
 				workbook.close();
-			} catch (IOException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
