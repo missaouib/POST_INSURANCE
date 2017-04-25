@@ -922,3 +922,8 @@ order by tp.organ_code, tp.policy_date;
 
  grant select on postinsurance.v_policy_data to postxxj@'%' identified by 'PostXxj';
   grant select on postinsurance.v_policy_data to postxxj@'localhost' identified by 'PostXxj';
+  
+  alter table t_policy_dtl add column insured_card_type varchar(64);
+  alter table t_policy_dtl add column insured_card_num varchar(256);
+  alter table t_policy_dtl add column insured_card_valid varchar(14);
+  alter table t_policy_dtl add column bank_account varchar(256);
