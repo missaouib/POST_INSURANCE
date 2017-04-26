@@ -28,7 +28,7 @@ public interface UwDtlModelDAO extends JpaRepository<UwDtlModel, Long>, JpaSpeci
 			+ "when DATEDIFF(now(),sign_date)>=30 then 'L30' "
 			+ "when DATEDIFF(now(),sign_date)>=20 then 'L20' "
 			+ "else 'L10' "
-			+ "end as long_perm "
+			+ "end as long_perm, uw.plan_date, uw.remark "
 			+ "from t_under_write uw, t_organization org "
 			+ "where uw.organ_id=org.id and policy_no is not null "
 			+ "and client_receive_date is null "

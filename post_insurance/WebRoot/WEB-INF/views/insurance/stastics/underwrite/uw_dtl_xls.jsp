@@ -21,6 +21,8 @@ response.setHeader("Content-Disposition", "inline; filename=uw_warning_dtl.xls")
 		<th>合同寄出</th>
 		<th>快递单号</th>
 		<th>网点名称</th>
+		<th>跟进日期</th>
+		<th>跟进详情</th>
 		<th>L+逾期日）</th>
 	</tr>
 	<c:forEach var="item" items="${cmRst}" varStatus="idx">
@@ -37,6 +39,8 @@ response.setHeader("Content-Disposition", "inline; filename=uw_warning_dtl.xls")
 		<td><fmt:formatDate value="${item.provSendDate}" pattern="yyyy-MM-dd"/></td>
 		<td>${item.provEmsNo}</td>
 		<td>${item.netName}</td>
+		<td>${item.planDate}</td>
+		<td>${item.remark}</td>
 		<td>${item.longPerm}</td>
 	</tr>
 	</c:forEach>

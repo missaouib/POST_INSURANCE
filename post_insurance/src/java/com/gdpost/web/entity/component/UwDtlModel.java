@@ -32,6 +32,8 @@ public class UwDtlModel implements java.io.Serializable {
 	private Date provSendDate;
 	private String provEmsNo;
 	private String longPerm;
+	private String planDate;
+	private String remark;
 	
 	// Constructors
 
@@ -165,5 +167,23 @@ public class UwDtlModel implements java.io.Serializable {
 
 	public void setLongPerm(String longPerm) {
 		this.longPerm = longPerm;
+	}
+
+	@Column(name="plan_date")
+	public String getPlanDate() {
+		return planDate;
+	}
+	
+	public void setPlanDate(String planDate) {
+		this.planDate = planDate;
+	}
+
+	@Column(name="remark")
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 }
