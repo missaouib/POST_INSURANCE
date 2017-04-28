@@ -44,6 +44,7 @@ import com.gdpost.utils.TemplateHelper.PayFailListColumn;
 import com.gdpost.utils.TemplateHelper.PolicyBackDateColumn;
 import com.gdpost.utils.TemplateHelper.PolicyColumn;
 import com.gdpost.utils.TemplateHelper.PolicyDtlColumn;
+import com.gdpost.utils.TemplateHelper.PolicyDtlExtColumn;
 import com.gdpost.utils.TemplateHelper.PolicySentDataColumn;
 import com.gdpost.utils.TemplateHelper.PolicyUnderWriteColumn;
 import com.gdpost.utils.TemplateHelper.RenewedCityListColumn;
@@ -418,6 +419,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 		log.info("---------  into update status data:" + ft.getDesc());
 		DoRst dr = new DoRst();
 		dr.setNum(dt.Rows.size());
+		String strKey = com.gdpost.web.MySQLAESKey.AESKey;
 		java.sql.Connection connection = null;
 		com.mysql.jdbc.Statement statement = null;
 		try {
@@ -1077,6 +1079,30 @@ public class UploadDataServiceImpl implements UploadDataService{
 			log.debug("----------------city update status batch sql : " + sql);
 			sql2 = "delete from t_under_write where holder is null";
 			break;
+		case UnderWriteInsured:
+			standardColumns = PolicyDtlExtColumn.getStandardColumns();
+			sql = new StringBuffer("INSERT INTO t_policy_dtl(policy_no, prod_name, insured_card_type, insured_card_num, insured_card_valid, bank_account) VALUES ");
+			line = null;
+			val = null;
+			for (DataRow row : dt.Rows) {
+				val = null;
+				line = new StringBuffer("(");
+	        	for(ColumnItem item : standardColumns) {
+	        		val = row.getValue(item.getDisplayName());
+                	
+	        		line.append("\"" + StringUtil.trimStr(val, true) + "\",");
+	        	}
+	        	line.deleteCharAt(line.length() - 1);
+	        	line.append("),");
+	        	sql.append(line);
+	        }
+			sql.deleteCharAt(sql.length() - 1);
+			sql.append(" ON DUPLICATE KEY UPDATE ");
+			sql.append("insured_card_type=VALUES(HEX(AES_Encrypt(insured_card_type,'" + strKey + "'))), insured_card_num=VALUES(HEX(AES_Encrypt(insured_card_num,'" + strKey + "'))),");
+			sql.append("insured_card_valid=VALUES(HEX(AES_Encrypt(insured_card_valid,'" + strKey + "'))), bank_account=VALUES(HEX(AES_Encrypt(bank_account,'" + strKey + "')));");
+			log.debug("----------------insured data batch sql : " + sql);
+			sql2 = "delete from t_policy_dtl where form_no is null";
+			break;
 		default:
 			break;
 		}
@@ -1280,6 +1306,10 @@ public class UploadDataServiceImpl implements UploadDataService{
 			standardColumns = UnderWriteDtlColumn.getStandardColumns();
 			keyRow = UnderWriteDtlColumn.KEY_ROW;
 			break;
+		case UnderWriteInsured:
+			standardColumns = PolicyDtlExtColumn.getStandardColumns();
+			keyRow = PolicyDtlExtColumn.KEY_ROW;
+			break;
 		}
 		
 	    boolean bFlag = true;
@@ -1357,7 +1387,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 						|| t.name().equals(FileTemplate.PolicyBackDate.name())
 						|| t.name().equals(FileTemplate.RenewedFeeMatchList.name())
 						|| t.name().equals(FileTemplate.UnderWriteDtlData.name())
-						|| t.name().equals(FileTemplate.UnderWriteRemark.name())) {
+						|| t.name().equals(FileTemplate.UnderWriteRemark.name())
+						|| t.name().equals(FileTemplate.UnderWriteInsured.name())) {
 					
 					dr = updateStatusData(t, request, dt);
 					

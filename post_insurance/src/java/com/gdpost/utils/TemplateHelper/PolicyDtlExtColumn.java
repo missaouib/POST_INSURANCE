@@ -31,27 +31,29 @@ public class PolicyDtlExtColumn {
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("险种名称");
-		column.setColumnName("prod_name");
+		column.setDisplayName("证件类型");
+		column.setColumnName("insured_card_type");
 		column.setColumnType(ColumnType.string);
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("险种名称");
-		column.setColumnName("prod_name");
+		column.setDisplayName("证件号码");
+		column.setColumnName("insured_card_num");
+		column.setColumnType(ColumnType.string);
+		column.setNeedEncrypt(true);
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
+		column.setDisplayName("证件有效期");
+		column.setColumnName("insured_card_valid");
 		column.setColumnType(ColumnType.string);
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("险种名称");
-		column.setColumnName("prod_name");
+		column.setDisplayName("缴费账号");
+		column.setColumnName("bank_account");
 		column.setColumnType(ColumnType.string);
-		standardColumns.add(column);
-		
-		column = new ColumnItem();
-		column.setDisplayName("险种名称");
-		column.setColumnName("prod_name");
-		column.setColumnType(ColumnType.string);
+		column.setNeedEncrypt(true);
 		standardColumns.add(column);
 		
 		return(standardColumns);
