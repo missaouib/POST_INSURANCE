@@ -63,6 +63,7 @@ import com.gdpost.web.entity.main.PayFailList;
 import com.gdpost.web.entity.main.Policy;
 import com.gdpost.web.service.uploaddatamanage.UploadDataService;
 import com.gdpost.web.util.DoRst;
+import com.gdpost.web.util.MyUtil;
 import com.gdpost.web.util.StatusDefine.FEE_FAIL_STATUS;
 import com.gdpost.web.util.StatusDefine.STATUS;
 import com.gdpost.web.util.StatusDefine.XQ_STATUS;
@@ -874,27 +875,44 @@ public class UploadDataServiceImpl implements UploadDataService{
 			break;
 		case RenewedFeeMatchList://总部的催收
 			standardColumns = RenewedFeeMatchColumn.getStandardColumns();
-			sql = new StringBuffer("INSERT INTO t_renewed_list(policy_no, prd_name, policy_year, fee_match, prov_deal_date, prov_issue_type, prov_deal_rst, prov_deal_remark) VALUES ");
+			sql = new StringBuffer("INSERT INTO t_renewed_list(policy_no, prd_name, policy_year, fee_match, prov_deal_date, prov_issue_type, prov_deal_rst, prov_deal_remark, give_fee) VALUES ");
 			line = null;
 			isFail = false;
 			val = null;
+			String phone;
+			Double policyFee;
+			String feeMatch;
 			for (DataRow row : dt.Rows) {
 				isFail = false;
 				val = null;
+				phone = null;
+				policyFee = null;
+				feeMatch = null;
 				line = new StringBuffer("(");
 	        	for(ColumnItem item : standardColumns) {
 	        		val = row.getValue(item.getDisplayName());
                 	
 	        		line.append("\"" + StringUtil.trimStr(val, true) + "\",");
+	        		//TODO renewed give fee
+	        		if(item.getDisplayName().equals("手机号码")) {
+	        			phone = (val==null?"":val.toString().substring(0, 2));
+	        		}
+	        		if(item.getDisplayName().equals("应交保费")) {
+	        			policyFee = (Double) val;
+	        		}
+	        		if(item.getDisplayName().equals("匹配结果")) {
+	        			feeMatch = (String) val;
+	        		}
 	        	}
-	        	line.deleteCharAt(line.length() - 1);
+	        	//line.deleteCharAt(line.length() - 1);
+	        	line.append("\"" + MyUtil.getFeeValue(feeMatch, phone, policyFee) + "\"");
 	        	line.append("),");
 	        	sql.append(line);
 	        }
 			sql.deleteCharAt(sql.length() - 1);
 			sql.append(" ON DUPLICATE KEY UPDATE ");
 			sql.append("fee_match=VALUES(fee_match), prov_deal_date=VALUES(prov_deal_date), prov_issue_type=VALUES(prov_issue_type), "
-					+ "prov_deal_rst=VALUES(prov_deal_rst), prov_deal_remark=VALUES(prov_deal_remark);");
+					+ "prov_deal_rst=VALUES(prov_deal_rst), prov_deal_remark=VALUES(prov_deal_remark), give_fee=VALUES(give_fee);");
 			log.debug("----------------fee match batch sql : " + sql);
 			sql2 = "delete from t_renewed_list where holder is null";
 			break;

@@ -74,6 +74,10 @@ public class RenewedList implements Idable<Long> {
 	
 	private String feeMatch;
 	
+	private String giveFee;
+	private String giveFlag;
+	private String giveRst;
+	
 	
 	@Transient
 	private Integer lastDateNum;
@@ -534,6 +538,33 @@ public class RenewedList implements Idable<Long> {
 
 	public void setFeeMatch(String feeMatch) {
 		this.feeMatch = feeMatch;
+	}
+
+	@Column(name="give_fee")
+	public String getGiveFee() {
+		return giveFee;
+	}
+
+	public void setGiveFee(String giveFee) {
+		this.giveFee = giveFee;
+	}
+
+	@Column(name="give_flag")
+	public String getGiveFlag() {
+		return giveFlag;
+	}
+
+	public void setGiveFlag(String giveFlag) {
+		this.giveFlag = giveFlag;
+	}
+
+	@Column(name="give_rst")
+	public String getGiveRst() {
+		return giveRst;
+	}
+
+	public void setGiveRst(String giveRst) {
+		this.giveRst = giveRst;
 	}
 
 	@Override

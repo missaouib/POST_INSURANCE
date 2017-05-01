@@ -927,3 +927,7 @@ order by tp.organ_code, tp.policy_date;
   alter table t_policy_dtl add column insured_card_num varchar(256);
   alter table t_policy_dtl add column insured_card_valid varchar(14);
   alter table t_policy_dtl add column bank_account varchar(256);
+
+alter table t_renewed_list add column give_fee varchar(6);
+alter table t_renewed_list add column give_flag varchar(6);
+alter table t_renewed_list add column give_rst varchar(6);
