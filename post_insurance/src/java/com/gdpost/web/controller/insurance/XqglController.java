@@ -439,7 +439,7 @@ public class XqglController {
 		String dealType = request.getParameter("encodeDealType");
 		String feeFailReason = request.getParameter("encodeFeeFailReason");
 		String provActivity = request.getParameter("provActivity");
-		
+		String feeMatch = request.getParameter("feeMatch");
 		if(feeStatus != null && feeStatus.trim().length() > 0 ){
 			feeStatus = new String(Base64Utils.decodeFromString(feeStatus));
 			try {
@@ -493,7 +493,9 @@ public class XqglController {
 		if (provActivity != null && provActivity.length() > 0) {
 			csf.add(new SearchFilter("provActivity", Operator.EQ, provActivity));
 		}
-		
+		if (feeMatch != null && feeMatch.length() > 0) {
+			csf.add(new SearchFilter("feeMatch", Operator.EQ, feeMatch));
+		}
 		Specification<RenewedList> specification = DynamicSpecifications.bySearchFilter(request, RenewedList.class, csf);
 		
 		List<RenewedList> issues = xqglService.findByExample(specification, page);
