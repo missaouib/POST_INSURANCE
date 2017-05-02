@@ -50,6 +50,7 @@ import com.gdpost.utils.TemplateHelper.PolicyUnderWriteColumn;
 import com.gdpost.utils.TemplateHelper.RenewedCityListColumn;
 import com.gdpost.utils.TemplateHelper.RenewedColumn;
 import com.gdpost.utils.TemplateHelper.RenewedFeeMatchColumn;
+import com.gdpost.utils.TemplateHelper.RenewedFeeRstColumn;
 import com.gdpost.utils.TemplateHelper.RenewedHQListColumn;
 import com.gdpost.utils.TemplateHelper.RenewedProvListColumn;
 import com.gdpost.utils.TemplateHelper.RenewedStatusColumn;
@@ -183,6 +184,11 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case Renewed:
 			standardColumns = RenewedColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_renewed_list character set utf8 (";
+			break;
+		case RenewedFeeRst:
+			standardColumns = RenewedFeeRstColumn.getStandardColumns();
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_renewed_fee_rst character set utf8 (";
+			sql1 = "update t_renewed_list trl, t_renewed_fee_rst trfr set trl.give_flag='需充值' where trl.policy_no=trfr.policy_no and datediff(trfr.rst_date, trfr.req_date)<=7;";
 			break;
 		case RenewedStatus:
 			standardColumns = RenewedStatusColumn.getStandardColumns();
@@ -764,6 +770,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 			break;
 		case Renewed:
 			return dr;
+		case RenewedFeeRst:
+			return dr;
 		case RenewedStatus://继续率清单
 			standardColumns = RenewedStatusColumn.getStandardColumns();
 			sql = new StringBuffer("INSERT INTO t_renewed_list(policy_no, prd_name, fee_status, fee_fail_reason) VALUES ");
@@ -847,7 +855,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			log.debug("----------------hq update status batch sql : " + sql);
 			sql2 = "delete from t_renewed_list where holder is null";
 			break;
-		case RenewedProvList://总部的催收
+		case RenewedProvList:
 			standardColumns = RenewedProvListColumn.getStandardColumns();
 			sql = new StringBuffer("INSERT INTO t_renewed_list(policy_no, prd_name, policy_year, prov_deal_date, prov_deal_rst, prov_activity) VALUES ");
 			line = null;
@@ -873,9 +881,9 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql2 = "delete from t_renewed_list where holder is null";
 			sql3 = "update t_renewed_list t1, t_renewed_list t2 set t1.prov_deal_date=t2.prov_deal_date,t1.prov_deal_rst=t2.prov_deal_rst where t1.prd_name=\"中邮附加重大疾病保险\" and t1.policy_no=t2.policy_no and t2.prov_deal_rst is not null;";
 			break;
-		case RenewedFeeMatchList://总部的催收
+		case RenewedFeeMatchList:
 			standardColumns = RenewedFeeMatchColumn.getStandardColumns();
-			sql = new StringBuffer("INSERT INTO t_renewed_list(policy_no, prd_name, policy_year, fee_match, prov_deal_date, prov_issue_type, prov_deal_rst, prov_deal_remark, give_fee) VALUES ");
+			sql = new StringBuffer("INSERT INTO t_renewed_list(policy_no, prd_name, policy_year, mobile, policy_fee, fee_match, prov_deal_date, prov_issue_type, prov_deal_rst, prov_deal_remark, give_fee) VALUES ");
 			line = null;
 			isFail = false;
 			val = null;
@@ -897,7 +905,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        		if(item.getDisplayName().equals("手机号码")) {
 	        			phone = (val==null?"":val.toString().substring(0, 2));
 	        		}
-	        		if(item.getDisplayName().equals("应交保费")) {
+	        		if(item.getDisplayName().equals("应收保费")) {
 	        			policyFee = (Double) val;
 	        		}
 	        		if(item.getDisplayName().equals("匹配结果")) {
@@ -1227,6 +1235,10 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case Renewed:
 			standardColumns = RenewedColumn.getStandardColumns();
 			keyRow = RenewedColumn.KEY_ROW;
+			break;
+		case RenewedFeeRst:
+			standardColumns = RenewedFeeRstColumn.getStandardColumns();
+			keyRow = RenewedFeeRstColumn.KEY_ROW;
 			break;
 		case RenewedStatus:
 			standardColumns = RenewedStatusColumn.getStandardColumns();

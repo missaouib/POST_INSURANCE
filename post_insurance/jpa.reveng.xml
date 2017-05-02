@@ -267,7 +267,12 @@
 			<key-column name="id" type="Long" />
 		</primary-key>
 	</table>
-<table name="t_cs_addr" catalog="postinsurance" class="CsAddr">
+	<table name="t_cs_addr" catalog="postinsurance" class="CsAddr">
+		<primary-key>
+			<key-column name="id" type="Long" />
+		</primary-key>
+	</table>
+<table name="t_renewed_fee_rst" catalog="postinsurance">
 	<primary-key>
 		<key-column name="id" type="Long"/>
 	</primary-key>

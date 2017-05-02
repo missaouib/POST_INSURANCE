@@ -33,6 +33,11 @@ response.setHeader("Content-Disposition", "inline; filename=XQ_Xls.xls");
 				<th>市县催收详情</th>
 				<th>市县催收时间</th>
 				<th>活动标记</th>
+				<shiro:hasPermission name="Callfail:provEdit">
+                <th>可赠送话费</th>
+                <th>是否赠送</th>
+                <th>赠送结果</th>
+				</shiro:hasPermission>
 			</tr>
 			<c:forEach var="item" items="${reqs}" varStatus="status">
 			<tr>
@@ -70,6 +75,11 @@ response.setHeader("Content-Disposition", "inline; filename=XQ_Xls.xls");
 				<td>${item.fixStatus}</td>
 				<td><fmt:formatDate value="${item.dealTime }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.provActivity}</td>
+				<shiro:hasPermission name="Callfail:provEdit">
+				<td>${item.giveFee}</td>
+				<td>${item.giveFlag}</td>
+				<td>${item.giveRst}</td>
+				</shiro:hasPermission>
 			</tr>
 			</c:forEach>
 	</table>

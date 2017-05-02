@@ -931,3 +931,20 @@ order by tp.organ_code, tp.policy_date;
 alter table t_renewed_list add column give_fee varchar(6);
 alter table t_renewed_list add column give_flag varchar(6);
 alter table t_renewed_list add column give_rst varchar(6);
+
+create table t_renewed_fee_rst
+(
+   id  bigint not null auto_increment,
+   policy_no  varchar(15),
+   prod_code  varchar(6),
+   holder  varchar(12),
+   req_date date,
+   req_fee double,
+   rst_fee double,
+   rst_date date,
+   fee_channel varchar(12),
+   fee_type varchar(6),
+   policy_flag varchar(12),
+   operate_id bigint,
+   primary key (id)
+)engine=innodb auto_increment=1 default charset=utf8;
