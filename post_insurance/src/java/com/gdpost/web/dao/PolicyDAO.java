@@ -2,6 +2,8 @@ package com.gdpost.web.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.gdpost.web.entity.main.Policy;
 
@@ -16,7 +18,10 @@ import com.gdpost.web.entity.main.Policy;
  * @author MyEclipse Persistence Tools
  */
 public interface PolicyDAO extends JpaRepository<Policy, Long>, JpaSpecificationExecutor<Policy> {
-	Policy getByPolicyNo(String policyNo);
+	Policy getByPolicyNoAndAttachedFlag(String policyNo, Integer attachedFlag);
 	
 	Policy getByPolicyDtlHolderCardNum(String idCardNum);
+	
+	@Query(value="select tp from Policy tp, BankCode bc where tp.bankCode=bc.cpiCode and bc.netFlag=2 and tp.attachedFlag=0 and tp.policyNo=:policyNo")
+	Policy isBankPolicy(@Param("policyNo") String policyNo);
 }

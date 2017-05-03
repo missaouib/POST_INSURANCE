@@ -15,6 +15,7 @@ public class MyUtil {
 	static final List<String> lt = Arrays.asList(lts);
 	
 	public static String getFeeValue(String feeMatch, String phone, Double policyFee) {
+		if (policyFee == null) policyFee = new Double(0);
 		if(feeMatch != null && feeMatch.trim().equals("可用余额不足")) {
 			if(dx.contains(phone)) {
 				if(policyFee>=10000) {

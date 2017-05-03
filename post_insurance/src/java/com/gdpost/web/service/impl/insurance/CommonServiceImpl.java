@@ -31,7 +31,7 @@ public class CommonServiceImpl implements CommonService {
 	
 	@Override
 	public Policy getByPolicyNo(String policyNo) {
-		return policyDAO.getByPolicyNo(policyNo);
+		return policyDAO.getByPolicyNoAndAttachedFlag(policyNo, 0);
 	}
 
 	@Override

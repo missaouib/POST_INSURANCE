@@ -41,6 +41,7 @@
 				<th>承保日期</th>
 				<th>状态</th>
 				<th>员工单</th>
+				<th>银行单</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -70,12 +71,13 @@
 				<td><fmt:formatDate value="${item.policyDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.status}</td>
 				<td>${item.isStaff}</td>
+				<td>${isBankPolicy}</td>
 			</tr>
 			</c:forEach>
 		</tbody>
 	</table>
 	<br>
-	<c:if test="${isStaff }">
+	<c:if test="${isStaff && !isBankPolicy }">
 	<form method="post" id="subhfForm" action="${contextPath }/surrender/rst" onsubmit="return navTabSearch(this)">
 	<input hidden="hidden" name="policyNo" value="${policyNo }">
 	<fieldset>

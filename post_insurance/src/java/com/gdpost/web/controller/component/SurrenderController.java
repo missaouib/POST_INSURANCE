@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.gdpost.utils.SecurityUtils;
+import com.gdpost.utils.StringUtil;
 import com.gdpost.web.entity.component.TuiBaoModel;
 import com.gdpost.web.entity.main.Policy;
 import com.gdpost.web.service.component.StasticsService;
@@ -76,6 +77,8 @@ public class SurrenderController {
 		request.setAttribute("isStaff", policy.getIsStaff());
 		request.setAttribute("policyNo", policyNo);
 		request.setAttribute("idCardNum", idCardNum);
+		boolean isBankPolicy = policyService.isBankPolicy(policy.getPolicyNo());
+		request.setAttribute("isBankPolicy", isBankPolicy);
 		
 		list.add(policy);
 		map.put("policies", list);
@@ -99,11 +102,12 @@ public class SurrenderController {
 		String orgName = policy.getOrganization().getName();
 		Double reqFee = policy.getPolicyFee();
 		LOG.debug(" ------ policy org:" + orgName);
+
+		orgCode = orgCode.substring(0, 6);
+		userOrg = userOrg.length()>4?userOrg.substring(0, 6):userOrg;
 		if (!orgCode.contains(userOrg)) {
 			return SURRENDER_REQ;
 		}
-
-		orgCode = orgCode.substring(0, 6);
 
 		Calendar ca = Calendar.getInstance();
 		ca.setTime(policy.getPolicyDate());
@@ -214,6 +218,7 @@ public class SurrenderController {
 		newStaffRate = ((permstaffpolicyFee+ reqFee) / permstaffsumPolicyFee) * 100;
 
 		request.setAttribute("year", policyYear);
+		request.setAttribute("policyDate", policy.getPolicyDate());
 		
 		request.setAttribute("totalAreaFee", permpolicyFee/10000);
 		request.setAttribute("staffAreaFee", permstaffpolicyFee/10000);
@@ -243,6 +248,7 @@ public class SurrenderController {
 			doc = new HWPFDocument(is);
 			Range range = doc.getRange();
 			range.replaceText("${year}", new Integer(policyYear).toString());
+			range.replaceText("${policyDate}", StringUtil.date2Str(policy.getPolicyDate(), "yyyy/MM/dd"));
 			
 			range.replaceText("${totalAreaFee}", (permpolicyFee/10000) + "");
 			range.replaceText("${staffAreaFee}", (permstaffpolicyFee/10000) + "");

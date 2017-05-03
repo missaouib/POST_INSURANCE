@@ -78,7 +78,7 @@ public class PolicyServiceImpl implements PolicyService {
 
 	@Override
 	public Policy getByPolicyNo(String policyNo) {
-		return policyDAO.getByPolicyNo(policyNo);
+		return policyDAO.getByPolicyNoAndAttachedFlag(policyNo, 0);
 	}
 	
 	@Override
@@ -121,6 +121,15 @@ public class PolicyServiceImpl implements PolicyService {
 	@Override
 	public List<PolicyDataModel> getPolicyDate(String organCode, String pd1, String pd2) {
 		return pdDAO.getPolicyDate(organCode, pd1, pd2);
+	}
+
+	@Override
+	public boolean isBankPolicy(String policyNo) {
+		Policy policy = policyDAO.isBankPolicy(policyNo);
+		if(policy != null && policy.getId() != null) {
+			return true;
+		}
+		return false;
 	}
 	
 }

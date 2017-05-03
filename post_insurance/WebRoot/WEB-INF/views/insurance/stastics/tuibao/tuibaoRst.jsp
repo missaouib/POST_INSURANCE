@@ -35,7 +35,7 @@
 		<br>
 		<div style="font-size: 16px">
 		  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		  员工单信息如下。员工姓名：${holder}，所属机构：${orgName}，保单号码：${policyNo}，保险费：${policyFee}元。 <br /><br />
+		  员工单信息如下。员工姓名：${holder}，所属机构：${orgName}，保单号码：${policyNo}，保险费：${policyFee}元，出单日期：${policyDate}。 <br /><br />
 		  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		  所属县区${year}年期交总保费${totalAreaFee}万元，员工单期交保费${staffAreaFee}万元，所属县区局（${orgName}）的当前员工单期交退保率为：${orgCurStaffRate}，如该员工退保后期交退保率变化为：${orgNewStaffRate}，期交总退保率变为${orgNewPermRate}。 <br /><br />
 		  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

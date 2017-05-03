@@ -900,13 +900,21 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        	for(ColumnItem item : standardColumns) {
 	        		val = row.getValue(item.getDisplayName());
                 	
-	        		line.append("\"" + StringUtil.trimStr(val, true) + "\",");
+	        		if(item.getDisplayName().contains("一访时间")) {
+	        			if(val == null || val.toString().trim().length() <= 0) {
+	        				line.append("NULL,");
+	        			} else {
+	        				line.append("\"" + StringUtil.trimStr(val, true) + "\",");
+	        			}
+	        		} else {
+	        			line.append("\"" + StringUtil.trimStr(val, true) + "\",");
+	        		}
 	        		//TODO renewed give fee
 	        		if(item.getDisplayName().equals("手机号码")) {
-	        			phone = (val==null?"":val.toString().substring(0, 2));
+	        			phone = ((val==null || val.toString().trim().length()<=10)?"":val.toString().substring(0, 3));
 	        		}
 	        		if(item.getDisplayName().equals("应收保费")) {
-	        			policyFee = (Double) val;
+	        			policyFee = Double.valueOf(val == null?"0":val.toString());
 	        		}
 	        		if(item.getDisplayName().equals("匹配结果")) {
 	        			feeMatch = (String) val;
@@ -1115,8 +1123,11 @@ public class UploadDataServiceImpl implements UploadDataService{
 				line = new StringBuffer("(");
 	        	for(ColumnItem item : standardColumns) {
 	        		val = row.getValue(item.getDisplayName());
-                	
-	        		line.append("\"" + StringUtil.trimStr(val, true) + "\",");
+                	if(item.isNeedEncrypt()) {
+                		line.append("HEX(AES_Encrypt(\"" + StringUtil.trimStr(val, true) + "\",'" + strKey + "')),");
+                	} else {
+                		line.append("\"" + StringUtil.trimStr(val, true) + "\",");
+                	}
 	        	}
 	        	line.deleteCharAt(line.length() - 1);
 	        	line.append("),");
@@ -1124,10 +1135,10 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        }
 			sql.deleteCharAt(sql.length() - 1);
 			sql.append(" ON DUPLICATE KEY UPDATE ");
-			sql.append("insured_card_type=VALUES(HEX(AES_Encrypt(insured_card_type,'" + strKey + "'))), insured_card_num=VALUES(HEX(AES_Encrypt(insured_card_num,'" + strKey + "'))),");
-			sql.append("insured_card_valid=VALUES(HEX(AES_Encrypt(insured_card_valid,'" + strKey + "'))), bank_account=VALUES(HEX(AES_Encrypt(bank_account,'" + strKey + "')));");
+			sql.append("insured_card_type=VALUES(insured_card_type), insured_card_num=VALUES(insured_card_num),");
+			sql.append("insured_card_valid=VALUES(insured_card_valid), bank_account=VALUES(bank_account);");
 			log.debug("----------------insured data batch sql : " + sql);
-			sql2 = "delete from t_policy_dtl where form_no is null";
+			sql2 = "delete from t_policy_dtl where holder is null";
 			break;
 		default:
 			break;

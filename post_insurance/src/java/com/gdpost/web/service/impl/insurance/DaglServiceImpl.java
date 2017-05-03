@@ -41,7 +41,7 @@ public class DaglServiceImpl implements DaglService {
 	@Override
 	public void saveOrUpdate(Policy policy) {
 		if (policy.getId() == null) {
-			if (policyDAO.getByPolicyNo(policy.getPolicyNo()) != null) {
+			if (policyDAO.getByPolicyNoAndAttachedFlag(policy.getPolicyNo(), 0) != null) {
 				throw new ExistedException("保单号：" + policy.getPolicyNo() + "已存在。");
 			}
 		}
@@ -87,6 +87,6 @@ public class DaglServiceImpl implements DaglService {
 	 */
 	@Override
 	public Policy getByPolicyNo(String policyNo) {
-		return policyDAO.getByPolicyNo(policyNo);
+		return policyDAO.getByPolicyNoAndAttachedFlag(policyNo, 0);
 	}
 }
