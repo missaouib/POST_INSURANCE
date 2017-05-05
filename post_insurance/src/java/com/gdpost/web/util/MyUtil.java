@@ -19,17 +19,17 @@ public class MyUtil {
 		if(feeMatch != null && feeMatch.trim().equals("可用余额不足")) {
 			if(dx.contains(phone)) {
 				if(policyFee>=10000) {
-					return "30元";
+					return "30";
 				} else {
-					return "0元";
+					return "0";
 				}
 			} else if(yd.contains(phone) || lt.contains(phone)) {
 				if(policyFee>=30000) {
-					return "30元";
+					return "30";
 				} else if(policyFee>=10000 && policyFee<30000) {
-					return "20元";
+					return "20";
 				} else {
-					return "10元";
+					return "10";
 				}
 			}
 		}

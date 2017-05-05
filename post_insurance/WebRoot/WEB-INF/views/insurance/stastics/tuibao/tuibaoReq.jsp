@@ -83,7 +83,7 @@
 	<fieldset>
 		<legend>请输入退保原因：</legend>
 		<p>
-		<textarea name="tbReason" rows="3" cols="50"></textarea>
+		<textarea name="tbReason" rows="3" cols="50" class="required"></textarea>
 		</p>
 	</fieldset>
 	<div class="button"><div class="buttonContent"><button type="submit">提交申请</button></div></div>

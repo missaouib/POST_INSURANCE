@@ -101,11 +101,16 @@ public class SurrenderController {
 		String orgCode = policy.getOrganization().getOrgCode();
 		String orgName = policy.getOrganization().getName();
 		Double reqFee = policy.getPolicyFee();
-		LOG.debug(" ------ policy org:" + orgName);
+		LOG.debug(" ---111--- policy org:" + orgName + ", orgCode:" + orgCode);
 
 		orgCode = orgCode.substring(0, 6);
-		userOrg = userOrg.length()>4?userOrg.substring(0, 6):userOrg;
-		if (!orgCode.contains(userOrg)) {
+		//LOG.debug(" ---222--- policy org:" + orgName + ", orgCode:" + orgCode);
+		
+		//userOrg = userOrg.length()>4?userOrg.substring(0, 6):userOrg;
+		LOG.debug(" ---222--- userOrg:" + userOrg);
+		String tmpOrgCode = orgCode.length()>4?orgCode.substring(0, 6):orgCode;
+		String tmpUserOrg = userOrg.length()>4?userOrg.substring(0, 6):userOrg;
+		if (!tmpOrgCode.contains(tmpUserOrg)) {
 			return SURRENDER_REQ;
 		}
 
@@ -165,47 +170,23 @@ public class SurrenderController {
 		//List<TuiBaoModel> Stafflist = statService.getTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(orgCode + "%", p1, p2, p1, c2, "%%", "%%", "1");
 		for (TuiBaoModel tbm : permlist) {
 			if (tbm.getOrganName().equals(orgName)) {
-				permpf = tbm.getPolicyFee() == null ? 0 : tbm.getPolicyFee();
-				permspf = tbm.getSumPolicyFee() == null ? 0 : tbm.getSumPolicyFee();
+				permpf = tbm.getPolicyFee() == null ? 0 : tbm.getPolicyFee();//县区期交退保保费
+				permspf = tbm.getSumPolicyFee() == null ? 0 : tbm.getSumPolicyFee();//县区期交总保费
 			}
-			permpolicyFee += tbm.getPolicyFee() == null ? 0 : tbm.getPolicyFee();
-			permsumPolicyFee += tbm.getSumPolicyFee() == null ? 0 : tbm.getSumPolicyFee();
+			permpolicyFee += tbm.getPolicyFee() == null ? 0 : tbm.getPolicyFee();//市局期交退保保费
+			permsumPolicyFee += tbm.getSumPolicyFee() == null ? 0 : tbm.getSumPolicyFee();//市局期交总保费
 			LOG.debug(tbm.toString());
 		}
 		for (TuiBaoModel tbm : permStafflist) {
 			if (tbm.getOrganName().equals(orgName)) {
-				permstaffpf = tbm.getPolicyFee() == null ? 0 : tbm.getPolicyFee();
-				permstaffspf = tbm.getSumPolicyFee() == null ? 0 : tbm.getSumPolicyFee();
+				permstaffpf = tbm.getPolicyFee() == null ? 0 : tbm.getPolicyFee();//县区员工单退保保费
+				permstaffspf = tbm.getSumPolicyFee() == null ? 0 : tbm.getSumPolicyFee();//县区员工单保费
 			}
-			permstaffpolicyFee += tbm.getPolicyFee() == null ? 0 : tbm.getPolicyFee();
-			permstaffsumPolicyFee += tbm.getSumPolicyFee() == null ? 0 : tbm.getSumPolicyFee();
-			LOG.debug(tbm.toString());
-		}
-		/*
-		for (TuiBaoModel tbm : list) {
-			if (tbm.getOrganName().equals(orgName)) {
-				pf = tbm.getPolicyFee() == null ? 0 : tbm.getPolicyFee();
-				spf = tbm.getSumPolicyFee() == null ? 0 : tbm.getSumPolicyFee();
-			}
-			policyFee += tbm.getPolicyFee() == null ? 0 : tbm.getPolicyFee();
-			sumPolicyFee += tbm.getSumPolicyFee() == null ? 0 : tbm.getSumPolicyFee();
-			LOG.debug(tbm.toString());
-		}
-		for (TuiBaoModel tbm : Stafflist) {
-			if (tbm.getOrganName().equals(orgName)) {
-				staffpf = tbm.getPolicyFee() == null ? 0 : tbm.getPolicyFee();
-				staffspf = tbm.getSumPolicyFee() == null ? 0 : tbm.getSumPolicyFee();
-			}
-			staffpolicyFee += tbm.getPolicyFee() == null ? 0 : tbm.getPolicyFee();
-			staffsumPolicyFee += tbm.getSumPolicyFee() == null ? 0 : tbm.getSumPolicyFee();
+			permstaffpolicyFee += tbm.getPolicyFee() == null ? 0 : tbm.getPolicyFee();//市局员工单退保保费
+			permstaffsumPolicyFee += tbm.getSumPolicyFee() == null ? 0 : tbm.getSumPolicyFee();//市局员工单保费
 			LOG.debug(tbm.toString());
 		}
 		
-		orgCurStaffRate = (staffpf / staffspf) * 100;
-		orgNewStaffRate = ((staffpf + reqFee) / staffspf) * 100;
-		curStaffRate = (staffpolicyFee / staffsumPolicyFee) * 100;
-		newStaffRate = ((staffpolicyFee + reqFee) / staffsumPolicyFee) * 100;
-		*/
 		//orgCurPermRate = (permpf / permspf) * 100;
 		orgNewPermRate = ((permpf + reqFee) / permspf) * 100;
 		//curPermRate = (permpolicyFee / permsumPolicyFee) * 100;
@@ -217,11 +198,59 @@ public class SurrenderController {
 		curStaffRate = (permstaffpolicyFee / permstaffsumPolicyFee) * 100;
 		newStaffRate = ((permstaffpolicyFee+ reqFee) / permstaffsumPolicyFee) * 100;
 
+		//已超xx级（xx%）退保预警/距离三级退保预警xx%
+		String orgTips = null;
+		if(policyYear==2015 || policyYear==2016) {
+			if (orgNewPermRate/100>=0.12) {
+				orgTips = "已超一级（12%）退保预警";
+			} else if (orgNewPermRate/100>=0.09) {
+				orgTips = "已超二级（9%）退保预警";
+			} else if (orgNewPermRate/100>=0.07) {
+				orgTips = "已超三级（7%）退保预警";
+			} else {
+				orgTips = "距离三级退保预警" + String.format("%.2f", (0.07-orgNewPermRate/100)*100) + "%";
+			}
+		} else if(policyYear==2017) {
+			if (orgNewPermRate/100>=0.12) {
+				orgTips = "已超一级（10%）退保预警";
+			} else if (orgNewPermRate/100>=0.09) {
+				orgTips = "已超二级（7%）退保预警";
+			} else if (orgNewPermRate/100>=0.07) {
+				orgTips = "已超三级（5%）退保预警";
+			} else {
+				orgTips = "距离三级退保预警" + String.format("%.2f", (0.05-orgNewPermRate/100)*100) + "%";
+			}
+		}
+		String cityTips = null;
+		if(policyYear==2015 || policyYear==2016) {
+			if (newPermRate/100>=0.12) {
+				cityTips = "已超一级（12%）退保预警";
+			} else if (newPermRate/100>=0.09) {
+				cityTips = "已超二级（9%）退保预警";
+			} else if (newPermRate/100>=0.07) {
+				cityTips = "已超三级（7%）退保预警";
+			} else {
+				cityTips = "距离三级退保预警" + String.format("%.2f", (0.07-newPermRate/100)*100) + "%";
+			}
+		} else if(policyYear==2017) {
+			if (newPermRate/100>=0.12) {
+				cityTips = "已超一级（10%）退保预警";
+			} else if (newPermRate/100>=0.09) {
+				cityTips = "已超二级（7%）退保预警";
+			} else if (newPermRate/100>=0.07) {
+				cityTips = "已超三级（5%）退保预警";
+			} else {
+				cityTips = "距离三级退保预警" + String.format("%.2f", (0.05-newPermRate/100)*100) + "%";
+			}
+		}
+		
 		request.setAttribute("year", policyYear);
 		request.setAttribute("policyDate", policy.getPolicyDate());
+		request.setAttribute("orgTips", orgTips);
+		request.setAttribute("cityTips", cityTips);
 		
-		request.setAttribute("totalAreaFee", permpolicyFee/10000);
-		request.setAttribute("staffAreaFee", permstaffpolicyFee/10000);
+		request.setAttribute("totalAreaFee", permspf/10000);
+		request.setAttribute("staffAreaFee", permstaffspf/10000);
 		request.setAttribute("orgCurStaffRate", String.format("%.2f", orgCurStaffRate) + "%");
 		request.setAttribute("orgNewStaffRate", String.format("%.2f", orgNewStaffRate) + "%");
 		request.setAttribute("orgNewPermRate", String.format("%.2f", orgNewPermRate) + "%");
@@ -249,6 +278,8 @@ public class SurrenderController {
 			Range range = doc.getRange();
 			range.replaceText("${year}", new Integer(policyYear).toString());
 			range.replaceText("${policyDate}", StringUtil.date2Str(policy.getPolicyDate(), "yyyy/MM/dd"));
+			range.replaceText("${orgTips}", orgTips);
+			range.replaceText("${cityTips}", cityTips);
 			
 			range.replaceText("${totalAreaFee}", (permpolicyFee/10000) + "");
 			range.replaceText("${staffAreaFee}", (permstaffpolicyFee/10000) + "");

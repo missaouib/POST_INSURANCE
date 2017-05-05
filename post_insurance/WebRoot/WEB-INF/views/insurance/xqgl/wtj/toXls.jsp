@@ -75,7 +75,7 @@ response.setHeader("Content-Disposition", "inline; filename=XQ_Xls.xls");
 				<td>${item.fixStatus}</td>
 				<td><fmt:formatDate value="${item.dealTime }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.provActivity}</td>
-				<shiro:hasPermission name="Callfail:provEdit">
+				<shiro:hasPermission name="Renewed:provEdit">
 				<td>${item.giveFee}</td>
 				<td>${item.giveFlag}</td>
 				<td>${item.giveRst}</td>
