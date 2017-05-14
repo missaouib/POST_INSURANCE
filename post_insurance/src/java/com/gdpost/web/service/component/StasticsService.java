@@ -47,4 +47,12 @@ public interface StasticsService {
 	List<UwModel> getNetUwStastics(String organCode, String d1, String d2);
 	
 	List<UwDtlModel> getUwDtlStastics(String organCode, String d1, String d2);
+	
+	List<UwModel> getProvLongUwStastics(String organCode, String d1, String d2);
+	
+	List<UwModel> getCityLongUwStastics(String organCode, String d1, String d2);
+	
+	List<UwModel> getNetLongUwStastics(String organCode, String d1, String d2);
+	
+	List<UwDtlModel> getLongUwDtlStastics(String organCode, String d1, String d2);
 }

@@ -35,6 +35,12 @@ function toTips(val) {
 						<form:option value="net"> 网点 </form:option>
 					</form:select>
 					</td>
+					<td><label>统计方式：</label>
+					<form:select path="UwModel.statFlag" id="uwstatFlag" class="combox">
+						<form:option value="sellBack"> 回销逾期（签单后） </form:option>
+						<form:option value="longTerm"> 全流程逾期 （填单后）</form:option>
+					</form:select>
+					</td>
 				</tr>
 			</table>
 			<div class="subBar">
@@ -50,9 +56,9 @@ function toTips(val) {
 	<div class="panelBar">
 		<ul class="toolBar">
 			<li class="line">line</li>
-			<li><a class="icon" target="_blank" href="${contextPath }/component/stastics/underwrite/toXls?orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&levelFlag=${levelFlag}"><span>导出统计结果</span></a></li>
+			<li><a class="icon" target="_blank" href="${contextPath }/component/stastics/underwrite/toXls?orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&levelFlag=${levelFlag}&statFlag=${statFlag}"><span>导出统计结果</span></a></li>
 			<li class="line">line</li>
-			<li><a class="icon" target="_blank" href="${contextPath }/component/stastics/underwrite/dtlXls?orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&levelFlag=${levelFlag}"><span>导出明细数据</span></a></li>
+			<li><a class="icon" target="_blank" href="${contextPath }/component/stastics/underwrite/dtlXls?orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&levelFlag=${levelFlag}&statFlag=${statFlag}"><span>导出明细数据</span></a></li>
 		</ul>
 	</div>
 	<div id="w_list_print">

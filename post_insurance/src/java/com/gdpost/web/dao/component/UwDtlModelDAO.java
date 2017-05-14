@@ -38,4 +38,21 @@ public interface UwDtlModelDAO extends JpaRepository<UwDtlModel, Long>, JpaSpeci
 			nativeQuery=true)
 	List<UwDtlModel> getUwDtlStastic(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2);
 	
+	@Query(name="getLongUwDtlStastic",
+			value="select uw.id, uw.policy_no, uw.form_no, uw.holder, uw.policy_fee, uw.prd_name, uw.net_name, "
+					+ "uw.ybt_date, uw.sign_date, uw.prov_send_date, uw.prov_ems_no, org.org_code, org.name as org_name, "
+			+ "case when DATEDIFF(now(),ybt_date)>=50 then 'L50' "
+			+ "when DATEDIFF(now(),ybt_date)>=30 then 'L30' "
+			+ "when DATEDIFF(now(),ybt_date)>=20 then 'L20' "
+			+ "else 'L10' "
+			+ "end as long_perm, uw.plan_date, uw.remark "
+			+ "from t_under_write uw, t_organization org "
+			+ "where uw.organ_id=org.id and policy_no is not null "
+			+ "and client_receive_date is null "
+			+ "and uw.sign_date between :p1 and :p2 "
+			+ "and org.org_code like :orgCode "
+			+ "order by org.org_code;",
+			nativeQuery=true)
+	List<UwDtlModel> getLongUwDtlStastic(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2);
+	
 }

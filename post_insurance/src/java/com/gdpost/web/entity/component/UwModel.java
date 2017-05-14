@@ -26,6 +26,8 @@ public class UwModel implements java.io.Serializable {
 
 	@Transient
 	private String levelFlag;
+	@Transient
+	private String statFlag;
 	// Constructors
 
 	@Transient
@@ -36,6 +38,16 @@ public class UwModel implements java.io.Serializable {
 	@Transient
 	public void setLevelFlag(String levelFlag) {
 		this.levelFlag = levelFlag;
+	}
+
+	@Transient
+	public String getStatFlag() {
+		return statFlag;
+	}
+
+	@Transient
+	public void setStatFlag(String statFlag) {
+		this.statFlag = statFlag;
 	}
 
 	/** default constructor */

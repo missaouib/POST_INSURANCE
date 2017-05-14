@@ -741,6 +741,7 @@ public class StasticsController {
 		String pd1 = request.getParameter("policyDate1");
 		String pd2 = request.getParameter("policyDate2");
 		String levelFlag = request.getParameter("levelFlag");
+		String statFlag = request.getParameter("statFlag");
 		
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
@@ -771,11 +772,13 @@ public class StasticsController {
 		
 		UwModel cm = new UwModel();
 		cm.setLevelFlag(levelFlag);
+		cm.setStatFlag(statFlag);
 		request.setAttribute("UwModel", cm);
 		
 		request.setAttribute("levelFlag", levelFlag);
 		request.setAttribute("orgCode", organCode);
 		request.setAttribute("name", organName);
+		request.setAttribute("statFlag", statFlag);
 	
 		String fd = StringUtil.date2Str(new Date(), "yyyy-MM-dd");
 		if(pd1 == null || pd1.trim().length()<=0) {
@@ -788,12 +791,22 @@ public class StasticsController {
 		}
 		
 		List<UwModel> temp = null;
-		if(isNet) {
-			temp = stasticsService.getNetUwStastics(organCode + "%", pd1, pd2);
-		} else if(isCity) {
-			temp = stasticsService.getCityUwStastics(organCode + "%", pd1, pd2);
+		if(statFlag==null || statFlag.trim().equals("sellBack")) {
+			if(isNet) {
+				temp = stasticsService.getNetUwStastics(organCode + "%", pd1, pd2);
+			} else if(isCity) {
+				temp = stasticsService.getCityUwStastics(organCode + "%", pd1, pd2);
+			} else {
+				temp = stasticsService.getProvUwStastics(organCode + "%", pd1, pd2);
+			}
 		} else {
-			temp = stasticsService.getProvUwStastics(organCode + "%", pd1, pd2);
+			if(isNet) {
+				temp = stasticsService.getNetLongUwStastics(organCode + "%", pd1, pd2);
+			} else if(isCity) {
+				temp = stasticsService.getCityLongUwStastics(organCode + "%", pd1, pd2);
+			} else {
+				temp = stasticsService.getProvLongUwStastics(organCode + "%", pd1, pd2);
+			}
 		}
 		
 		request.setAttribute("cmRst", temp);
@@ -833,6 +846,7 @@ public class StasticsController {
 		String pd1 = request.getParameter("policyDate1");
 		String pd2 = request.getParameter("policyDate2");
 		String levelFlag = request.getParameter("levelFlag");
+		String statFlag = request.getParameter("statFlag");
 		
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
@@ -861,12 +875,22 @@ public class StasticsController {
 		}
 		
 		List<UwModel> temp = null;
-		if(isNet) {
-			temp = stasticsService.getNetUwStastics(organCode + "%", pd1, pd2);
-		} else if(isCity) {
-			temp = stasticsService.getCityUwStastics(organCode + "%", pd1, pd2);
+		if(statFlag==null || statFlag.trim().equals("sellBack")) {
+			if(isNet) {
+				temp = stasticsService.getNetUwStastics(organCode + "%", pd1, pd2);
+			} else if(isCity) {
+				temp = stasticsService.getCityUwStastics(organCode + "%", pd1, pd2);
+			} else {
+				temp = stasticsService.getProvUwStastics(organCode + "%", pd1, pd2);
+			}
 		} else {
-			temp = stasticsService.getProvUwStastics(organCode + "%", pd1, pd2);
+			if(isNet) {
+				temp = stasticsService.getNetLongUwStastics(organCode + "%", pd1, pd2);
+			} else if(isCity) {
+				temp = stasticsService.getCityLongUwStastics(organCode + "%", pd1, pd2);
+			} else {
+				temp = stasticsService.getProvLongUwStastics(organCode + "%", pd1, pd2);
+			}
 		}
 		
 		request.setAttribute("cmRst", temp);
@@ -901,6 +925,7 @@ public class StasticsController {
 		String organCode = request.getParameter("orgCode");
 		String pd1 = request.getParameter("policyDate1");
 		String pd2 = request.getParameter("policyDate2");
+		String statFlag = request.getParameter("statFlag");
 		
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
@@ -919,7 +944,12 @@ public class StasticsController {
 			pd2 = "9999-12-31";
 		}
 		
-		List<UwDtlModel> temp = stasticsService.getUwDtlStastics(organCode + "%", pd1, pd2);
+		List<UwDtlModel> temp = null;
+		if(statFlag==null || statFlag.trim().equals("sellBack")) {
+			temp = stasticsService.getUwDtlStastics(organCode + "%", pd1, pd2);
+		} else {
+			temp = stasticsService.getLongUwDtlStastics(organCode + "%", pd1, pd2);
+		}
 		
 		request.setAttribute("cmRst", temp);
 		LOG.debug(" ------------ result size:" + temp.size());

@@ -127,4 +127,24 @@ public class StasticsServiceImpl implements StasticsService {
 	public List<UwDtlModel> getUwDtlStastics(String organCode, String d1, String d2) {
 		return udDAO.getUwDtlStastic(organCode, d1, d2);
 	}
+	
+	@Override
+	public List<UwModel> getProvLongUwStastics(String organCode, String d1, String d2) {
+		return umDAO.getProvLongUwStastic(organCode, d1, d2);
+	}
+
+	@Override
+	public List<UwModel> getCityLongUwStastics(String organCode, String d1, String d2) {
+		return umDAO.getCityLongUwStastic(organCode, d1, d2);
+	}
+	
+	@Override
+	public List<UwModel> getNetLongUwStastics(String organCode, String d1, String d2) {
+		return umDAO.getNetLongUwStastic(organCode, d1, d2);
+	}
+
+	@Override
+	public List<UwDtlModel> getLongUwDtlStastics(String organCode, String d1, String d2) {
+		return udDAO.getLongUwDtlStastic(organCode, d1, d2);
+	}
 }
