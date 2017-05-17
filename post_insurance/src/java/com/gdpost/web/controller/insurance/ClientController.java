@@ -204,7 +204,7 @@ public class ClientController {
 		
 		page.setNumPerPage(Integer.MAX_VALUE);
 		
-		String orgCode = request.getParameter("policy.orgCode");
+		String orgCode = request.getParameter("orgCode");
 		if(orgCode == null || orgCode.trim().length() <= 0) {
 			orgCode = user.getOrganization().getOrgCode();
 			if(orgCode.contains("11185")) {

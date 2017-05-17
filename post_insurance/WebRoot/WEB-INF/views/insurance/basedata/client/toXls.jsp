@@ -16,15 +16,19 @@ response.setHeader("Content-Disposition", "inline; filename=policy_list.xls");
 				<th>投保人</th>
 				<th>险种名称</th>
 				<th>保费</th>
+				<th>合计保费</th>
 				<th>交费方式</th>
 				<th>交费期间</th>
 				<th>承保日期</th>
+				<th>回销日期</th>
 				<th>状态</th>
+				<th>是否犹撤</th>
+				<th>网点编码</th>
 				<th>网点</th>
 				<th>员工单</th>
 			</tr>
 			<c:forEach var="item" items="${policies}" varStatus="idx">
-			<tr target="slt_uid" rel="${item.id}">
+			<tr>
 				<td>${idx.index+1 }</td>
 				<td style="vnd.ms-excel.numberformat:@">${item.formNo}</td>
 				<td style="vnd.ms-excel.numberformat:@">${item.policyNo}</td>
@@ -44,10 +48,14 @@ response.setHeader("Content-Disposition", "inline; filename=policy_list.xls");
 				<td>${item.holder}</td>
 				<td>${item.prodName}</td>
 				<td>${item.policyFee}</td>
+				<td>${item.totalFee}</td>
 				<td>${item.feeFrequency}</td>
 				<td>${item.perm}</td>
 				<td><fmt:formatDate value="${item.policyDate }" pattern="yyyy-MM-dd"/></td>
+				<td><fmt:formatDate value="${item.billBackDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.status}</td>
+				<td>${item.csFlag != null && item.csFlag==1?"Y":"N"}</td>
+				<td>${item.bankCode}</td>
 				<td>${item.bankName}</td>
 				<td>${item.isStaff}</td>
 			</tr>
