@@ -177,14 +177,18 @@ public class StasticsController {
 		}
 		
 		List<TuiBaoModel> temp = null;
-		List<TuiBaoModel> temp1 = null;
+		//List<TuiBaoModel> temp1 = null;
 		if(isNet) {
-			temp = stasticsService.getNetTuiBaoWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, csd1, csd2, toPrdName, toPerm, isStaff, bankName);
 			if(hasNet) {
-				temp1 = stasticsService.getTuiBaoWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, csd1, csd2, netFlag, toPrdName, toPerm, isStaff);
+				temp = stasticsService.getNetTuiBaoWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, csd1, csd2, netFlag, toPrdName, toPerm, isStaff, bankName);
 			} else {
-				temp1 = stasticsService.getTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(organCode + "%", pd1, pd2, csd1, csd2, toPrdName, toPerm, isStaff);
+				temp = stasticsService.getNetTuiBaoWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, csd1, csd2, toPrdName, toPerm, isStaff, bankName);
 			}
+//			if(hasNet) {
+//				temp1 = stasticsService.getTuiBaoWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, csd1, csd2, netFlag, toPrdName, toPerm, isStaff);
+//			} else {
+//				temp1 = stasticsService.getTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(organCode + "%", pd1, pd2, csd1, csd2, toPrdName, toPerm, isStaff);
+//			}
 		} else if(isCity) {
 			if(hasNet) {
 				temp = stasticsService.getTuiBaoWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, csd1, csd2, netFlag, toPrdName, toPerm, isStaff);
@@ -209,7 +213,7 @@ public class StasticsController {
 		double totalTb = 0;
 		double totalCS = 0;
 		DecimalFormat df = new DecimalFormat("#.#"); 
-		for(TuiBaoModel tcm:(isNet?temp1:temp)) {
+		for(TuiBaoModel tcm:temp) {//(isNet?temp1:temp)
 			col += "'" + tcm.getOrganName() + "',";
 			sumTb += tcm.getPolicyFee()==null?0:tcm.getPolicyFee();
 			totalTb += tcm.getSumPolicyFee();
@@ -330,7 +334,11 @@ public class StasticsController {
 		
 		List<TuiBaoModel> temp = null;
 		if(isNet) {
-			temp = stasticsService.getNetTuiBaoWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, csd1, csd2, toPrdName, toPerm, isStaff, bankName);
+			if(hasNet) {
+				temp = stasticsService.getNetTuiBaoWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, csd1, csd2, netFlag, toPrdName, toPerm, isStaff, bankName);
+			} else {
+				temp = stasticsService.getNetTuiBaoWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, csd1, csd2, toPrdName, toPerm, isStaff, bankName);
+			}
 		} else if(isCity) {
 			if(hasNet) {
 				temp = stasticsService.getTuiBaoWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, csd1, csd2, netFlag, toPrdName, toPerm, isStaff);
