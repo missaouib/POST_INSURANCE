@@ -188,6 +188,7 @@ public class ClientController {
 		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
 		//默认返回未处理工单
 		String status = request.getParameter("status");
+		String attachedFlag = request.getParameter("attachedFlag");
 		String encodeStatus = request.getParameter("encodeStatus");
 		if(encodeStatus != null && encodeStatus.trim().equals("null")) {
 			status = "";
@@ -224,6 +225,10 @@ public class ClientController {
 		String prdName = request.getParameter("prd.prdFullName");
 		if(prdName != null && prdName.trim().length()>0) {
 			csf.add(new SearchFilter("prodName", Operator.EQ, prdName));
+		}
+		if(attachedFlag != null && attachedFlag.trim().length()>0) {
+			csf.add(new SearchFilter("attachedFlag", Operator.EQ, attachedFlag));
+			request.setAttribute("attachedFlag", attachedFlag);
 		}
 		
 		Specification<Policy> specification = DynamicSpecifications.bySearchFilter(request, Policy.class, csf);

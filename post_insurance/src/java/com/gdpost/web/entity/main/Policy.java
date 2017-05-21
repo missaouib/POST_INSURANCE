@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,6 +23,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.ColumnTransformer;
 
 import com.gdpost.web.entity.Idable;
+import com.gdpost.web.entity.basedata.BankCode;
 import com.gdpost.web.entity.basedata.Prd;
 
 /**
@@ -68,7 +70,7 @@ public class Policy implements Idable<Long>, Serializable{
 	private Prd prd;
 	private String feeFrequency;
 	private Date plicyValidDate;
-	private String bankCode;
+	private BankCode bankCode;
 	private String customerManagerCode;
 	private String customer_manager;
 	private Integer attachedFlag;
@@ -361,6 +363,7 @@ public class Policy implements Idable<Long>, Serializable{
 		this.plicyValidDate = plicyValidDate;
 	}
 	
+	/*
 	@Column(name = "bank_code", length = 14)
 	public String getBankCode() {
 		return this.bankCode;
@@ -369,6 +372,17 @@ public class Policy implements Idable<Long>, Serializable{
 	public void setBankCode(String bankCode) {
 		this.bankCode = bankCode;
 	}
+	*/
+	@ManyToOne(fetch=FetchType.EAGER, optional=true)
+	@JoinColumn(name="bank_code", referencedColumnName="cpi_code")
+	public BankCode getBankCode() {
+		return bankCode;
+	}
+
+	public void setBankCode(BankCode bankCode) {
+		this.bankCode = bankCode;
+	}
+	
 	
 	@Column(name = "renewal_sucess_flag")
 	public Integer getRenewalSucessFlag() {

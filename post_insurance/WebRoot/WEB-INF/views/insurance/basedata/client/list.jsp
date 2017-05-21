@@ -125,6 +125,7 @@
 				<th>状态</th>
 				<th>网点</th>
 				<th>员工单</th>
+				<th>银行单</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -156,6 +157,7 @@
 				<td>${item.status}</td>
 				<td>${item.bankName}</td>
 				<td>${item.isStaff}</td>
+				<td>${item.bankCode!=null && item.bankCode.netFlag==1?"是":"否" }</td>
 			</tr>
 			</c:forEach>
 		</tbody>
