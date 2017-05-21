@@ -9,6 +9,7 @@ package com.gdpost.web.service.component;
 
 import java.util.List;
 
+import com.gdpost.web.entity.component.PolicyStatModel;
 import com.gdpost.web.entity.component.StaffDtlModel;
 import com.gdpost.web.entity.component.StaffModel;
 import com.gdpost.web.entity.component.TuiBaoDtlModel;
@@ -57,4 +58,24 @@ public interface StasticsService {
 	List<UwModel> getNetLongUwStastics(String organCode, String d1, String d2);
 	
 	List<UwDtlModel> getLongUwDtlStastics(String organCode, String d1, String d2);
+	
+	List<PolicyStatModel> getPolicyProdStastics(String organCode, String d1, String d2, String prdCode, String toPerm, String staffFlag);
+	
+	List<PolicyStatModel> getPolicyProdStasticsWithBankCode(String organCode, String d1, String d2, String flag, String prdCode, String toPerm, String staffFlag, String bankName);
+	
+	List<PolicyStatModel> getProvPolicyOrganStastics(String organCode, String d1, String d2, String prdCode, String toPerm, String staffFlag);
+	
+	List<PolicyStatModel> getPolicyOrganStastics(String organCode, String d1, String d2, String prdCode, String toPerm, String staffFlag);
+	
+	List<PolicyStatModel> getPolicyOrganNetStastics(String organCode, String d1, String d2, String prdCode, String toPerm, String staffFlag, String bankName);
+	
+	List<PolicyStatModel> getProvPolicyOrganStasticsWithBankCode(String organCode, String d1, String d2, String flag, String prdCode, String toPerm, String staffFlag, String bankName);
+	
+	List<PolicyStatModel> getPolicyOrganStasticsWithBankCode(String organCode, String d1, String d2, String flag, String prdCode, String toPerm, String staffFlag, String bankName);
+	
+	List<PolicyStatModel> getPolicyOrganNetStasticsWithBankCode(String organCode, String d1, String d2, String flag, String prdCode, String toPerm, String staffFlag, String bankName);
+	
+	List<PolicyStatModel> getPolicyFeeFrequencyStastics(String organCode, String d1, String d2, String prdCode, String toPerm, String staffFlag);
+	
+	List<PolicyStatModel> getPolicyFeeFrequencyStasticsWithBankCode(String organCode, String d1, String d2, String flag, String prdCode, String toPerm, String staffFlag, String bankName);
 }

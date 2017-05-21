@@ -7,6 +7,7 @@
  */
 package com.gdpost.web.controller.insurance;
 
+import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collection;
@@ -128,7 +129,7 @@ public class KfglController {
 			status = "";
 		}
 		//request.setAttribute("encodeStatus", Base64Utils.encodeToString(status.getBytes()));
-		request.setAttribute("status", urlEncoder.encode(status, "UTF-8"));
+		request.setAttribute("status", urlEncoder.encode(status, Charset.defaultCharset()));
 		//request.setAttribute("status", status);
 		
 		map.put("issue", issue);
@@ -287,7 +288,7 @@ public class KfglController {
 		String encodeStatus = "";
 		org.apache.catalina.util.URLEncoder urlEncoder = new org.apache.catalina.util.URLEncoder();
 		if(status != null) {
-			encodeStatus = urlEncoder.encode(status, "UTF-8");
+			encodeStatus = urlEncoder.encode(status, Charset.defaultCharset());
 		}
 		//request.setAttribute("encodeStatus", Base64Utils.encodeToString(status.getBytes()));
 		request.setAttribute("status", status);
@@ -320,7 +321,7 @@ public class KfglController {
 				LOG.debug("-------------- 333: " );
 				issue.setStatus(STATUS.DealStatus.getDesc());
 				request.setAttribute("status", STATUS.DealStatus.getDesc());
-				request.setAttribute("eStatus", urlEncoder.encode(STATUS.DealStatus.getDesc(),"iso8859-1"));
+				request.setAttribute("eStatus", urlEncoder.encode(STATUS.DealStatus.getDesc(),Charset.defaultCharset()));
 				csf.add(new SearchFilter("status", Operator.EQ, STATUS.DealStatus.getDesc()));
 				
 			} else if(status.trim().length() > 0) {
@@ -382,7 +383,7 @@ public class KfglController {
 		org.apache.catalina.util.URLEncoder urlEncoder = new org.apache.catalina.util.URLEncoder();
 		String encodeStatus = "";
 		if(status != null) {
-			encodeStatus = urlEncoder.encode(status, "UTF-8");
+			encodeStatus = urlEncoder.encode(status, Charset.defaultCharset());
 		}
 		//request.setAttribute("encodeStatus", Base64Utils.encodeToString(status.getBytes()));
 		request.setAttribute("status", status);
@@ -414,7 +415,7 @@ public class KfglController {
 				LOG.debug("-------------- 333: " );
 				issue.setStatus(STATUS.DealStatus.getDesc());
 				request.setAttribute("status", status);
-				request.setAttribute("eStatus", urlEncoder.encode(STATUS.DealStatus.getDesc(),"iso8859-1"));
+				request.setAttribute("eStatus", urlEncoder.encode(STATUS.DealStatus.getDesc(),Charset.defaultCharset()));
 				csf.add(new SearchFilter("status", Operator.EQ, STATUS.DealStatus.getDesc()));
 			} else if(status.trim().length() > 0) {
 				csf.add(new SearchFilter("status", Operator.EQ, status));

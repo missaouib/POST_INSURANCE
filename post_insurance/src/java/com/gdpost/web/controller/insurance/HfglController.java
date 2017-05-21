@@ -7,6 +7,7 @@
  */
 package com.gdpost.web.controller.insurance;
 
+import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -538,7 +539,7 @@ public class HfglController {
 		String encodeStatus = "";
 		org.apache.catalina.util.URLEncoder urlEncoder = new org.apache.catalina.util.URLEncoder();
 		if(status != null) {
-			encodeStatus = urlEncoder.encode(status, "UTF-8");
+			encodeStatus = urlEncoder.encode(status, Charset.defaultCharset());
 		} else {
 			request.setAttribute("statusNull", statusNull);
 		}
@@ -550,7 +551,7 @@ public class HfglController {
 			hasLetter = "";
 		}
 		//request.setAttribute("encodeHasLetter", Base64Utils.encodeToString(URLEncoder.encode(hasLetter, "UTF-8").getBytes()));
-		request.setAttribute("hasLetter", urlEncoder.encode(hasLetter, "UTF-8"));
+		request.setAttribute("hasLetter", urlEncoder.encode(hasLetter, Charset.defaultCharset()));
 		
 		issue.setSearch_LIKE_hasLetter(hasLetter);
 		issue.setStatus(status);
@@ -704,7 +705,7 @@ public class HfglController {
 		String encodeStatus = "";
 		org.apache.catalina.util.URLEncoder urlEncoder = new org.apache.catalina.util.URLEncoder();
 		if(status != null) {
-			encodeStatus = urlEncoder.encode(status, "UTF-8");
+			encodeStatus = urlEncoder.encode(status, Charset.defaultCharset());
 		} else {
 			request.setAttribute("statusNull", statusNull);
 		}
@@ -716,7 +717,7 @@ public class HfglController {
 			hasLetter = "";
 		}
 		//request.setAttribute("encodeHasLetter", Base64Utils.encodeToString(URLEncoder.encode(hasLetter, "UTF-8").getBytes()));
-		request.setAttribute("hasLetter", urlEncoder.encode(hasLetter, "UTF-8"));
+		request.setAttribute("hasLetter", urlEncoder.encode(hasLetter, Charset.defaultCharset()));
 		
 		if(page.getOrderField() == null || page.getOrderField().trim().length()<=0) {
 			page.setOrderField("readyDate");

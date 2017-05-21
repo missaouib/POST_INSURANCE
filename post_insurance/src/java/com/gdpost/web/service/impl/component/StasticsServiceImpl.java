@@ -6,12 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gdpost.web.dao.component.PolicyDataDAO;
 import com.gdpost.web.dao.component.StaffDtlModelDAO;
 import com.gdpost.web.dao.component.StaffModelDAO;
 import com.gdpost.web.dao.component.TuiBaoDtlModelDAO;
 import com.gdpost.web.dao.component.TuiBaoModelDAO;
 import com.gdpost.web.dao.component.UwDtlModelDAO;
 import com.gdpost.web.dao.component.UwModelDAO;
+import com.gdpost.web.entity.component.PolicyStatModel;
 import com.gdpost.web.entity.component.StaffDtlModel;
 import com.gdpost.web.entity.component.StaffModel;
 import com.gdpost.web.entity.component.TuiBaoDtlModel;
@@ -42,6 +44,9 @@ public class StasticsServiceImpl implements StasticsService {
 	
 	@Autowired
 	private UwDtlModelDAO udDAO;
+	
+	@Autowired
+	private PolicyDataDAO policyDAO;
 
 	@Override
 	public List<TuiBaoModel> getTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(String organCode, String d1, String d2, String d3, String d4, String prdCode, String toPerm, String staffFlag) {
@@ -151,5 +156,70 @@ public class StasticsServiceImpl implements StasticsService {
 	@Override
 	public List<UwDtlModel> getLongUwDtlStastics(String organCode, String d1, String d2) {
 		return udDAO.getLongUwDtlStastic(organCode, d1, d2);
+	}
+	
+	/*
+	 * =================
+	 * policy data
+	 * =================
+	 */
+	@Override
+	public List<PolicyStatModel> getPolicyProdStastics(String organCode, String d1, String d2, String prdCode,
+			String toPerm, String staffFlag) {
+		return policyDAO.getPolicyDateProdStat(organCode, d1, d2, prdCode, toPerm, staffFlag);
+	}
+
+	@Override
+	public List<PolicyStatModel> getPolicyProdStasticsWithBankCode(String organCode, String d1, String d2, String flag,
+			String prdCode, String toPerm, String staffFlag, String bankName) {
+		return policyDAO.getPolicyDateProdStatWithBankCode(organCode, d1, d2, flag, prdCode, toPerm, staffFlag, bankName);
+	}
+
+	@Override
+	public List<PolicyStatModel> getProvPolicyOrganStastics(String organCode, String d1, String d2, String prdCode,
+			String toPerm, String staffFlag) {
+		return policyDAO.getProvPolicyDateOrganStat(organCode, d1, d2, prdCode, toPerm, staffFlag);
+	}
+	
+	@Override
+	public List<PolicyStatModel> getPolicyOrganStastics(String organCode, String d1, String d2, String prdCode,
+			String toPerm, String staffFlag) {
+		return policyDAO.getPolicyDateOrganStat(organCode, d1, d2, prdCode, toPerm, staffFlag);
+	}
+	
+	@Override
+	public List<PolicyStatModel> getPolicyOrganNetStastics(String organCode, String d1, String d2, String prdCode,
+			String toPerm, String staffFlag, String bankName) {
+		return policyDAO.getPolicyDateOrganNetStat(organCode, d1, d2, prdCode, toPerm, staffFlag, bankName);
+	}
+
+	@Override
+	public List<PolicyStatModel> getProvPolicyOrganStasticsWithBankCode(String organCode, String d1, String d2, String flag,
+			String prdCode, String toPerm, String staffFlag, String bankName) {
+		return policyDAO.getProvPolicyDateOrganStatWithBankCode(organCode, d1, d2, flag, prdCode, toPerm, staffFlag, bankName);
+	}
+	
+	@Override
+	public List<PolicyStatModel> getPolicyOrganStasticsWithBankCode(String organCode, String d1, String d2, String flag,
+			String prdCode, String toPerm, String staffFlag, String bankName) {
+		return policyDAO.getPolicyDateOrganStatWithBankCode(organCode, d1, d2, flag, prdCode, toPerm, staffFlag, bankName);
+	}
+	
+	@Override
+	public List<PolicyStatModel> getPolicyOrganNetStasticsWithBankCode(String organCode, String d1, String d2, String flag,
+			String prdCode, String toPerm, String staffFlag, String bankName) {
+		return policyDAO.getPolicyDateOrganNetStatWithBankCode(organCode, d1, d2, flag, prdCode, toPerm, staffFlag, bankName);
+	}
+
+	@Override
+	public List<PolicyStatModel> getPolicyFeeFrequencyStastics(String organCode, String d1, String d2, String prdCode,
+			String toPerm, String staffFlag) {
+		return policyDAO.getPolicyDateFeeTypeStat(organCode, d1, d2, prdCode, toPerm, staffFlag);
+	}
+
+	@Override
+	public List<PolicyStatModel> getPolicyFeeFrequencyStasticsWithBankCode(String organCode, String d1, String d2,
+			String flag, String prdCode, String toPerm, String staffFlag, String bankName) {
+		return policyDAO.getPolicyDateFeeTypeStatWithBankCode(organCode, d1, d2, flag, prdCode, toPerm, staffFlag, bankName);
 	}
 }
