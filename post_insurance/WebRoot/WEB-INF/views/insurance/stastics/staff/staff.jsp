@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@page import="java.util.Date"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
-<script src="${contextPath}/js/echarts.common.min.js"></script>
+<script src="${contextPath}/js/echarts.min.js"></script>
 <form method="post" id="hfForm" action="${contextPath }/component/stastics/staff" onsubmit="return navTabSearch(this)">
 	<div class="pageHeader">
 		<div class="searchBar">

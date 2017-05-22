@@ -11,7 +11,7 @@ function toTips(val) {
 }
 //-->
 </script>
-<script src="${contextPath}/js/echarts.common.min.js"></script>
+<script src="${contextPath}/js/echarts.min.js"></script>
 <form method="post" id="hfForm" action="${contextPath }/component/stastics/tuibao" onsubmit="return navTabSearch(this)">
 	<div class="pageHeader">
 		<div class="searchBar">

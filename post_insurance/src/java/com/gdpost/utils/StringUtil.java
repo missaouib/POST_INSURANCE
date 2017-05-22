@@ -46,6 +46,13 @@ public class StringUtil {
 		return sdf.format(cal.getTime());
 	}
 	
+	public static String getFirstDayOfMonth(String patten) {
+		Calendar cal = new GregorianCalendar();
+		cal.set(Calendar.DAY_OF_MONTH, 1);
+		SimpleDateFormat sdf = new SimpleDateFormat(patten);
+		return sdf.format(cal.getTime());
+	}
+	
 	public static String decode(String str) {
 		return Base64Utils.encodeToString(str.getBytes());
 	}

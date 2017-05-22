@@ -17,7 +17,7 @@ public class PolicyStatModel implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 6953817886114363056L;
-	private String name;
+	private String statName;
 	private Double policyCount;
 	private Double policyFee;
 	@Transient
@@ -32,6 +32,10 @@ public class PolicyStatModel implements java.io.Serializable {
 	private String perm;
 	@Transient
 	private String staffFlag;
+	@Transient
+	private String statType;
+	@Transient
+	private String csFlag;
 
 	// Constructors
 
@@ -41,13 +45,13 @@ public class PolicyStatModel implements java.io.Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="name")
-	public String getName() {
-		return name;
+	@Column(name="stat_name")
+	public String getStatName() {
+		return statName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setStatName(String statName) {
+		this.statName = statName;
 	}
 
 	@Column(name="policy_count")
@@ -128,9 +132,29 @@ public class PolicyStatModel implements java.io.Serializable {
 		this.staffFlag = staffFlag;
 	}
 
+	@Transient
+	public String getStatType() {
+		return statType;
+	}
+
+	@Transient
+	public void setStatType(String statType) {
+		this.statType = statType;
+	}
+
+	@Transient
+	public String getCsFlag() {
+		return csFlag;
+	}
+
+	@Transient
+	public void setCsFlag(String csFlag) {
+		this.csFlag = csFlag;
+	}
+
 	@Override
 	public String toString() {
-		return "TuiBaoModel [name=" + name + ", policyFee=" + policyFee + ", levelFlag=" + levelFlag + ", netFlag=" + netFlag + ", prdCode="
+		return "TuiBaoModel [statName=" + statName + ", policyFee=" + policyFee + ", levelFlag=" + levelFlag + ", netFlag=" + netFlag + ", prdCode="
 				+ prdCode + ", prdName=" + prdName + ", perm=" + perm + ", staffFlag=" + staffFlag + "]";
 	}
 	
