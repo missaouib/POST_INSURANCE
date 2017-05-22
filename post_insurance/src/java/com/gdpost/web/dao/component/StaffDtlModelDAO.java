@@ -22,7 +22,7 @@ import com.gdpost.web.entity.component.StaffDtlModel;
 public interface StaffDtlModelDAO extends JpaRepository<StaffDtlModel, String>, JpaSpecificationExecutor<StaffDtlModel> {
 	
 	@Query(name="getProvAllStaffDetailWithBankCode",
-			value="select tp.id, tp.holder, tp.organ_name, tp.policy_no, tp.policy_date, tp.policy_fee, tp.prod_name, tp.fee_frequency, tp.perm, tbc.name as bank_name, tbc.net_flag "
+			value="select tp.id, tp.holder, tp.organ_name, tp.policy_no, tp.policy_date, tp.total_fee as policy_fee, tp.prod_name, tp.fee_frequency, tp.perm, tbc.name as bank_name, tbc.net_flag "
 			+ "from t_policy tp, t_policy_dtl tpd, t_staff ts, t_bank_code tbc "
 			+ "where tp.cs_flag<>1 and tp.policy_no=tpd.policy_no and tpd.holder_card_num=ts.id_card and tp.bank_code=tbc.cpi_code and tp.fee_frequency like :toPerm "
 			+ "and tp.organ_code like :orgCode "
