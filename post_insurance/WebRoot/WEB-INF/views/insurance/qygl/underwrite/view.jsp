@@ -23,6 +23,10 @@
 			<span class="unit">${underwrite.holder }</span>
 		</p>
 		<p>
+			<label>投保人年龄：</label>
+			<span class="unit">${underwrite.holderAge }</span>
+		</p>
+		<p>
 			<label>被保险人：</label>
 			<span class="unit">${underwrite.insured }</span>
 		</p>

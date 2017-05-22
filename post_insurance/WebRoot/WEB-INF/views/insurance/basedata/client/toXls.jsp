@@ -56,7 +56,7 @@ response.setHeader("Content-Disposition", "inline; filename=policy_list.xls");
 				<td><fmt:formatDate value="${item.billBackDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.status}</td>
 				<td>${item.csFlag != null && item.csFlag==1?"Y":"N"}</td>
-				<td>${item.bankCode}</td>
+				<td>${item.bankCode.name}</td>
 				<td>${item.bankName}</td>
 				<td>${item.isStaff}</td>
 				<td>${item.bankCode!=null && item.bankCode.netFlag==1?"是":"否" }</td>
