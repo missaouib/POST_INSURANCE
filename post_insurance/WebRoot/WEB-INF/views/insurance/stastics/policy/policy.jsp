@@ -36,7 +36,7 @@ function toTips(val) {
 					</form:select>
 					</td>
 					<td><label>趸/期缴：</label>
-					<form:select path="PolicyStatModel.perm" id="tbperm" class="combox">
+					<form:select path="PolicyStatModel.perm" id="pperm" class="combox">
 						<form:option value="">  --  </form:option>
 						<form:option value="1"> 年交 </form:option>
 						<form:option value="0"> 趸交 </form:option>
@@ -45,14 +45,14 @@ function toTips(val) {
 				</tr>
 				<tr>
 					<td><label>标记：</label>
-					<form:select path="PolicyStatModel.levelFlag" id="tbflag" class="combox" onchange="javascript:toTips(this.value);">
+					<form:select path="PolicyStatModel.levelFlag" id="plevelflag" class="combox" onchange="javascript:toTips(this.value);">
 						<form:option value="prov"> 省级 </form:option>
 						<form:option value="city"> 市级 </form:option>
 						<form:option value="net"> 网点 </form:option>
 					</form:select>
 					</td>
 					<td><label>银邮：</label>
-					<form:select path="PolicyStatModel.netFlag" id="netflag" class="combox">
+					<form:select path="PolicyStatModel.netFlag" id="pnetflag" class="combox">
 						<form:option value="">  --  </form:option>
 						<form:option value="1"> 邮政代理 </form:option>
 						<form:option value="2"> 银行自营 </form:option>
@@ -60,7 +60,7 @@ function toTips(val) {
 					</td>
 					<td>
 					<label>员工单标记：</label>
-					<form:select path="PolicyStatModel.staffFlag" id="tbstaffflag" class="combox">
+					<form:select path="PolicyStatModel.staffFlag" id="pstaffflag" class="combox">
 						<form:option value="">  --  </form:option>
 						<form:option value="0"> 普通客户 </form:option>
 						<form:option value="1"> 员工单 </form:option>
@@ -68,7 +68,7 @@ function toTips(val) {
 					</td>
 					<td>
 					<label>统计类型：</label>
-					<form:select path="PolicyStatModel.statType" id="tbstaffflag" class="combox">
+					<form:select path="PolicyStatModel.statType" id="pstatflag" class="combox">
 						<form:option value="Organ">按机构</form:option>
 						<form:option value="Prod">按产品 </form:option>
 						<form:option value="feeType">缴费类型 </form:option>
@@ -76,7 +76,7 @@ function toTips(val) {
 					</td>
 					<td>
 					<label>剔除犹撤：</label>
-					<form:select path="PolicyStatModel.csFlag" id="tbstaffflag" class="combox">
+					<form:select path="PolicyStatModel.csFlag" id="pcsflag" class="combox">
 						<form:option value="1">剔除犹撤</form:option>
 						<form:option value="9">不剔除 </form:option>
 					</form:select>
