@@ -26,4 +26,12 @@ response.setHeader("Content-Disposition", "inline; filename=policy_stat.xls");
 		<td><fmt:formatNumber value="${item.policyFee/sumPt*100}" pattern="#,###.##" />%</td>
 	</tr>
 	</c:forEach>
+	<tr>
+		<td>&nbsp;</td>
+		<td>合计：</td>
+		<td style="text-align: right;"><fmt:formatNumber value="${countPt}" pattern="#,###.#" /></td>
+		<td>&nbsp;</td>
+		<td style="text-align: right;"><fmt:formatNumber value="${sumPt}" pattern="#,###.#" /></td>
+		<td>&nbsp;</td>
+	</tr>
 </table>

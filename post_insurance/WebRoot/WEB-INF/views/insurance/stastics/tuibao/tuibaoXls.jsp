@@ -26,4 +26,12 @@ response.setHeader("Content-Disposition", "inline; filename=tuibao_warnning.xls"
 		<td><fmt:formatNumber value="${item.policyFee/item.sumPolicyFee*100}" pattern="#,###.##" />%</td>
 	</tr>
 	</c:forEach>
+	<tr>
+		<td>&nbsp;</td>
+		<td>合计：</td>
+		<td style="text-align: right;"><fmt:formatNumber value="${sumTb}" pattern="#,###.#" /></td>
+		<td style="text-align: right;"><fmt:formatNumber value="${totalCS}" pattern="#,###.#" /></td>
+		<td style="text-align: right;"><fmt:formatNumber value="${totalTb}" pattern="#,###.#" /></td>
+		<td style="text-align: right;"><fmt:formatNumber value="${sumTb/totalTb*100}" pattern="#,###.#" />%</td>
+	</tr>
 </table>

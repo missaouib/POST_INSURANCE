@@ -30,4 +30,14 @@ response.setHeader("Content-Disposition", "inline; filename=staff_warnning.xls")
 		<td><fmt:formatNumber value="${item.policyFee/item.sumPolicyFee*100}" pattern="#,###.#" />%</td>
 	</tr>
 	</c:forEach>
+	<tr>
+		<td>&nbsp;</td>
+		<td>合计：</td>
+		<td style="text-align: right;"><fmt:formatNumber value="${csumTb}" pattern="#,###.#" /></td>
+		<td style="text-align: right;"><fmt:formatNumber value="${ctotalTb}" pattern="#,###.#" /></td>
+		<td style="text-align: right;"><fmt:formatNumber value="${csumTb/ctotalTb*100}" pattern="#,###.#" />%</td>
+		<td style="text-align: right;"><fmt:formatNumber value="${ssumTb}" pattern="#,###.#" /></td>
+		<td style="text-align: right;"><fmt:formatNumber value="${stotalTb}" pattern="#,###.#" /></td>
+		<td style="text-align: right;"><fmt:formatNumber value="${ssumTb/stotalTb*100}" pattern="#,###.#" />%</td>
+	</tr>
 </table>

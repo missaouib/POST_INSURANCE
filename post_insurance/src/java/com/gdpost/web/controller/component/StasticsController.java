@@ -358,6 +358,20 @@ public class StasticsController {
 		}
 		
 		request.setAttribute("cmRst", temp);
+		
+		double sumTb = 0;
+		double totalTb = 0;
+		double totalCS = 0;
+		for(TuiBaoModel tcm:temp) {//(isNet?temp1:temp)
+			sumTb += tcm.getPolicyFee()==null?0:tcm.getPolicyFee();
+			totalTb += tcm.getSumPolicyFee();
+			totalCS += tcm.getSumCsFee()==null?0:tcm.getSumCsFee();
+		}
+		// 第一位  
+		request.setAttribute("sumTb", sumTb/10000);
+		request.setAttribute("totalCS", totalCS/10000);
+		request.setAttribute("totalTb", totalTb/10000);
+		
 		LOG.debug(" ------------ result size:" + temp.size());
 		return TUIBAO_TOXLS;
 	}
@@ -675,6 +689,22 @@ public class StasticsController {
 		}
 		
 		request.setAttribute("cmRst", temp);
+		
+		int csumTb = 0;
+		int ctotalTb = 0;
+		double ssumTb = 0;
+		double stotalTb = 0;
+		for(StaffModel tcm:temp) {
+			csumTb += tcm.getStaffCount()==null?0:tcm.getStaffCount();
+			ctotalTb += tcm.getSumStaffCount();
+			ssumTb += tcm.getPolicyFee()==null?0:tcm.getPolicyFee();
+			stotalTb += tcm.getSumPolicyFee();
+		}
+		request.setAttribute("csumTb", csumTb);
+		request.setAttribute("ctotalTb", ctotalTb);
+		request.setAttribute("ssumTb", ssumTb/10000);
+		request.setAttribute("stotalTb", stotalTb/10000);
+		
 		LOG.debug(" ------------ result size:" + temp.size());
 		return STAFF_TOXLS;
 	}

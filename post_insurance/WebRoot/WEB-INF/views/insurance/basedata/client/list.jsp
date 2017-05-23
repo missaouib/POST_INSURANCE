@@ -68,19 +68,27 @@
 						投保单号：<input type="text" id="hfformno" style="width: 100px;" name="search_LIKE_formNo" value="${param.search_LIKE_formNo }"/>
 					</td>
 					<td>
-						<label>缴费期间：</label>
-						<input type="text" name="search_GTE_perm" id="ff1" class="validate[required] required" style="width: 80px;" value="${param.search_GTE_perm }"/>
-					</td>
-					<td>
-						<label>缴费期间：</label>
-						<input type="text" name="search_LTE_perm" id="ff2" class="validate[required] required" style="width: 80px;" value="${param.search_LTE_perm }"/>
+						<label>趸/期缴：</label>
+					<form:select path="policy.feeFrequency" id="cpFeeFrequency" class="combox">
+						<form:option value="">  --  </form:option>
+						<form:option value="1"> 年交 </form:option>
+						<form:option value="0"> 趸交 </form:option>
+					</form:select>
 					</td>
 					<td>
 						<label>主附险标记：</label>
-						<form:select path="policy.attachedFlag" id="attacheFlag" class="combox">
+						<form:select path="policy.attachedFlag" id="cpattacheFlag" class="combox">
 							<form:option value=""> -- -- </form:option>
 							<form:option value="0">主险</form:option>
 							<form:option value="1">附加险</form:option>
+						</form:select>
+					</td>
+					<td>
+						<label>员工单标记：</label>
+						<form:select path="policy.isStaff" id="cpattacheFlag" class="combox">
+							<form:option value=""> -- -- </form:option>
+							<form:option value="0">否</form:option>
+							<form:option value="1">是</form:option>
 						</form:select>
 					</td>
 				</tr>

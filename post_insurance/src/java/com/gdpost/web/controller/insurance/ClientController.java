@@ -86,7 +86,17 @@ public class ClientController {
 		policy.setStatus(status);
 		
 		String attachedFlag = request.getParameter("attachedFlag");
+		String feeFrequency = request.getParameter("feeFrequency");
+		String isStaff = request.getParameter("isStaff");
+		Boolean staff = null;
+		if(isStaff != null && isStaff.trim().equals("0")) {
+			staff = false;
+		} else if(isStaff != null && isStaff.trim().equals("1")) {
+			staff = true;
+		}
 		policy.setAttachedFlag((attachedFlag==null||attachedFlag.trim().length()<=0)?null:new Integer(attachedFlag));
+		policy.setFeeFrequency(feeFrequency);
+		policy.setIsStaff(staff);
 		
 		map.put("policy", policy);
 		map.put("page", page);
@@ -130,7 +140,14 @@ public class ClientController {
 			csf.add(new SearchFilter("attachedFlag", Operator.EQ, attachedFlag));
 			request.setAttribute("attachedFlag", attachedFlag);
 		}
-		
+		if(feeFrequency != null && feeFrequency.trim().length()>0) {
+			csf.add(new SearchFilter("feeFrequency", Operator.LIKE, feeFrequency));
+			request.setAttribute("feeFrequency", feeFrequency);
+		}
+		if(staff != null) {
+			csf.add(new SearchFilter("isStaff", Operator.EQ, staff));
+			request.setAttribute("isStaff", isStaff);
+		}
 		Specification<Policy> specification = DynamicSpecifications.bySearchFilter(request, Policy.class, csf);
 		List<Policy> policies = policyService.findByExample(specification, page);
 		
