@@ -60,7 +60,7 @@
 		</p>
 		<p>
 			<label>是否银行单：</label>
-			<span class="unit">${policy.bankCode!=null && policy.bankCode.netFlag==1?"是":"否" }</span>
+			<span class="unit">${policy.bankCode!=null && policy.bankCode.netFlag==2?"是":"否" }</span>
 		</p>
 	</fieldset>
 	</div>

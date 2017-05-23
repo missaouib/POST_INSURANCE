@@ -59,7 +59,7 @@ response.setHeader("Content-Disposition", "inline; filename=policy_list.xls");
 				<td>${item.bankCode.name}</td>
 				<td>${item.bankName}</td>
 				<td>${item.isStaff}</td>
-				<td>${item.bankCode!=null && item.bankCode.netFlag==1?"是":"否" }</td>
+				<td>${item.bankCode!=null && item.bankCode.netFlag==2?"是":"否" }</td>
 			</tr>
 			</c:forEach>
 	</table>
