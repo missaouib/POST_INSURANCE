@@ -87,16 +87,16 @@ public class ClientController {
 		
 		String attachedFlag = request.getParameter("attachedFlag");
 		String feeFrequency = request.getParameter("feeFrequency");
-		String isStaff = request.getParameter("isStaff");
+		String staffFlag = request.getParameter("staffFlag");
 		Boolean staff = null;
-		if(isStaff != null && isStaff.trim().equals("0")) {
+		if(staffFlag != null && staffFlag.trim().equals("0")) {
 			staff = false;
-		} else if(isStaff != null && isStaff.trim().equals("1")) {
+		} else if(staffFlag != null && staffFlag.trim().equals("1")) {
 			staff = true;
 		}
 		policy.setAttachedFlag((attachedFlag==null||attachedFlag.trim().length()<=0)?null:new Integer(attachedFlag));
 		policy.setFeeFrequency(feeFrequency);
-		policy.setIsStaff(staff);
+		policy.setStaffFlag(staff);
 		
 		map.put("policy", policy);
 		map.put("page", page);
@@ -141,12 +141,12 @@ public class ClientController {
 			request.setAttribute("attachedFlag", attachedFlag);
 		}
 		if(feeFrequency != null && feeFrequency.trim().length()>0) {
-			csf.add(new SearchFilter("feeFrequency", Operator.LIKE, feeFrequency));
+			csf.add(new SearchFilter("feeFrequency", Operator.EQ, feeFrequency));
 			request.setAttribute("feeFrequency", feeFrequency);
 		}
 		if(staff != null) {
-			csf.add(new SearchFilter("isStaff", Operator.EQ, staff));
-			request.setAttribute("isStaff", isStaff);
+			csf.add(new SearchFilter("staffFlag", Operator.EQ, staff));
+			request.setAttribute("staffFlag", staffFlag);
 		}
 		Specification<Policy> specification = DynamicSpecifications.bySearchFilter(request, Policy.class, csf);
 		List<Policy> policies = policyService.findByExample(specification, page);
@@ -186,6 +186,10 @@ public class ClientController {
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("orgCode", Operator.LIKE, orgCode));
 		
+		String prdName = request.getParameter("prd.prdFullName");
+		if(prdName != null && prdName.trim().length()>0) {
+			csf.add(new SearchFilter("prodName", Operator.EQ, prdName));
+		}
 		if(plFlag != null && plFlag.trim().length()>0) {
 			csf.add(new SearchFilter("plFlag", Operator.EQ, plFlag));
 		}
@@ -206,6 +210,14 @@ public class ClientController {
 		//默认返回未处理工单
 		String status = request.getParameter("status");
 		String attachedFlag = request.getParameter("attachedFlag");
+		String feeFrequency = request.getParameter("feeFrequency");
+		String staffFlag = request.getParameter("staffFlag");
+		Boolean staff = null;
+		if(staffFlag != null && staffFlag.trim().equals("0")) {
+			staff = false;
+		} else if(staffFlag != null && staffFlag.trim().equals("1")) {
+			staff = true;
+		}
 		String encodeStatus = request.getParameter("encodeStatus");
 		if(encodeStatus != null && encodeStatus.trim().equals("null")) {
 			status = "";
@@ -247,7 +259,14 @@ public class ClientController {
 			csf.add(new SearchFilter("attachedFlag", Operator.EQ, attachedFlag));
 			request.setAttribute("attachedFlag", attachedFlag);
 		}
-		
+		if(feeFrequency != null && feeFrequency.trim().length()>0) {
+			csf.add(new SearchFilter("feeFrequency", Operator.LIKE, feeFrequency));
+			request.setAttribute("feeFrequency", feeFrequency);
+		}
+		if(staff != null) {
+			csf.add(new SearchFilter("staffFlag", Operator.EQ, staff));
+			request.setAttribute("staffFlag", staffFlag);
+		}
 		Specification<Policy> specification = DynamicSpecifications.bySearchFilter(request, Policy.class, csf);
 		List<Policy> policies = policyService.findByExample(specification, page);
 		

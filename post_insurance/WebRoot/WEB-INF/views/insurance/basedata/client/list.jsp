@@ -11,11 +11,12 @@
 	<input type="hidden" name="search_GTE_policyDate" value="${param.search_GTE_policyDate }"/>
 	<input type="hidden" name="search_LIKE_policyNo" value="${param.search_LIKE_policyNo }"/>
 	<input type="hidden" name="search_LIKE_formNo" value="${param.search_LIKE_formNo }"/>
-	<input type="hidden" name="search_GTE_perm" value="${param.search_GTE_perm }"/>
-	<input type="hidden" name="search_LTE_perm" value="${param.search_LTE_perm }"/>
+	<input type="hidden" name="feeFrequency" value="${param.feeFrequency }"/>
+	<%-- <input type="hidden" name="search_LTE_perm" value="${param.search_LTE_perm }"/> --%>
 	<input type="hidden" name="status" value="${param.status }"/>
 	<input type="hidden" name="prd.prdName" value="${prd_name }"/>
 	<input type="hidden" name="attachedFlag" value="${attachedFlag }"/>
+	<input type="hidden" name="staffFlag" value="${staffFlag }"/>
 	<input type="hidden" name="search_LIKE_holder" value="${param.search_LIKE_holder}"/>
 </dwz:paginationForm>
 
@@ -71,8 +72,8 @@
 						<label>趸/期缴：</label>
 					<form:select path="policy.feeFrequency" id="cpFeeFrequency" class="combox">
 						<form:option value="">  --  </form:option>
-						<form:option value="1"> 年交 </form:option>
-						<form:option value="0"> 趸交 </form:option>
+						<form:option value="年交"> 年交 </form:option>
+						<form:option value="趸交"> 趸交 </form:option>
 					</form:select>
 					</td>
 					<td>
@@ -85,7 +86,7 @@
 					</td>
 					<td>
 						<label>员工单标记：</label>
-						<form:select path="policy.isStaff" id="cpattacheFlag" class="combox">
+						<form:select path="policy.staffFlag" id="cpastaffFlag" class="combox">
 							<form:option value=""> -- -- </form:option>
 							<form:option value="0">否</form:option>
 							<form:option value="1">是</form:option>
@@ -109,7 +110,7 @@
 			<shiro:hasPermission name="Client:view">
 				<li><a iconClass="magnifier" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/client/view/{slt_uid}"><span>查看详情</span></a></li>
 				<li class="line">line</li>
-				<li><a class="icon" target="_blank" href="${contextPath }/client/toXls?search_GTE_policyFee=${param.search_GTE_policyFee }&search_LTE_policyFee=${param.search_LTE_policyFee }&orgCode=${policy_orgCode }&search_LTE_policyDate=${param.search_LTE_policyDate }&search_GTE_policyDate=${param.search_GTE_policyDate }&search_GTE_perm=${param.search_GTE_perm }&search_LTE_perm=${param.search_LTE_perm }&search_LIKE_policyNo=${param.search_LIKE_policyNo }&search_LIKE_formNo=${param.search_LIKE_formNo }&encodeStatus=${encodeStatus == null?'null':encodeStatus }"><span>导出Excel</span></a></li>
+				<li><a class="icon" target="_blank" href="${contextPath }/client/toXls?search_GTE_policyFee=${param.search_GTE_policyFee }&search_LTE_policyFee=${param.search_LTE_policyFee }&orgCode=${policy_orgCode }&search_LTE_policyDate=${param.search_LTE_policyDate }&search_GTE_policyDate=${param.search_GTE_policyDate }&feeFrequency=${param.feeFrequency }&prd.prdName=${prd_name }&search_LIKE_policyNo=${param.search_LIKE_policyNo }&search_LIKE_formNo=${param.search_LIKE_formNo }&encodeStatus=${encodeStatus == null?'null':encodeStatus }&staffFlag=${staffFlag}&attachedFlag=${attachedFlag}"><span>导出Excel</span></a></li>
 				<li class="line">line</li>
 				<li><a class="icon" target="_blank" href="${contextPath }/client/pdtoXls?search_LTE_policyDate=${param.search_LTE_policyDate }&search_GTE_policyDate=${param.search_GTE_policyDate }"><span>导出给信息局的数据</span></a></li>
 			</shiro:hasPermission>
@@ -164,7 +165,7 @@
 				<td><fmt:formatDate value="${item.policyDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.status}</td>
 				<td>${item.bankName}</td>
-				<td>${item.isStaff}</td>
+				<td>${item.staffFlag}</td>
 				<td>${item.bankCode!=null && item.bankCode.netFlag==2?"是":"否" }</td>
 			</tr>
 			</c:forEach>
