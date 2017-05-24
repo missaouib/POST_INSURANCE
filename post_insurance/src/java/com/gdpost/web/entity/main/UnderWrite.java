@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
@@ -76,6 +77,7 @@ public class UnderWrite implements Idable<Long> {
 	private Date formWriteDate;
 	
 	private String netName;
+	private PolicyDtl policyDtl;
 
 	@Transient
 	private Date receiveDate;
@@ -565,6 +567,15 @@ public class UnderWrite implements Idable<Long> {
 	}
 	public void setNetName(String netName) {
 		this.netName = netName;
+	}
+	
+	@OneToOne(optional=true, fetch=FetchType.EAGER)
+	@JoinColumn(name="policy_no", referencedColumnName="policy_no", insertable=false, updatable=false, nullable=true)
+	public PolicyDtl getPolicyDtl() {
+		return policyDtl;
+	}
+	public void setPolicyDtl(PolicyDtl policyDtl) {
+		this.policyDtl = policyDtl;
 	}
 	
 	

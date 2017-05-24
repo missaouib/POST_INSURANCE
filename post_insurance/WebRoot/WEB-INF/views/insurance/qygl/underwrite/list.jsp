@@ -55,6 +55,22 @@
 					<input type="text" name="search_LTE_provSendDate" id="uwDate2" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_provSendDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 				</td>
 			</tr>
+			<tr>
+				<td>
+					<label>签单日期起：</label>
+					<input type="text" name="search_GTE_signDate" id="uwDate1" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_signDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+				</td>
+				<td>
+					<label>签单日期止：</label>
+					<input type="text" name="search_LTE_signDate" id="uwDate2" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_signDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+				</td>
+				<td>
+					&nbsp;
+				</td>
+				<td>
+					&nbsp;
+				</td>
+			</tr>
 			</table>
 			<div class="subBar">
 				<ul>						
@@ -72,7 +88,7 @@
 			<shiro:hasPermission name="UnderWrite:view">
 				<li><a iconClass="magnifier" target="dialog" rel="underwrite_edit" mask="true" width="850" height="440" href="${contextPath }/qygl/underwrite/view/{slt_uid}"><span>查看</span></a></li>
 				<li class="line">line</li>
-				<li><a class="icon" target="_blank" target="dwzExport" href="${contextPath }/qygl/underwrite/toXls?search_LIKE_formNo=${param.search_LIKE_formNo }&orgCode=${orgCode }&status=${status }&search_LTE_sysDate=${param.search_LTE_sysDate }&search_GTE_sysDate=${param.search_GTE_sysDate }&search_GTE_provSendDate=${param.search_GTE_provSendDate}&search_LTE_provSendDate=${param.search_LTE_provSendDate}"><span>导出</span></a></li>
+				<li><a class="icon" target="_blank" target="dwzExport" href="${contextPath }/qygl/underwrite/toXls?search_LIKE_formNo=${param.search_LIKE_formNo }&orgCode=${orgCode }&status=${status }&search_LTE_sysDate=${param.search_LTE_sysDate }&search_GTE_sysDate=${param.search_GTE_sysDate }&search_GTE_provSendDate=${param.search_GTE_provSendDate}&search_LTE_provSendDate=${param.search_LTE_provSendDate}&search_GTE_signDate=${param.search_GTE_signDate}&search_LTE_signDate=${search_LTE_signDate}"><span>导出</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="UnderWrite:edit">
 			<li class="line">line</li>
@@ -106,7 +122,7 @@
 		</ul>
 	</div>
 	
-	<table class="table" layoutH="220" width="110%">
+	<table class="table" layoutH="245" width="110%">
 		<thead>
 			<tr>
 				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>			

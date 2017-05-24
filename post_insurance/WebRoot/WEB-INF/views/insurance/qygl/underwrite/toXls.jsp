@@ -39,6 +39,10 @@ response.setHeader("Content-Disposition", "inline; filename=underwrite.xls");
 				<th>回执录入日期</th>
 				<th>状态</th>
 				<th>网点</th>
+				<shiro:hasPermission name="UnderWrite:provEdit">
+				<th>客户电话</th>
+				<th>客户手机</th>
+				</shiro:hasPermission>
 			</tr>
 			<c:forEach var="item" items="${reqs}" varStatus="status">
 			<tr>
@@ -72,6 +76,10 @@ response.setHeader("Content-Disposition", "inline; filename=underwrite.xls");
 				<td><fmt:formatDate value="${item.signInputDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.status }</td>
 				<td>${item.netName }</td>
+				<shiro:hasPermission name="UnderWrite:provEdit">
+				<td>${item.policyDtl.holderPhone }</td>
+				<td>${item.policyDtl.holderMobile }</td>
+				</shiro:hasPermission>
 			</tr>
 			</c:forEach>
 	</table>
