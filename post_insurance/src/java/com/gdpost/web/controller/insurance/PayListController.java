@@ -169,7 +169,7 @@ public class PayListController {
 			csf.add(new SearchFilter("feeType", Operator.EQ, feeType));
 			break;
 			default:
-				
+				csf.add(new SearchFilter("feeType", Operator.EQ, feeType));
 		}
 		
 		if(status != null && status.trim().length() > 0) {
@@ -222,26 +222,30 @@ public class PayListController {
 		} else if(status.trim().length()>0) {
 			req.setStatus(status);
 		}
+		
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		String feeType = "";
 		switch(flag) {
 		case "bq":
 			feeType = "保全受理号";
+			csf.add(new SearchFilter("feeType", Operator.OR_EQ, feeType));
+			csf.add(new SearchFilter("feeType", Operator.OR_EQ, "保单号"));
 			break;
 		case "lp":
 			feeType = "案件号";
+			csf.add(new SearchFilter("feeType", Operator.EQ, feeType));
 			break;
 			default:
-				
+				csf.add(new SearchFilter("feeType", Operator.EQ, feeType));
 		}
 		page.setOrderField("backDate");
 		page.setOrderDirection("DESC");
-		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		
 		if(status != null && status.trim().length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
 		}
 		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
 		csf.add(new SearchFilter("payType", Operator.EQ, PayFailList.PAY_TO));
-		csf.add(new SearchFilter("feeType", Operator.EQ, feeType));
 		
 		Specification<PaySuccessList> specification = DynamicSpecifications.bySearchFilter(request, PaySuccessList.class, csf);
 		
@@ -286,23 +290,27 @@ public class PayListController {
 		} else if(status.trim().length()>0) {
 			req.setStatus(status);
 		}
+		
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		String feeType = "";
 		switch(flag) {
 		case "bq":
 			feeType = "保全受理号";
+			csf.add(new SearchFilter("feeType", Operator.OR_EQ, feeType));
+			csf.add(new SearchFilter("feeType", Operator.OR_EQ, "保单号"));
 			break;
 		case "lp":
 			feeType = "案件号";
+			csf.add(new SearchFilter("feeType", Operator.EQ, feeType));
 			break;
 			default:
-				
+				csf.add(new SearchFilter("feeType", Operator.EQ, feeType));
 		}
 		page.setOrderField("backDate");
 		page.setOrderDirection("DESC");
-		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		
 		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
 		csf.add(new SearchFilter("payType", Operator.EQ, PaySuccessList.PAY_TO));
-		csf.add(new SearchFilter("feeType", Operator.EQ, feeType));
 		if (status.length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
 		}
@@ -339,23 +347,27 @@ public class PayListController {
 		} else if(status.trim().length()>0) {
 			req.setStatus(status);
 		}
+		
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		String feeType = "";
 		switch(flag) {
 		case "bq":
 			feeType = "保全受理号";
+			csf.add(new SearchFilter("feeType", Operator.OR_EQ, feeType));
+			csf.add(new SearchFilter("feeType", Operator.OR_EQ, "保单号"));
 			break;
 		case "lp":
 			feeType = "案件号";
+			csf.add(new SearchFilter("feeType", Operator.EQ, feeType));
 			break;
 			default:
-				
+				csf.add(new SearchFilter("feeType", Operator.EQ, feeType));
 		}
 		page.setOrderField("backDate");
 		page.setOrderDirection("ASC");
-		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		
 		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
 		csf.add(new SearchFilter("payType", Operator.EQ, PayFailList.PAY_TO));
-		csf.add(new SearchFilter("feeType", Operator.EQ, feeType));
 		if (status != null && status.length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
 		}
@@ -392,23 +404,27 @@ public class PayListController {
 		} else if(status.trim().length()>0) {
 			req.setStatus(status);
 		}
+		
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		String feeType = "";
 		switch(flag) {
 		case "bq":
 			feeType = "保全受理号";
+			csf.add(new SearchFilter("feeType", Operator.OR_EQ, feeType));
+			csf.add(new SearchFilter("feeType", Operator.OR_EQ, "保单号"));
 			break;
 		case "lp":
 			feeType = "案件号";
+			csf.add(new SearchFilter("feeType", Operator.EQ, feeType));
 			break;
 			default:
-				
+				csf.add(new SearchFilter("feeType", Operator.EQ, feeType));
 		}
 		page.setOrderField("backDate");
 		page.setOrderDirection("ASC");
-		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		
 		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
 		csf.add(new SearchFilter("payType", Operator.EQ, PayFailList.PAY_FROM));
-		csf.add(new SearchFilter("feeType", Operator.EQ, feeType));
 		if (status != null && status.length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
 		}
@@ -445,30 +461,34 @@ public class PayListController {
 		} else if(status.trim().length()>0) {
 			req.setStatus(status);
 		}
+		
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		String feeType = "";
 		switch(flag) {
 		case "bq":
 			feeType = "保全受理号";
+			csf.add(new SearchFilter("feeType", Operator.OR_EQ, feeType));
+			csf.add(new SearchFilter("feeType", Operator.OR_EQ, "保单号"));
 			break;
 		case "qy":
 			feeType = "投保单印刷号";
+			csf.add(new SearchFilter("feeType", Operator.EQ, feeType));
 			break;
 		case "xq":
 			feeType = "保单合同号";
+			csf.add(new SearchFilter("feeType", Operator.EQ, feeType));
 			break;
 			default:
-				
+				csf.add(new SearchFilter("feeType", Operator.EQ, feeType));
 		}
 		page.setOrderField("backDate");
 		page.setOrderDirection("ASC");
 		
-		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		if(status != null && status.trim().length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
 		}
 		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
 		csf.add(new SearchFilter("payType", Operator.EQ, PayFailList.PAY_FROM));
-		csf.add(new SearchFilter("feeType", Operator.EQ, feeType));
 		
 		Specification<PayFailList> specification = DynamicSpecifications.bySearchFilter(request, PayFailList.class, csf);
 		

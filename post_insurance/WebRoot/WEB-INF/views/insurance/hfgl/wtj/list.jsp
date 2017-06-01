@@ -195,9 +195,9 @@
 				<th>承保日期</th>
 				<th>投保人</th>
 				<th>联系电话</th>
+				<th>出单网点</th>
 				<th>联系地址</th>
 				<th>险种名称</th>
-				<th>出单网点</th>
 				<shiro:hasPermission name="Callfail:provEdit">
 				<th orderField=hasLetter class="${page.orderField eq 'hasLetter' ? page.orderDirection : ''}">信函记录</th>
 				</shiro:hasPermission>
@@ -240,8 +240,6 @@
                <td><fmt:formatDate value="${item.policy.policyDate }" pattern="yyyy-MM-dd"/></td>
                <td>${item.policy.holder}</td>
                <td>${item.holderMobile eq ""?item.holderPhone:item.holderMobile}</td>
-               <td>${item.addr}</td>
-               <td>${item.policy.prodName}</td>
                <td>
                        <c:choose>
                            <c:when test="${fn:length(item.bankName) > 14}">
@@ -252,6 +250,8 @@
                            </c:otherwise>
                        </c:choose>
                </td>
+               <td>${item.addr}</td>
+               <td>${item.policy.prodName}</td>
                <shiro:hasPermission name="Callfail:provEdit">
                <td>${item.hasLetter}</td>
                </shiro:hasPermission>
