@@ -57,7 +57,7 @@ response.setHeader("Content-Disposition", "inline; filename=policy_data.xls");
 				<td><fmt:formatDate value="${item.policyDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.plicyValidDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.status}</td>
-				<td>${item.bankCode.name}</td>
+				<td>${item.bankCode}</td>
 				<td>${item.feeType}</td>
 				<td>${item.bankAccount}</td>
 				<td>${item.csFlag eq 1?"Y":""}</td>
