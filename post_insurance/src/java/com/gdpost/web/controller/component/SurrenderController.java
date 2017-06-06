@@ -169,7 +169,7 @@ public class SurrenderController {
 		//List<TuiBaoModel> list = statService.getTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(orgCode + "%", p1, p2, p1, c2, "%%", "%%", "%%");
 		//List<TuiBaoModel> Stafflist = statService.getTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(orgCode + "%", p1, p2, p1, c2, "%%", "%%", "1");
 		for (TuiBaoModel tbm : permlist) {
-			if (tbm.getOrganName().equals(orgName)) {
+			if (tbm != null && tbm.getOrganName().equals(orgName)) {
 				permpf = tbm.getPolicyFee() == null ? 0 : tbm.getPolicyFee();//县区期交退保保费
 				permspf = tbm.getSumPolicyFee() == null ? 0 : tbm.getSumPolicyFee();//县区期交总保费
 			}
@@ -178,7 +178,7 @@ public class SurrenderController {
 			LOG.debug(tbm.toString());
 		}
 		for (TuiBaoModel tbm : permStafflist) {
-			if (tbm.getOrganName().equals(orgName)) {
+			if (tbm != null && tbm.getOrganName().equals(orgName)) {
 				permstaffpf = tbm.getPolicyFee() == null ? 0 : tbm.getPolicyFee();//县区员工单退保保费
 				permstaffspf = tbm.getSumPolicyFee() == null ? 0 : tbm.getSumPolicyFee();//县区员工单保费
 			}
@@ -199,7 +199,7 @@ public class SurrenderController {
 		newStaffRate = ((permstaffpolicyFee+ reqFee) / permstaffsumPolicyFee) * 100;
 
 		//已超xx级（xx%）退保预警/距离三级退保预警xx%
-		String orgTips = null;
+		String orgTips = "";
 		if(policyYear==2015 || policyYear==2016) {
 			if (orgNewPermRate/100>=0.12) {
 				orgTips = "已超一级（12%）退保预警";
@@ -221,7 +221,7 @@ public class SurrenderController {
 				orgTips = "距离三级退保预警" + String.format("%.2f", (0.05-orgNewPermRate/100)*100) + "%";
 			}
 		}
-		String cityTips = null;
+		String cityTips = "";
 		if(policyYear==2015 || policyYear==2016) {
 			if (newPermRate/100>=0.12) {
 				cityTips = "已超一级（12%）退保预警";

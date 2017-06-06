@@ -21,10 +21,14 @@ import javax.persistence.UniqueConstraint;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.ColumnTransformer;
+import org.hibernate.annotations.JoinColumnOrFormula;
+import org.hibernate.annotations.JoinColumnsOrFormulas;
+import org.hibernate.annotations.JoinFormula;
 
 import com.gdpost.web.entity.Idable;
 import com.gdpost.web.entity.basedata.BankCode;
 import com.gdpost.web.entity.basedata.Prd;
+import com.gdpost.web.entity.component.CsReport;
 
 /**
  * policy entity. @author MyEclipse Persistence Tools
@@ -76,6 +80,8 @@ public class Policy implements Idable<Long>, Serializable{
 	private Integer attachedFlag;
 	
 	private PolicyDtl policyDtl;
+	
+	private CsReport csReport;
 	
 	private Boolean staffFlag;
 	
@@ -482,6 +488,20 @@ public class Policy implements Idable<Long>, Serializable{
 
 	public void setPolicyDtl(PolicyDtl policyDtl) {
 		this.policyDtl = policyDtl;
+	}
+
+	@OneToOne(optional=true)
+	@JoinColumnsOrFormulas(value={
+			@JoinColumnOrFormula(column=@JoinColumn(name="policy_no", referencedColumnName="policy_no", insertable=false, updatable=false, nullable=true)),
+			@JoinColumnOrFormula(formula=@JoinFormula(value="CT", referencedColumnName = "cs_code")),
+			@JoinColumnOrFormula(formula=@JoinFormula(value="CT", referencedColumnName = "cs_code"))
+			})
+	public CsReport getCsReport() {
+		return csReport;
+	}
+
+	public void setCsReport(CsReport csReport) {
+		this.csReport = csReport;
 	}
 
 	@Transient
