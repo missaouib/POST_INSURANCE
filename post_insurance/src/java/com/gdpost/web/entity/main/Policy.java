@@ -494,7 +494,7 @@ public class Policy implements Idable<Long>, Serializable{
 	@JoinColumnsOrFormulas(value={
 			@JoinColumnOrFormula(column=@JoinColumn(name="policy_no", referencedColumnName="policy_no", insertable=false, updatable=false, nullable=true)),
 			@JoinColumnOrFormula(formula=@JoinFormula(value="CT", referencedColumnName = "cs_code")),
-			@JoinColumnOrFormula(formula=@JoinFormula(value="CT", referencedColumnName = "cs_code"))
+			@JoinColumnOrFormula(formula=@JoinFormula(value="1", referencedColumnName = "unique_flag"))
 			})
 	public CsReport getCsReport() {
 		return csReport;
