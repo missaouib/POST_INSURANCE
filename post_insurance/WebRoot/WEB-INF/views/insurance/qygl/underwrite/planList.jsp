@@ -71,19 +71,7 @@
 			<c:forEach var="item" items="${underwrites}">
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
-				<td>
-				<c:choose>  
-				    <c:when test="${fn:contains(item.organization.name, '直属')}">  
-				        <c:out value="${fn:replace(item.organization.name,'邮政局直属中邮保险局','直属')}" />  
-				    </c:when>
-				    <c:when test="${fn:contains(item.organization.name, '营业本部')}">  
-				        <c:out value="营业本部" />  
-				    </c:when>
-				   <c:otherwise>
-				      <c:out value="${fn:replace(item.organization.name,'邮政局中邮保险局','')}" />  
-				    </c:otherwise>  
-				</c:choose>
-				</td>
+				<td>${item.organization.shortName}</td>
 				<td title="${item.holder}">${fn:substring(item.holder, 0, 4)}</td>
 				<td>${item.formNo}</td>
 				<td title="${item.policyNo}">${item.policyNo}</td>

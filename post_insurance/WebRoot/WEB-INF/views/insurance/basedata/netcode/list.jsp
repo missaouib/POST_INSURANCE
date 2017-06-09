@@ -69,7 +69,7 @@
 				<td>${item.cpiCode}</td>
 				<td>${item.bankCode}</td>
 				<td>${item.name}</td>
-				<td>${item.organization.name}</td>
+				<td>${item.organization.shortName}</td>
 				<td>
 					<c:choose>  
 					    <c:when test="${item.netFlag == 1}">  

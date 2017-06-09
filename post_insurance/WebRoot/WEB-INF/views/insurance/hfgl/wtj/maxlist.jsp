@@ -204,16 +204,7 @@
 			<c:forEach var="item" items="${issues}">
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
-				<td>
-				<c:choose>  
-				    <c:when test="${fn:contains(item.policy.organization.name, '直属')}">  
-				        <c:out value="${fn:replace(item.policy.organization.name,'邮政局直属中邮保险局','直属')}" />  
-				    </c:when>  
-				   <c:otherwise>  
-				      <c:out value="${fn:replace(item.policy.organization.name,'邮政局中邮保险局','')}" />  
-				    </c:otherwise>  
-				</c:choose>
-				</td>
+				<td>${item.policy.organization.shortName}</td>
 				<td>${item.canCallAgain}</td>
 				<td>${item.canCallAgainRemark}</td>
 				<td>${item.resetPhone}</td>

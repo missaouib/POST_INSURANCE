@@ -42,19 +42,7 @@ response.setHeader("Content-Disposition", "inline; filename=settles.xls");
 			<c:forEach var="item" items="${settles}" varStatus="idx">
 			<tr>
 				<td>${idx.index+1 }</td>
-				<td title="${item.organization.name}">
-				<c:choose>  
-				    <c:when test="${fn:contains(item.organization.name, '直属')}">  
-				        <c:out value="${fn:replace(item.organization.name,'邮政局直属中邮保险局','直属')}" />  
-				    </c:when>
-				    <c:when test="${fn:contains(item.organization.name, '仲恺')}">  
-				        ${fn:substring(item.organization.name, 0, 7)}
-				    </c:when>
-				   <c:otherwise>
-				      <c:out value="${fn:replace(item.organization.name,'邮政局中邮保险局','')}" />  
-				    </c:otherwise>  
-				</c:choose>
-				</td>
+				<td>${item.organization.shortName}</td>
 				<td>${item.insured}</td>
 				<td style="vnd.ms-excel.numberformat:@">${item.settlementDtls.policyNo}</td>
 				<td>${item.settlementDtls.prodName}</td>

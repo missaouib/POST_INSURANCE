@@ -48,6 +48,8 @@ public class CsReport implements Idable<Long> {
 	
 	private String staffFlag;
 	
+	//private Integer uniqueFlag;
+	
 	@Transient
 	private String search_LIKE_staffFlag;
 
@@ -260,5 +262,13 @@ public class CsReport implements Idable<Long> {
 	public void setStaffFlag(String staffFlag) {
 		this.staffFlag = staffFlag;
 	}
-
+	/*
+	@Column(name="unique_flag")
+	public Integer getUniqueFlag() {
+		return uniqueFlag;
+	}
+	public void setUniqueFlag(Integer uniqueFlag) {
+		this.uniqueFlag = uniqueFlag;
+	}
+	*/
 }

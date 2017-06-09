@@ -948,3 +948,5 @@ create table t_renewed_fee_rst
    operate_id bigint,
    primary key (id)
 )engine=innodb auto_increment=1 default charset=utf8;
+
+alter table t_organization add column short_name varchar(64);

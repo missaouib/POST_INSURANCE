@@ -76,7 +76,7 @@
 				<td>${item.noticeTitle}</td>
 				<td>${item.user.realname}</td>
 				<td>${item.role.name}</td>
-				<td>${item.organization.name}</td>
+				<td>${item.organization.shortName}</td>
 				<td>${item.noticeContent}</td>
 				<td>${item.sendDate}</td>
 				<td>${item.sender.realname}</td>

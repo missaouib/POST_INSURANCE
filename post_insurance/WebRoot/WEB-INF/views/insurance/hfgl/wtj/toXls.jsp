@@ -57,7 +57,7 @@ response.setHeader("Content-Disposition", "inline; filename=call_fail_dtl.xls");
 			<c:forEach var="item" items="${reqs}" varStatus="status">
 			<tr>
 				<td><c:out value="${status.index+1}"/></td>
-                <td>${fn:replace(item.policy.organization.name,'邮政局中邮保险局','')}</td>
+                <td>${item.policy.organization.shortName}</td>
                 <td>${item.issueNo}</td>
                 <td style="vnd.ms-excel.numberformat:@">${item.policy.policyNo}</td>
                 <td>${item.policy.holder}</td>
@@ -82,7 +82,7 @@ response.setHeader("Content-Disposition", "inline; filename=call_fail_dtl.xls");
                 <td><fmt:formatDate value="${item.policy.policyDate}" pattern="yyyy-MM-dd"/></td>
                 <td><fmt:formatDate value="${item.policy.billBackDate }" pattern="yyyy-MM-dd"/></td>
                 <td><fmt:formatDate value="${item.readyDate }" pattern="yyyy-MM-dd"/></td>
-                <td>${fn:replace(item.organization.name,'邮政局中邮保险局','')}</td>
+                <td>${item.policy.organization.orgCode}</td>
                 <shiro:hasPermission name="Callfail:provEdit">
                 <td style="vnd.ms-excel.numberformat:@">${item.idCard}</td>
                 </shiro:hasPermission>

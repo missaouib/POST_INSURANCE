@@ -27,16 +27,7 @@ response.setHeader("Content-Disposition", "inline; filename=BQ_RECORD.xls");
 			<c:forEach var="item" items="${reqs}" varStatus="status">
 			<tr>
 				<td><c:out value="${status.index+1}"/></td>
-				<td>
-				<c:choose>  
-				    <c:when test="${fn:contains(item.organization.name, '直属')}">  
-				        <c:out value="${fn:replace(item.organization.name,'邮政局直属中邮保险局','直属')}" />  
-				    </c:when>  
-				   <c:otherwise>  
-				      <c:out value="${fn:replace(item.organization.name,'邮政局中邮保险局','')}" />  
-				    </c:otherwise>  
-				</c:choose>
-				</td>
+				<td>${item.organization.shortName}</td>
 				<td>${item.transactor}</td>
 				<td><fmt:formatDate value='${item.dealDate }' pattern='yyyy-MM-dd'/></td>
 				<td>${item.expressBillNo}</td>

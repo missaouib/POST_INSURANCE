@@ -47,7 +47,7 @@ response.setHeader("Content-Disposition", "inline; filename=underwrite.xls");
 			<c:forEach var="item" items="${reqs}" varStatus="status">
 			<tr>
 				<td><c:out value="${status.index+1}"/></td>
-				<td>${fn:replace(item.organization.name,'邮政局中邮保险局','')}</td>
+				<td>${item.organization.shortName}</td>
 				<td style="vnd.ms-excel.numberformat:@">${item.formNo}</td>
 				<td style="vnd.ms-excel.numberformat:@">${item.policyNo}</td>
 				<td>${item.holder}</td>

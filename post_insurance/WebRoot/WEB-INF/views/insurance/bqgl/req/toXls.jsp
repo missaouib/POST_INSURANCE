@@ -24,16 +24,7 @@ response.setHeader("Content-Disposition", "inline; filename=RI_LIST.xls");
 			<c:forEach var="item" items="${reqs}" varStatus="status">
 			<tr>
 				<td><c:out value="${status.index+1}"/></td>
-				<td>
-				<c:choose>  
-				    <c:when test="${fn:contains(item.bankCode.organization.name, '直属')}">  
-				        <c:out value="${fn:replace(item.bankCode.organization.name,'邮政局直属中邮保险局','直属')}" />  
-				    </c:when>  
-				   <c:otherwise>  
-				      <c:out value="${fn:replace(item.bankCode.organization.name,'邮政局中邮保险局','')}" />  
-				    </c:otherwise>  
-				</c:choose>
-				</td>
+				<td>${item.bankCode.organization.shortName}</td>
 				<td>${item.bankCode.name}</td>
 				<td>${item.formNo}</td>
 				<td>${item.policy.policyNo}</td>

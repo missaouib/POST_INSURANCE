@@ -42,7 +42,7 @@ response.setHeader("Content-Disposition", "inline; filename=XQ_Xls.xls");
 			<c:forEach var="item" items="${reqs}" varStatus="status">
 			<tr>
 				<td><c:out value="${status.index+1}"/></td>
-				<td>${fn:replace(item.policy.organization.name,'中邮保险局','')}</td>
+				<td>${item.policy.organization.shortName}</td>
 				<td style="vnd.ms-excel.numberformat:@">${item.policy.policyNo}</td>
 				<td>${item.policyYear}</td>
 				<td>${item.prdName}</td>

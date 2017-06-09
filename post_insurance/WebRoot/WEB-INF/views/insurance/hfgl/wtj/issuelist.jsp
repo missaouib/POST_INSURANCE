@@ -42,7 +42,7 @@
 			<c:forEach var="item" items="${issueList}">
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
-				<td>${fn:replace(item.organization.name,'邮政局中邮保险局','')}</td>
+				<td>${item.organization.shortName}</td>
 				<td>${item.issueNo}</td>
 				<td>${item.issueContent}</td>
 				<td><fmt:formatDate value="${item.readyDate }" pattern="yyyy-MM-dd"/></td>

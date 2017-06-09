@@ -106,7 +106,7 @@
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
 				<td>${item.policy.policyNo}</td>
 				<td>${item.policy.holder}</td>
-				<td>${item.policy.organization.name}</td>
+				<td>${item.policy.organization.shortName}</td>
 				<td>${item.reqFlag}</td>
 				<td>${item.isElectiveBill}</td>
 				<td>${item.fee}</td>

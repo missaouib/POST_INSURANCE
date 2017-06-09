@@ -56,7 +56,7 @@ response.setHeader("Content-Disposition", "inline; filename=FROM_FEE_FAL_LIST.xl
 			</tr>
 			<c:forEach var="item" items="${paylists}">
 			<tr target="slt_uid" rel="${item.id}">
-				<td>${item.organization.name}</td>
+				<td>${item.organization.shortName}</td>
 				<td>${item.accountName}</td>
 				<td style="vnd.ms-excel.numberformat:@">${item.account}</td>
 				<td>${item.money}</td>

@@ -207,20 +207,8 @@
 			<c:forEach var="item" items="${issues}">
 			<tr target="slt_uid" rel="${item.id}">
                <td><input name="ids" value="${item.id}" type="checkbox"></td>
-               <td title="${item.policy.organization.name}">
-               <c:choose>
-                   <c:when test="${fn:contains(item.policy.organization.name, '直属')}">
-                       <c:out value="${fn:replace(item.policy.organization.name,'邮政局直属中邮保险局','直属')}" />
-                   </c:when>
-                   <c:when test="${fn:contains(item.policy.organization.name, '仲恺')}">
-                       ${fn:substring(item.policy.organization.name, 0, 7)}
-                   </c:when>
-                  <c:otherwise>
-                     <c:out value="${fn:replace(item.policy.organization.name,'邮政局中邮保险局','')}" />
-                   </c:otherwise>
-               </c:choose>
-               </td>
-               <td>${item.canCallAgainRemark}&nbsp;&nbsp;${item.resetPhone}&nbsp;&nbsp;<fmt:formatDate value="${item.resetDate }" pattern="yyyy-MM-dd"/></td>
+               <td>${item.policy.organization.shortName}</td>
+               <td title="${item.canCallAgainRemark}">${item.canCallAgainRemark}&nbsp;&nbsp;${item.resetPhone}&nbsp;&nbsp;<fmt:formatDate value="${item.resetDate }" pattern="yyyy-MM-dd"/></td>
                <td>${item.issueNo}</td>
                <td>${item.status}</td>
                <td title="${item.issueContent}">${fn:substring(item.issueContent, 0, 15)}</td>

@@ -148,7 +148,7 @@
 			<c:forEach var="item" items="${issues}">
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
-				<td>${fn:replace(item.policy.organization.name,'中邮保险局','')}</td>
+				<td>${item.policy.organization.shortName}</td>
 				<td>${item.policy.policyNo}</td>
 				<td>${item.prdName}</td>
 				<td>${item.holder}</td>

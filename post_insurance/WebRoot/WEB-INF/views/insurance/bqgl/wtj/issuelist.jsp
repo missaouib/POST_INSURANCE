@@ -50,7 +50,7 @@
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
 				<td>${item.policy.policyNo}</td>
-				<td>${item.policy.organization.name}</td>
+				<td>${item.policy.organization.shortName}</td>
 				<td>${item.dealNum}</td>
 				<td>${item.conservationCode}</td>
 				<td>${item.info}</td>

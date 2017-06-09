@@ -21,14 +21,10 @@ import javax.persistence.UniqueConstraint;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.ColumnTransformer;
-import org.hibernate.annotations.JoinColumnOrFormula;
-import org.hibernate.annotations.JoinColumnsOrFormulas;
-import org.hibernate.annotations.JoinFormula;
 
 import com.gdpost.web.entity.Idable;
 import com.gdpost.web.entity.basedata.BankCode;
 import com.gdpost.web.entity.basedata.Prd;
-import com.gdpost.web.entity.component.CsReport;
 
 /**
  * policy entity. @author MyEclipse Persistence Tools
@@ -81,7 +77,7 @@ public class Policy implements Idable<Long>, Serializable{
 	
 	private PolicyDtl policyDtl;
 	
-	private CsReport csReport;
+	//private CsReport csReport;
 	
 	private Boolean staffFlag;
 	
@@ -490,6 +486,7 @@ public class Policy implements Idable<Long>, Serializable{
 		this.policyDtl = policyDtl;
 	}
 
+	/*
 	@OneToOne(optional=true)
 	@JoinColumnsOrFormulas(value={
 			@JoinColumnOrFormula(column=@JoinColumn(name="policy_no", referencedColumnName="policy_no", insertable=false, updatable=false, nullable=true)),
@@ -503,7 +500,7 @@ public class Policy implements Idable<Long>, Serializable{
 	public void setCsReport(CsReport csReport) {
 		this.csReport = csReport;
 	}
-
+	*/
 	@Transient
 	public Boolean getIsStaff() {
 		this.isStaff = false;

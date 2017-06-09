@@ -36,7 +36,7 @@
 		</p>
 		<p>
 			<label>所属机构：</label>
-			<span class="unit">${issue.organization.name }</span>
+			<span class="unit">${issue.organization.shortName }</span>
 		</p>
 		<p class="nowrap">
 			<label>出单网点：</label>

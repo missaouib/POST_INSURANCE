@@ -46,6 +46,7 @@
 		<thead>
 			<tr>
 				<th width="150">名称</th>
+				<th width="150">简称</th>
 				<th width="200">拥有角色</th>
 				<th width="60">优先级</th>
 				<th>描述</th>
@@ -56,6 +57,7 @@
 			<c:forEach var="item" items="${organizations}">
 			<tr target="slt_uid" rel="${item.id}">
 				<td><a href="${contextPath}/management/security/organization/list/${item.id}" target="ajax" rel="jbsxBox2organizationList">${item.name}</a></td>
+				<td>${item.shortName}</td>
 				<td>
 					<c:forEach var="oRole" items="${item.organizationRoles }">
 						${oRole.role.name}&nbsp;&nbsp;

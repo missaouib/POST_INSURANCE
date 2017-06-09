@@ -8,7 +8,7 @@
 		<legend>人核件基本信息</legend>
 		<p>
 			<label>市县机构：</label>
-			<span class="unit">${underwrite.organization.name }</span>
+			<span class="unit">${underwrite.organization.shortName }</span>
 		</p>
 		<p>
 			<label>投保单号：</label>

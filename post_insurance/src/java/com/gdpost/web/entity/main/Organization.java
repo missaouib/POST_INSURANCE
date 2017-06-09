@@ -64,6 +64,10 @@ public class Organization implements Comparable<Organization>, Idable<Long>, Ser
 	@Column(name="name", length=64, nullable=false, unique=true)
 	private String name;
 	
+	@Length(max=64)
+	@Column(name="short_name", length=64, unique=true)
+	private String shortName;
+	
 	/**
 	 * 越小优先级越高
 	 */
@@ -125,6 +129,14 @@ public class Organization implements Comparable<Organization>, Idable<Long>, Ser
 		this.name = name;
 	}
 	
+	public String getShortName() {
+		return shortName;
+	}
+
+	public void setShortName(String shortName) {
+		this.shortName = shortName;
+	}
+
 	/**
 	 * @return the priority
 	 */

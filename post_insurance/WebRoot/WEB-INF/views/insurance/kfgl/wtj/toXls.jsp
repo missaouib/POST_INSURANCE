@@ -29,7 +29,7 @@ response.setHeader("Content-Disposition", "inline; filename=Issue_xls.xls");
 			<c:forEach var="item" items="${reqs}" varStatus="status">
 			<tr>
 				<td><c:out value="${status.index+1}"/></td>
-				<td>${fn:replace(item.policy.organization.name,'邮政局中邮保险局','')}</td>
+				<td>${item.policy.organization.shortName}</td>
 				<td>${item.issueNo}</td>
 				<td>${item.issueContent}</td>
 				<td><fmt:formatDate value="${item.operateTime }" pattern="yyyy-MM-dd"/></td>
@@ -49,7 +49,7 @@ response.setHeader("Content-Disposition", "inline; filename=Issue_xls.xls");
 					</c:choose>
 				</td>
 				<td>${item.status}</td>
-				<td>${fn:replace(item.organization.name,'邮政局中邮保险局','')}</td>
+				<td>${item.organization.shortName}</td>
 				<td>${item.result}</td>
 				<td>${item.dealMan}</td>
 				<td>${item.dealTime}</td>

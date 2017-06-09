@@ -39,7 +39,7 @@
 						<td><span style="color:red; height:50%; margin-bottom:-contentheight;">${item.lastDateNum }</span></td>
 						<td>${item.status}</td>
 						<td>${item.policy.policyNo}</td>
-						<td>${fn:replace(item.policy.organization.name,'中邮保险局','')}</td>
+						<td>${item.policy.organization.shortName}</td>
 						<td>${item.issueType}</td>
 						<td>${item.issueContent}</td>
 					</tr>
@@ -69,7 +69,7 @@
 					<tr target="slt_uid" rel="${item.id}">
 						<td>${var.index+1 }</td>
 						<td>${item.policy.policyNo}</td>
-						<td>${fn:replace(item.policy.organization.name,'邮政局中邮保险局','')}</td>
+						<td>${item.policy.organization.shortName}</td>
 						<td>${item.info}</td>
 						<td>${item.csDate}</td>
 						<td>
@@ -121,7 +121,7 @@
 						<td><span style="color:red; height:50%; margin-bottom:-contentheight;"><c:if test="${item.lastDateNum<0 }">0</c:if><c:if test="${item.lastDateNum>=0 }">${item.lastDateNum }</c:if></span></td>
 						<td>${item.status}</td>
 						<td>${item.policy.policyNo}</td>
-						<td>${fn:replace(item.policy.organization.name,'中邮保险局','')}</td>
+						<td>${item.policy.organization.shortName}</td>
 						<td>${item.issueType}</td>
 						<td title="${item.issueContent}">${fn:substring(item.issueContent, 0, 17)}</td>
 					</tr>
@@ -159,7 +159,7 @@
 					     <a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/xqgl/issue/view/${item.id}"><span>${item.policy.policyNo}</span></a>
 					    </c:if> 
 						</td>
-						<td>${fn:replace(item.policy.organization.name,'中邮保险局','')}</td>
+						<td>${item.policy.organization.shortName}</td>
 						<td><fmt:formatDate value="${item.feeDate }" pattern="yyyy-MM-dd"/></td>
 						<td><span style="color:red; height:50%; margin-bottom:-contentheight;">${item.lastDateNum }</span></td>
 						<td>${item.feeStatus}</td>
@@ -200,7 +200,7 @@
 					     <a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/qygl/issue/write/view/${item.id}"><span>${item.policy.policyNo}</span></a>
 					    </c:if> 
 						</td>
-						<td>${fn:replace(item.policy.organization.name,'邮政局中邮保险局','')}</td>
+						<td>${item.policy.organization.shortName}</td>
 						<td>${item.policy.policyDate}</td>
 						<td>
 						<c:choose>
@@ -257,7 +257,7 @@
 					     <a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/qygl/issue/record/view/${item.id}"><span>${item.policy.policyNo}</span></a>
 					    </c:if> 
 						</td>
-						<td>${fn:replace(item.policy.organization.name,'邮政局中邮保险局','')}</td>
+						<td>${item.policy.organization.shortName}</td>
 						<td>${item.policy.policyDate}</td>
 						<td>
 						<c:choose>
@@ -306,7 +306,7 @@
 				<tbody>
 					<c:forEach var="item" items="${underwriteList}">
 					<tr target="slt_uid" rel="${item.id}">
-						<td>${fn:replace(item.organization.name,'中邮保险局','')}</td>
+						<td>${item.organization.shortName}</td>
 						<td>
 						<a target="dialog" rel="lookup2organization_edit" mask="true" width="550" height="220" href="${contextPath }/qygl/underwrite/signDateUpdate/${item.id}"><span>${item.formNo}</span></a>
 						</td>
@@ -344,7 +344,7 @@
 					<tbody>
 						<c:forEach var="item" items="${bqtofaillist}">
 						<tr target="slt_uid" rel="${item.id}">
-							<td>${item.organization.name}</td>
+							<td>${item.organization.shortName}</td>
 							<td>${item.accountName}</td>
 							<td>${item.account}</td>
 							<td>${item.money}</td>
@@ -381,7 +381,7 @@
 					<tbody>
 						<c:forEach var="item" items="${bqfromfaillist}">
 						<tr target="slt_uid" rel="${item.id}">
-							<td>${item.organization.name}</td>
+							<td>${item.organization.shortName}</td>
 							<td>${item.accountName}</td>
 							<td>${item.account}</td>
 							<td>${item.money}</td>
@@ -418,7 +418,7 @@
 					<tbody>
 						<c:forEach var="item" items="${xqfromfaillist}">
 						<tr target="slt_uid" rel="${item.id}">
-							<td>${item.organization.name}</td>
+							<td>${item.organization.shortName}</td>
 							<td>${item.accountName}</td>
 							<td>${item.account}</td>
 							<td>${item.money}</td>
@@ -455,7 +455,7 @@
 					<tbody>
 						<c:forEach var="item" items="${qyfromfaillist}">
 						<tr target="slt_uid" rel="${item.id}">
-							<td>${item.organization.name}</td>
+							<td>${item.organization.shortName}</td>
 							<td>${item.accountName}</td>
 							<td>${item.account}</td>
 							<td>${item.money}</td>
@@ -492,7 +492,7 @@
 					<tbody>
 						<c:forEach var="item" items="${lptofaillist}">
 						<tr target="slt_uid" rel="${item.id}">
-							<td>${item.organization.name}</td>
+							<td>${item.organization.shortName}</td>
 							<td>${item.accountName}</td>
 							<td>${item.account}</td>
 							<td>${item.money}</td>

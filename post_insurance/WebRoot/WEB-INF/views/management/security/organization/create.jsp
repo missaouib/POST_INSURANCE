@@ -12,7 +12,11 @@
 		<p>
 			<label>组织代码：</label>
 			<input type="text" name="orgCode" class="input-medium validate[required,maxSize[64]] required" maxlength="64"/>
-		</p>	
+		</p>
+		<p>
+			<label>组织代码：</label>
+			<input type="text" name="shortName" class="input-medium validate[required,maxSize[64]] required" maxlength="64"/>
+		</p>
 		<p>
 			<label>优先级：</label>
 			<input type="text" name="priority" class="validate[required,custom[integer],min[1],max[999]] required" value="999" maxlength="3" style="width: 80px;"/>

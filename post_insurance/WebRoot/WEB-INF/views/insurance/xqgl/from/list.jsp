@@ -88,7 +88,7 @@
 			<c:forEach var="item" items="${paylists}">
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
-				<td>${item.organization.name}</td>
+				<td>${item.organization.shortName}</td>
 				<td>${item.accountName}</td>
 				<td>${item.account}</td>
 				<td>${item.money}</td>
