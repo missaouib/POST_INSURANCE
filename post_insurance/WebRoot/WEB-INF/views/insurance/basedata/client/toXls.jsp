@@ -22,7 +22,7 @@ response.setHeader("Content-Disposition", "inline; filename=policy_list.xls");
 				<th>承保日期</th>
 				<th>回销日期</th>
 				<th>状态</th>
-				<th>退保日期</th>
+				<!-- <th>退保日期</th> -->
 				<th>是否犹撤</th>
 				<th>网点编码</th>
 				<th>网点</th>
@@ -34,19 +34,7 @@ response.setHeader("Content-Disposition", "inline; filename=policy_list.xls");
 				<td>${idx.index+1 }</td>
 				<td style="vnd.ms-excel.numberformat:@">${item.formNo}</td>
 				<td style="vnd.ms-excel.numberformat:@">${item.policyNo}</td>
-				<td>
-				<c:choose>  
-				    <c:when test="${fn:contains(item.organization.name, '直属')}">  
-				        <c:out value="${fn:replace(item.organization.name,'邮政局直属中邮保险局','直属')}" />  
-				    </c:when>
-				    <c:when test="${fn:contains(item.organization.name, '仲恺')}">  
-				        ${fn:substring(item.organization.name, 0, 7)}
-				    </c:when>
-				   <c:otherwise>
-				      <c:out value="${fn:replace(item.organization.name,'邮政局中邮保险局','')}" />  
-				    </c:otherwise>  
-				</c:choose>
-				</td>
+				<td>${item.organization.shortName}</td>
 				<td>${item.holder}</td>
 				<td>${item.prodName}</td>
 				<td>${item.policyFee}</td>
@@ -56,7 +44,7 @@ response.setHeader("Content-Disposition", "inline; filename=policy_list.xls");
 				<td><fmt:formatDate value="${item.policyDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.billBackDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.status}</td>
-				<td>${item.csFlag != null && item.csFlag!=0?item.csReport.csDate:"nn"}</td>
+				<%-- <td>${item.csFlag != null && item.csFlag!=0?item.csReport.csDate:"nn"}</td> --%>
 				<td>${item.csFlag != null && item.csFlag==1?"Y":"N"}</td>
 				<td>${item.bankCode.name}</td>
 				<td>${item.bankName}</td>
