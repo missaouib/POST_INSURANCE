@@ -457,6 +457,87 @@ public class StasticsController {
 		return TUIBAO_DTL_TOXLS;
 	}
 	
+	@RequiresUser
+	@RequestMapping(value="/stastics/tuibao/csdtlXls", method={RequestMethod.GET, RequestMethod.POST})
+	public String tuibaoCsDtlToXls(ServletRequest request, Map<String, Object> map) {
+		LOG.debug("-------------------here----------");
+		String organCode = request.getParameter("orgCode");
+		String pd1 = request.getParameter("policyDate1");
+		String pd2 = request.getParameter("policyDate2");
+		String csd1 = request.getParameter("csDate1");
+		String csd2 = request.getParameter("csDate2");
+		String netFlag = request.getParameter("netFlag");
+		String prdCode = request.getParameter("prdCode");
+		String perm = request.getParameter("perm");
+		String staffFlag = request.getParameter("staffFlag");
+		String bankName = request.getParameter("bankName");
+		
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
+		if(organCode == null || organCode.trim().length()<=0) {
+			organCode = userOrg.getOrgCode();
+		} else if(!organCode.contains(userOrg.getOrgCode())){
+			organCode = userOrg.getOrgCode();
+		}
+		String toPrdName = prdCode;
+		if(prdCode == null || prdCode.trim().length()<=0) {
+			toPrdName = "%%";
+		} else {
+			Prd prd = prdService.getByPrdCode(prdCode);
+			toPrdName = prd.getPrdName();
+			if(toPrdName.indexOf("_") > 0) {
+				toPrdName = "%" + toPrdName.substring(0, toPrdName.indexOf("_")) + "%";
+			} else {
+				toPrdName = "%" + toPrdName + "%";
+			}
+		}
+		String toPerm = perm;
+		if(perm == null) {
+			toPerm = "年交";
+			perm = "1";
+		} else if(perm.trim().length()<=0) {
+			toPerm = "%%";
+		} else if(perm.equals("1")) {
+			toPerm = "年交";
+		} else {
+			toPerm = "趸交";
+		}
+		String isStaff = staffFlag;
+		if(staffFlag == null || staffFlag.trim().length()<=0) {
+			isStaff = "%%";
+		}
+		
+		if(netFlag == null || netFlag.trim().length()<=0) {
+			netFlag = "%%";
+		}
+	
+		String fd = StringUtil.getFirstDayOfYear("yyyy-MM-dd");
+		if(pd1 == null || pd1.trim().length()<=0) {
+			pd1 = fd;
+		}
+		if(pd2 == null || pd2.trim().length()<=0) {
+			pd2 = "9999-12-31";
+		}
+		if(csd1 == null || csd1.trim().length()<=0) {
+			csd1 = StringUtil.date2Str(new Date(), "yyyy-MM-dd");
+		}
+		if(csd2 == null || csd2.trim().length()<=0) {
+			csd2 = "9999-12-31";
+		}
+		if(bankName == null || bankName.trim().length()<=0) {
+			bankName= "%%";
+		} else {
+			bankName = "&" + bankName + "%";
+		}
+		
+		List<TuiBaoDtlModel> temp = stasticsService.getTuiBaoCsDetailWithBankCode(organCode + "%", pd1, pd2, csd1, csd2, netFlag, toPrdName, toPerm, isStaff, bankName);
+		
+		request.setAttribute("cmRst", temp);
+		LOG.debug(" ------------ result size:" + temp.size());
+		return TUIBAO_DTL_TOXLS;
+	}
+	
 	/*
 	 * =======================================
 	 * staff

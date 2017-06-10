@@ -86,6 +86,8 @@ function toTips(val) {
 <a class="buttonActive" target="_blank" href="${contextPath }/component/stastics/tuibao/toXls?orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&csDate1=${csDate1 }&csDate2=${csDate2 }&prdCode=${prdCode}&levelFlag=${levelFlag}&netFlag=${netFlag}&perm=${perm}&staffFlag=${staffFlag}"><span>导出统计结果</span></a>
 &nbsp;&nbsp;&nbsp;&nbsp;
 <a class="buttonActive" target="_blank" href="${contextPath }/component/stastics/tuibao/dtlXls?orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&csDate1=${csDate1 }&csDate2=${csDate2 }&prdCode=${prdCode}&levelFlag=${levelFlag}&netFlag=${netFlag}&perm=${perm}&staffFlag=${staffFlag}"><span>导出明细数据</span></a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<a class="buttonActive" target="_blank" href="${contextPath }/component/stastics/tuibao/csdtlXls?orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&csDate1=${csDate1 }&csDate2=${csDate2 }&prdCode=${prdCode}&levelFlag=${levelFlag}&netFlag=${netFlag}&perm=${perm}&staffFlag=${staffFlag}"><span>导出犹撤明细数据</span></a>
 </h2>
 <br>
 <div class="pageContent" layoutH="130" width="150%">

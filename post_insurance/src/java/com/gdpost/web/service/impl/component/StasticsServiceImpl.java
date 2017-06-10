@@ -83,6 +83,11 @@ public class StasticsServiceImpl implements StasticsService {
 		return tbdDAO.getAllTuiBaoWarningDetailWithBankCode(organCode, d1, d2, d3, d4, flag, prdCode, toPerm, staffFlag, bankName);
 	}
 	
+	@Override
+	public List<TuiBaoDtlModel> getTuiBaoCsDetailWithBankCode(String organCode, String d1, String d2, String d3, String d4, String flag, String prdCode, String toPerm, String staffFlag, String bankName) {
+		return tbdDAO.getAllTuiBaoCsDetailWithBankCode(organCode, d1, d2, d3, d4, flag, prdCode, toPerm, staffFlag, bankName);
+	}
+	
 	/*
 	 * =========================================
 	 * staff
