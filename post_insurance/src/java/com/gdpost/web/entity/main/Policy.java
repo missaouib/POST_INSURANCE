@@ -83,6 +83,7 @@ public class Policy implements Idable<Long>, Serializable{
 	
 	private Integer csFlag;
 	private Double totalFee;
+	private Date csDate;
 	
 	@Transient
 	private Boolean isStaff;
@@ -484,6 +485,16 @@ public class Policy implements Idable<Long>, Serializable{
 
 	public void setPolicyDtl(PolicyDtl policyDtl) {
 		this.policyDtl = policyDtl;
+	}
+
+	@Temporal(TemporalType.DATE)
+	@Column(name="cs_date")
+	public Date getCsDate() {
+		return csDate;
+	}
+
+	public void setCsDate(Date csDate) {
+		this.csDate = csDate;
 	}
 
 	/*

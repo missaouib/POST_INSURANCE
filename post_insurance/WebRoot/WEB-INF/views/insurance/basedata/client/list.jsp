@@ -132,7 +132,7 @@
 				<th>交费期间</th>
 				<th>承保日期</th>
 				<th>状态</th>
-				<!-- <th>退保日期</th> -->
+				<th>退保日期</th>
 				<th>网点</th>
 				<th>员工单</th>
 				<th>银行单</th>
@@ -153,7 +153,7 @@
 				<td>${item.perm}</td>
 				<td><fmt:formatDate value="${item.policyDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.status}</td>
-				<%-- <td>${item.csFlag != null && item.csFlag!=0?item.csReport.csDate:""}</td> --%>
+				<td>${item.csDate != null?item.csDate:""}</td>
 				<td>${item.bankName}</td>
 				<td>${item.staffFlag}</td>
 				<td>${item.bankCode!=null && item.bankCode.netFlag==2?"是":"否" }</td>

@@ -950,3 +950,4 @@ create table t_renewed_fee_rst
 )engine=innodb auto_increment=1 default charset=utf8;
 
 alter table t_organization add column short_name varchar(64);
+alter table t_policy add column cs_date date;
