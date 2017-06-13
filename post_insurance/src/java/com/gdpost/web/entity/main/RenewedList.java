@@ -85,6 +85,8 @@ public class RenewedList implements Idable<Long> {
 	
 	@Transient
 	private String search_EQ_feeStatus;
+	@Transient
+	private String staffFlag;
 	/*
 	@Transient
 	private String search_EQ_hqDealRemark;
@@ -127,6 +129,17 @@ public class RenewedList implements Idable<Long> {
 	public void setSearch_EQ_feeStatus(String search_EQ_feeStatus) {
 		this.search_EQ_feeStatus = search_EQ_feeStatus;
 	}
+	
+	@Transient
+	public String getStaffFlag() {
+		return staffFlag;
+	}
+
+	@Transient
+	public void setStaffFlag(String staffFlag) {
+		this.staffFlag = staffFlag;
+	}
+
 	/*
 	@Transient
 	public String getSearch_EQ_hqDealRemark() {

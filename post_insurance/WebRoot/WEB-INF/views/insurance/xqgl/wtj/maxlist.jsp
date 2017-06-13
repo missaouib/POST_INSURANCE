@@ -13,6 +13,7 @@
 	<input type="hidden" name="dealType" value="${dealType }"/>
 	<input type="hidden" name="provActivity" value="${provActivity }"/>
 	<input type="hidden" name="feeMatch" value="${feeMatch }"/>
+	<input type="hidden" name="staffFlag" value="${staffFlag }"/>
 	<input type="hidden" name="feeFailReason" value="${feeFailReason }"/>
 </dwz:paginationForm>
 
@@ -84,7 +85,12 @@
 						</form:select>
 					</td>
 					<td>
-						&nbsp;
+						<label>员工单标记：</label>
+						<form:select path="issue.staffFlag" id="xqpstaffflag" class="combox">
+							<form:option value="">  --  </form:option>
+							<form:option value="0"> 普通客户 </form:option>
+							<form:option value="1"> 员工单 </form:option>
+						</form:select>
 					</td>
 					<td>
 						&nbsp;
@@ -115,7 +121,7 @@
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Renewed:view">
 				<li class="line">line</li>
-				<li><a class="icon" target="_blank" href="${contextPath }/xqgl/toXls?provActivity=${provActivity}&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&policy.orgCode=${policy_orgCode }&search_LTE_feeDate=${param.search_LTE_feeDate }&search_GTE_feeDate=${param.search_GTE_feeDate }&encodeStatus=${encodeStatus }&encodeHqIssueType=${encodeHqIssueType }&encodeDealType=${encodeDealType }&encodeFeeFailReason=${encodeFeeFailReason }"><span>导出Excel</span></a></li>
+				<li><a class="icon" target="_blank" href="${contextPath }/xqgl/toXls?provActivity=${provActivity}&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&policy.orgCode=${policy_orgCode }&search_LTE_feeDate=${param.search_LTE_feeDate }&search_GTE_feeDate=${param.search_GTE_feeDate }&encodeStatus=${encodeStatus }&encodeHqIssueType=${encodeHqIssueType }&encodeDealType=${encodeDealType }&encodeFeeFailReason=${encodeFeeFailReason }&feeMatch=${feeMatch}&staffFlag=${staffFlag}"><span>导出Excel</span></a></li>
 			</shiro:hasPermission>
 		</ul>
 	</div>
@@ -142,6 +148,7 @@
 				<th>省分催收结果</th>
 				<th>市县催收情况</th>
 				<th>市县催收结果</th>
+				<th>员工单标记</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -175,6 +182,7 @@
 				<td>${item.provDealRst}</td>
 				<td>${item.dealType}</td>
 				<td>${item.fixStatus}</td>
+				<td>${item.policy.staffFlag}</td>
 			</tr>
 			</c:forEach>
 		</tbody>

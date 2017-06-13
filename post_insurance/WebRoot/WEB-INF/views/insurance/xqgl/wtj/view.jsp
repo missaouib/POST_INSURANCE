@@ -59,6 +59,10 @@
 			<label>地址：</label>
 			<span class="unit">${issue.addr }</span>
 		</p>
+		<p>
+			<label>员工单标记：</label>
+			<span class="unit">${issue.policy.staffFlag }</span>
+		</p>
 	</fieldset>
 	<div class="divider"></div>
 	<fieldset>

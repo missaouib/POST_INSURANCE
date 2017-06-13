@@ -199,15 +199,19 @@ public class XqglController {
 		String feeFailReason = request.getParameter("feeFailReason");
 		String provActivity = request.getParameter("provActivity");
 		String feeMatch = request.getParameter("feeMatch");
+		String staffFlag = request.getParameter("staffFlag");
 		request.setAttribute("hqIssueType", hqIssueType);
 		request.setAttribute("dealType", dealType);
 		request.setAttribute("feeFailReason", feeFailReason);
 		request.setAttribute("provActivity", provActivity);
 		request.setAttribute("feeMatch", feeMatch);
+		request.setAttribute("staffFlag", staffFlag);
+		
 		issue.setHqIssueType(hqIssueType);
 		issue.setDealType(dealType);
 		issue.setProvActivity(provActivity);
 		issue.setFeeMatch(feeMatch);
+		issue.setStaffFlag(staffFlag);
 		LOG.debug("-------------- feeFailReason: " + feeFailReason);
 		issue.setFeeFailReason(feeFailReason);
 		
@@ -266,6 +270,11 @@ public class XqglController {
 			csf.add(new SearchFilter("feeMatch", Operator.EQ, feeMatch));
 		}
 		
+		if (staffFlag != null && staffFlag.length() > 0) {
+			Boolean isSf = staffFlag.equals("1")?Boolean.TRUE:Boolean.FALSE;
+			csf.add(new SearchFilter("policy.staffFlag", Operator.EQ, isSf));
+		}
+		
 		Specification<RenewedList> specification = DynamicSpecifications.bySearchFilter(request, RenewedList.class, csf);
 		
 		List<RenewedList> issues = xqglService.findByExample(specification, page);
@@ -318,6 +327,20 @@ public class XqglController {
 		String dealType = request.getParameter("dealType");
 		String feeFailReason = request.getParameter("feeFailReason");
 		String provActivity = request.getParameter("provActivity");
+		String feeMatch = request.getParameter("feeMatch");
+		String staffFlag = request.getParameter("staffFlag");
+		request.setAttribute("hqIssueType", hqIssueType);
+		request.setAttribute("dealType", dealType);
+		request.setAttribute("feeFailReason", feeFailReason);
+		request.setAttribute("provActivity", provActivity);
+		request.setAttribute("feeMatch", feeMatch);
+		request.setAttribute("staffFlag", staffFlag);
+		
+		issue.setHqIssueType(hqIssueType);
+		issue.setDealType(dealType);
+		issue.setProvActivity(provActivity);
+		issue.setFeeMatch(feeMatch);
+		issue.setStaffFlag(staffFlag);
 		if(hqIssueType != null && hqIssueType.trim().length()>0) {
 			request.setAttribute("encodeHqIssueType", Base64Utils.encodeToString(hqIssueType.getBytes()));
 		}
@@ -406,6 +429,14 @@ public class XqglController {
 		}
 		if (provActivity != null && provActivity.length() > 0) {
 			csf.add(new SearchFilter("provActivity", Operator.EQ, provActivity));
+		}
+		if (feeMatch != null && feeMatch.length() > 0) {
+			csf.add(new SearchFilter("feeMatch", Operator.EQ, feeMatch));
+		}
+		
+		if (staffFlag != null && staffFlag.length() > 0) {
+			Boolean isSf = staffFlag.equals("1")?Boolean.TRUE:Boolean.FALSE;
+			csf.add(new SearchFilter("policy.staffFlag", Operator.EQ, isSf));
 		}
 		
 		Specification<RenewedList> specification = DynamicSpecifications.bySearchFilter(request, RenewedList.class, csf);

@@ -19,8 +19,15 @@
 			<span class="unit">${policy.organName }</span>
 		</p>
 		<p>
+			&nbsp;
+		</p>
+		<p>
 			<label>客户姓名：</label>
 			<span class="unit">${policy.holder }</span>
+		</p>
+		<p>
+			<label>性别：</label>
+			<span class="unit">${policy.policyDtl.holderSexy }</span>
 		</p>
 		<p>
 			<label>被保险人：</label>
