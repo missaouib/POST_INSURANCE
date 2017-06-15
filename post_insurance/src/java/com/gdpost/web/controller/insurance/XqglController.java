@@ -471,6 +471,7 @@ public class XqglController {
 		String feeFailReason = request.getParameter("encodeFeeFailReason");
 		String provActivity = request.getParameter("provActivity");
 		String feeMatch = request.getParameter("feeMatch");
+		String staffFlag = request.getParameter("staffFlag");
 		if(feeStatus != null && feeStatus.trim().length() > 0 ){
 			feeStatus = new String(Base64Utils.decodeFromString(feeStatus));
 			try {
@@ -526,6 +527,10 @@ public class XqglController {
 		}
 		if (feeMatch != null && feeMatch.length() > 0) {
 			csf.add(new SearchFilter("feeMatch", Operator.EQ, feeMatch));
+		}
+		if (staffFlag != null && staffFlag.length() > 0) {
+			Boolean isSf = staffFlag.equals("1")?Boolean.TRUE:Boolean.FALSE;
+			csf.add(new SearchFilter("policy.staffFlag", Operator.EQ, isSf));
 		}
 		Specification<RenewedList> specification = DynamicSpecifications.bySearchFilter(request, RenewedList.class, csf);
 		
