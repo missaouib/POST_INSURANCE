@@ -325,6 +325,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 	            builder.append(FEE_FAIL_STATUS.NewStatus.name());
 	            builder.append('\t');
     		}
+        	
         	for(ColumnItem item : standardColumns) {
         		cell = StringUtil.trimStr(row.getValue(item.getDisplayName()), true);
         		
@@ -339,6 +340,13 @@ public class UploadDataServiceImpl implements UploadDataService{
         			if(item.getDisplayName().equals("附加险保费") && (cell == null || StringUtil.trimStr(cell).length()<=0)) {
         				log.debug("----------- 附加险保费: " + cell);
         	            builder.append("0\t");
+        	            continue;
+        			}
+        		}
+        		if(ft.name().equals(FileTemplate.ConversationReport.name()) || ft.name().equals(FileTemplate.ConversationReport.name())) {
+        			if(item.getDisplayName().equals("项目编码") && (cell != null && cell.startsWith("CT"))) {
+        				log.debug("----------- 处理CT: " + cell);
+        	            builder.append(cell.substring(0, 2) + "\t");
         	            continue;
         			}
         		}
