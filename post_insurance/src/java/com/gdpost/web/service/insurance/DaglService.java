@@ -9,21 +9,12 @@ package com.gdpost.web.service.insurance;
 
 import java.util.List;
 
-import org.springframework.data.jpa.domain.Specification;
-
-import com.gdpost.web.entity.main.Policy;
-import com.gdpost.web.util.dwz.Page;
+import com.gdpost.web.entity.component.DocStatModel;
 
 public interface DaglService {
-	Policy get(Long id);
-
-	void saveOrUpdate(Policy user);
-
-	void delete(Long id);
+	List<DocStatModel> getDocNotScanStat();
 	
-	List<Policy> findAll(Page page);
+	List<DocStatModel> getSubDocNotScanStat(String organName);
 	
-	List<Policy> findByExample(Specification<Policy> specification, Page page);
-	
-	Policy getByPolicyNo(String username);
+	List<DocStatModel> getSumDocStat(String organName, String d1, String d2);
 }

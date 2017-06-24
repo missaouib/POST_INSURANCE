@@ -53,6 +53,31 @@ public class StringUtil {
 		return sdf.format(cal.getTime());
 	}
 	
+	public static String getLastDayOfMonth(String patten) {
+		Calendar cal = new GregorianCalendar();
+		cal.set(Calendar.DATE, 1);
+		cal.roll(Calendar.DATE, -1); 
+		SimpleDateFormat sdf = new SimpleDateFormat(patten);
+		return sdf.format(cal.getTime());
+	}
+	
+	public static String getMonthFirstDayOfMonth(int month, String patten) {
+		Calendar cal = new GregorianCalendar();
+		cal.set(Calendar.MONTH, month-1);
+		cal.set(Calendar.DAY_OF_MONTH, 1);
+		SimpleDateFormat sdf = new SimpleDateFormat(patten);
+		return sdf.format(cal.getTime());
+	}
+	
+	public static String getMonthLastDayOfMonth(int month, String patten) {
+		Calendar cal = new GregorianCalendar();
+		cal.set(Calendar.MONTH, month-1);
+		cal.set(Calendar.DATE, 1);
+		cal.roll(Calendar.DATE, -1); 
+		SimpleDateFormat sdf = new SimpleDateFormat(patten);
+		return sdf.format(cal.getTime());
+	}
+	
 	public static String decode(String str) {
 		return Base64Utils.encodeToString(str.getBytes());
 	}
@@ -346,16 +371,9 @@ public class StringUtil {
 	}
 	
 	public static void main(String[] args) {
-		Calendar ca = Calendar.getInstance();
-		Date d = StringUtil.str2Date("2016-03-20", "yyyy-MM-dd");
-		ca.setTime(d);
-		ca.set(Calendar.DAY_OF_YEAR, 1);
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		String p1 = sdf.format(ca.getTime());
-		ca.set(Calendar.YEAR, 2016);
-        ca.roll(Calendar.DAY_OF_YEAR, -1);
-		String p2 = sdf.format(ca.getTime());
-		System.out.println(p1 + ":" + p2);
 		
+		System.out.println(StringUtil.getMonthLastDayOfMonth(5, "yyyy-MM-dd"));
+		Calendar cal = new GregorianCalendar();
+		System.out.println(cal.get(Calendar.MONTH));
 	}
 }

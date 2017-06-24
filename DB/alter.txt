@@ -951,3 +951,24 @@ create table t_renewed_fee_rst
 
 alter table t_organization add column short_name varchar(64);
 alter table t_policy add column cs_date date;
+
+create table t_doc_not_scan_dtl
+(
+   id	bigint not null auto_increment,
+   organ_name		varchar(64),
+   form_no		varchar(15),
+   policy_no		varchar(14),
+   fee_date		date,
+   sign_date		date,
+   valid_date 		date,
+   holder		varchar(32),
+   insured		varchar(32),
+   policy_fee		double,
+   fee_type 		varchar(12),
+   sales_name 		varchar(12),
+   bank_name 		varchar(128),
+   operate_id bigint,
+   primary key (id),
+   unique key nsd_p_no (policy_no)
+)
+engine=innodb auto_increment=1 default charset=utf8;

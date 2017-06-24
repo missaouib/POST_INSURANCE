@@ -38,6 +38,7 @@ import com.gdpost.utils.TemplateHelper.ColumnItem;
 import com.gdpost.utils.TemplateHelper.ColumnType;
 import com.gdpost.utils.TemplateHelper.ConversationReqColumn;
 import com.gdpost.utils.TemplateHelper.CsReportColumn;
+import com.gdpost.utils.TemplateHelper.DocNotScanDtlColumn;
 import com.gdpost.utils.TemplateHelper.IssueColumn;
 import com.gdpost.utils.TemplateHelper.IssuePFRColumn;
 import com.gdpost.utils.TemplateHelper.PayFailListColumn;
@@ -121,6 +122,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 		String strKey = com.gdpost.web.MySQLAESKey.AESKey;
 
 		List<ColumnItem> standardColumns = null;
+		String firstsql = null;
 		String strStatementText = null;
 		String strEncrypt = "";
 		String sql1 = null;
@@ -270,6 +272,11 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql5 = "update t_policy tp, t_cs_report tcr set tp.cs_flag=2,tp.status=\"终止\",tp.cs_date=tcr.cs_date where tp.policy_no=tcr.policy_no and tp.cs_flag=0 and tcr.cs_code=\"CT\" and (0-tcr.money)<>tp.total_fee and abs(tcr.money)>300;";
 			sql6 = "update t_renewed_list t1, t_cs_report t2 set t1.fee_status=\"已终止\" where t1.policy_no=t2.policy_no and t2.cs_code=\"CT\" and abs(t2.money)>300;";
 			break;
+		case DocNotScanDtl:
+			firstsql = "delete from t_doc_not_scan_dtl;";
+			standardColumns = DocNotScanDtlColumn.getStandardColumns();
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_doc_not_scan_dtl character set utf8 (";
+			break;
 			default:
 				log.warn("------------reach the default FileTemplate?? oh no!!");
 		}
@@ -373,10 +380,14 @@ public class UploadDataServiceImpl implements UploadDataService{
 			dr.setFlag(false);
 			dr.setMsg(e.getMessage());
 		}
-
+        
         //再执行
-        statement.setLocalInfileInputStream(is);
         try {
+        	if(firstsql != null) {
+        		statement.execute(firstsql);
+        	}
+        	
+        	statement.setLocalInfileInputStream(is);
 			//statement.execute(strStatementText);
         	int updateRow = statement.executeUpdate(strStatementText);
         	dr.setUpdateRow(updateRow);
@@ -1148,6 +1159,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 			log.debug("----------------insured data batch sql : " + sql);
 			sql2 = "delete from t_policy_dtl where holder is null";
 			break;
+		case DocNotScanDtl:
+			return dr;
 		default:
 			break;
 		}
@@ -1358,6 +1371,10 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case UnderWriteInsured:
 			standardColumns = PolicyDtlExtColumn.getStandardColumns();
 			keyRow = PolicyDtlExtColumn.KEY_ROW;
+			break;
+		case DocNotScanDtl:
+			standardColumns = DocNotScanDtlColumn.getStandardColumns();
+			keyRow = DocNotScanDtlColumn.KEY_ROW;
 			break;
 		}
 		

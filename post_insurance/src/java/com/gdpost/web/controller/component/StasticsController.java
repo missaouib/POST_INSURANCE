@@ -650,17 +650,17 @@ public class StasticsController {
 		String tuibao = "";
 		double maxZB = 0;
 		int maxTB = 0;
-		int csumTb = 0;
-		int ctotalTb = 0;
-		double ssumTb = 0;
-		double stotalTb = 0;
+		int csumTb = 0;//员工件数
+		int ctotalTb = 0;//总件数
+		double ssumTb = 0;//员工保费
+		double stotalTb = 0;//总保费
 		DecimalFormat df = new DecimalFormat("#.#"); 
 		for(StaffModel tcm:temp) {
 			col += "'" + tcm.getOrganName() + "',";
-			csumTb += tcm.getStaffCount()==null?0:tcm.getStaffCount();
-			ctotalTb += tcm.getSumStaffCount();
-			ssumTb += tcm.getPolicyFee()==null?0:tcm.getPolicyFee();
-			stotalTb += tcm.getSumPolicyFee();
+			csumTb += tcm.getStaffCount()==null?0:tcm.getStaffCount();//员工件数
+			ctotalTb += tcm.getSumStaffCount();//总件数
+			ssumTb += tcm.getPolicyFee()==null?0:tcm.getPolicyFee();//员工保费
+			stotalTb += tcm.getSumPolicyFee();//总保费
 			zhanbi += df.format((tcm.getPolicyFee()==null?0:tcm.getPolicyFee())/tcm.getSumPolicyFee()*100) + ",";
 			if((tcm.getPolicyFee()==null?0:tcm.getPolicyFee())/tcm.getSumPolicyFee()*100+1 > maxZB) {
 				maxZB = Math.ceil(((tcm.getPolicyFee()==null?0:tcm.getPolicyFee())/tcm.getSumPolicyFee())*100) + 1;

@@ -7,36 +7,22 @@
  */
 package com.gdpost.web.controller.insurance;
 
-import java.util.Arrays;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletRequest;
-import javax.validation.Valid;
 
-import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresUser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.gdpost.web.entity.main.Policy;
-import com.gdpost.web.exception.ExistedException;
-import com.gdpost.web.exception.ServiceException;
-import com.gdpost.web.log.Log;
-import com.gdpost.web.log.LogLevel;
-import com.gdpost.web.log.LogMessageObject;
-import com.gdpost.web.log.LogModule;
-import com.gdpost.web.log.impl.LogUitls;
+import com.gdpost.utils.StringUtil;
+import com.gdpost.web.entity.component.DocStatModel;
 import com.gdpost.web.service.insurance.DaglService;
-import com.gdpost.web.util.dwz.AjaxObject;
-import com.gdpost.web.util.dwz.Page;
-import com.gdpost.web.util.persistence.DynamicSpecifications;
 
 @Controller
 @RequestMapping("/dagl")
@@ -46,105 +32,47 @@ public class DaglController {
 	@Autowired
 	private DaglService daglService;
 
-	private static final String CREATE = "insurance/dagl/wtj/create";
-	private static final String UPDATE = "insurance/dagl/wtj/update";
-	private static final String LIST = "insurance/dagl/wtj/list";
+	private static final String DOC_NOT_SCAN = "insurance/dagl/scan/notscanstat";
 	
-	@RequiresPermissions("Policy:save")
-	@RequestMapping(value="/create", method=RequestMethod.GET)
-	public String preCreate() {
-		return CREATE;
-	}
-	
-	@Log(message="添加了{0}保单。", level=LogLevel.WARN, module=LogModule.BQGL)
-	@RequiresPermissions("Policy:save")
-	@RequestMapping(value="/create", method=RequestMethod.POST)
-	public @ResponseBody String create(@Valid Policy user) {	
-		try {
-			daglService.saveOrUpdate(user);
-		} catch (ExistedException e) {
-			return AjaxObject.newError("添加保单失败：" + e.getMessage()).setCallbackType("").toString();
+	@RequiresUser
+	@RequestMapping(value="/scan/stat", method=RequestMethod.GET)
+	public String docNotScan(ServletRequest request, Map<String, Object> map) {
+		List<DocStatModel> list = daglService.getDocNotScanStat();
+		if(list == null || list.isEmpty()) {
+			return DOC_NOT_SCAN;
 		}
-		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{user.getPolicyNo()}));
-		return AjaxObject.newOk("添加保单成功！").toString();
-	}
-	
-	@ModelAttribute("preloadUser")
-	public Policy preload(@RequestParam(value = "id", required = false) Long id) {
-		if (id != null) {
-			Policy user = daglService.get(id);
-			if(user != null) {
-				user.setOrganization(null);
+		String organName = null;
+		Integer noscan = null;
+		StringBuffer remark = null;
+		Integer sumDocs = 0;
+		Double p = null;
+		List<DocStatModel> subList = null;
+		List<DocStatModel> sumList = null;
+		Calendar cal = new GregorianCalendar();
+		int month = cal.get(Calendar.MONTH);
+		String d1 = StringUtil.getMonthFirstDayOfMonth(month, "yyyy-MM-dd");
+		String d2 = StringUtil.getMonthLastDayOfMonth(month, "yyyy-MM-dd");
+		for(DocStatModel dsm:list) {
+			remark = new StringBuffer("");
+			organName = dsm.getOrgName();
+			noscan = dsm.getSumDoc();
+			
+			sumList = daglService.getSumDocStat(organName, d1, d2);
+			if(sumList == null || sumList.isEmpty()) {
+				return DOC_NOT_SCAN;
 			}
-			return user;
-		}
-		return null;
-	}
-	
-	@RequiresPermissions("Policy:edit")
-	@RequestMapping(value="/update/{id}", method=RequestMethod.GET)
-	public String preUpdate(@PathVariable Long id, Map<String, Object> map) {
-		Policy user = daglService.get(id);
-		
-		map.put("user", user);
-		return UPDATE;
-	}
-	
-	@Log(message="修改了{0}保单的信息。", level=LogLevel.WARN, module=LogModule.BQGL)
-	@RequiresPermissions("Policy:edit")
-	@RequestMapping(value="/update", method=RequestMethod.POST)
-	public @ResponseBody String update(@Valid @ModelAttribute("preloadUser")Policy user) {
-		daglService.saveOrUpdate(user);
-		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{user.getPolicyNo()}));
-		return	AjaxObject.newOk("修改保单成功！").toString(); 
-	}
-	
-	@Log(message="删除了{0}保单。", level=LogLevel.WARN, module=LogModule.BQGL)
-	@RequiresPermissions("Policy:delete")
-	@RequestMapping(value="/delete/{id}", method=RequestMethod.POST)
-	public @ResponseBody String delete(@PathVariable Long id) {
-		Policy user = null;
-		try {
-			user = daglService.get(id);
-			daglService.delete(user.getId());
-		} catch (ServiceException e) {
-			return AjaxObject.newError("删除保单失败：" + e.getMessage()).setCallbackType("").toString();
-		}
-		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{user.getPolicyNo()}));
-		return AjaxObject.newOk("删除保单成功！").setCallbackType("").toString();
-	}
-	
-	@Log(message="删除了{0}保单。", level=LogLevel.WARN, module=LogModule.BQGL)
-	@RequiresPermissions("Policy:delete")
-	@RequestMapping(value="/delete", method=RequestMethod.POST)
-	public @ResponseBody String deleteMany(Long[] ids) {
-		String[] policys = new String[ids.length];
-		try {
-			for (int i = 0; i < ids.length; i++) {
-				Policy user = daglService.get(ids[i]);
-				daglService.delete(user.getId());
-				
-				policys[i] = user.getPolicyNo();
+			sumDocs = sumList.get(0).getSumDoc();
+			dsm.setAllDoc(sumDocs);
+			p = (new Double(sumDocs)-new Double(noscan))/new Double(sumDocs)*100;
+			dsm.setPercent(p.toString());
+			
+			subList = daglService.getSubDocNotScanStat(organName);
+			for(DocStatModel subDsm:subList) {
+				remark.append(subDsm.getOrgName() + ":" + subDsm.getSumDoc() + "，");
 			}
-		} catch (ServiceException e) {
-			return AjaxObject.newError("删除保单失败：" + e.getMessage()).setCallbackType("").toString();
+			dsm.setRemark(remark.toString());
 		}
-		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{Arrays.toString(policys)}));
-		return AjaxObject.newOk("删除保单成功！").setCallbackType("").toString();
-	}
-	
-	@RequiresPermissions("Policy:view")
-	@RequestMapping(value="/list", method={RequestMethod.GET, RequestMethod.POST})
-	public String list(ServletRequest request, Page page, Map<String, Object> map) {
-		Specification<Policy> specification = DynamicSpecifications.bySearchFilter(request, Policy.class);
-		List<Policy> users = daglService.findByExample(specification, page);
-
-		map.put("page", page);
-		map.put("users", users);
-		return LIST;
+		map.put("statData", list);
+		return DOC_NOT_SCAN;
 	}
 }
