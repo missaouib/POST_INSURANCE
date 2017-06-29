@@ -2,7 +2,7 @@
 <%@page import="java.util.Date"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 
-<dwz:paginationForm action="${contextPath }/bqgl/offsite/list" page="${page }">
+<dwz:paginationForm action="${contextPath }/bqgl/stay/list" page="${page }">
 	<input type="hidden" name="search_LIKE_policyNo" value="${param.search_LIKE_policyNo }"/>
 	<input type="hidden" name="search_LIKE_client" value="${param.search_LIKE_client }"/>
 	<input type="hidden" name="orgCode" value="${orgCode }"/>
@@ -12,7 +12,7 @@
 	<input type="hidden" name="status" value="${param.status }"/>
 </dwz:paginationForm>
 
-<form method="post" id="bqForm" action="${contextPath }/bqgl/offsite/list" onsubmit="return navTabSearch(this)">
+<form method="post" id="bqForm" action="${contextPath }/bqgl/stay/list" onsubmit="return navTabSearch(this)">
 	<div class="pageHeader">
 		<div class="searchBar">
 			<table class="searchContent">
@@ -22,7 +22,7 @@
 					</td>
 					<td>
 						<label>状态：</label>
-						<form:select path="offsite.status" class="combox" id="bqStatus">
+						<form:select path="stay.status" class="combox" id="bqStatus">
 							<form:option value=""> -- -- </form:option>
 							<form:options items="${baStatusList }" itemLabel="desc"/>
 						</form:select>
@@ -61,32 +61,32 @@
 	<div class="panelBar">
 		<ul class="toolBar">
 			<shiro:hasPermission name="OffsiteConservation:save">
-				<li><a class="add" target="dialog" rel="lookup2organization_add" mask="true" width="530" height="450" href="${contextPath }/bqgl/offsite/create"><span>登记异地保全</span></a></li>
+				<li><a class="add" target="dialog" rel="lookup2organization_add" mask="true" width="530" height="450" href="${contextPath }/bqgl/stay/create"><span>登记异地保全</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="OffsiteConservation:edit">
 				<li class="line">line</li>
-				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="450" href="${contextPath }/bqgl/offsite/update/{slt_uid}"><span>编辑</span></a></li>
+				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="450" href="${contextPath }/bqgl/stay/update/{slt_uid}"><span>编辑</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="OffsiteConservation:provEdit">
 				<li class="line">line</li>
-				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="530" href="${contextPath }/bqgl/offsite/provupdate/{slt_uid}"><span>省分更新</span></a></li>
+				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="530" href="${contextPath }/bqgl/stay/provupdate/{slt_uid}"><span>省分更新</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="OffsiteConservation:delete">
 				<li class="line">line</li>
-				<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/bqgl/offsite/delete" title="确认要删除?"><span>删除</span></a></li>
+				<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/bqgl/stay/delete" title="确认要删除?"><span>删除</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="OffsiteConservation:deal">
 				<li class="line">line</li>
-				<li><a class="delete" target="ajaxTodo" href="${contextPath }/bqgl/offsite/DealStatus/{slt_uid}" title="确认更新状态?"><span>已处理</span></a></li>
+				<li><a class="delete" target="ajaxTodo" href="${contextPath }/bqgl/stay/DealStatus/{slt_uid}" title="确认更新状态?"><span>已处理</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="OffsiteConservation:reset">
 				<li class="line">line</li>
-				<li><a class="delete" target="ajaxTodo" href="${contextPath }/bqgl/offsite/CloseStatus/{slt_uid}" title="确认关闭?"><span>关闭</span></a></li>
+				<li><a class="delete" target="ajaxTodo" href="${contextPath }/bqgl/stay/CloseStatus/{slt_uid}" title="确认关闭?"><span>关闭</span></a></li>
 				<li class="line">line</li>
-				<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/bqgl/offsite/CloseStatus" title="确认批量关闭?"><span>批量关闭</span></a></li>
+				<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/bqgl/stay/CloseStatus" title="确认批量关闭?"><span>批量关闭</span></a></li>
 			</shiro:hasPermission>
 			<li class="line">line</li>
-			<li><a class="icon" target="_blank" href="${contextPath }/bqgl/offsite/toXls?search_LIKE_policyNo=${param.search_LIKE_policyNo }&orgCode=${orgCode }&search_LTE_dealDate=${param.search_LTE_dealDate }&search_GTE_dealDate=${param.search_GTE_dealDate }&status=${param.status }"><span>导出Excel</span></a></li>
+			<li><a class="icon" target="_blank" href="${contextPath }/bqgl/stay/toXls?search_LIKE_policyNo=${param.search_LIKE_policyNo }&orgCode=${orgCode }&search_LTE_dealDate=${param.search_LTE_dealDate }&search_GTE_dealDate=${param.search_GTE_dealDate }&status=${param.status }"><span>导出Excel</span></a></li>
 			<li class="line">line</li>
 			<li><a class="icon" target="dialog" href="${contextPath }/bqgl/help" mask="true" width="530" height="430"><span>功能说明</span></a></li>
 		</ul>
