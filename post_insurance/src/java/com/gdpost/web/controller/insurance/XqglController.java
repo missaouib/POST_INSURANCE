@@ -12,6 +12,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
@@ -21,9 +22,11 @@ import java.util.Map;
 import javax.servlet.ServletRequest;
 import javax.validation.Valid;
 
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.data.domain.Sort.Direction;
@@ -39,10 +42,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.gdpost.utils.BeanValidators;
 import com.gdpost.utils.SecurityUtils;
 import com.gdpost.web.entity.basedata.RenewalType;
+import com.gdpost.web.entity.main.RenewedStay;
+import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.RenewedList;
 import com.gdpost.web.entity.main.User;
+import com.gdpost.web.exception.ExistedException;
+import com.gdpost.web.exception.ServiceException;
 import com.gdpost.web.log.Log;
 import com.gdpost.web.log.LogLevel;
 import com.gdpost.web.log.LogMessageObject;
@@ -51,6 +59,7 @@ import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.OrganizationService;
 import com.gdpost.web.service.insurance.XqglService;
 import com.gdpost.web.shiro.ShiroUser;
+import com.gdpost.web.util.StatusDefine.BQ_STATUS;
 import com.gdpost.web.util.StatusDefine.XQ_DEAL_STATUS;
 import com.gdpost.web.util.StatusDefine.XQ_FEE_STATUS;
 import com.gdpost.web.util.StatusDefine.XQ_STATUS;
@@ -80,6 +89,12 @@ public class XqglController {
 	private static final String TO_HELP = "insurance/help/xqgl";
 	
 	private static final String TO_XLS = "insurance/xqgl/wtj/toXls";
+	
+	private static final String CREATE_STAY = "insurance/bqgl/stay/create";
+	private static final String UPDATE_STAY = "insurance/bqgl/stay/update";
+	private static final String PROV_UPDATE_STAY = "insurance/bqgl/stay/provupdate";
+	private static final String LIST_STAY = "insurance/bqgl/stay/list";
+	private static final String STAY_TO_XLS = "insurance/bqgl/stay/toXls";
 	
 	@RequestMapping(value="/help", method=RequestMethod.GET)
 	public String toHelp() {
@@ -546,6 +561,246 @@ public class XqglController {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		map.put("issueList", xqglService.getTODOIssueList(shiroUser.getUser()));
 		return ISSUE_LIST;
+	}
+	
+	/*
+	 * ===========================================
+	 * 退保挽留管理
+	 * ===========================================
+	 */
+	
+	@RequiresPermissions("RenewedStay:save")
+	@RequestMapping(value="/stay/create", method=RequestMethod.GET)
+	public String preCreateRenewedStay() {
+		return CREATE_STAY;
+	}
+	
+	@Log(message="添加了{0}退保挽留。", level=LogLevel.WARN, module=LogModule.BQGL)
+	@RequiresPermissions("RenewedStay:save")
+	@RequestMapping(value="/stay/create", method=RequestMethod.POST)
+	public @ResponseBody String createRenewedStay(@Valid RenewedStay stay) {	
+		try {
+			stay.setOperateTime(new Date());
+			stay.setOperatorId(SecurityUtils.getShiroUser().getId());
+			xqglService.saveOrUpdateRenewedStay(stay);
+		} catch (ExistedException e) {
+			return AjaxObject.newError("添加退保挽留失败：" + e.getMessage()).setCallbackType("").toString();
+		}
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{stay.getPolicyNo()}));
+		return AjaxObject.newOk("添加退保挽留成功！").toString();
+	}
+	
+	@RequiresPermissions("RenewedStay:edit")
+	@RequestMapping(value="/stay/update/{id}", method=RequestMethod.GET)
+	public String preUpdateRenewedStay(@PathVariable Long id, Map<String, Object> map) {
+		RenewedStay stay = xqglService.getRenewedStay(id);
+		
+		map.put("stay", stay);
+		return UPDATE_STAY;
+	}
+	
+	@RequiresPermissions("RenewedStay:provEdit")
+	@RequestMapping(value="/stay/provupdate/{id}", method=RequestMethod.GET)
+	public String preProvUpdateRenewedStay(@PathVariable Long id, Map<String, Object> map) {
+		RenewedStay stay = xqglService.getRenewedStay(id);
+		
+		map.put("stay", stay);
+		return PROV_UPDATE_STAY;
+	}
+	
+	@Log(message="修改了{0}退保挽留的信息。", level=LogLevel.WARN, module=LogModule.BQGL)
+	@RequiresPermissions("RenewedStay:edit")
+	@RequestMapping(value="/stay/update", method=RequestMethod.POST)
+	public @ResponseBody String updateRenewedStay(RenewedStay src) {
+		//ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		//LOG.debug("--------------0:" + src.toString());
+		RenewedStay stay = xqglService.getRenewedStay(src.getId());
+		//LOG.debug("--------------1:" + stay.toString());
+		BeanUtils.copyProperties(src, stay, BeanValidators.getNullPropertyNames(src));
+		xqglService.saveOrUpdateRenewedStay(stay);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{stay.getPolicyNo()}));
+		return	AjaxObject.newOk("修改退保挽留成功！").toString(); 
+	}
+	
+	@Log(message="修改了{0}退保挽留的状态。", level=LogLevel.WARN, module=LogModule.BQGL)
+	@RequiresPermissions(value={"RenewedStay:reset","RenewedStay:deal"}, logical=Logical.OR)
+	@RequestMapping(value="/stay/{status}/{id}", method=RequestMethod.POST)
+	public @ResponseBody String updateRenewedStayStatus(@PathVariable("status") String status, @PathVariable("id") Long id) {
+		RenewedStay stay = xqglService.getRenewedStay(id);
+		BQ_STATUS bs = BQ_STATUS.DealStatus;
+		try {
+			bs = BQ_STATUS.valueOf(status);
+		}catch (Exception ex) {
+			return	AjaxObject.newError("状态不对！").setCallbackType("").toString();
+		}
+		switch (bs) {
+		case CloseStatus:
+			break;
+			default:
+				break;
+		}
+		xqglService.saveOrUpdateRenewedStay(stay);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{stay.getPolicyNo()}));
+		return	AjaxObject.newOk("修改退保挽留成功！").setCallbackType("").toString();
+	}
+	
+	@Log(message="批量修改了{0}退保挽留的{1}状态。", level=LogLevel.WARN, module=LogModule.BQGL)
+	@RequiresPermissions(value={"RenewedStay:reset","RenewedStay:deal"}, logical=Logical.OR)
+	@RequestMapping(value="/stay/{status}", method=RequestMethod.POST)
+	public @ResponseBody String batchUpdateRenewedStayStatus(@PathVariable("status") String status, Long[] ids) {
+		RenewedStay stay = null;
+		BQ_STATUS bs = BQ_STATUS.DealStatus;
+		try {
+			bs = BQ_STATUS.valueOf(status);
+		}catch (Exception ex) {
+			return	AjaxObject.newError("状态不对！").setCallbackType("").toString();
+		}
+		String[] policys = new String[ids.length];
+		for(int i = 0; i<ids.length; i++) {
+			stay = xqglService.getRenewedStay(ids[i]);
+			switch (bs) {
+			case CloseStatus:
+				break;
+				default:
+					break;
+			}
+			xqglService.saveOrUpdateRenewedStay(stay);
+			policys[i] = stay.getPolicyNo();
+		}
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{Arrays.toString(policys), status}));
+		return	AjaxObject.newOk("批量" + status + "退保挽留成功！").setCallbackType("").toString();
+	}
+	
+	@Log(message="删除了{0}退保挽留。", level=LogLevel.WARN, module=LogModule.BQGL)
+	@RequiresPermissions("RenewedStay:delete")
+	@RequestMapping(value="/stay/delete/{id}", method=RequestMethod.POST)
+	public @ResponseBody String deleteRenewedStay(@PathVariable Long id) {
+		RenewedStay stay = null;
+		try {
+			stay = xqglService.getRenewedStay(id);
+			xqglService.deleteRenewedStay(stay.getId());
+		} catch (ServiceException e) {
+			return AjaxObject.newError("删除退保挽留失败：" + e.getMessage()).setCallbackType("").toString();
+		}
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{stay.getPolicyNo()}));
+		return AjaxObject.newOk("删除退保挽留成功！").setCallbackType("").toString();
+	}
+	
+	@Log(message="删除了{0}退保挽留。", level=LogLevel.WARN, module=LogModule.BQGL)
+	@RequiresPermissions("RenewedStay:delete")
+	@RequestMapping(value="/stay/delete", method=RequestMethod.POST)
+	public @ResponseBody String deleteManyRenewedStay(Long[] ids) {
+		String[] policys = new String[ids.length];
+		try {
+			for (int i = 0; i < ids.length; i++) {
+				RenewedStay stay = xqglService.getRenewedStay(ids[i]);
+				xqglService.deleteRenewedStay(stay.getId());
+				
+				policys[i] = stay.getPolicyNo();
+			}
+		} catch (ServiceException e) {
+			return AjaxObject.newError("删除退保挽留失败：" + e.getMessage()).setCallbackType("").toString();
+		}
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{Arrays.toString(policys)}));
+		return AjaxObject.newOk("删除退保挽留成功！").setCallbackType("").toString();
+	}
+	
+	@RequiresPermissions("RenewedStay:view")
+	@RequestMapping(value="/stay/list", method={RequestMethod.GET, RequestMethod.POST})
+	public String listRenewedStay(ServletRequest request, Page page, Map<String, Object> map) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
+		String orgCode = request.getParameter("orgCode");
+		if(orgCode == null || orgCode.trim().length()<=0) {
+			orgCode = userOrg.getOrgCode();
+		} else if(!orgCode.contains(user.getOrganization().getOrgCode())){
+			orgCode = user.getOrganization().getOrgCode();
+		}
+		String orgName = request.getParameter("name");
+		request.setAttribute("orgCode", orgCode);
+		request.setAttribute("name", orgName);
+		//默认返回未处理工单
+		String status = request.getParameter("status");
+		LOG.debug("-------------- status: " + status + "  orgCode:" + orgCode);
+		RenewedStay stay = new RenewedStay();
+		if(status == null) {
+			status = "";
+		} else if(status.trim().length()>0) {
+			//stay.setStatus(BQ_STATUS.valueOf(status).name());
+		}
+		String orderField = request.getParameter("orderField");
+		if(orderField == null || orderField.trim().length()<=0) {
+			page.setOrderField("dealDate");
+			page.setOrderDirection("DESC");
+		}
+		
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		if (status.length() > 0) {
+			csf.add(new SearchFilter("status", Operator.EQ, status));
+		} else {
+			csf.add(new SearchFilter("status", Operator.NEQ, BQ_STATUS.CloseStatus.name()));
+		}
+		Specification<RenewedStay> specification = DynamicSpecifications.bySearchFilter(request, RenewedStay.class, csf);
+		
+		List<RenewedStay> offsites = xqglService.findByRenewedStayExample(specification, page);
+		
+		map.put("stay", stay);
+		map.put("status", status);
+		map.put("baStatusList", BQ_STATUS.values());
+		map.put("page", page);
+		map.put("offsites", offsites);
+		return LIST_STAY;
+	}
+	
+	@RequiresPermissions("RenewedStay:view")
+	@RequestMapping(value="/stay/toXls", method=RequestMethod.GET)
+	public String ocToXls(ServletRequest request, Page page, Map<String, Object> map) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
+		String orgCode = request.getParameter("orgCode");
+		if(orgCode == null || orgCode.trim().length()<=0) {
+			orgCode = userOrg.getOrgCode();
+		} else if(!orgCode.contains(user.getOrganization().getOrgCode())){
+			orgCode = user.getOrganization().getOrgCode();
+		}
+		page.setNumPerPage(65564);
+		//默认返回未处理工单
+		String status = request.getParameter("status");
+		LOG.debug("-------------- status: " + status);
+		RenewedStay stay = new RenewedStay();
+		if(status == null) {
+			status = "";
+		} else if(status.trim().length()>0) {
+			//stay.setStatus(BQ_STATUS.valueOf(status).name());
+		}
+		
+		String orderField = request.getParameter("orderField");
+		page.setNumPerPage(Integer.MAX_VALUE);
+		if(orderField == null || orderField.trim().length()<=0) {
+			page.setOrderField("operateTime");
+			page.setOrderDirection("DESC");
+		}
+		
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		if (status.length() > 0) {
+			csf.add(new SearchFilter("status", Operator.EQ, status));
+		}
+		Specification<RenewedStay> specification = DynamicSpecifications.bySearchFilter(request, RenewedStay.class, csf);
+		
+		List<RenewedStay> reqs = xqglService.findByRenewedStayExample(specification, page);
+		
+		map.put("reqs", reqs);
+		return STAY_TO_XLS;
 	}
 	
 	@InitBinder

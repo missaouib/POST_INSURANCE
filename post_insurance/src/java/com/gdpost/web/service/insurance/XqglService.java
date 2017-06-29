@@ -12,6 +12,7 @@ import java.util.List;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.gdpost.web.entity.basedata.RenewalType;
+import com.gdpost.web.entity.main.RenewedStay;
 import com.gdpost.web.entity.main.Policy;
 import com.gdpost.web.entity.main.RenewedList;
 import com.gdpost.web.entity.main.User;
@@ -39,4 +40,16 @@ public interface XqglService {
 	List<String> getProvAcitivity();
 	
 	List<String> getFeeMatch();
+	
+	RenewedStay getRenewedStay(Long id);
+	
+	void saveOrUpdateRenewedStay(RenewedStay oc);
+	
+	void deleteRenewedStay(Long id);
+	
+	List<RenewedStay> findAllRenewedStay(Page page);
+	
+	List<RenewedStay> findByRenewedStayExample(Specification<RenewedStay> specification, Page page);
+	
+	RenewedStay getRenewedStayByPolicyNo(String policyNo);
 }

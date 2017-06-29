@@ -13,10 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gdpost.web.dao.RenewalTypeDAO;
 import com.gdpost.web.dao.RenewedListDAO;
+import com.gdpost.web.dao.RenewedStayDAO;
 import com.gdpost.web.entity.basedata.RenewalType;
 import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.Policy;
 import com.gdpost.web.entity.main.RenewedList;
+import com.gdpost.web.entity.main.RenewedStay;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.service.insurance.XqglService;
 import com.gdpost.web.util.StatusDefine.XQ_STATUS;
@@ -36,6 +38,9 @@ public class XqglServiceImpl implements XqglService {
 	
 	@Autowired
 	private RenewalTypeDAO rnwDAO;
+	
+	@Autowired
+	private RenewedStayDAO stayDAO;
 	
 	/*
 	 * (non-Javadoc)
@@ -154,5 +159,67 @@ public class XqglServiceImpl implements XqglService {
 			rst.remove(0);
 		}
 		return rst;
+	}
+	
+	/*
+	 * ======================================================
+	 * Renewed Stay
+	 * ======================================================
+	 */
+	
+	@Override
+	public RenewedStay getRenewedStay(Long id) {
+		return stayDAO.findOne(id);
+	}
+
+	/*
+	 * (non-Javadoc) 
+	 * @see com.gdpost.web.service.UserService#saveOrUpdate(com.gdpost.web.entity.main.RenewedStay)  
+	 */
+	@Override
+	public void saveOrUpdateRenewedStay(RenewedStay oc) {
+		
+		stayDAO.save(oc);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.gdpost.web.service.UserService#delete(java.lang.Long)  
+	 */
+	@Override
+	public void deleteRenewedStay(Long id) {
+		RenewedStay user = stayDAO.findOne(id);
+		stayDAO.delete(user.getId());
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see com.gdpost.web.service.UserService#findAll(com.gdpost.web.util.dwz.Page)  
+	 */
+	@Override
+	public List<RenewedStay> findAllRenewedStay(Page page) {
+		org.springframework.data.domain.Page<RenewedStay> springDataPage = stayDAO.findAll(PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see com.gdpost.web.service.UserService#findByExample(org.springframework.data.jpa.domain.Specification, com.gdpost.web.util.dwz.Page)	
+	 */
+	@Override
+	public List<RenewedStay> findByRenewedStayExample(
+			Specification<RenewedStay> specification, Page page) {
+		org.springframework.data.domain.Page<RenewedStay> springDataPage = stayDAO.findAll(specification, PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.gdpost.web.service.UserService#getByRenewedStayNo(java.lang.String)
+	 */
+	@Override
+	public RenewedStay getRenewedStayByPolicyNo(String policyNo) {
+		return stayDAO.getByPolicyNo(policyNo);
 	}
 }

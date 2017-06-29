@@ -972,3 +972,16 @@ create table t_doc_not_scan_dtl
    unique key nsd_p_no (policy_no)
 )
 engine=innodb auto_increment=1 default charset=utf8;
+
+create table t_renewed_stay
+(
+   id                   bigint not null auto_increment,
+   policy_no            varchar(18),
+   cs_date       date,
+   operator_id          bigint,
+   operate_time         datetime,
+   remark	varchar(256),
+   stay_num	integer,
+   primary key (id)
+)
+engine=innodb auto_increment=4 default charset=utf8;
