@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.shiro.authz.annotation.Logical;
@@ -45,9 +46,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.gdpost.utils.BeanValidators;
 import com.gdpost.utils.SecurityUtils;
 import com.gdpost.web.entity.basedata.RenewalType;
-import com.gdpost.web.entity.main.RenewedStay;
 import com.gdpost.web.entity.main.Organization;
+import com.gdpost.web.entity.main.Policy;
 import com.gdpost.web.entity.main.RenewedList;
+import com.gdpost.web.entity.main.RenewedStay;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.exception.ExistedException;
 import com.gdpost.web.exception.ServiceException;
@@ -57,6 +59,7 @@ import com.gdpost.web.log.LogMessageObject;
 import com.gdpost.web.log.LogModule;
 import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.OrganizationService;
+import com.gdpost.web.service.insurance.PolicyService;
 import com.gdpost.web.service.insurance.XqglService;
 import com.gdpost.web.shiro.ShiroUser;
 import com.gdpost.web.util.StatusDefine.BQ_STATUS;
@@ -78,6 +81,9 @@ public class XqglController {
 	private XqglService xqglService;
 	
 	@Autowired
+	private PolicyService policyService;
+	
+	@Autowired
 	private OrganizationService orgService;
 
 	private static final String VIEW = "insurance/xqgl/wtj/view";
@@ -90,11 +96,11 @@ public class XqglController {
 	
 	private static final String TO_XLS = "insurance/xqgl/wtj/toXls";
 	
-	private static final String CREATE_STAY = "insurance/bqgl/stay/create";
-	private static final String UPDATE_STAY = "insurance/bqgl/stay/update";
-	private static final String PROV_UPDATE_STAY = "insurance/bqgl/stay/provupdate";
-	private static final String LIST_STAY = "insurance/bqgl/stay/list";
-	private static final String STAY_TO_XLS = "insurance/bqgl/stay/toXls";
+	private static final String CREATE_STAY = "insurance/xqgl/stay/create";
+	private static final String UPDATE_STAY = "insurance/xqgl/stay/update";
+	private static final String PROV_UPDATE_STAY = "insurance/xqgl/stay/provupdate";
+	private static final String LIST_STAY = "insurance/xqgl/stay/list";
+	private static final String STAY_TO_XLS = "insurance/xqgl/stay/toXls";
 	
 	@RequestMapping(value="/help", method=RequestMethod.GET)
 	public String toHelp() {
@@ -575,19 +581,23 @@ public class XqglController {
 		return CREATE_STAY;
 	}
 	
-	@Log(message="添加了{0}退保挽留。", level=LogLevel.WARN, module=LogModule.BQGL)
+	@Log(message="添加了{0}退保挽留。", level=LogLevel.WARN, module=LogModule.XQGL)
 	@RequiresPermissions("RenewedStay:save")
 	@RequestMapping(value="/stay/create", method=RequestMethod.POST)
-	public @ResponseBody String createRenewedStay(@Valid RenewedStay stay) {	
+	public @ResponseBody String createRenewedStay(@Valid RenewedStay stay, HttpServletRequest request) {	
 		try {
+			String policyNo = request.getParameter("policyNo");
+			Policy policy = policyService.getByPolicyNo(policyNo);
+			stay.setPolicy(policy);
 			stay.setOperateTime(new Date());
+			stay.setStatus(BQ_STATUS.NewStatus.name());
 			stay.setOperatorId(SecurityUtils.getShiroUser().getId());
 			xqglService.saveOrUpdateRenewedStay(stay);
 		} catch (ExistedException e) {
 			return AjaxObject.newError("添加退保挽留失败：" + e.getMessage()).setCallbackType("").toString();
 		}
 		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{stay.getPolicyNo()}));
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{stay.getPolicy().getPolicyNo()}));
 		return AjaxObject.newOk("添加退保挽留成功！").toString();
 	}
 	
@@ -609,7 +619,7 @@ public class XqglController {
 		return PROV_UPDATE_STAY;
 	}
 	
-	@Log(message="修改了{0}退保挽留的信息。", level=LogLevel.WARN, module=LogModule.BQGL)
+	@Log(message="修改了{0}退保挽留的信息。", level=LogLevel.WARN, module=LogModule.XQGL)
 	@RequiresPermissions("RenewedStay:edit")
 	@RequestMapping(value="/stay/update", method=RequestMethod.POST)
 	public @ResponseBody String updateRenewedStay(RenewedStay src) {
@@ -620,11 +630,11 @@ public class XqglController {
 		BeanUtils.copyProperties(src, stay, BeanValidators.getNullPropertyNames(src));
 		xqglService.saveOrUpdateRenewedStay(stay);
 		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{stay.getPolicyNo()}));
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{stay.getPolicy().getPolicyNo()}));
 		return	AjaxObject.newOk("修改退保挽留成功！").toString(); 
 	}
 	
-	@Log(message="修改了{0}退保挽留的状态。", level=LogLevel.WARN, module=LogModule.BQGL)
+	@Log(message="修改了{0}退保挽留的状态。", level=LogLevel.WARN, module=LogModule.XQGL)
 	@RequiresPermissions(value={"RenewedStay:reset","RenewedStay:deal"}, logical=Logical.OR)
 	@RequestMapping(value="/stay/{status}/{id}", method=RequestMethod.POST)
 	public @ResponseBody String updateRenewedStayStatus(@PathVariable("status") String status, @PathVariable("id") Long id) {
@@ -643,11 +653,11 @@ public class XqglController {
 		}
 		xqglService.saveOrUpdateRenewedStay(stay);
 		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{stay.getPolicyNo()}));
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{stay.getPolicy().getPolicyNo()}));
 		return	AjaxObject.newOk("修改退保挽留成功！").setCallbackType("").toString();
 	}
 	
-	@Log(message="批量修改了{0}退保挽留的{1}状态。", level=LogLevel.WARN, module=LogModule.BQGL)
+	@Log(message="批量修改了{0}退保挽留的{1}状态。", level=LogLevel.WARN, module=LogModule.XQGL)
 	@RequiresPermissions(value={"RenewedStay:reset","RenewedStay:deal"}, logical=Logical.OR)
 	@RequestMapping(value="/stay/{status}", method=RequestMethod.POST)
 	public @ResponseBody String batchUpdateRenewedStayStatus(@PathVariable("status") String status, Long[] ids) {
@@ -668,14 +678,14 @@ public class XqglController {
 					break;
 			}
 			xqglService.saveOrUpdateRenewedStay(stay);
-			policys[i] = stay.getPolicyNo();
+			policys[i] = stay.getPolicy().getPolicyNo();
 		}
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{Arrays.toString(policys), status}));
 		return	AjaxObject.newOk("批量" + status + "退保挽留成功！").setCallbackType("").toString();
 	}
 	
-	@Log(message="删除了{0}退保挽留。", level=LogLevel.WARN, module=LogModule.BQGL)
+	@Log(message="删除了{0}退保挽留。", level=LogLevel.WARN, module=LogModule.XQGL)
 	@RequiresPermissions("RenewedStay:delete")
 	@RequestMapping(value="/stay/delete/{id}", method=RequestMethod.POST)
 	public @ResponseBody String deleteRenewedStay(@PathVariable Long id) {
@@ -687,11 +697,11 @@ public class XqglController {
 			return AjaxObject.newError("删除退保挽留失败：" + e.getMessage()).setCallbackType("").toString();
 		}
 		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{stay.getPolicyNo()}));
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{stay.getPolicy().getPolicyNo()}));
 		return AjaxObject.newOk("删除退保挽留成功！").setCallbackType("").toString();
 	}
 	
-	@Log(message="删除了{0}退保挽留。", level=LogLevel.WARN, module=LogModule.BQGL)
+	@Log(message="删除了{0}退保挽留。", level=LogLevel.WARN, module=LogModule.XQGL)
 	@RequiresPermissions("RenewedStay:delete")
 	@RequestMapping(value="/stay/delete", method=RequestMethod.POST)
 	public @ResponseBody String deleteManyRenewedStay(Long[] ids) {
@@ -701,7 +711,7 @@ public class XqglController {
 				RenewedStay stay = xqglService.getRenewedStay(ids[i]);
 				xqglService.deleteRenewedStay(stay.getId());
 				
-				policys[i] = stay.getPolicyNo();
+				policys[i] = stay.getPolicy().getPolicyNo();
 			}
 		} catch (ServiceException e) {
 			return AjaxObject.newError("删除退保挽留失败：" + e.getMessage()).setCallbackType("").toString();
@@ -737,12 +747,12 @@ public class XqglController {
 		}
 		String orderField = request.getParameter("orderField");
 		if(orderField == null || orderField.trim().length()<=0) {
-			page.setOrderField("dealDate");
+			page.setOrderField("operateTime");
 			page.setOrderDirection("DESC");
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 		if (status.length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
 		} else {
@@ -780,7 +790,7 @@ public class XqglController {
 		if(status == null) {
 			status = "";
 		} else if(status.trim().length()>0) {
-			//stay.setStatus(BQ_STATUS.valueOf(status).name());
+			stay.setStatus(BQ_STATUS.valueOf(status).name());
 		}
 		
 		String orderField = request.getParameter("orderField");

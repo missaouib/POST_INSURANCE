@@ -16,5 +16,5 @@ import com.gdpost.web.entity.main.RenewedStay;
  * @author MyEclipse Persistence Tools
  */
 public interface RenewedStayDAO extends JpaRepository<RenewedStay, Long>, JpaSpecificationExecutor<RenewedStay> {
-	RenewedStay getByPolicyNo(String policyNo);
+	RenewedStay getByPolicyPolicyNo(String policyNo);
 }

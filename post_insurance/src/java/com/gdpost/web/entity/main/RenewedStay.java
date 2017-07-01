@@ -1,14 +1,22 @@
 package com.gdpost.web.entity.main;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.JoinColumnOrFormula;
+import org.hibernate.annotations.JoinColumnsOrFormulas;
+import org.hibernate.annotations.JoinFormula;
 
 import com.gdpost.web.entity.Idable;
 
@@ -23,28 +31,17 @@ public class RenewedStay implements Idable<Long> {
 	// Fields
 
 	private Long id;
-	private String policyNo;
+	private Policy policy;
 	private Date csDate;
 	private Long operatorId;
 	private Date operateTime;
 	private String remark;
 	private Integer stayNum;
-
+	private String status;
 	// Constructors
 
 	/** default constructor */
 	public RenewedStay() {
-	}
-
-	/** full constructor */
-	public RenewedStay(String policyNo, Date csDate, Long operatorId, Date operateTime, String remark,
-			Integer stayNum) {
-		this.policyNo = policyNo;
-		this.csDate = csDate;
-		this.operatorId = operatorId;
-		this.operateTime = operateTime;
-		this.remark = remark;
-		this.stayNum = stayNum;
 	}
 
 	// Property accessors
@@ -59,13 +56,17 @@ public class RenewedStay implements Idable<Long> {
 		this.id = id;
 	}
 
-	@Column(name = "policy_no", length = 18)
-	public String getPolicyNo() {
-		return this.policyNo;
+	@ManyToOne
+	@JoinColumnsOrFormulas(value={
+	@JoinColumnOrFormula(column=@JoinColumn(name ="policy_no", referencedColumnName ="policy_no")),
+	@JoinColumnOrFormula(formula=@JoinFormula(value="0", referencedColumnName = "attached_flag"))
+	})
+	public Policy getPolicy() {
+		return this.policy;
 	}
 
-	public void setPolicyNo(String policyNo) {
-		this.policyNo = policyNo;
+	public void setPolicy(Policy policy) {
+		this.policy = policy;
 	}
 
 	@Temporal(TemporalType.DATE)
@@ -112,6 +113,15 @@ public class RenewedStay implements Idable<Long> {
 
 	public void setStayNum(Integer stayNum) {
 		this.stayNum = stayNum;
+	}
+
+	@Column(name = "status")
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 }

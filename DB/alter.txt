@@ -1,4 +1,4 @@
-CREATE DATABASE postinsurance DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+﻿CREATE DATABASE postinsurance DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 mysql> grant all privileges on postinsurance.* to yunying@localhost identified by '123456';
 
@@ -982,6 +982,7 @@ create table t_renewed_stay
    operate_time         datetime,
    remark	varchar(256),
    stay_num	integer,
+   status 	varchar(12),
    primary key (id)
 )
 engine=innodb auto_increment=4 default charset=utf8;
