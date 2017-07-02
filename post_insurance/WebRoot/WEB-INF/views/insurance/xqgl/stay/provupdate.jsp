@@ -8,11 +8,11 @@
 		<legend>退保申请</legend>
 		<p>
 			<label>保单号：</label>
-			<input name="policyNo" type="text" class="input-medium validate[required] required" value="${stay.policyNo }"/>
+			<input name="policyNo" type="text" class="input-medium validate[required] required" value="${stay.policy.policyNo }"/>
 		</p>
 		<p>
 			<label>投保人</label>
-			<input type="text" class="input-medium validate[required] required" name="holder" value="${stay.hoder }" />
+			<input type="text" class="input-medium validate[required] required" name="holder" value="${stay.policy.holder }" />
 		</p>
 		<p>
 			<label>退保日期：</label>

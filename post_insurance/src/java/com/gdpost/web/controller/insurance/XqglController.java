@@ -589,6 +589,7 @@ public class XqglController {
 			String policyNo = request.getParameter("policyNo");
 			Policy policy = policyService.getByPolicyNo(policyNo);
 			stay.setPolicy(policy);
+			stay.setStayNum(xqglService.getRenewedStayNum(policyNo));
 			stay.setOperateTime(new Date());
 			stay.setStatus(BQ_STATUS.NewStatus.name());
 			stay.setOperatorId(SecurityUtils.getShiroUser().getId());
@@ -626,6 +627,7 @@ public class XqglController {
 		//ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		//LOG.debug("--------------0:" + src.toString());
 		RenewedStay stay = xqglService.getRenewedStay(src.getId());
+		stay.setStatus(BQ_STATUS.DealStatus.name());
 		//LOG.debug("--------------1:" + stay.toString());
 		BeanUtils.copyProperties(src, stay, BeanValidators.getNullPropertyNames(src));
 		xqglService.saveOrUpdateRenewedStay(stay);

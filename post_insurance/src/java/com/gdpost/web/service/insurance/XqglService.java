@@ -43,6 +43,8 @@ public interface XqglService {
 	
 	RenewedStay getRenewedStay(Long id);
 	
+	int getRenewedStayNum(String policyNo);
+	
 	void saveOrUpdateRenewedStay(RenewedStay oc);
 	
 	void deleteRenewedStay(Long id);

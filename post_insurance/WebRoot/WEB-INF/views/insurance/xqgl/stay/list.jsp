@@ -7,8 +7,8 @@
 	<input type="hidden" name="search_LIKE_client" value="${param.search_LIKE_client }"/>
 	<input type="hidden" name="orgCode" value="${orgCode }"/>
 	<input type="hidden" name="name" value="${name }"/>
-	<input type="hidden" name="search_LTE_dealDate" value="${param.search_LTE_dealDate }"/>
-	<input type="hidden" name="search_GTE_dealDate" value="${param.search_GTE_dealDate }"/>
+	<input type="hidden" name="search_LTE_csDate" value="${param.search_LTE_csDate }"/>
+	<input type="hidden" name="search_GTE_csDate" value="${param.search_GTE_csDate }"/>
 	<input type="hidden" name="status" value="${param.status }"/>
 </dwz:paginationForm>
 
@@ -39,11 +39,11 @@
 					</td>
 					<td>
 						<label>转办日期：</label>
-						<input type="text" id="dealDate1" name="search_GTE_dealDate" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_dealDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+						<input type="text" id="csDate1" name="search_GTE_csDate" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_csDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
 						<label>转办日期：</label>
-						<input type="text" id="dealDate2" name="search_LTE_dealDate" class="date validate[required] required" style="width: 80px;"dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_dealDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+						<input type="text" id="csDate2" name="search_LTE_csDate" class="date validate[required] required" style="width: 80px;"dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_csDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 				</tr>
 			</table>
@@ -60,35 +60,21 @@
 
 	<div class="panelBar">
 		<ul class="toolBar">
-			<shiro:hasPermission name="OffsiteConservation:save">
+			<shiro:hasPermission name="RenewedStay:save">
 				<li><a class="add" target="dialog" rel="lookup2organization_add" mask="true" width="530" height="450" href="${contextPath }/xqgl/stay/create"><span>登记退保挽留</span></a></li>
 			</shiro:hasPermission>
-			<shiro:hasPermission name="OffsiteConservation:edit">
-				<li class="line">line</li>
-				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="450" href="${contextPath }/xqgl/stay/update/{slt_uid}"><span>编辑</span></a></li>
-			</shiro:hasPermission>
-			<shiro:hasPermission name="OffsiteConservation:provEdit">
+			<shiro:hasPermission name="RenewedStay:prov">
 				<li class="line">line</li>
 				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="530" href="${contextPath }/xqgl/stay/provupdate/{slt_uid}"><span>省分更新</span></a></li>
 			</shiro:hasPermission>
-			<shiro:hasPermission name="OffsiteConservation:delete">
+			<shiro:hasPermission name="RenewedStay:delete">
 				<li class="line">line</li>
 				<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/xqgl/stay/delete" title="确认要删除?"><span>删除</span></a></li>
-			</shiro:hasPermission>
-			<shiro:hasPermission name="OffsiteConservation:deal">
-				<li class="line">line</li>
-				<li><a class="delete" target="ajaxTodo" href="${contextPath }/xqgl/stay/DealStatus/{slt_uid}" title="确认更新状态?"><span>已处理</span></a></li>
-			</shiro:hasPermission>
-			<shiro:hasPermission name="OffsiteConservation:reset">
-				<li class="line">line</li>
-				<li><a class="delete" target="ajaxTodo" href="${contextPath }/xqgl/stay/CloseStatus/{slt_uid}" title="确认关闭?"><span>关闭</span></a></li>
 				<li class="line">line</li>
 				<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/xqgl/stay/CloseStatus" title="确认批量关闭?"><span>批量关闭</span></a></li>
 			</shiro:hasPermission>
 			<li class="line">line</li>
-			<li><a class="icon" target="_blank" href="${contextPath }/xqgl/stay/toXls?search_LIKE_policyNo=${param.search_LIKE_policyNo }&orgCode=${orgCode }&search_LTE_dealDate=${param.search_LTE_dealDate }&search_GTE_dealDate=${param.search_GTE_dealDate }&status=${param.status }"><span>导出Excel</span></a></li>
-			<li class="line">line</li>
-			<li><a class="icon" target="dialog" href="${contextPath }/xqgl/help" mask="true" width="530" height="430"><span>功能说明</span></a></li>
+			<li><a class="icon" target="_blank" href="${contextPath }/xqgl/stay/toXls?search_LIKE_policyNo=${param.search_LIKE_policyNo }&orgCode=${orgCode }&search_LTE_csDate=${param.search_LTE_csDate }&search_GTE_csDate=${param.search_GTE_csDate }&status=${param.status }"><span>导出Excel</span></a></li>
 		</ul>
 	</div>
 	<div id="w_list_print">
@@ -96,37 +82,38 @@
 		<thead>
 			<tr>
 				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
-				<th orderField=organization.name class="${page.orderField eq 'organization.name' ? page.orderDirection : ''}">地市</th>
-				<th>经办人</th>
-				<th orderField=dealDate class="${page.orderField eq 'dealDate' ? page.orderDirection : ''}">转办日期</th>
-				<th>快递单号</th>
-				<th>保单号</th>
-				<th orderField=orginProv class="${page.orderField eq 'orginProv' ? page.orderDirection : ''}">出单省</th>
-				<th>收件省</th>
-				<th>客户姓名</th>
-				<th>保全业务</th>
-				<th>联系人</th>
-				<th>寄件地址</th>
-				<th>省分转办日期</th>
+				<th orderField=policy.organization.name class="${page.orderField eq 'policy.organization.name' ? page.orderDirection : ''}">保单机构</th>
+				<th orderField=policy.policyNo class="${page.orderField eq 'policy.policyNo' ? page.orderDirection : ''}">保单号</th>
+				<th>投保人</th>
+				<th>退保时间</th>
+				<shiro:hasPermission name="RenewedStay:prov">
+				<th>退保次数</th>
+				<th>挽留详情</th>
+				<th>被保险人</th>
+				<th>险种名称</th>
+				<th>缴费期间</th>
+				<th>保费</th>
+				<th>承保时间</th>
 				<th orderField=status class="${page.orderField eq 'status' ? page.orderDirection : ''}">状态</th>
+				</shiro:hasPermission>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach var="item" items="${offsites}">
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
-				<td>${item.organization.shortName}</td>
-				<td>${item.transactor}</td>
-				<td><fmt:formatDate value='${item.dealDate }' pattern='yyyy-MM-dd'/></td>
-				<td>${item.expressBillNo}</td>
-				<td>${item.policyNo}</td>
-				<td>${item.orginProv}</td>
-				<td>${item.dealProv}</td>
-				<td>${item.client}</td>
-				<td>${item.conservationType}</td>
-				<td>${item.linker}</td>
-				<td>${item.mailAddr}</td>
-				<td><fmt:formatDate value='${item.provDealDate }' pattern='yyyy-MM-dd'/></td>
+				<td>${item.policy.organization.shortName}</td>
+				<td>${item.policy.policyNo}</td>
+				<td>${item.policy.holder}</td>
+				<td><fmt:formatDate value='${item.csDate }' pattern='yyyy-MM-dd'/></td>
+				<shiro:hasPermission name="RenewedStay:prov">
+				<td>${item.stayNum}</td>
+				<td>${item.remark}</td>
+				<td>${item.policy.insured}</td>
+				<td>${item.policy.prodName}</td>
+				<td>${item.policy.perm}</td>
+				<td>${item.policy.policyFee}</td>
+				<td>${item.policy.policyDate}</td>
 				<td>
 				<c:choose>
 					<c:when test="${item.status eq 'NewStatus'}">
@@ -143,6 +130,7 @@
 					</c:otherwise>
 				</c:choose>
 				</td>
+				</shiro:hasPermission>
 			</tr>
 			</c:forEach>
 		</tbody>

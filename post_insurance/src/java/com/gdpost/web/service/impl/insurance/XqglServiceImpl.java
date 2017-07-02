@@ -182,6 +182,15 @@ public class XqglServiceImpl implements XqglService {
 		stayDAO.save(oc);
 	}
 
+	@Override
+	public int getRenewedStayNum(String policyNo) {
+		List<RenewedStay> list = stayDAO.getByPolicyPolicyNoOrderByIdDesc(policyNo);
+		if(list == null || list.isEmpty()) {
+			return 1;
+		}
+		return list.size() + 1;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see com.gdpost.web.service.UserService#delete(java.lang.Long)  
@@ -220,6 +229,11 @@ public class XqglServiceImpl implements XqglService {
 	 */
 	@Override
 	public RenewedStay getRenewedStayByPolicyNo(String policyNo) {
-		return stayDAO.getByPolicyNo(policyNo);
+		List<RenewedStay> list = stayDAO.getByPolicyPolicyNoOrderByIdDesc(policyNo);
+		if(list == null || list.isEmpty()) {
+			return null;
+		} else {
+			return list.get(0);
+		}
 	}
 }
