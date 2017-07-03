@@ -980,9 +980,9 @@ create table t_renewed_stay
    cs_date       date,
    operator_id          bigint,
    operate_time         datetime,
-   remark	varchar(256),
-   stay_num	integer,
-   status 	varchar(12),
-   primary key (id)
+   remark varchar(256),
+   stay_num integer,
+   status varchar(12),
+   primary  key (id)
 )
 engine=innodb auto_increment=4 default charset=utf8;
