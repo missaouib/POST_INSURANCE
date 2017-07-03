@@ -351,7 +351,7 @@ public class UploadDataServiceImpl implements UploadDataService{
         			}
         		}
         		if(ft.name().equals(FileTemplate.ConversationReport.name()) || ft.name().equals(FileTemplate.ConversationReport.name())) {
-        			if(item.getDisplayName().equals("项目编码") && (cell != null && cell.startsWith("CT"))) {
+        			if(item.getDisplayName().equals("项目编码") && (cell != null && cell.length()>2)) {
         				log.debug("----------- 处理CT: " + cell);
         	            builder.append(cell.substring(0, 2) + "\t");
         	            continue;

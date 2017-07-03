@@ -36,7 +36,7 @@ public interface DocStatModelDAO extends JpaRepository<DocStatModel, String>, Jp
 			value="select left(tp.organ_name,2) as org_name,count(tp.policy_no) as sum_doc "
 			+ "from t_policy tp, t_organization tob "
 			+ "where tp.organ_name=tob.name and LEFT(tp.organ_name,2)=:organName "
-			+ "and tp.policy_date between :d1 and :d2 and tp.attached_flag=1 "
+			+ "and tp.policy_date between :d1 and :d2 and tp.attached_flag=0 "
 			+ "group by left(tp.organ_name,2) order by tob.org_code;")
 	List<DocStatModel> getDocSumStat(@Param("organName")String organName, @Param("d1")String d1, @Param("d2")String d2);
 }

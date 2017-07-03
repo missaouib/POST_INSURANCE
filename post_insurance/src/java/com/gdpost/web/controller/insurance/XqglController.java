@@ -128,7 +128,7 @@ public class XqglController {
 		return UPDATE;
 	}
 	
-	@RequiresPermissions("Renewed:provEdit")
+	@RequiresPermissions("Renewed:prov")
 	@RequestMapping(value="/issue/provUpdate/{id}", method=RequestMethod.GET)
 	public String preProvUpdate(@PathVariable Long id, Map<String, Object> map) {
 		RenewedList issue = xqglService.get(id);
@@ -156,7 +156,7 @@ public class XqglController {
 	}
 	
 	@Log(message="回复了{0}续期催收件的信息。", level=LogLevel.WARN, module=LogModule.XQGL)
-	@RequiresPermissions("Renewed:provEdit")
+	@RequiresPermissions("Renewed:prov")
 	@RequestMapping(value="/issue/provUpdate", method=RequestMethod.POST)
 	public @ResponseBody String provUpdate(RenewedList issue) {
 		RenewedList src = xqglService.get(issue.getId());
@@ -611,7 +611,7 @@ public class XqglController {
 		return UPDATE_STAY;
 	}
 	
-	@RequiresPermissions("RenewedStay:provEdit")
+	@RequiresPermissions("RenewedStay:prov")
 	@RequestMapping(value="/stay/provupdate/{id}", method=RequestMethod.GET)
 	public String preProvUpdateRenewedStay(@PathVariable Long id, Map<String, Object> map) {
 		RenewedStay stay = xqglService.getRenewedStay(id);

@@ -3,8 +3,8 @@
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 
 <dwz:paginationForm action="${contextPath }/xqgl/stay/list" page="${page }">
-	<input type="hidden" name="search_LIKE_policyNo" value="${param.search_LIKE_policyNo }"/>
-	<input type="hidden" name="search_LIKE_client" value="${param.search_LIKE_client }"/>
+	<input type="hidden" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
+	<input type="hidden" name="search_LIKE_policy.holder" value="${search_LIKE_policy_holder }"/>
 	<input type="hidden" name="orgCode" value="${orgCode }"/>
 	<input type="hidden" name="name" value="${name }"/>
 	<input type="hidden" name="search_LTE_csDate" value="${param.search_LTE_csDate }"/>
@@ -35,14 +35,14 @@
 				</tr>
 				<tr>
 					<td>
-						客户姓名：<input type="text" style="width: 100px;" id="bqPolicyNo" name="search_LIKE_client" value="${param.search_LIKE_client }"/>
+						客户姓名：<input type="text" style="width: 100px;" id="bqPolicyNo" name="search_LIKE_policy.holder" value="${search_LIKE_policy_client }"/>
 					</td>
 					<td>
-						<label>转办日期：</label>
+						<label>退保日期：</label>
 						<input type="text" id="csDate1" name="search_GTE_csDate" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_csDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
-						<label>转办日期：</label>
+						<label>退保日期：</label>
 						<input type="text" id="csDate2" name="search_LTE_csDate" class="date validate[required] required" style="width: 80px;"dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_csDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 				</tr>
@@ -66,15 +66,13 @@
 			<shiro:hasPermission name="RenewedStay:prov">
 				<li class="line">line</li>
 				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="530" href="${contextPath }/xqgl/stay/provupdate/{slt_uid}"><span>省分更新</span></a></li>
-			</shiro:hasPermission>
-			<shiro:hasPermission name="RenewedStay:delete">
 				<li class="line">line</li>
 				<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/xqgl/stay/delete" title="确认要删除?"><span>删除</span></a></li>
 				<li class="line">line</li>
 				<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/xqgl/stay/CloseStatus" title="确认批量关闭?"><span>批量关闭</span></a></li>
 			</shiro:hasPermission>
 			<li class="line">line</li>
-			<li><a class="icon" target="_blank" href="${contextPath }/xqgl/stay/toXls?search_LIKE_policyNo=${param.search_LIKE_policyNo }&orgCode=${orgCode }&search_LTE_csDate=${param.search_LTE_csDate }&search_GTE_csDate=${param.search_GTE_csDate }&status=${param.status }"><span>导出Excel</span></a></li>
+			<li><a class="icon" target="_blank" href="${contextPath }/xqgl/stay/toXls?search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&search_LIKE_policy.holder=${search_LIKE_policy_holder }&orgCode=${orgCode }&search_LTE_csDate=${param.search_LTE_csDate }&search_GTE_csDate=${param.search_GTE_csDate }&status=${param.status }"><span>导出Excel</span></a></li>
 		</ul>
 	</div>
 	<div id="w_list_print">

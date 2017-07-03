@@ -208,7 +208,7 @@
 			<tr target="slt_uid" rel="${item.id}">
                <td><input name="ids" value="${item.id}" type="checkbox"></td>
                <td>${item.policy.organization.shortName}</td>
-               <td title="${item.canCallAgainRemark}">${item.canCallAgainRemark}&nbsp;&nbsp;${item.resetPhone}&nbsp;&nbsp;<fmt:formatDate value="${item.resetDate }" pattern="yyyy-MM-dd"/></td>
+               <td title="<c:out value='${item.canCallAgainRemark}'/> <c:out value='${item.resetPhone}'/>">${item.canCallAgainRemark}&nbsp;&nbsp;${item.resetPhone}&nbsp;&nbsp;<fmt:formatDate value="${item.resetDate }" pattern="yyyy-MM-dd"/></td>
                <td>${item.issueNo}</td>
                <td>${item.status}</td>
                <td title="${item.issueContent}">${fn:substring(item.issueContent, 0, 15)}</td>
