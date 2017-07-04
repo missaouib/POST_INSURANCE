@@ -201,19 +201,29 @@ public class LpglController {
 		if(settle.getCaseDate()!=null && src.getCaseDate() != null && !DateUtils.isSameDay(src.getCaseDate(), settle.getCaseDate())) {
 			loginfo.append("改出险日期：" + StringUtil.date2Str(src.getCaseDate(), "yy-M-d") + "->" + StringUtil.date2Str(settle.getCaseDate(), "yy-M-d") + "；");
 			src.setCaseDate(settle.getCaseDate());
+		} else if(settle.getCaseDate()!=null && src.getCaseDate() == null) {
+			loginfo.append("改出险日期：" + "null ->" + StringUtil.date2Str(settle.getCaseDate(), "yy-M-d") + "；");
+			src.setCaseDate(settle.getCaseDate());
 		}
+		
 		if(settle.getCaseStatus()!=null && !src.getCaseStatus().equals(settle.getCaseStatus())) {
 			loginfo.append("改状态：" + src.getCaseStatus() + "->" + settle.getCaseStatus() + "；");
 			src.setCaseStatus(settle.getCaseStatus());
 		}
+		
 		if(settle.getCaseType()!=null && !src.getCaseType().equals(settle.getCaseType())) {
 			loginfo.append("改类型：" + src.getCaseType() + "->" + settle.getCaseType() + "；");
 			src.setCaseType(settle.getCaseType());
 		}
+		
 		if(settle.getCloseDate()!=null && src.getCloseDate() != null && !DateUtils.isSameDay(src.getCloseDate(), settle.getCloseDate())) {
 			loginfo.append("改关闭日期：" + StringUtil.date2Str(src.getCloseDate(), "yy-M-d") + "->" + StringUtil.date2Str(settle.getCloseDate(), "yy-M-d") + "；");
 			src.setCloseDate(settle.getCloseDate());
+		} else if(settle.getCloseDate()!=null && src.getCloseDate() == null) {
+			loginfo.append("改关闭日期：" + "null ->" + StringUtil.date2Str(settle.getCloseDate(), "yy-M-d") + "；");
+			src.setCloseDate(settle.getCloseDate());
 		}
+		
 		if(settle.getInsured()!=null && !src.getInsured().equals(settle.getInsured())) {
 			loginfo.append("改出险人：" + src.getInsured() + "->" + settle.getInsured() + "；");
 			src.setInsured(settle.getInsured());
@@ -226,14 +236,23 @@ public class LpglController {
 			loginfo.append("改赔付金额：" + src.getPayFee() + "->" + settle.getPayFee() + "；");
 			src.setPayFee(settle.getPayFee());
 		}
+		
 		if(settle.getRecordDate()!=null && src.getCloseDate() != null && !DateUtils.isSameDay(src.getRecordDate(), settle.getRecordDate())) {
 			loginfo.append("改立案日期：" + StringUtil.date2Str(src.getRecordDate(), "yy-M-d") + "->" + StringUtil.date2Str(settle.getRecordDate(), "yy-M-d") + "；");
 			src.setRecordDate(settle.getRecordDate());
-		}
-		if(settle.getReporteDate()!=null && src.getReporteDate() != null && !DateUtils.isSameDay(src.getReporteDate(), settle.getReporteDate())) {
-			loginfo.append("改报案日期：" + StringUtil.date2Str(src.getReporteDate(), "yy-M-d") + "->" + StringUtil.date2Str(settle.getReporteDate(), "yy-M-d") + "；");
+		} else if(settle.getRecordDate()!=null && src.getCloseDate() == null ) {
+			loginfo.append("改立案日期：" + "null ->" + StringUtil.date2Str(settle.getRecordDate(), "yy-M-d") + "；");
 			src.setRecordDate(settle.getRecordDate());
 		}
+			
+		if(settle.getReporteDate()!=null && src.getReporteDate() != null && !DateUtils.isSameDay(src.getReporteDate(), settle.getReporteDate())) {
+			loginfo.append("改报案日期：" + StringUtil.date2Str(src.getReporteDate(), "yy-M-d") + "->" + StringUtil.date2Str(settle.getReporteDate(), "yy-M-d") + "；");
+			src.setReporteDate(settle.getReporteDate());
+		} else if(settle.getReporteDate()!=null && src.getReporteDate() == null) {
+			loginfo.append("改报案日期：" + "null ->" + StringUtil.date2Str(settle.getReporteDate(), "yy-M-d") + "；");
+			src.setReporteDate(settle.getReporteDate());
+		}
+		
 		if(settle.getReporter()!=null && !(src.getReporter()==null?"":src.getReporter()).equals(settle.getReporter())) {
 			loginfo.append("改报案人：" + src.getReporter() + "->" + settle.getReporter() + "；");
 			src.setReporter(settle.getReporter());

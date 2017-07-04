@@ -592,7 +592,7 @@ public class XqglController {
 			stay.setStayNum(xqglService.getRenewedStayNum(policyNo));
 			stay.setOperateTime(new Date());
 			stay.setStatus(BQ_STATUS.NewStatus.name());
-			stay.setOperatorId(SecurityUtils.getShiroUser().getId());
+			stay.setUser(SecurityUtils.getShiroUser().getUser());
 			xqglService.saveOrUpdateRenewedStay(stay);
 		} catch (ExistedException e) {
 			return AjaxObject.newError("添加退保挽留失败：" + e.getMessage()).setCallbackType("").toString();
@@ -762,13 +762,13 @@ public class XqglController {
 		}
 		Specification<RenewedStay> specification = DynamicSpecifications.bySearchFilter(request, RenewedStay.class, csf);
 		
-		List<RenewedStay> offsites = xqglService.findByRenewedStayExample(specification, page);
+		List<RenewedStay> stays = xqglService.findByRenewedStayExample(specification, page);
 		
 		map.put("stay", stay);
 		map.put("status", status);
 		map.put("baStatusList", BQ_STATUS.values());
 		map.put("page", page);
-		map.put("offsites", offsites);
+		map.put("stays", stays);
 		return LIST_STAY;
 	}
 	
@@ -803,15 +803,15 @@ public class XqglController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 		if (status.length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
 		}
 		Specification<RenewedStay> specification = DynamicSpecifications.bySearchFilter(request, RenewedStay.class, csf);
 		
-		List<RenewedStay> reqs = xqglService.findByRenewedStayExample(specification, page);
+		List<RenewedStay> stays = xqglService.findByRenewedStayExample(specification, page);
 		
-		map.put("reqs", reqs);
+		map.put("stays", stays);
 		return STAY_TO_XLS;
 	}
 	

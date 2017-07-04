@@ -33,7 +33,7 @@ public class RenewedStay implements Idable<Long> {
 	private Long id;
 	private Policy policy;
 	private Date csDate;
-	private Long operatorId;
+	private User user;
 	private Date operateTime;
 	private String remark;
 	private Integer stayNum;
@@ -79,13 +79,14 @@ public class RenewedStay implements Idable<Long> {
 		this.csDate = csDate;
 	}
 
-	@Column(name = "operator_id")
-	public Long getOperatorId() {
-		return this.operatorId;
+	@ManyToOne
+	@JoinColumn(name = "operator_id", referencedColumnName="id")
+	public User getUser() {
+		return this.user;
 	}
 
-	public void setOperatorId(Long operatorId) {
-		this.operatorId = operatorId;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	@Column(name = "operate_time", length = 19)

@@ -18,7 +18,7 @@
 			<table class="searchContent">
 				<tr>
 					<td>
-						保单号：<input type="text" style="width: 100px;" id="bqPolicyNo" name="search_LIKE_policyNo" value="${param.search_LIKE_policyNo }"/>
+						保单号：<input type="text" style="width: 100px;" id="bqPolicyNo" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
 					</td>
 					<td>
 						<label>状态：</label>
@@ -80,38 +80,39 @@
 		<thead>
 			<tr>
 				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
+				<th>上报人</th>
 				<th orderField=policy.organization.name class="${page.orderField eq 'policy.organization.name' ? page.orderDirection : ''}">保单机构</th>
 				<th orderField=policy.policyNo class="${page.orderField eq 'policy.policyNo' ? page.orderDirection : ''}">保单号</th>
 				<th>投保人</th>
 				<th>退保时间</th>
-				<shiro:hasPermission name="RenewedStay:prov">
 				<th>退保次数</th>
 				<th>挽留详情</th>
-				<th>被保险人</th>
+				<th>联系电话</th>
 				<th>险种名称</th>
 				<th>缴费期间</th>
 				<th>保费</th>
 				<th>承保时间</th>
+				<th>员工</th>
 				<th orderField=status class="${page.orderField eq 'status' ? page.orderDirection : ''}">状态</th>
-				</shiro:hasPermission>
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach var="item" items="${offsites}">
+			<c:forEach var="item" items="${stays}">
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
+				<td>${item.user.realname}</td>
 				<td>${item.policy.organization.shortName}</td>
 				<td>${item.policy.policyNo}</td>
 				<td>${item.policy.holder}</td>
 				<td><fmt:formatDate value='${item.csDate }' pattern='yyyy-MM-dd'/></td>
-				<shiro:hasPermission name="RenewedStay:prov">
 				<td>${item.stayNum}</td>
 				<td>${item.remark}</td>
-				<td>${item.policy.insured}</td>
+				<td>${item.policy.policyDtl.holderPhone}</td>
 				<td>${item.policy.prodName}</td>
 				<td>${item.policy.perm}</td>
 				<td>${item.policy.policyFee}</td>
 				<td>${item.policy.policyDate}</td>
+				<td>${item.policy.isStaff}</td>
 				<td>
 				<c:choose>
 					<c:when test="${item.status eq 'NewStatus'}">
@@ -128,7 +129,6 @@
 					</c:otherwise>
 				</c:choose>
 				</td>
-				</shiro:hasPermission>
 			</tr>
 			</c:forEach>
 		</tbody>

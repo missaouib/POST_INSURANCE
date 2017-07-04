@@ -11,6 +11,7 @@ import java.util.GregorianCalendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.util.Base64Utils;
 
 import System.Data.DataRow;
@@ -375,5 +376,7 @@ public class StringUtil {
 		System.out.println(StringUtil.getMonthLastDayOfMonth(5, "yyyy-MM-dd"));
 		Calendar cal = new GregorianCalendar();
 		System.out.println(cal.get(Calendar.MONTH));
+		Date d1 = new Date();
+		System.out.println(DateUtils.isSameDay(d1, null));
 	}
 }
