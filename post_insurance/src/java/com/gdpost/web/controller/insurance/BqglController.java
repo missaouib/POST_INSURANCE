@@ -37,6 +37,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.gdpost.utils.BeanValidators;
 import com.gdpost.utils.SecurityUtils;
 import com.gdpost.utils.StringUtil;
+import com.gdpost.web.entity.component.CsLoan;
 import com.gdpost.web.entity.component.CsReport;
 import com.gdpost.web.entity.main.ConservationDtl;
 import com.gdpost.web.entity.main.ConservationReq;
@@ -96,6 +97,9 @@ public class BqglController {
 	
 	private static final String CS_LIST = "insurance/bqgl/report/list";
 	private static final String CS_LIST_TO_XLS = "insurance/bqgl/report/toXls";
+	
+	private static final String C_LOAN_LIST = "insurance/bqgl/loan/list";
+	private static final String C_LOAN_TO_XLS = "insurance/bqgl/loan/toXls";
 	
 	@RequiresPermissions("Cservice:save")
 	@RequestMapping(value="/issue/create", method=RequestMethod.GET)
@@ -1046,6 +1050,77 @@ public class BqglController {
 		
 		map.put("issues", issues);
 		return CS_LIST_TO_XLS;
+	}
+	
+	/*
+	 * ======================================
+	 * cs loan
+	 * ======================================
+	 */
+	@RequiresPermissions("CsLoan:view")
+	@RequestMapping(value="/report/list", method={RequestMethod.GET, RequestMethod.POST})
+	public String loanList(ServletRequest request, Page page, Map<String, Object> map) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
+		String orgCode = request.getParameter("orgCode");
+		if(orgCode == null || orgCode.trim().length()<=0) {
+			orgCode = userOrg.getOrgCode();
+		} else if(!orgCode.contains(userOrg.getOrgCode())){
+			orgCode = userOrg.getOrgCode();
+		}
+		String orgName = request.getParameter("name");
+		request.setAttribute("orgCode", orgCode);
+		request.setAttribute("name", orgName);
+		
+		String orderField = request.getParameter("orderField");
+		if(orderField == null || orderField.trim().length()<=0) {
+			page.setOrderField("csDate");
+			page.setOrderDirection("DESC");
+		}
+		
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		
+		Specification<CsLoan> specification = DynamicSpecifications.bySearchFilter(request, CsLoan.class, csf);
+		
+		List<CsLoan> issues = bqglService.findCsLoanByExample(specification, page);
+		
+		map.put("page", page);
+		map.put("issues", issues);
+		return C_LOAN_LIST;
+	}
+	
+	@RequiresPermissions("CsLoan:view")
+	@RequestMapping(value="/report/list/toXls", method={RequestMethod.GET, RequestMethod.POST})
+	public String loanListToXls(ServletRequest request, Page page, Map<String, Object> map) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
+		String orgCode = request.getParameter("orgCode");
+		if(orgCode == null || orgCode.trim().length()<=0) {
+			orgCode = userOrg.getOrgCode();
+		} else if(!orgCode.contains(userOrg.getOrgCode())){
+			orgCode = userOrg.getOrgCode();
+		}
+		//默认返回未处理工单
+		
+		String orderField = request.getParameter("orderField");
+		page.setNumPerPage(Integer.MAX_VALUE);
+		if(orderField == null || orderField.trim().length()<=0) {
+			page.setOrderField("csDate");
+			page.setOrderDirection("DESC");
+		}
+		
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		
+		Specification<CsLoan> specification = DynamicSpecifications.bySearchFilter(request, CsLoan.class, csf);
+		
+		List<CsLoan> issues = bqglService.findCsLoanByExample(specification, page);
+		
+		map.put("issues", issues);
+		return C_LOAN_TO_XLS;
 	}
 
 	@InitBinder

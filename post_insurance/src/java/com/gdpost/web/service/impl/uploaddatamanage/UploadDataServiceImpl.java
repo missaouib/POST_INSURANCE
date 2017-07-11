@@ -37,6 +37,7 @@ import com.gdpost.utils.TemplateHelper.CheckColumn;
 import com.gdpost.utils.TemplateHelper.ColumnItem;
 import com.gdpost.utils.TemplateHelper.ColumnType;
 import com.gdpost.utils.TemplateHelper.ConversationReqColumn;
+import com.gdpost.utils.TemplateHelper.CsLoanColumn;
 import com.gdpost.utils.TemplateHelper.CsReportColumn;
 import com.gdpost.utils.TemplateHelper.DocNotScanDtlColumn;
 import com.gdpost.utils.TemplateHelper.IssueColumn;
@@ -271,6 +272,10 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql4 = "update t_policy tp, t_cs_report tcr set tp.cs_flag=1,tp.status=\"终止\",tp.cs_date=tcr.cs_date where tp.policy_no=tcr.policy_no and tp.cs_flag=0 and tcr.cs_code=\"CT\" and (0-tcr.money)=tp.total_fee;";
 			sql5 = "update t_policy tp, t_cs_report tcr set tp.cs_flag=2,tp.status=\"终止\",tp.cs_date=tcr.cs_date where tp.policy_no=tcr.policy_no and tp.cs_flag=0 and tcr.cs_code=\"CT\" and (0-tcr.money)<>tp.total_fee and abs(tcr.money)>300;";
 			sql6 = "update t_renewed_list t1, t_cs_report t2 set t1.fee_status=\"已终止\" where t1.policy_no=t2.policy_no and t2.cs_code=\"CT\" and abs(t2.money)>300;";
+			break;
+		case CsLoan:
+			standardColumns = CsLoanColumn.getStandardColumns();
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_cs_loan character set utf8 (";
 			break;
 		case DocNotScanDtl:
 			firstsql = "delete from t_doc_not_scan_dtl;";
@@ -1161,6 +1166,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 			break;
 		case DocNotScanDtl:
 			return dr;
+		case CsLoan:
+			return dr;
 		default:
 			break;
 		}
@@ -1351,6 +1358,10 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case ConversationReport:
 			standardColumns = CsReportColumn.getStandardColumns();
 			keyRow = CsReportColumn.KEY_ROW;
+			break;
+		case CsLoan:
+			standardColumns = CsLoanColumn.getStandardColumns();
+			keyRow = CsLoanColumn.KEY_ROW;
 			break;
 		case IssuePFR:
 			standardColumns = IssuePFRColumn.getStandardColumns();

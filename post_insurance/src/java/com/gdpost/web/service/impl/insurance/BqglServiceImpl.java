@@ -17,8 +17,10 @@ import com.gdpost.web.dao.ConservationDtlDAO;
 import com.gdpost.web.dao.ConservationReqDAO;
 import com.gdpost.web.dao.CsReissueDAO;
 import com.gdpost.web.dao.OffsiteConservationDAO;
+import com.gdpost.web.dao.component.CsLoanDAO;
 import com.gdpost.web.dao.component.CsReportDAO;
 import com.gdpost.web.dao.component.TinyCsAddrDAO;
+import com.gdpost.web.entity.component.CsLoan;
 import com.gdpost.web.entity.component.CsReport;
 import com.gdpost.web.entity.component.TinyCsAddr;
 import com.gdpost.web.entity.main.ConservationDtl;
@@ -57,6 +59,9 @@ public class BqglServiceImpl implements BqglService {
 	
 	@Autowired
 	private TinyCsAddrDAO csaDao;
+	
+	@Autowired
+	private CsLoanDAO csLoanDao;
 	
 	/*
 	 * (non-Javadoc)
@@ -263,6 +268,24 @@ public class BqglServiceImpl implements BqglService {
 	@Override
 	public List<TinyCsAddr> findCsAddrByExample(String addr) {
 		return csaDao.findCsAddrByAddr(addr);
+	}
+	
+	// 保全质押借款
+	@Override
+	public CsLoan getCsLoan(Long id) {
+		return csLoanDao.findOne(id);
+	}
+
+	@Override
+	public List<CsLoan> findCsLoanByExample(Specification<CsLoan> specification, Page page) {
+		org.springframework.data.domain.Page<CsLoan> springDataPage = csLoanDao.findAll(specification, PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
+	}
+
+	@Override
+	public void updateCsLoan(CsLoan conservationReq) {
+		csLoanDao.save(conservationReq);
 	}
 	
 }
