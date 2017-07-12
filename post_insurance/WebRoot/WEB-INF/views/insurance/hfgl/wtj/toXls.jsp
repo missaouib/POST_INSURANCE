@@ -68,16 +68,7 @@ response.setHeader("Content-Disposition", "inline; filename=call_fail_dtl.xls");
                 <td>${item.issueType eq null?item.issueContent:item.issueType}</td>
                 <td>${item.status}</td>
                 <td>${item.hqDealTypeElse}</td>
-                <td>
-                 <c:choose>
-                     <c:when test="${fn:length(item.bankName) > 14}">
-                         <c:out value="${fn:substring(item.bankName, 14, 30)}" />
-                     </c:when>
-                    <c:otherwise>
-                       <c:out value="${item.bankName}" />
-                     </c:otherwise>
-                 </c:choose>
-                </td>
+                <td>${item.policy.bankName}</td>
                 <td>${item.canCallAgain}</td>
                 <td><fmt:formatDate value="${item.policy.policyDate}" pattern="yyyy-MM-dd"/></td>
                 <td><fmt:formatDate value="${item.policy.billBackDate }" pattern="yyyy-MM-dd"/></td>
