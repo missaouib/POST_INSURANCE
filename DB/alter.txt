@@ -1007,10 +1007,12 @@ create table t_cs_loan
    free_reason	varchar(128),
    status	varchar(12),
    phone	varchar(12),
-   operator_id	bigint,
+   operate_id	bigint,
    operate_time	datetime	default	current_timestamp,
    primary  key (id)
 )
 engine=innodb auto_increment=4 default charset=utf8;
 
 alter table t_renewed_stay modify operate_time datetime default current_timestamp;
+
+alter table t_cs_loan change operator_id operate_id bigint;

@@ -13,11 +13,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.JoinColumnOrFormula;
 import org.hibernate.annotations.JoinColumnsOrFormulas;
 import org.hibernate.annotations.JoinFormula;
 
+import com.gdpost.utils.StringUtil;
 import com.gdpost.web.entity.Idable;
 import com.gdpost.web.entity.main.Policy;
 
@@ -41,16 +43,30 @@ public class CsLoan implements Idable<Long> {
 	private Date loanDate;
 	private Double loanFee;
 	private Date shouldDate;
-	private Date realDate;
+	//private Date realDate;
 	private Double backFee;
 	private Double freeFee;
 	private String freeReason;
 	private String status;
 	private String phone;
-	private Long operatorId;
+	private Long operateId;
 	private Date operateTime;
+	
+	@Transient
+	private Integer checkDate;
 
-	// Constructors
+	@Transient
+	public Integer getCheckDate() {
+		if(this.shouldDate != null) {
+			return StringUtil.getBetweenDay(this.shouldDate, new Date());
+		}
+		return null;
+	}
+
+	@Transient
+	public void setCheckDate(Integer checkDate) {
+		this.checkDate = checkDate;
+	}
 
 	/** default constructor */
 	public CsLoan() {
@@ -58,7 +74,7 @@ public class CsLoan implements Idable<Long> {
 
 	/** full constructor */
 	public CsLoan(String organName, Policy policy, String holder, String holderSexy, String prodName,
-			String bankName, Date loanDate, Double loanFee, Date shouldDate, Date realDate, Double backFee,
+			String bankName, Date loanDate, Double loanFee, Date shouldDate, Double backFee,
 			Double freeFee, String freeReason, String status, String phone, Long operatorId, Date operateTime) {
 		this.organName = organName;
 		this.policy = policy;
@@ -69,13 +85,13 @@ public class CsLoan implements Idable<Long> {
 		this.loanDate = loanDate;
 		this.loanFee = loanFee;
 		this.shouldDate = shouldDate;
-		this.realDate = realDate;
+		//this.realDate = realDate;
 		this.backFee = backFee;
 		this.freeFee = freeFee;
 		this.freeReason = freeReason;
 		this.status = status;
 		this.phone = phone;
-		this.operatorId = operatorId;
+		this.operateId = operatorId;
 		this.operateTime = operateTime;
 	}
 
@@ -188,6 +204,7 @@ public class CsLoan implements Idable<Long> {
 		this.shouldDate = shouldDate;
 	}
 
+	/*
 	@Temporal(TemporalType.DATE)
 	@Column(name = "real_date", length = 10)
 
@@ -198,7 +215,7 @@ public class CsLoan implements Idable<Long> {
 	public void setRealDate(Date realDate) {
 		this.realDate = realDate;
 	}
-
+	*/
 	@Column(name = "back_fee", precision = 22, scale = 0)
 
 	public Double getBackFee() {
@@ -249,14 +266,14 @@ public class CsLoan implements Idable<Long> {
 		this.phone = phone;
 	}
 
-	@Column(name = "operator_id")
+	@Column(name = "operate_id")
 
-	public Long getOperatorId() {
-		return this.operatorId;
+	public Long getOperateId() {
+		return this.operateId;
 	}
 
-	public void setOperatorId(Long operatorId) {
-		this.operatorId = operatorId;
+	public void setOperateId(Long operateId) {
+		this.operateId = operateId;
 	}
 
 	@Column(name = "operate_time", length = 19)

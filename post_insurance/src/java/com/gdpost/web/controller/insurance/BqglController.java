@@ -1058,7 +1058,7 @@ public class BqglController {
 	 * ======================================
 	 */
 	@RequiresPermissions("CsLoan:view")
-	@RequestMapping(value="/report/list", method={RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="/loan/list", method={RequestMethod.GET, RequestMethod.POST})
 	public String loanList(ServletRequest request, Page page, Map<String, Object> map) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
@@ -1075,8 +1075,8 @@ public class BqglController {
 		
 		String orderField = request.getParameter("orderField");
 		if(orderField == null || orderField.trim().length()<=0) {
-			page.setOrderField("csDate");
-			page.setOrderDirection("DESC");
+			page.setOrderField("loanDate");
+			page.setOrderDirection("ASC");
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
@@ -1092,7 +1092,7 @@ public class BqglController {
 	}
 	
 	@RequiresPermissions("CsLoan:view")
-	@RequestMapping(value="/report/list/toXls", method={RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="/loan/list/toXls", method={RequestMethod.GET, RequestMethod.POST})
 	public String loanListToXls(ServletRequest request, Page page, Map<String, Object> map) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
@@ -1108,8 +1108,8 @@ public class BqglController {
 		String orderField = request.getParameter("orderField");
 		page.setNumPerPage(Integer.MAX_VALUE);
 		if(orderField == null || orderField.trim().length()<=0) {
-			page.setOrderField("csDate");
-			page.setOrderDirection("DESC");
+			page.setOrderField("loanDate");
+			page.setOrderDirection("ASC");
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
@@ -1120,6 +1120,7 @@ public class BqglController {
 		List<CsLoan> issues = bqglService.findCsLoanByExample(specification, page);
 		
 		map.put("issues", issues);
+		
 		return C_LOAN_TO_XLS;
 	}
 

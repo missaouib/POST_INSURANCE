@@ -80,12 +80,14 @@ private static List<ColumnItem> standardColumns;
 		column.setNullable(true);
 		standardColumns.add(column);
 		
+		/*
 		column = new ColumnItem();
 		column.setDisplayName("实际还款日期");
 		column.setColumnName("real_date");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
+		*/
 		
 		column = new ColumnItem();
 		column.setDisplayName("还款金额");
