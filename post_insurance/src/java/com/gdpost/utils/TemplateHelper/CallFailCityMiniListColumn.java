@@ -6,7 +6,7 @@ import java.util.List;
 public class CallFailCityMiniListColumn {
 
 	private static List<ColumnItem> standardColumns;
-	public static String KEY_ROW = "上门回访人员";
+	public static String KEY_ROW = "工单状态";
 	
 	public static List<ColumnItem> getStandardColumns() {
 		if(standardColumns != null) {
@@ -65,28 +65,28 @@ public class CallFailCityMiniListColumn {
 		*/
 		
 		column = new ColumnItem();
-		column.setDisplayName("上门回访日期");
+		column.setDisplayName("回访时间");
 		column.setColumnName("deal_time");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("上门回访人员");
+		column.setDisplayName("回访人");
 		column.setColumnName("deal_man");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("上门回访类型");
+		column.setDisplayName("上门结果");
 		column.setColumnName("deal_type");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("上门回访内容");
+		column.setDisplayName("上门回访详情");
 		column.setColumnName("deal_desc");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);

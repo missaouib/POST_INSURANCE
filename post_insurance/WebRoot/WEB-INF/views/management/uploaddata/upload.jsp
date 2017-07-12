@@ -80,7 +80,7 @@ function displayTips(val) {
 		return;
 	}
 	if(val=="CallFailMiniCityStatus") {
-		$("#tipsDesc").html("市县回访详细数据。须含列：保单号\t工单状态\t上门回访日期\t上门回访人员\t上门回访类型\t上门回访内容，关键列：上门回访人员");
+		$("#tipsDesc").html("市县回访详细数据。须含列：保单号\t工单状态\t上门结果\t回访时间\t回访人\t上门回访详情，关键列：工单状态");
 		return;
 	}
 	if(val=="CallFailCityStatus") {

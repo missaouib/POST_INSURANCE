@@ -30,7 +30,7 @@ public class StatusDefine {
 	
 	public enum HF_STATUS {
 		NewStatus("待处理"), /*DealStatus("已回复"),*/ ResetStatus("重点跟进"), CallSuccessStatus("二访成功"), CallFailStatus("二访失败"), 
-		NeedDoorStatus("需上门回访"), DoorSuccessStatus("上门成功"), DoorFailStatus("上门失败"), RejectStatus("拒访"), MailSuccessStatus("信函成功"), TerminalStatus("已退保"), CloseStatus("已结案");
+		NeedDoorStatus("需上门回访"), DoorSuccessStatus("上门成功"), DoorFailStatus("上门失败"), CityDoorSuccessStatus("市县上门成功"), CityDoorFailStatus("市县上门失败"), RejectStatus("拒访"), MailSuccessStatus("信函成功"), TerminalStatus("已退保"), CloseStatus("已结案");
 		private String desc;
 
 		HF_STATUS(String desc) {
