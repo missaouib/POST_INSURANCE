@@ -43,7 +43,7 @@ public class CsLoan implements Idable<Long> {
 	private Date loanDate;
 	private Double loanFee;
 	private Date shouldDate;
-	//private Date realDate;
+	private Date realDate;
 	private Double backFee;
 	private Double freeFee;
 	private String freeReason;
@@ -204,7 +204,7 @@ public class CsLoan implements Idable<Long> {
 		this.shouldDate = shouldDate;
 	}
 
-	/*
+	
 	@Temporal(TemporalType.DATE)
 	@Column(name = "real_date", length = 10)
 
@@ -215,7 +215,7 @@ public class CsLoan implements Idable<Long> {
 	public void setRealDate(Date realDate) {
 		this.realDate = realDate;
 	}
-	*/
+	
 	@Column(name = "back_fee", precision = 22, scale = 0)
 
 	public Double getBackFee() {

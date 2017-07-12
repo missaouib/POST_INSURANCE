@@ -2,15 +2,16 @@
 <%@page import="java.util.Date"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 
-<dwz:paginationForm action="${contextPath }/bqgl/report/list" page="${page }">
+<dwz:paginationForm action="${contextPath }/bqgl/loan/list" page="${page }">
 	<input type="hidden" name="orgCode" value="${orgCode }"/>
 	<input type="hidden" name="name" value="${name }"/>
+	<input type="hidden" name="status" value="${status }"/>
 	<input type="hidden" name="search_LTE_shouldDate" value="${param.search_LTE_shouldDate }"/>
 	<input type="hidden" name="search_GTE_shouldDate" value="${param.search_GTE_shouldDate }"/>
 	<input type="hidden" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
 </dwz:paginationForm>
 
-<form method="post" id="paySuccessForm" action="${contextPath }/bqgl/report/list" onsubmit="return navTabSearch(this)">
+<form method="post" id="paySuccessForm" action="${contextPath }/bqgl/loan/list" onsubmit="return navTabSearch(this)">
 	<input type="hidden" name="flag" value="bq">
 	<div class="pageHeader">
 		<div class="searchBar">
@@ -24,6 +25,14 @@
 						<label>所属机构：</label>
 						<input name="orgCode" id="pay_orgCode" type="hidden" value="${orgCode }"/>
 						<input class="validate[required] required" name="name" id="pay_orgName" type="text" readonly="readonly" style="width: 100px;" value="${name }"/><a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="" title="选择机构" width="400">查</a>
+					</td>
+					<td>
+					<label>状态：</label>
+						<form:select path="loan.status" id="loanStatus" class="combox">
+							<form:option value=""> -- -- </form:option>
+							<form:option value="借款"> 借款 </form:option>
+							<form:option value="关闭"> 关闭 </form:option>
+						</form:select>
 					</td>
 				</tr>
 				<tr>
@@ -51,7 +60,9 @@
 	<div class="panelBar">
 		<ul class="toolBar">
 			<li class="line">line</li>
-			<li><a class="icon" target="_blank" href="${contextPath }/bqgl/report/list/toXls?orgCode=${orgCode}&search_LTE_shouldDate=${param.search_LTE_shouldDate}&search_GTE_shouldDate=${param.search_GTE_shouldDate}&search_LIKE_csNo=${param.search_LIKE_csNo}&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo}&search_LIKE_staffFlag=${csReport.search_LIKE_staffFlag}&search_LIKE_csCode=${param.search_LIKE_csCode}"><span>导出Excel</span></a></li>
+			<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/bqgl/loan/CloseStatus" title="确认要结案关闭?"><span>批量结案关闭</span></a></li>
+			<li class="line">line</li>
+			<li><a class="icon" target="_blank" href="${contextPath }/bqgl/loan/list/toXls?orgCode=${orgCode}&search_LTE_shouldDate=${param.search_LTE_shouldDate}&search_GTE_shouldDate=${param.search_GTE_shouldDate}&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo}&status=${status}"><span>导出Excel</span></a></li>
 		</ul>
 	</div>
 	<div id="w_list_print">

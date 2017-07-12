@@ -1073,6 +1073,15 @@ public class BqglController {
 		request.setAttribute("orgCode", orgCode);
 		request.setAttribute("name", orgName);
 		
+		String status = request.getParameter("status");
+		if(status == null) {
+			status = "借款";
+		}
+		CsLoan loan = new CsLoan();
+		loan.setStatus(status);
+		request.setAttribute("status", status);
+		request.setAttribute("loan", loan);
+		
 		String orderField = request.getParameter("orderField");
 		if(orderField == null || orderField.trim().length()<=0) {
 			page.setOrderField("loanDate");
@@ -1081,7 +1090,9 @@ public class BqglController {
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
-		
+		if(status != null && status.trim().length()>0) {
+			csf.add(new SearchFilter("status", Operator.EQ, status));
+		}
 		Specification<CsLoan> specification = DynamicSpecifications.bySearchFilter(request, CsLoan.class, csf);
 		
 		List<CsLoan> issues = bqglService.findCsLoanByExample(specification, page);
@@ -1089,6 +1100,29 @@ public class BqglController {
 		map.put("page", page);
 		map.put("issues", issues);
 		return C_LOAN_LIST;
+	}
+	
+	@Log(message="对{0}质押借款进行了关闭。", level=LogLevel.WARN, module=LogModule.BQGL)
+	@RequiresPermissions("CsLoan:delete")
+	@RequestMapping(value="/loan/CloseStatus", method=RequestMethod.POST)
+	public @ResponseBody String closeManyCsLoan(Long[] ids) {
+		String[] policys = new String[ids.length];
+		try {
+			CsLoan loan = null;
+			for (int i = 0; i < ids.length; i++) {
+				loan = bqglService.getCsLoan(ids[i]);
+				loan.setRealDate(new Date());
+				loan.setStatus("关闭");
+				bqglService.updateCsLoan(loan);
+				
+				policys[i] = loan.getPolicy().getPolicyNo();
+			}
+		} catch (ServiceException e) {
+			return AjaxObject.newError("关闭失败：" + e.getMessage()).setCallbackType("").toString();
+		}
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{Arrays.toString(policys)}));
+		return AjaxObject.newOk("成功关闭！").setCallbackType("").toString();
 	}
 	
 	@RequiresPermissions("CsLoan:view")
@@ -1103,7 +1137,15 @@ public class BqglController {
 		} else if(!orgCode.contains(userOrg.getOrgCode())){
 			orgCode = userOrg.getOrgCode();
 		}
-		//默认返回未处理工单
+		
+		String status = request.getParameter("status");
+		if(status == null) {
+			status = "借款";
+		}
+		CsLoan loan = new CsLoan();
+		loan.setStatus(status);
+		request.setAttribute("status", status);
+		request.setAttribute("loan", loan);
 		
 		String orderField = request.getParameter("orderField");
 		page.setNumPerPage(Integer.MAX_VALUE);
@@ -1114,7 +1156,9 @@ public class BqglController {
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
-		
+		if(status != null && status.trim().length()>0) {
+			csf.add(new SearchFilter("status", Operator.EQ, status));
+		}
 		Specification<CsLoan> specification = DynamicSpecifications.bySearchFilter(request, CsLoan.class, csf);
 		
 		List<CsLoan> issues = bqglService.findCsLoanByExample(specification, page);
