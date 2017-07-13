@@ -73,8 +73,8 @@
 				<th>逾期标记</th>
 				<th>管理机构</th>
 				<th orderField=csNo class="${page.orderField eq 'csNo' ? page.orderDirection : ''}">保单号码</th>
-				<th>投保人姓名</th>
-				<th>投保人性别</th>
+				<th>投保人</th>
+				<th>性别</th>
 				<th>险种名称</th>
 				<th>出单网点</th>
 				<th>借款日期</th>
@@ -91,17 +91,17 @@
 				<td>
                <c:choose>  
 				    <c:when test="${item.checkDate>1}">  
-				        <div style="color: red;vertical-align:middle;font-weight:bold;">逾期状态</div>
+				        <div style="color: red;vertical-align:middle;font-weight:bold;">逾期</div>
 				    </c:when>
 				    <c:when test="${item.checkDate>-30}">  
-				        <div style="color: yellow;vertical-align:middle;font-weight:bold;">预警状态</div>
+				        <div style="color: orange;vertical-align:middle;font-weight:bold;">预警</div>
 				    </c:when>
 				   <c:otherwise>  
-				      <div style="color: green;vertical-align:middle;font-weight:bold;">正常状态</div>
+				      <div style="color: green;vertical-align:middle;font-weight:bold;">正常</div>
 				    </c:otherwise>  
 				</c:choose>
 				</td>
-				<td>${item.organName}</td>
+				<td>${item.policy.organization.shortName}</td>
 				<td>${item.policy.policyNo}</td>
 				<td>${item.holder}</td>
 				<td>${item.holderSexy}</td>
