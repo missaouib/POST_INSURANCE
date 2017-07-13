@@ -18,6 +18,7 @@ response.setHeader("Content-Disposition", "inline; filename=InvoiceReq.xls");
                 <th>电子发票</th>
                 <th>发票备注</th>
                 <th>保单号</th>
+                <th>保单状态</th>
                 <td>出单日期</td>
                 <td>续费日期</td>
                 <td>申请日期</td>
@@ -39,6 +40,7 @@ response.setHeader("Content-Disposition", "inline; filename=InvoiceReq.xls");
                 <td>${item.isElectiveBill}</td>
                 <td>保单号：${item.policy.policyNo}  发票金额：<fmt:formatNumber value="${item.fee}" pattern="#,###.##" />元，${item.reqFlag}，被保险人:${item.policy.insured}</td>
                 <td style="vnd.ms-excel.numberformat:@">${item.policy.policyNo}</td>
+                <td>${item.policy.status}</td>
                 <td><fmt:formatDate value="${item.policy.policyDate }" pattern="yyyy-MM-dd"/></td>
                 <td><fmt:formatDate value="${item.feeDate }" pattern="yyyy-MM-dd"/></td>
                 <td><fmt:formatDate value="${item.reqDate }" pattern="yyyy-MM-dd"/></td>
