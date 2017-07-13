@@ -991,24 +991,24 @@ engine=innodb auto_increment=4 default charset=utf8;
 --管理机构	保单号码	投保人姓名	投保人性别	险种名称		出单网点	借款日期	借款金额	约定还款日期	实际还款日期	还款金额	免息金额	免息原因	保单状态	联系方式
 create table t_cs_loan
 (
-   id	bigint not null auto_increment,
+   id   bigint not null auto_increment,
    organ_name varchar(64),
    policy_no	varchar(18),
-   holder	varchar(18),
+   holder   varchar(18),
    holder_sexy	varchar(4),
    prod_name	varchar(64),
    bank_name varchar(128),
-   loan_date	date,
-   loan_fee	double,
+   loan_date	  date,
+   loan_fee	  double,
    should_date	date,
-   real_date	date,
-   back_fee	double,
-   free_fee	double,
-   free_reason	varchar(128),
-   status	varchar(12),
-   phone	varchar(12),
-   operate_id	bigint,
-   operate_time	datetime	default	current_timestamp,
+   real_date	  date,
+   back_fee	  double,
+   free_fee	  double,
+   free_reason	  varchar(128),
+   status	  varchar(12),
+   phone	  varchar(12),
+   operate_id	  bigint,
+   operate_time	datetime    default   current_timestamp,
    primary  key (id)
 )
 engine=innodb auto_increment=4 default charset=utf8;
