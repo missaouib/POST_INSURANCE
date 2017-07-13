@@ -176,6 +176,9 @@ public class TaskService {
 					+ "('admin','spring task end。犹豫期设重点跟进" + iRst1 + ",其他重点跟进" + iRst2 + ",犹豫期外需上门" + iRst3 + ",信函成功" + iRst6 + "','127.0.0.1','WARN','其他操作');";
 			statement.executeUpdate(sql);
 			log.info("------------ sql :" + sql);
+			
+			sql = "update t_cs_loan set flag=case when DATEDIFF(NOW(),should_date)>1 then '2' when  DATEDIFF(NOW(),should_date)>-30 then '1' else '0' end;";
+			statement.executeUpdate(sql);
 			log.info("------------ task service update finish");
 			
 		} catch (SQLException e) {

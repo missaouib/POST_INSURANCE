@@ -100,6 +100,7 @@ public class BqglController {
 	
 	private static final String C_LOAN_LIST = "insurance/bqgl/loan/list";
 	private static final String C_LOAN_TO_XLS = "insurance/bqgl/loan/toXls";
+	private static final String C_LOAN_REMARK = "insurance/bqgl/loan/remark";
 	
 	@RequiresPermissions("Cservice:save")
 	@RequestMapping(value="/issue/create", method=RequestMethod.GET)
@@ -1074,12 +1075,15 @@ public class BqglController {
 		request.setAttribute("name", orgName);
 		
 		String status = request.getParameter("status");
+		String flag = request.getParameter("flag");
 		if(status == null) {
 			status = "借款";
 		}
 		CsLoan loan = new CsLoan();
 		loan.setStatus(status);
+		loan.setFlag(flag==null||flag.trim().length()<=0?null:new Integer(flag));
 		request.setAttribute("status", status);
+		request.setAttribute("flag", flag);
 		request.setAttribute("loan", loan);
 		
 		String orderField = request.getParameter("orderField");
@@ -1090,8 +1094,13 @@ public class BqglController {
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		
 		if(status != null && status.trim().length()>0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
+		}
+		
+		if(flag != null && flag.trim().length()>0) {
+			csf.add(new SearchFilter("flag", Operator.EQ, flag));
 		}
 		Specification<CsLoan> specification = DynamicSpecifications.bySearchFilter(request, CsLoan.class, csf);
 		
@@ -1168,6 +1177,31 @@ public class BqglController {
 		return C_LOAN_TO_XLS;
 	}
 
+	@RequiresPermissions(value={"CsLoan:edit"}, logical=Logical.OR)
+	@RequestMapping(value="/loan/remark/{id}", method=RequestMethod.GET)
+	public String preCsLoanRemark(@PathVariable Long id, Map<String, Object> map) {
+		CsLoan req = bqglService.getCsLoan(id);
+		map.put("loan", req);
+		return C_LOAN_REMARK;
+	}
+	
+	@Log(message="对{0}设置了备注。", level=LogLevel.WARN, module=LogModule.HFGL)
+	@RequiresPermissions(value={"CsLoan:edit"}, logical=Logical.OR)
+	@RequestMapping(value="/loan/remark", method=RequestMethod.POST)
+	public @ResponseBody String setCsLoanRemark(ServletRequest request) {
+		String id = request.getParameter("id");
+		if(id == null) {
+			return null;
+		}
+		CsLoan loan = bqglService.getCsLoan(new Long(id));
+		String remark = request.getParameter("remark");
+		loan.setRemark(remark);
+		bqglService.updateCsLoan(loan);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{loan.getPolicy().getPolicyNo()}));
+		return	AjaxObject.newOk("设置成功！").toString();
+	}
+	
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(

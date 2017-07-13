@@ -1016,3 +1016,7 @@ engine=innodb auto_increment=4 default charset=utf8;
 alter table t_renewed_stay modify operate_time datetime default current_timestamp;
 
 alter table t_cs_loan change operator_id operate_id bigint;
+
+alter table t_cs_loan add column remark varchar(256) after phone;
+alter table t_cs_loan add column flag int default 0;
+update t_cs_loan set flag=case when DATEDIFF(NOW(),should_date)>1 then "2" when  DATEDIFF(NOW(),should_date)>-30 then "1" else "0" end where flag=0;

@@ -6,13 +6,13 @@
 	<input type="hidden" name="orgCode" value="${orgCode }"/>
 	<input type="hidden" name="name" value="${name }"/>
 	<input type="hidden" name="status" value="${status }"/>
+	<input type="hidden" name="flag" value="${flag }"/>
 	<input type="hidden" name="search_LTE_shouldDate" value="${param.search_LTE_shouldDate }"/>
 	<input type="hidden" name="search_GTE_shouldDate" value="${param.search_GTE_shouldDate }"/>
 	<input type="hidden" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
 </dwz:paginationForm>
 
 <form method="post" id="paySuccessForm" action="${contextPath }/bqgl/loan/list" onsubmit="return navTabSearch(this)">
-	<input type="hidden" name="flag" value="bq">
 	<div class="pageHeader">
 		<div class="searchBar">
 			<table class="searchContent">
@@ -44,6 +44,15 @@
 						<label>结束日期：</label>
 						<input type="text" id="shouldDate2" name="search_LTE_shouldDate" class="date validate[required] required" style="width: 80px;"dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_shouldDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
+					<td>
+					<label>标记：</label>
+						<form:select path="loan.flag" id="loanFlag" class="combox">
+							<form:option value=""> -- -- </form:option>
+							<form:option value="2"> 逾期 </form:option>
+							<form:option value="1"> 预警 </form:option>
+							<form:option value="0"> 正常 </form:option>
+						</form:select>
+					</td>
 				</tr>
 			</table>
 			<div class="subBar">
@@ -59,10 +68,14 @@
 
 	<div class="panelBar">
 		<ul class="toolBar">
+		<shiro:hasPermission name="CsLoan:delete">
 			<li class="line">line</li>
 			<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/bqgl/loan/CloseStatus" title="确认要结案关闭?"><span>批量关闭</span></a></li>
+		</shiro:hasPermission>
 			<li class="line">line</li>
-			<li><a class="icon" target="_blank" href="${contextPath }/bqgl/loan/list/toXls?orgCode=${orgCode}&search_LTE_shouldDate=${param.search_LTE_shouldDate}&search_GTE_shouldDate=${param.search_GTE_shouldDate}&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo}&status=${status}"><span>导出Excel</span></a></li>
+			<li><a class="edit" href="${contextPath}/bqgl/loan/remark/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>设置备注</span></a></li>
+			<li class="line">line</li>
+			<li><a class="icon" target="_blank" href="${contextPath }/bqgl/loan/list/toXls?orgCode=${orgCode}&search_LTE_shouldDate=${param.search_LTE_shouldDate}&search_GTE_shouldDate=${param.search_GTE_shouldDate}&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo}&status=${status}&flag=${flag}"><span>导出Excel</span></a></li>
 		</ul>
 	</div>
 	<div id="w_list_print">
@@ -70,10 +83,11 @@
 		<thead>
 			<tr>
 				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>
-				<th>逾期标记</th>
+				<th>标记</th>
 				<th>管理机构</th>
 				<th orderField=csNo class="${page.orderField eq 'csNo' ? page.orderDirection : ''}">保单号码</th>
 				<th>投保人</th>
+				<th>联系方式</th>
 				<th>性别</th>
 				<th>险种名称</th>
 				<th>出单网点</th>
@@ -81,7 +95,7 @@
 				<th>借款金额</th>
 				<th>约定还款日期</th>
 				<th>保单状态</th>
-				<th>联系方式</th>
+				<th>备注</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -104,6 +118,7 @@
 				<td>${item.policy.organization.shortName}</td>
 				<td>${item.policy.policyNo}</td>
 				<td>${item.holder}</td>
+				<td>${item.phone}</td>
 				<td>${item.holderSexy}</td>
 				<td>${item.prodName}</td>
 				<td>${fn:replace(item.bankName, "中国邮政储蓄银行股份有限公司", "")}</td>
@@ -111,7 +126,7 @@
 				<td>${item.loanFee}</td>
 				<td><fmt:formatDate value="${item.shouldDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.status}</td>
-				<td>${item.phone}</td>
+				<td>${item.remark}</td>
 			</tr>
 			</c:forEach>
 		</tbody>

@@ -276,6 +276,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case CsLoan:
 			standardColumns = CsLoanColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_cs_loan character set utf8 (";
+			sql1 = "update t_cs_loan set flag=case when DATEDIFF(NOW(),should_date)>1 then '2' when  DATEDIFF(NOW(),should_date)>-30 then '1' else '0' end;";
 			break;
 		case DocNotScanDtl:
 			firstsql = "delete from t_doc_not_scan_dtl;";

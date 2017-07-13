@@ -49,6 +49,8 @@ public class CsLoan implements Idable<Long> {
 	private String freeReason;
 	private String status;
 	private String phone;
+	private String remark;
+	private Integer flag;
 	private Long operateId;
 	private Date operateTime;
 	
@@ -264,6 +266,24 @@ public class CsLoan implements Idable<Long> {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	@Column(name = "remark")
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	@Column(name = "flag")
+	public Integer getFlag() {
+		return flag;
+	}
+
+	public void setFlag(Integer flag) {
+		this.flag = flag;
 	}
 
 	@Column(name = "operate_id")
