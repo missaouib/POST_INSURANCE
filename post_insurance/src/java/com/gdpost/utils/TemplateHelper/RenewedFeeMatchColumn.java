@@ -38,6 +38,13 @@ public class RenewedFeeMatchColumn {
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
+		column.setDisplayName("交费对应日");
+		column.setColumnName("fee_date");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(false);
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
 		column.setDisplayName("手机号码");
 		column.setColumnName("mobile");
 		column.setColumnType(ColumnType.numeric);
@@ -54,6 +61,13 @@ public class RenewedFeeMatchColumn {
 		column = new ColumnItem();
 		column.setDisplayName("匹配结果");
 		column.setColumnName("fee_match");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(true);
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
+		column.setDisplayName("标记");
+		column.setColumnName("prov_activity");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
@@ -78,14 +92,14 @@ public class RenewedFeeMatchColumn {
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
-		/*
+		
 		column = new ColumnItem();
-		column.setDisplayName("一访详情");
+		column.setDisplayName("催收详情");
 		column.setColumnName("prov_deal_remark");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
-		*/
+		
 		return(standardColumns);
 	}
 }
