@@ -136,13 +136,13 @@ left join
 (select distinct duty_code as duty_code, match_code, perm from t_mtd_code) tmc 
 on tp.prod_code=tmc.match_code and tp.perm=tmc.perm 
 left join 
-(select policy_no,prod_code,prod_name,policy_fee,perm from t_policy itp2 where itp2.policy_date>='2016-09-01' and itp2.attached_flag=1) tp2 
+(select policy_no,prod_code,prod_name,policy_fee,perm from t_policy itp2 where itp2.policy_date>='2016-05-01' and itp2.attached_flag=1) tp2 
 on tp.policy_no=tp2.policy_no 
 where 
 tp.attached_flag=0 and 
-tp.policy_date>='2016-09-01' 
+tp.policy_date>='2016-05-01' 
 and tp.prod_code<>'150001' 
 and tp.prod_code<>'121001' 
 and tp.prod_code<>'121002' 
 order by policy_date asc 
-limit 20;
+limit 8000;
