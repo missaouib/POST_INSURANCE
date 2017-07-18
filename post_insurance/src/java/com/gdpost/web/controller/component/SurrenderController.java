@@ -281,8 +281,8 @@ public class SurrenderController {
 			range.replaceText("${orgTips}", orgTips);
 			range.replaceText("${cityTips}", cityTips);
 			
-			range.replaceText("${totalAreaFee}", (permpolicyFee/10000) + "");
-			range.replaceText("${staffAreaFee}", (permstaffpolicyFee/10000) + "");
+			range.replaceText("${totalAreaFee}", (permspf/10000) + "");
+			range.replaceText("${staffAreaFee}", (permstaffspf/10000) + "");
 			range.replaceText("${orgCurStaffRate}", String.format("%.2f", orgCurStaffRate) + "%");
 			range.replaceText("${orgNewStaffRate}", String.format("%.2f", orgNewStaffRate) + "%");
 			range.replaceText("${orgNewPermRate}", String.format("%.2f", orgNewPermRate) + "%");
