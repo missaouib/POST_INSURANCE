@@ -30,6 +30,26 @@
 			<span class="unit">${policy.policyDtl.holderSexy }</span>
 		</p>
 		<p>
+        <label>电话：</label>
+        <span class="unit">${policy.policyDtl.holderPhone }</span>
+    </p>
+    <p>
+        <label>电话：</label>
+        <span class="unit">${policy.policyDtl.holderMobile }</span>
+    </p>
+    <p>
+        <label>地址：</label>
+        <span class="unit">${policy.policyDtl.holderAddr }</span>
+    </p>
+    <p>
+        <label>证件类型：</label>
+        <span class="unit">${policy.policyDtl.holderCardType }</span>
+    </p>
+    <p>
+        <label>证件号码：</label>
+        <span class="unit">${policy.policyDtl.holderCardNum }</span>
+    </p>
+		<p>
 			<label>被保险人：</label>
 			<span class="unit">${policy.insured }</span>
 		</p>
