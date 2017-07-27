@@ -19,6 +19,7 @@
 	<table class="table" layoutH="137" width="100%">
 		<thead>
 			<tr>
+				<th>序号</th>
 				<th>机构名称</th>
 				<th>承保件数</th>
 				<th>未扫描件数</th>
@@ -27,8 +28,9 @@
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach var="item" items="${statData}">
+			<c:forEach var="item" items="${statData}" varStatus="idx">
 			<tr>
+				<td>${idx+1}</td>
 				<td>${item.orgName}</td>
 				<td>${item.allDoc}</td>
 				<td>${item.sumDoc}</td>

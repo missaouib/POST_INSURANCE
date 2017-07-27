@@ -68,7 +68,7 @@ public class DaglController {
 			
 			subList = daglService.getSubDocNotScanStat(organName);
 			for(DocStatModel subDsm:subList) {
-				remark.append(subDsm.getOrgName() + ":" + subDsm.getSumDoc() + "，");
+				remark.append(subDsm.getOrgName().substring(2, 4) + ":" + subDsm.getSumDoc() + "，");
 			}
 			dsm.setRemark(remark.toString());
 		}
