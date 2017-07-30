@@ -54,6 +54,20 @@ public class RenewedProvListColumn {
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
+		column.setDisplayName("催收类型");
+		column.setColumnName("prov_issue_type");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(true);
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
+		column.setDisplayName("催收详情");
+		column.setColumnName("prov_deal_remark");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(true);
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
 		column.setDisplayName("标记");
 		column.setColumnName("prov_activity");
 		column.setColumnType(ColumnType.string);

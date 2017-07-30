@@ -65,6 +65,7 @@ public class RenewedFeeMatchColumn {
 		column.setNullable(true);
 		standardColumns.add(column);
 		
+		/*
 		column = new ColumnItem();
 		column.setDisplayName("标记");
 		column.setColumnName("prov_activity");
@@ -99,7 +100,7 @@ public class RenewedFeeMatchColumn {
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
-		
+		*/
 		return(standardColumns);
 	}
 }
