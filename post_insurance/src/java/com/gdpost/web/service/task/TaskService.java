@@ -165,12 +165,15 @@ public class TaskService {
 			
 			sql = "update t_under_write uw, t_policy tp set uw.policy_no=tp.policy_no, uw.holder=tp.holder, uw.sign_date=tp.policy_date, uw.policy_fee=tp.policy_fee, uw.perm=tp.perm, uw.sync=true where uw.form_no=tp.form_no and sync=false;";
 			statement.executeUpdate(sql);
+			log.info("------------ sql :" + sql);
 			
 			sql = "update t_under_write uw, t_policy tp, t_organization org set uw.organ_id=org.id where uw.policy_no=tp.policy_no and tp.organ_code=org.org_code;";
 			statement.executeUpdate(sql);
+			log.info("------------ sql :" + sql);
 			
 			sql = "update t_under_write uw, t_policy tp, t_prd prd set uw.product_id=prd.id where uw.policy_no=tp.policy_no and tp.prod_code=left(prd.prd_code,6);";
 			statement.executeUpdate(sql);
+			log.info("------------ sql :" + sql);
 			
 			sql = "insert into t_log_info (username, message,ip_address,log_level,module) values "
 					+ "('admin','spring task end。犹豫期设重点跟进" + iRst1 + ",其他重点跟进" + iRst2 + ",犹豫期外需上门" + iRst3 + ",信函成功" + iRst6 + "','127.0.0.1','WARN','其他操作');";
@@ -179,6 +182,16 @@ public class TaskService {
 			
 			sql = "update t_cs_loan set flag=case when DATEDIFF(NOW(),should_date)>1 then '2' when  DATEDIFF(NOW(),should_date)>-30 then '1' else '0' end;";
 			statement.executeUpdate(sql);
+			log.info("------------ sql :" + sql);
+			
+			sql = "update t_renewed_list t1, t_cs_report t2 set t1.fee_status=\"交费成功\" where t1.policy_no=t2.policy_no and t2.cs_code=\"RE\";";
+			statement.executeUpdate(sql);
+			log.info("------------ sql :" + sql);
+			
+			sql = "update t_policy t1, t_cs_report t2 set t1.status=\"有效\" where t1.policy_no=t2.policy_no and t2.cs_code=\"RE\";";
+			statement.executeUpdate(sql);
+			log.info("------------ sql :" + sql);
+			
 			log.info("------------ task service update finish");
 			
 		} catch (SQLException e) {

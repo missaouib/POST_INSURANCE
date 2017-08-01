@@ -132,6 +132,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 		String sql4 = null;
 		String sql5 = null;
 		String sql6 = null;
+		String sql7 = null;
+		String sql8 = null;
 		switch(ft) {
 		case Policy:
 			standardColumns = PolicyColumn.getStandardColumns();
@@ -272,6 +274,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql4 = "update t_policy tp, t_cs_report tcr set tp.cs_flag=1,tp.status=\"终止\",tp.cs_date=tcr.cs_date where tp.policy_no=tcr.policy_no and tp.cs_flag=0 and tcr.cs_code=\"CT\" and (0-tcr.money)=tp.total_fee;";
 			sql5 = "update t_policy tp, t_cs_report tcr set tp.cs_flag=2,tp.status=\"终止\",tp.cs_date=tcr.cs_date where tp.policy_no=tcr.policy_no and tp.cs_flag=0 and tcr.cs_code=\"CT\" and (0-tcr.money)<>tp.total_fee and abs(tcr.money)>300;";
 			sql6 = "update t_renewed_list t1, t_cs_report t2 set t1.fee_status=\"已终止\" where t1.policy_no=t2.policy_no and t2.cs_code=\"CT\" and abs(t2.money)>300;";
+			sql7 = "update t_renewed_list t1, t_cs_report t2 set t1.fee_status=\"交费成功\" where t1.policy_no=t2.policy_no and t2.cs_code=\"RE\";";
+			sql8 = "update t_policy t1, t_cs_report t2 set t1.status=\"有效\" where t1.policy_no=t2.policy_no and t2.cs_code=\"RE\";";
 			break;
 		case CsLoan:
 			standardColumns = CsLoanColumn.getStandardColumns();
@@ -415,6 +419,14 @@ public class UploadDataServiceImpl implements UploadDataService{
         	}
 			if(sql6 != null) {
         		statement.executeUpdate(sql6);
+        	}
+			
+			if(sql7 != null) {
+        		statement.executeUpdate(sql7);
+        	}
+			
+			if(sql8 != null) {
+        		statement.executeUpdate(sql8);
         	}
 			
 			dr.setFlag(true);
@@ -908,7 +920,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			break;
 		case RenewedFeeMatchList:
 			standardColumns = RenewedFeeMatchColumn.getStandardColumns();
-			sql = new StringBuffer("INSERT INTO t_renewed_list(policy_no, prd_name, policy_year, fee_date, mobile, policy_fee, fee_match, give_fee) VALUES ");
+			sql = new StringBuffer("INSERT INTO t_renewed_list(policy_no, prd_name, policy_year, fee_date, mobile, policy_fee, fee_match, prov_deal_date, prov_issue_type, prov_deal_rst, prov_deal_remark, give_fee) VALUES ");
 			line = null;
 			isFail = false;
 			val = null;
@@ -952,7 +964,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        }
 			sql.deleteCharAt(sql.length() - 1);
 			sql.append(" ON DUPLICATE KEY UPDATE ");
-			sql.append("policy_year=VALUES(policy_year), fee_date=VALUES(fee_date), fee_match=VALUES(fee_match), give_fee=VALUES(give_fee);");
+			sql.append("policy_year=VALUES(policy_year), fee_date=VALUES(fee_date), fee_match=VALUES(fee_match), prov_deal_date=VALUES(prov_deal_date), prov_deal_remark=VALUES(prov_deal_remark), prov_issue_type=VALUES(prov_issue_type), prov_deal_rst=VALUES(prov_deal_rst), give_fee=VALUES(give_fee);");
 			log.debug("----------------fee match batch sql : " + sql);
 			sql2 = "delete from t_renewed_list where holder is null";
 			break;

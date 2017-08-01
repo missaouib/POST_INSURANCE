@@ -72,6 +72,7 @@ public class RenewedFeeMatchColumn {
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
+		*/
 		
 		column = new ColumnItem();
 		column.setDisplayName("一访时间");
@@ -100,7 +101,7 @@ public class RenewedFeeMatchColumn {
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
-		*/
+		
 		return(standardColumns);
 	}
 }
