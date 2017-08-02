@@ -30,7 +30,7 @@
 		<tbody>
 			<c:forEach var="item" items="${statData}" varStatus="idx">
 			<tr>
-				<td>${idx+1}</td>
+				<td>${idx.index+1}</td>
 				<td>${item.orgName}</td>
 				<td>${item.allDoc}</td>
 				<td>${item.sumDoc}</td>
