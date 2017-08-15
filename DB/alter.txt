@@ -1020,3 +1020,12 @@ alter table t_cs_loan change operator_id operate_id bigint;
 alter table t_cs_loan add column remark varchar(256) after phone;
 alter table t_cs_loan add column flag int default 0;
 update t_cs_loan set flag=case when DATEDIFF(NOW(),should_date)>1 then "2" when  DATEDIFF(NOW(),should_date)>-30 then "1" else "0" end where flag=0;
+
+
+update t_renewed_list t1, t_cs_report t2 set t1.fee_status="失效" where  t1.policy_no=t2.policy_no and t2.cs_code="RE";
+
+update t_policy t1, t_cs_report t2 set t1.status="终止" where  t1.policy_no=t2.policy_no and t2.cs_code="RE";
+
+update t_renewed_list t1, t_cs_report t2, t_pay_success_list t3 set t1.fee_status="交费成功" where t1.policy_no=t2.policy_no and t2.cs_code="RE" and datediff(now(),t2.operate_time)=0 and t2.cs_no=t3.rel_no and t3.fail_desc="成功";
+
+update t_policy t1, t_cs_report t2, t_pay_success_list t3 set t1.status="有效" where t1.policy_no=t2.policy_no and t2.cs_code="RE" and datediff(now(),t2.operate_time)=0 and t2.cs_no=t3.rel_no and t3.fail_desc="成功";

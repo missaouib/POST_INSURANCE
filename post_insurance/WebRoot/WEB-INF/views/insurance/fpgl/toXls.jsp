@@ -38,7 +38,7 @@ response.setHeader("Content-Disposition", "inline; filename=InvoiceReq.xls");
                 <td>${item.policy.policyFee}</td>
                 <td>${item.policy.organization.shortName}</td>
                 <td>${item.isElectiveBill}</td>
-                <td>保单号：${item.policy.policyNo}  发票金额：<fmt:formatNumber value="${item.fee}" pattern="#,###.##" />元，${item.reqFlag}，被保险人:${item.policy.insured}</td>
+                <td>保单号：${item.policy.policyNo}  发票金额：<fmt:formatNumber value="${item.totalFee}" pattern="#,###.##" />元，${item.reqFlag}，被保险人:${item.policy.insured}</td>
                 <td style="vnd.ms-excel.numberformat:@">${item.policy.policyNo}</td>
                 <td>${item.policy.status}</td>
                 <td><fmt:formatDate value="${item.policy.policyDate }" pattern="yyyy-MM-dd"/></td>

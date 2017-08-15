@@ -184,13 +184,13 @@ public class TaskService {
 			statement.executeUpdate(sql);
 			log.info("------------ sql :" + sql);
 			
-			sql = "update t_renewed_list t1, t_cs_report t2 set t1.fee_status=\"交费成功\" where t1.policy_no=t2.policy_no and t2.cs_code=\"RE\";";
-			statement.executeUpdate(sql);
-			log.info("------------ sql :" + sql);
+			//sql = "update t_renewed_list t1, t_cs_report t2, t_pay_success_list t3 set t1.fee_status=\"交费成功\" where t1.policy_no=t2.policy_no and t2.cs_code=\"RE\" and t2.cs_date>=\"2017-06-01\" and t2.cs_no=t3.rel_no and t3.fail_desc=\"成功\" ;";
+			//statement.executeUpdate(sql);
+			//log.info("------------ sql :" + sql);
 			
-			sql = "update t_policy t1, t_cs_report t2 set t1.status=\"有效\" where t1.policy_no=t2.policy_no and t2.cs_code=\"RE\";";
-			statement.executeUpdate(sql);
-			log.info("------------ sql :" + sql);
+			//sql = "update t_policy t1, t_cs_report t2 set t1.status=\"有效\" where t1.policy_no=t2.policy_no and t2.cs_code=\"RE\";";
+			//statement.executeUpdate(sql);
+			//log.info("------------ sql :" + sql);
 			
 			log.info("------------ task service update finish");
 			

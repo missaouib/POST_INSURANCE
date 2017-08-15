@@ -209,7 +209,7 @@
                <td><input name="ids" value="${item.id}" type="checkbox"></td>
                <td>${item.policy.organization.shortName}</td>
                <td title="<c:out value='${item.canCallAgainRemark}'/> <c:out value='${item.resetPhone}'/>">${item.canCallAgainRemark}&nbsp;&nbsp;${item.resetPhone}&nbsp;&nbsp;<fmt:formatDate value="${item.resetDate }" pattern="yyyy-MM-dd"/></td>
-               <td>${item.issueNo}</td>
+               <td title="${item.issueNo}">${fn:substring(item.issueNo, item.issueNo.length()-8, item.issueNo.length())}</td>
                <td>${item.status}</td>
                <td title="${item.issueContent}">${fn:substring(item.issueContent, 0, 15)}</td>
                <td title="${item.hqDealTypeElse}">${fn:substring(item.hqDealTypeElse, 0, 15)}</td>
