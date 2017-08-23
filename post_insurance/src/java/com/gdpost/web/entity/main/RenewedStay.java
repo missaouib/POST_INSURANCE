@@ -33,6 +33,7 @@ public class RenewedStay implements Idable<Long> {
 	private Long id;
 	private Policy policy;
 	private Date csDate;
+	private Double csMoney;
 	private User user;
 	private Date operateTime;
 	private String remark;
@@ -77,6 +78,15 @@ public class RenewedStay implements Idable<Long> {
 
 	public void setCsDate(Date csDate) {
 		this.csDate = csDate;
+	}
+
+	@Column(name = "cs_money")
+	public Double getCsMoney() {
+		return csMoney;
+	}
+
+	public void setCsMoney(Double csMoney) {
+		this.csMoney = csMoney;
 	}
 
 	@ManyToOne

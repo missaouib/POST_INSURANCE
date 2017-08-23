@@ -11,7 +11,7 @@
 			<input name="policyNo" type="text" class="input-medium validate[required] required" value="${stay.policy.policyNo }"/>
 		</p>
 		<p>
-			<label>投保人</label>
+			<label>投保人：</label>
 			<input type="text" class="input-medium validate[required] required" name="holder" value="${stay.policy.holder }" />
 		</p>
 		<p>
@@ -20,8 +20,12 @@
 				<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 		<p>
+			<label>退保金额：</label>
+			<input type="text" name="csMoney" id="csMoney" class="input-medium" value="${stay.csMoney }"/> 元
+		</p>
+		<p>
 			<label>退保次数：</label>
-			<input type="text" class="input-medium validate[required] required" name="stayNum" value="${stay.stayNum }" />
+			<input type="text" class="input-medium validate[required] required" name="stayNum" value="${stay.stayNum }" />元
 		</p>
 		<p class="nowrap">
 			<label>挽留详情：</label>

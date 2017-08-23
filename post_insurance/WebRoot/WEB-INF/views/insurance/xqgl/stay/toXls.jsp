@@ -15,6 +15,7 @@ response.setHeader("Content-Disposition", "inline; filename=RENEWED_STAY.xls");
 				<th>保单号</th>
 				<th>投保人</th>
 				<th>退保时间</th>
+				<th>退保金额</th>
 				<th>退保次数</th>
 				<th>挽留详情</th>
 				<th>联系电话</th>
@@ -34,6 +35,7 @@ response.setHeader("Content-Disposition", "inline; filename=RENEWED_STAY.xls");
 				<td style="vnd.ms-excel.numberformat:@">${item.policy.policyNo}</td>
 				<td>${item.policy.holder}</td>
 				<td><fmt:formatDate value='${item.csDate }' pattern='yyyy-MM-dd'/></td>
+				<td>${item.csMoney}</td>
 				<td>${item.stayNum}</td>
 				<td>${item.remark}</td>
 				<td>${item.policy.policyDtl.holderPhone}</td>

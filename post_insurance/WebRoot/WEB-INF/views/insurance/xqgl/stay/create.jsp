@@ -9,13 +9,17 @@
 					suggestUrl="/common/lookupPolicysuggest" lookupGroup="" value=""/>
 		</p>
 		<p>
-			<label>投保人</label>
+			<label>投保人：</label>
 			<input type="text" name="holder" id="holder" class="input-medium" value=""/>
 		</p>
 		<p>
 			<label>退保日期：</label>
 			<input type="text" name="csDate" id="csDate" class="date" dateFmt="yyyy-MM-dd" value=""/>
 					<a class="inputDateButton" href="javascript:;">选择</a>
+		</p>
+		<p>
+			<label>退保金额：</label>
+			<input type="text" name="csMoney" id="csMoney" class="input-medium validate[number:true]" value=""/> 元
 		</p>
 	</div>
 			

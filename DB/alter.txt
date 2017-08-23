@@ -987,7 +987,6 @@ create table t_renewed_stay
 )
 engine=innodb auto_increment=4 default charset=utf8;
 
-
 --管理机构	保单号码	投保人姓名	投保人性别	险种名称		出单网点	借款日期	借款金额	约定还款日期	实际还款日期	还款金额	免息金额	免息原因	保单状态	联系方式
 create table t_cs_loan
 (
@@ -1029,3 +1028,5 @@ update t_policy t1, t_cs_report t2 set t1.status="终止" where  t1.policy_no=t2
 update t_renewed_list t1, t_cs_report t2, t_pay_success_list t3 set t1.fee_status="交费成功" where t1.policy_no=t2.policy_no and t2.cs_code="RE" and datediff(now(),t2.operate_time)=0 and t2.cs_no=t3.rel_no and t3.fail_desc="成功";
 
 update t_policy t1, t_cs_report t2, t_pay_success_list t3 set t1.status="有效" where t1.policy_no=t2.policy_no and t2.cs_code="RE" and datediff(now(),t2.operate_time)=0 and t2.cs_no=t3.rel_no and t3.fail_desc="成功";
+
+alter table t_renewed_stay add column cs_money double;
