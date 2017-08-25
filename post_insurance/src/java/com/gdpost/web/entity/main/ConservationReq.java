@@ -92,8 +92,11 @@ public class ConservationReq implements Idable<Long> {
 		this.policy = policy;
 	}
 
-	@JoinColumn(name="bank_code", referencedColumnName="ybt_code", nullable=true)
 	@ManyToOne(targetEntity=BankCode.class, optional=true)
+	@JoinColumnsOrFormulas(value={
+	@JoinColumnOrFormula(column=@JoinColumn(name ="bank_code", referencedColumnName ="ybt_code", insertable =false, updatable = false, nullable=true)),
+	@JoinColumnOrFormula(formula=@JoinFormula(value="1", referencedColumnName = "status"))
+	})
 	public BankCode getBankCode() {
 		return this.bankCode;
 	}
