@@ -22,6 +22,6 @@ public interface PolicyDAO extends JpaRepository<Policy, Long>, JpaSpecification
 	
 	Policy getByPolicyDtlHolderCardNum(String idCardNum);
 	
-	@Query(value="select tp from Policy tp, BankCode bc where tp.bankCode=bc.cpiCode and bc.netFlag=2 and tp.attachedFlag=0 and tp.policyNo=:policyNo")
+	@Query(value="select tp from Policy tp, BankCode bc where tp.bankCode.bankCode=bc.cpiCode and bc.status=1 and bc.netFlag=2 and tp.attachedFlag=0 and tp.policyNo=:policyNo")
 	Policy isBankPolicy(@Param("policyNo") String policyNo);
 }

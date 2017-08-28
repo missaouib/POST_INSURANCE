@@ -21,6 +21,9 @@ import javax.persistence.UniqueConstraint;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.ColumnTransformer;
+import org.hibernate.annotations.JoinColumnOrFormula;
+import org.hibernate.annotations.JoinColumnsOrFormulas;
+import org.hibernate.annotations.JoinFormula;
 
 import com.gdpost.web.entity.Idable;
 import com.gdpost.web.entity.basedata.BankCode;
@@ -377,7 +380,11 @@ public class Policy implements Idable<Long>, Serializable{
 	}
 	*/
 	@ManyToOne(fetch=FetchType.EAGER, optional=true)
-	@JoinColumn(name="bank_code", referencedColumnName="cpi_code")
+	//@JoinColumn(name="bank_code", referencedColumnName="bank_code")
+	@JoinColumnsOrFormulas(value={
+	@JoinColumnOrFormula(column=@JoinColumn(name ="bank_code", referencedColumnName ="cpi_code", insertable =false, updatable = false, nullable=true)),
+	@JoinColumnOrFormula(formula=@JoinFormula(value="1", referencedColumnName = "status"))
+	})
 	public BankCode getBankCode() {
 		return bankCode;
 	}
