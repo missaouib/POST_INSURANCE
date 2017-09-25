@@ -132,6 +132,7 @@
 				<th orderField=signDate class="${page.orderField eq 'signDate' ? page.orderDirection : ''}">签单日期</th>
 				<th orderField=provSendDate class="${page.orderField eq 'provSendDate' ? page.orderDirection : ''}">合同寄出</th>
 				<th>快递单号</th>
+				<th>全流程</th>
 				<th>地市接收</th>
 				<th>县区接收</th>
 				<th>投保人</th>
@@ -154,6 +155,7 @@
 				<td><fmt:formatDate value="${item.signDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.provSendDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.provEmsNo}</td>
+				<td>${item.longDate}</td>
 				<td><fmt:formatDate value="${item.cityReceiveDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.areaReceiveDate }" pattern="yyyy-MM-dd"/></td>
 				<td title="${item.holder}">${fn:substring(item.holder, 0, 4)}</td>

@@ -15,6 +15,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
+import com.gdpost.utils.StringUtil;
 import com.gdpost.web.entity.Idable;
 import com.gdpost.web.entity.basedata.Prd;
 
@@ -85,6 +86,8 @@ public class UnderWrite implements Idable<Long> {
 	private Date sendDate;
 	@Transient
 	private String emsNo;
+	@Transient
+	private int longDate;
 	
 	private String holderAge;
 	
@@ -113,6 +116,19 @@ public class UnderWrite implements Idable<Long> {
 	@Transient
 	public void setEmsNo(String emsNo) {
 		this.emsNo = emsNo;
+	}
+	
+	@Transient
+	public int getLongDate() {
+		if(this.ybtDate != null) {
+			return StringUtil.getBetweenDay(new Date(), this.ybtDate);
+		}
+		return -1;
+	}
+	
+	@Transient
+	public void setLongDate(int longDate) {
+		this.longDate = longDate;
 	}
 	
 	@Column(name="relation")
