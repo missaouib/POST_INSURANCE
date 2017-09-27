@@ -12,12 +12,12 @@ response.setHeader("Content-Disposition", "inline; filename=InvoiceReq.xls");
 				<th>序号</th>
                 <th>投保人</th>
                 <th>险种</th>
-                <th>期间</th>
-                <th>保单机构</th>
-                <th>电子发票</th>
                 <th>保单金额</th>
                 <th>登记金额</th>
                 <th>发票备注</th>
+                <th>期间</th>
+                <th>保单机构</th>
+                <th>电子发票</th>
                 <th>保单号</th>
                 <th>保单状态</th>
                 <td>出单日期</td>
@@ -35,12 +35,12 @@ response.setHeader("Content-Disposition", "inline; filename=InvoiceReq.xls");
                 <td><c:out value="${status.index+1}"/></td>
                 <td>${item.policy.holder}</td>
                 <td>${item.policy.prodName}</td>
+                <td>${item.policy.policyFee}</td>
+                <td>${item.fee}</td>
+                <td>保单号：${item.policy.policyNo}  发票金额：<fmt:formatNumber value="${item.policy.totalFee}" pattern="#,###.##" />元，${item.reqFlag}，被保险人:${item.policy.insured}</td>
                 <td>${item.policy.feeFrequency}</td>
                 <td>${item.policy.organization.shortName}</td>
                 <td>${item.isElectiveBill}</td>
-                <td>${item.policy.policyFee}</td>
-                <td>${item.fee}</td>
-                <td>保单号：${item.policy.policyNo}  发票金额：<fmt:formatNumber value="${item.totalFee}" pattern="#,###.##" />元，${item.reqFlag}，被保险人:${item.policy.insured}</td>
                 <td style="vnd.ms-excel.numberformat:@">${item.policy.policyNo}</td>
                 <td>${item.policy.status}</td>
                 <td><fmt:formatDate value="${item.policy.policyDate }" pattern="yyyy-MM-dd"/></td>

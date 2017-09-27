@@ -61,8 +61,10 @@ public class LpglServiceImpl implements LpglService {
 	@Override
 	public void saveOrUpdateSettle(Settlement settle) {
 		if (settle.getId() == null) {
-			if (settlementDAO.getByInsuredAndCaseDate(settle.getInsured(), settle.getCaseDate()) != null) {
-				throw new ExistedException("出险人：" + settle.getInsured() + "已记录。");
+			if(settle.getCaseType() != null && !settle.getCaseType().equals("医疗")) {
+				if (settlementDAO.getByInsuredAndCaseDate(settle.getInsured(), settle.getCaseDate()) != null) {
+					throw new ExistedException("出险人：" + settle.getInsured() + "已记录。");
+				}
 			}
 		}
 		
