@@ -57,6 +57,7 @@ import com.gdpost.utils.TemplateHelper.RenewedHQListColumn;
 import com.gdpost.utils.TemplateHelper.RenewedProvListColumn;
 import com.gdpost.utils.TemplateHelper.RenewedStatusColumn;
 import com.gdpost.utils.TemplateHelper.Template.FileTemplate;
+import com.gdpost.utils.TemplateHelper.UnderWriteColumn;
 import com.gdpost.utils.TemplateHelper.UnderWriteDtlColumn;
 import com.gdpost.utils.TemplateHelper.UnderWriteRemarkColumn;
 import com.gdpost.utils.TemplateHelper.UnderWriteSentDataColumn;
@@ -252,6 +253,10 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case UnderWriteSentData:
 			standardColumns = PolicySentDataColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_policy_reprint_dtl character set utf8 (";
+			break;
+		case UnderWriteData:
+			standardColumns = UnderWriteColumn.getStandardColumns();
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_under_write character set utf8 (";
 			break;
 		case UnderWriteDtlData:
 			standardColumns = UnderWriteDtlColumn.getStandardColumns();
@@ -1386,6 +1391,10 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case RenewedFeeMatchList:
 			standardColumns = RenewedFeeMatchColumn.getStandardColumns();
 			keyRow = RenewedFeeMatchColumn.KEY_ROW;
+			break;
+		case UnderWriteData:
+			standardColumns = UnderWriteColumn.getStandardColumns();
+			keyRow = UnderWriteColumn.KEY_ROW;
 			break;
 		case UnderWriteDtlData:
 			standardColumns = UnderWriteDtlColumn.getStandardColumns();
