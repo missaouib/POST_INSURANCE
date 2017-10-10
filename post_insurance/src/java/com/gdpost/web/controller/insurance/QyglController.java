@@ -696,14 +696,19 @@ public class QyglController {
 		request.setAttribute("name", orgName);
 		//默认返回未处理工单
 		String status = request.getParameter("status");
+		String status_flag = request.getParameter("status_flag");
 		boolean isEmpty = false;
-		if(status == null) {
+		boolean isNull = false;
+		if(status == null || (status_flag!=null && status_flag.equals("null"))) {
+			isNull = true;
 			status = UW_STATUS.NewStatus.name();
 			if(orgCode.length()>4) {
 				status = UW_STATUS.SendStatus.name();
 			}
 			request.setAttribute("status", status);
+			request.setAttribute("status_flag", "null");
 		} else {
+			request.setAttribute("status_flag", status);
 			if(status.trim().length()<=0) {
 				isEmpty = true;
 			}
@@ -718,7 +723,10 @@ public class QyglController {
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
-		if(isEmpty) {
+		if(isNull) {
+			csf.add(new SearchFilter("status", Operator.OR_EQ, UW_STATUS.NewStatus.name()));
+			csf.add(new SearchFilter("status", Operator.OR_EQ, UW_STATUS.SendStatus.name()));
+		} else if(isEmpty) {
 			csf.add(new SearchFilter("status", Operator.NEQ, UW_STATUS.DelStatus.name()));
 		} else {
 			csf.add(new SearchFilter("status", Operator.EQ, status));

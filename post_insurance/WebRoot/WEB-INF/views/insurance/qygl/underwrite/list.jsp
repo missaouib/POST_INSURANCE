@@ -8,11 +8,13 @@
 	<input type="hidden" name="orgCode" value="${orgCode }"/>
 	<input type="hidden" name="name" value="${name }"/>
 	<input type="hidden" name="status" value="${status }"/>
+	<input type="hidden" name="status_flag" value="${status_flag }"/>
 	<input type="hidden" name="search_LTE_sysDate" value="${param.search_LTE_sysDate }"/>
 	<input type="hidden" name="search_GTE_sysDate" value="${param.search_GTE_sysDate }"/>
 </dwz:paginationForm>
 
 <form method="post" id="hfForm" action="${contextPath }/qygl/underwrite/list" onsubmit="return navTabSearch(this)">
+<input type="hidden" name="status_flag" value="${status_flag }"/>
 	<div class="pageHeader">
 		<div class="searchBar">
 			<table class="searchContent">

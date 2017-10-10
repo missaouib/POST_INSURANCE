@@ -135,6 +135,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 		String sql6 = null;
 		String sql7 = null;
 		String sql8 = null;
+		String sql9 = null;
 		switch(ft) {
 		case Policy:
 			standardColumns = PolicyColumn.getStandardColumns();
@@ -281,6 +282,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql6 = "update t_renewed_list t1, t_cs_report t2, t_policy t3 set t1.fee_status=\"已终止\" where t1.policy_no=t2.policy_no and t2.policy_no=t3.policy_no and t3.attached_flag=0 and t2.cs_code=\"CT\" and t2.money>(t3.total_fee*0.1);";
 			sql7 = "update t_renewed_list t1, t_cs_report t2, t_pay_success_list t3 set t1.fee_status=\"交费成功\" where t1.policy_no=t2.policy_no and t2.cs_code=\"RE\" and datediff(now(),t2.operate_time)=0 and t2.cs_date>t1.fee_date and t2.cs_no=t3.rel_no and t3.fail_desc=\"成功\";";
 			sql8 = "update t_policy t1, t_cs_report t2, t_pay_success_list t3 set t1.status=\"有效\" where t1.policy_no=t2.policy_no and t2.cs_code=\"RE\" and datediff(now(),t2.operate_time)=0 and t2.cs_no=t3.rel_no and t3.fail_desc=\"成功\";";
+			sql9 = "update t_issue t1, t_cs_report t2, t_policy t3 set t1.status=\"已退保\" where t1.status<>\"已结案\" and t1.policy_no=t2.policy_no and t2.policy_no=t3.policy_no and t3.attached_flag=0 and t2.cs_code=\"CT\" and t2.money>(t3.total_fee*0.1);";
 			break;
 		case CsLoan:
 			standardColumns = CsLoanColumn.getStandardColumns();
@@ -432,6 +434,10 @@ public class UploadDataServiceImpl implements UploadDataService{
 			
 			if(sql8 != null) {
         		statement.executeUpdate(sql8);
+        	}
+			
+			if(sql9 != null) {
+        		statement.executeUpdate(sql9);
         	}
 			
 			dr.setFlag(true);
@@ -1064,7 +1070,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql.append(" ON DUPLICATE KEY UPDATE ");
 			sql.append("bill_back_date=VALUES(bill_back_date);");
 			log.debug("----------------city update status batch sql : " + sql);
-			sql2 = "delete from t_policy where form_no is null";
+			sql2 = "delete from t_policy where form_no is null;";
 			//sql3 = "update t_policy set bill_back_date=policy_date where bill_back_date is null;";
 			break;
 		case UnderWriteSentData:
@@ -1090,7 +1096,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql.append(" ON DUPLICATE KEY UPDATE ");
 			sql.append("policy_no=VALUES(policy_no), form_no=VALUES(form_no), prov_ems_no=VALUES(prov_ems_no), prov_send_date=VALUES(prov_send_date), status=VALUES(status);");
 			log.debug("----------------city update status batch sql : " + sql);
-			sql2 = "delete from t_under_write where holder is null";
+			sql2 = "delete from t_under_write where holder is null;";
+			sql2 = "update t_under_write set status=\"CloseStatus\" where sign_input_date is not null;";
 			break;
 		case UnderWriteDtlData:
 			standardColumns = UnderWriteDtlColumn.getStandardColumns();
@@ -1152,7 +1159,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql.append(" ON DUPLICATE KEY UPDATE ");
 			sql.append("plan_date=VALUES(plan_date), remark=VALUES(remark);");
 			log.debug("----------------city update status batch sql : " + sql);
-			sql2 = "delete from t_under_write where holder is null";
+			sql2 = "delete from t_under_write where holder is null;";
 			break;
 		case UnderWriteInsured:
 			standardColumns = PolicyDtlExtColumn.getStandardColumns();
@@ -1179,7 +1186,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql.append("insured_card_type=VALUES(insured_card_type), insured_card_num=VALUES(insured_card_num),");
 			sql.append("insured_card_valid=VALUES(insured_card_valid), bank_account=VALUES(bank_account);");
 			log.debug("----------------insured data batch sql : " + sql);
-			sql2 = "delete from t_policy_dtl where holder is null";
+			sql2 = "delete from t_policy_dtl where holder is null;";
 			break;
 		case DocNotScanDtl:
 			return dr;
