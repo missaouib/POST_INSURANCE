@@ -699,7 +699,7 @@ public class QyglController {
 		String status_flag = request.getParameter("status_flag");
 		boolean isEmpty = false;
 		boolean isNull = false;
-		if(status == null || (status_flag!=null && status_flag.equals("null"))) {
+		if(status == null || (status != null && status.trim().length()<=0 && status_flag!=null && status_flag.equals("null"))) {
 			isNull = true;
 			status = UW_STATUS.NewStatus.name();
 			if(orgCode.length()>4) {
