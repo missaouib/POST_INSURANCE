@@ -64,12 +64,12 @@ public class QyglServiceImpl implements QyglService {
 	 */ 
 	@Override
 	public CheckWrite getCheckWrite(Long id) {
-		return checkWriteDAO.findOne(id);
+		return checkWriteDAO.getOne(id);
 	}
 	
 	@Override
 	public CheckRecord getCheckRecord(Long id) {
-		return checkRecordDAO.findOne(id);
+		return checkRecordDAO.getOne(id);
 	}
 
 	/*
@@ -227,7 +227,7 @@ public class QyglServiceImpl implements QyglService {
 	 */
 	@Override
 	public UnderWrite getUnderWrite(Long id) {
-		return uwDAO.findOne(id);
+		return uwDAO.getOne(id);
 	}
 
 	@Override
@@ -237,8 +237,8 @@ public class QyglServiceImpl implements QyglService {
 
 	@Override
 	public void deleteUnderWrite(Long id) {
-		UnderWrite user = uwDAO.findOne(id);
-		uwDAO.delete(user.getId());
+		UnderWrite user = uwDAO.getOne(id);
+		uwDAO.deleteById(user.getId());
 	}
 
 	@Override

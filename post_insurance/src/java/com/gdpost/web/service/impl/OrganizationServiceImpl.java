@@ -40,7 +40,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 	 */ 
 	@Override
 	public Organization get(Long id) {
-		return organizationDAO.findOne(id);
+		return organizationDAO.findById(id).get();
 	}
 	
 	/* (non-Javadoc)
@@ -63,7 +63,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 	@Override
 	public void saveOrUpdate(Organization organization) {
 		if (organization.getId() == null) {
-			Organization parentOrganization = organizationDAO.findOne(organization.getParent().getId());
+			Organization parentOrganization = organizationDAO.getOne(organization.getParent().getId());
 			if (parentOrganization == null) {
 				throw new NotExistedException("id=" + organization.getParent().getId() + "父组织不存在！");
 			}

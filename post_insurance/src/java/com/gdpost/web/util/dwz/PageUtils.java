@@ -37,21 +37,21 @@ public class PageUtils {
 	public static Pageable createPageable(Page page) {
 		
 		if(page.getOrders() != null && !page.getOrders().isEmpty()) {
-			return new PageRequest(page.getPlainPageNum() - 1, page.getNumPerPage(), new Sort(page.getOrders()));
+			return PageRequest.of(page.getPlainPageNum() - 1, page.getNumPerPage(), Sort.by(page.getOrders()));
 		}
 		
 		if (StringUtils.isNotBlank(page.getOrderField())) {
 			// 忽略大小写
 			if (page.getOrderDirection().equalsIgnoreCase(Page.ORDER_DIRECTION_ASC)) {
-				return new PageRequest(page.getPlainPageNum() - 1, page.getNumPerPage(), 
+				return PageRequest.of(page.getPlainPageNum() - 1, page.getNumPerPage(), 
 						Sort.Direction.ASC, page.getOrderField());
 			} else {
-				return new PageRequest(page.getPlainPageNum() - 1, page.getNumPerPage(), 
+				return PageRequest.of(page.getPlainPageNum() - 1, page.getNumPerPage(), 
 						Sort.Direction.DESC, page.getOrderField());
 			}
 		}
 
-		return new PageRequest(page.getPlainPageNum() - 1, page.getNumPerPage());
+		return PageRequest.of(page.getPlainPageNum() - 1, page.getNumPerPage());
 	}
 
 	/**

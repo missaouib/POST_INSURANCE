@@ -48,7 +48,7 @@ public class XqglServiceImpl implements XqglService {
 	 */ 
 	@Override
 	public RenewedList get(Long id) {
-		return renewedListDAO.findOne(id);
+		return renewedListDAO.getOne(id);
 	}
 
 	/*
@@ -66,8 +66,8 @@ public class XqglServiceImpl implements XqglService {
 	 */
 	@Override
 	public void delete(Long id) {
-		RenewedList user = renewedListDAO.findOne(id);
-		renewedListDAO.delete(user.getId());
+		RenewedList user = renewedListDAO.getOne(id);
+		renewedListDAO.deleteById(user.getId());
 	}
 	
 	/*
@@ -169,7 +169,7 @@ public class XqglServiceImpl implements XqglService {
 	
 	@Override
 	public RenewedStay getRenewedStay(Long id) {
-		return stayDAO.findOne(id);
+		return stayDAO.getOne(id);
 	}
 
 	/*
@@ -197,8 +197,8 @@ public class XqglServiceImpl implements XqglService {
 	 */
 	@Override
 	public void deleteRenewedStay(Long id) {
-		RenewedStay user = stayDAO.findOne(id);
-		stayDAO.delete(user.getId());
+		RenewedStay user = stayDAO.getOne(id);
+		stayDAO.deleteById(user.getId());
 	}
 	
 	/*

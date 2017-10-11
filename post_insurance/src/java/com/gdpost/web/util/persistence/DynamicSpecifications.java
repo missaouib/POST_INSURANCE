@@ -389,6 +389,11 @@ public class DynamicSpecifications {
 		}
 		
 		return new Specification<T>() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 7385161076658348791L;
+
 			@SuppressWarnings({ "rawtypes"})
 			@Override
 			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {

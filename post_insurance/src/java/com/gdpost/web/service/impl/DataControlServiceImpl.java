@@ -29,7 +29,7 @@ public class DataControlServiceImpl implements DataControlService {
 	 */ 
 	@Override
 	public DataControl get(Long id) {
-		return dataControlDAO.findOne(id);
+		return dataControlDAO.getOne(id);
 	}
 
 	/*
@@ -47,7 +47,7 @@ public class DataControlServiceImpl implements DataControlService {
 	 */
 	@Override
 	public void delete(Long id) {
-		dataControlDAO.delete(id);
+		dataControlDAO.deleteById(id);
 	}
 	
 	/*

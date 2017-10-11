@@ -26,7 +26,7 @@ public class CommonServiceImpl implements CommonService {
 	
 	@Override
 	public Policy getPolicyById(Long id) {
-		return policyDAO.findOne(id);
+		return policyDAO.getOne(id);
 	}
 	
 	@Override

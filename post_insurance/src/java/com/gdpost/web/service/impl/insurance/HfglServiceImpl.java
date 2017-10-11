@@ -48,7 +48,7 @@ public class HfglServiceImpl implements HfglService {
 	 */ 
 	@Override
 	public CallFailList get(Long id) {
-		return callFailListDAO.findOne(id);
+		return callFailListDAO.getOne(id);
 	}
 
 	/*
@@ -66,8 +66,8 @@ public class HfglServiceImpl implements HfglService {
 	 */
 	@Override
 	public void delete(Long id) {
-		CallFailList user = callFailListDAO.findOne(id);
-		callFailListDAO.delete(user.getId());
+		CallFailList user = callFailListDAO.getOne(id);
+		callFailListDAO.deleteById(user.getId());
 	}
 	
 	/*
@@ -121,7 +121,7 @@ public class HfglServiceImpl implements HfglService {
 	
 	@Override
 	public List<CallFailList> batchMail(List<CallFailList> list) {
-		return callFailListDAO.save(list);
+		return callFailListDAO.saveAll(list);
 	}
 	
 	@Override

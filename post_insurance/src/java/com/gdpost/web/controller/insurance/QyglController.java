@@ -701,9 +701,9 @@ public class QyglController {
 		boolean isNull = false;
 		if(status == null || (status != null && status.trim().length()<=0 && status_flag!=null && status_flag.equals("null"))) {
 			isNull = true;
-			status = UW_STATUS.NewStatus.name();
+			//status = UW_STATUS.NewStatus.name();
 			if(orgCode.length()>4) {
-				status = UW_STATUS.SendStatus.name();
+				//status = UW_STATUS.SendStatus.name();
 			}
 			request.setAttribute("status", status);
 			request.setAttribute("status_flag", "null");

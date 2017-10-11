@@ -29,7 +29,7 @@ public class RoleServiceImpl implements RoleService {
 	 */ 
 	@Override
 	public Role get(Long id) {
-		return roleDAO.findOne(id);
+		return roleDAO.getOne(id);
 	}
 
 	/*
@@ -47,7 +47,7 @@ public class RoleServiceImpl implements RoleService {
 	 */
 	@Override
 	public void delete(Long id) {
-		roleDAO.delete(id);
+		roleDAO.deleteById(id);
 	}
 	
 	/*

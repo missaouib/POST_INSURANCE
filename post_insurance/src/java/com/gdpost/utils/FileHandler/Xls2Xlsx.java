@@ -130,22 +130,21 @@ public class Xls2Xlsx {
         }
     }
 
-    @SuppressWarnings("deprecation")
 	private void transform(HSSFWorkbook workbookOld,XSSFWorkbook workbookNew,Integer hash, HSSFCellStyle styleOld, XSSFCellStyle styleNew) {
-        styleNew.setAlignment(styleOld.getAlignment());
-        styleNew.setBorderBottom(styleOld.getBorderBottom());
-        styleNew.setBorderLeft(styleOld.getBorderLeft());
-        styleNew.setBorderRight(styleOld.getBorderRight());
-        styleNew.setBorderTop(styleOld.getBorderTop());
+        styleNew.setAlignment(styleOld.getAlignmentEnum());
+        styleNew.setBorderBottom(styleOld.getBorderBottomEnum());
+        styleNew.setBorderLeft(styleOld.getBorderLeftEnum());
+        styleNew.setBorderRight(styleOld.getBorderRightEnum());
+        styleNew.setBorderTop(styleOld.getBorderTopEnum());
         styleNew.setDataFormat(this.transform( workbookOld, workbookNew,styleOld.getDataFormat()));
         styleNew.setFillBackgroundColor(styleOld.getFillBackgroundColor());
         styleNew.setFillForegroundColor(styleOld.getFillForegroundColor());
-        styleNew.setFillPattern(styleOld.getFillPattern());
+        styleNew.setFillPattern(styleOld.getFillPatternEnum());
         styleNew.setFont(this.transform(workbookNew,styleOld.getFont(workbookOld)));
         styleNew.setHidden(styleOld.getHidden());
         styleNew.setIndention(styleOld.getIndention());
         styleNew.setLocked(styleOld.getLocked());
-        styleNew.setVerticalAlignment(styleOld.getVerticalAlignment());
+        styleNew.setVerticalAlignment(styleOld.getVerticalAlignmentEnum());
         styleNew.setWrapText(styleOld.getWrapText());
         this.styleMap.put(hash, styleNew);
     }
@@ -156,10 +155,9 @@ public class Xls2Xlsx {
 	    return formatNew.getFormat(formatOld.getFormat(index));
 	}
 
-    @SuppressWarnings("deprecation")
 	private XSSFFont transform(XSSFWorkbook workbookNew,HSSFFont fontOld) {
         XSSFFont fontNew = workbookNew.createFont();
-        fontNew.setBoldweight(fontOld.getBoldweight());
+        fontNew.setBold(fontOld.getBold());
         fontNew.setCharSet(fontOld.getCharSet());
         fontNew.setColor(fontOld.getColor());
         fontNew.setFontName(fontOld.getFontName());

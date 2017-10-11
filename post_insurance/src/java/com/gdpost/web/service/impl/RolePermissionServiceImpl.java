@@ -29,7 +29,7 @@ public class RolePermissionServiceImpl implements RolePermissionService {
 	 */ 
 	@Override
 	public RolePermission get(Long id) {
-		return rolePermissionDAO.findOne(id);
+		return rolePermissionDAO.getOne(id);
 	}
 
 	/*
@@ -47,7 +47,7 @@ public class RolePermissionServiceImpl implements RolePermissionService {
 	 */
 	@Override
 	public void delete(Long id) {
-		rolePermissionDAO.delete(id);
+		rolePermissionDAO.deleteById(id);
 	}
 	
 	/*
@@ -86,7 +86,7 @@ public class RolePermissionServiceImpl implements RolePermissionService {
 	 */
 	@Override
 	public void save(List<RolePermission> newRList) {
-		rolePermissionDAO.save(newRList);
+		rolePermissionDAO.saveAll(newRList);
 	}
 
 	/* (non-Javadoc)
@@ -94,6 +94,6 @@ public class RolePermissionServiceImpl implements RolePermissionService {
 	 */
 	@Override
 	public void delete(List<RolePermission> delRList) {
-		rolePermissionDAO.delete(delRList);
+		rolePermissionDAO.deleteAll(delRList);
 	}
 }

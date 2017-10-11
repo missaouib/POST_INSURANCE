@@ -39,7 +39,7 @@ public class PolicyServiceImpl implements PolicyService {
 	 */ 
 	@Override
 	public Policy get(Long id) {
-		return policyDAO.findOne(id);
+		return policyDAO.getOne(id);
 	}
 
 	/*
@@ -93,7 +93,7 @@ public class PolicyServiceImpl implements PolicyService {
 	 */	
 	@Override
 	public PolicyReprintDtl getPolicyReprintDtl(Long id) {
-		return policyReprintDtlDAO.findOne(id);
+		return policyReprintDtlDAO.getOne(id);
 	}
 
 	@Override

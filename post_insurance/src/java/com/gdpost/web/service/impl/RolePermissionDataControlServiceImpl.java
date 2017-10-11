@@ -29,7 +29,7 @@ public class RolePermissionDataControlServiceImpl implements RolePermissionDataC
 	 */ 
 	@Override
 	public RolePermissionDataControl get(Long id) {
-		return rolePermissionDataControlDAO.findOne(id);
+		return rolePermissionDataControlDAO.getOne(id);
 	}
 
 	/*
@@ -47,7 +47,7 @@ public class RolePermissionDataControlServiceImpl implements RolePermissionDataC
 	 */
 	@Override
 	public void delete(Long id) {
-		rolePermissionDataControlDAO.delete(id);
+		rolePermissionDataControlDAO.deleteById(id);
 	}
 	
 	/*
@@ -78,7 +78,7 @@ public class RolePermissionDataControlServiceImpl implements RolePermissionDataC
 	 */
 	@Override
 	public void save(List<RolePermissionDataControl> newRList) {
-		rolePermissionDataControlDAO.save(newRList);
+		rolePermissionDataControlDAO.saveAll(newRList);
 	}
 
 	/* (non-Javadoc)
@@ -86,7 +86,7 @@ public class RolePermissionDataControlServiceImpl implements RolePermissionDataC
 	 */
 	@Override
 	public void delete(List<RolePermissionDataControl> delRList) {
-		rolePermissionDataControlDAO.delete(delRList);
+		rolePermissionDataControlDAO.deleteAll(delRList);
 	}
 
 	/* (non-Javadoc)

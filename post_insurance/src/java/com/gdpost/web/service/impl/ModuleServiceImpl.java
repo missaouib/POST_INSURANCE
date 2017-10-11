@@ -32,7 +32,7 @@ public class ModuleServiceImpl implements ModuleService {
 	 */ 
 	@Override
 	public Module get(Long id) {
-		return moduleDAO.findOne(id);
+		return moduleDAO.getOne(id);
 	}
 
 	/*

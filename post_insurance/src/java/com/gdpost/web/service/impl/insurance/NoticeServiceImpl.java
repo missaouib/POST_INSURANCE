@@ -38,7 +38,7 @@ public class NoticeServiceImpl implements NoticeService {
 	 */ 
 	@Override
 	public Notice getNotice(Long id) {
-		return noticeDAO.findOne(id);
+		return noticeDAO.getOne(id);
 	}
 
 	/*
@@ -57,8 +57,8 @@ public class NoticeServiceImpl implements NoticeService {
 	 */
 	@Override
 	public void deleteNotice(Long id) {
-		Notice type = noticeDAO.findOne(id);
-		noticeDAO.delete(type.getId());
+		Notice type = noticeDAO.getOne(id);
+		noticeDAO.deleteById(type.getId());
 	}
 	
 	/*
@@ -106,7 +106,7 @@ public class NoticeServiceImpl implements NoticeService {
 	*/
 	@Override
 	public NoticeAtt getNoticeAtt(Long id) {
-		return noticeAttDAO.findOne(id);
+		return noticeAttDAO.getOne(id);
 	}
 
 	/*
@@ -125,8 +125,8 @@ public class NoticeServiceImpl implements NoticeService {
 	 */
 	@Override
 	public void deleteNoticeAtt(Long id) {
-		NoticeAtt type = noticeAttDAO.findOne(id);
-		noticeAttDAO.delete(type.getId());
+		NoticeAtt type = noticeAttDAO.getOne(id);
+		noticeAttDAO.deleteById(type.getId());
 	}
 	
 	/*

@@ -32,7 +32,7 @@ public class FpglServiceImpl implements FpglService {
 	 */ 
 	@Override
 	public InvoiceReq get(Long id) {
-		return invoiceReqDAO.findOne(id);
+		return invoiceReqDAO.getOne(id);
 	}
 
 	/*
@@ -51,8 +51,8 @@ public class FpglServiceImpl implements FpglService {
 	 */
 	@Override
 	public void delete(Long id) {
-		InvoiceReq user = invoiceReqDAO.findOne(id);
-		invoiceReqDAO.delete(user.getId());
+		InvoiceReq user = invoiceReqDAO.getOne(id);
+		invoiceReqDAO.deleteById(user.getId());
 	}
 	
 	/*
