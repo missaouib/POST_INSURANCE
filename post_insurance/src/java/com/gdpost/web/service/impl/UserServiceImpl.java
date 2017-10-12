@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
 	 */ 
 	@Override
 	public User get(Long id) {
-		return userDAO.getOne(id);
+		return userDAO.findById(id).get();
 	}
 
 	/*
@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
 					.getPrincipal() + "。");
 			throw new NotDeletedException("不能删除超级管理员用户。");
 		}
-		User user = userDAO.getOne(id);
+		User user = userDAO.findById(id).get();
 		userDAO.deleteById(user.getId());
 		
 		// TODO 从shiro中注销

@@ -51,7 +51,7 @@ public class LpglServiceImpl implements LpglService {
 	 */ 
 	@Override
 	public Settlement getSettle(Long id) {
-		return settlementDAO.getOne(id);
+		return settlementDAO.findById(id).get();
 	}
 
 	/*
@@ -77,8 +77,7 @@ public class LpglServiceImpl implements LpglService {
 	 */
 	@Override
 	public void deleteSettle(Long id) {
-		Settlement user = settlementDAO.getOne(id);
-		settlementDAO.deleteById(user.getId());
+		settlementDAO.deleteById(id);
 	}
 	
 	/*
@@ -114,7 +113,7 @@ public class LpglServiceImpl implements LpglService {
 	
 	@Override
 	public SettlementDtl getSettleDtl(Long id) {
-		return settlementDtlDAO.getOne(id);
+		return settlementDtlDAO.findById(id).get();
 	}
 
 	/*
@@ -132,8 +131,7 @@ public class LpglServiceImpl implements LpglService {
 	 */
 	@Override
 	public void deleteSettleDtl(Long id) {
-		SettlementDtl dtl = settlementDtlDAO.getOne(id);
-		settlementDtlDAO.deleteById(dtl.getId());
+		settlementDtlDAO.deleteById(id);
 	}
 	
 	/*
@@ -174,7 +172,7 @@ public class LpglServiceImpl implements LpglService {
 
 	@Override
 	public SettlementLog getSettleLog(Long id) {
-		return settlementLogDAO.getOne(id);
+		return settlementLogDAO.findById(id).get();
 	}
 
 	@Override
@@ -194,7 +192,7 @@ public class LpglServiceImpl implements LpglService {
 	
 	@Override
 	public SettleTask getSettleTask(Long id) {
-		return settleTaskDAO.getOne(id);
+		return settleTaskDAO.findById(id).get();
 	}
 
 	/*
@@ -213,8 +211,7 @@ public class LpglServiceImpl implements LpglService {
 	 */
 	@Override
 	public void deleteSettleTask(Long id) {
-		SettleTask user = settleTaskDAO.getOne(id);
-		settleTaskDAO.deleteById(user.getId());
+		settleTaskDAO.deleteById(id);
 	}
 	
 	/*

@@ -81,7 +81,7 @@ public class BaseDataServiceImpl implements BaseDataService {
 	 */ 
 	@Override
 	public BankCode getBankCode(Long id) {
-		return bankCodeDAO.getOne(id);
+		return bankCodeDAO.findById(id).get();
 	}
 
 	/*
@@ -105,7 +105,7 @@ public class BaseDataServiceImpl implements BaseDataService {
 	 */
 	@Override
 	public void deleteBankCode(Long id) {
-		BankCode type = bankCodeDAO.getOne(id);
+		BankCode type = bankCodeDAO.findById(id).get();
 		bankCodeDAO.deleteById(type.getId());
 	}
 	
@@ -142,7 +142,7 @@ public class BaseDataServiceImpl implements BaseDataService {
 
 	@Override
 	public CallDealType getCallDealType(Long id) {
-		return callDealTypeDAO.getOne(id);
+		return callDealTypeDAO.findById(id).get();
 	}
 
 	@Override
@@ -184,7 +184,7 @@ public class BaseDataServiceImpl implements BaseDataService {
 
 	@Override
 	public ConservationError getConservationError(Long id) {
-		return conservationErrorDAO.getOne(id);
+		return conservationErrorDAO.findById(id).get();
 	}
 
 	@Override
@@ -225,7 +225,7 @@ public class BaseDataServiceImpl implements BaseDataService {
 
 	@Override
 	public IssueType getIssueType(Long id) {
-		return issueTypeDAO.getOne(id);
+		return issueTypeDAO.findById(id).get();
 	}
 
 	@Override
@@ -242,7 +242,7 @@ public class BaseDataServiceImpl implements BaseDataService {
 
 	@Override
 	public void deleteIssueType(Long id) {
-		IssueType type = issueTypeDAO.getOne(id);
+		IssueType type = issueTypeDAO.findById(id).get();
 		issueTypeDAO.delete(type);
 		
 	}
@@ -268,7 +268,7 @@ public class BaseDataServiceImpl implements BaseDataService {
 
 	@Override
 	public RenewalType getRenewalType(Long id) {
-		return renewalTypeDAO.getOne(id);
+		return renewalTypeDAO.findById(id).get();
 	}
 
 	@Override
@@ -285,7 +285,7 @@ public class BaseDataServiceImpl implements BaseDataService {
 
 	@Override
 	public void deleteRenewalType(Long id) {
-		RenewalType type = renewalTypeDAO.getOne(id);
+		RenewalType type = renewalTypeDAO.findById(id).get();
 		renewalTypeDAO.delete(type);
 		
 	}
@@ -311,7 +311,7 @@ public class BaseDataServiceImpl implements BaseDataService {
 
 	@Override
 	public Prd getPrd(Long id) {
-		return prdDAO.getOne(id);
+		return prdDAO.findById(id).get();
 	}
 
 	@Override
@@ -328,7 +328,7 @@ public class BaseDataServiceImpl implements BaseDataService {
 
 	@Override
 	public void deletePrd(Long id) {
-		Prd prd = prdDAO.getOne(id);
+		Prd prd = prdDAO.findById(id).get();
 		prdDAO.delete(prd);
 		
 	}
@@ -360,7 +360,7 @@ public class BaseDataServiceImpl implements BaseDataService {
 	 */
 	@Override
 	public CheckFixType getCheckFixType(Long id) {
-		return checkfixTypeDAO.getOne(id);
+		return checkfixTypeDAO.findById(id).get();
 	}
 
 	@Override
@@ -377,7 +377,7 @@ public class BaseDataServiceImpl implements BaseDataService {
 
 	@Override
 	public void deleteCheckFixType(Long id) {
-		CheckFixType type = checkfixTypeDAO.getOne(id);
+		CheckFixType type = checkfixTypeDAO.findById(id).get();
 		checkfixTypeDAO.delete(type);
 		
 	}
@@ -409,7 +409,7 @@ public class BaseDataServiceImpl implements BaseDataService {
 	 */
 	@Override
 	public ConservationType getConservationType(Long id) {
-		return csTypeDAO.getOne(id);
+		return csTypeDAO.findById(id).get();
 	}
 
 	@Override
@@ -426,7 +426,7 @@ public class BaseDataServiceImpl implements BaseDataService {
 
 	@Override
 	public void deleteConservationType(Long id) {
-		ConservationType type = csTypeDAO.getOne(id);
+		ConservationType type = csTypeDAO.findById(id).get();
 		csTypeDAO.delete(type);
 		
 	}
@@ -458,7 +458,7 @@ public class BaseDataServiceImpl implements BaseDataService {
 	 */
 	@Override
 	public ProvOrgCode getProvOrgCode(Long id) {
-		return provOrgCodeDAO.getOne(id);
+		return provOrgCodeDAO.findById(id).get();
 	}
 
 	@Override
@@ -475,7 +475,7 @@ public class BaseDataServiceImpl implements BaseDataService {
 
 	@Override
 	public void deleteProvOrgCode(Long id) {
-		ProvOrgCode type = provOrgCodeDAO.getOne(id);
+		ProvOrgCode type = provOrgCodeDAO.findById(id).get();
 		provOrgCodeDAO.delete(type);
 		
 	}
@@ -506,7 +506,7 @@ public class BaseDataServiceImpl implements BaseDataService {
 	 */
 	@Override
 	public Staff getStaff(Long id) {
-		return staffDAO.getOne(id);
+		return staffDAO.findById(id).get();
 	}
 
 	@Override
@@ -523,7 +523,7 @@ public class BaseDataServiceImpl implements BaseDataService {
 
 	@Override
 	public void deleteStaff(Long id) {
-		Staff staff = staffDAO.getOne(id);
+		Staff staff = staffDAO.findById(id).get();
 		staffDAO.delete(staff);
 		
 	}
@@ -554,7 +554,7 @@ public class BaseDataServiceImpl implements BaseDataService {
 	 */
 	@Override
 	public CsAddr getCsAddr(Long id) {
-		return csAddrDAO.getOne(id);
+		return csAddrDAO.findById(id).get();
 	}
 
 	@Override
@@ -571,7 +571,7 @@ public class BaseDataServiceImpl implements BaseDataService {
 
 	@Override
 	public void deleteCsAddr(Long id) {
-		CsAddr csAddr = csAddrDAO.getOne(id);
+		CsAddr csAddr = csAddrDAO.findById(id).get();
 		csAddrDAO.delete(csAddr);
 		
 	}

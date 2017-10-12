@@ -114,7 +114,7 @@ public class User implements Idable<Long>, Serializable {
 	@OrderBy("priority ASC")
 	private List<UserRole> userRoles = new ArrayList<UserRole>();
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="organization_id", referencedColumnName="id")
 	private Organization organization;
 	

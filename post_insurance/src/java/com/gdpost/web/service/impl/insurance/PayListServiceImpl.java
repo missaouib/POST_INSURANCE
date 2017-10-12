@@ -41,7 +41,7 @@ public class PayListServiceImpl implements PayListService {
 	 */ 
 	@Override
 	public PayFailList get(Long id) {
-		return payFailListDAO.getOne(id);
+		return payFailListDAO.findById(id).get();
 	}
 
 	/*
@@ -60,8 +60,7 @@ public class PayListServiceImpl implements PayListService {
 	 */
 	@Override
 	public void delete(Long id) {
-		PayFailList user = payFailListDAO.getOne(id);
-		payFailListDAO.deleteById(user.getId());
+		payFailListDAO.deleteById(id);
 	}
 	
 	/*
@@ -196,7 +195,7 @@ public class PayListServiceImpl implements PayListService {
 	 */
 	@Override
 	public PaySuccessList getSuccessDtl(Long id) {
-		return paySuccessListDAO.getOne(id);
+		return paySuccessListDAO.findById(id).get();
 	}
 
 	@Override
@@ -207,8 +206,7 @@ public class PayListServiceImpl implements PayListService {
 
 	@Override
 	public void deleteSuccessDtl(Long id) {
-		PaySuccessList user = paySuccessListDAO.getOne(id);
-		paySuccessListDAO.deleteById(user.getId());
+		paySuccessListDAO.deleteById(id);
 	}
 	
 	@Override

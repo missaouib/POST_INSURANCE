@@ -7,6 +7,7 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -297,7 +298,7 @@ mail_success
 		this.id = id;
 	}
 
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="organ_code", referencedColumnName="org_code")
 	public Organization getOrganization() {
 		return organization;
@@ -327,7 +328,7 @@ mail_success
 
 //	@ManyToOne
 //	@JoinColumn(name="policy_no", referencedColumnName="policy_no")
-	@ManyToOne(cascade = CascadeType.REMOVE, targetEntity = Policy.class)
+	@ManyToOne(cascade = CascadeType.REMOVE, targetEntity = Policy.class, fetch=FetchType.EAGER)
 	@JoinColumnsOrFormulas(value={
 	@JoinColumnOrFormula(column=@JoinColumn(name ="policy_no", referencedColumnName ="policy_no", insertable =false, updatable = false)),
 	@JoinColumnOrFormula(formula=@JoinFormula(value="0", referencedColumnName = "attached_flag"))

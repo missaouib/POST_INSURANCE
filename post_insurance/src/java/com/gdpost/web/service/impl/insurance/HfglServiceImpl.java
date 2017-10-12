@@ -48,7 +48,7 @@ public class HfglServiceImpl implements HfglService {
 	 */ 
 	@Override
 	public CallFailList get(Long id) {
-		return callFailListDAO.getOne(id);
+		return callFailListDAO.findById(id).get();
 	}
 
 	/*
@@ -66,8 +66,7 @@ public class HfglServiceImpl implements HfglService {
 	 */
 	@Override
 	public void delete(Long id) {
-		CallFailList user = callFailListDAO.getOne(id);
-		callFailListDAO.deleteById(user.getId());
+		callFailListDAO.deleteById(id);
 	}
 	
 	/*

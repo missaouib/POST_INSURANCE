@@ -29,7 +29,7 @@ public class UserRoleServiceImpl implements UserRoleService {
 	 */ 
 	@Override
 	public UserRole get(Long id) {
-		return userRoleDAO.getOne(id);
+		return userRoleDAO.findById(id).get();
 	}
 
 	/*

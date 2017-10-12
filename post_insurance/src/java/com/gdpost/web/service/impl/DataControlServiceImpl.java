@@ -29,7 +29,7 @@ public class DataControlServiceImpl implements DataControlService {
 	 */ 
 	@Override
 	public DataControl get(Long id) {
-		return dataControlDAO.getOne(id);
+		return dataControlDAO.findById(id).get();
 	}
 
 	/*

@@ -37,7 +37,7 @@ public class KfglServiceImpl implements KfglService {
 	 */ 
 	@Override
 	public Issue get(Long id) {
-		return issueDAO.getOne(id);
+		return issueDAO.findById(id).get();
 	}
 
 	/*
@@ -61,8 +61,7 @@ public class KfglServiceImpl implements KfglService {
 	 */
 	@Override
 	public void delete(Long id) {
-		Issue user = issueDAO.getOne(id);
-		issueDAO.deleteById(user.getId());
+		issueDAO.deleteById(id);
 	}
 	
 	/*

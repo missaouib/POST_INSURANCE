@@ -29,7 +29,7 @@ public class RolePermissionDataControlServiceImpl implements RolePermissionDataC
 	 */ 
 	@Override
 	public RolePermissionDataControl get(Long id) {
-		return rolePermissionDataControlDAO.getOne(id);
+		return rolePermissionDataControlDAO.findById(id).get();
 	}
 
 	/*

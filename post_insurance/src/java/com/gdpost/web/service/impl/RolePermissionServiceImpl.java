@@ -29,7 +29,7 @@ public class RolePermissionServiceImpl implements RolePermissionService {
 	 */ 
 	@Override
 	public RolePermission get(Long id) {
-		return rolePermissionDAO.getOne(id);
+		return rolePermissionDAO.findById(id).get();
 	}
 
 	/*

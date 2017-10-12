@@ -29,7 +29,7 @@ public class LogInfoServiceImpl implements LogInfoService {
 	 */ 
 	@Override
 	public LogInfo get(Long id) {
-		return logInfoDAO.getOne(id);
+		return logInfoDAO.findById(id).get();
 	}
 
 	/*

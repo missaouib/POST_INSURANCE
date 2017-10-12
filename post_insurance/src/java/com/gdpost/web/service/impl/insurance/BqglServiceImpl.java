@@ -69,7 +69,7 @@ public class BqglServiceImpl implements BqglService {
 	 */ 
 	@Override
 	public ConservationDtl get(Long id) {
-		return conservationDAO.getOne(id);
+		return conservationDAO.findById(id).get();
 	}
 
 	/*
@@ -88,8 +88,7 @@ public class BqglServiceImpl implements BqglService {
 	 */
 	@Override
 	public void delete(Long id) {
-		ConservationDtl user = conservationDAO.getOne(id);
-		conservationDAO.deleteById(user.getId());
+		conservationDAO.deleteById(id);
 	}
 	
 	/*
@@ -156,7 +155,7 @@ public class BqglServiceImpl implements BqglService {
 	
 	@Override
 	public OffsiteConservation getOffsiteConservation(Long id) {
-		return ocDAO.getOne(id);
+		return ocDAO.findById(id).get();
 	}
 
 	/*
@@ -175,8 +174,7 @@ public class BqglServiceImpl implements BqglService {
 	 */
 	@Override
 	public void deleteOffsiteConservation(Long id) {
-		OffsiteConservation user = ocDAO.getOne(id);
-		ocDAO.deleteById(user.getId());
+		ocDAO.deleteById(id);
 	}
 	
 	/*
@@ -212,7 +210,7 @@ public class BqglServiceImpl implements BqglService {
 
 	@Override
 	public CsReissue getCsReissue(Long id) {
-		return reissueDAO.getOne(id);
+		return reissueDAO.findById(id).get();
 	}
 	
 	@Override
@@ -243,7 +241,7 @@ public class BqglServiceImpl implements BqglService {
 
 	@Override
 	public ConservationReq getConservationReq(Long id) {
-		return creqDao.getOne(id);
+		return creqDao.findById(id).get();
 	}
 
 	@Override
@@ -273,7 +271,7 @@ public class BqglServiceImpl implements BqglService {
 	// 保全质押借款
 	@Override
 	public CsLoan getCsLoan(Long id) {
-		return csLoanDao.getOne(id);
+		return csLoanDao.findById(id).get();
 	}
 
 	@Override

@@ -389,6 +389,7 @@ public class DynamicSpecifications {
 		}
 		
 		return new Specification<T>() {
+
 			/**
 			 * 
 			 */
