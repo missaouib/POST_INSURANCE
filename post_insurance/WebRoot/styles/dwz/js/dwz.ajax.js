@@ -131,7 +131,7 @@ function navTabAjaxDone(json){
 			var args = $pagerForm.size()>0 ? $pagerForm.serializeArray() : {}
 			navTabPageBreak(args, json.rel);
 		}
-		
+
 		if ("closeCurrent" == json.callbackType) {
 			setTimeout(function(){navTab.closeCurrentTab(json.navTabId);}, 100);
 		} else if ("forward" == json.callbackType) {

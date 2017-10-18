@@ -103,7 +103,7 @@
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
 				<td>
-               <c:choose>  
+                <c:choose>  
 				    <c:when test="${item.checkDate>1}">  
 				        <div style="color: red;vertical-align:middle;font-weight:bold;">逾期</div>
 				    </c:when>
@@ -126,7 +126,7 @@
 				<td>${item.loanFee}</td>
 				<td><fmt:formatDate value="${item.shouldDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.status}</td>
-				<td>${item.remark}</td>
+				<td title="${item.remark}">${fn:substring(item.remark, 0, 14)}</td>
 			</tr>
 			</c:forEach>
 		</tbody>

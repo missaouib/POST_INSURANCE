@@ -100,7 +100,6 @@ public class UploadDataServiceImpl implements UploadDataService{
 		return springDataPage.getContent();
 	}
 
-	@SuppressWarnings("resource")
 	@Override
 	public DoRst importData(FileTemplate ft, HttpServletRequest request, DataTable dt, long member_id, int ny) {		
 		log.debug("---------   into import data");
@@ -110,6 +109,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 		com.mysql.jdbc.Statement statement = null;
 		try {
 			Object objDataSource = WebApplicationContextUtils.getWebApplicationContext(request.getServletContext()).getBean("dataSource");
+			@SuppressWarnings("resource")
 			DruidDataSource dataSource = (DruidDataSource)objDataSource;
 			connection = DriverManager.getConnection(dataSource.getUrl(), dataSource.getUsername(), dataSource.getPassword());
 			statement = (com.mysql.jdbc.Statement)connection.createStatement();

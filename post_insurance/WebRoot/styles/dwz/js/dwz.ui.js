@@ -86,7 +86,7 @@ function initUI($p){
 	if ($.fn.xheditor) {
 		$("textarea.editor", $p).each(function(){
 			var $this = $(this);
-			var op = {html5Upload:false, skin: 'vista',tools: $this.attr("tools") || 'full'};
+			var op = {html5Upload:false, skin: 'nostyle',tools: $this.attr("tools") || 'full'};
 			var upAttrs = [
 				["upLinkUrl","upLinkExt","zip,rar,txt"],
 				["upImgUrl","upImgExt","jpg,jpeg,gif,png"],
@@ -238,7 +238,7 @@ function initUI($p){
 			return false;
 		});
 	});
-	$("a[target=ajax]", $p).each(function(){
+	$("a[target=ajax], tr[target=ajax]", $p).each(function(){
 		$(this).click(function(event){
 			var $this = $(this);
 			var rel = $this.attr("rel");

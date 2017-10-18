@@ -6,12 +6,20 @@
 		cursor: 'move', // selector 的鼠标手势
 		sortBoxs: 'div.sortDrag', //拖动排序项父容器
 		replace: false, //2个sortBox之间拖动替换
-		items: '> div', //拖动排序项选择器
+		items: '> div, >dl, >p', //拖动排序项选择器
 		selector: '', //拖动排序项用于拖动的子元素的选择器，为空时等于item
 		zIndex: 1000
 	};
 	DWZ.sortDrag = {
+		_onDrag: false, //用于判断重复绑定拖动事件
 		start:function($sortBox, $item, event, op){
+			var me = this;
+			if (me._onDrag) {
+				setTimeout(function(){me._onDrag = false;}, 1000);
+				return false;
+			}
+			me._onDrag = true;
+
 			var $placeholder = this._createPlaceholder($item);
 			var $helper = $item.clone();
 			var position = $item.position();
@@ -83,6 +91,8 @@
 				},
 				duration: 300
 			});
+
+			this._onDrag = false;
 		},
 		_createPlaceholder:function($item){
 			return $('<'+$item[0].nodeName+' class="sortDragPlaceholder"/>').css({
@@ -124,11 +134,16 @@
 				if (op.refresh) {
 					$selector.unbind('mousedown');
 				}
-				$selector.mousedown(function(event){
-					DWZ.sortDrag.start($sortBox, $item, event, op);
 
-					event.preventDefault();
-				});
+				if (! $sortBox.hasClass('disabled')) {
+
+					$selector.mousedown(function(event){
+						DWZ.sortDrag.start($sortBox, $item, event, op);
+
+						event.preventDefault();
+					});
+
+				}
 			});
 
 			//$sortBox.find('.close').mousedown(function(event){

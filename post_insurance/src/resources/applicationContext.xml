@@ -121,25 +121,6 @@
 	      	<property name="connectionProperties" value="config.decrypt=true;config.decrypt.key=${druid.publickey}" />
 		</bean>
 		
-		<!-- 数据源配置, 使用DBCP2数据库连接池 -->
-		<bean id="dbcpDataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close" >
-			<!-- Connection Info -->
-			<property name="driverClassName" value="${jdbc.driver}" />
-			<property name="url" value="${jdbc.url}" />
-			<property name="username" value="${jdbc.username}" />
-			<property name="password" value="${jdbc.password}" />
-		
-			<!-- Connection Pooling Info -->
-			<property name="initialSize" value="${dbcp2.maxActive}" />
-			<property name="maxIdle" value="${dbcp2.maxActive}" />
-			<property name="defaultAutoCommit" value="false" />
-			<!-- 连接Idle一个小时后超时 -->
-			<property name="timeBetweenEvictionRunsMillis" value="3600000" />
-			<property name="minEvictableIdleTimeMillis" value="3600000" />
-		</bean>
-		
-		<!-- 数据源配置,使用应用服务器的数据库连接池 -->
-		<!--<jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/ExampleDB" />-->
 	</beans>
 
 </beans>

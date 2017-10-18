@@ -5,13 +5,16 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.util.Base64Utils;
 
 import System.Data.DataRow;
@@ -19,25 +22,45 @@ import System.Data.DataRow;
 
 public class StringUtil {
 
+	//private static final Logger LOG = LoggerFactory.getLogger(StringUtil.class);
+	
 	/**
 	 * 得到两个日期相差的天数
 	 */
 	public static int getBetweenDay(Date date1, Date date2) {
+		/*
 		Calendar d1 = new GregorianCalendar();
 		d1.setTime(date1);
 		Calendar d2 = new GregorianCalendar();
 		d2.setTime(date2);
 		int days = d2.get(Calendar.DAY_OF_YEAR)- d1.get(Calendar.DAY_OF_YEAR);
-		//System.out.println("days="+days);
 		int y2 = d2.get(Calendar.YEAR);
 		if (d1.get(Calendar.YEAR) != y2) {
-//			d1 = (Calendar) d1.clone();
 			do {
 				days += d1.getActualMaximum(Calendar.DAY_OF_YEAR);
 				d1.add(Calendar.YEAR, 1);
 			} while (d1.get(Calendar.YEAR) != y2);
 		}
-		return days;
+		*/
+		
+		LocalDate d1 = null;
+		LocalDate d2 = null;
+		ZoneId zoneId = ZoneId.systemDefault();
+		
+		if(date1 instanceof java.sql.Date) {
+			d1 = ((java.sql.Date) date1).toLocalDate();
+		} else {
+			Instant instant1 = date1.toInstant();
+			d1 = instant1.atZone(zoneId).toLocalDate();
+		}
+		
+		if(date2 instanceof java.sql.Date) {
+			d2 = ((java.sql.Date) date2).toLocalDate();
+		} else {
+			Instant instant2 = date2.toInstant();
+			d2 = instant2.atZone(zoneId).toLocalDate();
+		}
+		return new Long(ChronoUnit.DAYS.between(d1, d2)).intValue();
 	}
 	
 	public static String getFirstDayOfYear(String patten) {
@@ -373,10 +396,11 @@ public class StringUtil {
 	
 	public static void main(String[] args) {
 		
-		System.out.println(StringUtil.getMonthLastDayOfMonth(5, "yyyy-MM-dd"));
-		Calendar cal = new GregorianCalendar();
-		System.out.println(cal.get(Calendar.MONTH));
-		Date d1 = new Date();
-		System.out.println(DateUtils.isSameDay(d1, null));
+		Date d1 = StringUtil.str2Date("2018-02-03", "yyyy-MM-dd");
+		java.sql.Date dd = java.sql.Date.valueOf("2018-02-03");
+		Date d2 = new Date();
+		System.out.println(d1);
+		System.out.println(d2);
+		System.out.print(StringUtil.getBetweenDay(dd, d2));
 	}
 }

@@ -18,6 +18,8 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.JoinColumnOrFormula;
 import org.hibernate.annotations.JoinColumnsOrFormulas;
 import org.hibernate.annotations.JoinFormula;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.gdpost.utils.StringUtil;
 import com.gdpost.web.entity.Idable;
@@ -30,6 +32,7 @@ import com.gdpost.web.entity.main.Policy;
 @Table(name = "t_cs_loan")
 
 public class CsLoan implements Idable<Long> {
+	private static final Logger LOG = LoggerFactory.getLogger(CsLoan.class);
 
 	// Fields
 
@@ -60,7 +63,10 @@ public class CsLoan implements Idable<Long> {
 	@Transient
 	public Integer getCheckDate() {
 		if(this.shouldDate != null) {
+			LOG.debug("----------- shoulddate:" + this.shouldDate);
+			LOG.debug("----------- between date:" + StringUtil.getBetweenDay(this.shouldDate, new Date()));
 			return StringUtil.getBetweenDay(this.shouldDate, new Date());
+			//return 999;
 		}
 		return null;
 	}
@@ -197,7 +203,6 @@ public class CsLoan implements Idable<Long> {
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "should_date", length = 10)
-
 	public Date getShouldDate() {
 		return this.shouldDate;
 	}
@@ -209,7 +214,6 @@ public class CsLoan implements Idable<Long> {
 	
 	@Temporal(TemporalType.DATE)
 	@Column(name = "real_date", length = 10)
-
 	public Date getRealDate() {
 		return this.realDate;
 	}
@@ -304,6 +308,16 @@ public class CsLoan implements Idable<Long> {
 
 	public void setOperateTime(Date operateTime) {
 		this.operateTime = operateTime;
+	}
+
+	@Override
+	public String toString() {
+		return "CsLoan [id=" + id + ", organName=" + organName + ", policy=" + policy.getPolicyNo() + ", holder=" + holder
+				+ ", holderSexy=" + holderSexy + ", prodName=" + prodName + ", bankName=" + bankName + ", loanDate="
+				+ loanDate + ", loanFee=" + loanFee + ", shouldDate=" + shouldDate + ", realDate=" + realDate
+				+ ", backFee=" + backFee + ", freeFee=" + freeFee + ", freeReason=" + freeReason + ", status=" + status
+				+ ", phone=" + phone + ", remark=" + remark + ", flag=" + flag + ", operateId=" + operateId
+				+ ", operateTime=" + operateTime + ", checkDate=" + checkDate + "]";
 	}
 
 }

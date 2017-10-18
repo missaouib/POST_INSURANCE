@@ -21,6 +21,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+
 public class Xls2Xlsx {
 	private int lastColumn = 0;
 	private HashMap<Integer, XSSFCellStyle> styleMap = new HashMap<Integer, XSSFCellStyle>();
@@ -96,7 +97,6 @@ public class Xls2Xlsx {
         this.lastColumn = Math.max(this.lastColumn, rowOld.getLastCellNum());
     }
 
-    @SuppressWarnings("deprecation")
 	private void transform(HSSFWorkbook workbookOld,XSSFWorkbook workbookNew,HSSFCell cellOld,XSSFCell cellNew) {
         cellNew.setCellComment(cellOld.getCellComment());
 
