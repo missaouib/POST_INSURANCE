@@ -9,6 +9,7 @@
 	<input type="hidden" name="flag" value="${flag }"/>
 	<input type="hidden" name="search_LTE_shouldDate" value="${param.search_LTE_shouldDate }"/>
 	<input type="hidden" name="search_GTE_shouldDate" value="${param.search_GTE_shouldDate }"/>
+	<input type="hidden" name="search_LIKE_holder" value="${param.search_LIKE_holder }"/>
 	<input type="hidden" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
 </dwz:paginationForm>
 
@@ -34,6 +35,10 @@
 							<form:option value="关闭"> 关闭 </form:option>
 						</form:select>
 					</td>
+					<td>
+						<label>投保人：</label>
+						<input type="text" style="width: 100px;" id="csholder" name="search_LIKE_holder" value="${param.search_LIKE_holder }"/>
+					</td>
 				</tr>
 				<tr>
 					<td>
@@ -53,6 +58,7 @@
 							<form:option value="0"> 正常 </form:option>
 						</form:select>
 					</td>
+					<td>&nbsp;</td>
 				</tr>
 			</table>
 			<div class="subBar">
@@ -75,7 +81,7 @@
 			<li class="line">line</li>
 			<li><a class="edit" href="${contextPath}/bqgl/loan/remark/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>设置备注</span></a></li>
 			<li class="line">line</li>
-			<li><a class="icon" target="_blank" href="${contextPath }/bqgl/loan/list/toXls?orgCode=${orgCode}&search_LTE_shouldDate=${param.search_LTE_shouldDate}&search_GTE_shouldDate=${param.search_GTE_shouldDate}&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo}&status=${status}&flag=${flag}"><span>导出Excel</span></a></li>
+			<li><a class="icon" target="_blank" href="${contextPath }/bqgl/loan/list/toXls?orgCode=${orgCode}&search_LTE_shouldDate=${param.search_LTE_shouldDate}&search_GTE_shouldDate=${param.search_GTE_shouldDate}&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo}&search_LIKE_holder=${param.search_LIKE_holder}&status=${status}&flag=${flag}"><span>导出Excel</span></a></li>
 		</ul>
 	</div>
 	<div id="w_list_print">

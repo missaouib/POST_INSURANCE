@@ -1105,9 +1105,6 @@ public class BqglController {
 		Specification<CsLoan> specification = DynamicSpecifications.bySearchFilter(request, CsLoan.class, csf);
 		
 		List<CsLoan> issues = bqglService.findCsLoanByExample(specification, page);
-		for(CsLoan cl:issues) {
-			LOG.info(" ---------- " + cl.getId());
-		}
 		map.put("page", page);
 		map.put("issues", issues);
 		return C_LOAN_LIST;

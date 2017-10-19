@@ -18,8 +18,6 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.JoinColumnOrFormula;
 import org.hibernate.annotations.JoinColumnsOrFormulas;
 import org.hibernate.annotations.JoinFormula;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.gdpost.utils.StringUtil;
 import com.gdpost.web.entity.Idable;
@@ -32,7 +30,7 @@ import com.gdpost.web.entity.main.Policy;
 @Table(name = "t_cs_loan")
 
 public class CsLoan implements Idable<Long> {
-	private static final Logger LOG = LoggerFactory.getLogger(CsLoan.class);
+//	private static final Logger LOG = LoggerFactory.getLogger(CsLoan.class);
 
 	// Fields
 
@@ -63,8 +61,8 @@ public class CsLoan implements Idable<Long> {
 	@Transient
 	public Integer getCheckDate() {
 		if(this.shouldDate != null) {
-			LOG.debug("----------- shoulddate:" + this.shouldDate);
-			LOG.debug("----------- between date:" + StringUtil.getBetweenDay(this.shouldDate, new Date()));
+//			LOG.debug("----------- shoulddate:" + this.shouldDate);
+//			LOG.debug("----------- between date:" + StringUtil.getBetweenDay(this.shouldDate, new Date()));
 			return StringUtil.getBetweenDay(this.shouldDate, new Date());
 			//return 999;
 		}
