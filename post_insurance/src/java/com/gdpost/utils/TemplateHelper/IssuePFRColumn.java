@@ -223,6 +223,7 @@ public class IssuePFRColumn {
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
+		
 		/*
 		column = new ColumnItem();
 		column.setDisplayName("应访日期");

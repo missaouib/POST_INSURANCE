@@ -14,7 +14,7 @@
 </dwz:paginationForm>
 
 <form method="post" id="hfForm" action="${contextPath }/qygl/underwrite/list" onsubmit="return navTabSearch(this)">
-<input type="hidden" name="status_flag" value="${status_flag }"/>
+<input type="hidden" name="status_flag" id="status_flag" value="${status_flag }"/>
 	<div class="pageHeader">
 		<div class="searchBar">
 			<table class="searchContent">
@@ -76,7 +76,7 @@
 			</table>
 			<div class="subBar">
 				<ul>						
-					<li><div class="button"><div class="buttonContent"><button type="submit">搜索</button></div></div></li>
+					<li><div class="button"><div class="buttonContent"><button type="submit" onclick="$('#status_flag').val('');">搜索</button></div></div></li>
 				</ul>
 			</div>
 		</div>
@@ -90,7 +90,7 @@
 			<shiro:hasPermission name="UnderWrite:view">
 				<li><a iconClass="magnifier" target="dialog" rel="underwrite_edit" mask="true" width="850" height="440" href="${contextPath }/qygl/underwrite/view/{slt_uid}"><span>查看</span></a></li>
 				<li class="line">line</li>
-				<li><a class="icon" target="_blank" target="dwzExport" href="${contextPath }/qygl/underwrite/toXls?search_LIKE_formNo=${param.search_LIKE_formNo }&orgCode=${orgCode }&status=${status }&search_LTE_sysDate=${param.search_LTE_sysDate }&search_GTE_sysDate=${param.search_GTE_sysDate }&search_GTE_provSendDate=${param.search_GTE_provSendDate}&search_LTE_provSendDate=${param.search_LTE_provSendDate}&search_GTE_signDate=${param.search_GTE_signDate}&search_LTE_signDate=${search_LTE_signDate}"><span>导出</span></a></li>
+				<li><a class="icon" target="_blank" target="dwzExport" href="${contextPath }/qygl/underwrite/toXls?search_LIKE_formNo=${param.search_LIKE_formNo }&orgCode=${orgCode }&status=${status }&search_LTE_sysDate=${param.search_LTE_sysDate }&search_GTE_sysDate=${param.search_GTE_sysDate }&search_GTE_provSendDate=${param.search_GTE_provSendDate}&search_LTE_provSendDate=${param.search_LTE_provSendDate}&search_GTE_signDate=${param.search_GTE_signDate}&search_LTE_signDate=${search_LTE_signDate}&status_flag=${status_flag}"><span>导出</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="UnderWrite:edit">
 			<li class="line">line</li>
