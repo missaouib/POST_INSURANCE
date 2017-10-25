@@ -116,7 +116,7 @@ public class CommonController {
 		if(policyNo != null && policyNo.trim().length() <= 3) {
 			return "[{}]";
 		} if(policyNo != null && policyNo.trim().length() > 3) {
-			if(policyNo.startsWith("86")) {
+			if(policyNo.startsWith("86") || policyNo.startsWith("76")) {
 				if(policyNo.trim().length()>9) {
 					specification = DynamicSpecifications.bySearchFilterWithoutRequest(Policy.class, 
 							new SearchFilter("policyNo", Operator.LIKE, policyNo));
