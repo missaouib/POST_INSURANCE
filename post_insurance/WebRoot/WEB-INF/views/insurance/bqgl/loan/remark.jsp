@@ -6,7 +6,7 @@
 	<div class="pageFormContent" layouth="58">
 		<p>
 			<label>相关备注：</label>
-			<textarea name="remark" class="validate[maxSize[128]]" cols="30" rows="2">${loan.remark }</textarea>
+			<textarea name="remark" class="validate[maxSize[128]]" cols="30" rows="4">${loan.remark }</textarea>
 		</p>
 		<P>
 		&nbsp;
