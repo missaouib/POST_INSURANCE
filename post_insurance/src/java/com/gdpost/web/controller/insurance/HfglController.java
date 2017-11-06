@@ -477,6 +477,18 @@ public class HfglController {
 		return	AjaxObject.newOk("结案回访不成功件完成！").toString(); 
 	}
 	
+	@Log(message="删除了{0}回访不成功件的信息。", level=LogLevel.WARN, module=LogModule.HFGL)
+	@RequiresPermissions("Callfail:provEdit")
+	@RequestMapping(value="/issue/delete/{id}", method=RequestMethod.POST)
+	public @ResponseBody String delete(ServletRequest request, @PathVariable Long id) {
+		//ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		CallFailList src = hfglService.get(id);
+		hfglService.delete(id);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));
+		return	AjaxObject.newOk("删除回访不成功件完成！").toString(); 
+	}
+	
 	@Log(message="进行了信函的已发登记。", level=LogLevel.WARN, module=LogModule.HFGL)
 	@RequiresPermissions("Callfail:provEdit")
 	@RequestMapping(value="/issue/setMailDate", method=RequestMethod.POST)

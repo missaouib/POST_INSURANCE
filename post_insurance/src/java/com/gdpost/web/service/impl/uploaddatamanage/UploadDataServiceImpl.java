@@ -258,6 +258,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case UnderWriteData:
 			standardColumns = UnderWriteColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_under_write character set utf8 (";
+			sql1 = "delete from t_under_write where form_no is null or ybt_date is null;";
 			break;
 		case UnderWriteDtlData:
 			standardColumns = UnderWriteDtlColumn.getStandardColumns();
@@ -353,6 +354,11 @@ public class UploadDataServiceImpl implements UploadDataService{
         	for(ColumnItem item : standardColumns) {
         		cell = StringUtil.trimStr(row.getValue(item.getDisplayName()), true);
         		
+        		if(item.getDisplayName().contains("日期") && cell != null && StringUtil.trimStr(cell).length()<=0) {
+    				log.warn(item.getDisplayName() + "----导入日期有问题， 重置为上传当日日期: " + cell);
+    	            builder.append("NULL\t");
+    	            continue;
+        		}
         		if(ft.name().equals(FileTemplate.CallFail.name()) || ft.name().equals(FileTemplate.Issue.name())) {
         			if(item.getDisplayName().equals("结案时间") && cell != null && StringUtil.trimStr(cell).length()<=0) {
         				log.debug("----------- 结案时间: " + cell);
@@ -529,6 +535,10 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        			} else {
 	        				line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        			}
+	        		} else if(item.getDisplayName().contains("日期")) {
+	        			if(val == null || val.toString().trim().length() <= 0) {
+	        				line.append("null,");
+	        			}
 	        		} else {
 	        			line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        		}
@@ -571,6 +581,10 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        			} else {
 	        				line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        			}
+	        		} else if(item.getDisplayName().contains("日期")) {
+	        			if(val == null || val.toString().trim().length() <= 0) {
+	        				line.append("null,");
+	        			}
 	        		} else {
 	        			line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        		}
@@ -608,6 +622,10 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        			} else {
 	        				line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        			}
+	        		} else if(item.getDisplayName().contains("日期")) {
+	        			if(val == null || val.toString().trim().length() <= 0) {
+	        				line.append("null,");
+	        			}
 	        		} else {
 	        			line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        		}
@@ -643,6 +661,10 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        			} else {
 	        				line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        			}
+	        		} else if(item.getDisplayName().contains("日期")) {
+	        			if(val == null || val.toString().trim().length() <= 0) {
+	        				line.append("null,");
+	        			}
 	        		} else {
 	        			line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        		}
@@ -677,6 +699,10 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        			} else {
 	        				line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        			}
+	        		} else if(item.getDisplayName().contains("日期")) {
+	        			if(val == null || val.toString().trim().length() <= 0) {
+	        				line.append("null,");
+	        			}
 	        		} else {
 	        			line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        		}
@@ -706,6 +732,10 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        			} else {
 	        				line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        			}
+	        		} else if(item.getDisplayName().contains("日期")) {
+	        			if(val == null || val.toString().trim().length() <= 0) {
+	        				line.append("null,");
+	        			}
 	        		} else {
 	        			line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        		}
@@ -734,6 +764,10 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        				line.append("null,");
 	        			} else {
 	        				line.append("\"" + StringUtil.trimStr(val, true) + "\",");
+	        			}
+	        		} else if(item.getDisplayName().contains("日期")) {
+	        			if(val == null || val.toString().trim().length() <= 0) {
+	        				line.append("null,");
 	        			}
 	        		} else {
 	        			line.append("\"" + StringUtil.trimStr(val, true) + "\",");
@@ -1040,7 +1074,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql.append(" ON DUPLICATE KEY UPDATE ");
 			sql.append("client_receive_date=VALUES(client_receive_date), sign_input_date=VALUES(sign_input_date), status=VALUES(status);");
 			log.debug("----------------city update status batch sql : " + sql);
-			sql2 = "delete from t_under_write where form_no is null;";
+			sql2 = "delete from t_under_write where form_no is null or ybt_date is null;";
 			sql3 = "update t_policy set bill_back_date=policy_date where bill_back_date is null;";
 			sql4 = "update t_policy t1, t_under_write t2 set t1.bill_back_date=t2.client_receive_date "
 					+ "where t1.policy_no=t2.policy_no and t2.client_receive_date is not null;";
@@ -1096,7 +1130,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql.append(" ON DUPLICATE KEY UPDATE ");
 			sql.append("policy_no=VALUES(policy_no), form_no=VALUES(form_no), prov_ems_no=VALUES(prov_ems_no), prov_send_date=VALUES(prov_send_date), status=VALUES(status);");
 			log.debug("----------------city update status batch sql : " + sql);
-			sql2 = "delete from t_under_write where holder is null;";
+			sql2 = "delete from t_under_write where holder is null or ybt_date is null;";
 			sql2 = "update t_under_write set status=\"CloseStatus\" where sign_input_date is not null;";
 			break;
 		case UnderWriteDtlData:
@@ -1134,7 +1168,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql.append("client_receive_date=VALUES(client_receive_date), sign_input_date=VALUES(sign_input_date), ");
 			sql.append("form_write_date=VALUES(form_write_date);");
 			log.debug("----------------batch update : " + sql);
-			sql2 = "delete from t_under_write where form_no is null;";
+			sql2 = "delete from t_under_write where form_no is null or ybt_date is null;";
 			break;
 		case UnderWriteRemark:
 			standardColumns = UnderWriteRemarkColumn.getStandardColumns();
@@ -1159,7 +1193,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql.append(" ON DUPLICATE KEY UPDATE ");
 			sql.append("plan_date=VALUES(plan_date), remark=VALUES(remark);");
 			log.debug("----------------city update status batch sql : " + sql);
-			sql2 = "delete from t_under_write where holder is null;";
+			sql2 = "delete from t_under_write where holder is null or ybt_date is null;";
 			break;
 		case UnderWriteInsured:
 			standardColumns = PolicyDtlExtColumn.getStandardColumns();

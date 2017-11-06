@@ -195,6 +195,9 @@ public class TaskService {
 			//sql = "update t_policy t1, t_cs_report t2 set t1.status=\"有效\" where t1.policy_no=t2.policy_no and t2.cs_code=\"RE\";";
 			//statement.executeUpdate(sql);
 			//log.info("------------ sql :" + sql);
+			sql = "delete from t_under_write where form_no is null or ybt_date is null;";
+			statement.executeUpdate(sql);
+			log.info("------------ sql :" + sql);
 			
 			log.info("------------ task service update finish");
 			

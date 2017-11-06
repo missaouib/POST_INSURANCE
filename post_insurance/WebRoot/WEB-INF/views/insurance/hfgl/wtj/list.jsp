@@ -159,14 +159,14 @@
 			<li class="line">line</li>
 				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/hfgl/issue/provUpdate/{slt_uid}"><span>省分登记</span></a></li>
 				<li class="line">line</li>
-				<li><a target="myDialog" rel="ids" href="${contextPath }/hfgl/issue/toSetMailDate" class="edit"><span>批量已发信函</span></a></li>
+				<li><a target="myDialog" rel="ids" href="${contextPath }/hfgl/issue/toSetMailDate" class="edit"><span>批量信函</span></a></li>
 				<li class="line">line</li>
-				<!-- <li><a class="delete" target="ajaxTodo" href="${contextPath }/hfgl/issue/CloseStatus/{slt_uid}" title="确认办结案关闭?"><span>结案关闭</span></a></li> -->
-				<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/hfgl/issue/CloseStatus" title="确认要结案关闭?"><span>批量结案关闭</span></a></li>
+				<li><a class="delete" target="ajaxTodo" href="${contextPath }/hfgl/issue/delete/{slt_uid}" title="确认要删除?"><span>删除</span></a></li>
+				<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/hfgl/issue/CloseStatus" title="确认要结案关闭?"><span>批量结案</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Callfail:11185Edit">
 			<li class="line">line</li>
-				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/hfgl/issue/hqUpdate/{slt_uid}"><span>二访中心登记</span></a></li>
+				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/hfgl/issue/hqUpdate/{slt_uid}"><span>二访登记</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Callfail:view">
 				<li class="line">line</li>
