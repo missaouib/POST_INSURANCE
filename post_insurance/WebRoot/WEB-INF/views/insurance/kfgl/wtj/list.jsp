@@ -8,8 +8,10 @@
 	<input type="hidden" name="orgCode" value="${orgCode }"/>
 	<input type="hidden" name="name" value="${name }"/>
 	<input type="hidden" name="status" value="${status }"/>
-	<input type="hidden" name="search_LTE_shouldDate" value="${param.search_LTE_shouldDate }"/>
-	<input type="hidden" name="search_GTE_shouldDate" value="${param.search_GTE_shouldDate }"/>
+	<input type="hidden" name="search_LTE_readyDate" value="${param.search_LTE_readyDate }"/>
+	<input type="hidden" name="search_GTE_readyDate" value="${param.search_GTE_readyDate }"/>
+	<input type="hidden" name="search_LTE_billBackDate" value="${param.search_LTE_billBackDate }"/>
+	<input type="hidden" name="search_GTE_billBackDate" value="${param.search_GTE_billBackDate }"/>
 </dwz:paginationForm>
 
 <form method="post" id="kfForm" action="${contextPath }/kfgl/issue/list" onsubmit="return navTabSearch(this)">
@@ -32,18 +34,26 @@
 						<input name="orgCode" id="kf_orgCode" type="hidden" value="${orgCode }"/>
 						<input class="validate[required] required" name="name" id="kf_orgName" type="text" readonly="readonly" style="width: 100px;" value="${name }"/><a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="" title="选择机构" width="400">查</a>
 					</td>
+					<td>
+						<label>签收起日期：</label>
+						<input type="text" name="search_GTE_billBackDate" id="kfBBDDate1" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_billBackDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+					</td>
+					<td>
+						<label>签收止日期：</label>
+						<input type="text" name="search_LTE_billBackDate" id="kfBBDDate2" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_billBackDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+					</td>
 				</tr>
 				<tr>
 					<td>
 						保单号：<input type="text" id="kfPolicyNo" style="width: 80px;" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
 					</td>
 					<td>
-						<label>开始日期：</label>
-						<input type="text" name="search_GTE_shouldDate" id="kfDate1" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_shouldDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+						<label>开始起日期：</label>
+						<input type="text" name="search_GTE_readyDate" id="kfDate1" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_readyDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
-						<label>结束日期：</label>
-						<input type="text" name="search_LTE_shouldDate" id="kfDate2" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_shouldDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+						<label>结束止日期：</label>
+						<input type="text" name="search_LTE_readyDate" id="kfDate2" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_readyDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 				</tr>
 			</table>
@@ -77,9 +87,9 @@
 			<li><a class="edit" target="navTab" rel="printIssueList" mask="true" width="820" height="520" href="${contextPath }/kfgl/issues/print"><span>批打工单</span></a></li>
 			<shiro:hasPermission name="Wtgd:view">
 				<li class="line">line</li>
-				<li><a iconClass="magnifier" href="${contextPath }/kfgl/issue/maxlist?search_LIKE_issueNo=${param.search_LIKE_issueNo }&orgCode=${orgCode }&name=${name }&search_LTE_shouldDate=${param.search_LTE_shouldDate }&search_GTE_shouldDate=${param.search_GTE_shouldDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&status=${status}" target="dialog" rel="dlg_page1" max="true" title="客服工单列表" width="800" height="480"><span>全屏查看</span></a></li>
+				<li><a iconClass="magnifier" href="${contextPath }/kfgl/issue/maxlist?search_LIKE_issueNo=${param.search_LIKE_issueNo }&orgCode=${orgCode }&name=${name }&search_LTE_readyDate=${param.search_LTE_readyDate }&search_GTE_readyDate=${param.search_GTE_readyDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&status=${status}" target="dialog" rel="dlg_page1" max="true" title="客服工单列表" width="800" height="480"><span>全屏查看</span></a></li>
 				<li class="line">line</li>
-				<li><a class="icon" target="_blank" href="${contextPath }/kfgl/toXls?search_LIKE_issueNo=${param.search_LIKE_issueNo }&orgCode=${orgCode }&search_LTE_shouldDate=${param.search_LTE_shouldDate }&search_GTE_shouldDate=${param.search_GTE_shouldDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&status=${eStatus }"><span>导出Excel</span></a></li>
+				<li><a class="icon" target="_blank" href="${contextPath }/kfgl/toXls?search_LIKE_issueNo=${param.search_LIKE_issueNo }&orgCode=${orgCode }&search_LTE_readyDate=${param.search_LTE_readyDate }&search_GTE_readyDate=${param.search_GTE_readyDate }&search_LTE_billBackDate=${param.search_LTE_billBackDate }&search_GTE_billBackDate=${param.search_GTE_billBackDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&status=${eStatus }"><span>导出Excel</span></a></li>
 			</shiro:hasPermission>
 			<li class="line">line</li>
 			<li><a class="icon" target="dialog" href="${contextPath }/kfgl/help" mask="true" width="530" height="430"><span>功能说明</span></a></li>

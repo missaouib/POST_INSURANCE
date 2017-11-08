@@ -16,6 +16,7 @@ response.setHeader("Content-Disposition", "inline; filename=Issue_xls.xls");
 				<th>系统导入</th>
 				<th>离结案还有（天）</th>
 				<th>所属保单号</th>
+				<th>承保日期</th>
 				<th>投保人</th>
 				<th>联系电话</th>
 				<th>险种名称</th>
@@ -35,6 +36,7 @@ response.setHeader("Content-Disposition", "inline; filename=Issue_xls.xls");
 				<td><fmt:formatDate value="${item.operateTime }" pattern="yyyy-MM-dd"/></td>
 				<td><span style="color:red; height:50%; margin-bottom:-contentheight;"><c:if test="${item.lastDateNum<0 }">0</c:if><c:if test="${item.lastDateNum>=0 }">${item.lastDateNum }</c:if></span></td>
 				<td style="vnd.ms-excel.numberformat:@">${item.policy.policyNo}</td>
+				<td><fmt:formatDate value="${item.policy。policyDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.policy.holder}</td>
 				<td>${item.holderMobile eq ""?item.holderPhone:item.holderMobile}</td>
 				<td>${item.policy.prodName}</td>
