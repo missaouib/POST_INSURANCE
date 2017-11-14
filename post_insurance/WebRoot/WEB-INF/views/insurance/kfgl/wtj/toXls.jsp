@@ -36,7 +36,7 @@ response.setHeader("Content-Disposition", "inline; filename=Issue_xls.xls");
 				<td><fmt:formatDate value="${item.operateTime }" pattern="yyyy-MM-dd"/></td>
 				<td><span style="color:red; height:50%; margin-bottom:-contentheight;"><c:if test="${item.lastDateNum<0 }">0</c:if><c:if test="${item.lastDateNum>=0 }">${item.lastDateNum }</c:if></span></td>
 				<td style="vnd.ms-excel.numberformat:@">${item.policy.policyNo}</td>
-				<td><fmt:formatDate value="${item.policy。policyDate }" pattern="yyyy-MM-dd"/></td>
+				<td><fmt:formatDate value="${item.policy.policyDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.policy.holder}</td>
 				<td>${item.holderMobile eq ""?item.holderPhone:item.holderMobile}</td>
 				<td>${item.policy.prodName}</td>
