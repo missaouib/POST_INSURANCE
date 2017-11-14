@@ -21,6 +21,12 @@ response.setHeader("Content-Disposition", "inline; filename=policy_list.xls");
 				<th>交费期间</th>
 				<th>承保日期</th>
 				<th>回销日期</th>
+				<shiro:hasPermission name="Callfail:provEdit">
+                <th>联系电话</th>
+                <th>手机号码</th>
+                <th>证件类型</th>
+                <th>证件号码</th>
+                </shiro:hasPermission>
 				<th>状态</th>
 				<th>退保日期</th>
 				<th>是否犹撤</th>
@@ -43,6 +49,12 @@ response.setHeader("Content-Disposition", "inline; filename=policy_list.xls");
 				<td>${item.perm}</td>
 				<td><fmt:formatDate value="${item.policyDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.billBackDate }" pattern="yyyy-MM-dd"/></td>
+				<shiro:hasPermission name="Callfail:provEdit">
+                <td>${item.policyDtl==null?"":item.policyDtl.holderPhone}</td>
+                <td>${item.policyDtl==null?"":item.policyDtl.holderMobile}</td>
+                <td>${item.policyDtl==null?"":item.policyDtl.holderCardType}</td>
+                <td style="vnd.ms-excel.numberformat:@">${item.policyDtl==null?"":item.policyDtl.holderCardNum}</td>
+                </shiro:hasPermission>
 				<td>${item.status}</td>
 				<td>${item.csDate != null?item.csDate:""}</td>
 				<td>${item.csFlag != null && item.csFlag==1?"Y":"N"}</td>

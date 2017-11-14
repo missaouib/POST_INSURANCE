@@ -15,6 +15,7 @@
 	<input type="hidden" name="feeMatch" value="${feeMatch }"/>
 	<input type="hidden" name="staffFlag" value="${staffFlag }"/>
 	<input type="hidden" name="feeFailReason" value="${feeFailReason }"/>
+	<input type="hidden" name="search_LIKE_holder" value="${param.search_LIKE_holder }"/>
 </dwz:paginationForm>
 
 <form id="xqForm" method="post" action="${contextPath }/xqgl/issue/list" onsubmit="return navTabSearch(this)">
@@ -93,7 +94,7 @@
 						</form:select>
 					</td>
 					<td>
-						&nbsp;
+						投保人：<input type="text" id="xq_holder" name="search_LIKE_holder" style="width: 100px;" value="${param.search_LIKE_holder }"/>
 					</td>
 				</tr>
 			</table>
