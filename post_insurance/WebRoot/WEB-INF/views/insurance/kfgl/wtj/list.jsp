@@ -80,6 +80,8 @@
 			<shiro:hasPermission name="Wtgd:provEdit">
 				<li class="line">line</li>
 				<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/kfgl/issue/CloseStatus" title="确认要结案关闭?"><span>批量结案关闭</span></a></li>
+				<li class="line">line</li>
+				<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/kfgl/issue/toWord" title="批量生产word文档?"><span>批量word</span></a></li>
 			</shiro:hasPermission>
 			<li class="line">line</li>
 			<li><a class="edit" target="navTab" rel="printIssue" mask="true" width="820" height="520" href="${contextPath }/kfgl/issue/print/{slt_uid}"><span>打印工单</span></a></li>
