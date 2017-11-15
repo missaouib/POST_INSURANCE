@@ -1,7 +1,16 @@
 package com.gdpost.utils;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FilenameFilter;
+import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.regex.Pattern;
+import java.util.zip.CRC32;
+import java.util.zip.CheckedOutputStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +30,7 @@ public class FileUtils {
 	public final static long ONE_GB = ONE_MB * 1024;
 	public final static long ONE_TB = ONE_GB * (long) 1024;
 	public final static long ONE_PB = ONE_TB * (long) 1024;
-
+	
 	/**
 	 * 
 	 * 得到文件大小。
@@ -215,4 +224,43 @@ public class FileUtils {
         
         return isFlag;
     }
+    
+    public void zip(File fileSrc, File dectFile) throws Exception {  
+        log.debug("压缩中...");  
+        ZipOutputStream zipOutputStream = new ZipOutputStream(new CheckedOutputStream(new FileOutputStream(dectFile),new CRC32()));
+        String name = fileSrc.getName();
+        zip(zipOutputStream, name,fileSrc);
+        zipOutputStream.flush();
+        zipOutputStream.close();
+        log.debug("压缩完成");  
+    }
+    
+    private void zip(ZipOutputStream zipOutputStream,String name, File fileSrc) throws IOException {
+        if (fileSrc.isDirectory()) {
+            File[] files = fileSrc.listFiles(new FilenameFilter() { //过滤文件
+                Pattern pattern = Pattern.compile(".+");//所有文件，正则表达式
+                @Override
+                public boolean accept(File dir, String name) {
+                    return pattern.matcher(name).matches();
+                }
+            });
+            zipOutputStream.putNextEntry(new ZipEntry(name+"/"));  // 建一个文件夹
+            name = name+"/";
+            for (File f : files) {
+                zip(zipOutputStream,name+f.getName(),f);
+            }
+        }else {
+
+            zipOutputStream.putNextEntry(new ZipEntry(name));
+            FileInputStream input = new FileInputStream(fileSrc);
+            byte[] buf = new byte[1024];
+            int len = -1;
+            while ((len = input.read(buf)) != -1) {
+                zipOutputStream.write(buf, 0, len);
+            }
+            zipOutputStream.flush();
+            input.close();
+        }
+    }
+
 }

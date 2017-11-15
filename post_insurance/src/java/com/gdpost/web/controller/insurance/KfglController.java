@@ -17,7 +17,6 @@ import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
@@ -36,6 +35,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -46,12 +49,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.gdpost.utils.FileUtils;
 import com.gdpost.utils.SecurityUtils;
 import com.gdpost.utils.StringUtil;
-import com.gdpost.web.entity.component.TuiBaoModel;
 import com.gdpost.web.entity.main.Issue;
 import com.gdpost.web.entity.main.Organization;
-import com.gdpost.web.entity.main.Policy;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.exception.ServiceException;
 import com.gdpost.web.log.Log;
@@ -96,6 +98,7 @@ public class KfglController {
 	
 	private static final String TO_XLS = "insurance/kfgl/wtj/toXls";
 	private static final String ISSUES_TO_XLS = "insurance/kfgl/wtj/toXlses";
+	private static final String TO_DOWN = "insurance/kfgl/wtj/download";
 	
 	@RequestMapping(value="/help", method=RequestMethod.GET)
 	public String toHelp() {
@@ -543,64 +546,61 @@ public class KfglController {
 
 	@RequiresUser
 	@RequiresPermissions("Wtgd:view")
-	@RequestMapping(value = "/toWord", method = { RequestMethod.POST, RequestMethod.GET })
-	public @ResponseBody void toWord(ServletRequest request, Long[] ids) {
+	@RequestMapping(value = "/issue/toWord", method = { RequestMethod.POST, RequestMethod.GET })
+	public String toWord(ServletRequest request, String ids) {
 		// 如果是市局登录
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
-		String userOrg = shiroUser.getUser().getOrganization().getOrgCode();
 
 		Issue issue = null;
 		String policyNo = null;
-		String templatePath = null;
 		String newPath = null;
 		InputStream is = null;
 		OutputStream os = null;
 		HWPFDocument doc = null;
 		String issueReq  = null;
 		
-		for(Long id:ids) {
-			issue = kfglService.get(id);
+		String templatePath = request.getServletContext().getRealPath("/doc/issue/issue_template.doc");
+		String docPath = request.getServletContext().getRealPath("/doc/issue/");
+		String issuePath = docPath + StringUtil.date2Str(new Date(), "yyyyMMddHHmmss");
+		File dfile = new File(issuePath);
+		if(!dfile.exists()) {
+			dfile.mkdirs();
+		}
+		String[] strIds = ids.split(",");
+		for(String id:strIds) {
+			issue = kfglService.get(new Long(id));
 			policyNo = issue.getPolicy().getPolicyNo();
 			
-			templatePath = request.getServletContext().getRealPath("/") + File.separator + "doc/issue/issue_template.doc";
-			newPath = request.getServletContext().getRealPath("/") + File.separator + "doc" + File.separator + "issue" + File.separator + policyNo + "_" + issue.getIssueNo() + ".doc";
+			newPath = issuePath + File.separator + policyNo + "_" + issue.getIssueNo() + ".doc";
 			try {
 				is = new FileInputStream(templatePath);
 				doc = new HWPFDocument(is);
 				Range range = doc.getRange();
-				switch(issue.getIssueType()) {  
-				case "退保":
+				if (issue.getIssueType().contains("退保") || issue.getIssueType().contains("条款解释不清") || issue.getIssueType().contains("其他")) {  
 					issueReq = "转业务岗处理";
-					break;
-				case "条款解释不清":  
-			        issueReq = "转业务岗处理";
-			        break;
-				case "保单未送达":  
+				} else if(issue.getIssueType().contains("保单未送达") || issue.getIssueType().contains("抄写") || issue.getIssueType().contains("告知") || issue.getIssueType().contains("接听") || issue.getIssueType().contains("挂断")) {
 					issueReq = "转契约岗处理";
-					break;
-				case "代签名":  
-					issueReq = "转契约岗处理";
-					break;
-					default:issueReq = "";
+				} else {
+					issueReq = "";
 				}
-				range.replaceText("$issueType", issue.getIssueType());
-				range.replaceText("$issesNo", issue.getIssueNo());
-				range.replaceText("$orgName", issue.getOrganName());
-				range.replaceText("$policyNo", policyNo);
-				range.replaceText("$bankName", issue.getBankName());
-				range.replaceText("$policyDate", StringUtil.date2Str(issue.getPolicy().getPolicyDate(),"yyyy-MM-dd"));
-				range.replaceText("$policyFee", new Double(issue.getPolicy().getPolicyFee()).toString());
-				range.replaceText("$holder", issue.getPolicy().getHolder());
-				range.replaceText("$holderPhone", issue.getHolderPhone());
-				range.replaceText("$holderMobile", issue.getHolderMobile());
-				range.replaceText("$finishDate", StringUtil.date2Str(issue.getFinishDate(),"yyyy-MM-dd"));
-				range.replaceText("$issueContent", issue.getIssueContent());
-				range.replaceText("$issueReq", issueReq);
-				range.replaceText("$userName", shiroUser.getUser().getUsername());
-				range.replaceText("$shouldDate", StringUtil.date2Str(issue.getShouldDate(),"yyyy-MM-dd"));
-				range.replaceText("$issueResult", issue.getResult());
-				range.replaceText("$dealMan", issue.getDealMan());
-				range.replaceText("$dealTime", StringUtil.date2Str(issue.getDealTime(),"yyyy-MM-dd"));
+				range.replaceText("${issueType}", issue.getIssueType());
+				range.replaceText("${issueNo}", issue.getIssueNo());
+				range.replaceText("${orgName}", issue.getIssueOrg()==null?issue.getPolicy().getOrganName():issue.getIssueOrg());
+				range.replaceText("${policyNo}", policyNo);
+				range.replaceText("${bankName}", issue.getBankName());
+				range.replaceText("${policyDate}", StringUtil.date2Str(issue.getPolicy().getPolicyDate(),"yyyy-MM-dd"));
+				range.replaceText("${policyFee}", new Double(issue.getPolicy().getPolicyFee()).toString());
+				range.replaceText("${holder}", issue.getPolicy().getHolder());
+				range.replaceText("${holderPhone}", issue.getHolderPhone());
+				range.replaceText("${holderMobile}", issue.getHolderMobile());
+				range.replaceText("${finishDate}", StringUtil.date2Str(issue.getFinishDate(),"yyyy-MM-dd"));
+				range.replaceText("${issueContent}", issue.getIssueContent());
+				range.replaceText("${issueReq}", issueReq);
+				range.replaceText("${userName}", shiroUser.getUser().getUsername());
+				range.replaceText("${shouldDate}", StringUtil.date2Str(issue.getShouldDate(),"yyyy-MM-dd"));
+				range.replaceText("${issueResult}", issue.getResult());
+				range.replaceText("${dealMan}", issue.getDealMan());
+				range.replaceText("${dealTime}", StringUtil.date2Str(issue.getDealTime(),"yyyy-MM-dd"));
 				os = new FileOutputStream(newPath);
 				// 把doc输出到输出流中
 				doc.write(os);
@@ -612,9 +612,47 @@ public class KfglController {
 				this.closeSource(is, os, doc);
 			}
 		}
-
+		
+		FileUtils fileUtil = new FileUtils();
+		String filename = StringUtil.date2Str(new Date(), "yyyyMMddHHmmss");
+		File zipFileName = new File(docPath + filename + ".zip");
+		
+		try {
+			zipFileName.deleteOnExit();
+			fileUtil.zip(dfile, zipFileName);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		request.setAttribute("filename", filename);
+	    return TO_DOWN;
 	}
 
+	@RequiresUser
+	@RequiresPermissions("Wtgd:view")
+	@RequestMapping(value = "/issue/down/{zipfilename}", method = { RequestMethod.POST, RequestMethod.GET })
+	public ResponseEntity<byte[]> down(ServletRequest request, @PathVariable String zipfilename) {
+		String docPath = request.getServletContext().getRealPath("/doc/issue/");
+		String zipFileName = docPath + zipfilename + ".zip";
+		try {
+			File file = new File(zipFileName);
+			if(!file.exists()) {
+				LOG.error(" =----- 文件不存在。");
+				return null;
+			}
+			HttpHeaders headers = new HttpHeaders();  
+	        //下载显示的文件名，解决中文名称乱码问题  
+	        String downloadFielName = new String(zipfilename.getBytes("UTF-8"),"iso-8859-1");
+	        //通知浏览器以attachment（下载方式）打开图片
+	        headers.setContentDispositionFormData("attachment", downloadFielName + ".zip"); 
+	        //application/octet-stream ： 二进制流数据（最常见的文件下载）。
+	        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+		    return new ResponseEntity<byte[]>(org.apache.commons.io.FileUtils.readFileToByteArray(file), headers, HttpStatus.CREATED);  
+		    
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	/**
 	 * 关闭输入流
 	 * 

@@ -204,4 +204,57 @@ DWZ.regPlugins.push(function ($p) {
 			return false;
 		});
 	});
+    
+  //myDialogs
+  	$("a[target=myDialog]", $p).each(function(){
+  		function _getIds(selectedIds, targetType){
+  			//alert("test111");
+  			var ids = "";
+  			var $box = targetType == "dialog" ? $.pdialog.getCurrent() : navTab.getCurrentPanel();
+  			$box.find("input:checked").filter("[name='"+selectedIds+"']").each(function(i){
+  				var val = $(this).val();
+  				ids += i==0 ? val : ","+val;
+  			});
+  			return ids;
+  		}
+  		$(this).click(function(event){
+  			var $this = $(this);
+  			//TODO
+  			//alert("fdsafdsadd1111fsafdsa");
+  			var targetType = $this.attr("targetType");
+  			var selectedIds = $this.attr("rel") || "ids";
+  			var ids = _getIds(selectedIds, targetType);
+  			//alert(ids);
+  			var title = $this.attr("title") || $this.text();
+  			var rel = $this.attr("rel") || "_blank";
+  			var options = {};
+  			var w = $this.attr("width");
+  			var h = $this.attr("height");
+  			if (w) options.width = w;
+  			if (h) options.height = h;
+  			options.max = eval($this.attr("max") || "false");
+  			options.mask = eval($this.attr("mask") || "false");
+  			options.maxable = eval($this.attr("maxable") || "true");
+  			options.minable = eval($this.attr("minable") || "true");
+  			options.fresh = eval($this.attr("fresh") || "true");
+  			options.resizable = eval($this.attr("resizable") || "true");
+  			options.drawable = eval($this.attr("drawable") || "true");
+  			options.close = eval($this.attr("close") || "");
+  			options.param = $this.attr("param") || "";
+
+  			var url = unescape($this.attr("href")).replaceTmById($(event.target).parents(".unitBox:first"));
+  			DWZ.debug(url);
+  			if (!url.isFinishedTm()) {
+  				alertMsg.error($this.attr("warn") || DWZ.msg("alertSelectMsg"));
+  				return false;
+  			}
+  			if (ids == "") {
+  				alertMsg.error("请选择记录");
+  				return false;
+  			}
+  			$.pdialog.open(url + "?ids=" + ids, rel, title, options);
+  			
+  			return false;
+  		});
+  	});
 });
