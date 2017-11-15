@@ -135,6 +135,10 @@ function displayTips(val) {
 		$("#tipsDesc").html("市县人核件跟进详情。须含列：投保单号\t计划跟进日期\t跟进情况，关键列：投保单号");
 		return;
 	}
+	if(val=="IssuePFRDeal") {
+		$("#tipsDesc").html("问题件工单处理详情。须含列：事件编号\t状态\t处理结果\t经办人\t经办日期，关键列：事件编号");
+		return;
+	}
 }
 
 var strFileGroup = new Date().Format("yyyyMMddhhmmss");

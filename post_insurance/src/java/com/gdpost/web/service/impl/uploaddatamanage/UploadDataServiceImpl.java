@@ -42,6 +42,7 @@ import com.gdpost.utils.TemplateHelper.CsReportColumn;
 import com.gdpost.utils.TemplateHelper.DocNotScanDtlColumn;
 import com.gdpost.utils.TemplateHelper.IssueColumn;
 import com.gdpost.utils.TemplateHelper.IssuePFRColumn;
+import com.gdpost.utils.TemplateHelper.IssuePFRDealColumn;
 import com.gdpost.utils.TemplateHelper.PayFailListColumn;
 import com.gdpost.utils.TemplateHelper.PolicyBackDateColumn;
 import com.gdpost.utils.TemplateHelper.PolicyColumn;
@@ -169,6 +170,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_issue character set utf8 (";
 			sql1 = "update t_issue set should_date=ready_date where should_date is null or should_date<\"2000-11-01 09:00:00\";";
 			break;
+		case IssuePFRDeal:
+			return dr;
 		case CallFail:
 			standardColumns = IssueColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_call_fail_list character set utf8 (";
@@ -514,6 +517,35 @@ public class UploadDataServiceImpl implements UploadDataService{
 			return dr;
 		case Issue:
 			return dr;
+		case IssuePFRDeal:
+			standardColumns = IssuePFRDealColumn.getStandardColumns();
+			sql = new StringBuffer("INSERT INTO t_issue(issue_no, status, result, deal_man, deal_time) VALUES ");
+			line = null;
+			for (DataRow row : dt.Rows) {
+				line = new StringBuffer("(");
+	        	for(ColumnItem item : standardColumns) {
+	        		val = row.getValue(item.getDisplayName());
+                	
+	        		if(item.getDisplayName().contains("日期")) {
+	        			if(val == null || val.toString().trim().length() <= 0) {
+	        				line.append("null,");
+	        			}
+	        		} else {
+	        			line.append("\"" + StringUtil.trimStr(val, true) + "\",");
+	        		}
+	        	}
+	        	line.deleteCharAt(line.length() - 1);
+	        	line.append("),");
+	        	sql.append(line);
+	        }
+			sql.deleteCharAt(sql.length() - 1);
+			sql.append(" ON DUPLICATE KEY UPDATE status=VALUES(status), result=VALUES(result), ");
+			sql.append(" deal_man=VALUES(deal_man), deal_time=VALUES(deal_time);");
+			//sql.append("deal_desc=VALUES(deal_desc);");
+			
+			log.debug("----------------batch update : " + sql);
+			sql2 = "delete from t_issue where issue_no is null or policy_no is null";
+			break;
 		case CallFail:
 			return dr;
 		case CallFailStatus:
@@ -1425,6 +1457,10 @@ public class UploadDataServiceImpl implements UploadDataService{
 			standardColumns = IssuePFRColumn.getStandardColumns();
 			keyRow = IssuePFRColumn.KEY_ROW;
 			break;
+		case IssuePFRDeal:
+			standardColumns = IssuePFRDealColumn.getStandardColumns();
+			keyRow = IssuePFRDealColumn.KEY_ROW;
+			break;
 		case CallFailPFR:
 			standardColumns = IssuePFRColumn.getStandardColumns();
 			keyRow = IssuePFRColumn.KEY_ROW;
@@ -1527,7 +1563,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 						|| t.name().equals(FileTemplate.RenewedFeeMatchList.name())
 						|| t.name().equals(FileTemplate.UnderWriteDtlData.name())
 						|| t.name().equals(FileTemplate.UnderWriteRemark.name())
-						|| t.name().equals(FileTemplate.UnderWriteInsured.name())) {
+						|| t.name().equals(FileTemplate.UnderWriteInsured.name())
+						|| t.name().equals(FileTemplate.IssuePFRDeal.name())) {
 					
 					dr = updateStatusData(t, request, dt);
 					
