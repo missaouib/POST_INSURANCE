@@ -596,7 +596,7 @@ public class KfglController {
 				range.replaceText("${finishDate}", StringUtil.date2Str(issue.getFinishDate(),"yyyy-MM-dd"));
 				range.replaceText("${issueContent}", issue.getIssueContent());
 				range.replaceText("${issueReq}", issueReq);
-				range.replaceText("${userName}", shiroUser.getUser().getUsername());
+				range.replaceText("${userName}", shiroUser.getUser().getRealname());
 				range.replaceText("${shouldDate}", StringUtil.date2Str(issue.getShouldDate(),"yyyy-MM-dd"));
 				range.replaceText("${issueResult}", issue.getResult());
 				range.replaceText("${dealMan}", issue.getDealMan());
