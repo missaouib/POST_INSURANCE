@@ -24,7 +24,7 @@ response.setHeader("Content-Disposition", "inline; filename=call_fail_dtl.xls");
                 <th>出单网点</th>
                 <th>可再访</th>
                 <th>出单日期</th>
-                <th>回单日期</th>
+                <th>签收日期</th>
                 <th>待处理时间</th>
                 <th>网点代码</th>
                 <shiro:hasPermission name="Callfail:provEdit">

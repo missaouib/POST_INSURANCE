@@ -7,9 +7,17 @@
  */
 package com.gdpost.web.controller.insurance;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
@@ -19,6 +27,8 @@ import java.util.Map;
 import javax.servlet.ServletRequest;
 import javax.validation.Valid;
 
+import org.apache.poi.hwpf.HWPFDocument;
+import org.apache.poi.hwpf.usermodel.Range;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresUser;
 import org.slf4j.Logger;
@@ -37,8 +47,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gdpost.utils.SecurityUtils;
+import com.gdpost.utils.StringUtil;
+import com.gdpost.web.entity.component.TuiBaoModel;
 import com.gdpost.web.entity.main.Issue;
 import com.gdpost.web.entity.main.Organization;
+import com.gdpost.web.entity.main.Policy;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.exception.ServiceException;
 import com.gdpost.web.log.Log;
@@ -528,6 +541,109 @@ public class KfglController {
 		return ISSUE_LIST;
 	}
 
+	@RequiresUser
+	@RequiresPermissions("Wtgd:view")
+	@RequestMapping(value = "/toWord", method = { RequestMethod.POST, RequestMethod.GET })
+	public @ResponseBody void toWord(ServletRequest request, Long[] ids) {
+		// 如果是市局登录
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		String userOrg = shiroUser.getUser().getOrganization().getOrgCode();
+
+		Issue issue = null;
+		String policyNo = null;
+		String templatePath = null;
+		String newPath = null;
+		InputStream is = null;
+		OutputStream os = null;
+		HWPFDocument doc = null;
+		String issueReq  = null;
+		
+		for(Long id:ids) {
+			issue = kfglService.get(id);
+			policyNo = issue.getPolicy().getPolicyNo();
+			
+			templatePath = request.getServletContext().getRealPath("/") + File.separator + "doc/issue/issue_template.doc";
+			newPath = request.getServletContext().getRealPath("/") + File.separator + "doc" + File.separator + "issue" + File.separator + policyNo + "_" + issue.getIssueNo() + ".doc";
+			try {
+				is = new FileInputStream(templatePath);
+				doc = new HWPFDocument(is);
+				Range range = doc.getRange();
+				switch(issue.getIssueType()) {  
+				case "退保":
+					issueReq = "转业务岗处理";
+					break;
+				case "条款解释不清":  
+			        issueReq = "转业务岗处理";
+			        break;
+				case "保单未送达":  
+					issueReq = "转契约岗处理";
+					break;
+				case "代签名":  
+					issueReq = "转契约岗处理";
+					break;
+					default:issueReq = "";
+				}
+				range.replaceText("$issueType", issue.getIssueType());
+				range.replaceText("$issesNo", issue.getIssueNo());
+				range.replaceText("$orgName", issue.getOrganName());
+				range.replaceText("$policyNo", policyNo);
+				range.replaceText("$bankName", issue.getBankName());
+				range.replaceText("$policyDate", StringUtil.date2Str(issue.getPolicy().getPolicyDate(),"yyyy-MM-dd"));
+				range.replaceText("$policyFee", new Double(issue.getPolicy().getPolicyFee()).toString());
+				range.replaceText("$holder", issue.getPolicy().getHolder());
+				range.replaceText("$holderPhone", issue.getHolderPhone());
+				range.replaceText("$holderMobile", issue.getHolderMobile());
+				range.replaceText("$finishDate", StringUtil.date2Str(issue.getFinishDate(),"yyyy-MM-dd"));
+				range.replaceText("$issueContent", issue.getIssueContent());
+				range.replaceText("$issueReq", issueReq);
+				range.replaceText("$userName", shiroUser.getUser().getUsername());
+				range.replaceText("$shouldDate", StringUtil.date2Str(issue.getShouldDate(),"yyyy-MM-dd"));
+				range.replaceText("$issueResult", issue.getResult());
+				range.replaceText("$dealMan", issue.getDealMan());
+				range.replaceText("$dealTime", StringUtil.date2Str(issue.getDealTime(),"yyyy-MM-dd"));
+				os = new FileOutputStream(newPath);
+				// 把doc输出到输出流中
+				doc.write(os);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				this.closeSource(is, os, doc);
+			}
+		}
+
+	}
+
+	/**
+	 * 关闭输入流
+	 * 
+	 * @param is
+	 */
+	private void closeSource(InputStream is, OutputStream os, HWPFDocument doc) {
+		if (is != null) {
+			try {
+				is.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		if (os != null) {
+			try {
+				os.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		if (doc != null) {
+			try {
+				doc.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	// 使用初始化绑定器, 将参数自动转化为日期类型,即所有日期类型的数据都能自动转化为yyyy-MM-dd格式的Date类型
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
