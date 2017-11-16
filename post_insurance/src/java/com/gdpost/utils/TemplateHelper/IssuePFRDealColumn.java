@@ -25,6 +25,13 @@ public class IssuePFRDealColumn {
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
+		column.setDisplayName("保单号");
+		column.setColumnName("policy_no");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(false);
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
 		column.setDisplayName("工单状态");
 		column.setColumnName("status");
 		column.setColumnType(ColumnType.string);

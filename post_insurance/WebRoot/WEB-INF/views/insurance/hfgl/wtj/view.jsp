@@ -24,7 +24,7 @@
 			<span class="unit"><fmt:formatDate value="${issue.policy.policyDate }" pattern="yyyy-MM-dd"/></span>
 		</p>
 		<p>
-			<label>回单日期：</label>
+			<label>签收日期：</label>
 			<span class="unit"><fmt:formatDate value="${issue.billBackDate }" pattern="yyyy-MM-dd"/></span>
 		</p>
 		<p>

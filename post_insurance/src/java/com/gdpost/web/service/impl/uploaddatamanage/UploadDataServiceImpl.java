@@ -519,7 +519,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			return dr;
 		case IssuePFRDeal:
 			standardColumns = IssuePFRDealColumn.getStandardColumns();
-			sql = new StringBuffer("INSERT INTO t_issue(issue_no, status, result, deal_man, deal_time) VALUES ");
+			sql = new StringBuffer("INSERT INTO t_issue(issue_no, policy_no, status, result, deal_man, deal_time) VALUES ");
 			line = null;
 			for (DataRow row : dt.Rows) {
 				line = new StringBuffer("(");
@@ -529,7 +529,9 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        		if(item.getDisplayName().contains("日期")) {
 	        			if(val == null || val.toString().trim().length() <= 0) {
 	        				line.append("null,");
-	        			}
+	        			} else {
+		        			line.append("\"" + StringUtil.trimStr(val, true) + "\",");
+		        		}
 	        		} else {
 	        			line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        		}
@@ -544,7 +546,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			//sql.append("deal_desc=VALUES(deal_desc);");
 			
 			log.debug("----------------batch update : " + sql);
-			sql2 = "delete from t_issue where issue_no is null or policy_no is null";
+			sql2 = "delete from t_issue where issue_no is null or policy_no is null or issue_desc is null;";
 			break;
 		case CallFail:
 			return dr;
@@ -570,6 +572,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        		} else if(item.getDisplayName().contains("日期")) {
 	        			if(val == null || val.toString().trim().length() <= 0) {
 	        				line.append("null,");
+	        			} else {
+	        				line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        			}
 	        		} else {
 	        			line.append("\"" + StringUtil.trimStr(val, true) + "\",");
@@ -616,6 +620,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        		} else if(item.getDisplayName().contains("日期")) {
 	        			if(val == null || val.toString().trim().length() <= 0) {
 	        				line.append("null,");
+	        			} else {
+	        				line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        			}
 	        		} else {
 	        			line.append("\"" + StringUtil.trimStr(val, true) + "\",");
@@ -657,6 +663,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        		} else if(item.getDisplayName().contains("日期")) {
 	        			if(val == null || val.toString().trim().length() <= 0) {
 	        				line.append("null,");
+	        			} else {
+	        				line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        			}
 	        		} else {
 	        			line.append("\"" + StringUtil.trimStr(val, true) + "\",");
@@ -696,6 +704,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        		} else if(item.getDisplayName().contains("日期")) {
 	        			if(val == null || val.toString().trim().length() <= 0) {
 	        				line.append("null,");
+	        			} else {
+	        				line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        			}
 	        		} else {
 	        			line.append("\"" + StringUtil.trimStr(val, true) + "\",");
@@ -734,6 +744,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        		} else if(item.getDisplayName().contains("日期")) {
 	        			if(val == null || val.toString().trim().length() <= 0) {
 	        				line.append("null,");
+	        			} else {
+	        				line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        			}
 	        		} else {
 	        			line.append("\"" + StringUtil.trimStr(val, true) + "\",");
@@ -767,6 +779,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        		} else if(item.getDisplayName().contains("日期")) {
 	        			if(val == null || val.toString().trim().length() <= 0) {
 	        				line.append("null,");
+	        			} else {
+	        				line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        			}
 	        		} else {
 	        			line.append("\"" + StringUtil.trimStr(val, true) + "\",");
@@ -800,6 +814,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        		} else if(item.getDisplayName().contains("日期")) {
 	        			if(val == null || val.toString().trim().length() <= 0) {
 	        				line.append("null,");
+	        			} else {
+	        				line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        			}
 	        		} else {
 	        			line.append("\"" + StringUtil.trimStr(val, true) + "\",");

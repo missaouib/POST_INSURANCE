@@ -136,7 +136,7 @@ function displayTips(val) {
 		return;
 	}
 	if(val=="IssuePFRDeal") {
-		$("#tipsDesc").html("问题件工单处理详情。须含列：事件编号\t状态\t处理结果\t经办人\t经办日期，关键列：事件编号");
+		$("#tipsDesc").html("问题件工单处理详情。须含列：事件编号\t保单号\t工单状态\t处理结果\t经办人\t经办日期，关键列：事件编号");
 		return;
 	}
 }
