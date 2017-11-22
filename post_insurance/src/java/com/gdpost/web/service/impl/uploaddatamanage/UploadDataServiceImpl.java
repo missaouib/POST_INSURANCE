@@ -922,7 +922,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        		}
 	        		if(item.getDisplayName().equals("交费失败原因") && isFail) {
 	        			if(val == null || val.toString().length() <= 0) {
-	        				line.append("\"" + XQ_STATUS.DeadStatus.getDesc() + "\",");
+	        				//line.append("\"" + XQ_STATUS.DeadStatus.getDesc() + "\",");
+	        				line.append("\"" + StringUtil.trimStr(val, true) + "\",");//关闭空白失败原因被置为退保的状态条件，//by 廖宇 2017-11-22
 	        			} else {
 	        				line.append("\"" + StringUtil.trimStr(val, true) + "\",");
 	        			}

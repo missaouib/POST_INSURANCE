@@ -12,6 +12,7 @@ response.setHeader("Content-Disposition", "inline; filename=Issue_xls.xls");
 				<th>序号</th>
 				<th>保单机构</th>
 				<th>工单编号</th>
+				<th>工单类型</th>
 				<th>工单内容</th>
 				<th>系统导入</th>
 				<th>离结案还有（天）</th>
@@ -32,6 +33,7 @@ response.setHeader("Content-Disposition", "inline; filename=Issue_xls.xls");
 				<td><c:out value="${status.index+1}"/></td>
 				<td>${item.policy.organization.shortName}</td>
 				<td>${item.issueNo}</td>
+				<td>${item.issueType}</td>
 				<td>${item.issueContent}</td>
 				<td><fmt:formatDate value="${item.operateTime }" pattern="yyyy-MM-dd"/></td>
 				<td><span style="color:red; height:50%; margin-bottom:-contentheight;"><c:if test="${item.lastDateNum<0 }">0</c:if><c:if test="${item.lastDateNum>=0 }">${item.lastDateNum }</c:if></span></td>
