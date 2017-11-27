@@ -53,12 +53,6 @@ public class TaskService {
 		int iRst5 = -1;
 		int iRst6 = -1;
 		
-		
-		
-		
-		
-		
-		
         try {
         	log.info("------------ task service 1 :" + sql1);
         	String sql = "insert into t_log_info (username, message,ip_address,log_level,module) values "
@@ -94,7 +88,7 @@ public class TaskService {
 			iRst6 = statement.executeUpdate(sql6);
 			log.info("------------ task service 6 rst :" + iRst6);
 			
-			sql7 = "update t_call_fail_list set status=\"二访成功\" where prov_deal_flag=1 and status<>\"二访成功\";";
+			sql7 = "update t_call_fail_list set status=\"二访成功\" where (prov_deal_flag=1 or hq_deal_flag=1) and status<>\"二访成功\";";
 			log.info("------------ task service 7:" + sql7);
 			statement.executeUpdate(sql7);
 			
