@@ -200,6 +200,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			standardColumns = RenewedFeeRstColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_renewed_fee_rst character set utf8 (";
 			sql1 = "update t_renewed_list trl, t_renewed_fee_rst trfr set trl.give_flag='需充值' where trl.policy_no=trfr.policy_no and datediff(trfr.rst_date, trfr.req_date)<=7;";
+			sql2 = "update t_renewed_list t1, t_cs_report t2, t_policy t3 set t1.fee_status=\"已终止\" where t1.policy_no=t2.policy_no and t2.policy_no=t3.policy_no and t3.attached_flag=0 and t2.cs_code=\"CT\" and t2.money>(t3.total_fee*0.1);";
 			break;
 		case RenewedStatus:
 			standardColumns = RenewedStatusColumn.getStandardColumns();
@@ -943,6 +944,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql2 = "delete from t_renewed_list where holder is null";
 			sql3 = "update t_renewed_list set fee_status=\"" + XQ_STATUS.DeadStatus.getDesc() + "\" where fee_fail_reason=\"" + XQ_STATUS.DeadStatus.getDesc() + "\"";
 			sql4 = "update t_renewed_list set fee_status=\"" + XQ_STATUS.FeeFailStatus.getDesc() + "\" where fee_status=\"挂起\"";
+			sql5 = "update t_renewed_list t1, t_cs_report t2, t_policy t3 set t1.fee_status=\"已终止\" where t1.policy_no=t2.policy_no and t2.policy_no=t3.policy_no and t3.attached_flag=0 and t2.cs_code=\"CT\" and t2.money>(t3.total_fee*0.1);";
 			break;
 		case RenewedHQList://总部的催收
 			standardColumns = RenewedHQListColumn.getStandardColumns();
@@ -1062,6 +1064,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql.append("policy_year=VALUES(policy_year), fee_date=VALUES(fee_date), fee_match=VALUES(fee_match), prov_deal_date=VALUES(prov_deal_date), prov_deal_remark=VALUES(prov_deal_remark), prov_issue_type=VALUES(prov_issue_type), prov_deal_rst=VALUES(prov_deal_rst), give_fee=VALUES(give_fee);");
 			log.debug("----------------fee match batch sql : " + sql);
 			sql2 = "delete from t_renewed_list where holder is null";
+			sql3 = "update t_renewed_list t1, t_cs_report t2, t_policy t3 set t1.fee_status=\"已终止\" where t1.policy_no=t2.policy_no and t2.policy_no=t3.policy_no and t3.attached_flag=0 and t2.cs_code=\"CT\" and t2.money>(t3.total_fee*0.1);";
 			break;
 		case RenewedCityList://总部的催收
 			standardColumns = RenewedCityListColumn.getStandardColumns();
