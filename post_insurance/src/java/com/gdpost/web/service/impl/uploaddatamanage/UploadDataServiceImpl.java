@@ -197,6 +197,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_renewed_list character set utf8 (";
 			sql2 = "update t_renewed_list t1, t_cs_report t2, t_policy t3 set t1.fee_status=\"已终止\" where t1.policy_no=t2.policy_no and t2.policy_no=t3.policy_no and t3.attached_flag=0 and t2.cs_code=\"CT\" and t2.money>(t3.total_fee*0.1);";
 			sql3 = "update t_renewed_list set fee_status='交费成功' where fee_status<>\"交费成功\" and fee_status<>\"失效\" and policy_no in (select rel_no from t_pay_success_list where pay_type=2 and datediff(back_date,fee_date)>0);";
+			sql4 = "update t_policy t1, t_cs_report t2, t_pay_success_list t3 set t1.status=\"有效\" where t1.policy_no=t2.policy_no and t2.cs_code=\"RE\" and datediff(now(),t2.operate_time)=0 and t2.cs_no=t3.rel_no and t3.fail_desc=\"成功\";";
 			break;
 		case RenewedFeeRst:
 			standardColumns = RenewedFeeRstColumn.getStandardColumns();
@@ -204,6 +205,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql1 = "update t_renewed_list trl, t_renewed_fee_rst trfr set trl.give_flag='需充值' where trl.policy_no=trfr.policy_no and datediff(trfr.rst_date, trfr.req_date)<=7;";
 			sql2 = "update t_renewed_list t1, t_cs_report t2, t_policy t3 set t1.fee_status=\"已终止\" where t1.policy_no=t2.policy_no and t2.policy_no=t3.policy_no and t3.attached_flag=0 and t2.cs_code=\"CT\" and t2.money>(t3.total_fee*0.1);";
 			sql3 = "update t_renewed_list set fee_status='交费成功' where fee_status<>\"交费成功\" and fee_status<>\"失效\" and policy_no in (select rel_no from t_pay_success_list where pay_type=2 and datediff(back_date,fee_date)>0);";
+			sql4 = "update t_policy t1, t_cs_report t2, t_pay_success_list t3 set t1.status=\"有效\" where t1.policy_no=t2.policy_no and t2.cs_code=\"RE\" and datediff(now(),t2.operate_time)=0 and t2.cs_no=t3.rel_no and t3.fail_desc=\"成功\";";
 			break;
 		case RenewedStatus:
 			standardColumns = RenewedStatusColumn.getStandardColumns();
@@ -510,6 +512,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 		String sql4 = null;
 		String sql5 = null;
 		String sql6 = null;
+		String sql7 = null;
 		boolean isFail = false;
 		//boolean updateRst = true;
 		Object val = null;
@@ -949,6 +952,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql4 = "update t_renewed_list set fee_status=\"" + XQ_STATUS.FeeFailStatus.getDesc() + "\" where fee_status=\"挂起\"";
 			sql5 = "update t_renewed_list t1, t_cs_report t2, t_policy t3 set t1.fee_status=\"已终止\" where t1.policy_no=t2.policy_no and t2.policy_no=t3.policy_no and t3.attached_flag=0 and t2.cs_code=\"CT\" and t2.money>(t3.total_fee*0.1);";
 			sql6 = "update t_renewed_list set fee_status='交费成功' where fee_status<>\"交费成功\" and fee_status<>\"失效\" and policy_no in (select rel_no from t_pay_success_list where pay_type=2 and datediff(back_date,fee_date)>0);";
+			sql7 = "update t_policy t1, t_cs_report t2, t_pay_success_list t3 set t1.status=\"有效\" where t1.policy_no=t2.policy_no and t2.cs_code=\"RE\" and datediff(now(),t2.operate_time)=0 and t2.cs_no=t3.rel_no and t3.fail_desc=\"成功\";";
 			break;
 		case RenewedHQList://总部的催收
 			standardColumns = RenewedHQListColumn.getStandardColumns();
@@ -1070,6 +1074,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql2 = "delete from t_renewed_list where holder is null";
 			sql3 = "update t_renewed_list t1, t_cs_report t2, t_policy t3 set t1.fee_status=\"已终止\" where t1.policy_no=t2.policy_no and t2.policy_no=t3.policy_no and t3.attached_flag=0 and t2.cs_code=\"CT\" and t2.money>(t3.total_fee*0.1);";
 			sql4 = "update t_renewed_list set fee_status='交费成功' where fee_status<>\"交费成功\" and fee_status<>\"失效\" and policy_no in (select rel_no from t_pay_success_list where pay_type=2 and datediff(back_date,fee_date)>0);";
+			sql5 = "update t_policy t1, t_cs_report t2, t_pay_success_list t3 set t1.status=\"有效\" where t1.policy_no=t2.policy_no and t2.cs_code=\"RE\" and datediff(now(),t2.operate_time)=0 and t2.cs_no=t3.rel_no and t3.fail_desc=\"成功\";";
 			break;
 		case RenewedCityList://总部的催收
 			standardColumns = RenewedCityListColumn.getStandardColumns();
@@ -1306,6 +1311,9 @@ public class UploadDataServiceImpl implements UploadDataService{
 			}
 			if(sql6 != null) {
 				statement.execute(sql6);
+			}
+			if(sql7 != null) {
+				statement.execute(sql7);
 			}
 			//log.info("------------renewed status update result:" + updateRst);
 			dr.setFlag(true);
