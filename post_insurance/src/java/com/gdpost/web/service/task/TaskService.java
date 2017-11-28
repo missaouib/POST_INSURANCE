@@ -143,13 +143,13 @@ public class TaskService {
 			sql = "update t_cs_report tsr, t_policy_dtl tpd, t_staff ts set tsr.staff_flag=true where tsr.staff_flag=0 and tsr.policy_no=tpd.policy_no and tpd.holder_card_num=ts.id_card;";
 			statement.executeUpdate(sql);
 			log.info("------------ sql :" + sql);
-			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=1,tp.status=\"终止\" where tp.policy_no=tcr.policy_no and tp.cs_flag=0 and tp.attached_flag=0 and tcr.cs_code=\"CT\" and (0-tcr.money)=tp.total_fee;";
+			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=1,tp.status=\"终止\" where tp.policy_no=tcr.policy_no and tp.cs_flag=0 and tp.attached_flag=0 and tcr.cs_code=\"CT\" and abs(tcr.money)=tp.total_fee;";
 			statement.executeUpdate(sql);
 			log.info("------------ sql :" + sql);
-			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=2,tp.status=\"终止\" where tp.policy_no=tcr.policy_no and tp.cs_flag=0 and tp.attached_flag=0 and tcr.cs_code=\"CT\" and tcr.money>(tp.total_fee*0.1);";
+			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=2,tp.status=\"终止\" where tp.policy_no=tcr.policy_no and tp.cs_flag=0 and tp.attached_flag=0 and tcr.cs_code=\"CT\" and abs(tcr.money)>(tp.total_fee*0.1);";
 			statement.executeUpdate(sql);
 			log.info("------------ sql :" + sql);
-			sql = "update t_renewed_list t1, t_cs_report t2, t_policy t3 set t1.fee_status=\"已终止\" where t1.policy_no=t2.policy_no and t2.policy_no=t3.policy_no and t3.attached_flag=0 and t2.cs_code=\"CT\" and t2.money>(t3.total_fee*0.1);";
+			sql = "update t_renewed_list t1, t_cs_report t2, t_policy t3 set t1.fee_status=\"已终止\" where t1.policy_no=t2.policy_no and t2.policy_no=t3.policy_no and t3.attached_flag=0 and t2.cs_code=\"CT\" and abs(t2.money)>(t3.total_fee*0.1);";
 			statement.executeUpdate(sql);
 			log.info("------------ sql :" + sql);
 			
