@@ -45,6 +45,7 @@
 	<table class="table" layoutH="142" width="100%" rel="jbsxBox2organizationList" >
 		<thead>
 			<tr>
+				<th>代码</th>
 				<th width="150">名称</th>
 				<th width="150">简称</th>
 				<th width="200">拥有角色</th>
@@ -56,6 +57,7 @@
 		<tbody>
 			<c:forEach var="item" items="${organizations}">
 			<tr target="slt_uid" rel="${item.id}">
+				<td><a href="${contextPath}/management/security/organization/list/${item.id}" target="ajax" rel="jbsxBox2organizationList">${item.orgCode}</a></td>
 				<td><a href="${contextPath}/management/security/organization/list/${item.id}" target="ajax" rel="jbsxBox2organizationList">${item.name}</a></td>
 				<td>${item.shortName}</td>
 				<td>

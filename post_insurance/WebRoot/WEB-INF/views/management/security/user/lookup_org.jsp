@@ -10,7 +10,7 @@
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("<ul>" + "\n");
 		for(Organization o : org.getChildren()) {
-			buffer.append("<li><a href=\"javascript:\" onclick=\"$.bringBack({id:'" + o.getId() + "', name:'" + o.getName() + "', orgCode:'" + o.getOrgCode() + "'})\">" + o.getName() + "</a>" + "\n");
+			buffer.append("<li><a href=\"javascript:\" onclick=\"$.bringBack({id:'" + o.getId() + "', name:'" + o.getName() + "', orgCode:'" + o.getOrgCode() + "'})\">" + o.getOrgCode() + "_" + o.getName() + "</a>" + "\n");
 			buffer.append(tree(o));
 			buffer.append("</li>" + "\n");
 		}
@@ -24,7 +24,7 @@
 <div class="pageContent">
 	<div class="pageFormContent" layoutH="58">
 		<ul class="tree expand">
-			<li><a href="javascript:" onclick="$.bringBack({id:'<%=org.getId() %>', name:'<%=org.getName() %>', orgCode:'<%=org.getOrgCode() %>'})"><%=org.getName() %></a>
+			<li><a href="javascript:" onclick="$.bringBack({id:'<%=org.getId() %>', name:'<%=org.getName() %>', orgCode:'<%=org.getOrgCode() %>'})"><%=org.getOrgCode() %>_<%=org.getName() %></a>
 				<%=tree(org) %>
 			</li>
 		</ul>
