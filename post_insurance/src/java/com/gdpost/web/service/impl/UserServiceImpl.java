@@ -3,6 +3,7 @@
  */
 package	com.gdpost.web.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -140,6 +141,7 @@ public class UserServiceImpl implements UserService {
 			HashPassword hashPassword = ShiroDbRealm.encryptPassword(newPwd);
 			user.setSalt(hashPassword.salt);
 			user.setPassword(hashPassword.password);
+			user.setPwdTime(new Date());
 			
 			userDAO.save(user);
 			shiroRealm.clearCachedAuthorizationInfo(user.getUsername());
@@ -162,6 +164,7 @@ public class UserServiceImpl implements UserService {
 		HashPassword hashPassword = ShiroDbRealm.encryptPassword(newPwd);
 		user.setSalt(hashPassword.salt);
 		user.setPassword(hashPassword.password);
+		user.setPwdTime(new Date());
 		
 		userDAO.save(user);
 	}

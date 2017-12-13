@@ -61,12 +61,13 @@
 				<th width="22"><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
 				<th width="100">登录名称</th>
 				<th width="100">姓名</th>
-				<th width="200">邮箱地址</th>
-				<th width="120">电话</th>
+				<th>邮箱地址</th>
+				<th>电话</th>
 				<th width="150" orderField=organization.name class="${page.orderField eq 'organization.name' ? page.orderDirection : ''}">所在组织</th>
-				<th >角色</th>
-				<th width="60" orderField="status" class="${page.orderField eq 'status' ? page.orderDirection : ''}">账户状态</th>
+				<th>角色</th>
+				<th orderField="status" class="${page.orderField eq 'status' ? page.orderDirection : ''}">账户状态</th>
 				<th width="130" orderField="createTime" class="${page.orderField eq 'createTime' ? page.orderDirection : ''}">创建时间</th>
+				<th>上次修改密码时间</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -85,6 +86,7 @@
 				</td>
 				<td>${item.status == "enabled" ? "可用":"不可用"}</td>
 				<td><fmt:formatDate value="${item.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+				<td><fmt:formatDate value="${item.pwdTime}" pattern="yyyy-MM-dd"/></td>
 			</tr>			
 			</c:forEach>
 		</tbody>

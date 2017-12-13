@@ -460,7 +460,7 @@ public class UploadDataServiceImpl implements UploadDataService{
         	}
 			log.debug("----------import finish execute sql：");
 			dr.setFlag(true);
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			dr.setFlag(false);
 			dr.setMsg(e.getMessage());
