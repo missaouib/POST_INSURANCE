@@ -17,28 +17,28 @@ private static List<ColumnItem> standardColumns;
 		standardColumns = new ArrayList<ColumnItem>();
 		
 		ColumnItem column = new ColumnItem();
-		column.setDisplayName("印刷号");
+		column.setDisplayName("单证号3");//column.setDisplayName("印刷号");
 		column.setColumnName("print_no");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("状态");
+		column.setDisplayName("拒签状态");
 		column.setColumnName("status");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("机构号");
+		column.setDisplayName("机构代码");
 		column.setColumnName("org_code");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("投保单号");
+		column.setDisplayName("单证号1");//column.setDisplayName("投保单号");
 		column.setColumnName("form_no");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(false);
@@ -52,14 +52,14 @@ private static List<ColumnItem> standardColumns;
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("快递单号");
+		column.setDisplayName("物流编号");
 		column.setColumnName("ems_no");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("寄出日期");
+		column.setDisplayName("打印时间");
 		column.setColumnName("print_date");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);

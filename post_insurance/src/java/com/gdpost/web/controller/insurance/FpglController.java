@@ -223,9 +223,12 @@ public class FpglController {
 	@RequestMapping(value="/list", method={RequestMethod.GET, RequestMethod.POST})
 	public String list(ServletRequest request, Page page, Map<String, Object> map) {
 		User user = SecurityUtils.getShiroUser().getUser();
+		String search_LIKE_reqFlag = request.getParameter("search_LIKE_reqFlag");
+		request.setAttribute("search_LIKE_reqFlag", search_LIKE_reqFlag);
 		String status = request.getParameter("status");
 		LOG.debug("-----------------status:" + status);
 		InvoiceReq req = new InvoiceReq();
+		req.setSearch_LIKE_reqFlag(search_LIKE_reqFlag);
 		if(status == null) {
 			req.setStatus(FP_STATUS.NewStatus.name());
 			status = FP_STATUS.NewStatus.name();

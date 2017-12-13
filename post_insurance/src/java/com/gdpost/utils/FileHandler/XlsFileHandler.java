@@ -34,6 +34,11 @@ public class XlsFileHandler extends AbstractFileHandler {
 	public DataTable[] readFile(String strFilePath, String strFileName, String mkeyRow) throws MyException{
 		List<DataTable> list = new ArrayList<DataTable>();
 		log.debug("--------------ready to read xls file in handler" + this.keyRow);
+		
+		String realKeyRow = mkeyRow;
+		if(mkeyRow.equals("underwrite")) {
+			realKeyRow = "打印时间";
+		}
 		HSSFWorkbook workbook = null;
 		int markIdx = 0;
 		try {
@@ -61,6 +66,7 @@ public class XlsFileHandler extends AbstractFileHandler {
 			int keyRowIdx = -1;
 			int count = -1;
 			Cell checkCell = null;
+			int org_idx = -1;
 			//boolean isNum = false;
 			//List<CellRangeAddress> calist = new ArrayList<CellRangeAddress>();
 			// 如果是合并单元表格，略过
@@ -75,9 +81,9 @@ public class XlsFileHandler extends AbstractFileHandler {
 					skipRow = sheet.getMergedRegion(sheetmergerCount-1).getLastRow();
 				}
 				lastRow = sheet.getLastRowNum();
-				if(mkeyRow.equals("保全受理号") || mkeyRow.equals("保单号码") || mkeyRow.equals("da保单号") || mkeyRow.equals("约定还款日期")) {
-					if(mkeyRow.equals("da保单号")) {
-						mkeyRow = "保单号";
+				if(realKeyRow.equals("保全受理号") || realKeyRow.equals("保单号码") || realKeyRow.equals("da保单号") || realKeyRow.equals("约定还款日期")) {
+					if(realKeyRow.equals("da保单号")) {
+						realKeyRow = "保单号";
 					}
 					for(int i=0; i<=7; i++) {
 						headerRow = (HSSFRow) sheet.getRow(i);
@@ -127,7 +133,7 @@ public class XlsFileHandler extends AbstractFileHandler {
 							check = checkCell.getStringCellValue();
 							break;
 						}
-						if(check != null && check.trim().equals(mkeyRow)) {
+						if(check != null && check.trim().equals(realKeyRow)) {
 							keyRowIdx = count;
 							hasKeyRow = true;
 							markRow = i;
@@ -175,6 +181,9 @@ public class XlsFileHandler extends AbstractFileHandler {
 					} else {
 						column = new DataColumn("");
 					}
+					if (mkeyRow.equals("underwrite") && column.ColumnName.equals("机构代码")) {
+						org_idx = i;
+					}
 					dt.Columns.Add(column);
 				}
 
@@ -207,6 +216,12 @@ public class XlsFileHandler extends AbstractFileHandler {
 						cell = row.getCell(j);
 						if (cell != null && ("") != cell.toString()) {
 							bFlag = true;
+							if (mkeyRow.equals("underwrite") && j==org_idx) { //如果是人核件打印数据，且内容不是8644的，跳过。
+								if (!cell.getStringCellValue().contains("8644") && !cell.getStringCellValue().contains("7644")) {
+									bFlag = false;
+									break;
+								}
+							}
 							//log.debug("-----------" + cell.getCellType());
 							switch(cell.getCellType()) {
 							case HSSFCell.CELL_TYPE_NUMERIC:

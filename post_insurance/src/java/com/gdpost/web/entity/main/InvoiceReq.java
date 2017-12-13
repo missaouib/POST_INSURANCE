@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.JoinColumnOrFormula;
 import org.hibernate.annotations.JoinColumnsOrFormulas;
@@ -46,7 +47,20 @@ public class InvoiceReq implements Idable<Long> {
 	private Boolean isElectiveBill;
 	private String billAddr;
 
+	@Transient
+	private String search_LIKE_reqFlag;
+	
 	// Constructors
+
+	@Transient
+	public String getSearch_LIKE_reqFlag() {
+		return search_LIKE_reqFlag;
+	}
+
+	@Transient
+	public void setSearch_LIKE_reqFlag(String search_LIKE_reqFlag) {
+		this.search_LIKE_reqFlag = search_LIKE_reqFlag;
+	}
 
 	/** default constructor */
 	public InvoiceReq() {

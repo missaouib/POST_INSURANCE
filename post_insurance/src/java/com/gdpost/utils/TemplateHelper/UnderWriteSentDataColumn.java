@@ -23,6 +23,7 @@ private static List<ColumnItem> standardColumns;
 		column.setNullable(true);
 		standardColumns.add(column);
 		
+		/*
 		column = new ColumnItem();
 		column.setDisplayName("投保单号");
 		column.setColumnName("form_no");
@@ -30,15 +31,16 @@ private static List<ColumnItem> standardColumns;
 		column.setNullable(false);
 		standardColumns.add(column);
 		
+		*/
 		column = new ColumnItem();
-		column.setDisplayName("快递单号");
+		column.setDisplayName("物流编号");
 		column.setColumnName("prov_ems_no");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("寄出日期");
+		column.setDisplayName("打印时间");
 		column.setColumnName("prov_send_date");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);

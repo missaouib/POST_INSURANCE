@@ -11,15 +11,24 @@ response.setHeader("Content-Disposition", "inline; filename=InvoiceReq.xls");
 			<tr>
 				<th>序号</th>
                 <th>投保人</th>
+                <th>购方税号</th>
+                <th>购方地址电话</th>
+                <th>购方银行帐号</th>
                 <th>险种</th>
+                <th>规格</th>
+                <th>计量</th>
+                <th>数量</th>
                 <th>保单金额</th>
-                <th>登记金额</th>
+                <th>折扣</th>
+                <th>增普标志</th>
                 <th>发票备注</th>
-                <th>期间</th>
-                <th>保单机构</th>
-                <th>电子发票</th>
+                <th>税率</th>
+                <th>续期/首期</th>
                 <th>保单号</th>
                 <th>保单状态</th>
+                <th>登记金额</th>
+                <th>保单机构</th>
+                <th>电子发票</th>
                 <td>出单日期</td>
                 <td>续费日期</td>
                 <td>申请日期</td>
@@ -34,15 +43,24 @@ response.setHeader("Content-Disposition", "inline; filename=InvoiceReq.xls");
         <tr>
                 <td><c:out value="${status.index+1}"/></td>
                 <td>${item.policy.holder}</td>
+                <td></td>
+                <td></td>
+                <td></td>
                 <td>${item.policy.prodName}</td>
+                <td></td>
+                <td></td>
+                <td>1</td>
                 <td>${item.policy.policyFee}</td>
-                <td>${item.fee}</td>
-                <td>保单号：${item.policy.policyNo}  发票金额：<fmt:formatNumber value="${item.policy.totalFee}" pattern="#,###.##" />元，${item.reqFlag}，被保险人:${item.policy.insured}</td>
-                <td>${item.policy.feeFrequency}</td>
-                <td>${item.policy.organization.shortName}</td>
-                <td>${item.isElectiveBill}</td>
+                <td></td>
+                <td>0</td>
+                <td>保单号：${item.policy.policyNo}  发票金额：<fmt:formatNumber value="${item.policy.totalFee}" pattern="#,###.##" />元,承保日期:<fmt:formatDate value="${item.policy.policyDate }" pattern="yyyy-MM-dd"/>,${item.reqFlag},被保险人:${item.policy.insured},缴(续)费日期:<fmt:formatDate value="${item.feeDate }" pattern="yyyy-MM-dd"/></td>
+                <td></td>
+                <td>${item.reqFlag}</td>
                 <td style="vnd.ms-excel.numberformat:@">${item.policy.policyNo}</td>
                 <td>${item.policy.status}</td>
+                <td>${item.fee}</td>
+                <td>${item.policy.organization.shortName}</td>
+                <td>${item.isElectiveBill}</td>
                 <td><fmt:formatDate value="${item.policy.policyDate }" pattern="yyyy-MM-dd"/></td>
                 <td><fmt:formatDate value="${item.feeDate }" pattern="yyyy-MM-dd"/></td>
                 <td><fmt:formatDate value="${item.reqDate }" pattern="yyyy-MM-dd"/></td>

@@ -38,7 +38,14 @@
 					<input type="text" name="search_LTE_reqDate" id="fqReqDate2" style="width: 80px;" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_reqDate }"/>
 					<a class="inputDateButton" href="javascript:;">选择</a>
 				</td>
-				<td>&nbsp;</td>
+				<td>
+				<label>首期/续期：</label>
+				<form:select path="req.search_LIKE_reqFlag" id="fpreqflag" class="combox">
+						<form:option value=""> -- </form:option>
+						<form:option value="首期">首期</form:option>
+						<form:option value="续期">续期</form:option>
+					</form:select>
+				</td>
 			</tr>
 			</table>
 			<div class="subBar">
@@ -76,7 +83,7 @@
 			</shiro:hasPermission>
 			<shiro:hasPermission name="InvoiceReq:view">
 				<li class="line">line</li>
-				<li><a class="icon" target="_blank" href="${contextPath }/fpgl/toXls?search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&search_LIKE_policy.holder=${search_LIKE_policy_holder}&search_LTE_reqDate=${param.search_LTE_reqDate}&search_GTE_reqDate=${param.search_GTE_reqDate}&status=${status}"><span>导出Excel</span></a></li>
+				<li><a class="icon" target="_blank" href="${contextPath }/fpgl/toXls?search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&search_LIKE_policy.holder=${search_LIKE_policy_holder}&search_LTE_reqDate=${param.search_LTE_reqDate}&search_GTE_reqDate=${param.search_GTE_reqDate}&status=${status}&search_LIKE_reqFlag=${search_LIKE_reqFlag}"><span>导出Excel</span></a></li>
 			</shiro:hasPermission>
 			<li class="line">line</li>
 			<li><a class="icon" target="dialog" href="${contextPath }/fpgl/help" mask="true" width="530" height="430"><span>功能说明</span></a></li>
