@@ -251,7 +251,7 @@ public class ClientController {
 		if(status != null && status.trim().length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
 		}
-		String prdName = request.getParameter("prd.prdFullName");
+		String prdName = request.getParameter("prd.prdName");
 		if(prdName != null && prdName.trim().length()>0) {
 			csf.add(new SearchFilter("prodName", Operator.EQ, prdName));
 		}
@@ -260,7 +260,7 @@ public class ClientController {
 			request.setAttribute("attachedFlag", attachedFlag);
 		}
 		if(feeFrequency != null && feeFrequency.trim().length()>0) {
-			csf.add(new SearchFilter("feeFrequency", Operator.LIKE, feeFrequency));
+			csf.add(new SearchFilter("feeFrequency", Operator.EQ, feeFrequency));
 			request.setAttribute("feeFrequency", feeFrequency);
 		}
 		if(staff != null) {
