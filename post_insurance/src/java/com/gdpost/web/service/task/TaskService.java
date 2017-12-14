@@ -110,16 +110,16 @@ public class TaskService {
 			iRst6 = statement.executeUpdate(sql6);
 			log.info("------------ task service 6 rst :" + iRst6);
 			
-			sql7 = "update t_call_fail_list set status=\"二访成功\" where (prov_deal_flag=1 or hq_deal_flag=1) and status<>\"二访成功\";";
-			log.info("------------ task service 7:" + sql7);
-			statement.executeUpdate(sql7);
-			log.info("------------ finish exec sql");
-			
 			sql = "update t_under_write t1,t_policy_reprint_dtl t2 set t1.prov_ems_no=t2.ems_no, t1.status='SendStatus', "
 					+ "t1.prov_send_date=t2.print_date where t1.policy_no is not null and (t1.policy_no=t2.policy_no or t1.form_no=t2.form_no) "
 					+ "and t1.status='NewStatus';";
 			log.info("------------ sql :" + sql);
 			statement.executeUpdate(sql);
+			log.info("------------ finish exec sql");
+			
+			sql7 = "update t_call_fail_list set status=\"二访成功\" where (prov_deal_flag=1 or hq_deal_flag=1) and status<>\"二访成功\";";
+			log.info("------------ task service 7:" + sql7);
+			statement.executeUpdate(sql7);
 			log.info("------------ finish exec sql");
 			
 			sql = "update t_under_write as uw inner join t_policy tp on uw.form_no=tp.form_no set uw.policy_no=tp.policy_no,uw.sign_date=tp.policy_date where uw.policy_no is null;";
@@ -177,17 +177,17 @@ public class TaskService {
 			statement.executeUpdate(sql);
 			log.info("------------ finish exec sql");
 			
-			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=1,tp.status=\"终止\" where tp.policy_no=tcr.policy_no and tp.cs_flag=0 and tp.attached_flag=0 and tcr.cs_code=\"CT\" and abs(tcr.money)=tp.total_fee;";
-			log.info("------------ sql :" + sql);
-			statement.executeUpdate(sql);
-			log.info("------------ finish exec sql");
-			
 			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=2,tp.status=\"终止\" where tp.policy_no=tcr.policy_no and tp.cs_flag=0 and tp.attached_flag=0 and tcr.cs_code=\"CT\" and abs(tcr.money)>(tp.total_fee*0.1);";
 			log.info("------------ sql :" + sql);
 			statement.executeUpdate(sql);
 			log.info("------------ finish exec sql");
 			
 			sql = "update t_renewed_list t1, t_cs_report t2, t_policy t3 set t1.fee_status=\"已终止\" where t1.policy_no=t2.policy_no and t2.policy_no=t3.policy_no and t3.attached_flag=0 and t2.cs_code=\"CT\" and abs(t2.money)>(t3.total_fee*0.1);";
+			log.info("------------ sql :" + sql);
+			statement.executeUpdate(sql);
+			log.info("------------ finish exec sql");
+			
+			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=1,tp.status=\"终止\" where tp.policy_no=tcr.policy_no and tp.attached_flag=0 and tcr.cs_code=\"CT\" and abs(tcr.money)=tp.total_fee;";
 			log.info("------------ sql :" + sql);
 			statement.executeUpdate(sql);
 			log.info("------------ finish exec sql");
