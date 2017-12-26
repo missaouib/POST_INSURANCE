@@ -294,7 +294,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql5 = "update t_renewed_list t1, t_cs_report t2, t_policy t3 set t1.fee_status=\"已终止\" where t1.policy_no=t2.policy_no and t2.policy_no=t3.policy_no and t3.attached_flag=0 and t2.cs_code=\"CT\" and abs(t2.money)>(t3.total_fee*0.1);";
 			sql6 = "update t_renewed_list t1, t_cs_report t2, t_pay_success_list t3 set t1.fee_status=\"交费成功\" where t1.policy_no=t2.policy_no and t2.cs_code=\"RE\" and datediff(t3.back_date,t2.cs_date)>0 and t2.cs_date>t1.fee_date and t2.cs_no=t3.rel_no and t3.fail_desc=\"成功\";";
 			sql7 = "update t_policy t1, t_cs_report t2, t_pay_success_list t3 set t1.status=\"有效\" where t1.policy_no=t2.policy_no and t2.cs_code=\"RE\" and datediff(now(),t2.operate_time)=0 and t2.cs_no=t3.rel_no and t3.fail_desc=\"成功\";";
-			sql8 = "update t_policy tp, t_cs_report tcr set tp.cs_flag=1,tp.status=\"终止\",tp.cs_date=tcr.cs_date where tp.policy_no=tcr.policy_no and tp.cs_flag=0 and tp.attached_flag=0 and tcr.cs_code=\"CT\" and abs(tcr.money)=tp.total_fee;";
+			sql8 = "update t_policy tp, t_cs_report tcr set tp.cs_flag=1,tp.status=\"终止\",tp.cs_date=tcr.cs_date where tp.policy_no=tcr.policy_no and (tp.cs_flag=0 or tp.cs_flag=2) and tcr.cs_code=\"CT\" and abs(tcr.money)=tp.total_fee;";
 			break;
 		case CsLoan:
 			standardColumns = CsLoanColumn.getStandardColumns();
@@ -457,7 +457,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			if(sql8 != null) {
         		statement.executeUpdate(sql8);
         	}
-			log.debug("----------import finish execute sql：");
+			log.debug("----------import finish execute sql");
 			dr.setFlag(true);
 		} catch (Exception e) {
 			e.printStackTrace();

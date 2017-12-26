@@ -31,7 +31,7 @@ private static List<ColumnItem> standardColumns;
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("机构代码");
+		column.setDisplayName("分支机构");
 		column.setColumnName("org_code");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);

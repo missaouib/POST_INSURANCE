@@ -187,11 +187,6 @@ public class TaskService {
 			statement.executeUpdate(sql);
 			log.info("------------ finish exec sql");
 			
-			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=1,tp.status=\"终止\" where tp.policy_no=tcr.policy_no and tp.attached_flag=0 and tcr.cs_code=\"CT\" and abs(tcr.money)=tp.total_fee;";
-			log.info("------------ sql :" + sql);
-			statement.executeUpdate(sql);
-			log.info("------------ finish exec sql");
-			
 			sql = "update t_policy t1, t_bank_code t2 set t1.bank_name=t2.name where (t1.bank_name like '%邮政局%' or t1.bank_name='') and t1.prod_name not like '%禄禄通%' and t1.bank_code=t2.cpi_code;";
 			log.info("------------ sql :" + sql);
 			statement.executeUpdate(sql);
@@ -208,6 +203,11 @@ public class TaskService {
 			log.info("------------ finish exec sql");
 			
 			sql = "update t_under_write uw, t_policy tp, t_prd prd set uw.product_id=prd.id where uw.policy_no=tp.policy_no and tp.prod_code=left(prd.prd_code,6);";
+			log.info("------------ sql :" + sql);
+			statement.executeUpdate(sql);
+			log.info("------------ finish exec sql");
+			
+			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=1,tp.status=\"终止\",tp.cs_date=tcr.cs_date where tp.policy_no=tcr.policy_no and (tp.cs_flag=0 or tp.cs_flag=2) and tcr.cs_code=\"CT\" and abs(tcr.money)=tp.total_fee;";
 			log.info("------------ sql :" + sql);
 			statement.executeUpdate(sql);
 			log.info("------------ finish exec sql");

@@ -93,6 +93,20 @@
 						</form:select>
 					</td>
 				</tr>
+				<tr>
+					<td>
+						手机：<input type="text" id="cl_hphone" style="width: 100px;" name="search_LIKE_policyDtl.holderPhone" value="${search_LIKE_policyDtl_holderPhone }"/>
+					</td>
+					<td>
+						<label>身份证：</label><input type="text" id="cl_card" style="width: 100px;" name="search_LIKE_policyDtl.holderCardNum" value="${search_LIKE_policyDtl_holderCardNum }"/>
+					</td>
+					<td>
+						&nbsp;
+					</td>
+					<td>
+						&nbsp;
+					</td>
+				</tr>
 			</table>
 			<div class="subBar">
 				<ul>						
