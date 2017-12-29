@@ -116,7 +116,7 @@ public class CommonController {
 		if(policyNo != null && policyNo.trim().length() <= 3) {
 			return "[{}]";
 		} if(policyNo != null && policyNo.trim().length() > 3) {
-			if(policyNo.startsWith("86") || policyNo.startsWith("76")) {
+			if(policyNo.startsWith("86") || policyNo.startsWith("76") || policyNo.startsWith("96") || policyNo.startsWith("81")) {
 				if(policyNo.trim().length()>9) {
 					specification = DynamicSpecifications.bySearchFilterWithoutRequest(Policy.class, 
 							new SearchFilter("policyNo", Operator.LIKE, policyNo));
@@ -176,7 +176,7 @@ public class CommonController {
 	@RequestMapping(value="/lookupPolicyProvsuggest", method={RequestMethod.POST})
 	public @ResponseBody String lookupPolicyNoProvSuggest(ServletRequest request, Map<String, Object> map) {
 		String policyNo = request.getParameter("policyNo");
-		if(policyNo == null || policyNo.trim().length() <12 || !policyNo.trim().startsWith("86")) {
+		if(policyNo == null || policyNo.trim().length() <12 || (!policyNo.trim().startsWith("86") && !policyNo.trim().startsWith("76") && !policyNo.trim().startsWith("96") && !policyNo.trim().startsWith("81"))) {
 			return "[{}]";
 		}
 		String pre = policyNo.substring(0, 4);

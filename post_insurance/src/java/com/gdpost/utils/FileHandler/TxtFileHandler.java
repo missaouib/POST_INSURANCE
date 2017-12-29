@@ -65,7 +65,7 @@ public class TxtFileHandler extends AbstractFileHandler {
 			    j = 0;
 			    for(int i = 0; i < line.size(); i++) {
 			    	//log.debug("-------------------------------" + line.get(0));
-			    	if(line.get(0).contains("8644") || line.get(0).contains("7644")) {
+			    	if(line.get(0).contains("8644") || line.get(0).contains("7644") || line.get(0).contains("9644") || line.get(0).contains("8144")) {
 			    		log.debug("-------------------------------" + line.get(0));
 			    		hasData = true;
 			    		for(Object tv:line.get(0).split(",")) {

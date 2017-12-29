@@ -217,7 +217,7 @@ public class XlsFileHandler extends AbstractFileHandler {
 						if (cell != null && ("") != cell.toString()) {
 							bFlag = true;
 							if (mkeyRow.equals("underwrite") && j==org_idx) { //如果是人核件打印数据，且内容不是8644的，跳过。
-								if (!cell.getStringCellValue().contains("8644") && !cell.getStringCellValue().contains("7644")) {
+								if (!cell.getStringCellValue().contains("8644") && !cell.getStringCellValue().contains("7644") && !cell.getStringCellValue().contains("9644") && !cell.getStringCellValue().contains("8144")) {
 									bFlag = false;
 									break;
 								}
