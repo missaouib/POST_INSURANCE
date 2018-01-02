@@ -131,7 +131,7 @@
 		</ul>
 	</div>
 	
-	<table class="table" layoutH="185" width="100%">
+	<table class="table" layoutH="210" width="100%">
 		<thead>
 			<tr>
 				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>
