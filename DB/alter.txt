@@ -1030,3 +1030,7 @@ update t_renewed_list t1, t_cs_report t2, t_pay_success_list t3 set t1.fee_statu
 update t_policy t1, t_cs_report t2, t_pay_success_list t3 set t1.status="有效" where t1.policy_no=t2.policy_no and t2.cs_code="RE" and datediff(now(),t2.operate_time)=0 and t2.cs_no=t3.rel_no and t3.fail_desc="成功";
 
 alter table t_renewed_stay add column cs_money double;
+
+update t_policy set sale_type=1 where policy_no like "76%";
+
+update t_policy set sale_type=2 where policy_no like "96%" or policy_no like "81%";

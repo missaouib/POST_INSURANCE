@@ -88,6 +88,8 @@ public class Policy implements Idable<Long>, Serializable{
 	private Double totalFee;
 	private Date csDate;
 	
+	private Integer saleType;
+	
 	@Transient
 	private Boolean isStaff;
 	
@@ -502,6 +504,20 @@ public class Policy implements Idable<Long>, Serializable{
 
 	public void setCsDate(Date csDate) {
 		this.csDate = csDate;
+	}
+
+	/*
+	 * 0:邮保通
+	 * 1:网银
+	 * 2:手机银行
+	 */
+	@Column(name="sale_type")
+	public Integer getSaleType() {
+		return saleType;
+	}
+
+	public void setSaleType(Integer saleType) {
+		this.saleType = saleType;
 	}
 
 	/*
