@@ -1933,3 +1933,6 @@
 ("44014035","A01440281009","01440281009","乐昌市九峰镇营业所","86440281",1),
 ("44014163","A01440281010","01440281010","乐昌市梅花镇营业所","86440281",1)
  ON DUPLICATE KEY UPDATE bank_code=VALUES(bank_code), name=VALUES(name), organ_code=VALUES(organ_code), net_flag=VALUES(net_flag);
+ 
+ INSERT INTO t_bank_code (ybt_code, cpi_code, bank_code, name, organ_code, net_flag) VALUES 
+("44023027","A01441625014","01441625014","东源县红星路支行","86441625",2);

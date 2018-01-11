@@ -1031,6 +1031,6 @@ update t_policy t1, t_cs_report t2, t_pay_success_list t3 set t1.status="有效"
 
 alter table t_renewed_stay add column cs_money double;
 
+alter table t_policy add column sale_type int(1) DEFAULT '0';
 update t_policy set sale_type=1 where policy_no like "76%";
-
 update t_policy set sale_type=2 where policy_no like "96%" or policy_no like "81%";
