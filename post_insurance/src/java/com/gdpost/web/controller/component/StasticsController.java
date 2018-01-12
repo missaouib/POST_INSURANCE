@@ -93,6 +93,10 @@ public class StasticsController {
 			organName = userOrg.getName();
 		}
 		
+		if(prdCode == null || prdCode.trim().length()<=0) {
+			prdCode = "%%";
+		}
+		
 		/*
 		String toPrdName = prdCode;
 		if(prdCode == null || prdCode.trim().length()<=0) {
@@ -280,6 +284,10 @@ public class StasticsController {
 		} else if(!organCode.contains(userOrg.getOrgCode())){
 			organCode = userOrg.getOrgCode();
 		}
+		
+		if(prdCode == null || prdCode.trim().length()<=0) {
+			prdCode = "%%";
+		}
 		/*
 		String toPrdName = prdCode;
 		if(prdCode == null || prdCode.trim().length()<=0) {
@@ -404,6 +412,9 @@ public class StasticsController {
 		} else if(!organCode.contains(userOrg.getOrgCode())){
 			organCode = userOrg.getOrgCode();
 		}
+		if(prdCode == null || prdCode.trim().length()<=0) {
+			prdCode = "%%";
+		}
 		/*
 		String toPrdName = prdCode;
 		if(prdCode == null || prdCode.trim().length()<=0) {
@@ -486,6 +497,9 @@ public class StasticsController {
 			organCode = userOrg.getOrgCode();
 		} else if(!organCode.contains(userOrg.getOrgCode())){
 			organCode = userOrg.getOrgCode();
+		}
+		if(prdCode == null || prdCode.trim().length()<=0) {
+			prdCode = "%%";
 		}
 		/*
 		String toPrdName = prdCode;
@@ -575,6 +589,9 @@ public class StasticsController {
 		} else if(!organCode.contains(userOrg.getOrgCode())){
 			organCode = userOrg.getOrgCode();
 			organName = userOrg.getName();
+		}
+		if(prdCode == null || prdCode.trim().length()<=0) {
+			prdCode = "%%";
 		}
 		
 		/*
@@ -724,6 +741,9 @@ public class StasticsController {
 		} else if(!organCode.contains(userOrg.getOrgCode())){
 			organCode = userOrg.getOrgCode();
 		}
+		if(prdCode == null || prdCode.trim().length()<=0) {
+			prdCode = "%%";
+		}
 		/*
 		String toPrdName = prdCode;
 		if(prdCode == null || prdCode.trim().length()<=0) {
@@ -820,6 +840,9 @@ public class StasticsController {
 			organCode = userOrg.getOrgCode();
 		} else if(!organCode.contains(userOrg.getOrgCode())){
 			organCode = userOrg.getOrgCode();
+		}
+		if(prdCode == null || prdCode.trim().length()<=0) {
+			prdCode = "%%";
 		}
 		/*
 		String toPrdName = prdCode;
@@ -1133,6 +1156,9 @@ public class StasticsController {
 				organCode = userOrg.getOrgCode();
 				organName = userOrg.getName();
 			}
+			if(prdCode == null || prdCode.trim().length()<=0) {
+				prdCode = "%%";
+			}
 			
 			/*
 			String toPrdName = prdCode;
@@ -1349,6 +1375,9 @@ public class StasticsController {
 			organCode = userOrg.getOrgCode();
 		} else if(!organCode.contains(userOrg.getOrgCode())){
 			organCode = userOrg.getOrgCode();
+		}
+		if(prdCode == null || prdCode.trim().length()<=0) {
+			prdCode = "%%";
 		}
 		
 		/*
