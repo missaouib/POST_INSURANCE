@@ -38,6 +38,13 @@ public class PolicyBackDateColumn {
 		column.setNullable(true);
 		standardColumns.add(column);
 		
+		column = new ColumnItem();
+		column.setDisplayName("签收日期");
+		column.setColumnName("client_receive_date");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(false);
+		standardColumns.add(column);
+		
 		return(standardColumns);
 	}
 }

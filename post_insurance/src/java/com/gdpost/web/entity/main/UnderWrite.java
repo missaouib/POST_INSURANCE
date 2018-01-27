@@ -57,7 +57,7 @@ public class UnderWrite implements Idable<Long> {
 	private String areaEmsNo;
 	private Date netReceiveDate;
 	private Date clientReceiveDate;
-	private Date signInputDate;
+	private Date billBackDate;
 	private String remark;
 	
 	private String relation;
@@ -157,7 +157,7 @@ public class UnderWrite implements Idable<Long> {
 	public UnderWrite(Organization organization, Prd prd, String policyNo, String formNo, String holder, String insured, String underwriteReason,
 			Date ybtDate, Date sysDate, Date checkDate, Short issueFlag, String errorDesc, String dealMan, Date underwriteDate,
 			Boolean isLetter, Date signDate, Date provReceiveDate, Date provSendDate, String provEmsNo, Date cityReceiveDate, Date citySendDate,
-			String cityEmsNo, Date areaReceiveDate, Date areaSendDate, String areaEmsNo, Date netReceiveDate, Date clientReceiveDate, Date signInputDate,
+			String cityEmsNo, Date areaReceiveDate, Date areaSendDate, String areaEmsNo, Date netReceiveDate, Date clientReceiveDate, Date billBackDate,
 			String remark) {
 		this.organization = organization;
 		this.prd = prd;
@@ -186,7 +186,7 @@ public class UnderWrite implements Idable<Long> {
 		this.areaEmsNo = areaEmsNo;
 		this.netReceiveDate = netReceiveDate;
 		this.clientReceiveDate = clientReceiveDate;
-		this.signInputDate = signInputDate;
+		this.billBackDate = billBackDate;
 		this.remark = remark;
 	}
 
@@ -455,13 +455,13 @@ public class UnderWrite implements Idable<Long> {
 		this.clientReceiveDate = clientReceiveDate;
 	}
 
-	@Column(name = "sign_input_date", length = 10)
-	public Date getSignInputDate() {
-		return this.signInputDate;
+	@Column(name = "bill_back_date", length = 10)
+	public Date getBillBackDate() {
+		return this.billBackDate;
 	}
 
-	public void setSignInputDate(Date signInputDate) {
-		this.signInputDate = signInputDate;
+	public void setBillBackDate(Date billBackDate) {
+		this.billBackDate = billBackDate;
 	}
 
 	@Column(name = "remark", length = 250)

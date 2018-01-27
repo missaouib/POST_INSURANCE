@@ -165,6 +165,7 @@ public class VCallFailList implements Idable<Long>, java.io.Serializable {
 	private String policyTerm;
 	private String policyFeeType;
 	private String policyFeeYear;
+	private Date clientReceiveDate;
 
 	// Constructors
 
@@ -1192,6 +1193,17 @@ public class VCallFailList implements Idable<Long>, java.io.Serializable {
 	public void setClientSexy(String clientSexy) {
 		this.clientSexy = clientSexy;
 	}
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name="client_receive_date")
+	public Date getClientReceiveDate() {
+		return clientReceiveDate;
+	}
+
+	public void setClientReceiveDate(Date clientReceiveDate) {
+		this.clientReceiveDate = clientReceiveDate;
+	}
+	
 	@Temporal(TemporalType.DATE)
 	@Column(name="bill_back_date")
 	public Date getBillBackDate() {

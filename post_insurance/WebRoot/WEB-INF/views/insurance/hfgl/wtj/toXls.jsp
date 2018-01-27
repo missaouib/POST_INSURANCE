@@ -25,6 +25,7 @@ response.setHeader("Content-Disposition", "inline; filename=call_fail_dtl.xls");
                 <th>可再访</th>
                 <th>出单日期</th>
                 <th>签收日期</th>
+                <th>回单日期</th>
                 <th>待处理时间</th>
                 <th>网点代码</th>
                 <shiro:hasPermission name="Callfail:provEdit">
@@ -71,6 +72,7 @@ response.setHeader("Content-Disposition", "inline; filename=call_fail_dtl.xls");
                 <td>${item.policy.bankName}</td>
                 <td>${item.canCallAgain}</td>
                 <td><fmt:formatDate value="${item.policy.policyDate}" pattern="yyyy-MM-dd"/></td>
+                <td><fmt:formatDate value="${item.policy.clientReceiveDate }" pattern="yyyy-MM-dd"/></td>
                 <td><fmt:formatDate value="${item.policy.billBackDate }" pattern="yyyy-MM-dd"/></td>
                 <td><fmt:formatDate value="${item.readyDate }" pattern="yyyy-MM-dd"/></td>
                 <td style="vnd.ms-excel.numberformat:@">${item.policy.bankCode.bankCode}</td>

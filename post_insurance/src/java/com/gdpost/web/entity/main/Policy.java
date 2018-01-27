@@ -65,6 +65,7 @@ public class Policy implements Idable<Long>, Serializable{
 	private Date operateTime;
 	private String agentOrgan;
 	private String agentSales;
+	private Date clientReceiveDate;
 
 	//private String organCode;
 	private Organization organization;
@@ -340,6 +341,16 @@ public class Policy implements Idable<Long>, Serializable{
 
 	public void setPolicyDate(Date policyDate) {
 		this.policyDate = policyDate;
+	}
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name = "client_receive_date", length = 10)
+	public Date getClientReceiveDate() {
+		return this.clientReceiveDate;
+	}
+
+	public void setClientReceiveDate(Date clientReceiveDate) {
+		this.clientReceiveDate = clientReceiveDate;
 	}
 	
 	@Temporal(TemporalType.DATE)

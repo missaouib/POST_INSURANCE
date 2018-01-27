@@ -1936,3 +1936,10 @@
  
  INSERT INTO t_bank_code (ybt_code, cpi_code, bank_code, name, organ_code, net_flag) VALUES 
 ("44023027","A01441625014","01441625014","东源县红星路支行","86441625",2);
+
+ INSERT INTO t_bank_code (ybt_code, cpi_code, bank_code, name, organ_code, net_flag) VALUES 
+("4499949Q","A01441324014","01441324014","惠州龙门县支行","86441324",2),
+("44015634","A01441324015","01441324015","惠州龙门县东门支行","86441324",2),
+("44015622","A01441324016","01441324016","惠州龙门县平陵支行","86441324",2),
+("44008286","A01441601015","01441601015","河源东源县上莞支行","86441625",2)
+  ON DUPLICATE KEY UPDATE bank_code=VALUES(bank_code), name=VALUES(name), organ_code=VALUES(organ_code), net_flag=VALUES(net_flag);

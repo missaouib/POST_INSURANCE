@@ -34,7 +34,7 @@ private static List<ColumnItem> standardColumns;
 		
 		column = new ColumnItem();
 		column.setDisplayName("回单日期");
-		column.setColumnName("sign_input_date");
+		column.setColumnName("bill_back_date");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);

@@ -305,12 +305,12 @@ public class QyglServiceImpl implements QyglService {
 			
 			String sql = "select count(t1.id) from t_under_write t1,t_organization t2 where t1.organ_id=t2.id and "
 					+ "((prov_send_date is not null and city_send_date is null and area_send_date is null and NOW()-prov_send_date>3) or "
-					+ "(city_send_date is not null and to_net=1 and sign_input_date is null and NOW()-city_send_date>5) or "
+					+ "(city_send_date is not null and to_net=1 and bill_back_date is null and NOW()-city_send_date>5) or "
 					+ "(city_send_date is not null and area_send_date is null and NOW()-city_send_date>3) or "
 					+ "(area_send_date is not null and NOW()-area_send_date>5) or "
 					+ "(sys_date is not null and now()-sys_date>15)) "
 					+ "and t2.org_code like \"%" + user.getOrganization().getOrgCode() + "%\" and "
-					+ "sign_input_date is null and t1.status=\"SendStatus\";";
+					+ "bill_back_date is null and t1.status=\"SendStatus\";";
 			LOG.debug("----------- sql : " + sql);
 			
         	ResultSet rst = statement.executeQuery(sql);
@@ -350,7 +350,7 @@ public class QyglServiceImpl implements QyglService {
 					+ "(area_send_date is not null and NOW()-area_send_date>10) or "
 					+ "(sys_date is not null and now()-sys_date>15)) "
 					+ "and t2.org_code like \"%" + user.getOrganization().getOrgCode() + "%\" and "
-					+ "sign_input_date is null and t1.status=\"SendStatus\";";
+					+ "bill_back_date is null and t1.status=\"SendStatus\";";
 			LOG.debug("----------- sql : " + sql);
 			
         	ResultSet rst = statement.executeQuery(sql);
@@ -388,7 +388,7 @@ public class QyglServiceImpl implements QyglService {
 			String sql = "select count(t1.id) from t_under_write t1,t_organization t2 where t1.organ_id=t2.id and "
 					+ "(sys_date is not null and now()-sys_date>20) "
 					+ "and t2.org_code like \"%" + user.getOrganization().getOrgCode() + "%\" and "
-					+ "sign_input_date is null and t1.status=\"SendStatus\";";
+					+ "bill_back_date is null and t1.status=\"SendStatus\";";
 			LOG.debug("----------- sql : " + sql);
 			
         	ResultSet rst = statement.executeQuery(sql);

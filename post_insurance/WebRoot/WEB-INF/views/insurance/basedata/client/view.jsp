@@ -74,6 +74,10 @@
 			<span class="unit">${policy.policyDate }</span>
 		</p>
 		<p>
+			<label>客户签收日期：</label>
+			<span class="unit">${policy.clientReceiveDate }</span>
+		</p>
+		<p>
 			<label>回单日期：</label>
 			<span class="unit">${policy.billBackDate }</span>
 		</p>

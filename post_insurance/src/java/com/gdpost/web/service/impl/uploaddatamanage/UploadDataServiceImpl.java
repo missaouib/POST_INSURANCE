@@ -1124,7 +1124,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			return dr;
 		case PolicyUnderWrite:
 			standardColumns = PolicyUnderWriteColumn.getStandardColumns();
-			sql = new StringBuffer("INSERT INTO t_under_write(policy_no, client_receive_date, sign_input_date, status) VALUES ");
+			sql = new StringBuffer("INSERT INTO t_under_write(policy_no, client_receive_date, bill_back_date, status) VALUES ");
 			line = null;
 			isFail = false;
 			val = null;
@@ -1143,18 +1143,18 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        }
 			sql.deleteCharAt(sql.length() - 1);
 			sql.append(" ON DUPLICATE KEY UPDATE ");
-			sql.append("client_receive_date=VALUES(client_receive_date), sign_input_date=VALUES(sign_input_date), status=VALUES(status);");
-			log.debug("----------------city update status batch sql : " + sql);
+			sql.append("client_receive_date=VALUES(client_receive_date), bill_back_date=VALUES(bill_back_date), status=VALUES(status);");
+			log.debug("----------------under write back bill date update status batch sql : " + sql);
 			sql2 = "delete from t_under_write where form_no is null or ybt_date is null;";
-			sql3 = "update t_policy set bill_back_date=policy_date where bill_back_date is null;";
-			sql4 = "update t_policy t1, t_under_write t2 set t1.bill_back_date=t2.client_receive_date "
+			sql3 = "update t_policy set bill_back_date=policy_date,client_receive_date=policy_date where bill_back_date is null;";
+			sql4 = "update t_policy t1, t_under_write t2 set t1.client_receive_date=t2.client_receive_date,t1.bill_back_date=t2.bill_back_date "
 					+ "where t1.policy_no=t2.policy_no and t2.client_receive_date is not null;";
 			sql5 = "update t_under_write t2 set t2.status=\"CloseStatus\" "
 					+ "where t2.status<>\"CloseStatus\" and t2.client_receive_date is not null;";
 			break;
 		case PolicyBackDate:
 			standardColumns = PolicyBackDateColumn.getStandardColumns();
-			sql = new StringBuffer("INSERT INTO t_policy(policy_no, prod_code, bill_back_date) VALUES ");
+			sql = new StringBuffer("INSERT INTO t_policy(policy_no, prod_code, client_receive_date, bill_back_date) VALUES ");
 			line = null;
 			isFail = false;
 			val = null;
@@ -1173,8 +1173,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        }
 			sql.deleteCharAt(sql.length() - 1);
 			sql.append(" ON DUPLICATE KEY UPDATE ");
-			sql.append("bill_back_date=VALUES(bill_back_date);");
-			log.debug("----------------city update status batch sql : " + sql);
+			sql.append("client_receive_date=VALUES(client_receive_date), bill_back_date=VALUES(bill_back_date);");
+			log.debug("----------------policy back date update status batch sql : " + sql);
 			sql2 = "delete from t_policy where form_no is null;";
 			//sql3 = "update t_policy set bill_back_date=policy_date where bill_back_date is null;";
 			break;
@@ -1202,12 +1202,12 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql.append("policy_no=VALUES(policy_no), prov_ems_no=VALUES(prov_ems_no), prov_send_date=VALUES(prov_send_date), status=VALUES(status);");
 			log.debug("----------------city update status batch sql : " + sql);
 			sql2 = "delete from t_under_write where holder is null or ybt_date is null;";
-			sql3 = "update t_under_write set status=\"CloseStatus\" where sign_input_date is not null;";
+			sql3 = "update t_under_write set status=\"CloseStatus\" where bill_back_date is not null;";
 			break;
 		case UnderWriteDtlData:
 			standardColumns = UnderWriteDtlColumn.getStandardColumns();
 			sql = new StringBuffer("INSERT INTO t_under_write(form_no,policy_no,prd_name,policy_fee,perm,underwrite_reason,issue,ybt_date,sys_date,check_date,"
-					+ "body_check_date1,body_check_date2,hb_end_date,prov_send_date,sign_date,client_receive_date,sign_input_date,form_write_date) VALUES ");
+					+ "body_check_date1,body_check_date2,hb_end_date,prov_send_date,sign_date,client_receive_date,bill_back_date,form_write_date) VALUES ");
 			line = null;
 			for (DataRow row : dt.Rows) {
 				line = new StringBuffer("(");
@@ -1236,7 +1236,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql.append("check_date=VALUES(check_date), body_check_date1=VALUES(body_check_date1), ");
 			sql.append("body_check_date2=VALUES(body_check_date2), hb_end_date=VALUES(hb_end_date), ");
 			sql.append("prov_send_date=VALUES(prov_send_date), sign_date=VALUES(sign_date), ");
-			sql.append("client_receive_date=VALUES(client_receive_date), sign_input_date=VALUES(sign_input_date), ");
+			sql.append("client_receive_date=VALUES(client_receive_date), bill_back_date=VALUES(bill_back_date), ");
 			sql.append("form_write_date=VALUES(form_write_date);");
 			log.debug("----------------batch update : " + sql);
 			sql2 = "delete from t_under_write where form_no is null or ybt_date is null;";
