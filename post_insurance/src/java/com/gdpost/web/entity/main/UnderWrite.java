@@ -79,6 +79,21 @@ public class UnderWrite implements Idable<Long> {
 	
 	private String netName;
 	private PolicyDtl policyDtl;
+	
+	private PayFailList payFailList;
+	@Transient
+	private boolean payFail;
+	@Transient
+	public boolean getPayFail() {
+		if(this.getPayFailList() != null) {
+			return true;
+		}
+		return false;
+	}
+	@Transient
+	public void setPayFail(boolean payFail) {
+		this.payFail = payFail;
+	}
 
 	@Transient
 	private Date receiveDate;
@@ -88,6 +103,8 @@ public class UnderWrite implements Idable<Long> {
 	private String emsNo;
 	@Transient
 	private int longDate;
+	@Transient
+	private int hadSendDate;
 	
 	private String holderAge;
 	
@@ -129,6 +146,20 @@ public class UnderWrite implements Idable<Long> {
 	@Transient
 	public void setLongDate(int longDate) {
 		this.longDate = longDate;
+	}
+	
+	
+	@Transient
+	public int getHadSendDate() {
+		if(this.provSendDate != null) {
+			return StringUtil.getBetweenDay(this.provSendDate, new Date());
+		}
+		return -1;
+	}
+	
+	@Transient
+	public void setHadSendDate(int hadSendDate) {
+		this.hadSendDate = hadSendDate;
 	}
 	
 	@Column(name="relation")
@@ -592,6 +623,16 @@ public class UnderWrite implements Idable<Long> {
 	}
 	public void setPolicyDtl(PolicyDtl policyDtl) {
 		this.policyDtl = policyDtl;
+	}
+	
+	@OneToOne(optional=true, fetch=FetchType.EAGER)
+	@JoinColumn(name="form_no", referencedColumnName="rel_no", insertable=false, updatable=false, nullable=true)
+	public PayFailList getPayFailList() {
+		return payFailList;
+	}
+	
+	public void setPayFailList(PayFailList payFailList) {
+		this.payFailList = payFailList;
 	}
 	
 	

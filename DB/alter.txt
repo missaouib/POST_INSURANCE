@@ -1037,7 +1037,7 @@ update t_policy set sale_type=2 where policy_no like "96%" or policy_no like "81
 
  alter table t_under_write change sign_input_date bill_back_date date;
  alter table t_under_write add column prod_code varchar(8);
- alter table t_policy add change bill_back_date client_receive_date date;
+ alter table t_policy change bill_back_date client_receive_date date;
  alter table t_policy add column bill_back_date date after policy_date;
  
  CREATE OR REPLACE  ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `v_call_fail_list`

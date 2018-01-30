@@ -80,7 +80,7 @@
 		</p>
 		<p>
 			<label>回执回销日：</label>
-			<span class="unit"><fmt:formatDate value="${underwrite.signInputDate }" pattern="yyyy-MM-dd"/></span>
+			<span class="unit"><fmt:formatDate value="${underwrite.billBackDate }" pattern="yyyy-MM-dd"/></span>
 		</p>
 	</fieldset>
 	<div class="divider"></div>

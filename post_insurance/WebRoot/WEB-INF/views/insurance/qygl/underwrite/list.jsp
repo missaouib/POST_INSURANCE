@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@page import="java.util.Date"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
+<jsp:useBean id="now" class="java.util.Date" scope="page"/>
 
 <dwz:paginationForm action="${contextPath }/qygl/underwrite/list" page="${page }">
 	<input type="hidden" name="search_LIKE_formNo" value="${search_LIKE_formNo }"/>
@@ -129,22 +130,22 @@
 			<tr>
 				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
 				<th orderField=organization.name class="${page.orderField eq 'organization.name' ? page.orderDirection : ''}">市县机构</th>
-				<th orderField=formNo class="${page.orderField eq 'formNo' ? page.orderDirection : ''}">投保单号</th>
+				<th>投保单号</th>
 				<th orderField=policyNo class="${page.orderField eq 'policyNo' ? page.orderDirection : ''}">保单号</th>
 				<th orderField=signDate class="${page.orderField eq 'signDate' ? page.orderDirection : ''}">签单日期</th>
 				<th orderField=provSendDate class="${page.orderField eq 'provSendDate' ? page.orderDirection : ''}">合同寄出</th>
 				<th>快递单号</th>
 				<th>全流程</th>
+				<th>寄出</th>
+				<th>扣费</th>
 				<th>地市接收</th>
 				<th>县区接收</th>
 				<th>投保人</th>
 				<th orderField=prd.prdName class="${page.orderField eq 'prd.prdName' ? page.orderDirection : ''}">产品</th>
 				<th orderField=ybtDate class="${page.orderField eq 'ybtDate' ? page.orderDirection : ''}">邮保通录入</th>
-				<th orderField=sysDate class="${page.orderField eq 'sysDate' ? page.orderDirection : ''}">核心录入</th>
 				<th orderField=planDate class="${page.orderField eq 'planDate' ? page.orderDirection : ''}">跟进日期</th>
 				<th>备注</th>
 				<th>网点名称</th>
-				<th>合同签收</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -158,16 +159,16 @@
 				<td><fmt:formatDate value="${item.provSendDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.provEmsNo}</td>
 				<td>${item.longDate}</td>
+				<td>${item.hadSendDate}</td>
+				<td>${item.payFail?"失败":""}</td>
 				<td><fmt:formatDate value="${item.cityReceiveDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.areaReceiveDate }" pattern="yyyy-MM-dd"/></td>
 				<td title="${item.holder}">${fn:substring(item.holder, 0, 4)}</td>
 				<td>${item.prd.prdName}</td>
 				<td><fmt:formatDate value="${item.ybtDate }" pattern="yyyy-MM-dd"/></td>
-				<td><fmt:formatDate value="${item.sysDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.planDate }" pattern="yyyy-MM-dd"/></td>
 				<td title="${item.remark}">${fn:substring(item.remark,0,10)}</td>
 				<td>${item.netName}</td>
-				<td><fmt:formatDate value="${item.clientReceiveDate }" pattern="yyyy-MM-dd"/></td>
 			</tr>
 			</c:forEach>
 		</tbody>

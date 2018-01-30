@@ -11,7 +11,7 @@
 		</p>
 		<p>
 			<label>核心回执回销日期：</label>
-			<input type="text" name="signInputDate" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value="${underwrite.signInputDate }" pattern="yyyy-MM-dd"/>"/>
+			<input type="text" name="billBackDate" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value="${underwrite.billBackDate }" pattern="yyyy-MM-dd"/>"/>
 				<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 	</div>

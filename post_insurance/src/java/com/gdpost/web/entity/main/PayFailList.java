@@ -1,5 +1,6 @@
 package com.gdpost.web.entity.main;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -21,8 +22,12 @@ import com.gdpost.web.entity.Idable;
  */
 @Entity
 @Table(name = "t_pay_fail_list")
-public class PayFailList implements Idable<Long> {
+public class PayFailList implements Idable<Long>, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2283160516619772095L;
 	public static final Integer PAY_TO = 1;
 	public static final Integer PAY_FROM = 2;
 	// Fields

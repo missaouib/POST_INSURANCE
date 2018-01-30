@@ -73,7 +73,7 @@
 				<td><fmt:formatDate value="${item.underwriteDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.signDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.clientReceiveDate }" pattern="yyyy-MM-dd"/></td>
-				<td><fmt:formatDate value="${item.signInputDate }" pattern="yyyy-MM-dd"/></td>
+				<td><fmt:formatDate value="${item.billBackDate }" pattern="yyyy-MM-dd"/></td>
 			</tr>
 			</c:forEach>
 		</tbody>

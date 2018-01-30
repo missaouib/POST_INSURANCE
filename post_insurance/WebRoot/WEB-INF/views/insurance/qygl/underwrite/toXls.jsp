@@ -73,7 +73,7 @@ response.setHeader("Content-Disposition", "inline; filename=underwrite.xls");
 				<td><fmt:formatDate value="${item.areaReceiveDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.areaSendDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.clientReceiveDate }" pattern="yyyy-MM-dd"/></td>
-				<td><fmt:formatDate value="${item.signInputDate }" pattern="yyyy-MM-dd"/></td>
+				<td><fmt:formatDate value="${item.billBackDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.status }</td>
 				<td>${item.netName }</td>
 				<shiro:hasPermission name="UnderWrite:provEdit">

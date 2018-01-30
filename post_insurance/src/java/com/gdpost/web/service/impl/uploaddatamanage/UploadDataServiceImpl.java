@@ -1176,6 +1176,11 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql.append("client_receive_date=VALUES(client_receive_date), bill_back_date=VALUES(bill_back_date);");
 			log.debug("----------------policy back date update status batch sql : " + sql);
 			sql2 = "delete from t_policy where form_no is null;";
+			sql3 = "update t_policy set bill_back_date=policy_date,client_receive_date=policy_date where bill_back_date is null;";
+			sql4 = "update t_policy t1, t_under_write t2 set t1.client_receive_date=t2.client_receive_date,t1.bill_back_date=t2.bill_back_date "
+					+ "where t1.policy_no=t2.policy_no and t2.client_receive_date is not null;";
+			sql5 = "update t_under_write t2 set t2.status=\"CloseStatus\" "
+					+ "where t2.status<>\"CloseStatus\" and t2.client_receive_date is not null;";
 			//sql3 = "update t_policy set bill_back_date=policy_date where bill_back_date is null;";
 			break;
 		case UnderWriteSentData:
@@ -1619,10 +1624,16 @@ public class UploadDataServiceImpl implements UploadDataService{
 						|| t.name().equals(FileTemplate.IssuePFRDeal.name())) {
 					
 					dr = updateStatusData(t, request, dt);
-					
+					log.debug("-------- finish update;");
 					//如果是保单打印数据，需要单独导入到打印明细中
 					if(t.name().equals(FileTemplate.UnderWriteSentData.name())) {
+						log.debug("----------------ready to import underwrite sentdata");
 						importData(t, request, dt, member_id, currentNY);
+					}
+					
+					if(t.name().equals(FileTemplate.PolicyBackDate.name())) {
+						log.debug("----------------ready to update underwrite PolicyUnderWrite data;");
+						dr = updateStatusData(FileTemplate.PolicyUnderWrite, request, dt);
 					}
 					
 				} else {

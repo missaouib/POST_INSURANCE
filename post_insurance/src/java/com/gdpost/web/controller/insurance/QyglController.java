@@ -524,7 +524,7 @@ public class QyglController {
 	public @ResponseBody String signDateUpdate(UnderWrite underwrite) {
 		UnderWrite src = qyglService.getUnderWrite(underwrite.getId());
 		src.setClientReceiveDate(underwrite.getClientReceiveDate());
-		src.setSignInputDate(underwrite.getSignInputDate());
+		src.setBillBackDate(underwrite.getBillBackDate());
 		src.setStatus(UW_STATUS.CloseStatus.name());
 		qyglService.saveOrUpdateUnderWrite(src);
 		
@@ -700,10 +700,7 @@ public class QyglController {
 		//默认返回未处理工单
 		String status = request.getParameter("status");
 		String status_flag = request.getParameter("status_flag");
-		String pageNum = request.getParameter("pageNum");
-		if (pageNum != null && !pageNum.equals("1") && !status_flag.equals("null")) {
-			status_flag = "";
-		}
+		
 		boolean isEmpty = false;
 		boolean isNull = false;
 		if(status == null || (status != null && status.trim().length()<=0 && status_flag!=null && status_flag.equals("null"))) {
@@ -724,7 +721,7 @@ public class QyglController {
 		uw.setStatus(status);
 		
 		if(page.getOrderField() == null || page.getOrderField().trim().length() <= 0) {
-			page.setOrderField("checkDate");
+			page.setOrderField("ybtDate");
 			page.setOrderDirection("ASC");
 		}
 		
