@@ -1040,6 +1040,9 @@ update t_policy set sale_type=2 where policy_no like "96%" or policy_no like "81
  alter table t_policy change bill_back_date client_receive_date date;
  alter table t_policy add column bill_back_date date after policy_date;
  
+ update t_policy t1,t_under_write t2 set t1.bill_back_date=t2.bill_back_date where t1.policy_no=t2.policy_no;
+ update t_policy set bill_back_date=client_receive_date where bill_back_date is null;
+ 
  CREATE OR REPLACE  ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `v_call_fail_list`
 AS
 select

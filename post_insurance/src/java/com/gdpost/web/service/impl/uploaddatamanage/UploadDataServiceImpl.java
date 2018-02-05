@@ -223,10 +223,12 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case CheckWrite:
 			standardColumns = CheckColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_check_write character set utf8 (fix_status, ";
+			sql1 = "update t_check_write set need_fix=\"要整改\" where key_info is not null and length(key_info)>0;";
 			break;
 		case CheckRecord:
 			standardColumns = CheckColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_check_record character set utf8 (fix_status, ";
+			sql1 = "update t_check_record set need_fix=\"要整改\" where key_info is not null and length(key_info)>0;";
 			break;
 		case PayToFailList:
 			sql1 = "delete from t_pay_fail_list where pay_type=" + PayFailList.PAY_TO + " and operate_time<CURRENT_DATE and fee_type<>'保全受理号'; ";

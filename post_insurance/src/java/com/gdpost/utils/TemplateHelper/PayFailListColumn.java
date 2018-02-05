@@ -7,7 +7,7 @@ public class PayFailListColumn {
 
 	private static List<ColumnItem> standardColumns;
 	
-	public static String KEY_ROW = "关联业务号码";
+	public static String KEY_ROW = "回盘日期";
 	
 	public static List<ColumnItem> getStandardColumns() {
 		if(standardColumns != null) {
