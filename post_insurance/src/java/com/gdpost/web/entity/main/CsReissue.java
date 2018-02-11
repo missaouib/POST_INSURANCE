@@ -9,12 +9,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.gdpost.web.entity.Idable;
+import com.gdpost.web.entity.component.CsReport;
 
 /**
  * TCsReissue entity. @author MyEclipse Persistence Tools
@@ -26,7 +27,7 @@ public class CsReissue implements Idable<Long> {
 	// Fields
 
 	private Long id;
-	private ConservationDtl conservationDtl;
+	private CsReport csReport;
 	private String provExpressNo;
 	private Date provReceiveDate;
 	private Date provSentDate;
@@ -47,12 +48,12 @@ public class CsReissue implements Idable<Long> {
 	}
 
 	/** full constructor */
-	public CsReissue(Long id, ConservationDtl ConservationDtl,
+	public CsReissue(Long id, CsReport csReport,
 			String provExpressNo, Date provReceiveDate, Date provSentDate,
 			String status, Date cityReceiveDate, String cityReceiver,
 			String remark) {
 		this.id = id;
-		this.conservationDtl = ConservationDtl;
+		this.csReport = csReport;
 		this.provExpressNo = provExpressNo;
 		this.provReceiveDate = provReceiveDate;
 		this.provSentDate = provSentDate;
@@ -74,14 +75,14 @@ public class CsReissue implements Idable<Long> {
 		this.id = id;
 	}
 
-	@ManyToOne
+	@OneToOne
 	@JoinColumn(name = "cs_id", referencedColumnName="id")
-	public ConservationDtl getConservationDtl() {
-		return this.conservationDtl;
+	public CsReport getCsReport() {
+		return this.csReport;
 	}
 
-	public void setConservationDtl(ConservationDtl conservationDtl) {
-		this.conservationDtl = conservationDtl;
+	public void setCsReport(CsReport csReport) {
+		this.csReport = csReport;
 	}
 
 	@Column(name = "prov_express_no", length = 32)

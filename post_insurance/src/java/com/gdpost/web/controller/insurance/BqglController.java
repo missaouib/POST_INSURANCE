@@ -125,13 +125,13 @@ public class BqglController {
 				issue.setStatus(BQ_STATUS.CloseStatus.name());
 			}
 			issue = bqglService.saveOrUpdate(issue);
-			if(issue.getConservationCode().equalsIgnoreCase("htbf")) {
-				CsReissue cr = new CsReissue();
-				cr.setConservationDtl(issue);
-				cr.setStatus(FP_STATUS.NewStatus.name());
-				LOG.debug("---------cs reissue: " + cr.toString());
-				bqglService.updateCsReissue(cr);
-			}
+//			if(issue.getConservationCode().equalsIgnoreCase("htbf")) {
+//				CsReissue cr = new CsReissue();
+//				cr.getCsReport(issue);
+//				cr.setStatus(FP_STATUS.NewStatus.name());
+//				LOG.debug("---------cs reissue: " + cr.toString());
+//				bqglService.updateCsReissue(cr);
+//			}
 		} catch (ExistedException e) {
 			return AjaxObject.newError("添加保全复核问题失败：" + e.getMessage()).setCallbackType("").toString();
 		}
@@ -649,7 +649,7 @@ public class BqglController {
 		}
 		bqglService.updateCsReissue(reissue);
 		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{reissue.getConservationDtl().getPolicy().getPolicyNo()}));
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{reissue.getCsReport().getPolicy().getPolicyNo()}));
 		return	AjaxObject.newOk("修改合同补发成功！").toString(); 
 	}
 
@@ -673,7 +673,7 @@ public class BqglController {
 		reissue.setStatus(status);
 		bqglService.updateCsReissue(reissue);
 		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{reissue.getConservationDtl().getPolicy().getPolicyNo()}));
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{reissue.getCsReport().getPolicy().getPolicyNo()}));
 		return	AjaxObject.newOk("修改合同补发成功！").setCallbackType("").toString();
 	}
 
@@ -699,7 +699,7 @@ public class BqglController {
 			}
 			reissue.setStatus(status);
 			bqglService.updateCsReissue(reissue);
-			policys[i] = reissue.getConservationDtl().getPolicy().getPolicyNo();
+			policys[i] = reissue.getCsReport().getPolicy().getPolicyNo();
 		}
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{Arrays.toString(policys), status}));
@@ -735,12 +735,12 @@ public class BqglController {
 		}
 		String orderField = request.getParameter("orderField");
 		if(orderField == null || orderField.trim().length()<=0) {
-			page.setOrderField("conservationDtl.csDate");
+			page.setOrderField("csReport.csDate");
 			page.setOrderDirection("DESC");
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("conservationDtl.policy.organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("csReport.policy.organization.orgCode", Operator.LIKE, orgCode));
 		if (status != null && status.length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
 		} else {
@@ -807,7 +807,7 @@ public class BqglController {
 			}
 			
 			bqglService.updateCsReissue(cssrc);
-			policys[i] = cssrc.getConservationDtl().getPolicy().getPolicyNo();
+			policys[i] = cssrc.getCsReport().getPolicy().getPolicyNo();
 		}
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{Arrays.toString(policys)}));
@@ -839,12 +839,12 @@ public class BqglController {
 		
 		String orderField = request.getParameter("orderField");
 		if(orderField == null || orderField.trim().length()<=0) {
-			page.setOrderField("conservationDtl.csDate");
+			page.setOrderField("csReport.csDate");
 			page.setOrderDirection("ASC");
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("conservationDtl.policy.organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("csReport.policy.organization.orgCode", Operator.LIKE, orgCode));
 		if (status.length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
 		}

@@ -236,7 +236,7 @@ public class BqglServiceImpl implements BqglService {
 
 	@Override
 	public CsReissue getCsReissueByPolicyNo(String policyNo) {
-		return reissueDAO.getByConservationDtlPolicyPolicyNo(policyNo);
+		return reissueDAO.getByCsReportPolicyPolicyNo(policyNo);
 	}
 
 	@Override

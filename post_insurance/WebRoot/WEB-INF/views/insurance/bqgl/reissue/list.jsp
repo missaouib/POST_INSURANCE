@@ -3,12 +3,12 @@
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 
 <dwz:paginationForm action="${contextPath }/bqgl/reissue/list" page="${page }">
-	<input type="hidden" name="search_LIKE_conservationDtl.policy.policyNo" value="${param.search_LIKE_policyNo }"/>
-	<input type="hidden" name="search_LIKE_conservationDtl.policy.holder" value="${search_LIKE_conservationDtl_policy_holder }"/>
+	<input type="hidden" name="search_LIKE_csReport.policy.policyNo" value="${param.search_LIKE_policyNo }"/>
+	<input type="hidden" name="search_LIKE_csReport.policy.holder" value="${search_LIKE_csReport_policy_holder }"/>
 	<input type="hidden" name="orgCode" value="${orgCode }"/>
 	<input type="hidden" name="name" value="${name }"/>
-	<input type="hidden" name="search_LTE_conservationDtl.csDate" value="${search_LTE_conservationDtl_csDate }"/>
-	<input type="hidden" name="search_GTE_conservationDtl.csDate" value="${search_GTE_conservationDtl_csDate }"/>
+	<input type="hidden" name="search_LTE_csReport.csDate" value="${search_LTE_csReport_csDate }"/>
+	<input type="hidden" name="search_GTE_csReport.csDate" value="${search_GTE_csReport_csDate }"/>
 	<input type="hidden" name="status" value="${status }"/>
 </dwz:paginationForm>
 
@@ -18,7 +18,7 @@
 			<table class="searchContent">
 				<tr>
 					<td>
-						保单号：<input type="text" style="width: 100px;" id="bqPolicyNo" name="search_LIKE_conservationDtl.policy.policyNo" value="${search_LIKE_conservationDtl_policy_policyNo }"/>
+						保单号：<input type="text" style="width: 100px;" id="bqPolicyNo" name="search_LIKE_csReport.policy.policyNo" value="${search_LIKE_csReport_policy_policyNo }"/>
 					</td>
 					<td>
 						<label>状态：</label>
@@ -35,15 +35,15 @@
 				</tr>
 				<tr>
 					<td>
-						客户姓名：<input type="text" style="width: 100px;" id="bqPolicyNo" name="search_LIKE_conservationDtl.policy.holder" value="${search_LIKE_conservationDtl_policy_holder }"/>
+						客户姓名：<input type="text" style="width: 100px;" id="bqPolicyNo" name="search_LIKE_csReport.policy.holder" value="${search_LIKE_csReport_policy_holder }"/>
 					</td>
 					<td>
 						<label>申请日期：</label>
-						<input type="text" id="csDate1" name="search_GTE_conservationDtl.csDate" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${search_GTE_conservationDtl_csDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+						<input type="text" id="csDate1" name="search_GTE_csReport.csDate" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${search_GTE_csReport_csDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
 						<label>申请日期：</label>
-						<input type="text" id="csDate2" name="search_LTE_conservationDtl.csDate" class="date validate[required] required" style="width: 80px;"dateFmt="yyyy-MM-dd" readonly="true" value="${search_LTE_conservationDtl_csDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+						<input type="text" id="csDate2" name="search_LTE_csReport.csDate" class="date validate[required] required" style="width: 80px;"dateFmt="yyyy-MM-dd" readonly="true" value="${search_LTE_csReport_csDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 				</tr>
 			</table>
@@ -82,7 +82,7 @@
 				<li><a target="myDialog" rel="ids" href="${contextPath }/bqgl/reissue/batchReceive" class="edit"><span>批量接收（地市）</span></a></li>
 			</shiro:hasPermission>
 			<li class="line">line</li>
-			<li><a class="icon" target="_blank" href="${contextPath }/bqgl/reissue/toXls?search_LIKE_conservationDtl.policy.policyNo=${search_LIKE_conservationDtl_policy_policyNo }&orgCode=${orgCode }&search_LTE_conservationDtl.csDate=${search_LTE_conservationDtl_csDate }&search_GTE_conservationDtl.csDate=${search_GTE_conservationDtl_csDate }&status=${param.status }"><span>导出Excel</span></a></li>
+			<li><a class="icon" target="_blank" href="${contextPath }/bqgl/reissue/toXls?search_LIKE_csReport.policy.policyNo=${search_LIKE_csReport_policy_policyNo }&orgCode=${orgCode }&search_LTE_csReport.csDate=${search_LTE_csReport_csDate }&search_GTE_csReport.csDate=${search_GTE_csReport_csDate }&status=${param.status }"><span>导出Excel</span></a></li>
 			<li class="line">line</li>
 			<li><a class="icon" target="dialog" href="${contextPath }/bqgl/help" mask="true" width="530" height="430"><span>功能说明</span></a></li>
 		</ul>
@@ -95,9 +95,8 @@
 				<th orderField=organization.name class="${page.orderField eq 'organization.name' ? page.orderDirection : ''}">地市</th>
 				<th>客户姓名</th>
 				<th>保单号</th>
-				<th orderField=conservationDtl.csDate class="${page.orderField eq 'conservationDtl.csDate' ? page.orderDirection : ''}">申请日期</th>
+				<th orderField=csReport.csDate class="${page.orderField eq 'csReport.csDate' ? page.orderDirection : ''}">申请日期</th>
 				<th>快递单号</th>
-				<th>省分收到日期</th>
 				<th>省分寄出日期</th>
 				<th>地市接收日期</th>
 				<th>地市接收人</th>
@@ -108,12 +107,11 @@
 			<c:forEach var="item" items="${reissues}">
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
-				<td>${item.conservationDtl.policy.organization.shortName}</td>
-				<td>${item.conservationDtl.policy.holder}</td>
-				<td>${item.conservationDtl.policy.policyNo}</td>
-				<td><fmt:formatDate value='${item.conservationDtl.csDate }' pattern='yyyy-MM-dd'/></td>
+				<td>${item.csReport.policy.organization.shortName}</td>
+				<td>${item.csReport.policy.holder}</td>
+				<td>${item.csReport.policy.policyNo}</td>
+				<td><fmt:formatDate value='${item.csReport.csDate }' pattern='yyyy-MM-dd'/></td>
 				<td>${item.provExpressNo}</td>
-				<td>${item.provReceiveDate}</td>
 				<td>${item.provSentDate}</td>
 				<td>${item.cityReceiveDate}</td>
 				<td>${item.cityReceiver}</td>

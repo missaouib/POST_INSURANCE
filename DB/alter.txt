@@ -1055,3 +1055,8 @@ from
   join `t_policy` `b`)
 where
   (`a`.`policy_no` = `b`.`policy_no` and b.attached_flag=0);
+  
+truncate table t_cs_reissue;
+alter table t_cs_reissue drop foreign key fk_reference_28;
+alter table t_cs_reissue add CONSTRAINT fk_csr_csr FOREIGN KEY (cs_id) REFERENCES t_cs_report(id);
+insert into t_cs_reissue (cs_id,status) select tsr.id,"NewStatus" from t_cs_report tsr where tsr.cs_code="LR" and tsr.id not in (select cs_id from t_cs_reissue);

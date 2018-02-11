@@ -12,11 +12,10 @@ import com.gdpost.web.entity.main.CsReissue;
  * must be manually added to each of these methods for data to be persisted to
  * the JPA datastore.
  * 
- * @see com.gdpost.web.entity.main.ConservationDtl
  * @author MyEclipse Persistence Tools
  */
 public interface CsReissueDAO extends JpaRepository<CsReissue, Long>, JpaSpecificationExecutor<CsReissue> {
 
-	CsReissue getByConservationDtlPolicyPolicyNo(String policyNo);
+	CsReissue getByCsReportPolicyPolicyNo(String policyNo);
 
 }

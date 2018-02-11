@@ -15,7 +15,6 @@ response.setHeader("Content-Disposition", "inline; filename=RI_LIST.xls");
 				<th>保单号</th>
 				<th>申请日期</th>
 				<th>快递单号</th>
-				<th>省分收到日期</th>
 				<th>省分寄出日期</th>
 				<th>地市接收日期</th>
 				<th>状态</th>
@@ -25,19 +24,18 @@ response.setHeader("Content-Disposition", "inline; filename=RI_LIST.xls");
 				<td><c:out value="${status.index+1}"/></td>
 				<td>
 				<c:choose>  
-				    <c:when test="${fn:contains(item.conservationDtl.policy.organization.name, '直属')}">  
-				        <c:out value="${fn:replace(item.conservationDtl.policy.organization.name,'邮政局直属中邮保险局','直属')}" />  
+				    <c:when test="${fn:contains(item.csReport.policy.organization.name, '直属')}">  
+				        <c:out value="${fn:replace(item.csReport.policy.organization.name,'邮政局直属中邮保险局','直属')}" />  
 				    </c:when>  
 				   <c:otherwise>  
-				      <c:out value="${fn:replace(item.conservationDtl.policy.organization.name,'邮政局中邮保险局','')}" />  
+				      <c:out value="${fn:replace(item.csReport.policy.organization.name,'邮政局中邮保险局','')}" />  
 				    </c:otherwise>  
 				</c:choose>
 				</td>
-				<td>${item.conservationDtl.policy.holder}</td>
-				<td style="vnd.ms-excel.numberformat:@">${item.conservationDtl.policy.policyNo}</td>
-				<td><fmt:formatDate value='${item.conservationDtl.csDate }' pattern='yyyy-MM-dd'/></td>
+				<td>${item.csReport.policy.holder}</td>
+				<td style="vnd.ms-excel.numberformat:@">${item.csReport.policy.policyNo}</td>
+				<td><fmt:formatDate value='${item.csReport.csDate }' pattern='yyyy-MM-dd'/></td>
 				<td>${item.provExpressNo}</td>
-				<td>${item.provReceiveDate}</td>
 				<td>${item.provSentDate}</td>
 				<td>${item.cityReceiveDate}</td>
 				<td>
