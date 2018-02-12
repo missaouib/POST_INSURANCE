@@ -299,7 +299,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql6 = "update t_renewed_list t1, t_cs_report t2, t_pay_success_list t3 set t1.fee_status=\"交费成功\" where t1.policy_no=t2.policy_no and t2.cs_code=\"RE\" and datediff(t3.back_date,t2.cs_date)>0 and t2.cs_date>t1.fee_date and t2.cs_no=t3.rel_no and t3.fail_desc=\"成功\";";
 			sql7 = "update t_policy t1, t_cs_report t2, t_pay_success_list t3 set t1.status=\"有效\" where t1.policy_no=t2.policy_no and t2.cs_code=\"RE\" and datediff(now(),t2.operate_time)=0 and t2.cs_no=t3.rel_no and t3.fail_desc=\"成功\";";
 			sql8 = "update t_policy tp, t_cs_report tcr set tp.cs_flag=1,tp.status=\"终止\",tp.cs_date=tcr.cs_date where tp.policy_no=tcr.policy_no and (tp.cs_flag=0 or tp.cs_flag=2) and tcr.cs_code=\"CT\" and abs(tcr.money)=tp.total_fee;";
-			sql9 = "insert into t_cs_reissue (policy_no,status) select tsr.policy_no,\"NewStatus\" from t_cs_report tsr where tsr.cs_code=\"LR\" and tsr.policy_no not in (select policy_no from t_cs_reissue);";
+			sql9 = "insert into t_cs_reissue (cs_id,status) select tsr.id,\"NewStatus\" from t_cs_report tsr where tsr.cs_code=\"LR\" and tsr.id not in (select cs_id from t_cs_reissue);";
 			break;
 		case CsLoan:
 			standardColumns = CsLoanColumn.getStandardColumns();
