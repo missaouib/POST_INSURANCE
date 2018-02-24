@@ -1060,3 +1060,41 @@ truncate table t_cs_reissue;
 alter table t_cs_reissue drop foreign key fk_reference_28;
 alter table t_cs_reissue add CONSTRAINT fk_csr_csr FOREIGN KEY (cs_id) REFERENCES t_cs_report(id);
 insert into t_cs_reissue (cs_id,status) select tsr.id,"NewStatus" from t_cs_report tsr where tsr.cs_code="LR" and tsr.id not in (select cs_id from t_cs_reissue);
+
+create table t_cs_expire
+(
+   id   bigint not null auto_increment,
+   policy_no	varchar(15),
+sale_channel	varchar(6),
+duration	int(3),
+policy_end_date	date,
+insured_birthday	date,
+holder_birthday	date,
+holder_card_num	varchar(18),
+holder_card_type	varchar(15),
+insured_card_num	varchar(18),
+insured_card_type	varchar(15),
+policy_money	double,
+holder_mobile	varchar(11),
+holder_phone	varchar(12),
+expire_money	double,
+expire_profit	double,
+expire_rate	float,
+year_rate	float,
+relation	varchar(12),
+issue_flag	varchar(64),
+sub_flag	varchar(12),
+bal_match	varchar(6),
+pay_level	varchar(6),
+holder_age_level	varchar(6),
+adult_level	varchar(6),
+age_diff_level	varchar(6),
+issue_level	varchar(6),
+staff_level	varchar(6),
+account_level	varchar(6),
+final_level	varchar(6),
+operate_id	  bigint,
+   operate_time	datetime    default   current_timestamp,
+   primary  key (id)
+)
+engine=innodb auto_increment=4 default charset=utf8;

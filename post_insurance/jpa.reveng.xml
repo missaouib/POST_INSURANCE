@@ -272,7 +272,12 @@
 			<key-column name="id" type="Long" />
 		</primary-key>
 	</table>
-<table name="t_renewed_fee_rst" catalog="postinsurance">
+	<table name="t_renewed_fee_rst" catalog="postinsurance">
+		<primary-key>
+			<key-column name="id" type="Long" />
+		</primary-key>
+	</table>
+<table name="t_cs_expire" catalog="postinsurance">
 	<primary-key>
 		<key-column name="id" type="Long"/>
 	</primary-key>

@@ -7,119 +7,213 @@ public class CsExpireColumn {
 
 private static List<ColumnItem> standardColumns;
 	
-	public static String KEY_ROW = "约定还款日期";
-	//管理机构	保单号码	投保人姓名	投保人性别	险种名称		出单网点	借款日期	借款金额	约定还款日期	实际还款日期	还款金额	免息金额	免息原因	保单状态	联系方式
+	public static String KEY_ROW = "评级";
 	
 	public static List<ColumnItem> getStandardColumns() {
 		if(standardColumns != null) {
 			return(standardColumns);
 		}
-		//保全受理号 保单号 	保单所属机构 网点名称 	渠道 	操作机构代码 投保人姓名 	被保险人姓名 	保全复核通过日期 项目编码 金额 申请方式 
 		standardColumns = new ArrayList<ColumnItem>();
 		
 		ColumnItem column = new ColumnItem();
-		column.setDisplayName("管理机构");
-		column.setColumnName("organ_name");
-		column.setColumnType(ColumnType.string);
-		column.setNullable(true);
-		standardColumns.add(column);
-		
-		column = new ColumnItem();
-		column.setDisplayName("保单号码");
+		column.setDisplayName("保单号");
 		column.setColumnName("policy_no");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
-		
+
 		column = new ColumnItem();
-		column.setDisplayName("投保人姓名");
-		column.setColumnName("holder");
-		column.setColumnType(ColumnType.string);
-		column.setNullable(false);
-		standardColumns.add(column);
-		
-		column = new ColumnItem();
-		column.setDisplayName("投保人性别");
-		column.setColumnName("holder_sexy");
+		column.setDisplayName("销售渠道");
+		column.setColumnName("sale_channel");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
-		
+
 		column = new ColumnItem();
-		column.setDisplayName("险种名称");
-		column.setColumnName("prod_name");
-		column.setColumnType(ColumnType.string);
-		column.setNullable(true);
-		standardColumns.add(column);
-		
-		column = new ColumnItem();
-		column.setDisplayName("出单网点");
-		column.setColumnName("bank_name");
-		column.setColumnType(ColumnType.string);
-		column.setNullable(true);
-		standardColumns.add(column);
-		
-		column = new ColumnItem();
-		column.setDisplayName("借款日期");
-		column.setColumnName("loan_date");
-		column.setColumnType(ColumnType.string);
-		column.setNullable(true);
-		standardColumns.add(column);
-		
-		column = new ColumnItem();
-		column.setDisplayName("借款金额");
-		column.setColumnName("loan_fee");
+		column.setDisplayName("保障期限");
+		column.setColumnName("duration");
 		column.setColumnType(ColumnType.numeric);
 		column.setNullable(true);
 		standardColumns.add(column);
-		
+
 		column = new ColumnItem();
-		column.setDisplayName("约定还款日期");
-		column.setColumnName("should_date");
+		column.setDisplayName("保险止期");
+		column.setColumnName("policy_end_date");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
-		
-		/*
+
 		column = new ColumnItem();
-		column.setDisplayName("实际还款日期");
-		column.setColumnName("real_date");
+		column.setDisplayName("被保人出生日期");
+		column.setColumnName("insured_birthday");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
-		*/
-		
+
 		column = new ColumnItem();
-		column.setDisplayName("还款金额");
-		column.setColumnName("back_fee");
+		column.setDisplayName("投保人出生日期");
+		column.setColumnName("holder_birthday");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(true);
+		standardColumns.add(column);
+
+		column = new ColumnItem();
+		column.setDisplayName("投保人身份证号");
+		column.setColumnName("holder_card_num");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(true);
+		standardColumns.add(column);
+
+		column = new ColumnItem();
+		column.setDisplayName("投保人证件类型");
+		column.setColumnName("holder_card_type");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(true);
+		standardColumns.add(column);
+
+		column = new ColumnItem();
+		column.setDisplayName("被保人身份证号");
+		column.setColumnName("insured_card_num");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(true);
+		standardColumns.add(column);
+
+		column = new ColumnItem();
+		column.setDisplayName("被保人证件类型");
+		column.setColumnName("insured_card_type");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(true);
+		standardColumns.add(column);
+
+		column = new ColumnItem();
+		column.setDisplayName("已交保费");
+		column.setColumnName("policy_money");
 		column.setColumnType(ColumnType.numeric);
 		column.setNullable(true);
 		standardColumns.add(column);
-		
+
 		column = new ColumnItem();
-		column.setDisplayName("免息金额");
-		column.setColumnName("free_fee");
+		column.setDisplayName("投保人手机");
+		column.setColumnName("holder_mobile");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(true);
+		standardColumns.add(column);
+
+		column = new ColumnItem();
+		column.setDisplayName("投保人电话");
+		column.setColumnName("holder_phone");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(true);
+		standardColumns.add(column);
+
+		column = new ColumnItem();
+		column.setDisplayName("满期金额");
+		column.setColumnName("expire_money");
 		column.setColumnType(ColumnType.numeric);
 		column.setNullable(true);
 		standardColumns.add(column);
-		
+
 		column = new ColumnItem();
-		column.setDisplayName("免息原因");
-		column.setColumnName("free_reason");
+		column.setDisplayName("满期金+分红");
+		column.setColumnName("expire_profit");
+		column.setColumnType(ColumnType.numeric);
+		column.setNullable(true);
+		standardColumns.add(column);
+
+		column = new ColumnItem();
+		column.setDisplayName("满期收益");
+		column.setColumnName("expire_rate");
+		column.setColumnType(ColumnType.numeric);
+		column.setNullable(true);
+		standardColumns.add(column);
+
+		column = new ColumnItem();
+		column.setDisplayName("保单年化收益");
+		column.setColumnName("year_rate");
+		column.setColumnType(ColumnType.numeric);
+		column.setNullable(true);
+		standardColumns.add(column);
+
+		column = new ColumnItem();
+		column.setDisplayName("投被保人关系");
+		column.setColumnName("relation");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
-		
+
 		column = new ColumnItem();
-		column.setDisplayName("保单状态");
-		column.setColumnName("status");
+		column.setDisplayName("问题件");
+		column.setColumnName("issue_flag");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
-		
+
 		column = new ColumnItem();
-		column.setDisplayName("联系方式");
-		column.setColumnName("phone");
+		column.setDisplayName("公众号信息匹配");
+		column.setColumnName("sub_flag");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(true);
+		standardColumns.add(column);
+
+		column = new ColumnItem();
+		column.setDisplayName("满期客户账户匹配结果");
+		column.setColumnName("bal_match");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(true);
+		standardColumns.add(column);
+
+		column = new ColumnItem();
+		column.setDisplayName("付费金额排查");
+		column.setColumnName("pay_level");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(true);
+		standardColumns.add(column);
+
+		column = new ColumnItem();
+		column.setDisplayName("投保时年龄达60岁");
+		column.setColumnName("holder_age_level");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(true);
+		standardColumns.add(column);
+
+		column = new ColumnItem();
+		column.setDisplayName("满期时被保人已满18周岁");
+		column.setColumnName("adult_level");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(true);
+		standardColumns.add(column);
+
+		column = new ColumnItem();
+		column.setDisplayName("投被年龄差达40");
+		column.setColumnName("age_diff_level");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(true);
+		standardColumns.add(column);
+
+		column = new ColumnItem();
+		column.setDisplayName("问题件分析");
+		column.setColumnName("issue_level");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(true);
+		standardColumns.add(column);
+
+		column = new ColumnItem();
+		column.setDisplayName("员工单分析");
+		column.setColumnName("staff_level");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(true);
+		standardColumns.add(column);
+
+		column = new ColumnItem();
+		column.setDisplayName("账户活跃度匹配结果分析");
+		column.setColumnName("account_level");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(true);
+		standardColumns.add(column);
+
+		column = new ColumnItem();
+		column.setDisplayName("评级");
+		column.setColumnName("final_level");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
