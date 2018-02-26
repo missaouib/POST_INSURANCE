@@ -232,6 +232,10 @@ public class TaskService {
 			log.info("------------ sql :" + sql);
 			statement.executeUpdate(sql);
 			
+			sql = "insert into t_cs_reissue (cs_id,status) (select tsr.id,\"NewStatus\" from t_cs_report tsr where tsr.cs_code=\"LR\" and tsr.id not in (select cs_id from t_cs_reissue));";
+			log.info("------------ sql :" + sql);
+			statement.executeUpdate(sql);
+			
 			log.info("------------ task service update finish");
 			
 		} catch (SQLException e) {
