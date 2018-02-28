@@ -37,6 +37,7 @@ import com.gdpost.utils.TemplateHelper.CheckColumn;
 import com.gdpost.utils.TemplateHelper.ColumnItem;
 import com.gdpost.utils.TemplateHelper.ColumnType;
 import com.gdpost.utils.TemplateHelper.ConversationReqColumn;
+import com.gdpost.utils.TemplateHelper.CsExpireColumn;
 import com.gdpost.utils.TemplateHelper.CsLoanColumn;
 import com.gdpost.utils.TemplateHelper.CsReportColumn;
 import com.gdpost.utils.TemplateHelper.DocNotScanDtlColumn;
@@ -304,13 +305,43 @@ public class UploadDataServiceImpl implements UploadDataService{
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_cs_loan character set utf8 (";
 			sql1 = "update t_cs_loan set flag=case when DATEDIFF(NOW(),should_date)>1 then '2' when  DATEDIFF(NOW(),should_date)>-30 then '1' else '0' end;";
 			break;
+		case CsExpire:
+			standardColumns = CsExpireColumn.getStandardColumns();
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_cs_expire character set utf8 (";
+			sql1 = "update t_cs_expire set holder_card_num=(REPLACE(holder_card_num, '\"', '')) where locate('\"',holder_card_num)>0;";
+			sql2 = "update t_cs_expire set insured_card_num=(REPLACE(insured_card_num, '\"', '')) where locate('\"',insured_card_num)>0;";
+			sql3 = "update t_cs_expire set holder_mobile=(REPLACE(holder_mobile, '\"', '')) where locate('\"',holder_mobile)>0;";
+			sql4 = "update t_cs_expire set holder_phone=(REPLACE(holder_phone, '\"', '')) where locate('\"',holder_phone)>0;";
+			break;
 		case DocNotScanDtl:
 			firstsql = "delete from t_doc_not_scan_dtl;";
 			standardColumns = DocNotScanDtlColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_doc_not_scan_dtl character set utf8 (";
 			break;
-			default:
-				log.warn("------------reach the default FileTemplate?? oh no!!");
+		case CallFailCloseStatus:
+			break;
+		case CallFailMailBackStatus:
+			break;
+		case CallFailMailSuccessStatus:
+			break;
+		case CallFailMiniCityStatus:
+			break;
+		case CallFailNeedDoorStatus:
+			break;
+		case CallFailPhoneStatus:
+			break;
+		case PolicyBackDate:
+			break;
+		case PolicyUnderWrite:
+			break;
+		case RenewedCityList:
+			break;
+		case RenewedFeeMatchList:
+			break;
+		case RenewedProvList:
+			break;
+		case UnderWriteInsured:
+			break;
 		}
 		
 		for(ColumnItem item : standardColumns) {
@@ -1305,8 +1336,18 @@ public class UploadDataServiceImpl implements UploadDataService{
 			return dr;
 		case CsLoan:
 			return dr;
-		default:
-			break;
+		case CsExpire:
+			return dr;
+		case CallFailPFR:
+			return dr;
+		case ConversationReport:
+			return dr;
+		case ConversationReq:
+			return dr;
+		case IssuePFR:
+			return dr;
+		case UnderWriteData:
+			return dr;
 		}
 
         try {
@@ -1544,6 +1585,10 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case DocNotScanDtl:
 			standardColumns = DocNotScanDtlColumn.getStandardColumns();
 			keyRow = DocNotScanDtlColumn.KEY_ROW;
+			break;
+		case CsExpire:
+			standardColumns = CsExpireColumn.getStandardColumns();
+			keyRow = CsExpireColumn.KEY_ROW;
 			break;
 		}
 		

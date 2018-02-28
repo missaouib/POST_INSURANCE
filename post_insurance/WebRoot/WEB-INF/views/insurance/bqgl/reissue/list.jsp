@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 
 <dwz:paginationForm action="${contextPath }/bqgl/reissue/list" page="${page }">
-	<input type="hidden" name="search_LIKE_csReport.policy.policyNo" value="${param.search_LIKE_policyNo }"/>
+	<input type="hidden" name="search_LIKE_csReport.policy.policyNo" value="${search_LIKE_csReport_policy_policyNo }"/>
 	<input type="hidden" name="search_LIKE_csReport.policy.holder" value="${search_LIKE_csReport_policy_holder }"/>
 	<input type="hidden" name="orgCode" value="${orgCode }"/>
 	<input type="hidden" name="name" value="${name }"/>

@@ -40,8 +40,12 @@ public class CsExpire implements Idable<Long> {
 	private Date holderBirthday;
 	private String holderCardNum;
 	private String holderCardType;
+	private Integer holderYear;
+	private Integer holderExpireYear;
 	private String insuredCardNum;
 	private String insuredCardType;
+	private Integer insuredYear;
+	private Integer insuredExpireYear;
 	private Double policyMoney;
 	private String holderMobile;
 	private String holderPhone;
@@ -61,6 +65,7 @@ public class CsExpire implements Idable<Long> {
 	private String staffLevel;
 	private String accountLevel;
 	private String finalLevel;
+	private String status;
 	private Long operateId;
 	private Date operateTime;
 
@@ -126,10 +131,9 @@ public class CsExpire implements Idable<Long> {
 	}
 
 	@ManyToOne
-	@JoinColumnsOrFormulas(value={
-	@JoinColumnOrFormula(column=@JoinColumn(name ="policy_no", referencedColumnName ="policy_no")),
-	@JoinColumnOrFormula(formula=@JoinFormula(value="0", referencedColumnName = "attached_flag"))
-	})
+	@JoinColumnsOrFormulas(value = {
+			@JoinColumnOrFormula(column = @JoinColumn(name = "policy_no", referencedColumnName = "policy_no")),
+			@JoinColumnOrFormula(formula = @JoinFormula(value = "0", referencedColumnName = "attached_flag")) })
 	public Policy getPolicy() {
 		return this.policy;
 	}
@@ -202,7 +206,6 @@ public class CsExpire implements Idable<Long> {
 	}
 
 	@Column(name = "holder_card_type", length = 15)
-
 	public String getHolderCardType() {
 		return this.holderCardType;
 	}
@@ -210,9 +213,26 @@ public class CsExpire implements Idable<Long> {
 	public void setHolderCardType(String holderCardType) {
 		this.holderCardType = holderCardType;
 	}
+	
+	@Column(name = "holder_year", length = 3)
+	public Integer getHolderYear() {
+		return holderYear;
+	}
+
+	public void setHolderYear(Integer holderYear) {
+		this.holderYear = holderYear;
+	}
+
+	@Column(name = "holder_expire_year", length = 3)
+	public Integer getHolderExpireYear() {
+		return holderExpireYear;
+	}
+
+	public void setHolderExpireYear(Integer holderExpireYear) {
+		this.holderExpireYear = holderExpireYear;
+	}
 
 	@Column(name = "insured_card_num", length = 18)
-
 	public String getInsuredCardNum() {
 		return this.insuredCardNum;
 	}
@@ -222,7 +242,6 @@ public class CsExpire implements Idable<Long> {
 	}
 
 	@Column(name = "insured_card_type", length = 15)
-
 	public String getInsuredCardType() {
 		return this.insuredCardType;
 	}
@@ -230,9 +249,26 @@ public class CsExpire implements Idable<Long> {
 	public void setInsuredCardType(String insuredCardType) {
 		this.insuredCardType = insuredCardType;
 	}
+	
+	@Column(name = "insured_year", length = 3)
+	public Integer getInsuredYear() {
+		return insuredYear;
+	}
+
+	public void setInsuredYear(Integer insuredYear) {
+		this.insuredYear = insuredYear;
+	}
+
+	@Column(name = "insured_expire_year", length = 3)
+	public Integer getInsuredExpireYear() {
+		return insuredExpireYear;
+	}
+
+	public void setInsuredExpireYear(Integer insuredExpireYear) {
+		this.insuredExpireYear = insuredExpireYear;
+	}
 
 	@Column(name = "policy_money", precision = 22, scale = 0)
-
 	public Double getPolicyMoney() {
 		return this.policyMoney;
 	}
@@ -419,6 +455,15 @@ public class CsExpire implements Idable<Long> {
 
 	public void setFinalLevel(String finalLevel) {
 		this.finalLevel = finalLevel;
+	}
+	
+	@Column(name = "status")
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	@Column(name = "operate_id")

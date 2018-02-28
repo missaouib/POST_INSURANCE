@@ -70,6 +70,20 @@ private static List<ColumnItem> standardColumns;
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
+		
+		column = new ColumnItem();
+		column.setDisplayName("投保人年龄");
+		column.setColumnName("holder_year");
+		column.setColumnType(ColumnType.numeric);
+		column.setNullable(true);
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
+		column.setDisplayName("投保人满期年龄");
+		column.setColumnName("holder_expire_year");
+		column.setColumnType(ColumnType.numeric);
+		column.setNullable(true);
+		standardColumns.add(column);
 
 		column = new ColumnItem();
 		column.setDisplayName("被保人身份证号");
@@ -82,6 +96,20 @@ private static List<ColumnItem> standardColumns;
 		column.setDisplayName("被保人证件类型");
 		column.setColumnName("insured_card_type");
 		column.setColumnType(ColumnType.string);
+		column.setNullable(true);
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
+		column.setDisplayName("被保人年龄");
+		column.setColumnName("insured_year");
+		column.setColumnType(ColumnType.numeric);
+		column.setNullable(true);
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
+		column.setDisplayName("被保人满期年龄");
+		column.setColumnName("insured_expire_year");
+		column.setColumnType(ColumnType.numeric);
 		column.setNullable(true);
 		standardColumns.add(column);
 
@@ -114,7 +142,7 @@ private static List<ColumnItem> standardColumns;
 		standardColumns.add(column);
 
 		column = new ColumnItem();
-		column.setDisplayName("满期金+分红");
+		column.setDisplayName("满期金及分红");
 		column.setColumnName("expire_profit");
 		column.setColumnType(ColumnType.numeric);
 		column.setNullable(true);
@@ -184,7 +212,7 @@ private static List<ColumnItem> standardColumns;
 		standardColumns.add(column);
 
 		column = new ColumnItem();
-		column.setDisplayName("投被年龄差达40");
+		column.setDisplayName("投被年龄差达40岁");
 		column.setColumnName("age_diff_level");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);

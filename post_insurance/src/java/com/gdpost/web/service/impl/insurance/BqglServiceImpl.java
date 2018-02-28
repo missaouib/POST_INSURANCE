@@ -17,9 +17,11 @@ import com.gdpost.web.dao.ConservationDtlDAO;
 import com.gdpost.web.dao.ConservationReqDAO;
 import com.gdpost.web.dao.CsReissueDAO;
 import com.gdpost.web.dao.OffsiteConservationDAO;
+import com.gdpost.web.dao.component.CsExpireDAO;
 import com.gdpost.web.dao.component.CsLoanDAO;
 import com.gdpost.web.dao.component.CsReportDAO;
 import com.gdpost.web.dao.component.TinyCsAddrDAO;
+import com.gdpost.web.entity.component.CsExpire;
 import com.gdpost.web.entity.component.CsLoan;
 import com.gdpost.web.entity.component.CsReport;
 import com.gdpost.web.entity.component.TinyCsAddr;
@@ -62,6 +64,9 @@ public class BqglServiceImpl implements BqglService {
 	
 	@Autowired
 	private CsLoanDAO csLoanDao;
+	
+	@Autowired
+	private CsExpireDAO csExpireDao;
 	
 	/*
 	 * (non-Javadoc)
@@ -284,6 +289,24 @@ public class BqglServiceImpl implements BqglService {
 	@Override
 	public void updateCsLoan(CsLoan conservationReq) {
 		csLoanDao.save(conservationReq);
+	}
+	
+	// 保全满期
+	@Override
+	public CsExpire getCsExpire(Long id) {
+		return csExpireDao.findById(id).get();
+	}
+
+	@Override
+	public List<CsExpire> findCsExpireByExample(Specification<CsExpire> specification, Page page) {
+		org.springframework.data.domain.Page<CsExpire> springDataPage = csExpireDao.findAll(specification, PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
+	}
+
+	@Override
+	public void updateCsExpire(CsExpire conservationReq) {
+		csExpireDao.save(conservationReq);
 	}
 	
 }

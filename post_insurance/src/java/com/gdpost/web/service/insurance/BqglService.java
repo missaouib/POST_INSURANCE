@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.domain.Specification;
 
+import com.gdpost.web.entity.component.CsExpire;
 import com.gdpost.web.entity.component.CsLoan;
 import com.gdpost.web.entity.component.CsReport;
 import com.gdpost.web.entity.component.TinyCsAddr;
@@ -44,8 +45,7 @@ public interface BqglService {
 
 	List<OffsiteConservation> findAllOffsiteConservation(Page page);
 
-	List<OffsiteConservation> findByOffsiteConservationExample(Specification<OffsiteConservation> specification,
-			Page page);
+	List<OffsiteConservation> findByOffsiteConservationExample(Specification<OffsiteConservation> specification, Page page);
 
 	OffsiteConservation getOffsiteConservationByPolicyNo(String policyNo);
 
@@ -76,6 +76,13 @@ public interface BqglService {
 	List<CsLoan> findCsLoanByExample(Specification<CsLoan> specification, Page page);
 
 	void updateCsLoan(CsLoan conservationReq);
+	
+	// expire
+	CsExpire getCsExpire(Long id);
+
+	List<CsExpire> findCsExpireByExample(Specification<CsExpire> specification, Page page);
+
+	void updateCsExpire(CsExpire expire);
 
 
 }

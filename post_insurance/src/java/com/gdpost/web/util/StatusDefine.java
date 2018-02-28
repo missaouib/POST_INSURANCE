@@ -106,6 +106,19 @@ public class StatusDefine {
 			return desc;
 		}
 	};
+	
+	public enum CSEXPIRE_STATUS {
+		NewStatus("待处理"), DealStatus("跟进中"), WarnStatus("异常件"), CloseStatus("已给付");
+		private String desc;
+
+		CSEXPIRE_STATUS(String desc) {
+			this.desc = desc;
+		}
+
+		public String getDesc() {
+			return desc;
+		}
+	};
 
 	public enum FEE_FAIL_STATUS {
 		NewStatus("待关闭"), CloseStatus("已关闭");

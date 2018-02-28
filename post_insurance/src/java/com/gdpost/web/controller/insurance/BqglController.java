@@ -37,6 +37,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.gdpost.utils.BeanValidators;
 import com.gdpost.utils.SecurityUtils;
 import com.gdpost.utils.StringUtil;
+import com.gdpost.web.entity.component.CsExpire;
 import com.gdpost.web.entity.component.CsLoan;
 import com.gdpost.web.entity.component.CsReport;
 import com.gdpost.web.entity.main.ConservationDtl;
@@ -55,6 +56,7 @@ import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.insurance.BqglService;
 import com.gdpost.web.shiro.ShiroUser;
 import com.gdpost.web.util.StatusDefine.BQ_STATUS;
+import com.gdpost.web.util.StatusDefine.CSEXPIRE_STATUS;
 import com.gdpost.web.util.StatusDefine.FP_STATUS;
 import com.gdpost.web.util.dwz.AjaxObject;
 import com.gdpost.web.util.dwz.Page;
@@ -101,6 +103,10 @@ public class BqglController {
 	private static final String C_LOAN_LIST = "insurance/bqgl/loan/list";
 	private static final String C_LOAN_TO_XLS = "insurance/bqgl/loan/toXls";
 	private static final String C_LOAN_REMARK = "insurance/bqgl/loan/remark";
+	
+	private static final String C_EXPIRE_LIST = "insurance/bqgl/expire/list";
+	private static final String C_EXPIRE_TO_XLS = "insurance/bqgl/expire/toXls";
+	private static final String C_EXPIRE_UPDATE = "insurance/bqgl/expire/update";
 	
 	@RequiresPermissions("Cservice:save")
 	@RequestMapping(value="/issue/create", method=RequestMethod.GET)
@@ -1199,6 +1205,120 @@ public class BqglController {
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{loan.getPolicy().getPolicyNo()}));
 		return	AjaxObject.newOk("设置成功！").toString();
+	}
+	
+	/*
+	 * ======================================
+	 * cs expire
+	 * ======================================
+	 */
+	@RequiresPermissions("CsExpire:view")
+	@RequestMapping(value="/expire/list", method={RequestMethod.GET, RequestMethod.POST})
+	public String expireList(ServletRequest request, Page page, Map<String, Object> map) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
+		String orgCode = request.getParameter("orgCode");
+		if(orgCode == null || orgCode.trim().length()<=0) {
+			orgCode = userOrg.getOrgCode();
+		} else if(!orgCode.contains(userOrg.getOrgCode())){
+			orgCode = userOrg.getOrgCode();
+		}
+		String orgName = request.getParameter("name");
+		request.setAttribute("orgCode", orgCode);
+		request.setAttribute("name", orgName);
+		
+		String status = request.getParameter("status");
+		if(status == null) {
+			status = "NewStatus";
+		}
+		CsExpire expire = new CsExpire();
+		expire.setStatus(status);
+		request.setAttribute("status", status);
+		request.setAttribute("expire", expire);
+		
+		String orderField = request.getParameter("orderField");
+		if(orderField == null || orderField.trim().length()<=0) {
+			page.setOrderField("policyEndDate");
+			page.setOrderDirection("ASC");
+		}
+		
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		
+		if(status != null && status.trim().length()>0) {
+			csf.add(new SearchFilter("status", Operator.EQ, status));
+		}
+		
+		Specification<CsExpire> specification = DynamicSpecifications.bySearchFilter(request, CsExpire.class, csf);
+		
+		List<CsExpire> expires = bqglService.findCsExpireByExample(specification, page);
+		map.put("page", page);
+		map.put("expires", expires);
+		map.put("csStatusList", CSEXPIRE_STATUS.values());
+		return C_EXPIRE_LIST;
+	}
+	
+	@RequiresPermissions("CsReissue:edit")
+	@RequestMapping(value="/expire/update/{id}", method=RequestMethod.GET)
+	public String preUpdateCsExpire(@PathVariable Long id, Map<String, Object> map) {
+		CsExpire expire = bqglService.getCsExpire(id);
+		
+		map.put("expire", expire);
+		return C_EXPIRE_UPDATE;
+	}
+	
+	@Log(message="对{0}满期给付保单进行了关闭。", level=LogLevel.WARN, module=LogModule.BQGL)
+	@RequiresPermissions("CsExpire:update")
+	@RequestMapping(value="/expire/update", method=RequestMethod.POST)
+	public @ResponseBody String updateCsExpire(CsExpire expire) {
+		bqglService.updateCsExpire(expire);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{expire.getPolicy().getPolicyNo()}));
+		return AjaxObject.newOk("更新成功！").setCallbackType("").toString();
+	}
+	
+	@RequiresPermissions("CsExpire:view")
+	@RequestMapping(value="/expire/toXls", method={RequestMethod.GET, RequestMethod.POST})
+	public String csExpireListToXls(ServletRequest request, Page page, Map<String, Object> map) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
+		String orgCode = request.getParameter("orgCode");
+		if(orgCode == null || orgCode.trim().length()<=0) {
+			orgCode = userOrg.getOrgCode();
+		} else if(!orgCode.contains(userOrg.getOrgCode())){
+			orgCode = userOrg.getOrgCode();
+		}
+		
+		String status = request.getParameter("status");
+		if(status == null) {
+			status = "NewStatus";
+		}
+		CsExpire expire = new CsExpire();
+		expire.setStatus(status);
+		request.setAttribute("status", status);
+		request.setAttribute("expire", expire);
+		
+		String orderField = request.getParameter("orderField");
+		page.setNumPerPage(Integer.MAX_VALUE);
+		if(orderField == null || orderField.trim().length()<=0) {
+			page.setOrderField("policyEndDate");
+			page.setOrderDirection("ASC");
+		}
+		
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		if(status != null && status.trim().length()>0) {
+			csf.add(new SearchFilter("status", Operator.EQ, status));
+		}
+		Specification<CsExpire> specification = DynamicSpecifications.bySearchFilter(request, CsExpire.class, csf);
+		
+		List<CsExpire> expires = bqglService.findCsExpireByExample(specification, page);
+		
+		map.put("expires", expires);
+		
+		return C_EXPIRE_TO_XLS;
 	}
 	
 	@InitBinder
