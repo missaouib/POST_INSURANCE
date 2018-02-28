@@ -2,14 +2,19 @@ package com.gdpost.web.entity.component;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -69,6 +74,8 @@ public class CsExpire implements Idable<Long> {
 	private Long operateId;
 	private Date operateTime;
 
+	private List<CsExpireDtl> csExpireDtls = new ArrayList<CsExpireDtl>(0);
+	
 	// Constructors
 
 	/** default constructor */
@@ -486,4 +493,12 @@ public class CsExpire implements Idable<Long> {
 		this.operateTime = operateTime;
 	}
 
+	@OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "csExpire", orphanRemoval=true)
+	public List<CsExpireDtl> getCsExpireDtls() {
+		return this.csExpireDtls;
+	}
+
+	public void setCsExpireDtls(List<CsExpireDtl> csExpireDtls) {
+		this.csExpireDtls = csExpireDtls;
+	}
 }

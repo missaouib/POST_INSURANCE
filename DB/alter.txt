@@ -1,4 +1,4 @@
-﻿CREATE DATABASE postinsurance DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE DATABASE postinsurance DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 mysql> grant all privileges on postinsurance.* to yunying@localhost identified by '123456';
 
@@ -1103,3 +1103,21 @@ operate_id	  bigint,
    primary  key (id)
 )
 engine=innodb auto_increment=4 default charset=utf8;
+
+ALTER TABLE t_cs_expire ADD INDEX `idx_policy_no` (`policy_no`);
+ALTER TABLE t_cs_expire ADD INDEX `idx_policy_end_date` (`policy_end_date`);
+ALTER TABLE t_cs_expire ADD INDEX `idx_status` (`status`);
+
+create table t_cs_expire_dtl
+(
+   id   bigint not null auto_increment,
+   cs_expire_id bigint,
+   deal_desc varchar(128),
+   deal_man varchar(12),
+   deal_time datetime,
+   operate_id	  bigint,
+   operate_time	 datetime    default   current_timestamp,
+   primary  key (id)
+)engine=innodb auto_increment=4 default charset=utf8;
+
+alter table t_cs_expire_dtl add CONSTRAINT fk_cse_csed FOREIGN KEY (cs_expire_id) REFERENCES t_cs_expire(id);

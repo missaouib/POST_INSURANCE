@@ -38,6 +38,7 @@ import com.gdpost.utils.BeanValidators;
 import com.gdpost.utils.SecurityUtils;
 import com.gdpost.utils.StringUtil;
 import com.gdpost.web.entity.component.CsExpire;
+import com.gdpost.web.entity.component.CsExpireDtl;
 import com.gdpost.web.entity.component.CsLoan;
 import com.gdpost.web.entity.component.CsReport;
 import com.gdpost.web.entity.main.ConservationDtl;
@@ -1263,19 +1264,49 @@ public class BqglController {
 	@RequestMapping(value="/expire/update/{id}", method=RequestMethod.GET)
 	public String preUpdateCsExpire(@PathVariable Long id, Map<String, Object> map) {
 		CsExpire expire = bqglService.getCsExpire(id);
-		
 		map.put("expire", expire);
+		map.put("expireDtls", expire.getCsExpireDtls());
+		map.put("today", StringUtil.date2Str(new Date(), "yyyy-MM-dd"));
 		return C_EXPIRE_UPDATE;
 	}
 	
-	@Log(message="对{0}满期给付保单进行了关闭。", level=LogLevel.WARN, module=LogModule.BQGL)
+	@Log(message="对{0}满期给付保单进行了更新。", level=LogLevel.WARN, module=LogModule.BQGL)
 	@RequiresPermissions("CsExpire:update")
 	@RequestMapping(value="/expire/update", method=RequestMethod.POST)
-	public @ResponseBody String updateCsExpire(CsExpire expire) {
-		bqglService.updateCsExpire(expire);
+	public @ResponseBody String updateCsExpire(CsExpireDtl csExpireDtl) {
+		bqglService.updateCsExpireDtl(csExpireDtl);
 		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{expire.getPolicy().getPolicyNo()}));
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{csExpireDtl.getCsExpire().getPolicy().getPolicyNo()}));
 		return AjaxObject.newOk("更新成功！").setCallbackType("").toString();
+	}
+	
+	@Log(message="批量关闭满期保单：{0}。", level=LogLevel.WARN, module=LogModule.BQGL)
+	@RequiresPermissions(value={"CsExpire:update"}, logical=Logical.OR)
+	@RequestMapping(value="/expire/{status}", method=RequestMethod.POST)
+	public @ResponseBody String batchUpdateCsExpireStatus(@PathVariable("status") String status, Long[] ids) {
+		CsExpire csExpire = null;
+		CSEXPIRE_STATUS bs = CSEXPIRE_STATUS.CloseStatus;
+		try {
+			bs = CSEXPIRE_STATUS.valueOf(status);
+		}catch (Exception ex) {
+			return	AjaxObject.newError("状态不对！").setCallbackType("").toString();
+		}
+		String[] policys = new String[ids.length];
+		for(int i = 0; i<ids.length; i++) {
+			csExpire = bqglService.getCsExpire(ids[i]);
+			switch (bs) {
+			case CloseStatus:
+				break;
+				default:
+					break;
+			}
+			csExpire.setStatus(status);
+			bqglService.updateCsExpire(csExpire);
+			policys[i] = csExpire.getPolicy().getPolicyNo();
+		}
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{Arrays.toString(policys), status}));
+		return	AjaxObject.newOk("批量" + status + "满期给付保单！").setCallbackType("").toString();
 	}
 	
 	@RequiresPermissions("CsExpire:view")

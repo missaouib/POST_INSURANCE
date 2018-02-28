@@ -12,6 +12,7 @@ import java.util.List;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.gdpost.web.entity.component.CsExpire;
+import com.gdpost.web.entity.component.CsExpireDtl;
 import com.gdpost.web.entity.component.CsLoan;
 import com.gdpost.web.entity.component.CsReport;
 import com.gdpost.web.entity.component.TinyCsAddr;
@@ -84,5 +85,11 @@ public interface BqglService {
 
 	void updateCsExpire(CsExpire expire);
 
+	// expire dtl
+	CsExpireDtl getCsExpireDtl(Long id);
+
+	List<CsExpireDtl> findCsExpireDtlByExample(Specification<CsExpireDtl> specification, Page page);
+
+	void updateCsExpireDtl(CsExpireDtl csExpireDtl);
 
 }
