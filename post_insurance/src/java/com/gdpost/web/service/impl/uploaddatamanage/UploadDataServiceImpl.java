@@ -208,6 +208,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql3 = "update t_renewed_list set fee_status='交费成功',fee_fail_reason='' where fee_status<>\"交费成功\" and fee_status<>\"失效\" and policy_no in (select rel_no from t_pay_success_list where pay_type=2 and fail_desc like '%成功' and datediff(back_date,fee_date)>0);";
 			sql4 = "update t_policy t1, t_cs_report t2, t_pay_success_list t3 set t1.status=\"有效\" where t1.policy_no=t2.policy_no and t2.cs_code=\"RE\" and datediff(now(),t2.operate_time)=0 and t2.cs_no=t3.rel_no and t3.fail_desc=\"成功\";";
 			sql5 = "update t_renewed_list t1, t_pay_fail_list t2, t_policy t3 set t1.fee_status=\"交费失败\",t1.fee_fail_reason=t2.fail_desc where t1.policy_no=t2.rel_no and t2.rel_no=t3.policy_no and datediff(t2.back_date,t1.fee_date)>0;";
+			sql6 = "update t_renewed_list t1, t_cs_report t2, t_pay_success_list t3 set t1.fee_status=\"交费成功\", t1.fee_fail_reason='' where t1.policy_no=t2.policy_no and t2.cs_code=\"RE\" and datediff(t3.back_date,t2.cs_date)>0 and t2.cs_date>t1.fee_date and t2.cs_no=t3.rel_no and t3.fail_desc=\"成功\";";
 			break;
 		case RenewedStatus:
 			standardColumns = RenewedStatusColumn.getStandardColumns();
@@ -242,6 +243,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 			standardColumns = PayFailListColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_pay_fail_list character set utf8 (pay_type, status, ";
 			sql2 = "update t_renewed_list t1, t_pay_fail_list t2, t_policy t3 set t1.fee_status=\"交费失败\",t1.fee_fail_reason=t2.fail_desc where t1.policy_no=t2.rel_no and t2.rel_no=t3.policy_no and datediff(t2.back_date,t1.fee_date)>0;";
+			sql3 = "update t_renewed_list t1, t_cs_report t2, t_policy t3 set t1.fee_status=\"已终止\" where t1.policy_no=t2.policy_no and t2.policy_no=t3.policy_no and t3.attached_flag=0 and t2.cs_code=\"CT\" and abs(t2.money)>(t3.total_fee*0.1);";
+			sql4 = "update t_renewed_list t1, t_cs_report t2, t_pay_success_list t3 set t1.fee_status=\"交费成功\", t1.fee_fail_reason='' where t1.policy_no=t2.policy_no and t2.cs_code=\"RE\" and datediff(t3.back_date,t2.cs_date)>0 and t2.cs_date>t1.fee_date and t2.cs_no=t3.rel_no and t3.fail_desc=\"成功\";";
 			break;
 		case PaySuccessList:
 			standardColumns = PayFailListColumn.getStandardColumns();
@@ -253,6 +256,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 //					+ "where t1.pay_type=2 and t0.policy_fee=t1.money and t1.rel_no=t2.cs_no and t2.cs_code='RE');";
 //			sql4 = "update t_policy t0 set t0.status='有效' where t0.policy_no in (select t2.policy_no from t_pay_success_list t1, t_cs_report t2 "
 //					+ "where t1.pay_type=2 and t1.rel_no=t2.cs_no and t2.cs_code='RE');";
+			sql3 = "update t_renewed_list t1, t_cs_report t2, t_policy t3 set t1.fee_status=\"已终止\" where t1.policy_no=t2.policy_no and t2.policy_no=t3.policy_no and t3.attached_flag=0 and t2.cs_code=\"CT\" and abs(t2.money)>(t3.total_fee*0.1);";
+			sql4 = "update t_renewed_list t1, t_cs_report t2, t_pay_success_list t3 set t1.fee_status=\"交费成功\", t1.fee_fail_reason='' where t1.policy_no=t2.policy_no and t2.cs_code=\"RE\" and datediff(t3.back_date,t2.cs_date)>0 and t2.cs_date>t1.fee_date and t2.cs_no=t3.rel_no and t3.fail_desc=\"成功\";";
 			break;
 		case PayFromSuccessList:
 			standardColumns = PayFailListColumn.getStandardColumns();
@@ -264,6 +269,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 //					+ "where t1.pay_type=2 and t0.policy_fee=t1.money and t1.rel_no=t2.cs_no and t2.cs_code='RE');";
 //			sql4 = "update t_policy t0 set t0.status='有效' where t0.policy_no in (select t2.policy_no from t_pay_success_list t1, t_cs_report t2 "
 //					+ "where t1.pay_type=2 and t1.rel_no=t2.cs_no and t2.cs_code='RE');";
+			sql3 = "update t_renewed_list t1, t_cs_report t2, t_policy t3 set t1.fee_status=\"已终止\" where t1.policy_no=t2.policy_no and t2.policy_no=t3.policy_no and t3.attached_flag=0 and t2.cs_code=\"CT\" and abs(t2.money)>(t3.total_fee*0.1);";
+			sql4 = "update t_renewed_list t1, t_cs_report t2, t_pay_success_list t3 set t1.fee_status=\"交费成功\", t1.fee_fail_reason='' where t1.policy_no=t2.policy_no and t2.cs_code=\"RE\" and datediff(t3.back_date,t2.cs_date)>0 and t2.cs_date>t1.fee_date and t2.cs_no=t3.rel_no and t3.fail_desc=\"成功\";";
 			break;
 		case UnderWriteSentData:
 			standardColumns = PolicySentDataColumn.getStandardColumns();
