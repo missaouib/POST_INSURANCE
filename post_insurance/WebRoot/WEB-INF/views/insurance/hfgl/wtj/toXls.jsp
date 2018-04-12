@@ -54,6 +54,7 @@ response.setHeader("Content-Disposition", "inline; filename=call_fail_dtl.xls");
 				<th>通话结束时间</th>
 				<th>通话时长</th>
 				</shiro:hasPermission>
+				<th>邮银标记</th>
 			</tr>
 			<c:forEach var="item" items="${reqs}" varStatus="status">
 			<tr>
@@ -103,6 +104,7 @@ response.setHeader("Content-Disposition", "inline; filename=call_fail_dtl.xls");
                 <td>${item.phoneEnd}</td>
                 <td>${item.phoneTime}</td>
 				</shiro:hasPermission>
+				<td>${item.bankCode!=null && item.bankCode.netFlag==2?"银行":"邮政" }</td>
 			</tr>
 			</c:forEach>
 	</table>

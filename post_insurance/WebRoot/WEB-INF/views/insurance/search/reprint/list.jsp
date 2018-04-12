@@ -5,6 +5,7 @@
 <dwz:paginationForm action="${contextPath }/client/listPolicyReprintDtl" page="${page }">
 	<input type="hidden" name="search_LIKE_policyNo" value="${param.search_LIKE_policyNo }"/>
 	<input type="hidden" name="search_LIKE_formNo" value="${param.search_LIKE_formNo }"/>
+	<input type="hidden" name="search_LIKE_emsNo" value="${param.search_LIKE_emsNo }"/>
 	<input type="hidden" name="orgCode" value="${orgCode }"/>
 	<input type="hidden" name="name" value="${name }"/>
 	<input type="hidden" name="plFlag" value="${plFlag }"/>
@@ -20,6 +21,9 @@
 					</td>
 					<td>
 						投保单号：<input type="text" style="width: 100px;" id="reformno" name="search_LIKE_formNo" value="${param.search_LIKE_formNo }"/>
+					</td>
+					<td>
+						快递单号：<input type="text" style="width: 100px;" id="reemsno" name="search_LIKE_emsNo" value="${param.search_LIKE_emsNo }"/>
 					</td>
 					<td>
 						<label>标记：</label>
@@ -49,6 +53,7 @@
 
 	<div class="panelBar">
 		<ul class="toolBar">
+		<li><a class="icon" target="_blank" href="${contextPath }/client/listPolicyReprintDtl/toXls?search_LIKE_policyNo=${param.search_LIKE_policyNo }&orgCode=${orgCode }&search_LIKE_formNo=${param.search_LIKE_formNo}&search_LIKE_emsNo=${param.search_LIKE_emsNo}"><span>导出Excel</span></a></li>
 		</ul>
 	</div>
 	<div id="w_list_print">
@@ -77,11 +82,11 @@
 				<td><fmt:formatDate value="${item.printDate }" pattern="yyyy-MM-dd"/></td>
 				<td>
 					<c:choose>
-					<c:when test="${item.plFlag eq 'P'}">
-						新单打印
+					<c:when test="${item.plFlag eq 'L'}">
+						合同补发
 					</c:when>
 					<c:otherwise>
-						合同补发
+						新单打印
 					</c:otherwise>
 				</c:choose>
 				</td>

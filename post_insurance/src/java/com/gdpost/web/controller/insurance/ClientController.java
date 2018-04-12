@@ -59,6 +59,7 @@ public class ClientController {
 	private static final String PD_TO_XLS = "insurance/basedata/client/pdToXls";
 	
 	private static final String RE_PRINT_LIST = "insurance/search/reprint/list";
+	private static final String RE_PRINT_LIST_XLS = "insurance/search/reprint/toXls";
 	
 	@RequiresPermissions("Client:view")
 	@RequestMapping(value="/view/{id}", method=RequestMethod.GET)
@@ -200,6 +201,54 @@ public class ClientController {
 		map.put("page", page);
 		map.put("policies", policies);
 		return RE_PRINT_LIST;
+	}
+	
+	@RequiresPermissions("PolicyReprintDtl:view")
+	@RequestMapping(value="/listPolicyReprintDtl/toXls", method={RequestMethod.GET, RequestMethod.POST})
+	public String reprintDtlToXls(ServletRequest request, Page page, Map<String, Object> map) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
+		
+		if(page.getOrderField() == null || page.getOrderField().trim().length() <= 0) {
+			page.setOrderField("printDate");
+			page.setOrderDirection("DESC");
+		}
+		
+		page.setNumPerPage(Integer.MAX_VALUE);
+		
+		String plFlag = request.getParameter("plFlag");
+		if(plFlag == null) plFlag = "";
+		
+		String orgCode = request.getParameter("orgCode");
+		if(orgCode == null || orgCode.trim().length() <= 0) {
+			orgCode = user.getOrganization().getOrgCode();
+			if(orgCode.contains("11185")) {
+				orgCode = "8644";
+			}
+		} else {
+			if(!orgCode.contains(user.getOrganization().getOrgCode())){
+				orgCode = user.getOrganization().getOrgCode();
+			}
+			String orgName = request.getParameter("name");
+			request.setAttribute("orgCode", orgCode);
+			request.setAttribute("name", orgName);
+		}
+		
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("orgCode", Operator.LIKE, orgCode));
+		
+		String prdName = request.getParameter("prd.prdFullName");
+		if(prdName != null && prdName.trim().length()>0) {
+			csf.add(new SearchFilter("prodName", Operator.EQ, prdName));
+		}
+		if(plFlag != null && plFlag.trim().length()>0) {
+			csf.add(new SearchFilter("plFlag", Operator.EQ, plFlag));
+		}
+		Specification<PolicyReprintDtl> specification = DynamicSpecifications.bySearchFilter(request, PolicyReprintDtl.class, csf);
+		List<PolicyReprintDtl> policies = policyService.findByPolicyReprintDtlExample(specification, page);
+		
+		map.put("policies", policies);
+		return RE_PRINT_LIST_XLS;
 	}
 	
 	@RequiresPermissions("Client:view")

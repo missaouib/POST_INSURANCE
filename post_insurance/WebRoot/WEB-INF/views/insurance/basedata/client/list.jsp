@@ -150,6 +150,7 @@
 				<th>网点</th>
 				<th>员工单</th>
 				<th>银行单</th>
+				<th>证件号码</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -171,6 +172,7 @@
 				<td>${item.bankName}</td>
 				<td>${item.staffFlag}</td>
 				<td>${item.bankCode!=null && item.bankCode.netFlag==2?"是":"否" }</td>
+				<td>******${fn:substring(item.policyDtl.holderCardNum,6,17)}</td>
 			</tr>
 			</c:forEach>
 		</tbody>

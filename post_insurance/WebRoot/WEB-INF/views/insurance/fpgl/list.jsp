@@ -7,6 +7,7 @@
 	<input type="hidden" name="search_LIKE_policy.holder" value="${search_LIKE_policy_holder }"/>
 	<input type="hidden" name="search_LTE_reqDate" value="${param.search_LTE_reqDate }"/>
 	<input type="hidden" name="search_GTE_reqDate" value="${param.search_GTE_reqDate }"/>
+	<input type="hidden" name="search_LIKE_reqFlag" value="${param.search_LIKE_reqFlag }"/>
 	<input type="hidden" name="status" value="${status }"/>
 </dwz:paginationForm>
 
@@ -102,6 +103,8 @@
 				<th>发票金额</th>
 				<th>发票缴费日期</th>
 				<th orderField=reqDate class="${page.orderField eq 'reqDate' ? page.orderDirection : ''}">申请日期</th>
+				<th>承保日期</th>
+				<th>保单状态</th>
 				<th orderField=status class="${page.orderField eq 'status' ? page.orderDirection : ''}">状态</th>
 				<th>EMS</th>
 				<th>申请接收人</th>
@@ -119,6 +122,8 @@
 				<td>${item.fee}</td>
 				<td><fmt:formatDate value="${item.feeDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.reqDate }" pattern="yyyy-MM-dd"/></td>
+				<td><fmt:formatDate value="${item.policy.policyDate }" pattern="yyyy-MM-dd"/></td>
+				<td>${item.policy.status}</td>
 				<td>
 				<c:choose>
 					<c:when test="${item.status eq 'NewStatus'}">
