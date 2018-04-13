@@ -1273,10 +1273,13 @@ public class BqglController {
 	@Log(message="对{0}满期给付保单进行了更新。", level=LogLevel.WARN, module=LogModule.BQGL)
 	@RequiresPermissions("CsExpire:update")
 	@RequestMapping(value="/expire/update", method=RequestMethod.POST)
-	public @ResponseBody String updateCsExpire(CsExpireDtl csExpireDtl) {
+	public @ResponseBody String updateCsExpire(CsExpireDtl csExpireDtl, ServletRequest request) {
+		String csId = request.getParameter("csExpireId");
+		CsExpire cs = bqglService.getCsExpire(new Long(csId));
+		csExpireDtl.setCsExpire(cs);
 		bqglService.updateCsExpireDtl(csExpireDtl);
 		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{csExpireDtl.getCsExpire().getPolicy().getPolicyNo()}));
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{cs.getPolicy().getPolicyNo()}));
 		return AjaxObject.newOk("更新成功！").setCallbackType("").toString();
 	}
 	

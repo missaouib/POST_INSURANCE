@@ -71,6 +71,7 @@ public class CsExpire implements Idable<Long> {
 	private String accountLevel;
 	private String finalLevel;
 	private String status;
+	private Date csDate;
 	private Long operateId;
 	private Date operateTime;
 
@@ -472,9 +473,18 @@ public class CsExpire implements Idable<Long> {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name="cs_date")
+	public Date getCsDate() {
+		return csDate;
+	}
+
+	public void setCsDate(Date csDate) {
+		this.csDate = csDate;
+	}
 
 	@Column(name = "operate_id")
-
 	public Long getOperateId() {
 		return this.operateId;
 	}
@@ -493,7 +503,7 @@ public class CsExpire implements Idable<Long> {
 		this.operateTime = operateTime;
 	}
 
-	@OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "csExpire", orphanRemoval=true)
+	@OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "csExpire", orphanRemoval=true)
 	public List<CsExpireDtl> getCsExpireDtls() {
 		return this.csExpireDtls;
 	}

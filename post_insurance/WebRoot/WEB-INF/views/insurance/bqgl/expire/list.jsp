@@ -38,11 +38,11 @@
 						客户姓名：<input type="text" style="width: 100px;" id="bqPolicyholder" name="search_LIKE_policy.holder" value="${search_LIKE_policy_holder }"/>
 					</td>
 					<td>
-						<label>申请日期：</label>
+						<label>满期日期：</label>
 						<input type="text" id="csExpireDate1" name="search_GTE_policyEndDate" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_policyEndDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
-						<label>申请日期：</label>
+						<label>满期日期：</label>
 						<input type="text" id="csExpireDate2" name="search_LTE_policyEndDate" class="date validate[required] required" style="width: 80px;"dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_policyEndDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 				</tr>

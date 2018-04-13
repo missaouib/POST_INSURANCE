@@ -1121,3 +1121,5 @@ create table t_cs_expire_dtl
 )engine=innodb auto_increment=4 default charset=utf8;
 
 alter table t_cs_expire_dtl add CONSTRAINT fk_cse_csed FOREIGN KEY (cs_expire_id) REFERENCES t_cs_expire(id);
+
+ alter table t_cs_expire add column cs_date date after status;

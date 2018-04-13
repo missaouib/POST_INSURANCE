@@ -7,9 +7,12 @@
 		<p>
 		<label>既往跟进情况：</label>
 		<c:forEach var="item" items="${expireDtls}">
-		${item.dealDesc}；${item.dealMan}；${item.dealTime}<br>
+		${item.dealDesc}（${item.dealMan}/<fmt:formatDate value='${item.dealTime}' pattern='yyyy-MM-dd'/>）<br>
 		</c:forEach>
 		</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
 		<p>
 			<label>本次跟进情况：</label>
 			<input type="text" name="dealDesc" class="input-medium validate[required,maxSize[14]] required" maxlength="32"value=""/>
@@ -20,7 +23,7 @@
 		</p>
 		<p>
 			<label>跟进日期：</label>
-			<input type="text" name="dealTime" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${today }" pattern="yyyy-MM-dd"/>"/>
+			<input type="text" name="dealTime" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${today }" pattern="yyyy-MM-dd"/>
 				<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 	</div>
