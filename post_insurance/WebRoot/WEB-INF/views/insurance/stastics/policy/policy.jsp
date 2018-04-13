@@ -82,6 +82,22 @@ function toTips(val) {
 					</form:select>
 					</td>
 				</tr>
+				<tr>
+					<td>
+					<label>出单方式：</label>
+					<form:select path="PolicyStatModel.saleType" id="pcsstype" class="combox">
+						<form:option value="%%"> -- </form:option>
+						<form:option value="8144%">手机销售</form:option>
+						<form:option value="7644%">网银销售</form:option>
+						<form:option value="8644%">柜面出单</form:option>
+						<form:option value="9644%">老手机</form:option>
+					</form:select>
+					</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+				</tr>
 			</table>
 			<div class="subBar">
 				<ul>						
@@ -92,7 +108,7 @@ function toTips(val) {
 	</div>
 </form>
 <h2 class="contentTitle"><label>统计结果</label>
-<a class="buttonActive" target="_blank" href="${contextPath }/component/stastics/policy/toXls?orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&csDate1=${csDate1 }&csDate2=${csDate2 }&prdCode=${prdCode}&levelFlag=${levelFlag}&netFlag=${netFlag}&perm=${perm}&staffFlag=${staffFlag}&csFlag=${csFlag}&statType=${statType}"><span>导出统计结果</span></a>
+<a class="buttonActive" target="_blank" href="${contextPath }/component/stastics/policy/toXls?orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&csDate1=${csDate1 }&csDate2=${csDate2 }&prdCode=${prdCode}&levelFlag=${levelFlag}&netFlag=${netFlag}&perm=${perm}&staffFlag=${staffFlag}&csFlag=${csFlag}&statType=${statType}&saleType=${saleType}"><span>导出统计结果</span></a>
 </h2>
 <br>
 <div class="pageContent" layoutH="130" width="150%">
@@ -133,10 +149,10 @@ function toTips(val) {
 	</table>
 	</div>
 	<div class="sortDrag" style="width:65%;border:1px solid #e66;margin:5px;float:left;min-height:10px">
-	<div id="main" style="width: 800px;height:400px;"></div>
+	<div id="policyStatMain" style="width: 800px;height:400px;"></div>
 	    <script type="text/javascript">
 	        // 基于准备好的dom，初始化echarts实例
-	        var myChart = echarts.init(document.getElementById('main'));
+	        var myChart = echarts.init(document.getElementById('policyStatMain'));
 			
 	        option = {
 	            tooltip: {

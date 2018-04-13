@@ -1226,6 +1226,7 @@ public class BqglController {
 			orgCode = userOrg.getOrgCode();
 		}
 		String orgName = request.getParameter("name");
+		String search_LIKE_finalLevel = request.getParameter("search_LIKE_finalLevel");
 		request.setAttribute("orgCode", orgCode);
 		request.setAttribute("name", orgName);
 		
@@ -1235,8 +1236,10 @@ public class BqglController {
 		}
 		CsExpire expire = new CsExpire();
 		expire.setStatus(status);
+		expire.setSearch_LIKE_finalLevel(search_LIKE_finalLevel);
 		request.setAttribute("status", status);
 		request.setAttribute("expire", expire);
+		request.setAttribute("search_LIKE_finalLevel", search_LIKE_finalLevel);
 		
 		String orderField = request.getParameter("orderField");
 		if(orderField == null || orderField.trim().length()<=0) {

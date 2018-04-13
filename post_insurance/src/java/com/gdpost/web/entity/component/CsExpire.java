@@ -18,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.JoinColumnOrFormula;
 import org.hibernate.annotations.JoinColumnsOrFormulas;
@@ -77,7 +78,20 @@ public class CsExpire implements Idable<Long> {
 
 	private List<CsExpireDtl> csExpireDtls = new ArrayList<CsExpireDtl>(0);
 	
+	@Transient
+	private String search_LIKE_finalLevel;
+	
 	// Constructors
+
+	@Transient
+	public String getSearch_LIKE_finalLevel() {
+		return search_LIKE_finalLevel;
+	}
+
+	@Transient
+	public void setSearch_LIKE_finalLevel(String search_LIKE_finalLevel) {
+		this.search_LIKE_finalLevel = search_LIKE_finalLevel;
+	}
 
 	/** default constructor */
 	public CsExpire() {

@@ -30,10 +30,11 @@ public interface PolicyStatDAO extends JpaRepository<PolicyStatModel, Long>, Jpa
 			+ "and tp.prod_code like :prdCode "
 			+ "and tp.fee_frequency like :toPerm "
 			+ "and tp.staff_flag like :staffFlag "
+			+ "and tp.policy_no like :saleType "
 			+ "group by tp.prod_name "
 			+ "order by tp.prod_code;",
 			nativeQuery=true)
-	List<PolicyStatModel> getPolicyDateProdStat(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("csFlag")String csFlag);
+	List<PolicyStatModel> getPolicyDateProdStat(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("csFlag")String csFlag, @Param("saleType")String saleType);
 	
 	@Query(name="getPolicyDateProdStatWithBankCode",
 			value="select tp.prod_name as stat_name, count(tp.id) as policy_count, sum(tp.total_fee)/10000 as policy_fee "
@@ -46,10 +47,11 @@ public interface PolicyStatDAO extends JpaRepository<PolicyStatModel, Long>, Jpa
 			+ "and tp.bank_name like :bankName "
 			+ "and tp.fee_frequency like :toPerm "
 			+ "and tp.staff_flag like :staffFlag "
+			+ "and tp.policy_no like :saleType "
 			+ "group by tp.prod_name "
 			+ "order by tp.prod_code;",
 			nativeQuery=true)
-	List<PolicyStatModel> getPolicyDateProdStatWithBankCode(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("bankName")String bankName, @Param("csFlag")String csFlag);
+	List<PolicyStatModel> getPolicyDateProdStatWithBankCode(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("bankName")String bankName, @Param("csFlag")String csFlag, @Param("saleType")String saleType);
 	
 	@Query(name="getProvPolicyDateOrganStat",
 			value="select left(tp.organ_name, 2) as stat_name,count(tp.id) as policy_count, sum(tp.total_fee)/10000 as policy_fee "
@@ -60,10 +62,11 @@ public interface PolicyStatDAO extends JpaRepository<PolicyStatModel, Long>, Jpa
 			+ "and tp.prod_code like :prdCode "
 			+ "and tp.fee_frequency like :toPerm "
 			+ "and tp.staff_flag like :staffFlag "
+			+ "and tp.policy_no like :saleType "
 			+ "group by left(tp.organ_name, 2) "
 			+ "order by tp.organ_code;",
 			nativeQuery=true)
-	List<PolicyStatModel> getProvPolicyDateOrganStat(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("csFlag")String csFlag);
+	List<PolicyStatModel> getProvPolicyDateOrganStat(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("csFlag")String csFlag, @Param("saleType")String saleType);
 	
 	@Query(name="getPolicyDateOrganStat",
 			value="select tp.organ_name as stat_name,count(tp.id) as policy_count, sum(tp.total_fee)/10000 as policy_fee "
@@ -74,10 +77,11 @@ public interface PolicyStatDAO extends JpaRepository<PolicyStatModel, Long>, Jpa
 			+ "and tp.prod_code like :prdCode "
 			+ "and tp.fee_frequency like :toPerm "
 			+ "and tp.staff_flag like :staffFlag "
+			+ "and tp.policy_no like :saleType "
 			+ "group by tp.organ_name "
 			+ "order by tp.organ_code;",
 			nativeQuery=true)
-	List<PolicyStatModel> getPolicyDateOrganStat(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("csFlag")String csFlag);
+	List<PolicyStatModel> getPolicyDateOrganStat(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("csFlag")String csFlag, @Param("saleType")String saleType);
 	
 	@Query(name="getPolicyDateOrganNetStat",
 			value="select tbc.name as stat_name, count(tp.id) as policy_count, sum(tp.total_fee)/10000 as policy_fee "
@@ -89,10 +93,11 @@ public interface PolicyStatDAO extends JpaRepository<PolicyStatModel, Long>, Jpa
 			+ "and tp.bank_name like :bankName "
 			+ "and tp.fee_frequency like :toPerm "
 			+ "and tp.staff_flag like :staffFlag "
+			+ "and tp.policy_no like :saleType "
 			+ "group by tbc.name "
 			+ "order by tp.organ_code;",
 			nativeQuery=true)
-	List<PolicyStatModel> getPolicyDateOrganNetStat(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("bankName")String bankName, @Param("csFlag")String csFlag);
+	List<PolicyStatModel> getPolicyDateOrganNetStat(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("bankName")String bankName, @Param("csFlag")String csFlag, @Param("saleType")String saleType);
 	
 	@Query(name="getProvPolicyDateOrganStatWithBankCode",
 			value="select left(tp.organ_name,2) as stat_name, count(tp.id) as policy_count, sum(tp.total_fee)/10000 as policy_fee "
@@ -105,10 +110,11 @@ public interface PolicyStatDAO extends JpaRepository<PolicyStatModel, Long>, Jpa
 			+ "and tp.bank_name like :bankName "
 			+ "and tp.fee_frequency like :toPerm "
 			+ "and tp.staff_flag like :staffFlag "
+			+ "and tp.policy_no like :saleType "
 			+ "group by left(tp.organ_name,2) "
 			+ "order by tp.organ_code;",
 			nativeQuery=true)
-	List<PolicyStatModel> getProvPolicyDateOrganStatWithBankCode(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("bankName")String bankName, @Param("csFlag")String csFlag);
+	List<PolicyStatModel> getProvPolicyDateOrganStatWithBankCode(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("bankName")String bankName, @Param("csFlag")String csFlag, @Param("saleType")String saleType);
 	
 	@Query(name="getPolicyDateOrganStatWithBankCode",
 			value="select tp.organ_name as stat_name, count(tp.id) as policy_count, sum(tp.total_fee)/10000 as policy_fee "
@@ -121,10 +127,11 @@ public interface PolicyStatDAO extends JpaRepository<PolicyStatModel, Long>, Jpa
 			+ "and tp.bank_name like :bankName "
 			+ "and tp.fee_frequency like :toPerm "
 			+ "and tp.staff_flag like :staffFlag "
+			+ "and tp.policy_no like :saleType "
 			+ "group by tp.organ_name "
 			+ "order by tp.organ_code;",
 			nativeQuery=true)
-	List<PolicyStatModel> getPolicyDateOrganStatWithBankCode(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("bankName")String bankName, @Param("csFlag")String csFlag);
+	List<PolicyStatModel> getPolicyDateOrganStatWithBankCode(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("bankName")String bankName, @Param("csFlag")String csFlag, @Param("saleType")String saleType);
 	
 	@Query(name="getPolicyDateOrganNetStatWithBankCode",
 			value="select tbc.name as stat_name, count(tp.id) as policy_count, sum(tp.total_fee)/10000 as policy_fee "
@@ -137,10 +144,11 @@ public interface PolicyStatDAO extends JpaRepository<PolicyStatModel, Long>, Jpa
 			+ "and tp.bank_name like :bankName "
 			+ "and tp.fee_frequency like :toPerm "
 			+ "and tp.staff_flag like :staffFlag "
+			+ "and tp.policy_no like :saleType "
 			+ "group by tbc.name "
 			+ "order by tp.organ_code;",
 			nativeQuery=true)
-	List<PolicyStatModel> getPolicyDateOrganNetStatWithBankCode(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("bankName")String bankName, @Param("csFlag")String csFlag);
+	List<PolicyStatModel> getPolicyDateOrganNetStatWithBankCode(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("bankName")String bankName, @Param("csFlag")String csFlag, @Param("saleType")String saleType);
 	
 	
 	@Query(name="getPolicyDateFeeTypeStat",
@@ -152,10 +160,11 @@ public interface PolicyStatDAO extends JpaRepository<PolicyStatModel, Long>, Jpa
 			+ "and tp.prod_code like :prdCode "
 			+ "and tp.fee_frequency like :toPerm "
 			+ "and tp.staff_flag like :staffFlag "
+			+ "and tp.policy_no like :saleType "
 			+ "group by tp.fee_frequency "
 			+ "order by tp.fee_frequency;",
 			nativeQuery=true)
-	List<PolicyStatModel> getPolicyDateFeeTypeStat(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("csFlag")String csFlag);
+	List<PolicyStatModel> getPolicyDateFeeTypeStat(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("csFlag")String csFlag, @Param("saleType")String saleType);
 	
 	@Query(name="getPolicyDateFeeTypeStatWithBankCode",
 			value="select tp.fee_frequency as stat_name, count(tp.id) as policy_count, sum(tp.total_fee)/10000 as policy_fee "
@@ -168,9 +177,10 @@ public interface PolicyStatDAO extends JpaRepository<PolicyStatModel, Long>, Jpa
 			+ "and tp.bank_name like :bankName "
 			+ "and tp.fee_frequency like :toPerm "
 			+ "and tp.staff_flag like :staffFlag "
+			+ "and tp.policy_no like :saleType "
 			+ "group by tp.fee_frequency "
 			+ "order by tp.fee_frequency;",
 			nativeQuery=true)
-	List<PolicyStatModel> getPolicyDateFeeTypeStatWithBankCode(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("bankName")String bankName, @Param("csFlag")String csFlag);
+	List<PolicyStatModel> getPolicyDateFeeTypeStatWithBankCode(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("bankName")String bankName, @Param("csFlag")String csFlag, @Param("saleType")String saleType);
 	
 }

@@ -9,6 +9,7 @@
 	<input type="hidden" name="name" value="${name }"/>
 	<input type="hidden" name="search_LTE_policyEndDate" value="${param.search_LTE_policyEndDate }"/>
 	<input type="hidden" name="search_GTE_policyEndDate" value="${param.search_GTE_policyEndDate }"/>
+	<input type="hidden" name="search_LIKE_finalLevel" value="${param.search_LIKE_finalLevel }"/>
 	<input type="hidden" name="status" value="${status }"/>
 </dwz:paginationForm>
 
@@ -32,6 +33,16 @@
 						<input name="orgCode" id="expire_orgCode" type="hidden" value="${orgCode }"/>
 						<input class="validate[required] required" name="name" id="bq_orgName" type="text" readonly="readonly" style="width: 100px;" value="${name }"/><a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="" title="选择机构" width="400">查</a>
 					</td>
+					<td>
+					<label>评级：</label>
+					<form:select path="expire.search_LIKE_finalLevel" id="exfl" class="combox">
+						<form:option value=""> -- </form:option>
+						<form:option value="风险">风险</form:option>
+						<form:option value="关注">关注</form:option>
+						<form:option value="预警">预警</form:option>
+						<form:option value="正常">正常</form:option>
+					</form:select>
+					</td>
 				</tr>
 				<tr>
 					<td>
@@ -44,6 +55,8 @@
 					<td>
 						<label>满期日期：</label>
 						<input type="text" id="csExpireDate2" name="search_LTE_policyEndDate" class="date validate[required] required" style="width: 80px;"dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_policyEndDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+					</td>
+					<td>&nbsp;
 					</td>
 				</tr>
 			</table>
@@ -67,7 +80,7 @@
 				<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/bqgl/expire/CloseStatus" title="确认批量关闭已给付保单?"><span>批量关闭(已给付)</span></a></li>
 			</shiro:hasPermission>
 			<li class="line">line</li>
-			<li><a class="icon" target="_blank" href="${contextPath }/bqgl/expire/toXls?search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&orgCode=${orgCode }&search_LTE_policyEndDate=${search_LTE_policyEndDate }&search_GTE_policyEndDate=${search_GTE_policyEndDate }&status=${param.status }"><span>导出Excel</span></a></li>
+			<li><a class="icon" target="_blank" href="${contextPath }/bqgl/expire/toXls?search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&orgCode=${orgCode }&search_LTE_policyEndDate=${search_LTE_policyEndDate }&search_GTE_policyEndDate=${search_GTE_policyEndDate }&status=${param.status }&search_LIKE_finalLevel=${param.search_LIKE_finalLevel}"><span>导出Excel</span></a></li>
 		</ul>
 	</div>
 	<div id="w_list_print">
@@ -85,8 +98,6 @@
 				<th>被保人年龄</th>
 				<th>期满年龄</th>
 				<th>投保人手机</th>
-				<th>账户匹配</th>
-				<th>付费金额</th>
 				<th>员工单</th>
 				<th>评级</th>
 				<th orderField=status class="${page.orderField eq 'status' ? page.orderDirection : ''}">状态</th>
@@ -106,8 +117,6 @@
 				<td>${item.insuredYear}</td>
 				<td>${item.insuredExpireYear}</td>
 				<td>${item.holderMobile}</td>
-				<td>${item.balMatch}</td>
-				<td>${item.payLevel}</td>
 				<td>${item.staffLevel}</td>
 				<td>${item.finalLevel}</td>
 				<td>
