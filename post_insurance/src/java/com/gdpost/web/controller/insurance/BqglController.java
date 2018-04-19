@@ -1291,7 +1291,7 @@ public class BqglController {
 	@RequestMapping(value="/expire/{status}", method=RequestMethod.POST)
 	public @ResponseBody String batchUpdateCsExpireStatus(@PathVariable("status") String status, Long[] ids) {
 		CsExpire csExpire = null;
-		CSEXPIRE_STATUS bs = CSEXPIRE_STATUS.CloseStatus;
+		CSEXPIRE_STATUS bs = CSEXPIRE_STATUS.WARNStatus;
 		try {
 			bs = CSEXPIRE_STATUS.valueOf(status);
 		}catch (Exception ex) {
@@ -1301,7 +1301,7 @@ public class BqglController {
 		for(int i = 0; i<ids.length; i++) {
 			csExpire = bqglService.getCsExpire(ids[i]);
 			switch (bs) {
-			case CloseStatus:
+			case WARNStatus:
 				break;
 				default:
 					break;
@@ -1312,7 +1312,7 @@ public class BqglController {
 		}
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{Arrays.toString(policys), status}));
-		return	AjaxObject.newOk("批量" + status + "满期给付保单！").setCallbackType("").toString();
+		return	AjaxObject.newOk("批量" + bs.getDesc() + "满期给付保单！").setCallbackType("").toString();
 	}
 	
 	@RequiresPermissions("CsExpire:view")

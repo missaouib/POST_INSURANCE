@@ -108,7 +108,7 @@ public class StatusDefine {
 	};
 	
 	public enum CSEXPIRE_STATUS {
-		NewStatus("待处理"), DealStatus("跟进中"), WarnStatus("异常件"), CloseStatus("已给付");
+		NewStatus("未领取"), CTStatus("已退保"), AGStatus("已领取"), WARNStatus("异常件");
 		private String desc;
 
 		CSEXPIRE_STATUS(String desc) {

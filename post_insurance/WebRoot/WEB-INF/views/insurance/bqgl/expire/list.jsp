@@ -77,7 +77,7 @@
 				<li class="line">line</li>
 				<li><a class="add" target="dialog" rel="csexpire_edit" mask="true" width="530" height="330" href="${contextPath }/bqgl/expire/update/{slt_uid}"><span>登记跟进情况</span></a></li>
 				<li class="line">line</li>
-				<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/bqgl/expire/CloseStatus" title="确认批量关闭已给付保单?"><span>批量关闭(已给付)</span></a></li>
+				<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/bqgl/expire/WARNStatus" title="确认批量将保单设为异常件?"><span>批量异常</span></a></li>
 			</shiro:hasPermission>
 			<li class="line">line</li>
 			<li><a class="icon" target="_blank" href="${contextPath }/bqgl/expire/toXls?search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&orgCode=${orgCode }&search_LTE_policyEndDate=${search_LTE_policyEndDate }&search_GTE_policyEndDate=${search_GTE_policyEndDate }&status=${param.status }&search_LIKE_finalLevel=${param.search_LIKE_finalLevel}"><span>导出Excel</span></a></li>
@@ -121,13 +121,13 @@
 				<td>${item.finalLevel}</td>
 				<td>
 				<c:choose>
-					<c:when test="${item.status eq 'CloseStatus'}">
-						 已给付关闭
+					<c:when test="${item.status eq 'AGStatus'}">
+						已领取
 					</c:when>
-					<c:when test="${item.status eq 'DealStatus'}">
-						跟进中
+					<c:when test="${item.status eq 'CTStatus'}">
+						已退保
 					</c:when>
-					<c:when test="${item.status eq 'WarnStatus'}">
+					<c:when test="${item.status eq 'WARNStatus'}">
 						异常件
 					</c:when>
 					<c:otherwise>
