@@ -160,7 +160,7 @@ public class QyglServiceImpl implements QyglService {
 					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
 		}
 		Page page = new Page();
-		page.setNumPerPage(100);
+		page.setNumPerPage(10);
 		LOG.debug("------------ ready to search todo check write:");
 		List<CheckWrite> issues = this.findByCheckWriteExample(specification, page);
 		if (issues == null || issues.isEmpty()) {
@@ -171,7 +171,7 @@ public class QyglServiceImpl implements QyglService {
 		if(user.getOrganization().getOrgCode().length() > 4) {
 			LOG.debug("------- 非省分级别，查找重打开数据" + issues);
 			specification = DynamicSpecifications.bySearchFilterWithoutRequest(CheckWrite.class,
-					new SearchFilter("fixStatus", Operator.LIKE, STATUS.ReopenStatus.name()),
+					new SearchFilter("fixStatus", Operator.LIKE, STATUS.NewStatus.name()),
 					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
 			List<CheckWrite> tmpList = this.findByCheckWriteExample(specification, page);
 			LOG.debug("------------ tmpList:" + tmpList);
@@ -198,7 +198,7 @@ public class QyglServiceImpl implements QyglService {
 					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
 		}
 		Page page = new Page();
-		page.setNumPerPage(100);
+		page.setNumPerPage(10);
 		LOG.debug("------------ ready to search check record issue:");
 		List<CheckRecord> issues = this.findByCheckRecordExample(specification, page);
 		if (issues == null || issues.isEmpty()) {
@@ -209,7 +209,7 @@ public class QyglServiceImpl implements QyglService {
 		if(user.getOrganization().getOrgCode().length() > 4) {
 			LOG.debug("------- 非省分级别，查找重打开数据" + issues);
 			specification = DynamicSpecifications.bySearchFilterWithoutRequest(CheckRecord.class,
-					new SearchFilter("fixStatus", Operator.LIKE, STATUS.ReopenStatus.name()),
+					new SearchFilter("fixStatus", Operator.LIKE, STATUS.NewStatus.name()),
 					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
 			List<CheckRecord> tmpList = this.findByCheckRecordExample(specification, page);
 			LOG.debug("------------ tmpList:" + tmpList);
@@ -275,7 +275,7 @@ public class QyglServiceImpl implements QyglService {
 				new SearchFilter("status", Operator.NEQ, UW_STATUS.DelStatus.name()),
 				new SearchFilter("organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
 		Page page = new Page();
-		page.setNumPerPage(100);
+		page.setNumPerPage(10);
 		page.setOrderField("ybtDate");
 		page.setOrderDirection("ASC");
 		

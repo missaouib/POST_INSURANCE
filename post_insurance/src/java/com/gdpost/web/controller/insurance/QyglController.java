@@ -117,7 +117,7 @@ public class QyglController {
 		CheckWrite issue = qyglService.getCheckWrite(id);
 		
 		map.put("issue", issue);
-		map.put("status", STATUS.ReopenStatus);
+		map.put("status", STATUS.NewStatus);
 		return VIEW_WRITE;
 	}
 	
@@ -153,7 +153,7 @@ public class QyglController {
 	public @ResponseBody String reopenCheckWrite(CheckWrite issue) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		CheckWrite src = qyglService.getCheckWrite(issue.getId());
-		src.setFixStatus(STATUS.ReopenStatus.name());
+		src.setFixStatus(STATUS.NewStatus.name());
 		src.setReopenUser(shiroUser.getUser());
 		src.setReopenReason(issue.getReopenReason());
 		src.setReopenDate(new Date());
@@ -239,7 +239,7 @@ public class QyglController {
 		CheckRecord issue = qyglService.getCheckRecord(id);
 		
 		map.put("issue", issue);
-		map.put("status", STATUS.ReopenStatus);
+		map.put("status", STATUS.NewStatus);
 		return VIEW_RECORD;
 	}
 	
@@ -275,7 +275,7 @@ public class QyglController {
 	public @ResponseBody String reopenCheckRecord(CheckRecord issue) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		CheckRecord src = qyglService.getCheckRecord(issue.getId());
-		src.setFixStatus(STATUS.ReopenStatus.name());
+		src.setFixStatus(STATUS.NewStatus.name());
 		src.setReopenUser(shiroUser.getUser());
 		src.setReopenReason(issue.getReopenReason());
 		src.setReopenDate(new Date());

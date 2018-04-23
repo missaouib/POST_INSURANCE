@@ -29,4 +29,6 @@ public interface KfglService {
 	Issue getByIssueNo(String username);
 	
 	List<Issue> getTODOIssueList(User user);
+	
+	List<String> getIssueTypeList();
 }

@@ -111,7 +111,7 @@ public class KfglController {
 		Issue issue = kfglService.get(id);
 		
 		map.put("issue", issue);
-		map.put("status", STATUS.ReopenStatus);
+		map.put("status", STATUS.NewStatus);
 		return VIEW;
 	}
 	
@@ -121,7 +121,7 @@ public class KfglController {
 		Issue issue = kfglService.get(id);
 		
 		map.put("issue", issue);
-		map.put("status", STATUS.ReopenStatus);
+		map.put("status", STATUS.NewStatus);
 		return PRINT;
 	}
 	
@@ -207,7 +207,7 @@ public class KfglController {
 		src.setDealMan(issue.getDealMan());
 		src.setDealTime(issue.getDealTime());
 		src.setResult(issue.getResult());
-		src.setStatus(StatusDefine.STATUS.DealStatus.getDesc());
+		src.setStatus(StatusDefine.STATUS.IngStatus.getDesc());
 		kfglService.saveOrUpdate(src);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issue.getIssueNo()}));
@@ -220,7 +220,7 @@ public class KfglController {
 	public @ResponseBody String reopen(@Valid @ModelAttribute("preloadIssue")Issue issue) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		Issue src = kfglService.get(issue.getId());
-		src.setStatus(StatusDefine.STATUS.ReopenStatus.getDesc());
+		src.setStatus(StatusDefine.STATUS.NewStatus.getDesc());
 		src.setReopenUser(shiroUser.getUser());
 		src.setReopenReason(issue.getReopenReason());
 		src.setReopenDate(new Date());
@@ -229,6 +229,20 @@ public class KfglController {
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issue.getIssueNo()}));
 		return	AjaxObject.newOk("重新打开问题工单成功！").toString(); 
 	}
+	
+	@Log(message="审核了{0}问题工单的信息。", level=LogLevel.WARN, module=LogModule.KFGL)
+	@RequiresPermissions("Wtgd:edit")
+	@RequestMapping(value="/issue/deal", method=RequestMethod.POST)
+	public @ResponseBody String dealIssue(@Valid @ModelAttribute("preloadIssue")Issue issue) {
+		//ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		Issue src = kfglService.get(issue.getId());
+		src.setStatus(STATUS.DealStatus.getDesc());
+		kfglService.saveOrUpdate(src);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issue.getIssueNo()}));
+		return	AjaxObject.newOk("审核问题工单成功！").toString(); 
+	}
+	
 	
 	@Log(message="结案了{0}问题工单的信息。", level=LogLevel.WARN, module=LogModule.KFGL)
 	@RequiresPermissions("Wtgd:edit")
@@ -307,12 +321,25 @@ public class KfglController {
 			encodeStatus = urlEncoder.encode(status, Charset.defaultCharset());
 		}
 		//request.setAttribute("encodeStatus", Base64Utils.encodeToString(status.getBytes()));
-		request.setAttribute("status", status);
+		String issueType = request.getParameter("issueType");
+		request.setAttribute("issueType", issueType);
 		request.setAttribute("eStatus", encodeStatus);
+		String kfstatus_flag = request.getParameter("kfstatus_flag");
 		LOG.debug("-------------- status: " + status + ", user org code:" + userOrg.getOrgCode());
+		LOG.debug("==----==:" + kfstatus_flag==null?"is null":"equals 'null'");
+		boolean isNull = false;
+		if(status == null || (status != null && status.trim().length()<=0 && kfstatus_flag!=null && kfstatus_flag.equals("null"))) {
+			isNull = true;
+			request.setAttribute("kfstatus_flag", "null");
+		} else {
+			request.setAttribute("kfstatus_flag", status);
+		}
+		
+		request.setAttribute("status", status);
 		
 		Issue issue = new Issue();
 		issue.setStatus(status);
+		issue.setIssueType(issueType);
 		
 		if(page.getOrderField() == null || page.getOrderField().trim().length()<=0) {
 			page.setOrderField("readyDate");
@@ -322,24 +349,23 @@ public class KfglController {
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 		
+		if(issueType != null && issueType.trim().length()>0) {
+			csf.add(new SearchFilter("issueType", Operator.EQ, issueType));
+		}
+		
 		//如果是县区局登录的机构号为8位，需要根据保单的所在机构进行筛选
 		if (user.getOrganization().getOrgCode().length() > 4) {
-			if(status == null) {
+			if(isNull) {
 				LOG.debug("-------------- 111: " );
-				csf.add(new SearchFilter("status", Operator.OR_EQ, STATUS.NewStatus.getDesc()));
-				csf.add(new SearchFilter("status", Operator.OR_EQ, STATUS.IngStatus.getDesc()));
-				csf.add(new SearchFilter("status", Operator.OR_EQ, STATUS.ReopenStatus.getDesc()));
+				csf.add(new SearchFilter("status", Operator.EQ, STATUS.NewStatus.getDesc()));
 			} else if(status.trim().length() > 0) {
 				csf.add(new SearchFilter("status", Operator.EQ, status));
 			}
 		} else {
-			if(status == null) {
+			if(isNull) {
 				LOG.debug("-------------- 333: " );
-				issue.setStatus(STATUS.DealStatus.getDesc());
-				request.setAttribute("status", STATUS.DealStatus.getDesc());
-				request.setAttribute("eStatus", urlEncoder.encode(STATUS.DealStatus.getDesc(),Charset.defaultCharset()));
-				csf.add(new SearchFilter("status", Operator.EQ, STATUS.DealStatus.getDesc()));
-				
+				csf.add(new SearchFilter("status", Operator.OR_EQ, STATUS.NewStatus.getDesc()));
+				csf.add(new SearchFilter("status", Operator.OR_EQ, STATUS.IngStatus.getDesc()));
 			} else if(status.trim().length() > 0) {
 				csf.add(new SearchFilter("status", Operator.EQ, status));
 			}
@@ -368,6 +394,10 @@ public class KfglController {
 		*/
 		map.put("issue", issue);
 		map.put("statusList", STATUS.values());
+		
+		List<String> issueTypes = kfglService.getIssueTypeList();
+		map.put("issueTypes", issueTypes);
+		
 		map.put("page", page);
 		map.put("issues", issues);
 		return LIST;
@@ -420,19 +450,15 @@ public class KfglController {
 		if (user.getOrganization().getOrgCode().length() > 4) {
 			if(status == null) {
 				LOG.debug("-------------- 111: " );
-				csf.add(new SearchFilter("status", Operator.OR_EQ, STATUS.NewStatus.getDesc()));
-				csf.add(new SearchFilter("status", Operator.OR_EQ, STATUS.IngStatus.getDesc()));
-				csf.add(new SearchFilter("status", Operator.OR_EQ, STATUS.ReopenStatus.getDesc()));
+				csf.add(new SearchFilter("status", Operator.EQ, STATUS.NewStatus.getDesc()));
 			} else if(status.trim().length() > 0) {
 				csf.add(new SearchFilter("status", Operator.EQ, status));
 			}
 		} else {
 			if(status == null) {
 				LOG.debug("-------------- 333: " );
-				issue.setStatus(STATUS.DealStatus.getDesc());
-				request.setAttribute("status", status);
-				request.setAttribute("eStatus", urlEncoder.encode(STATUS.DealStatus.getDesc(),Charset.defaultCharset()));
-				csf.add(new SearchFilter("status", Operator.EQ, STATUS.DealStatus.getDesc()));
+				csf.add(new SearchFilter("status", Operator.OR_EQ, STATUS.NewStatus.getDesc()));
+				csf.add(new SearchFilter("status", Operator.OR_EQ, STATUS.IngStatus.getDesc()));
 			} else if(status.trim().length() > 0) {
 				csf.add(new SearchFilter("status", Operator.EQ, status));
 			}
@@ -452,14 +478,19 @@ public class KfglController {
 	public String toXls(ServletRequest request, Page page, Map<String, Object> map) {
 		User user = SecurityUtils.getShiroUser().getUser();
 		String status = request.getParameter("status");
-		if(status == null || (status != null && status.trim().equals("null"))) {
-			status = "";
+		
+		String kfstatus_flag = request.getParameter("kfstatus_flag");
+		boolean isNull = false;
+		if(status == null || (status != null && status.trim().length()<=0 && kfstatus_flag!=null && kfstatus_flag.equals("null"))) {
+			isNull = true;
 		}
 		
 		page.setOrderField("policy.organization.orgCode");
 		page.setOrderDirection("ASC");
 		page.setNumPerPage(65564);
 		String orgCode = request.getParameter("orgCode");
+		String issueType = request.getParameter("issueType");
+		
 		if(orgCode == null || orgCode.trim().length()<=0) {
 			orgCode = user.getOrganization().getOrgCode();
 		} else if(!orgCode.contains(user.getOrganization().getOrgCode())){
@@ -469,12 +500,34 @@ public class KfglController {
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 		
-		if(status.length() <= 0) {
+		if(issueType != null && issueType.trim().length()>0) {
+			csf.add(new SearchFilter("issueType", Operator.EQ, issueType));
+		}
+		
+		/*
+		if(isNull) {
 			LOG.debug("-------------- 111: " );
-			csf.add(new SearchFilter("status", Operator.LIKE, status));
+			csf.add(new SearchFilter("status", Operator.OR_LIKE, status));
 		} else {
 			LOG.debug("-------------- 222: " );
-			csf.add(new SearchFilter("status", Operator.EQ, status));
+			csf.add(new SearchFilter("status", Operator.LIKE, status));
+		}
+		*/
+		if (user.getOrganization().getOrgCode().length() > 4) {
+			if(isNull) {
+				LOG.debug("-------------- 111: " );
+				csf.add(new SearchFilter("status", Operator.EQ, STATUS.NewStatus.getDesc()));
+			} else if(status.trim().length() > 0) {
+				csf.add(new SearchFilter("status", Operator.EQ, status));
+			}
+		} else {
+			if(isNull) {
+				LOG.debug("-------------- 333: " );
+				csf.add(new SearchFilter("status", Operator.OR_EQ, STATUS.NewStatus.getDesc()));
+				csf.add(new SearchFilter("status", Operator.OR_EQ, STATUS.IngStatus.getDesc()));
+			} else if(status.trim().length() > 0) {
+				csf.add(new SearchFilter("status", Operator.EQ, status));
+			}
 		}
 		Specification<Issue> specification = DynamicSpecifications.bySearchFilter(request, Issue.class, csf);
 		List<Issue> reqs = kfglService.findByExample(specification, page);
@@ -513,9 +566,7 @@ public class KfglController {
 		if (user.getOrganization().getOrgCode().length() > 4) {
 			if(status.length() <= 0) {
 				LOG.debug("-------------- 111: " );
-				csf.add(new SearchFilter("status", Operator.OR_EQ, STATUS.NewStatus.getDesc()));
-				csf.add(new SearchFilter("status", Operator.OR_EQ, STATUS.IngStatus.getDesc()));
-				csf.add(new SearchFilter("status", Operator.OR_EQ, STATUS.ReopenStatus.getDesc()));
+				csf.add(new SearchFilter("status", Operator.EQ, STATUS.NewStatus.getDesc()));
 			} else {
 				LOG.debug("-------------- 222: " );
 				csf.add(new SearchFilter("status", Operator.EQ, status));
@@ -523,7 +574,8 @@ public class KfglController {
 		} else {
 			if(status.length() <= 0) {
 				LOG.debug("-------------- 333: " );
-				csf.add(new SearchFilter("status", Operator.EQ, STATUS.DealStatus.getDesc()));
+				csf.add(new SearchFilter("status", Operator.OR_EQ, STATUS.IngStatus.getDesc()));
+				csf.add(new SearchFilter("status", Operator.OR_EQ, STATUS.NewStatus.getDesc()));
 			} else {
 				LOG.debug("-------------- 444: " );
 				csf.add(new SearchFilter("status", Operator.EQ, status));

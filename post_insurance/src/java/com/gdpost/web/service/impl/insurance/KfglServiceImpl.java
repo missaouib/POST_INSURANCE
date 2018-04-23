@@ -99,7 +99,7 @@ public class KfglServiceImpl implements KfglService {
 	public List<Issue> getTODOIssueList(User user) {
 		Organization userOrg = user.getOrganization();
 		Page page = new Page();
-		page.setNumPerPage(100);
+		page.setNumPerPage(10);
 		page.setOrderField("shouldDate");
 		page.setOrderDirection("ASC");
 		//默认返回未处理工单
@@ -109,17 +109,21 @@ public class KfglServiceImpl implements KfglService {
 		if (user.getOrganization().getOrgCode().length() > 4) {
 			specification = DynamicSpecifications.bySearchFilterWithoutRequest(Issue.class,
 					new SearchFilter("status", Operator.OR_LIKE, STATUS.NewStatus.getDesc()),
-					new SearchFilter("status", Operator.OR_LIKE, STATUS.IngStatus.getDesc()),
-					new SearchFilter("status", Operator.OR_LIKE, STATUS.ReopenStatus.getDesc()),
 					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
 		} else {
 			specification = DynamicSpecifications.bySearchFilterWithoutRequest(Issue.class,
-					new SearchFilter("status", Operator.LIKE, STATUS.DealStatus.getDesc()),
+					new SearchFilter("status", Operator.OR_LIKE, STATUS.NewStatus.getDesc()),
+					new SearchFilter("status", Operator.OR_LIKE, STATUS.DealStatus.getDesc()),
 					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
 		}
 		
 		List<Issue> issues = this.findByExample(specification, page);
 		
 		return issues;
+	}
+
+	@Override
+	public List<String> getIssueTypeList() {
+		return issueDAO.getIssueTypeList();
 	}
 }

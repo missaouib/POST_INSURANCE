@@ -51,12 +51,28 @@
 			<span class="unit">${issue.issueContent }</span>
 		</p>
 	</fieldset>
+	<c:if test="${not empty issue.reopenReason}">
+	<div class="divider"></div>
+	<fieldset>
+		<legend>重新打开情况</legend>
+		<p class="nowrap">
+			<label>退回原因：</label>${issue.reopenReason }
+		</p>
+		<p class="nowrap">
+			处理人：${issue.reopenUser.realname }；&nbsp;&nbsp;&nbsp;&nbsp;退回日期：${issue.reopenDate }
+		</p>
+	</fieldset>
+	</c:if>
 	<div class="divider"></div>
 	<fieldset>
 		<legend>工单处理录入</legend>
 		<p class="nowrap">
 			<label>工单处理结果：</label>
-			<textarea name="result" cols="50" rows="4" class="required">${issue.result }</textarea>
+			<textarea name="result" cols="50" rows="4" class="required">${issue.result }<c:if test="${empty issue.result}">xxx 理财经理于 xx月xx日致电客户${issue.policy.holder}，致电电话为___________，谈话时长____分钟，处理如下。
+沟通内容：
+客户反馈：
+</c:if>
+			</textarea>
 		</p>
 		<p class="nowrap">
 			<label>经办人：</label>
@@ -72,9 +88,19 @@
 			
 	<div class="formBar">
 		<ul>
-			<li><div <c:if test='${issue.status eq "已结案" }'>class="buttonDisabled"</c:if> <c:if test='${issue.status ne "已结案" }'>class="button"</c:if>><div class="buttonContent"><button type="submit" <c:if test='${issue.status eq "已结案" }'>disabled=true</c:if>>确定</button></div></div></li>
+			<li><div <c:if test='${issue.status eq "已结案" }'>class="buttonDisabled"</c:if> <c:if test='${issue.status ne "已结案" }'>class="button"</c:if>><div class="buttonContent"><button type="submit" <c:if test='${issue.status eq "已结案" }'>disabled=true</c:if> onclick="javascript:return del()">确定</button></div></div></li>
 			<li><div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div></li>
 		</ul>
 	</div>
 </form>
 </div>
+<script type="text/javascript">
+	function del() { 
+	 var msg = "您所登记的信息可能会被电话复查。\n请确认！"; 
+	 if (confirm(msg)==true){ 
+	  return true; 
+	 }else{ 
+	  return false; 
+	 } 
+	} 
+</script>

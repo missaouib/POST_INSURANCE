@@ -158,7 +158,7 @@ public class HfglServiceImpl implements HfglService {
 					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
 		}
 		Page page = new Page();
-		page.setNumPerPage(100);
+		page.setNumPerPage(10);
 		page.setOrderField("policy.policyDate");
 		page.setOrderDirection("DESC");
 

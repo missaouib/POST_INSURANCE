@@ -1,7 +1,10 @@
 package com.gdpost.web.dao;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 
 import com.gdpost.web.entity.main.Issue;
 
@@ -19,4 +22,8 @@ public interface IssueDAO extends JpaRepository<Issue, Long>, JpaSpecificationEx
 
 	Issue getByIssueNo(String issueNo);
 
+	@Query(name="getIssueTypeList",
+			value="select distinct issue_type from t_issue;",
+			nativeQuery=true)
+	List<String> getIssueTypeList();
 }

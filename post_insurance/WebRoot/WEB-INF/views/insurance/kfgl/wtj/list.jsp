@@ -8,6 +8,8 @@
 	<input type="hidden" name="orgCode" value="${orgCode }"/>
 	<input type="hidden" name="name" value="${name }"/>
 	<input type="hidden" name="status" value="${status }"/>
+	<input type="hidden" name="issueType" value="${issueType }"/>
+	<input type="hidden" name="kfstatus_flag" value="${kfstatus_flag }"/>
 	<input type="hidden" name="search_LTE_readyDate" value="${param.search_LTE_readyDate }"/>
 	<input type="hidden" name="search_GTE_readyDate" value="${param.search_GTE_readyDate }"/>
 	<input type="hidden" name="search_LTE_billBackDate" value="${param.search_LTE_billBackDate }"/>
@@ -15,6 +17,7 @@
 </dwz:paginationForm>
 
 <form method="post" id="kfForm" action="${contextPath }/kfgl/issue/list" onsubmit="return navTabSearch(this)">
+<input type="hidden" name="kfstatus_flag" id="kfstatus_flag" value="${kfstatus_flag }"/>
 	<div class="pageHeader">
 		<div class="searchBar">
 			<table class="searchContent">
@@ -55,11 +58,18 @@
 						<label>结束止日期：</label>
 						<input type="text" name="search_LTE_readyDate" id="kfDate2" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_readyDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
+					<td>
+						<label>工单类型：</label>
+						<form:select path="issue.issueType" id="kfIssueType" class="combox">
+							<form:option value=""> -- -- </form:option>
+							<form:options items="${issueTypes }"/>
+						</form:select>
+					</td>
 				</tr>
 			</table>
 			<div class="subBar">
 				<ul>						
-					<li><div class="button"><div class="buttonContent"><button type="submit">搜索</button></div></div></li>
+					<li><div class="button"><div class="buttonContent"><button type="submit" onclick="$('#kfstatus_flag').val('');">搜索</button></div></div></li>
 				</ul>
 			</div>
 		</div>
@@ -71,7 +81,7 @@
 	<div class="panelBar">
 		<ul class="toolBar">
 			<shiro:hasPermission name="Wtgd:view">
-				<li><a iconClass="magnifier" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/kfgl/issue/view/{slt_uid}"><span>查看详情</span></a></li>
+				<li><a iconClass="magnifier" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/kfgl/issue/view/{slt_uid}"><span>查看(审核)</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Wtgd:edit">
 				<li class="line">line</li>
@@ -91,7 +101,7 @@
 				<li class="line">line</li>
 				<li><a iconClass="magnifier" href="${contextPath }/kfgl/issue/maxlist?search_LIKE_issueNo=${param.search_LIKE_issueNo }&orgCode=${orgCode }&name=${name }&search_LTE_readyDate=${param.search_LTE_readyDate }&search_GTE_readyDate=${param.search_GTE_readyDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&status=${status}" target="dialog" rel="dlg_page1" max="true" title="客服工单列表" width="800" height="480"><span>全屏查看</span></a></li>
 				<li class="line">line</li>
-				<li><a class="icon" target="_blank" href="${contextPath }/kfgl/toXls?search_LIKE_issueNo=${param.search_LIKE_issueNo }&orgCode=${orgCode }&search_LTE_readyDate=${param.search_LTE_readyDate }&search_GTE_readyDate=${param.search_GTE_readyDate }&search_LTE_billBackDate=${param.search_LTE_billBackDate }&search_GTE_billBackDate=${param.search_GTE_billBackDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&status=${eStatus }"><span>导出Excel</span></a></li>
+				<li><a class="icon" target="_blank" href="${contextPath }/kfgl/toXls?search_LIKE_issueNo=${param.search_LIKE_issueNo }&orgCode=${orgCode }&search_LTE_readyDate=${param.search_LTE_readyDate }&search_GTE_readyDate=${param.search_GTE_readyDate }&search_LTE_billBackDate=${param.search_LTE_billBackDate }&search_GTE_billBackDate=${param.search_GTE_billBackDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&status=${eStatus }&issueType=${issueType}&kfstatus_flag=${kfstatus_flag}"><span>导出Excel</span></a></li>
 			</shiro:hasPermission>
 			<li class="line">line</li>
 			<li><a class="icon" target="dialog" href="${contextPath }/kfgl/help" mask="true" width="530" height="430"><span>功能说明</span></a></li>
