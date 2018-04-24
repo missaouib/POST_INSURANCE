@@ -93,6 +93,8 @@ public class Issue implements Idable<Long> {
 	private String policyTerm;
 	private String policyFeeType;
 	private String policyFeeYear;
+	private String checker;
+	private Date checkDate;
 	
 	@Transient
 	private Date readyDate1;
@@ -728,5 +730,22 @@ public class Issue implements Idable<Long> {
 
 	public void setPolicyFeeYear(String policyFeeYear) {
 		this.policyFeeYear = policyFeeYear;
+	}
+	
+	@Column(name="checker")
+	public String getChecker() {
+		return checker;
+	}
+	public void setChecker(String checker) {
+		this.checker = checker;
+	}
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="check_date")
+	public Date getCheckDate() {
+		return checkDate;
+	}
+	public void setCheckDate(Date checkDate) {
+		this.checkDate = checkDate;
 	}
 }

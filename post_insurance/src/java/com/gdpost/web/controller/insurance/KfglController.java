@@ -234,9 +234,11 @@ public class KfglController {
 	@RequiresPermissions("Wtgd:edit")
 	@RequestMapping(value="/issue/deal", method=RequestMethod.POST)
 	public @ResponseBody String dealIssue(@Valid @ModelAttribute("preloadIssue")Issue issue) {
-		//ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		Issue src = kfglService.get(issue.getId());
 		src.setStatus(STATUS.DealStatus.getDesc());
+		src.setChecker(shiroUser.getUser().getUsername() + "_" + shiroUser.getUser().getRealname());
+		src.setCheckDate(new Date());
 		kfglService.saveOrUpdate(src);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{issue.getIssueNo()}));

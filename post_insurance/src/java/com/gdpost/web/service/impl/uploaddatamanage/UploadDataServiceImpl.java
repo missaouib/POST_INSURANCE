@@ -173,6 +173,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_issue character set utf8 (";
 			sql1 = "update t_issue set should_date=ready_date where should_date is null or should_date<\"2000-11-01 09:00:00\";";
 			sql2 = "update t_issue set issue_type=\"条款解释不清\" where issue_type like \"%条款解释不清%\";";
+			sql3 = "update t_issue set issue_type=\"代签名\" where issue_type like \"%代签名%\";";
 			break;
 		case IssuePFRDeal:
 			return dr;
