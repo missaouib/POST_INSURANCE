@@ -96,7 +96,7 @@
 </div>
 <script type="text/javascript">
 	function del() { 
-	 var msg = "您所登记的信息可能会被电话复查。\n请确认！"; 
+	 var msg = "您所反馈的信息将会复访客户核对，请确认真实无误。"; 
 	 if (confirm(msg)==true){ 
 	  return true; 
 	 }else{ 

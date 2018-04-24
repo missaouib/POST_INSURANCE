@@ -37,7 +37,6 @@ function checkMessage() {
 			if (data!="") {
 				var str = "";
 				var flag = -1;
-				//alert(data);
 				if(data.indexOf("KFGD")>0) {
 					flag = 1;
 					str = str + "问题工单、";
@@ -63,6 +62,8 @@ function checkMessage() {
 					str = str + "续期催收件";
 				}
 				var info = "您还有" + str + "等未完成处理，请及时跟进！"
+				//alert(flag);
+				//alert(info);
 				if(flag == 1) {
 					$.messager.anim('fade', 2000); 
 					$.messager.show('<font color=red>待办任务提醒</font>',info,3000);
