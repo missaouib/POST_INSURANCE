@@ -167,6 +167,7 @@ public class QyglServiceImpl implements QyglService {
 			issues = new ArrayList<CheckWrite>();
 		}
 		
+		/*
 		//如果是非省分级别，加上重打开数据
 		if(user.getOrganization().getOrgCode().length() > 4) {
 			LOG.debug("------- 非省分级别，查找重打开数据" + issues);
@@ -179,6 +180,7 @@ public class QyglServiceImpl implements QyglService {
 				issues.addAll(tmpList);
 			}
 		}
+		*/
 		
 		return issues;
 	}
@@ -205,6 +207,7 @@ public class QyglServiceImpl implements QyglService {
 			issues = new ArrayList<CheckRecord>();
 		}
 		
+		/*
 		//如果是非省分级别，加上重打开数据
 		if(user.getOrganization().getOrgCode().length() > 4) {
 			LOG.debug("------- 非省分级别，查找重打开数据" + issues);
@@ -217,6 +220,7 @@ public class QyglServiceImpl implements QyglService {
 				issues.addAll(tmpList);
 			}
 		}
+		*/
 		
 		return issues;
 	}
