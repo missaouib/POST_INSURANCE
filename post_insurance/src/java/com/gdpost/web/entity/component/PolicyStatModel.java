@@ -38,6 +38,8 @@ public class PolicyStatModel implements java.io.Serializable {
 	private String csFlag;
 	@Transient
 	private String saleType;
+	@Transient
+	private String status;
 
 	// Constructors
 
@@ -162,6 +164,16 @@ public class PolicyStatModel implements java.io.Serializable {
 	@Transient
 	public void setSaleType(String saleType) {
 		this.saleType = saleType;
+	}
+
+	@Transient
+	public String getStatus() {
+		return status;
+	}
+
+	@Transient
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	@Override

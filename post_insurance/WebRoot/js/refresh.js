@@ -27,7 +27,7 @@
 window.setInterval("doRefresh()", 60 * 8 * 60 * 1000);
 
 function checkMessage() {
-	$.ajaxSettings.global = false;
+	//$.ajaxSettings.global = false;
 	$.ajax({
 		type: "get", 
 		dataType: "html",
@@ -65,11 +65,11 @@ function checkMessage() {
 				//alert(flag);
 				//alert(info);
 				if(flag == 1) {
-					$.messager.anim('fade', 2000); 
-					$.messager.show('<font color=red>待办任务提醒</font>',info,3000);
+					//$.messager.anim('fade', 2000); 
+					$.messager.show('<font color=red>待办任务提醒</font>',info);
 				}
 			} 
 		} 
 	});
-	$.ajaxSettings.global = true;
+	//$.ajaxSettings.global = true;
 }

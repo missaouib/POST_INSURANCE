@@ -19,6 +19,18 @@
 			<span class="unit">${issue.policy.holder }</span>
 		</p>
 		<p>
+			<label>客户电话：</label>
+			<span class="unit">${issue.holderPhone }</span>
+		</p>
+		<p>
+			<label>客户手机：</label>
+			<span class="unit">${issue.holderMobile }</span>
+		</p>
+		<p>
+			<label>证件号码：</label>
+			<span class="unit">${issue.idCard}</span>
+		</p>
+		<p>
 			<label>保单号：</label>
 			<span class="unit">${issue.policy.policyNo }</span>
 		</p>

@@ -93,7 +93,14 @@ function toTips(val) {
 						<form:option value="9644%">老手机</form:option>
 					</form:select>
 					</td>
-					<td>&nbsp;</td>
+					<td>
+						<label>保单状态：</label>
+						<form:select path="PolicyStatModel.status" id="pcsstatus" class="combox">
+							<form:option value="%%"> -- </form:option>
+							<form:option value="有效">有效</form:option>
+							<form:option value="终止">终止</form:option>
+						</form:select>
+					</td>
 					<td>&nbsp;</td>
 					<td>&nbsp;</td>
 					<td>&nbsp;</td>
@@ -108,7 +115,7 @@ function toTips(val) {
 	</div>
 </form>
 <h2 class="contentTitle"><label>统计结果</label>
-<a class="buttonActive" target="_blank" href="${contextPath }/component/stastics/policy/toXls?orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&csDate1=${csDate1 }&csDate2=${csDate2 }&prdCode=${prdCode}&levelFlag=${levelFlag}&netFlag=${netFlag}&perm=${perm}&staffFlag=${staffFlag}&csFlag=${csFlag}&statType=${statType}&saleType=${saleType}"><span>导出统计结果</span></a>
+<a class="buttonActive" target="_blank" href="${contextPath }/component/stastics/policy/toXls?orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&csDate1=${csDate1 }&csDate2=${csDate2 }&prdCode=${prdCode}&levelFlag=${levelFlag}&netFlag=${netFlag}&perm=${perm}&staffFlag=${staffFlag}&csFlag=${csFlag}&statType=${statType}&saleType=${saleType}&status=${status}"><span>导出统计结果</span></a>
 </h2>
 <br>
 <div class="pageContent" layoutH="130" width="150%">
