@@ -294,6 +294,31 @@ public class KfglController {
 		return AjaxObject.newOk("成功结案关闭！").setCallbackType("").toString();
 	}
 	
+	@Log(message="对{0}问题工单进行了批量审核通过。", level=LogLevel.WARN, module=LogModule.KFGL)
+	@RequiresPermissions("Wtgd:provEdit")
+	@RequestMapping(value="/issue/batchDeal", method=RequestMethod.POST)
+	public @ResponseBody String batchDeal(Long[] ids) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		String[] policys = new String[ids.length];
+		try {
+			Issue issue = null;
+			for (int i = 0; i < ids.length; i++) {
+				issue = kfglService.get(ids[i]);
+				issue.setStatus(STATUS.DealStatus.getDesc());
+				issue.setChecker(shiroUser.getUser().getUsername() + "_" + shiroUser.getUser().getRealname());
+				issue.setCheckDate(new Date());
+				kfglService.saveOrUpdate(issue);
+				
+				policys[i] = issue.getIssueNo();
+			}
+		} catch (ServiceException e) {
+			return AjaxObject.newError("批量审核工单失败：" + e.getMessage()).setCallbackType("").toString();
+		}
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{Arrays.toString(policys)}));
+		return AjaxObject.newOk("成功批量审核通过！").setCallbackType("").toString();
+	}
+	
 	@RequiresPermissions("Wtgd:view")
 	@RequestMapping(value="/issue/list", method={RequestMethod.GET, RequestMethod.POST})
 	public String list(ServletRequest request, Page page, Map<String, Object> map) {
