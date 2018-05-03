@@ -27,7 +27,7 @@
 window.setInterval("doRefresh()", 60 * 8 * 60 * 1000);
 
 function checkMessage() {
-	//$.ajaxSettings.global = false;
+	$.ajaxSettings.global = false;
 	$.ajax({
 		type: "get", 
 		dataType: "html",
@@ -71,5 +71,5 @@ function checkMessage() {
 			} 
 		} 
 	});
-	//$.ajaxSettings.global = true;
+	$.ajaxSettings.global = true;
 }
