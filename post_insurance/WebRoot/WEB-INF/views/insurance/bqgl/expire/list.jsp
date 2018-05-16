@@ -93,13 +93,14 @@
 				<th>险种</th>
 				<th orderField=policyEndDate class="${page.orderField eq 'csReport.csDate' ? page.orderDirection : ''}">满期日期</th>
 				<th>渠道</th>
-				<th>投保人年龄</th>
+				<th>投保人</th>
 				<th>期满年龄</th>
-				<th>被保人年龄</th>
+				<th>被保人</th>
 				<th>期满年龄</th>
 				<th>投保人手机</th>
 				<th>员工单</th>
 				<th>评级</th>
+				<th>网点</th>
 				<th orderField=status class="${page.orderField eq 'status' ? page.orderDirection : ''}">状态</th>
 			</tr>
 		</thead>
@@ -112,13 +113,14 @@
 				<td>${item.policy.prodName}</td>
 				<td><fmt:formatDate value='${item.policyEndDate}' pattern='yyyy-MM-dd'/></td>
 				<td>${item.saleChannel}</td>
-				<td>${item.holderYear}</td>
+				<td>${item.policy.holder}</td>
 				<td>${item.holderExpireYear}</td>
-				<td>${item.insuredYear}</td>
+				<td>${item.policy.insured}</td>
 				<td>${item.insuredExpireYear}</td>
 				<td>${item.holderMobile}</td>
 				<td>${item.staffLevel}</td>
 				<td>${item.finalLevel}</td>
+				<td>${item.policy.bankName}</td>
 				<td>
 				<c:choose>
 					<c:when test="${item.status eq 'AGStatus'}">

@@ -16,11 +16,13 @@ response.setHeader("Content-Disposition", "inline; filename=CSExpire_LIST.xls");
 				<th>销售渠道</th>
 				<th>保障期限</th>
 				<th>保险止期</th>
+				<th>投保人姓名</th>
 				<th>投保人出生日期</th>
 				<th>投保人身份证号</th>
 				<th>投保人证件类型</th>
 				<th>投保人年龄</th>
 				<th>投保人期满年龄</th>
+				<th>被保险人姓名</th>
 				<th>被保人出生日期</th>
 				<th>被保人身份证号</th>
 				<th>被保人证件类型</th>
@@ -32,7 +34,6 @@ response.setHeader("Content-Disposition", "inline; filename=CSExpire_LIST.xls");
 				<th>满期金额</th>
 				<th>满期金及分红</th>
 				<th>满期收益</th>
-				<th>保单年化收益</th>
 				<th>投被保人关系</th>
 				<th>问题件</th>
 				<th>公众号信息匹配</th>
@@ -43,9 +44,9 @@ response.setHeader("Content-Disposition", "inline; filename=CSExpire_LIST.xls");
 				<th>投被年龄差达40岁</th>
 				<th>问题件分析</th>
 				<th>员工单分析</th>
-				<th>账户活跃度匹配结果分析</th>
 				<th>评级</th>
 				<th>状态</th>
+				<th>网点名称</th>
 			</tr>
 			<c:forEach var="item" items="${expires}" varStatus="status">
 			<tr>
@@ -56,11 +57,13 @@ response.setHeader("Content-Disposition", "inline; filename=CSExpire_LIST.xls");
 				<td>${item.saleChannel}</td>
 				<td>${item.duration}</td>
 				<td><fmt:formatDate value='${item.policyEndDate}' pattern='yyyy-MM-dd'/></td>
+				<td>${item.policy.holder}</td>
 				<td><fmt:formatDate value='${item.holderBirthday}' pattern='yyyy-MM-dd'/></td>
 				<td>${item.holderCardNum}</td>
 				<td>${item.holderCardType}</td>
 				<td>${item.holderYear}</td>
 				<td>${item.holderExpireYear}</td>
+				<td>${item.policy.insured}</td>
 				<td><fmt:formatDate value='${item.insuredBirthday}' pattern='yyyy-MM-dd'/></td>
 				<td>${item.insuredCardNum}</td>
 				<td>${item.insuredCardType}</td>
@@ -72,7 +75,6 @@ response.setHeader("Content-Disposition", "inline; filename=CSExpire_LIST.xls");
 				<td>${item.expireMoney}</td>
 				<td>${item.expireProfit}</td>
 				<td>${item.expireRate}</td>
-				<td>${item.yearRate}</td>
 				<td>${item.relation}</td>
 				<td>${item.issueFlag}</td>
 				<td>${item.subFlag}</td>
@@ -83,7 +85,6 @@ response.setHeader("Content-Disposition", "inline; filename=CSExpire_LIST.xls");
 				<td>${item.ageDiffLevel}</td>
 				<td>${item.issueLevel}</td>
 				<td>${item.staffLevel}</td>
-				<td>${item.accountLevel}</td>
 				<td>${item.finalLevel}</td>
 				<td>
 				<c:choose>
@@ -101,6 +102,7 @@ response.setHeader("Content-Disposition", "inline; filename=CSExpire_LIST.xls");
 					</c:otherwise>
 				</c:choose>
 				</td>
+				<td>${item.policy.bankName}</td>
 			</tr>
 			</c:forEach>
 	</table>
