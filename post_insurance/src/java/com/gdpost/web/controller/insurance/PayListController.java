@@ -153,7 +153,7 @@ public class PayListController {
 			req.setStatus(status);
 		}
 		page.setOrderField("backDate");
-		page.setOrderDirection("ASC");
+		page.setOrderDirection("DESC");
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		
@@ -163,6 +163,7 @@ public class PayListController {
 			feeType = "保全受理号";
 			csf.add(new SearchFilter("feeType", Operator.OR_EQ, feeType));
 			csf.add(new SearchFilter("feeType", Operator.OR_EQ, "保单号"));
+			csf.add(new SearchFilter("feeType", Operator.OR_EQ, "个人保单合同号码"));
 			break;
 		case "lp":
 			feeType = "案件号";
@@ -230,6 +231,7 @@ public class PayListController {
 			feeType = "保全受理号";
 			csf.add(new SearchFilter("feeType", Operator.OR_EQ, feeType));
 			csf.add(new SearchFilter("feeType", Operator.OR_EQ, "保单号"));
+			csf.add(new SearchFilter("feeType", Operator.OR_EQ, "个人保单合同号码"));
 			break;
 		case "lp":
 			feeType = "案件号";
@@ -298,6 +300,7 @@ public class PayListController {
 			feeType = "保全受理号";
 			csf.add(new SearchFilter("feeType", Operator.OR_EQ, feeType));
 			csf.add(new SearchFilter("feeType", Operator.OR_EQ, "保单号"));
+			csf.add(new SearchFilter("feeType", Operator.OR_EQ, "个人保单合同号码"));
 			break;
 		case "lp":
 			feeType = "案件号";
@@ -355,6 +358,7 @@ public class PayListController {
 			feeType = "保全受理号";
 			csf.add(new SearchFilter("feeType", Operator.OR_EQ, feeType));
 			csf.add(new SearchFilter("feeType", Operator.OR_EQ, "保单号"));
+			csf.add(new SearchFilter("feeType", Operator.OR_EQ, "个人保单合同号码"));
 			break;
 		case "lp":
 			feeType = "案件号";
@@ -364,7 +368,7 @@ public class PayListController {
 				csf.add(new SearchFilter("feeType", Operator.EQ, feeType));
 		}
 		page.setOrderField("backDate");
-		page.setOrderDirection("ASC");
+		page.setOrderDirection("DESC");
 		
 		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
 		csf.add(new SearchFilter("payType", Operator.EQ, PayFailList.PAY_TO));
@@ -412,6 +416,7 @@ public class PayListController {
 			feeType = "保全受理号";
 			csf.add(new SearchFilter("feeType", Operator.OR_EQ, feeType));
 			csf.add(new SearchFilter("feeType", Operator.OR_EQ, "保单号"));
+			csf.add(new SearchFilter("feeType", Operator.OR_EQ, "个人保单合同号码"));
 			break;
 		case "lp":
 			feeType = "案件号";
@@ -421,7 +426,7 @@ public class PayListController {
 				csf.add(new SearchFilter("feeType", Operator.EQ, feeType));
 		}
 		page.setOrderField("backDate");
-		page.setOrderDirection("ASC");
+		page.setOrderDirection("DESC");
 		
 		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
 		csf.add(new SearchFilter("payType", Operator.EQ, PayFailList.PAY_FROM));
@@ -469,6 +474,7 @@ public class PayListController {
 			feeType = "保全受理号";
 			csf.add(new SearchFilter("feeType", Operator.OR_EQ, feeType));
 			csf.add(new SearchFilter("feeType", Operator.OR_EQ, "保单号"));
+			csf.add(new SearchFilter("feeType", Operator.OR_EQ, "个人保单合同号码"));
 			break;
 		case "qy":
 			feeType = "投保单印刷号";
@@ -482,7 +488,7 @@ public class PayListController {
 				csf.add(new SearchFilter("feeType", Operator.EQ, feeType));
 		}
 		page.setOrderField("backDate");
-		page.setOrderDirection("ASC");
+		page.setOrderDirection("DESC");
 		
 		if(status != null && status.trim().length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
