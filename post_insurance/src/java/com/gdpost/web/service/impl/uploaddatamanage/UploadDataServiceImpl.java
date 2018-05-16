@@ -139,6 +139,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 		String sql8 = null;
 		String sql9 = null;
 		String sql10 = null;
+		String sql11 = null;
 		switch(ft) {
 		case Policy:
 			standardColumns = PolicyColumn.getStandardColumns();
@@ -312,6 +313,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql8 = "update t_policy tp, t_cs_report tcr set tp.cs_flag=1,tp.status=\"终止\",tp.cs_date=tcr.cs_date where tp.policy_no=tcr.policy_no and (tp.cs_flag=0 or tp.cs_flag=2) and tcr.cs_code=\"CT\" and abs(tcr.money)=tp.total_fee;";
 			sql9 = "update t_cs_expire ce, t_cs_report tcr set ce.status=\"AGStatus\",ce.cs_date=tcr.cs_date where ce.policy_no=tcr.policy_no and tcr.cs_code=\"AG\";";
 			sql10 = "update t_cs_expire ce, t_cs_report tcr set ce.status=\"CTStatus\",ce.cs_date=tcr.cs_date where ce.policy_no=tcr.policy_no and tcr.cs_code=\"CT\";";
+			sql11 = "INSERT INTO t_cs_reissue (cs_id) select tcr.id from t_cs_report tcr where tcr.cs_code=\"LR\" and tcr.id not in (select cs_id from t_cs_reissue);";
 			break;
 		case CsLoan:
 			standardColumns = CsLoanColumn.getStandardColumns();
@@ -513,6 +515,10 @@ public class UploadDataServiceImpl implements UploadDataService{
 			log.debug("----------import ready to execute sql10：" + sql10);
 			if(sql10 != null) {
         		statement.executeUpdate(sql10);
+        	}
+			log.debug("----------import ready to execute sql11：" + sql11);
+			if(sql11 != null) {
+        		statement.executeUpdate(sql11);
         	}
 			log.debug("----------import finish execute sql");
 			dr.setFlag(true);
