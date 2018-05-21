@@ -22,12 +22,6 @@
 			<label>备注：</label>
 			<textarea name="remark" class="input-medium" cols="35" rows="3">${UnderWrite.remark }</textarea>
 		</p>
-		<p>&nbsp;</p>
-		<p>
-			<label>客户签收日期：</label>
-			<input type="text" name="clientReceiveDate" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value="${UnderWrite.clientReceiveDate }" pattern="yyyy-MM-dd"/>"/>
-				<a class="inputDateButton" href="javascript:;">选择</a>
-		</p>
 	</div>
 	<div class="formBar">
 		<ul>
