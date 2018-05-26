@@ -115,7 +115,7 @@ function toTips(val) {
 	</div>
 </form>
 <h2 class="contentTitle"><label>统计结果</label>
-<a class="buttonActive" target="_blank" href="${contextPath }/component/stastics/policy/toXls?orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&csDate1=${csDate1 }&csDate2=${csDate2 }&prdCode=${prdCode}&levelFlag=${levelFlag}&netFlag=${netFlag}&perm=${perm}&staffFlag=${staffFlag}&csFlag=${csFlag}&statType=${statType}&saleType=${saleType}&status=${status}"><span>导出统计结果</span></a>
+<a class="buttonActive" target="_blank" href="${contextPath }/component/stastics/policy/toXls?orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&csDate1=${csDate1 }&csDate2=${csDate2 }&prdCode=${prdCode}&levelFlag=${levelFlag}&netFlag=${netFlag}&perm=${perm}&staffFlag=${staffFlag}&csFlag=${csFlag}&statType=${statType}&saleType=${saleType2}&status=${status}"><span>导出统计结果</span></a>
 </h2>
 <br>
 <div class="pageContent" layoutH="130" width="150%">
@@ -137,7 +137,19 @@ function toTips(val) {
 			<c:forEach var="item" items="${cmRst}" varStatus="idx">
 			<tr>
 				<td style="text-align: center;">${idx.index+1 }</td>
-				<td>${item.statName}</td>
+				<td>
+					<c:choose>  
+					    <c:when test="${fn:contains(item.statName, '直属')}">  
+					        <c:out value="${fn:replace(item.statName,'邮政局直属中邮保险局','直属')}" />  
+					    </c:when>  
+					   <c:when test="${fn:contains(item.statName, '邮政局中邮保险局')}">  
+					      <c:out value="${fn:replace(item.statName,'邮政局中邮保险局','')}" />  
+					    </c:when>
+					    <c:otherwise>  
+					      <c:out value="${item.statName}" />  
+					    </c:otherwise>
+					</c:choose>
+				</td>
 				<td style="text-align: right;"><fmt:formatNumber value="${item.policyCount}" pattern="#,###.#" /></td>
 				<td style="text-align: right;"><fmt:formatNumber value="${item.policyCount/countPt*100}" pattern="#,###.#" />%</td>
 				<td style="text-align: right;"><fmt:formatNumber value="${item.policyFee}" pattern="#,###.#" /></td>

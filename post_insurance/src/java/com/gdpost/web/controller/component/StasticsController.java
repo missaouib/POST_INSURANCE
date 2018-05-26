@@ -1204,6 +1204,7 @@ public class StasticsController {
 			request.setAttribute("statType", statType);
 			request.setAttribute("csFlag", csFlag);
 			request.setAttribute("saleType", saleType);
+			request.setAttribute("saleType2", saleType==null||saleType.length()<4?"":saleType.substring(0, 4));
 			request.setAttribute("status", status);
 			
 			boolean hasNet = true;
@@ -1392,6 +1393,8 @@ public class StasticsController {
 		
 		if(saleType == null || saleType.trim().length()<=0) {
 			saleType = "%%";
+		} else {
+			saleType = saleType + "%";
 		}
 		
 		if(status == null || status.trim().length()<=0) {
