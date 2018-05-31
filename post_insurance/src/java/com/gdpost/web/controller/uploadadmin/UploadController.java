@@ -12,6 +12,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -104,8 +105,9 @@ public class UploadController {
 				}
 			}
 		}
-		FileTemplate[] ftl = new FileTemplate[temp.size()];
-		map.put("templateList", temp.toArray(ftl));
+		List<FileTemplate> disTemp = temp.stream().distinct().collect(Collectors.toList());
+		FileTemplate[] ftl = new FileTemplate[disTemp.size()];
+		map.put("templateList", disTemp.toArray(ftl));
 		FileTemplate ft = FileTemplate.Policy;
 		String type = request.getParameter("type");
 		if (type != null) {

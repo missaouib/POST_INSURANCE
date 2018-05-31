@@ -10,6 +10,7 @@ package com.gdpost.web.controller.insurance;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.ServletRequest;
@@ -48,8 +49,8 @@ public class DaglController {
 		Double p = null;
 		List<DocStatModel> subList = null;
 		List<DocStatModel> sumList = null;
-		Calendar cal = new GregorianCalendar();
-		int month = cal.get(Calendar.MONTH);
+		Calendar cal = GregorianCalendar.getInstance(Locale.CHINA);
+		int month = cal.get(Calendar.MONTH) + 1;
 		String d1 = StringUtil.getMonthFirstDayOfMonth(month, "yyyy-MM-dd");
 		String d2 = StringUtil.getMonthLastDayOfMonth(month, "yyyy-MM-dd");
 		for(DocStatModel dsm:list) {

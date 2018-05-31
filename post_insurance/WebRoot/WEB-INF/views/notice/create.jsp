@@ -43,7 +43,7 @@ function customAjaxDone(json){
 			<input type="text" name="invalidDate" class="date validate[required,maxSize[12]] required" dateFmt="yyyy-MM-dd" readonly="true" value=""/>
 				<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
-		<p>
+		<p class="nowrap">
 			<label>标题：</label>
 			<input type="text" name="noticeTitle" class="input-medium validate[required,maxSize[40]] required" maxlength="40" size="40" value=""/>
 		</p>
