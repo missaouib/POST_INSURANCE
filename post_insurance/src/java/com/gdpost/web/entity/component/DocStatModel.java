@@ -26,6 +26,8 @@ public class DocStatModel implements java.io.Serializable {
 	private String percent;
 	@Transient
 	private String remark;
+	@Transient
+	private Integer month;
 
 	/** default constructor */
 	public DocStatModel() {
@@ -79,6 +81,16 @@ public class DocStatModel implements java.io.Serializable {
 	@Transient
 	public void setAllDoc(Integer allDoc) {
 		this.allDoc = allDoc;
+	}
+
+	@Transient
+	public Integer getMonth() {
+		return month;
+	}
+
+	@Transient
+	public void setMonth(Integer month) {
+		this.month = month;
 	}
 
 }

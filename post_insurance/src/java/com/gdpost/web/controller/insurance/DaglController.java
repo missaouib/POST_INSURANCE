@@ -9,6 +9,7 @@ package com.gdpost.web.controller.insurance;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -36,8 +37,17 @@ public class DaglController {
 	private static final String DOC_NOT_SCAN = "insurance/dagl/scan/notscanstat";
 	
 	@RequiresUser
-	@RequestMapping(value="/scan/stat", method=RequestMethod.GET)
+	@RequestMapping(value="/scan/stat", method={RequestMethod.GET, RequestMethod.POST})
 	public String docNotScan(ServletRequest request, Map<String, Object> map) {
+		Calendar cal = GregorianCalendar.getInstance(Locale.CHINA);
+		int month = cal.get(Calendar.MONTH) + 1;
+		
+		HashMap<Integer,String> monmap = new HashMap<Integer,String>();
+		monmap.put(month-1, (month-1)+"月");
+		monmap.put(month, month+"月");
+		
+		request.setAttribute("months", monmap);
+		
 		List<DocStatModel> list = daglService.getDocNotScanStat();
 		if(list == null || list.isEmpty()) {
 			return DOC_NOT_SCAN;
@@ -49,10 +59,15 @@ public class DaglController {
 		Double p = null;
 		List<DocStatModel> subList = null;
 		List<DocStatModel> sumList = null;
-		Calendar cal = GregorianCalendar.getInstance(Locale.CHINA);
-		int month = cal.get(Calendar.MONTH) + 1;
-		String d1 = StringUtil.getMonthFirstDayOfMonth(month, "yyyy-MM-dd");
-		String d2 = StringUtil.getMonthLastDayOfMonth(month, "yyyy-MM-dd");
+		
+		String theMon = request.getParameter("month");
+		request.setAttribute("month", theMon);
+		DocStatModel docsm = new DocStatModel();
+		docsm.setMonth(new Integer(theMon==null?month+"":theMon));
+		request.setAttribute("dsm", docsm);
+		
+		String d1 = StringUtil.getMonthFirstDayOfMonth(new Integer(theMon==null?month+"":theMon), "yyyy-MM-dd");
+		String d2 = StringUtil.getMonthLastDayOfMonth(new Integer(theMon==null?month+"":theMon), "yyyy-MM-dd");
 		for(DocStatModel dsm:list) {
 			remark = new StringBuffer("");
 			organName = dsm.getOrgName();

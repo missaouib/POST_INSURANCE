@@ -2,9 +2,23 @@
 <%@page import="java.util.Date"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 
-<form method="post" action="${contextPath }/management/security/user/list" onsubmit="return navTabSearch(this)">
+<form method="post" action="${contextPath }/dagl/scan/stat" onsubmit="return navTabSearch(this)">
 	<div class="pageHeader">
 		<div class="searchBar">
+			<table class="searchContent">
+			<tr>
+				<td><label>月份</label>
+					<form:select path="dsm.month" id="month" class="combox">
+						<form:options items="${months }"/>
+					</form:select>
+				</td>
+			</tr>
+			</table>
+			<div class="subBar">
+				<ul>						
+					<li><div class="button"><div class="buttonContent"><button type="submit">搜索</button></div></div></li>
+				</ul>
+			</div>
 		</div>
 	</div>
 </form>
