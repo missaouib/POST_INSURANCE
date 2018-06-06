@@ -238,13 +238,13 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql1 = "update t_check_record set need_fix=\"要整改\" where key_info is not null and length(key_info)>0;";
 			break;
 		case PayToFailList:
-			sql1 = "delete from t_pay_fail_list where pay_type=" + PayFailList.PAY_TO + " and operate_time<CURRENT_DATE and fee_type<>'保全受理号'; ";
+			sql1 = "update t_pay_fail_list set status=\"CloseStatus\" where pay_type=" + PayFailList.PAY_TO + " and operate_time<CURRENT_DATE and fee_type<>'保全受理号'; ";
 			standardColumns = PayFailListColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_pay_fail_list character set utf8 (pay_type, status, ";
 			sql2 = "update t_renewed_list t1, t_pay_fail_list t2, t_policy t3 set t1.fee_status=\"交费失败\",t1.fee_fail_reason=t2.fail_desc where t1.policy_no=t2.rel_no and t2.rel_no=t3.policy_no and datediff(t2.back_date,t1.fee_date)>0;";
 			break;
 		case PayFromFailList:
-			sql1 = "delete from t_pay_fail_list where pay_type=" + PayFailList.PAY_FROM + " and operate_time<CURRENT_DATE and fee_type<>'保全受理号';";
+			sql1 = "update t_pay_fail_list set status=\"CloseStatus\" where pay_type=" + PayFailList.PAY_FROM + " and operate_time<CURRENT_DATE and fee_type<>'保全受理号';";
 			standardColumns = PayFailListColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_pay_fail_list character set utf8 (pay_type, status, ";
 			sql2 = "update t_renewed_list t1, t_pay_fail_list t2, t_policy t3 set t1.fee_status=\"交费失败\",t1.fee_fail_reason=t2.fail_desc where t1.policy_no=t2.rel_no and t2.rel_no=t3.policy_no and datediff(t2.back_date,t1.fee_date)>0;";
@@ -295,7 +295,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 			return dr;
 		case ConversationReq:
 			standardColumns = ConversationReqColumn.getStandardColumns();
-			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_conservation_req character set utf8 (";
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_mtd_req character set utf8 (req_type, ";
+			sql1 = "delete from t_mtd_req where policy_no is null or policy_no=\"\";";
 			break;
 		case ConversationReport:
 			standardColumns = CsReportColumn.getStandardColumns();
@@ -410,6 +411,9 @@ public class UploadDataServiceImpl implements UploadDataService{
     			builder.append(PayFailList.PAY_FROM);
 	            builder.append('\t');
 	            builder.append(FEE_FAIL_STATUS.NewStatus.name());
+	            builder.append('\t');
+    		} else if(ft.name().equals(FileTemplate.ConversationReq.name())) {
+    			builder.append(1);
 	            builder.append('\t');
     		}
         	

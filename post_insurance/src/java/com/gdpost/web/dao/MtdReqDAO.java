@@ -3,7 +3,7 @@ package com.gdpost.web.dao;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-import com.gdpost.web.entity.main.ConservationReq;
+import com.gdpost.web.entity.main.MtdReq;
 
 /**
  * A data access object (DAO) providing persistence and search support for
@@ -15,6 +15,6 @@ import com.gdpost.web.entity.main.ConservationReq;
  * @see com.gdpost.web.entity.main.ConservationDtl
  * @author MyEclipse Persistence Tools
  */
-public interface ConservationReqDAO extends JpaRepository<ConservationReq, Long>, JpaSpecificationExecutor<ConservationReq> {
+public interface MtdReqDAO extends JpaRepository<MtdReq, Long>, JpaSpecificationExecutor<MtdReq> {
 
 }

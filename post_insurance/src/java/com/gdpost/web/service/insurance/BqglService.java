@@ -17,7 +17,7 @@ import com.gdpost.web.entity.component.CsLoan;
 import com.gdpost.web.entity.component.CsReport;
 import com.gdpost.web.entity.component.TinyCsAddr;
 import com.gdpost.web.entity.main.ConservationDtl;
-import com.gdpost.web.entity.main.ConservationReq;
+import com.gdpost.web.entity.main.MtdReq;
 import com.gdpost.web.entity.main.CsReissue;
 import com.gdpost.web.entity.main.OffsiteConservation;
 import com.gdpost.web.entity.main.User;
@@ -61,11 +61,11 @@ public interface BqglService {
 	void updateCsReissue(CsReissue reissue);
 
 	// 免填单保全申请
-	ConservationReq getConservationReq(Long id);
+	MtdReq getConservationReq(Long id);
 
-	List<ConservationReq> findConservationReqByExample(Specification<ConservationReq> specification, Page page);
+	List<MtdReq> findConservationReqByExample(Specification<MtdReq> specification, Page page);
 
-	void updateConservationReq(ConservationReq conservationReq);
+	void updateConservationReq(MtdReq mtdReq);
 
 	List<CsReport> findCsReportByExample(Specification<CsReport> specification, Page page);
 

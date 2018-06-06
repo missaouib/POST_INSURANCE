@@ -24,8 +24,8 @@ import com.gdpost.web.entity.basedata.BankCode;
  * TConservationReq entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "t_conservation_req")
-public class ConservationReq implements Idable<Long> {
+@Table(name = "t_mtd_req")
+public class MtdReq implements Idable<Long> {
 
 	// Fields
 
@@ -40,15 +40,18 @@ public class ConservationReq implements Idable<Long> {
 	private String reqPhone;
 	private String status;
 	private Long operateId;
+	private Integer print;
+	private Integer record;
+	private Integer reqType;
 
 	// Constructors
 
 	/** default constructor */
-	public ConservationReq() {
+	public MtdReq() {
 	}
 
 	/** full constructor */
-	public ConservationReq(String formNo, String policyNo, String bankCode, String reqMan, String reqTypeName,
+	public MtdReq(String formNo, String policyNo, String bankCode, String reqMan, String reqTypeName,
 			Date reqDate, String reqPhone) {
 		this.formNo = formNo;
 		this.reqMan = reqMan;
@@ -169,6 +172,33 @@ public class ConservationReq implements Idable<Long> {
 
 	public void setOperateId(Long operateId) {
 		this.operateId = operateId;
+	}
+
+	@Column(name="print")
+	public Integer getPrint() {
+		return print;
+	}
+
+	public void setPrint(Integer print) {
+		this.print = print;
+	}
+
+	@Column(name="record")
+	public Integer getRecord() {
+		return record;
+	}
+
+	public void setRecord(Integer record) {
+		this.record = record;
+	}
+
+	@Column(name="req_type")
+	public Integer getReqType() {
+		return reqType;
+	}
+
+	public void setReqType(Integer reqType) {
+		this.reqType = reqType;
 	}
 
 }

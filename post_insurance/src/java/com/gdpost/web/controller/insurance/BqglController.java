@@ -42,7 +42,7 @@ import com.gdpost.web.entity.component.CsExpireDtl;
 import com.gdpost.web.entity.component.CsLoan;
 import com.gdpost.web.entity.component.CsReport;
 import com.gdpost.web.entity.main.ConservationDtl;
-import com.gdpost.web.entity.main.ConservationReq;
+import com.gdpost.web.entity.main.MtdReq;
 import com.gdpost.web.entity.main.CsReissue;
 import com.gdpost.web.entity.main.OffsiteConservation;
 import com.gdpost.web.entity.main.Organization;
@@ -887,7 +887,7 @@ public class BqglController {
 		//默认返回未处理工单
 		String status = request.getParameter("status");
 		LOG.debug("-------------- status: " + status);
-		ConservationReq req = new ConservationReq();
+		MtdReq req = new MtdReq();
 		if(status == null) {
 			status = "NewStatus";
 		}
@@ -901,15 +901,16 @@ public class BqglController {
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("bankCode.organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("reqType", Operator.EQ, 1));
 		if (status.length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
 		} else {
 			csf.add(new SearchFilter("status", Operator.NEQ, BQ_STATUS.CloseStatus.name()));
 		}
 		
-		Specification<ConservationReq> specification = DynamicSpecifications.bySearchFilter(request, ConservationReq.class, csf);
+		Specification<MtdReq> specification = DynamicSpecifications.bySearchFilter(request, MtdReq.class, csf);
 		
-		List<ConservationReq> reqs = bqglService.findConservationReqByExample(specification, page);
+		List<MtdReq> reqs = bqglService.findConservationReqByExample(specification, page);
 		
 		map.put("req", req);
 		map.put("status", status);
@@ -923,7 +924,7 @@ public class BqglController {
 	@RequiresPermissions(value={"ConservationReq:edit"}, logical=Logical.OR)
 	@RequestMapping(value="/req/{status}", method=RequestMethod.POST)
 	public @ResponseBody String batchUpdateConservationReqStatus(@PathVariable("status") String status, Long[] ids) {
-		ConservationReq req = null;
+		MtdReq req = null;
 		BQ_STATUS bs = BQ_STATUS.DealStatus;
 		try {
 			bs = BQ_STATUS.valueOf(status);
@@ -981,9 +982,9 @@ public class BqglController {
 			csf.add(new SearchFilter("status", Operator.NEQ, BQ_STATUS.CloseStatus.name()));
 		}
 		
-		Specification<ConservationReq> specification = DynamicSpecifications.bySearchFilter(request, ConservationReq.class, csf);
+		Specification<MtdReq> specification = DynamicSpecifications.bySearchFilter(request, MtdReq.class, csf);
 		
-		List<ConservationReq> reqs = bqglService.findConservationReqByExample(specification, page);
+		List<MtdReq> reqs = bqglService.findConservationReqByExample(specification, page);
 		
 		map.put("reqs", reqs);
 		return C_TO_XLS;
