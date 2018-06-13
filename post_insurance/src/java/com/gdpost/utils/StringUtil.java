@@ -12,6 +12,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -396,11 +397,20 @@ public class StringUtil {
 	
 	public static void main(String[] args) {
 		
-		Date d1 = StringUtil.str2Date("2018-02-03", "yyyy-MM-dd");
-		java.sql.Date dd = java.sql.Date.valueOf("2018-02-03");
-		Date d2 = new Date();
-		System.out.println(d1);
-		System.out.println(d2);
-		System.out.print(StringUtil.getBetweenDay(dd, d2));
+		AtomicInteger counter = new AtomicInteger(0);
+
+		String s = String.format("2%03d",counter.incrementAndGet());
+		
+		System.out.println(s);
+s = String.format("2%03d",counter.incrementAndGet());
+		
+		System.out.println(s);
+s = String.format("2%03d",counter.incrementAndGet());
+		
+		System.out.println(s);
+		
+		int i = 1;
+		String newEmpNo = String.format("%" + 6 + "s", i).replace(' ', '0');
+		System.out.println(newEmpNo);
 	}
 }

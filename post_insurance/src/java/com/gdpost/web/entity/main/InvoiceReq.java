@@ -50,6 +50,9 @@ public class InvoiceReq implements Idable<Long> {
 	@Transient
 	private String search_LIKE_reqFlag;
 	
+	@Transient
+	private String billId;
+	
 	// Constructors
 
 	@Transient
@@ -60,6 +63,16 @@ public class InvoiceReq implements Idable<Long> {
 	@Transient
 	public void setSearch_LIKE_reqFlag(String search_LIKE_reqFlag) {
 		this.search_LIKE_reqFlag = search_LIKE_reqFlag;
+	}
+
+	@Transient
+	public String getBillId() {
+		return billId;
+	}
+
+	@Transient
+	public void setBillId(String billId) {
+		this.billId = billId;
 	}
 
 	/** default constructor */

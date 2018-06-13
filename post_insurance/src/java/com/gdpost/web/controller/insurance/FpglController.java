@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.servlet.ServletRequest;
 import javax.validation.Valid;
@@ -255,7 +256,7 @@ public class FpglController {
 		
 		Specification<InvoiceReq> specification = DynamicSpecifications.bySearchFilter(request, InvoiceReq.class, csf);
 		List<InvoiceReq> reqs = fpglService.findByExample(specification, page);
-
+		
 		map.put("req", req);
 		map.put("fpStatusList", FP_STATUS.values());
 		
@@ -268,6 +269,7 @@ public class FpglController {
 	@RequestMapping(value="/toXls", method=RequestMethod.GET)
 	public String toXls(ServletRequest request, Page page, Map<String, Object> map) {
 		User user = SecurityUtils.getShiroUser().getUser();
+		String search_LIKE_reqFlag = request.getParameter("search_LIKE_reqFlag");
 		String status = request.getParameter("status");
 		if(status == null) {
 			status = FP_STATUS.NewStatus.name();
@@ -291,6 +293,17 @@ public class FpglController {
 		Specification<InvoiceReq> specification = DynamicSpecifications.bySearchFilter(request, InvoiceReq.class, csf);
 		List<InvoiceReq> reqs = fpglService.findByExample(specification, page);
 	
+		AtomicInteger xqai = new AtomicInteger(0);
+		String type = "3%03d";
+		if(search_LIKE_reqFlag != null && search_LIKE_reqFlag.equals("续期")) {
+			type = "2%03d";
+		}
+		//List<InvoiceReq> finalReqs = new ArrayList<InvoiceReq>();
+		for(InvoiceReq tmp:reqs) {
+			tmp.setBillId(String.format(type,xqai.incrementAndGet()));
+			//finalReqs.add(tmp);
+		}
+		
 		map.put("reqs", reqs);
 		return TO_XLS;
 	}

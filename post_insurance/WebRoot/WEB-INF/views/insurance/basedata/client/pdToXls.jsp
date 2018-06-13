@@ -44,7 +44,9 @@ response.setHeader("Content-Disposition", "inline; filename=policy_data.xls");
 				<td>${item.holderPhone}</td>
 				<td>${item.holderMobile}</td>
 				<td>${item.holderCardType}</td>
+				<shiro:hasPermission name="Callfail:provEdit">
 				<td style="vnd.ms-excel.numberformat:@">${item.holderCardNum}</td>
+				</shiro:hasPermission>
 				<td>${item.insured}</td>
 				<td>${item.insuredCardNum}</td>
 				<td>${item.insuredPhone}</td>

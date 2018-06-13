@@ -35,7 +35,6 @@ response.setHeader("Content-Disposition", "inline; filename=policy_list.xls");
 				<th>网点</th>
 				<th>员工单</th>
 				<th>银行单</th>
-				<th>证件号码</th>
 			</tr>
 			<c:forEach var="item" items="${policies}" varStatus="idx">
 			<tr>
@@ -56,7 +55,7 @@ response.setHeader("Content-Disposition", "inline; filename=policy_list.xls");
                 <td>${item.policyDtl==null?"":item.policyDtl.holderPhone}</td>
                 <td>${item.policyDtl==null?"":item.policyDtl.holderMobile}</td>
                 <td>${item.policyDtl==null?"":item.policyDtl.holderCardType}</td>
-                <td style="vnd.ms-excel.numberformat:@">${item.policyDtl==null?"":item.policyDtl.holderCardNum}</td>
+                <td>******${fn:substring(item.policyDtl.holderCardNum,6,17)}</td>
                 </shiro:hasPermission>
 				<td>${item.status}</td>
 				<td>${item.csDate != null?item.csDate:""}</td>
@@ -65,7 +64,6 @@ response.setHeader("Content-Disposition", "inline; filename=policy_list.xls");
 				<td>${item.bankName}</td>
 				<td>${item.isStaff}</td>
 				<td>${item.bankCode!=null && item.bankCode.netFlag==2?"是":"否" }</td>
-				<td>******${fn:substring(item.policyDtl.holderCardNum,6,17)}</td>
 			</tr>
 			</c:forEach>
 	</table>
