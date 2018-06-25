@@ -4,8 +4,8 @@
 
 <dwz:paginationForm action="${contextPath }/notice/list" page="${page }">
 	<input type="hidden" name="search_LIKE_noticeTitle" value="${param.search_LIKE_noticeTitle }"/>
-	<input type="hidden" name="search_LTE_sendDate" value="${param.search_LTE_sendDate }"/>
-	<input type="hidden" name="search_GTE_sendDate" value="${param.search_GTE_sendDate }"/>
+	<input type="hidden" name="sendDate1" value="${sendDate1 }"/>
+	<input type="hidden" name="sendDate2" value="${sendDate2 }"/>
 </dwz:paginationForm>
 
 <form method="post" action="${contextPath }/notice/list" onsubmit="return navTabSearch(this)">

@@ -95,16 +95,20 @@ public class NoticeController {
 		Date d1 = null;
 		Date d2 = null;
 		Date[] d = null;
-		if(d1 != null || d2 != null) {
+		if((sd1 != null && sd1.trim().length()>0)||(sd2 != null && sd2.trim().length()>0)) {
 			if (sd1 == null || sd1.trim().length() <= 0) {
 				d1 = StringUtil.str2Date("2015-10-01", "yyyy-MM-dd");
+			} else {
+				d1 = StringUtil.str2Date(sd1, "yyyy-MM-dd");
 			}
 			if (sd2 == null || sd2.trim().length() <= 0) {
 				d2 = StringUtil.str2Date("9999-12-31", "yyyy-MM-dd");
+			} else {
+				d2 = StringUtil.str2Date(sd2, "yyyy-MM-dd");
 			}
 			d = new Date[2];
 			d[0] = d1;
-			d[2] = d2;
+			d[1] = d2;
 		}
 		/*
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
