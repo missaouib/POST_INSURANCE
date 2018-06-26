@@ -453,19 +453,19 @@ public class QyglController {
 		src.setUnderwriteDate(underwrite.getUnderwriteDate());
 		src.setSignDate(underwrite.getSignDate());
 		if(underwrite.getPolicyNo() != null && underwrite.getPolicyNo().trim().length()>0) {
-			src.setPolicyNo(underwrite.getPolicyNo());
+			src.setPolicyNo(underwrite.getPolicyNo().trim());
 			src.setStatus(UW_STATUS.SendStatus.name());
 		}
 		src.setProvReceiveDate(underwrite.getProvReceiveDate());
-		src.setProvEmsNo(underwrite.getProvEmsNo());
-		src.setFormNo(underwrite.getFormNo());
-		src.setHolder(underwrite.getHolder());
-		src.setInsured(underwrite.getInsured());
-		src.setRelation(underwrite.getRelation());
-		src.setUnderwriteReason(underwrite.getUnderwriteReason());
+		src.setProvEmsNo(underwrite.getProvEmsNo().trim());
+		src.setFormNo(underwrite.getFormNo().trim());
+		src.setHolder(underwrite.getHolder().trim());
+		src.setInsured(underwrite.getInsured().trim());
+		src.setRelation(underwrite.getRelation().trim());
+		src.setUnderwriteReason(underwrite.getUnderwriteReason().trim());
 		src.setPolicyFee(underwrite.getPolicyFee());
 		src.setOrganization(underwrite.getOrganization());
-		src.setHolderAge(underwrite.getHolderAge());
+		src.setHolderAge(underwrite.getHolderAge().trim());
 		qyglService.saveOrUpdateUnderWrite(src);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getFormNo()}));

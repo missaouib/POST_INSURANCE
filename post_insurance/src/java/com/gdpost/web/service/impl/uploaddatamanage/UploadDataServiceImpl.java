@@ -281,6 +281,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 			standardColumns = PolicySentDataColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_policy_reprint_dtl character set utf8 (";
 			sql1 = "update t_cs_reissue t1,t_policy_reprint_dtl t2,t_cs_report t3 set t1.prov_express_no=t2.ems_no,t1.prov_sent_date=t2.print_date where t1.cs_id=t3.id and t2.policy_no=t3.policy_no and t2.print_date>=t3.cs_date;";
+			sql2 = "update t_under_write tuw, t_policy_reprint_dtl tprd set tuw.prov_ems_no=tprd.ems_no,tuw.status=\"SendStatus\" where tuw.policy_no=tprd.policy_no and tuw.prov_ems_no is null and tuw.status<>\"CloseStatus\";";
+			sql3 = "update t_under_write set status=\"CloseStatus\" where bill_back_date is not null;";
 			break;
 		case UnderWriteData:
 			standardColumns = UnderWriteColumn.getStandardColumns();
@@ -1271,10 +1273,11 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        }
 			sql.deleteCharAt(sql.length() - 1);
 			sql.append(" ON DUPLICATE KEY UPDATE ");
-			sql.append("policy_no=VALUES(policy_no), prov_ems_no=VALUES(prov_ems_no), prov_send_date=VALUES(prov_send_date), status=VALUES(status);");
+			sql.append("prov_ems_no=VALUES(prov_ems_no), prov_send_date=VALUES(prov_send_date), status=VALUES(status);");
 			log.debug("----------------city update status batch sql : " + sql);
 			sql2 = "delete from t_under_write where holder is null or ybt_date is null;";
-			sql3 = "update t_under_write set status=\"CloseStatus\" where bill_back_date is not null;";
+			sql3 = "update t_under_write tuw, t_policy_reprint_dtl tprd set tuw.prov_ems_no=tprd.ems_no,tuw.status=\"SendStatus\" where tuw.policy_no=tprd.policy_no and tuw.prov_ems_no is null and tuw.status<>\"CloseStatus\";";
+			sql4 = "update t_under_write set status=\"CloseStatus\" where bill_back_date is not null;";
 			break;
 		case UnderWriteDtlData:
 			standardColumns = UnderWriteDtlColumn.getStandardColumns();
