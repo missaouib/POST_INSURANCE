@@ -104,7 +104,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 
 	@Override
 	public DoRst importData(FileTemplate ft, HttpServletRequest request, DataTable dt, long member_id, int ny) {		
-		log.debug("---------   into import data");
+		log.info("---------   into import data");
 		DoRst dr = new DoRst();
 		dr.setNum(dt.Rows.size());
 		java.sql.Connection connection = null;
@@ -526,7 +526,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			if(sql11 != null) {
         		statement.executeUpdate(sql11);
         	}
-			log.debug("----------import finish execute sql");
+			log.info("----------import finish execute sql");
 			dr.setFlag(true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1443,7 +1443,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 	 */
 	public DoRst handleData(FileTemplate t, HttpServletRequest request, long member_id, List<String> listFiles, 
 			int currentNY, int lastNY, long operator_id, String operator_name, int operator_type, StringBuilder builder, String memo) {
-		log.debug("-----------handle DATA -use template:" + t);
+		log.info("-----------handle DATA -use template:" + t);
 		// 标准列
 		List<ColumnItem> standardColumns = null;
 		DoRst dr = new DoRst();
@@ -1708,15 +1708,15 @@ public class UploadDataServiceImpl implements UploadDataService{
 						|| t.name().equals(FileTemplate.IssuePFRDeal.name())) {
 					
 					dr = updateStatusData(t, request, dt);
-					log.debug("-------- finish update;");
+					log.info("-------- finish update;");
 					//如果是保单打印数据，需要单独导入到打印明细中
 					if(t.name().equals(FileTemplate.UnderWriteSentData.name())) {
-						log.debug("----------------ready to import underwrite sentdata");
+						log.info("----------------ready to import underwrite sentdata");
 						importData(t, request, dt, member_id, currentNY);
 					}
 					
 					if(t.name().equals(FileTemplate.PolicyBackDate.name())) {
-						log.debug("----------------ready to update underwrite PolicyUnderWrite data;");
+						log.info("----------------ready to update underwrite PolicyUnderWrite data;");
 						dr = updateStatusData(FileTemplate.PolicyUnderWrite, request, dt);
 					}
 					

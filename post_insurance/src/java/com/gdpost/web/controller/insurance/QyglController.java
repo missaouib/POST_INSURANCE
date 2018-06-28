@@ -518,9 +518,9 @@ public class QyglController {
 	}
 		
 		
-	@Log(message="更新了{0}人核件的信息。", level=LogLevel.WARN, module=LogModule.QYGL)
+	@Log(message="更新了{0}人核件的信息billBackDate。", level=LogLevel.WARN, module=LogModule.QYGL)
 	@RequiresPermissions("UnderWrite:edit")
-	@RequestMapping(value="/underwrite/signDateUpdate", method=RequestMethod.POST)
+	@RequestMapping(value="/underwrite/signDateUpdateHadDeleted", method=RequestMethod.POST)
 	public @ResponseBody String signDateUpdate(UnderWrite underwrite) {
 		UnderWrite src = qyglService.getUnderWrite(underwrite.getId());
 		src.setClientReceiveDate(underwrite.getClientReceiveDate());
