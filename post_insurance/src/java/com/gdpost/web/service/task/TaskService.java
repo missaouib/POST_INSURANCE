@@ -142,7 +142,7 @@ public class TaskService {
 			statement.executeUpdate(sql);
 			log.info("------------ finish exec sql");
 			
-			sql = "update t_renewed_list set fee_status='交费成功', fee_fail_reason='' where fee_status<>\"交费成功\" and policy_no in (select rel_no from t_pay_success_list where pay_type=2 and fail_desc like '%成功' and datediff(back_date,fee_date)>0);";
+			sql = "update t_renewed_list set fee_status='交费成功', fee_fail_reason='' where fee_status<>\"交费成功\" and policy_no in (select rel_no from t_pay_success_list where pay_type=2 and fail_desc like '%成功' and datediff(back_date,fee_date)>=0);";
 			log.info("------------ sql :" + sql);
 			statement.executeUpdate(sql);
 			log.info("------------ finish exec sql");
