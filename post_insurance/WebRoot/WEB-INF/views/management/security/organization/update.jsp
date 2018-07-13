@@ -17,7 +17,7 @@
 			<input type="text" name="name" class="input-medium validate[required,maxSize[64]] required" maxlength="64" value="${organization.name }"/>
 		</p>
 		<p>
-			<label>组织代码：</label>
+			<label>简称：</label>
 			<input type="text" name="shortName" class="input-medium validate[required,maxSize[64]] required" maxlength="64" value="${organization.shortName }"/>
 		</p>
 		<p>

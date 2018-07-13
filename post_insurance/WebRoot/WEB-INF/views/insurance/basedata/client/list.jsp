@@ -131,7 +131,7 @@
 		</ul>
 	</div>
 	
-	<table class="table" layoutH="210" width="100%">
+	<table class="table" layoutH="210" width="120%">
 		<thead>
 			<tr>
 				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>
@@ -140,6 +140,7 @@
 				<th orderField=organization.shortName class="${page.orderField eq 'organization.shortName' ? page.orderDirection : ''}">机构</th>
 				<th>投保人</th>
 				<th>被保人</th>
+				<th>险种计划</th>
 				<th>险种名称</th>
 				<th>保费</th>
 				<th>交费方式</th>
@@ -162,6 +163,7 @@
 				<td>${item.organization.shortName}</td>
 				<td>${item.holder}</td>
 				<td>${item.insured}</td>
+				<td>${item.planName}</td>
 				<td>${item.prodName}</td>
 				<td>${item.policyFee}</td>
 				<td>${item.feeFrequency}</td>

@@ -64,6 +64,20 @@ public class PolicyColumn {
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
+		column.setDisplayName("计划编码");
+		column.setColumnName("plan_code");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(true);
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
+		column.setDisplayName("计划名称");
+		column.setColumnName("plan_name");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(true);
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
 		column.setDisplayName("险种编码");
 		column.setColumnName("prod_code");
 		column.setColumnType(ColumnType.string);

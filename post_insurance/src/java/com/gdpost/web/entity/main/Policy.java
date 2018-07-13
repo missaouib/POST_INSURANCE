@@ -46,6 +46,8 @@ public class Policy implements Idable<Long>, Serializable{
 	private Long id;
 	private String policyNo;
 	private String formNo;
+	private String planCode;
+	private String planName;
 	private String prodName;
 	private String bankName;
 	private String salesName;
@@ -181,6 +183,24 @@ public class Policy implements Idable<Long>, Serializable{
 		this.organName = organName;
 	}
 	
+	@Column(name = "plan_code")
+	public String getPlanCode() {
+		return planCode;
+	}
+
+	public void setPlanCode(String planCode) {
+		this.planCode = planCode;
+	}
+
+	@Column(name = "plan_name")
+	public String getPlanName() {
+		return planName;
+	}
+
+	public void setPlanName(String planName) {
+		this.planName = planName;
+	}
+
 	@ManyToOne
 	@JoinColumn(name="prod_code", referencedColumnName="prd_code")
 	public Prd getPrd() {
