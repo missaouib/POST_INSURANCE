@@ -989,7 +989,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			return dr;
 		case RenewedStatus://继续率清单
 			standardColumns = RenewedStatusColumn.getStandardColumns();
-			sql = new StringBuffer("INSERT INTO t_renewed_list(policy_no, prd_name, fee_date, fee_status, fee_fail_reason) VALUES ");
+			sql = new StringBuffer("INSERT INTO t_renewed_list(policy_no, prd_name, policy_year, fee_date, fee_status, fee_fail_reason) VALUES ");
 			line = null;
 			isFail = false;
 			val = null;

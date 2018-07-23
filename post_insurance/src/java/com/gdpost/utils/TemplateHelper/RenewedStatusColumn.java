@@ -31,6 +31,13 @@ public class RenewedStatusColumn {
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
+		column.setDisplayName("交次");
+		column.setColumnName("policy_year");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(false);
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
 		column.setDisplayName("交至日");
 		column.setColumnName("fee_date");
 		column.setColumnType(ColumnType.string);

@@ -163,9 +163,14 @@ public class HfglServiceImpl implements HfglService {
 		page.setOrderDirection("DESC");
 
 		//LOG.debug("------------ ready to search:");
-		List<VCallFailList> issues = this.findByExample(specification, page);
-		if (issues == null || issues.isEmpty()) {
-			issues = new ArrayList<VCallFailList>();
+		List<VCallFailList> issues = new ArrayList<VCallFailList>();
+		try {
+			issues = this.findByExample(specification, page);
+			if (issues == null || issues.isEmpty()) {
+				issues = new ArrayList<VCallFailList>();
+			}
+		} catch(Exception ex) {
+			ex.printStackTrace();
 		}
 		
 		return issues;

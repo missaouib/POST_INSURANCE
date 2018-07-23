@@ -60,7 +60,7 @@ response.setHeader("Content-Disposition", "inline; filename=policy_list.xls");
 				<td>${item.status}</td>
 				<td>${item.csDate != null?item.csDate:""}</td>
 				<td>${item.csFlag != null && item.csFlag==1?"Y":"N"}</td>
-				<td>${item.bankCode.name}</td>
+				<td>${item.bankCode.ybtCode}</td>
 				<td>${item.bankName}</td>
 				<td>${item.isStaff}</td>
 				<td>${item.bankCode!=null && item.bankCode.netFlag==2?"是":"否" }</td>
