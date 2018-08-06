@@ -931,6 +931,8 @@ public class BaseDataController {
 	@RequestMapping(value="/provOrgCode/list", method={RequestMethod.GET, RequestMethod.POST})
 	public String listProvOrgCode(ServletRequest request, Page page, Map<String, Object> map) {
 		Specification<ProvOrgCode> specification = DynamicSpecifications.bySearchFilter(request, ProvOrgCode.class);
+		page.setOrderField("orgCode");
+		page.setOrderDirection("ASC");
 		List<ProvOrgCode> basedata = baseService.findByProvOrgCodeExample(specification, page);
 
 		map.put("page", page);
