@@ -46,7 +46,6 @@ import com.gdpost.utils.StringUtil;
 import com.gdpost.web.entity.main.InvoiceReq;
 import com.gdpost.web.entity.main.Policy;
 import com.gdpost.web.entity.main.User;
-import com.gdpost.web.exception.ExistedException;
 import com.gdpost.web.exception.ServiceException;
 import com.gdpost.web.log.Log;
 import com.gdpost.web.log.LogLevel;
@@ -109,8 +108,8 @@ public class FpglController {
 			Policy p = policyService.get(req.getPolicy().getId());
 			req.setPolicy(p);
 			fpglService.saveOrUpdate(req);
-		} catch (ExistedException e) {
-			return AjaxObject.newError("添加发票申请失败：" + e.getMessage()).toString();
+		} catch (Exception e) {
+			return AjaxObject.newError("添加发票申请失败：" + req.getPolicy().getId() + ":" + e.getMessage()).toString();
 		}
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{req.getPolicy().getPolicyNo()}));

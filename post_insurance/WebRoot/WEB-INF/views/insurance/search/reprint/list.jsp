@@ -20,9 +20,6 @@
 						保单号：<input type="text" style="width: 100px;" id="repno" name="search_LIKE_policyNo" value="${param.search_LIKE_policyNo }"/>
 					</td>
 					<td>
-						投保单号：<input type="text" style="width: 100px;" id="reformno" name="search_LIKE_formNo" value="${param.search_LIKE_formNo }"/>
-					</td>
-					<td>
 						快递单号：<input type="text" style="width: 100px;" id="reemsno" name="search_LIKE_emsNo" value="${param.search_LIKE_emsNo }"/>
 					</td>
 					<td>
