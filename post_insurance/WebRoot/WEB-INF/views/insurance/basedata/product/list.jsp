@@ -48,21 +48,23 @@
 	<table class="table" layoutH="137" width="100%">
 		<thead>
 			<tr>
-				<th width="22"><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
-				<th width="100">产品代码</th>
-				<th width="100">产品名称</th>
-				<th width="100">产品全称</th>
-				<th width="100">产品状态</th>
-				<th width="100">每份金额</th>
-				<th width="100">缴费期间</th>
-				<th width="100">保险期间</th>
-				<th width="100">最高赔付倍数</th>
+				<th width="22"><input type="checkbox" group="ids" class="checkboxCtrl"></th>
+				<th>ID</th>	
+				<th>产品代码</th>
+				<th>产品名称</th>
+				<th>产品全称</th>
+				<th>产品状态</th>
+				<th>每份金额</th>
+				<th>缴费期间</th>
+				<th>保险期间</th>
+				<th>最高赔付倍数</th>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach var="item" items="${prds}">
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
+				<td>${item.id}</td>
 				<td>${item.prdCode}</td>
 				<td>${item.prdName}</td>
 				<td>${item.prdFullName}</td>
