@@ -1264,7 +1264,7 @@ public class BqglController {
 		return C_EXPIRE_LIST;
 	}
 	
-	@RequiresPermissions("CsReissue:edit")
+	@RequiresPermissions("CsExpire:edit")
 	@RequestMapping(value="/expire/update/{id}", method=RequestMethod.GET)
 	public String preUpdateCsExpire(@PathVariable Long id, Map<String, Object> map) {
 		CsExpire expire = bqglService.getCsExpire(id);
@@ -1280,6 +1280,8 @@ public class BqglController {
 	public @ResponseBody String updateCsExpire(CsExpireDtl csExpireDtl, ServletRequest request) {
 		String csId = request.getParameter("csExpireId");
 		CsExpire cs = bqglService.getCsExpire(new Long(csId));
+//		cs.setStatus(BQ_STATUS.DealStatus.getDesc());
+//		bqglService.updateCsExpire(cs);
 		csExpireDtl.setCsExpire(cs);
 		bqglService.updateCsExpireDtl(csExpireDtl);
 		

@@ -140,14 +140,15 @@ public class UploadDataServiceImpl implements UploadDataService{
 		String sql9 = null;
 		String sql10 = null;
 		String sql11 = null;
+		String sql12 = null;
 		switch(ft) {
 		case Policy:
 			standardColumns = PolicyColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_policy character set utf8 (";
 			sql1 = "delete from t_policy where form_no is null;";
-			sql2 = "update t_policy set attached_flag = 1 where prod_name like \"%附加%\";";
-			sql3 = "update t_policy set attached_flag = 2 where prod_name like \"%禄禄通%\";";
-			sql4 = "update t_policy set attached_flag = 3 where policy_no like \"5244%\";";
+			sql2 = "update t_policy set attached_flag = 1 where attached_flag=0 and prod_name like \"%附加%\";";
+			sql3 = "update t_policy set attached_flag = 2 where attached_flag=0 and prod_name like \"%禄禄通%\";";
+			sql4 = "update t_policy set attached_flag = 3 where attached_flag=0 and policy_no like \"5244%\";";
 			sql8 = "update t_policy set plan_name=\"新百倍保自驾航空责任组合\" where plan_code is not null and plan_code=\"125012_B\" and plan_name is null;";
 			sql9 = "update t_policy set plan_name=\"新百倍保公共交通责任组合\" where plan_code is not null and plan_code=\"125012_A\" and plan_name is null;";
 			sql5 = "update t_policy tp inner join (select sum(policy_fee) as total_fee, policy_no from t_policy where total_fee=0 group by policy_no) as tp2 set tp.total_fee=tp2.total_fee where tp.total_fee=0 and tp.attached_flag=0 and tp.policy_no=tp2.policy_no;";
@@ -319,6 +320,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql9 = "update t_cs_expire ce, t_cs_report tcr set ce.status=\"AGStatus\",ce.cs_date=tcr.cs_date where ce.policy_no=tcr.policy_no and tcr.cs_code=\"AG\";";
 			sql10 = "update t_cs_expire ce, t_cs_report tcr set ce.status=\"CTStatus\",ce.cs_date=tcr.cs_date where ce.policy_no=tcr.policy_no and tcr.cs_code=\"CT\";";
 			sql11 = "INSERT INTO t_cs_reissue (cs_id) select tcr.id from t_cs_report tcr where tcr.cs_code=\"LR\" and tcr.id not in (select cs_id from t_cs_reissue);";
+			sql12 = "update t_policy tp, t_cs_report tcr set tp.status=\"满期终止\",tp.cs_date=tcr.cs_date where tp.policy_no=tcr.policy_no and tcr.cs_code=\"AG\";";
 			break;
 		case CsLoan:
 			standardColumns = CsLoanColumn.getStandardColumns();
@@ -527,6 +529,10 @@ public class UploadDataServiceImpl implements UploadDataService{
 			log.debug("----------import ready to execute sql11：" + sql11);
 			if(sql11 != null) {
         		statement.executeUpdate(sql11);
+        	}
+			log.debug("----------import ready to execute sql12：" + sql12);
+			if(sql12 != null) {
+        		statement.executeUpdate(sql12);
         	}
 			log.info("----------import finish execute sql");
 			dr.setFlag(true);
@@ -1283,8 +1289,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 			break;
 		case UnderWriteDtlData:
 			standardColumns = UnderWriteDtlColumn.getStandardColumns();
-			sql = new StringBuffer("INSERT INTO t_under_write(form_no,policy_no,prd_name,policy_fee,perm,underwrite_reason,issue,ybt_date,sys_date,check_date,"
-					+ "body_check_date1,body_check_date2,hb_end_date,prov_send_date,sign_date,client_receive_date,bill_back_date,form_write_date) VALUES ");
+			sql = new StringBuffer("INSERT INTO t_under_write(policy_no,prd_name,policy_fee,perm,underwrite_reason,issue,insured_age,insured_sex,insured_job,ybt_date,sys_date,check_date,"
+					+ "body_check_date1,body_check_date2,deal_check_date1,deal_check_date2,hb_end_date,prov_send_date,sign_date,client_receive_date,bill_back_date,form_write_date) VALUES ");
 			line = null;
 			for (DataRow row : dt.Rows) {
 				line = new StringBuffer("(");
@@ -1306,12 +1312,12 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        	sql.append(line);
 	        }
 			sql.deleteCharAt(sql.length() - 1);
-			sql.append(" ON DUPLICATE KEY UPDATE policy_no=VALUES(policy_no), prd_name=VALUES(prd_name), ");
+			sql.append(" ON DUPLICATE KEY UPDATE prd_name=VALUES(prd_name), ");
 			sql.append("policy_fee=VALUES(policy_fee), perm=VALUES(perm), ");
-			sql.append("underwrite_reason=VALUES(underwrite_reason), issue=VALUES(issue), ");
+			sql.append("underwrite_reason=VALUES(underwrite_reason), issue=VALUES(issue), insured_age=VALUES(insured_age), insured_sex=VALUES(insured_sex), insured_job=VALUES(insured_job), ");
 			sql.append("ybt_date=VALUES(ybt_date), sys_date=VALUES(sys_date), ");
 			sql.append("check_date=VALUES(check_date), body_check_date1=VALUES(body_check_date1), ");
-			sql.append("body_check_date2=VALUES(body_check_date2), hb_end_date=VALUES(hb_end_date), ");
+			sql.append("body_check_date2=VALUES(body_check_date2), deal_check_date1=VALUES(deal_check_date1), deal_check_date2=VALUES(deal_check_date2), hb_end_date=VALUES(hb_end_date), ");
 			sql.append("prov_send_date=VALUES(prov_send_date), sign_date=VALUES(sign_date), ");
 			sql.append("client_receive_date=VALUES(client_receive_date), bill_back_date=VALUES(bill_back_date), ");
 			sql.append("form_write_date=VALUES(form_write_date);");

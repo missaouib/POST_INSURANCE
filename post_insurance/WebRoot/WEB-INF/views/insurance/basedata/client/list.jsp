@@ -34,6 +34,7 @@
 							<form:option value=""> -- -- </form:option>
 							<form:option value="有效">有效</form:option>
 							<form:option value="终止">终止</form:option>
+							<form:option value="满期终止">满期终止</form:option>
 						</form:select>
 					</td>
 					<td>

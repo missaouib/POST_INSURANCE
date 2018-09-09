@@ -236,6 +236,10 @@ public class TaskService {
 			log.info("------------ sql :" + sql);
 			statement.executeUpdate(sql);
 			
+			sql = "update t_policy tp, t_cs_report tcr set tp.status=\"满期终止\",tp.cs_date=tcr.cs_date where tp.policy_no=tcr.policy_no and tcr.cs_code=\"AG\";";
+			log.info("------------ sql :" + sql);
+			statement.executeUpdate(sql);
+			
 			log.info("------------ task service update finish");
 			
 		} catch (SQLException e) {

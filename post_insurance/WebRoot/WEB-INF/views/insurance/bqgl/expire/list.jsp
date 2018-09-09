@@ -102,6 +102,7 @@
 				<th>评级</th>
 				<th>网点</th>
 				<th orderField=status class="${page.orderField eq 'status' ? page.orderDirection : ''}">状态</th>
+				<th>跟进情况</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -133,10 +134,11 @@
 						异常件
 					</c:when>
 					<c:otherwise>
-						<span style="color:red; height:50%; margin-bottom:-contentheight;">待处理</span>
+						<span style="color:red; height:50%; margin-bottom:-contentheight;">未领取</span>
 					</c:otherwise>
 				</c:choose>
 				</td>
+				<td><c:if test="${not empty item.csExpireDtls}"><a target="dialog" mask="true" width="530" height="330" href="${contextPath }/bqgl/expire/update/${item.id}">查看详情</a></c:if></td>
 			</tr>
 			</c:forEach>
 		</tbody>
