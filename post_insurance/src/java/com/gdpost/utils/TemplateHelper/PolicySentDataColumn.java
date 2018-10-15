@@ -17,32 +17,18 @@ private static List<ColumnItem> standardColumns;
 		standardColumns = new ArrayList<ColumnItem>();
 		
 		ColumnItem column = new ColumnItem();
-		column.setDisplayName("单证号3");//column.setDisplayName("印刷号");
-		column.setColumnName("print_no");
-		column.setColumnType(ColumnType.string);
-		column.setNullable(true);
-		standardColumns.add(column);
-		
-		column = new ColumnItem();
-		column.setDisplayName("拒签状态");
-		column.setColumnName("status");
-		column.setColumnType(ColumnType.string);
-		column.setNullable(true);
-		standardColumns.add(column);
-		
-		column = new ColumnItem();
 		column.setDisplayName("分支机构");
 		column.setColumnName("org_code");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
 		
-		column = new ColumnItem();
-		column.setDisplayName("单证号1");//column.setDisplayName("投保单号");
-		column.setColumnName("form_no");
-		column.setColumnType(ColumnType.string);
-		column.setNullable(false);
-		standardColumns.add(column);
+//		column = new ColumnItem();
+//		column.setDisplayName("单证号1");//column.setDisplayName("投保单号");
+//		column.setColumnName("form_no");
+//		column.setColumnType(ColumnType.string);
+//		column.setNullable(false);
+//		standardColumns.add(column);
 		
 		column = new ColumnItem();
 		column.setDisplayName("保单号");

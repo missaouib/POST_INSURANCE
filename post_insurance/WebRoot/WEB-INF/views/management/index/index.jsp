@@ -90,8 +90,8 @@ $(function(){
 
 $(document).ready(function(){
 	doRefresh();
-	checkMessage();
-	window.setInterval("checkMessage()",3000000);//1分钟刷新1次 
+	//checkMessage();
+	//window.setInterval("checkMessage()",3000000);//1分钟刷新1次 
 }); 
 </script>
 </head>
@@ -684,7 +684,7 @@ $(document).ready(function(){
 		</div>
 	</div>
 </div>
-<div id="footer">中邮保险广东分公司 运营管理部 Copyright &copy; 2013-2017, All Rights Reserve.</div>
+<div id="footer">中邮保险广东分公司 运营管理部 Copyright &copy; 2013-2018, All Rights Reserve.</div>
 <script src="${contextPath}/js/refresh.js" type="text/javascript"></script>
 </body>
 </html>
