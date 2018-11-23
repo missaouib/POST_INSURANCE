@@ -17,7 +17,7 @@ private static List<ColumnItem> standardColumns;
 		standardColumns = new ArrayList<ColumnItem>();
 		
 		ColumnItem column = new ColumnItem();
-		column.setDisplayName("分支机构");
+		column.setDisplayName("机构代码");
 		column.setColumnName("org_code");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
@@ -38,17 +38,17 @@ private static List<ColumnItem> standardColumns;
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("物流编号");
+		column.setDisplayName("运单号");
 		column.setColumnName("ems_no");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("打印时间");
+		column.setDisplayName("邮寄时间");
 		column.setColumnName("print_date");
 		column.setColumnType(ColumnType.string);
-		column.setNullable(true);
+		column.setNullable(false);
 		standardColumns.add(column);
 		
 		column = new ColumnItem();

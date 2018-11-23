@@ -49,6 +49,9 @@ public class CsvFileHandler extends AbstractFileHandler {
 		int keyRowIdx = -1;
 		String[] headers = null;
 		//获取头部信息
+		if(keyRow != null && keyRow.equals("underwrite")) {
+			keyRow = "保单号";
+		}
 		try {
 			headers = reader.getHeader(true);
 			String h = null;

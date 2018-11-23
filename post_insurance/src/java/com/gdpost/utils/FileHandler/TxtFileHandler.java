@@ -46,7 +46,7 @@ public class TxtFileHandler extends AbstractFileHandler {
 		DataRow dataRow = null;
 		
 		//获取头部信息
-		String[] headers = new String[]{"序号","印刷号","状态","机构号","投保单号","保单号","快递单号","寄出日期", "标记"};//reader.getHeader(true);
+		String[] headers = new String[]{"保单号","机构代码","状态","邮寄时间","运单号"};//reader.getHeader(true);
 		dt = new DataTable();
 		dt.TableName = strFileName;
 		for(int i = 0; i < headers.length; i++) {
