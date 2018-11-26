@@ -115,6 +115,7 @@ public class StringUtil {
 		Pattern p = Pattern.compile("\\t|\r|\n|\\\\");
         Matcher m = p.matcher(str);
         String dest = m.replaceAll("");
+        dest = dest.replaceAll(""+(char)65279,"");
         
         if(mysqlFlag != null && mysqlFlag.length>0 && mysqlFlag[0]) {
         	if (dest != null && dest.indexOf("\"") >= 0)

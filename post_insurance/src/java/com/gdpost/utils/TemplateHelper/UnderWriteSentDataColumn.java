@@ -33,14 +33,14 @@ private static List<ColumnItem> standardColumns;
 		
 		*/
 		column = new ColumnItem();
-		column.setDisplayName("物流编号");
+		column.setDisplayName("运单号");
 		column.setColumnName("prov_ems_no");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("打印时间");
+		column.setDisplayName("邮寄时间");
 		column.setColumnName("prov_send_date");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);

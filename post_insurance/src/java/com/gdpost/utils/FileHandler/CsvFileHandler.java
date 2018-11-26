@@ -48,9 +48,11 @@ public class CsvFileHandler extends AbstractFileHandler {
 		boolean hasKeyRow = false;
 		int keyRowIdx = -1;
 		String[] headers = null;
+		String backKey = null;
 		//获取头部信息
 		if(keyRow != null && keyRow.equals("underwrite")) {
 			keyRow = "保单号";
+			backKey = "underwrite";
 		}
 		try {
 			headers = reader.getHeader(true);
@@ -81,7 +83,7 @@ public class CsvFileHandler extends AbstractFileHandler {
 			}
 			return(ds);
 		}
-
+	
 		List<String> line = new ArrayList<String>();
 		int markIdx = 0;
 		//获取数据部分
@@ -95,9 +97,15 @@ public class CsvFileHandler extends AbstractFileHandler {
 			    if(line.get(keyRowIdx)==null || line.get(keyRowIdx).trim().length()<=0) {
 			    	continue;
 			    }
+			    if(backKey != null) {
+					if(!line.get(keyRowIdx).contains("8644") && !line.get(keyRowIdx).contains("7644") && !line.get(keyRowIdx).contains("9644") && !line.get(keyRowIdx).contains("8144")) {
+						continue;
+					}
+				}
+			    
 			    dataRow = dt.NewRow();
 			    for(int i = 0; i < dt.Columns.size(); i++) {
-			    	dataRow.setValue(i, StringUtil.trimStr(line.get(i)));
+					dataRow.setValue(i, StringUtil.trimStr(line.get(i)));
 			    	//log.debug(i + "----------csv read data: " + dataRow.getValue(i));
 			    }
 			    
@@ -115,7 +123,7 @@ public class CsvFileHandler extends AbstractFileHandler {
 			} catch (IOException e) {
 			}
 		}
-
+	
 		return(ds);
 	}
 	
