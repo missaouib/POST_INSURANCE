@@ -18,6 +18,7 @@ import com.gdpost.web.entity.basedata.ConservationError;
 import com.gdpost.web.entity.basedata.IssueType;
 import com.gdpost.web.entity.basedata.Prd;
 import com.gdpost.web.entity.basedata.RenewalType;
+import com.gdpost.web.entity.basedata.Sales;
 import com.gdpost.web.entity.component.CsAddr;
 import com.gdpost.web.entity.component.Staff;
 import com.gdpost.web.entity.main.ConservationType;
@@ -25,6 +26,25 @@ import com.gdpost.web.entity.main.ProvOrgCode;
 import com.gdpost.web.util.dwz.Page;
 
 public interface BaseDataService {
+	/*
+	 * ==============
+	 * Sales
+	 * ==============
+	 */
+	Sales getSales(Long id);
+
+	void saveOrUpdateSales(Sales type);
+
+	void deleteSales(Long id);
+	
+	List<Sales> findAllSales(Page page);
+	
+	List<Sales> findBySalesExample(Specification<Sales> specification, Page page);
+	
+	List<Sales> getByName(String name);
+	
+	List<Sales> getByPhone(String phone);
+	
 	/*
 	 * ==============
 	 * bank code
