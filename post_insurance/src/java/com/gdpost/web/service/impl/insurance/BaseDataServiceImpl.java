@@ -19,6 +19,7 @@ import com.gdpost.web.dao.IssueTypeDAO;
 import com.gdpost.web.dao.PrdDAO;
 import com.gdpost.web.dao.ProvOrgCodeDAO;
 import com.gdpost.web.dao.RenewalTypeDAO;
+import com.gdpost.web.dao.SalesDAO;
 import com.gdpost.web.dao.component.CsAddrDAO;
 import com.gdpost.web.dao.component.StaffDAO;
 import com.gdpost.web.entity.basedata.BankCode;
@@ -28,6 +29,7 @@ import com.gdpost.web.entity.basedata.ConservationError;
 import com.gdpost.web.entity.basedata.IssueType;
 import com.gdpost.web.entity.basedata.Prd;
 import com.gdpost.web.entity.basedata.RenewalType;
+import com.gdpost.web.entity.basedata.Sales;
 import com.gdpost.web.entity.component.CsAddr;
 import com.gdpost.web.entity.component.Staff;
 import com.gdpost.web.entity.main.ConservationType;
@@ -74,6 +76,9 @@ public class BaseDataServiceImpl implements BaseDataService {
 	
 	@Autowired
 	private CsAddrDAO csAddrDAO;
+	
+	@Autowired
+	private SalesDAO salesDAO;
 	
 	/*
 	 * (non-Javadoc)
@@ -309,6 +314,11 @@ public class BaseDataServiceImpl implements BaseDataService {
 		return renewalTypeDAO.getByTypeName(typeName);
 	}
 
+	/**
+	 * =======================================
+	 * Prd
+	 * =======================================
+	 */
 	@Override
 	public Prd getPrd(Long id) {
 		return prdDAO.findById(id).get();
@@ -594,4 +604,59 @@ public class BaseDataServiceImpl implements BaseDataService {
 	public CsAddr getByCsAddrCity(String city) {
 		return csAddrDAO.getByCity(city);
 	}
+	
+	/**
+	 * =======================================
+	 * Sales
+	 * =======================================
+	 */
+	@Override
+	public Sales getSales(Long id) {
+		return salesDAO.findById(id).get();
+	}
+
+	@Override
+	public void saveOrUpdateSales(Sales type) {
+		if (type.getId() == null) {
+			if (salesDAO.getBySalesName(type.getSalesName()) != null) {
+				throw new ExistedException("产品代码" + type.getSalesName() + "已存在。");
+			}
+		}
+		
+		salesDAO.save(type);
+		
+	}
+
+	@Override
+	public void deleteSales(Long id) {
+		Sales sales = salesDAO.findById(id).get();
+		salesDAO.delete(sales);
+		
+	}
+
+	@Override
+	public List<Sales> findAllSales(Page page) {
+		org.springframework.data.domain.Page<Sales> springDataPage = salesDAO.findAll(PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
+	}
+
+	@Override
+	public List<Sales> findBySalesExample(Specification<Sales> specification, Page page) {
+		org.springframework.data.domain.Page<Sales> springDataPage = salesDAO.findAll(specification, PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
+	}
+
+	@Override
+	public List<Sales> getByName(String name) {
+		return salesDAO.getBySalesName(name);
+	}
+
+	@Override
+	public List<Sales> getByPhone(String phone) {
+		return salesDAO.getByPhone(phone);
+	}
+
+	
 }

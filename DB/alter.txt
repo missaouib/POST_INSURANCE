@@ -1137,7 +1137,7 @@ create table t_sales
    organ_name varchar(64),
    bank_name varchar(64),
    sales_code varchar(11),
-   sales	varchar(18),
+   sales_name	varchar(18),
    phone  varchar(18),
    status	int(2),
    operate_id	  bigint,

@@ -31,7 +31,7 @@ public class Sales implements Idable<Long>, Serializable {
 	private String organName;
 	private String bankName;
 	private String salesCode;
-	private String sales;
+	private String salesName;
 	private String phone;
 	private Integer status;
 	private Long operateId;
@@ -44,13 +44,13 @@ public class Sales implements Idable<Long>, Serializable {
 	}
 
 	/** full constructor */
-	public Sales(String organCode, String organName, String bankName, String salesCode, String sales, String phone,
+	public Sales(String organCode, String organName, String bankName, String salesCode, String salesName, String phone,
 			Integer status, Long operateId, Timestamp operateTime) {
 		this.organCode = organCode;
 		this.organName = organName;
 		this.bankName = bankName;
 		this.salesCode = salesCode;
-		this.sales = sales;
+		this.salesName = salesName;
 		this.phone = phone;
 		this.status = status;
 		this.operateId = operateId;
@@ -104,13 +104,13 @@ public class Sales implements Idable<Long>, Serializable {
 		this.salesCode = salesCode;
 	}
 
-	@Column(name = "sales", length = 18)
-	public String getSales() {
-		return this.sales;
+	@Column(name = "sales_name", length = 18)
+	public String getSalesName() {
+		return this.salesName;
 	}
 
-	public void setSales(String sales) {
-		this.sales = sales;
+	public void setSalesName(String salesName) {
+		this.salesName = salesName;
 	}
 
 	@Column(name = "phone", length = 18)

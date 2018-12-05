@@ -77,11 +77,14 @@
 				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
 				<th orderField=policy.organization.name class="${page.orderField eq 'policy.organization.name' ? page.orderDirection : ''}">所属机构</th>
 				<th orderField=policy.policyNo class="${page.orderField eq 'policy.policyNo' ? page.orderDirection : ''}">所属保单号</th>
+				<th orderField=policy.formNo class="${page.orderField eq 'policy.formNo' ? page.orderDirection : ''}">投保单号</th>
+				<th orderField=policy.holder class="${page.orderField eq 'policy.holder' ? page.orderDirection : ''}">投保人</th>
 				<th orderField=policy.policyDate class="${page.orderField eq 'policy.policyDate' ? page.orderDirection : ''}">承保日期</th>
 				<th orderField=fixStatus class="${page.orderField eq 'fixStatus' ? page.orderDirection : ''}">问题件状态</th>
 				<th orderField=docMiss class="${page.orderField eq 'docMiss' ? page.orderDirection : ''}">资料缺失</th>
 				<th orderField=keyInfo class="${page.orderField eq 'keyInfo' ? page.orderDirection : ''}">关键信息</th>
 				<th orderField=importanceInfo class="${page.orderField eq 'importanceInfo' ? page.orderDirection : ''}">重要信息</th>
+				<th orderField=elseInfo class="${page.orderField eq 'elseInfo' ? page.orderDirection : ''}">其他信息</th>
 				<th orderField=netName class="${page.orderField eq 'netName' ? page.orderDirection : ''}">网点名称</th>
 			</tr>
 		</thead>
@@ -91,6 +94,8 @@
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
 				<td>${item.policy.organization.shortName}</td>
 				<td>${item.policy.policyNo}</td>
+				<td>${item.policy.formNo}</td>
+				<td>${item.policy.holder}</td>
 				<td>${item.policy.policyDate}</td>
 				<td>
 				<c:choose>
@@ -111,6 +116,7 @@
 				<td>${item.docMiss == "null"?"":item.docMiss}</td>
 				<td>${item.keyInfo=="null"?"":item.keyInfo}</td>
 				<td>${item.importanceInfo=="null"?"":item.importanceInfo}</td>
+				<td>${item.elseInfo=="null"?"":item.elseInfo}</td>
 				<td>
 				<c:choose>  
 					    <c:when test="${fn:length(item.netName) > 14}">  
