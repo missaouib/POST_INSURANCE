@@ -9,6 +9,7 @@ import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.CellType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,7 +25,6 @@ public class XlsFileHandler_NoHeader extends AbstractFileHandler {
 	public static Logger log = LoggerFactory.getLogger(XlsFileHandler_NoHeader.class);
 
 	// 读取Excel 2003文件
-	@SuppressWarnings("deprecation")
 	public DataTable[] readFile(String strFilePath, String strFileName, String keyRow) throws MyException {
 		List<DataTable> list = new ArrayList<DataTable>();
 		boolean bFileFlag = false;
@@ -97,7 +97,7 @@ public class XlsFileHandler_NoHeader extends AbstractFileHandler {
 	                	cell = row.getCell(j);
 	                    if (cell != null && ("") != cell.toString()) {
 	                    	bFlag = true;
-	    	            	cell.setCellType(HSSFCell.CELL_TYPE_STRING);
+	    	            	cell.setCellType(CellType.STRING);
 	                        dataRow.setValue(j, cell.getStringCellValue());
 	                    }
 	                }
@@ -197,7 +197,6 @@ public class XlsFileHandler_NoHeader extends AbstractFileHandler {
 		return(bFlag);
 	}
 	
-	@SuppressWarnings("deprecation")
 	private boolean checkFormulaRow(HSSFRow row) {
 		//boolean bFlag = false;
 		int iDataRowCount = 0;
@@ -206,7 +205,7 @@ public class XlsFileHandler_NoHeader extends AbstractFileHandler {
 		for(int i=row.getFirstCellNum(); i<=row.getLastCellNum(); i++) {
 			// 行中有一个公式，则认为为汇总行
 			if(row.getCell(i) != null) {
-				if(row.getCell(i).getCellType() == org.apache.poi.ss.usermodel.Cell.CELL_TYPE_FORMULA) {
+				if(row.getCell(i).getCellType() == org.apache.poi.ss.usermodel.CellType.FORMULA) {
 					//bFlag = true;
 				} else {
 					if(!("").equals(row.getCell(i).toString().trim())) {

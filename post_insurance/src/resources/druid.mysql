@@ -1,5 +1,5 @@
 druid.alias=spring-druid
-druid.driver-class=com.mysql.jdbc.Driver
+druid.driver-class=com.mysql.cj.jdbc.Driver
 druid.user=yunying
 druid.password=YrcZcXo13eGdOnFiO8ozlA7W5s8yHIQVwiZzWkdzl2BYBtCxp/wsgbLG610RSPAAOmz2tKCfqcnKNCmQgMUWiw==
 druid.minEvictableIdleTimeMillis=300000

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.poi.hssf.record.crypto.Biff8EncryptionKey;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -13,18 +14,17 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.gdpost.utils.StringUtil;
+import com.gdpost.utils.TemplateHelper.ColumnItem;
+
 import System.Data.DataColumn;
 import System.Data.DataRow;
 import System.Data.DataTable;
-
-import com.gdpost.utils.StringUtil;
-import com.gdpost.utils.TemplateHelper.ColumnItem;
 
 public class XlsxFileHandler_NoHeader extends AbstractFileHandler {
 	public static Logger log = LoggerFactory.getLogger(XlsxFileHandler_NoHeader.class);
 	
 	// 读取Excel 2007文件
-	@SuppressWarnings("deprecation")
 	public DataTable[] readFile(String strFilePath, String strFileName, String keyRow) {
 		List<DataTable> list = new ArrayList<DataTable>();	
 		
@@ -101,7 +101,7 @@ public class XlsxFileHandler_NoHeader extends AbstractFileHandler {
 	                	cell = row.getCell(j);
 	                    if (cell != null && ("") != cell.toString()) {
 	                    	bFlag = true;
-	                    	cell.setCellType(XSSFCell.CELL_TYPE_STRING);
+	                    	cell.setCellType(CellType.STRING);
 	                        dataRow.setValue(j, cell.getStringCellValue());
 	                    }
 	                }
@@ -186,7 +186,6 @@ public class XlsxFileHandler_NoHeader extends AbstractFileHandler {
 		return(bFlag);
 	}
 	
-	@SuppressWarnings("deprecation")
 	private boolean checkFormulaRow(XSSFRow row) {
 		//boolean bFlag = false;
 		int iDataRowCount = 0;
@@ -196,7 +195,7 @@ public class XlsxFileHandler_NoHeader extends AbstractFileHandler {
 		for(int i=row.getFirstCellNum(); i<=row.getLastCellNum(); i++) {
 			// 行中有一个公式，则认为为汇总行
 			if(row.getCell(i) != null) {
-				if(row.getCell(i).getCellType() == org.apache.poi.ss.usermodel.Cell.CELL_TYPE_FORMULA) {
+				if(row.getCell(i).getCellType() == CellType.FORMULA) {
 					//bFlag = true;
 				} else {
 					if(!("").equals(row.getCell(i).toString().trim())) {

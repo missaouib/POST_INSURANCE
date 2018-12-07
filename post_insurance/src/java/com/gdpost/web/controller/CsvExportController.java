@@ -14,10 +14,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.poi.ss.formula.functions.T;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -28,8 +25,8 @@ import com.gdpost.web.util.CsvUtils;
 @Controller
 @RequestMapping("/csv/export")
 public class CsvExportController {
-	@Autowired
-	private static final Log LOG = LogFactory.getLog(CsvExportController.class);
+	
+	//private static final Log LOG = LogFactory.getLog(CsvExportController.class);
 
 	@RequestMapping(value = "/xqList")
 	public @ResponseBody void exportExcel(HttpServletRequest request, HttpServletResponse response, Class<T> vo)
@@ -63,14 +60,14 @@ public class CsvExportController {
 		Object[] head = { "客户姓名", "证件类型", "证件号码", "银行账号", "理财账号", "客户类型", "风险等级", "归属状况", "归属机构", "客户经理", "营销比例(%)" };
 		List<Object> headList = Arrays.asList(head);
 
-		List<T> list = null;
+		List<T> list = new ArrayList<T>();
 
 		// 设置数据
 		List<List<Object>> dataList = new ArrayList<List<Object>>();
 		List<Object> rowList = null;
 		for (int i = 0; i < list.size(); i++) {
 			rowList = new ArrayList<Object>();
-			T kc_vo = list.get(i);
+			//T kc_vo = list.get(i);
 			// rowList.add(i + 1);
 			rowList.add("1");
 			rowList.add("2");

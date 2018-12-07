@@ -15,6 +15,7 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +31,6 @@ public class XlsFileHandler extends AbstractFileHandler {
 	public static Logger log = LoggerFactory.getLogger(XlsFileHandler.class);
 
 	// 读取Excel 2003文件
-	@SuppressWarnings("deprecation")
 	public DataTable[] readFile(String strFilePath, String strFileName, String mkeyRow) throws MyException{
 		List<DataTable> list = new ArrayList<DataTable>();
 		log.debug("--------------ready to read xls file in handler" + this.keyRow);
@@ -115,12 +115,14 @@ public class XlsFileHandler extends AbstractFileHandler {
 						count ++;
 						checkCell = iter.next();
 						switch(checkCell.getCellType()) {
-						case HSSFCell.CELL_TYPE_BLANK:
+						case BLANK:
 							break;
-						case HSSFCell.CELL_TYPE_FORMULA:
+						case _NONE:
+							break;
+						case FORMULA:
 							check = checkCell.getCellFormula();
 							break;
-						case HSSFCell.CELL_TYPE_NUMERIC:
+						case NUMERIC:
 							if (HSSFDateUtil.isCellDateFormatted(checkCell)) {
 						        check = StringUtil.trimStr(DateFormatUtils.format(checkCell.getDateCellValue(), "yyyy-MM-dd"));
 						    } else {
@@ -128,6 +130,14 @@ public class XlsFileHandler extends AbstractFileHandler {
 						    	check = df.format(checkCell.getNumericCellValue());
 						    }
 							//isNum = true;
+							break;
+						case STRING:
+							if (HSSFDateUtil.isCellDateFormatted(checkCell)) {
+						        check = StringUtil.trimStr(DateFormatUtils.format(checkCell.getDateCellValue(), "yyyy-MM-dd"));
+						    } else {
+						    	DecimalFormat df = new DecimalFormat("0");
+						    	check = df.format(checkCell.getNumericCellValue());
+						    }
 							break;
 						default:
 							check = checkCell.getStringCellValue();
@@ -165,7 +175,7 @@ public class XlsFileHandler extends AbstractFileHandler {
 					cell = headerRow.getCell(i);
 					if (cell != null && ("") != cell.toString()) {
 						switch(cell.getCellType()) {
-						case HSSFCell.CELL_TYPE_NUMERIC:
+						case NUMERIC:
 							if (HSSFDateUtil.isCellDateFormatted(cell)) {
 						        Date date = cell.getDateCellValue();
 						        column = new DataColumn(StringUtil.trimStr(DateFormatUtils.format(date, "yyyy-MM-dd")));
@@ -175,7 +185,7 @@ public class XlsFileHandler extends AbstractFileHandler {
 						    }
 							break;
 							default:
-								cell.setCellType(HSSFCell.CELL_TYPE_STRING);
+								cell.setCellType(CellType.STRING);
 								column = new DataColumn(StringUtil.trimStr(cell.getStringCellValue()));
 						}
 					} else {
@@ -207,7 +217,7 @@ public class XlsFileHandler extends AbstractFileHandler {
 							continue;
 						}
 					}
-					if(row.getCell(keyRowIdx).getCellType() == HSSFCell.CELL_TYPE_NUMERIC?row.getCell(keyRowIdx).getNumericCellValue()<=0:row.getCell(keyRowIdx).getStringCellValue().trim().length()<=0) {
+					if(row.getCell(keyRowIdx).getCellType() == CellType.NUMERIC?row.getCell(keyRowIdx).getNumericCellValue()<=0:row.getCell(keyRowIdx).getStringCellValue().trim().length()<=0) {
 						continue;
 					}
 					dataRow = dt.NewRow();
@@ -224,7 +234,7 @@ public class XlsFileHandler extends AbstractFileHandler {
 							}
 							//log.debug("-----------" + cell.getCellType());
 							switch(cell.getCellType()) {
-							case HSSFCell.CELL_TYPE_NUMERIC:
+							case NUMERIC:
 								if (HSSFDateUtil.isCellDateFormatted(cell)) {
 							        Date date = cell.getDateCellValue();
 							        dataRow.setValue(j, StringUtil.trimStr(DateFormatUtils.format(date, "yyyy-MM-dd")));
@@ -233,18 +243,19 @@ public class XlsFileHandler extends AbstractFileHandler {
 							        dataRow.setValue(j, df.format(cell.getNumericCellValue()));
 							    }
 								break;
-							case HSSFCell.CELL_TYPE_STRING:
+							case STRING:
 								dataRow.setValue(j, StringUtil.trimStr(cell.getStringCellValue()));
 								break;
-							case HSSFCell.CELL_TYPE_BLANK:
+							case BLANK:
 								dataRow.setValue(j, "");
 								break;
-							case HSSFCell.CELL_TYPE_FORMULA:
+							case FORMULA:
+								dataRow.setValue(j, StringUtil.trimStr(cell.getStringCellValue()));
 								break;
-							case HSSFCell.CELL_TYPE_BOOLEAN:
+							case BOOLEAN:
 								dataRow.setValue(j, StringUtil.trimStr(cell.getBooleanCellValue()));
 								break;
-							case HSSFCell.CELL_TYPE_ERROR:
+							case ERROR:
 								dataRow.setValue(j, "");
 								break;
 								default:

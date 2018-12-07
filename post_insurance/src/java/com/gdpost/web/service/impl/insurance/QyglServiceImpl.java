@@ -40,6 +40,7 @@ import com.gdpost.web.util.dwz.PageUtils;
 import com.gdpost.web.util.persistence.DynamicSpecifications;
 import com.gdpost.web.util.persistence.SearchFilter;
 import com.gdpost.web.util.persistence.SearchFilter.Operator;
+import com.mysql.cj.jdbc.JdbcStatement;
 
 @Service
 @Transactional
@@ -300,12 +301,12 @@ public class QyglServiceImpl implements QyglService {
 	@Override
 	public Integer getOverdueUWCount(HttpServletRequest request, User user) {
 		java.sql.Connection connection = null;
-		com.mysql.jdbc.Statement statement = null;
+		JdbcStatement statement = null;
 		try {
 			Object objDataSource = WebApplicationContextUtils.getWebApplicationContext(request.getServletContext()).getBean("dataSource");
 			DruidDataSource dataSource = (DruidDataSource)objDataSource;
 			connection = DriverManager.getConnection(dataSource.getUrl(), dataSource.getUsername(), dataSource.getPassword());
-			statement = (com.mysql.jdbc.Statement)connection.createStatement();
+			statement = (JdbcStatement)connection.createStatement();
 			
 			String sql = "select count(t1.id) from t_under_write t1,t_organization t2 where t1.organ_id=t2.id and "
 					+ "((prov_send_date is not null and city_send_date is null and area_send_date is null and NOW()-prov_send_date>3) or "
@@ -342,12 +343,12 @@ public class QyglServiceImpl implements QyglService {
 	@Override
 	public Integer getOverdueUWCall(HttpServletRequest request, User user) {
 		java.sql.Connection connection = null;
-		com.mysql.jdbc.Statement statement = null;
+		JdbcStatement statement = null;
 		try {
 			Object objDataSource = WebApplicationContextUtils.getWebApplicationContext(request.getServletContext()).getBean("dataSource");
 			DruidDataSource dataSource = (DruidDataSource)objDataSource;
 			connection = DriverManager.getConnection(dataSource.getUrl(), dataSource.getUsername(), dataSource.getPassword());
-			statement = (com.mysql.jdbc.Statement)connection.createStatement();
+			statement = (JdbcStatement)connection.createStatement();
 			
 			String sql = "select count(t1.id) from t_under_write t1,t_organization t2 where t1.organ_id=t2.id and "
 					+ "((city_send_date is not null and to_net=1 and NOW()-city_send_date>10) or "
@@ -382,12 +383,12 @@ public class QyglServiceImpl implements QyglService {
 	@Override
 	public Integer getOverdueUWWeixin(HttpServletRequest request, User user) {
 		java.sql.Connection connection = null;
-		com.mysql.jdbc.Statement statement = null;
+		JdbcStatement statement = null;
 		try {
 			Object objDataSource = WebApplicationContextUtils.getWebApplicationContext(request.getServletContext()).getBean("dataSource");
 			DruidDataSource dataSource = (DruidDataSource)objDataSource;
 			connection = DriverManager.getConnection(dataSource.getUrl(), dataSource.getUsername(), dataSource.getPassword());
-			statement = (com.mysql.jdbc.Statement)connection.createStatement();
+			statement = (JdbcStatement)connection.createStatement();
 			
 			String sql = "select count(t1.id) from t_under_write t1,t_organization t2 where t1.organ_id=t2.id and "
 					+ "(sys_date is not null and now()-sys_date>20) "

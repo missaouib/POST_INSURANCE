@@ -108,21 +108,23 @@ public class Xls2Xlsx {
         cellNew.setCellStyle(this.styleMap.get(hash));
 
         switch (cellOld.getCellType()) {
-        case Cell.CELL_TYPE_BLANK:
+        case BLANK:
             break;
-        case Cell.CELL_TYPE_BOOLEAN:
+        case _NONE:
+            break;
+        case BOOLEAN:
             cellNew.setCellValue(cellOld.getBooleanCellValue());
             break;
-        case Cell.CELL_TYPE_ERROR:
+        case ERROR:
             cellNew.setCellValue(cellOld.getErrorCellValue());
             break;
-        case Cell.CELL_TYPE_FORMULA:
+        case FORMULA:
             cellNew.setCellValue(cellOld.getCellFormula());
             break;
-        case Cell.CELL_TYPE_NUMERIC:
+        case NUMERIC:
             cellNew.setCellValue(cellOld.getNumericCellValue());
             break;
-        case Cell.CELL_TYPE_STRING:
+        case STRING:
             cellNew.setCellValue(cellOld.getStringCellValue());
             break;
         default:

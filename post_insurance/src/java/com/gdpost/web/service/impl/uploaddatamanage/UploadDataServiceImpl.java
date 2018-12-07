@@ -75,6 +75,7 @@ import com.gdpost.web.util.StatusDefine.STATUS;
 import com.gdpost.web.util.StatusDefine.XQ_STATUS;
 import com.gdpost.web.util.dwz.Page;
 import com.gdpost.web.util.dwz.PageUtils;
+import com.mysql.cj.jdbc.JdbcStatement;
 
 import System.Data.DataRow;
 import System.Data.DataTable;
@@ -108,13 +109,14 @@ public class UploadDataServiceImpl implements UploadDataService{
 		DoRst dr = new DoRst();
 		dr.setNum(dt.Rows.size());
 		java.sql.Connection connection = null;
-		com.mysql.jdbc.Statement statement = null;
+		JdbcStatement statement = null;
+		
 		try {
 			Object objDataSource = WebApplicationContextUtils.getWebApplicationContext(request.getServletContext()).getBean("dataSource");
 			@SuppressWarnings("resource")
 			DruidDataSource dataSource = (DruidDataSource)objDataSource;
 			connection = DriverManager.getConnection(dataSource.getUrl(), dataSource.getUsername(), dataSource.getPassword());
-			statement = (com.mysql.jdbc.Statement)connection.createStatement();
+			statement = (JdbcStatement) connection.createStatement();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			dr.setFlag(false);
@@ -571,12 +573,12 @@ public class UploadDataServiceImpl implements UploadDataService{
 		dr.setNum(dt.Rows.size());
 		String strKey = com.gdpost.web.MySQLAESKey.AESKey;
 		java.sql.Connection connection = null;
-		com.mysql.jdbc.Statement statement = null;
+		JdbcStatement statement = null;
 		try {
 			Object objDataSource = WebApplicationContextUtils.getWebApplicationContext(request.getServletContext()).getBean("dataSource");
 			DruidDataSource dataSource = (DruidDataSource)objDataSource;
 			connection = DriverManager.getConnection(dataSource.getUrl(), dataSource.getUsername(), dataSource.getPassword());
-			statement = (com.mysql.jdbc.Statement)connection.createStatement();
+			statement = (JdbcStatement) connection.createStatement();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			dr.setFlag(false);
@@ -2077,13 +2079,14 @@ public class UploadDataServiceImpl implements UploadDataService{
 		Map<String, Integer> dtRelate = new Hashtable<String, Integer>(); // data table
 		
 		java.sql.Connection connection = null;
-		com.mysql.jdbc.Statement statement = null;
+		//com.mysql.jdbc.Statement statement = null;
+		JdbcStatement statement = null;
 		try {
 			Object objDataSource = WebApplicationContextUtils.getWebApplicationContext(request.getServletContext()).getBean("dataSource");
 			@SuppressWarnings("resource")
 			DruidDataSource dataSource = (DruidDataSource)objDataSource;
 			connection = DriverManager.getConnection(dataSource.getUrl(), dataSource.getUsername(), dataSource.getPassword());
-			statement = (com.mysql.jdbc.Statement)connection.createStatement();
+			statement = (JdbcStatement)connection.createStatement();
 			String statementText = "SELECT " + strValueColumnName + "," + strIDColumnName + " FROM " + strTableName + " WHERE member_id=" + member_id;
 			ResultSet rs = statement.executeQuery(statementText);
 			while(rs.next()) {

@@ -114,8 +114,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
 			
 			userType = token.getUserType();
 			
-			if (!PatchcaServlet.validate(SecurityUtils
-					.getSubject().getSession().getId().toString(), parm.toLowerCase())) {//忽略大小写。
+			if (!PatchcaServlet.validate(SecurityUtils.getSubject().getSession().getId().toString(), parm.toLowerCase())) {//忽略大小写。
 				throw new IncorrectCaptchaException("验证码错误！");
 			}
 		}

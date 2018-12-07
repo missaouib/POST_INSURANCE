@@ -67,16 +67,20 @@
 		<filter-name>shiroFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
+	<!-- 
 	<filter>
 		<filter-name>OpenSessionInViewFilter</filter-name>
 		<filter-class>org.springframework.orm.hibernate5.support.OpenSessionInViewFilter</filter-class>
+        <init-param>
+            <param-name>sessionFactoryBeanName</param-name>
+            <param-value>entityManagerFactory</param-value>
+        </init-param>
 	</filter>
 	<filter-mapping>
 		<filter-name>OpenSessionInViewFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-
+	 -->
 	<servlet>
 		<servlet-name>springServlet</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -123,5 +127,16 @@
 	</error-page>
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
-    </welcome-file-list>		
+    </welcome-file-list>
+    <!-- 
+    <security-constraint>
+      <web-resource-collection >
+        <web-resource-name >SSL</web-resource-name>
+        <url-pattern>/*</url-pattern>
+      </web-resource-collection>
+      <user-data-constraint>
+        <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+      </user-data-constraint>
+    </security-constraint>
+     -->
 </web-app>

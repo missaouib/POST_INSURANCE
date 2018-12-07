@@ -7,7 +7,6 @@ import java.util.Map;
 
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.xssf.model.SharedStringsTable;
-import org.apache.poi.xssf.usermodel.XSSFRichTextString;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -46,7 +45,7 @@ abstract class RowMapper extends DefaultHandler {
         if ("s".equals(cellType)) {     //字符串  
             Integer key = Integer.parseInt(tmp);
             result = strMap.get(key);
-            if (result == null) strMap.put(key, (String) (result = new XSSFRichTextString(sst.getEntryAt(key)).toString()));  
+            if (result == null) strMap.put(key, sst.getItemAt(key).getString());// (result = new XSSFRichTextString((CTRst) sst.getItemAt(key)).toString()));  
         } else if ("n".equals(cellType)) {
             if ("2".equals(cellS)) {        //日期  
                 result = HSSFDateUtil.getJavaDate(Double.valueOf(tmp));

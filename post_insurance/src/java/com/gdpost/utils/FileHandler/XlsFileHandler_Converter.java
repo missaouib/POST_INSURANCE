@@ -5,9 +5,9 @@ import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -25,7 +25,6 @@ public class XlsFileHandler_Converter extends AbstractFileHandler {
 	public static Logger log = LoggerFactory.getLogger(XlsFileHandler_Converter.class);
 
 	// 读取Excel 2003文件
-	@SuppressWarnings("deprecation")
 	public DataTable[] readFile(String strFilePath, String strFileName, String keyRow) {
 		List<DataTable> list = new ArrayList<DataTable>();
 
@@ -33,6 +32,12 @@ public class XlsFileHandler_Converter extends AbstractFileHandler {
         {
         	// 设置访问密码
         	//Biff8EncryptionKey.setCurrentUserPassword(this.m_strPassword);
+        	
+        	String backKey = null;
+    		if(keyRow != null && keyRow.equals("underwrite")) {
+    			keyRow = "保单号";
+    			backKey = "underwrite";
+    		}
         	
         	HSSFWorkbook workbookold = new HSSFWorkbook(new FileInputStream(strFilePath + File.separator + strFileName));
 
@@ -54,6 +59,8 @@ public class XlsFileHandler_Converter extends AbstractFileHandler {
             Cell cell = null;
             boolean bFlag = false;
             int iHeaderRow = 0;
+            boolean hasKeyRow = false;
+    		int keyRowIdx = -1;
             
             for(int iSheet = 0; iSheet < iSheets; iSheet++) {
 	            sheet = workbook.getSheetAt(iSheet);
@@ -65,13 +72,28 @@ public class XlsFileHandler_Converter extends AbstractFileHandler {
 	            	continue;
 	            }
 	            
+	            //if(sheet.getc)
+	            
 	            headerRow = sheet.getRow(iHeaderRow);
 	            cellCount = headerRow.getLastCellNum();
 	            
+	            for(int i=0; i<headerRow.getRowNum(); i++) {
+					if (StringUtil.trimStr(headerRow.getCell(i))!=null && StringUtil.trimStr(headerRow.getCell(i)).equals(keyRow)) {
+						hasKeyRow = true;
+						keyRowIdx = i;
+					}
+				}
+				if(!hasKeyRow) {
+					workbookold.close();
+					workbook.close();
+					return null;
+				}
+				
 	            dt = new DataTable();
 	            dt.TableName = sheet.getSheetName();
-	
+	            
 	            for (int i = headerRow.getFirstCellNum(); i < cellCount; i++) {
+	            	
 	                column = new DataColumn(StringUtil.trimStr(headerRow.getCell(i).getStringCellValue()));
 	                dt.Columns.Add(column);
 	            }
@@ -88,13 +110,20 @@ public class XlsFileHandler_Converter extends AbstractFileHandler {
 	            		continue;
 	            	}
 	            	
+	            	if(backKey != null) {
+						if(!row.getCell(keyRowIdx).getStringCellValue().contains("8644") && !row.getCell(keyRowIdx).getStringCellValue().contains("7644") 
+								&& !row.getCell(keyRowIdx).getStringCellValue().contains("9644") && !row.getCell(keyRowIdx).getStringCellValue().contains("8144")) {
+							continue;
+						}
+					}
+	            	
 	                dataRow = dt.NewRow();
 	                bFlag = false;
 	                for (int j = row.getFirstCellNum(); j < cellCount; j++) {
 	                	cell = row.getCell(j);
 	                    if (cell != null && ("") != cell.toString()) {
 	                    	bFlag = true;
-	    	            	cell.setCellType(HSSFCell.CELL_TYPE_STRING);
+	    	            	cell.setCellType(CellType.STRING);
 	                        dataRow.setValue(j, cell.getStringCellValue());
 	                    }
 	                }

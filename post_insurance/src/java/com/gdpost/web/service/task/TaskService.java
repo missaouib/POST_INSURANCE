@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.mysql.cj.jdbc.JdbcStatement;
 
 @Service
 @Transactional
@@ -30,11 +31,11 @@ public class TaskService {
 	public void updateDB() {		
 		log.info("---------   task to update hfgl's data");
 		java.sql.Connection connection = null;
-		com.mysql.jdbc.Statement statement = null;
+		JdbcStatement statement = null;
 		try {
 			DruidDataSource dataSource = (DruidDataSource)this.getDateSource();
 			connection = DriverManager.getConnection(dataSource.getUrl(), dataSource.getUsername(), dataSource.getPassword());
-			statement = (com.mysql.jdbc.Statement)connection.createStatement();
+			statement = (JdbcStatement)connection.createStatement();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

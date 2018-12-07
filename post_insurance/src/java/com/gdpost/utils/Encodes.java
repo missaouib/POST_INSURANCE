@@ -24,6 +24,7 @@ import org.apache.commons.lang3.StringEscapeUtils;
  * 
  * @author calvin
  */
+@SuppressWarnings("deprecation")
 public class Encodes {
 
 	private static final String DEFAULT_URL_ENCODING = "UTF-8";

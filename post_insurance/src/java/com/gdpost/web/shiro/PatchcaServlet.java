@@ -17,6 +17,7 @@ import net.sf.ehcache.config.ConfigurationFactory;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.shiro.SecurityUtils;
 import org.patchca.service.ConfigurableCaptchaService;
 import org.patchca.utils.encoder.EncoderHelper;
 import org.patchca.word.RandomWordFactory;
@@ -99,6 +100,8 @@ public class PatchcaServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		String sid = request.getSession().getId();
+		LOGGER.debug("----------- session id 1111 ========= " + sid);
 		// 清除缓存
 		response.setHeader("Pragma", "No-cache");
 		response.setHeader("Cache-Control", "no-cache");
@@ -110,8 +113,12 @@ public class PatchcaServlet extends HttpServlet {
 		OutputStream os = response.getOutputStream();
 		String patchca= EncoderHelper.getChallangeAndWriteImage(cs, "png", os);
 		
+		sid = SecurityUtils.getSubject().getSession().getId().toString();
 		// 放入缓存
-		Element element = new Element(request.getSession().getId(), patchca);
+		Element element = new Element(sid, patchca);
+		
+		LOGGER.debug("----------- session id 1111222  ========= " + sid);
+		
 		cache.put(element);
 		
 		os.flush();
@@ -124,6 +131,7 @@ public class PatchcaServlet extends HttpServlet {
 	 * @return
 	 */
 	public static boolean validate(String sessionId, String code) {
+		LOGGER.debug("----------- session id 2222 ========= " + sessionId);
 		Element element = cache.get(sessionId);
 		
 		if (element != null) {
