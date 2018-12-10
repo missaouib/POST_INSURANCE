@@ -99,6 +99,9 @@ public class QyglController {
 	
 	private static final String TO_XLS = "insurance/qygl/underwrite/toXls";
 	
+	private static final String WRITE_TO_XLS = "insurance/qygl/wtj/write/toXls";
+	private static final String RECORD_TO_XLS = "insurance/qygl/wtj/record/toXls";
+	
 	private static final String TO_HELP = "insurance/help/qygl";
 	
 	@RequestMapping(value="/help", method=RequestMethod.GET)
@@ -197,10 +200,10 @@ public class QyglController {
 		CheckWrite issue = new CheckWrite();
 		if(status == null) {
 			status = STATUS.NewStatus.name();
-			request.setAttribute("status", status);
 		} else if(status.trim().length()>0) {
 			issue.setFixStatus(STATUS.valueOf(status).name());
 		}
+		request.setAttribute("status", status);
 		issue.setFixStatus(status);
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
@@ -218,6 +221,35 @@ public class QyglController {
 		map.put("page", page);
 		map.put("issues", issues);
 		return LIST_WRITE;
+	}
+	
+	@RequiresPermissions("CheckWrite:view")
+	@RequestMapping(value="/issue/write/toXls", method={RequestMethod.GET, RequestMethod.POST})
+	public String checkWriteToXls(ServletRequest request, Page page, Map<String, Object> map) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
+		//默认返回未处理工单
+		String status = request.getParameter("fixStatus");
+		String orgCode = request.getParameter("orgCode");
+		if(orgCode == null || orgCode.trim().length()<=0) {
+			orgCode = userOrg.getOrgCode();
+		} else if(!orgCode.contains(userOrg.getOrgCode())){
+			orgCode = userOrg.getOrgCode();
+		}
+		
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		if(status.trim().length()>0) {
+			csf.add(new SearchFilter("fixStatus", Operator.EQ, status));
+		}
+		
+		Specification<CheckWrite> specification = DynamicSpecifications.bySearchFilter(request, CheckWrite.class, csf);
+		
+		List<CheckWrite> issues = qyglService.findByCheckWriteExample(specification, page);
+		
+		map.put("issues", issues);
+		return WRITE_TO_XLS;
 	}
 	
 	@RequiresPermissions("CheckWrite:view")
@@ -319,10 +351,10 @@ public class QyglController {
 		CheckRecord issue = new CheckRecord();
 		if(status == null) {
 			status = STATUS.NewStatus.name();
-			request.setAttribute("status", status);
 		} else if(status.trim().length()>0) {
 			issue.setFixStatus(STATUS.valueOf(status).name());
 		}
+		request.setAttribute("status", status);
 		issue.setFixStatus(status);
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
@@ -340,6 +372,35 @@ public class QyglController {
 		map.put("page", page);
 		map.put("issues", issues);
 		return LIST_RECORD;
+	}
+	
+	@RequiresPermissions("CheckRecord:view")
+	@RequestMapping(value="/issue/record/toXls", method={RequestMethod.GET, RequestMethod.POST})
+	public String checkRecordToXls(ServletRequest request, Page page, Map<String, Object> map) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
+		//默认返回未处理工单
+		String status = request.getParameter("fixStatus");
+		String orgCode = request.getParameter("orgCode");
+		if(orgCode == null || orgCode.trim().length()<=0) {
+			orgCode = userOrg.getOrgCode();
+		} else if(!orgCode.contains(userOrg.getOrgCode())){
+			orgCode = userOrg.getOrgCode();
+		}
+		
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		if(status.trim().length()>0) {
+			csf.add(new SearchFilter("fixStatus", Operator.EQ, status));
+		}
+		
+		Specification<CheckRecord> specification = DynamicSpecifications.bySearchFilter(request, CheckRecord.class, csf);
+		
+		List<CheckRecord> issues = qyglService.findByCheckRecordExample(specification, page);
+		
+		map.put("issues", issues);
+		return RECORD_TO_XLS;
 	}
 	
 	@RequiresPermissions("CheckRecord:view")

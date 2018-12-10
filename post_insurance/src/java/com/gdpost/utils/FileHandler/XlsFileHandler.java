@@ -132,12 +132,7 @@ public class XlsFileHandler extends AbstractFileHandler {
 							//isNum = true;
 							break;
 						case STRING:
-							if (HSSFDateUtil.isCellDateFormatted(checkCell)) {
-						        check = StringUtil.trimStr(DateFormatUtils.format(checkCell.getDateCellValue(), "yyyy-MM-dd"));
-						    } else {
-						    	DecimalFormat df = new DecimalFormat("0");
-						    	check = df.format(checkCell.getNumericCellValue());
-						    }
+						    check = StringUtil.trimStr(checkCell.getStringCellValue());
 							break;
 						default:
 							check = checkCell.getStringCellValue();

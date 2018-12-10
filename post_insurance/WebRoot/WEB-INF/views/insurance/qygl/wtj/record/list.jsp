@@ -7,7 +7,7 @@
 	<input type="hidden" name="name" value="${name }"/>
 	<input type="hidden" name="search_LTE_policy.policyDate" value="${search_LTE_policy_policyDate }"/>
 	<input type="hidden" name="search_GTE_policy.policyDate" value="${search_GTE_policy_policyDate }"/>
-	<input type="hidden" name="status" value="${status }"/>
+	<input type="hidden" name="fixStatus" value="${status }"/>
 </dwz:paginationForm>
 
 <form method="post" id="qyRecordForm" action="${contextPath }/qygl/issue/record/list" onsubmit="return navTabSearch(this)">
@@ -65,6 +65,7 @@
 				<li class="line">line</li>
 				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/qygl/issue/record/update/{slt_uid}"><span>回复</span></a></li>
 			</shiro:hasPermission>
+			<li><a class="icon" target="_blank" href="${contextPath }/qygl/issue/record/toXls?fixStatus=${status }&orgCode=${orgCode }&search_GTE_policy.policyDate=${search_GTE_policy_policyDate}&search_LTE_policy.policyDate=${search_LTE_policy_policyDate}"><span>导出Excel</span></a></li>
 			<li class="line">line</li>
 			<li><a class="icon" target="dialog" href="${contextPath }/qygl/help" mask="true" width="530" height="430"><span>功能说明</span></a></li>
 		</ul>
@@ -85,6 +86,7 @@
 				<th orderField=importanceInfo class="${page.orderField eq 'importanceInfo' ? page.orderDirection : ''}">重要信息</th>
 				<th orderField=elseInfo class="${page.orderField eq 'elseInfo' ? page.orderDirection : ''}">其他信息</th>
 				<th orderField=netName class="${page.orderField eq 'netName' ? page.orderDirection : ''}">网点名称</th>
+				<th orderField=dealTime class="${page.orderField eq 'dealTime' ? page.orderDirection : ''}">经办日期</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -126,6 +128,7 @@
 					    </c:otherwise>  
 					</c:choose>
 				</td>
+				<td>${item.dealTime=="null"?"":item.dealTime}</td>
 			</tr>
 			</c:forEach>
 		</tbody>
