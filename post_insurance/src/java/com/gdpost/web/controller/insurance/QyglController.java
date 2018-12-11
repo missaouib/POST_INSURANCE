@@ -54,7 +54,7 @@ import com.gdpost.web.log.LogModule;
 import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.insurance.QyglService;
 import com.gdpost.web.shiro.ShiroUser;
-import com.gdpost.web.util.StatusDefine.STATUS;
+import com.gdpost.web.util.StatusDefine.QY_STATUS;
 import com.gdpost.web.util.StatusDefine.UW_STATUS;
 import com.gdpost.web.util.dwz.AjaxObject;
 import com.gdpost.web.util.dwz.Page;
@@ -120,7 +120,7 @@ public class QyglController {
 		CheckWrite issue = qyglService.getCheckWrite(id);
 		
 		map.put("issue", issue);
-		map.put("status", STATUS.NewStatus);
+		map.put("status", QY_STATUS.NewStatus);
 		return VIEW_WRITE;
 	}
 	
@@ -143,7 +143,7 @@ public class QyglController {
 		src.setDealTime(issue.getDealTime());
 		src.setFixType(issue.getFixType());
 		src.setFixDesc(issue.getFixDesc());
-		src.setFixStatus(STATUS.DealStatus.name());
+		src.setFixStatus(QY_STATUS.IngStatus.name());
 		qyglService.saveOrUpdateCheckWrite(src);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));
@@ -156,7 +156,7 @@ public class QyglController {
 	public @ResponseBody String reopenCheckWrite(CheckWrite issue) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		CheckWrite src = qyglService.getCheckWrite(issue.getId());
-		src.setFixStatus(STATUS.NewStatus.name());
+		src.setFixStatus(QY_STATUS.NewStatus.name());
 		src.setReopenUser(shiroUser.getUser());
 		src.setReopenReason(issue.getReopenReason());
 		src.setReopenDate(new Date());
@@ -172,7 +172,7 @@ public class QyglController {
 	public @ResponseBody String closeCheckWrite(CheckWrite issue) {
 		//ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		CheckWrite src = qyglService.getCheckWrite(issue.getId());
-		src.setFixStatus(STATUS.CloseStatus.name());
+		src.setFixStatus(QY_STATUS.CloseStatus.name());
 		qyglService.saveOrUpdateCheckWrite(src);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));
@@ -199,9 +199,9 @@ public class QyglController {
 		log.debug("-------------- orgCode: " + orgCode);
 		CheckWrite issue = new CheckWrite();
 		if(status == null) {
-			status = STATUS.NewStatus.name();
+			status = QY_STATUS.NewStatus.name();
 		} else if(status.trim().length()>0) {
-			issue.setFixStatus(STATUS.valueOf(status).name());
+			issue.setFixStatus(QY_STATUS.valueOf(status).name());
 		}
 		request.setAttribute("status", status);
 		issue.setFixStatus(status);
@@ -217,7 +217,7 @@ public class QyglController {
 		List<CheckWrite> issues = qyglService.findByCheckWriteExample(specification, page);
 		
 		map.put("issue", issue);
-		map.put("qyWriteStatusList", STATUS.values());
+		map.put("qyWriteStatusList", QY_STATUS.values());
 		map.put("page", page);
 		map.put("issues", issues);
 		return LIST_WRITE;
@@ -271,7 +271,7 @@ public class QyglController {
 		CheckRecord issue = qyglService.getCheckRecord(id);
 		
 		map.put("issue", issue);
-		map.put("status", STATUS.NewStatus);
+		map.put("status", QY_STATUS.NewStatus);
 		return VIEW_RECORD;
 	}
 	
@@ -294,7 +294,7 @@ public class QyglController {
 		src.setDealTime(issue.getDealTime());
 		src.setFixDesc(issue.getFixDesc());
 		src.setFixType(issue.getFixType());
-		src.setFixStatus(STATUS.DealStatus.name());
+		src.setFixStatus(QY_STATUS.IngStatus.name());
 		qyglService.saveOrUpdateCheckRecord(src);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));
@@ -307,7 +307,7 @@ public class QyglController {
 	public @ResponseBody String reopenCheckRecord(CheckRecord issue) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		CheckRecord src = qyglService.getCheckRecord(issue.getId());
-		src.setFixStatus(STATUS.NewStatus.name());
+		src.setFixStatus(QY_STATUS.NewStatus.name());
 		src.setReopenUser(shiroUser.getUser());
 		src.setReopenReason(issue.getReopenReason());
 		src.setReopenDate(new Date());
@@ -323,7 +323,7 @@ public class QyglController {
 	public @ResponseBody String closeCheckRecord(CheckRecord issue) {
 		//ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		CheckRecord src = qyglService.getCheckRecord(issue.getId());
-		src.setFixStatus(STATUS.CloseStatus.name());
+		src.setFixStatus(QY_STATUS.CloseStatus.name());
 		qyglService.saveOrUpdateCheckRecord(src);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));
@@ -350,9 +350,9 @@ public class QyglController {
 		log.debug("-------------- orgCode: " + orgCode);
 		CheckRecord issue = new CheckRecord();
 		if(status == null) {
-			status = STATUS.NewStatus.name();
+			status = QY_STATUS.NewStatus.name();
 		} else if(status.trim().length()>0) {
-			issue.setFixStatus(STATUS.valueOf(status).name());
+			issue.setFixStatus(QY_STATUS.valueOf(status).name());
 		}
 		request.setAttribute("status", status);
 		issue.setFixStatus(status);
@@ -368,7 +368,7 @@ public class QyglController {
 		List<CheckRecord> issues = qyglService.findByCheckRecordExample(specification, page);
 		
 		map.put("issue", issue);
-		map.put("qyRecordStatusList", STATUS.values());
+		map.put("qyRecordStatusList", QY_STATUS.values());
 		map.put("page", page);
 		map.put("issues", issues);
 		return LIST_RECORD;

@@ -15,6 +15,19 @@ public class StatusDefine {
 		}
 	};
 	
+	public enum QY_STATUS {
+		NewStatus("待处理"), IngStatus("待审核"), /*DealStatus("已审核"),*/ CTStatus("已退保"), CloseStatus("已整改");
+		private String desc;
+
+		QY_STATUS(String desc) {
+			this.desc = desc;
+		}
+
+		public String getDesc() {
+			return desc;
+		}
+	};
+	
 	public enum UW_STATUS {
 		NewStatus("新建"), SendStatus("已寄出"), CloseStatus("已回销"), DelStatus("已作废");
 		private String desc;
