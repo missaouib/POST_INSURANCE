@@ -1145,3 +1145,61 @@ create table t_sales
    primary  key (id)
 )
 engine=innodb auto_increment=4 default charset=utf8;
+
+alter table t_policy_dtl add column prov_code varchar(4) after id;
+alter table t_policy_dtl add column city_code varchar(6) after prov_code;
+alter table t_policy_dtl add column sale_channel varchar(12) after city_code;
+alter table t_policy_dtl add column sale_type varchar(12) after sale_channel;
+alter table t_policy_dtl add column bank_code varchar(11) after sale_type;
+alter table t_policy_dtl add column bank_name varchar(64) after bank_code;
+alter table t_policy_dtl add column bank_type varchar(64) after bank_name;
+alter table t_policy_dtl add column bank_attr varchar(64) after bank_type;
+alter table t_policy_dtl add column form_no varchar(64) after policy_no;
+alter table t_policy_dtl add column holder_id varchar(11) after form_no;
+alter table t_policy_dtl add column holder_card_valid date after holder_card_num;
+alter table t_policy_dtl add column holder_age int(3) after holder_card_valid;
+alter table t_policy_dtl add column relation varchar(9) after holder_age;
+alter table t_policy_dtl add column insured_id varchar(11) after holder_sexy;
+alter table t_policy_dtl add column insured_age int(3) after insured_card_valid;
+alter table t_policy_dtl add column plan_code varchar(6) after insured;
+alter table t_policy_dtl add column plan_name varchar(24) after plan_code;
+alter table t_policy_dtl add column prod_code varchar(6) after plan_name;
+alter table t_policy_dtl add column fee_type varchar(6);
+alter table t_policy_dtl add column fee_num int(3);
+alter table t_policy_dtl add column duration_type varchar(2);
+alter table t_policy_dtl add column duration varchar(6);
+alter table t_policy_dtl add column ywfx double;
+alter table t_policy_dtl add column zdjb double;
+alter table t_policy_dtl add column zjc double;
+alter table t_policy_dtl add column jtyw double;
+alter table t_policy_dtl add column sxfx double;
+alter table t_policy_dtl add column wcnjf double;
+alter table t_policy_dtl add column policy_time time after policy_date;
+alter table t_policy_dtl add column policy_valid date after policy_time;
+alter table t_policy_dtl add column policy_invalid date after policy_valid;
+alter table t_policy_dtl add column policy_status varchar(6) after policy_invalid;
+alter table t_policy_dtl add column gift_flag varchar(9);
+alter table t_policy_dtl add column policy_send_type varchar(24) after policy_status;
+alter table t_policy_dtl add column print_date date after policy_send_type;
+alter table t_policy_dtl add column sales_code varchar(10) after sales_name;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
