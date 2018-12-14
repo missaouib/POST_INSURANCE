@@ -1159,6 +1159,7 @@ alter table t_policy_dtl add column holder_id varchar(11) after form_no;
 alter table t_policy_dtl add column holder_card_valid date after holder_card_num;
 alter table t_policy_dtl add column holder_age int(3) after holder_card_valid;
 alter table t_policy_dtl add column relation varchar(9) after holder_age;
+alter table t_policy_dtl add column holder_email varchar(24) after holder_phone;
 alter table t_policy_dtl add column insured_id varchar(11) after holder_sexy;
 alter table t_policy_dtl add column insured_age int(3) after insured_card_valid;
 alter table t_policy_dtl add column plan_code varchar(6) after insured;
