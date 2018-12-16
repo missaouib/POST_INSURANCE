@@ -1,6 +1,7 @@
 package com.gdpost.web.entity.main;
 
 import java.io.Serializable;
+import java.sql.Time;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -54,6 +55,44 @@ public class PolicyDtl implements Idable<Long>,Serializable {
 	private String holderCardNum;
 	private Long operateId;
 	private Date operateTime;
+	
+	private String provCode;
+	private String cityCode;
+	private String saleChannel;
+	private String saleType;
+	private String bankCode;
+	private String bankName;
+	private String bankType;
+	private String bankAttr;
+	private String formNo;
+	private String holderId;
+	private Date holderCardValid;
+	private Integer holderAge;
+	private String relation;
+	private String holderEmail;
+	private String insuredId;
+	private Integer insuredAge;
+	private String planCode;
+	private String planName;
+	private String prodCode;
+	private String feeType;
+	private Integer feeNum;
+	private String duration;
+	private String durationType;
+	private Double ywfx;
+	private Double zdjb;
+	private Double zjc;
+	private Double jtyw;
+	private Double sxfx;
+	private Double wcnjf;
+	private Time policyTime;
+	private Date policyValidDate;
+	private Date policyInvalidDate;
+	private String policyStatus;
+	private String giftFlag;
+	private String policySendType;
+	private Date printDate;
+	private String SalesCode;
 	
 	private Staff staff;
 
@@ -300,5 +339,345 @@ public class PolicyDtl implements Idable<Long>,Serializable {
 	public void setStaff(Staff staff) {
 		this.staff = staff;
 	}
+
+	@Column(name = "prov_code")
+	public String getProvCode() {
+		return provCode;
+	}
+
+	public void setProvCode(String provCode) {
+		this.provCode = provCode;
+	}
+
+	@Column(name = "city_code")
+	public String getCityCode() {
+		return cityCode;
+	}
+
+	public void setCityCode(String cityCode) {
+		this.cityCode = cityCode;
+	}
+
+	@Column(name = "sale_channel")
+	public String getSaleChannel() {
+		return saleChannel;
+	}
+
+	public void setSaleChannel(String saleChannel) {
+		this.saleChannel = saleChannel;
+	}
+
+	@Column(name = "sale_type")
+	public String getSaleType() {
+		return saleType;
+	}
+
+	public void setSaleType(String saleType) {
+		this.saleType = saleType;
+	}
+
+	@Column(name = "bank_code")
+	public String getBankCode() {
+		return bankCode;
+	}
+
+	public void setBankCode(String bankCode) {
+		this.bankCode = bankCode;
+	}
+
+	@Column(name = "bank_name")
+	public String getBankName() {
+		return bankName;
+	}
+
+	public void setBankName(String bankName) {
+		this.bankName = bankName;
+	}
+
+	@Column(name = "bank_type")
+	public String getBankType() {
+		return bankType;
+	}
+
+	public void setBankType(String bankType) {
+		this.bankType = bankType;
+	}
+
+	@Column(name = "bank_attr")
+	public String getBankAttr() {
+		return bankAttr;
+	}
+
+	public void setBankAttr(String bankAttr) {
+		this.bankAttr = bankAttr;
+	}
+
+	@Column(name = "form_no")
+	public String getFormNo() {
+		return formNo;
+	}
+
+	public void setFormNo(String formNo) {
+		this.formNo = formNo;
+	}
+
+	@Column(name = "holder_id")
+	public String getHolderId() {
+		return holderId;
+	}
+
+	public void setHolderId(String holderId) {
+		this.holderId = holderId;
+	}
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "holder_card_valid")
+	public Date getHolderCardValid() {
+		return holderCardValid;
+	}
+
+	public void setHolderCardValid(Date holderCardValid) {
+		this.holderCardValid = holderCardValid;
+	}
+
+	@Column(name = "holder_age")
+	public Integer getHolderAge() {
+		return holderAge;
+	}
+
+	public void setHolderAge(Integer holderAge) {
+		this.holderAge = holderAge;
+	}
+
+	@Column(name = "relation")
+	public String getRelation() {
+		return relation;
+	}
+
+	public void setRelation(String relation) {
+		this.relation = relation;
+	}
+
+	@Column(name = "holder_email")
+	public String getHolderEmail() {
+		return holderEmail;
+	}
+
+	public void setHolderEmail(String holderEmail) {
+		this.holderEmail = holderEmail;
+	}
+
+	@Column(name = "insured_id")
+	public String getInsuredId() {
+		return insuredId;
+	}
+
+	public void setInsuredId(String insuredId) {
+		this.insuredId = insuredId;
+	}
+
+	@Column(name = "insured_age")
+	public Integer getInsuredAge() {
+		return insuredAge;
+	}
+
+	public void setInsuredAge(Integer insuredAge) {
+		this.insuredAge = insuredAge;
+	}
+
+	@Column(name = "plan_code")
+	public String getPlanCode() {
+		return planCode;
+	}
+
+	public void setPlanCode(String planCode) {
+		this.planCode = planCode;
+	}
+
+	@Column(name = "plan_name")
+	public String getPlanName() {
+		return planName;
+	}
+
+	public void setPlanName(String planName) {
+		this.planName = planName;
+	}
+
+	@Column(name = "prod_code")
+	public String getProdCode() {
+		return prodCode;
+	}
+
+	public void setProdCode(String prodCode) {
+		this.prodCode = prodCode;
+	}
+
+	@Column(name = "fee_type")
+	public String getFeeType() {
+		return feeType;
+	}
+
+	public void setFeeType(String feeType) {
+		this.feeType = feeType;
+	}
+
+	@Column(name = "fee_num")
+	public Integer getFeeNum() {
+		return feeNum;
+	}
+
+	public void setFeeNum(Integer feeNum) {
+		this.feeNum = feeNum;
+	}
+
+	@Column(name = "duration")
+	public String getDuration() {
+		return duration;
+	}
+
+	public void setDuration(String duration) {
+		this.duration = duration;
+	}
+
+	@Column(name = "duration_type")
+	public String getDurationType() {
+		return durationType;
+	}
+
+	public void setDurationType(String durationType) {
+		this.durationType = durationType;
+	}
+
+	@Column(name = "ywfx")
+	public Double getYwfx() {
+		return ywfx;
+	}
+
+	public void setYwfx(Double ywfx) {
+		this.ywfx = ywfx;
+	}
+
+	@Column(name = "zdjb")
+	public Double getZdjb() {
+		return zdjb;
+	}
+
+	public void setZdjb(Double zdjb) {
+		this.zdjb = zdjb;
+	}
+
+	@Column(name = "zjc")
+	public Double getZjc() {
+		return zjc;
+	}
+
+	public void setZjc(Double zjc) {
+		this.zjc = zjc;
+	}
+
+	@Column(name = "jtyw")
+	public Double getJtyw() {
+		return jtyw;
+	}
+
+	public void setJtyw(Double jtyw) {
+		this.jtyw = jtyw;
+	}
+
+	@Column(name = "sxfx")
+	public Double getSxfx() {
+		return sxfx;
+	}
+
+	public void setSxfx(Double sxfx) {
+		this.sxfx = sxfx;
+	}
+
+	@Column(name = "wcnjf")
+	public Double getWcnjf() {
+		return wcnjf;
+	}
+
+	public void setWcnjf(Double wcnjf) {
+		this.wcnjf = wcnjf;
+	}
+
+	@Temporal(TemporalType.TIME)
+	@Column(name = "policy_time")
+	public Time getPolicyTime() {
+		return policyTime;
+	}
+
+	public void setPolicyTime(Time policyTime) {
+		this.policyTime = policyTime;
+	}
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "policy_valid_date")
+	public Date getPolicyValidDate() {
+		return policyValidDate;
+	}
+
+	public void setPolicyValidDate(Date policyValidDate) {
+		this.policyValidDate = policyValidDate;
+	}
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "policy_invalid_date")
+	public Date getPolicyInvalidDate() {
+		return policyInvalidDate;
+	}
+
+	public void setPolicyInvalidDate(Date policyInvalidDate) {
+		this.policyInvalidDate = policyInvalidDate;
+	}
+
+	@Column(name = "policy_status")
+	public String getPolicyStatus() {
+		return policyStatus;
+	}
+
+	public void setPolicyStatus(String policyStatus) {
+		this.policyStatus = policyStatus;
+	}
+
+	@Column(name = "gift_flag")
+	public String getGiftFlag() {
+		return giftFlag;
+	}
+
+	public void setGiftFlag(String giftFlag) {
+		this.giftFlag = giftFlag;
+	}
+
+	@Column(name = "policy_send_type")
+	public String getPolicySendType() {
+		return policySendType;
+	}
+
+	public void setPolicySendType(String policySendType) {
+		this.policySendType = policySendType;
+	}
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "print_date")
+	public Date getPrintDate() {
+		return printDate;
+	}
+
+	public void setPrintDate(Date printDate) {
+		this.printDate = printDate;
+	}
+
+	@Column(name = "sales_code")
+	public String getSalesCode() {
+		return SalesCode;
+	}
+
+	public void setSalesCode(String salesCode) {
+		SalesCode = salesCode;
+	}
+	
+	
 
 }
