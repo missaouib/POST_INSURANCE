@@ -1,7 +1,6 @@
 package com.gdpost.web.entity.main;
 
 import java.io.Serializable;
-import java.sql.Time;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -56,43 +55,45 @@ public class PolicyDtl implements Idable<Long>,Serializable {
 	private Long operateId;
 	private Date operateTime;
 	
-	private String provCode;
-	private String cityCode;
-	private String saleChannel;
-	private String saleType;
-	private String bankCode;
-	private String bankName;
-	private String bankType;
-	private String bankAttr;
-	private String formNo;
-	private String holderId;
-	private Date holderCardValid;
-	private Integer holderAge;
-	private String relation;
-	private String holderEmail;
-	private String insuredId;
-	private Integer insuredAge;
-	private String planCode;
-	private String planName;
-	private String prodCode;
-	private String feeType;
-	private Integer feeNum;
-	private String duration;
-	private String durationType;
-	private Double ywfx;
-	private Double zdjb;
-	private Double zjc;
-	private Double jtyw;
-	private Double sxfx;
-	private Double wcnjf;
-	private Time policyTime;
-	private Date policyValidDate;
-	private Date policyInvalidDate;
-	private String policyStatus;
-	private String giftFlag;
-	private String policySendType;
-	private Date printDate;
-	private String SalesCode;
+	private String provCode;//省分机构-代码
+	private String provName;//省分机构名称
+	private String cityCode;//地市机构-代码
+	private String cityName;//地市机构名称
+	private String saleChannel;//销售渠道
+	private String saleType;//销售方式
+	private String bankCode;//网点代码
+	private String bankName;//网点名称
+	private String bankType;//网点类型
+	private String bankAttr;//网点属性
+	private String formNo;//投保单号码
+	private String holderId;//投保人客户号
+	private Date holderCardValid;//投保人证件有效期至
+	private Integer holderAge;//投保人年龄
+	private String relation;//被保险人是投保人的
+	private String holderEmail;//投保人邮箱
+	private String insuredId;//被保人客户号
+	private Integer insuredAge;//被保人年龄
+	private String planCode;//险种计划
+	private String planName;//险种计划名称
+	private String prodCode;//险种代码
+	private String feeType;//交费年期标志
+	private Integer feeNum;//交费年期
+	private String duration;//保险期间
+	private String durationType;//保险期间标志
+	private String ywfx;//意外风险保额
+	private String zdjb;//重大疾病风险保额
+	private String zjc;//自驾车意外保险金额
+	private String jtyw;//交通工具意外险保额
+	private Double sxfx;//寿险风险保额
+	private String wcnjf;//未成年人身故给付保额
+	private Date policyTime;//承保时间
+	private Date policyValidDate;//生效日期
+	private Date policyInvalidDate;//终止日期
+	private String policyStatus;//保单状态
+	private String giftFlag;//赠送标志
+	private String policySendType;//保单寄送方式
+	private Date printDate;//打印日期
+	private String SalesCode;//销售人员工号
 	
 	private Staff staff;
 
@@ -549,38 +550,38 @@ public class PolicyDtl implements Idable<Long>,Serializable {
 	}
 
 	@Column(name = "ywfx")
-	public Double getYwfx() {
+	public String getYwfx() {
 		return ywfx;
 	}
 
-	public void setYwfx(Double ywfx) {
+	public void setYwfx(String ywfx) {
 		this.ywfx = ywfx;
 	}
 
 	@Column(name = "zdjb")
-	public Double getZdjb() {
+	public String getZdjb() {
 		return zdjb;
 	}
 
-	public void setZdjb(Double zdjb) {
+	public void setZdjb(String zdjb) {
 		this.zdjb = zdjb;
 	}
 
 	@Column(name = "zjc")
-	public Double getZjc() {
+	public String getZjc() {
 		return zjc;
 	}
 
-	public void setZjc(Double zjc) {
+	public void setZjc(String zjc) {
 		this.zjc = zjc;
 	}
 
 	@Column(name = "jtyw")
-	public Double getJtyw() {
+	public String getJtyw() {
 		return jtyw;
 	}
 
-	public void setJtyw(Double jtyw) {
+	public void setJtyw(String jtyw) {
 		this.jtyw = jtyw;
 	}
 
@@ -594,21 +595,21 @@ public class PolicyDtl implements Idable<Long>,Serializable {
 	}
 
 	@Column(name = "wcnjf")
-	public Double getWcnjf() {
+	public String getWcnjf() {
 		return wcnjf;
 	}
 
-	public void setWcnjf(Double wcnjf) {
+	public void setWcnjf(String wcnjf) {
 		this.wcnjf = wcnjf;
 	}
 
 	@Temporal(TemporalType.TIME)
 	@Column(name = "policy_time")
-	public Time getPolicyTime() {
+	public Date getPolicyTime() {
 		return policyTime;
 	}
 
-	public void setPolicyTime(Time policyTime) {
+	public void setPolicyTime(Date policyTime) {
 		this.policyTime = policyTime;
 	}
 
@@ -676,6 +677,24 @@ public class PolicyDtl implements Idable<Long>,Serializable {
 
 	public void setSalesCode(String salesCode) {
 		SalesCode = salesCode;
+	}
+
+	@Column(name = "prov_name")
+	public String getProvName() {
+		return provName;
+	}
+
+	public void setProvName(String provName) {
+		this.provName = provName;
+	}
+
+	@Column(name = "city_name")
+	public String getCityName() {
+		return cityName;
+	}
+
+	public void setCityName(String cityName) {
+		this.cityName = cityName;
 	}
 	
 	

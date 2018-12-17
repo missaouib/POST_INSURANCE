@@ -49,6 +49,7 @@ import com.gdpost.utils.TemplateHelper.PolicyBackDateColumn;
 import com.gdpost.utils.TemplateHelper.PolicyColumn;
 import com.gdpost.utils.TemplateHelper.PolicyDtlColumn;
 import com.gdpost.utils.TemplateHelper.PolicyDtlExtColumn;
+import com.gdpost.utils.TemplateHelper.PolicyDtlsColumn;
 import com.gdpost.utils.TemplateHelper.PolicySentDataColumn;
 import com.gdpost.utils.TemplateHelper.PolicyUnderWriteColumn;
 import com.gdpost.utils.TemplateHelper.RenewedCityListColumn;
@@ -166,6 +167,11 @@ public class UploadDataServiceImpl implements UploadDataService{
 			break;
 		case PolicyDtl:
 			standardColumns = PolicyDtlColumn.getStandardColumns();
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_policy_dtl character set utf8 (";
+			sql1 = "update t_policy tp, t_policy_dtl tpd, t_staff ts set tp.staff_flag=true where tp.staff_flag=0 and tp.policy_no=tpd.policy_no and tpd.holder_card_num=ts.id_card";
+			break;
+		case NewPolicyDtl:
+			standardColumns = PolicyDtlsColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_policy_dtl character set utf8 (";
 			sql1 = "update t_policy tp, t_policy_dtl tpd, t_staff ts set tp.staff_flag=true where tp.staff_flag=0 and tp.policy_no=tpd.policy_no and tpd.holder_card_num=ts.id_card";
 			break;
@@ -604,6 +610,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case PolicyIngor:
 			return dr;
 		case PolicyDtl:
+			return dr;
+		case NewPolicyDtl:
 			return dr;
 		case Issue:
 			return dr;
@@ -1473,6 +1481,11 @@ public class UploadDataServiceImpl implements UploadDataService{
 			log.debug("----------get the dtl column");
 			standardColumns = PolicyDtlColumn.getStandardColumns();
 			keyRow = PolicyDtlColumn.KEY_ROW;
+			break;
+		case NewPolicyDtl:
+			log.debug("----------get the dtl column");
+			standardColumns = PolicyDtlsColumn.getStandardColumns();
+			keyRow = PolicyDtlsColumn.KEY_ROW;
 			break;
 		case PolicyUnderWrite:
 			log.debug("----------get the dtl column");
