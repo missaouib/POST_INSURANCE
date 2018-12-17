@@ -1153,13 +1153,13 @@ alter table t_policy_dtl add column city_name varchar(64) comment '地市机构�
 alter table t_policy_dtl add column organ_name varchar(64) comment '县市机构名称' after organ_code;
 alter table t_policy_dtl add column sale_channel varchar(12) comment '销售渠道' after organ_name;
 alter table t_policy_dtl add column sale_type varchar(12) comment '销售方式' after sale_channel;
-alter table t_policy_dtl add column bank_code varchar(11) comment '网点代码' after sale_type;
+alter table t_policy_dtl add column bank_code varchar(13) comment '网点代码' after sale_type;
 alter table t_policy_dtl add column bank_name varchar(64) comment '网点名称' after bank_code;
 alter table t_policy_dtl add column bank_type varchar(64) comment '网点类型' after bank_name;
 alter table t_policy_dtl add column bank_attr varchar(64) comment '网点属性' after bank_type;
 alter table t_policy_dtl add column form_no varchar(64) comment '投保单号码' after policy_no;
 alter table t_policy_dtl add column holder_id varchar(11) comment '投保人客户号 after form_no';
-alter table t_policy_dtl add column holder_card_valid date comment '投保人证件有效期至' after holder_card_num;
+alter table t_policy_dtl add column holder_card_valid varchar(10) comment '投保人证件有效期至' after holder_card_num;
 alter table t_policy_dtl add column holder_age int(3) comment '投保人年龄' after holder_card_valid;
 alter table t_policy_dtl add column relation varchar(9) comment '被保险人是投保人的' after holder_age;
 alter table t_policy_dtl add column holder_email varchar(24) comment '投保人邮箱' after holder_phone;

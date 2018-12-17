@@ -67,11 +67,14 @@ public class PolicyDtl implements Idable<Long>,Serializable {
 	private String bankAttr;//网点属性
 	private String formNo;//投保单号码
 	private String holderId;//投保人客户号
-	private Date holderCardValid;//投保人证件有效期至
+	private String holderCardValid;//投保人证件有效期至
 	private Integer holderAge;//投保人年龄
 	private String relation;//被保险人是投保人的
 	private String holderEmail;//投保人邮箱
 	private String insuredId;//被保人客户号
+	private String insuredCardType;
+	private String insuredCardNum;
+	private String insuredCardValid;
 	private Integer insuredAge;//被保人年龄
 	private String planCode;//险种计划
 	private String planName;//险种计划名称
@@ -84,7 +87,7 @@ public class PolicyDtl implements Idable<Long>,Serializable {
 	private String zdjb;//重大疾病风险保额
 	private String zjc;//自驾车意外保险金额
 	private String jtyw;//交通工具意外险保额
-	private Double sxfx;//寿险风险保额
+	private String sxfx;//寿险风险保额
 	private String wcnjf;//未成年人身故给付保额
 	private Date policyTime;//承保时间
 	private Date policyValidDate;//生效日期
@@ -431,14 +434,41 @@ public class PolicyDtl implements Idable<Long>,Serializable {
 		this.holderId = holderId;
 	}
 
-	@Temporal(TemporalType.DATE)
 	@Column(name = "holder_card_valid")
-	public Date getHolderCardValid() {
+	public String getHolderCardValid() {
 		return holderCardValid;
 	}
 
-	public void setHolderCardValid(Date holderCardValid) {
+	public void setHolderCardValid(String holderCardValid) {
 		this.holderCardValid = holderCardValid;
+	}
+	
+	
+	@Column(name = "insured_card_type")
+	public String getInsuredCardType() {
+		return insuredCardType;
+	}
+
+	public void setInsuredCardType(String insuredCardType) {
+		this.insuredCardType = insuredCardType;
+	}
+
+	@Column(name = "insured_card_num")
+	public String getInsuredCardNum() {
+		return insuredCardNum;
+	}
+
+	public void setInsuredCardNum(String insuredCardNum) {
+		this.insuredCardNum = insuredCardNum;
+	}
+
+	@Column(name = "insured_card_valid")
+	public String getInsuredCardValid() {
+		return insuredCardValid;
+	}
+
+	public void setInsuredCardValid(String insuredCardValid) {
+		this.insuredCardValid = insuredCardValid;
 	}
 
 	@Column(name = "holder_age")
@@ -586,11 +616,11 @@ public class PolicyDtl implements Idable<Long>,Serializable {
 	}
 
 	@Column(name = "sxfx")
-	public Double getSxfx() {
+	public String getSxfx() {
 		return sxfx;
 	}
 
-	public void setSxfx(Double sxfx) {
+	public void setSxfx(String sxfx) {
 		this.sxfx = sxfx;
 	}
 

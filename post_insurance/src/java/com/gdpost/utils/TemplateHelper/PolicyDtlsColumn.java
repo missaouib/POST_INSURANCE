@@ -374,14 +374,14 @@ public class PolicyDtlsColumn {
 
 		column = new ColumnItem();
 		column.setDisplayName("生效日期");
-		column.setColumnName("policy_valid");
+		column.setColumnName("policy_valid_date");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
 
 		column = new ColumnItem();
 		column.setDisplayName("终止日期");
-		column.setColumnName("policy_invalid");
+		column.setColumnName("policy_invalid_date");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
