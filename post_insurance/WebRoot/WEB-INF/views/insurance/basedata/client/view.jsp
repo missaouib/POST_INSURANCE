@@ -49,6 +49,22 @@
         <label>证件号码：</label>
         <span class="unit">${policy.policyDtl.holderCardNum }</span>
     </p>
+    <p>
+        <label>证件有效期：</label>
+        <span class="unit">${policy.policyDtl.holderCardValid }</span>
+    </p>
+    <p>
+        <label>Email：</label>
+        <span class="unit">${policy.policyDtl.holderEmail }</span>
+    </p>
+    <p>
+        <label>投保年龄：</label>
+        <span class="unit">${policy.policyDtl.holderAge }</span>
+    </p>
+    <p>
+			<label>关系：</label>
+			<span class="unit">${policy.policyDtl.relation }</span>
+		</p>
 		<p>
 			<label>被保险人：</label>
 			<span class="unit">${policy.insured }</span>
@@ -70,8 +86,24 @@
 			<span class="unit">${policy.policyFee }</span>
 		</p>
 		<p>
+			<label>保险期间：</label>
+			<span class="unit">${policy.policyDtl.duration }</span>
+		</p>
+		<p>
 			<label>承保日期：</label>
 			<span class="unit">${policy.policyDate }</span>
+		</p>
+		<p>
+			<label>承保时间：</label>
+			<span class="unit">${policy.policyDtl.policyTime }</span>
+		</p>
+		<p>
+			<label>终止期间：</label>
+			<span class="unit">${policy.policyDtl.policyInvalidDate }</span>
+		</p>
+		<p>
+			<label>保单寄送标志：</label>
+			<span class="unit">${policy.policyDtl.policySendType }</span>
 		</p>
 		<p>
 			<label>客户签收日期：</label>
@@ -92,6 +124,10 @@
 		<p>
 			<label>是否银行单：</label>
 			<span class="unit">${policy.bankCode!=null && policy.bankCode.netFlag==2?"是":"否" }</span>
+		</p>
+		<p>
+			<label>网点名称：</label>
+			<span class="unit">${policy.policyDtl.bankName }</span>
 		</p>
 	</fieldset>
 	</div>

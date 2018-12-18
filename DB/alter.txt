@@ -1187,7 +1187,24 @@ alter table t_policy_dtl add column policy_send_type varchar(24) comment '保单
 alter table t_policy_dtl add column print_date date comment '打印日期' after policy_send_type;
 alter table t_policy_dtl add column sales_code varchar(10) comment '销售人员工号' after sales_name;
 
-
+create table t_customer_info_err
+(
+   id   bigint not null auto_increment,
+   policy_no varchar(15),
+   email varchar(64),
+   addr varchar(64),
+   phone varchar(64),
+   mobile	varchar(64),
+   card_info  varchar(64),
+   relation  varchar(64),
+   policy_status	int(2),
+   deal_type	  bigint,
+   deal_rst varchar(256),
+   deal_man varchar(12),
+   deal_date	date,
+   primary  key (id)
+)
+engine=innodb auto_increment=4 default charset=utf8;
 
 
 

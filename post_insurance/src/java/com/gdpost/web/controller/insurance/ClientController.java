@@ -324,7 +324,7 @@ public class ClientController {
 		return TO_XLS;
 	}
 	
-	@RequiresPermissions("Client:view")
+	@RequiresPermissions("Client:prov")
 	@RequestMapping(value="/pdtoXls", method=RequestMethod.GET)
 	public String pdToXls(ServletRequest request, Page page, Map<String, Object> map) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
