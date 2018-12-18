@@ -1162,10 +1162,10 @@ alter table t_policy_dtl add column holder_id varchar(11) comment '投保人客�
 alter table t_policy_dtl add column holder_card_valid varchar(10) comment '投保人证件有效期至' after holder_card_num;
 alter table t_policy_dtl add column holder_age int(3) comment '投保人年龄' after holder_card_valid;
 alter table t_policy_dtl add column relation varchar(9) comment '被保险人是投保人的' after holder_age;
-alter table t_policy_dtl add column holder_email varchar(24) comment '投保人邮箱' after holder_phone;
+alter table t_policy_dtl add column holder_email varchar(42) comment '投保人邮箱' after holder_phone;
 alter table t_policy_dtl add column insured_id varchar(11) comment '被保人客户号' after holder_sexy;
 alter table t_policy_dtl add column insured_age int(3) comment '被保人年龄' after insured_card_valid;
-alter table t_policy_dtl add column plan_code varchar(6) comment '险种计划' after insured;
+alter table t_policy_dtl add column plan_code varchar(8) comment '险种计划' after insured;
 alter table t_policy_dtl add column plan_name varchar(24) comment '险种计划名称' after plan_code;
 alter table t_policy_dtl add column prod_code varchar(6) comment '险种代码' after plan_name;
 alter table t_policy_dtl add column fee_type varchar(6) comment '交费年期标记';

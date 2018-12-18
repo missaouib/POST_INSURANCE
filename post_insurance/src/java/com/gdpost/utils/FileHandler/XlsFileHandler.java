@@ -192,6 +192,8 @@ public class XlsFileHandler extends AbstractFileHandler {
 					dt.Columns.Add(column);
 				}
 
+				String val = null;
+				
 				for (int i = markRow + 1; i <= rowCount; i++) {
 					markIdx ++;
 					row = (HSSFRow) sheet.getRow(i);
@@ -239,7 +241,11 @@ public class XlsFileHandler extends AbstractFileHandler {
 							    }
 								break;
 							case STRING:
-								dataRow.setValue(j, StringUtil.trimStr(cell.getStringCellValue()));
+								val = StringUtil.trimStr(cell.getStringCellValue());
+								if(keyRowIdx == j && val.contains("日期")) {
+									j = 10000;
+								}
+								dataRow.setValue(j, val);
 								break;
 							case BLANK:
 								dataRow.setValue(j, "");

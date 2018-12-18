@@ -155,6 +155,8 @@ public class XlsxFileHandler extends AbstractFileHandler {
 	            }
 	
 	            rowCount = sheet.getLastRowNum();
+	            
+	            String val = null;
 	
 	            //for (int i = (sheet.getFirstRowNum() + 1); i <= rowCount; i++) {
 	            for (int i = markRow + 1; i <= rowCount; i++) {
@@ -192,7 +194,11 @@ public class XlsxFileHandler extends AbstractFileHandler {
 							    }
 								break;
 							case STRING:
-								dataRow.setValue(j, StringUtil.trimStr(cell.getStringCellValue()));
+								val = StringUtil.trimStr(cell.getStringCellValue());
+								if(keyRowIdx == j && val.contains("日期")) {
+									j = 10000;
+								}
+								dataRow.setValue(j, val);
 								break;
 							case BLANK:
 								dataRow.setValue(j, "");
