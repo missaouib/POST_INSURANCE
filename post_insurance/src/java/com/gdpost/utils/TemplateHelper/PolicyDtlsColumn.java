@@ -131,6 +131,7 @@ public class PolicyDtlsColumn {
 		column.setDisplayName("投保人姓名");
 		column.setColumnName("holder");
 		column.setColumnType(ColumnType.string);
+		column.setNeedEncrypt(true);
 		column.setNullable(true);
 		standardColumns.add(column);
 
@@ -152,6 +153,7 @@ public class PolicyDtlsColumn {
 		column.setDisplayName("投保人证件号码");
 		column.setColumnName("holder_card_num");
 		column.setColumnType(ColumnType.string);
+		column.setNeedEncrypt(true);
 		column.setNullable(true);
 		standardColumns.add(column);
 
@@ -173,6 +175,7 @@ public class PolicyDtlsColumn {
 		column.setDisplayName("投保人联系电话");
 		column.setColumnName("holder_phone");
 		column.setColumnType(ColumnType.string);
+		column.setNeedEncrypt(true);
 		column.setNullable(true);
 		standardColumns.add(column);
 
@@ -180,6 +183,7 @@ public class PolicyDtlsColumn {
 		column.setDisplayName("投保人手机");
 		column.setColumnName("holder_mobile");
 		column.setColumnType(ColumnType.string);
+		column.setNeedEncrypt(true);
 		column.setNullable(true);
 		standardColumns.add(column);
 
@@ -194,6 +198,7 @@ public class PolicyDtlsColumn {
 		column.setDisplayName("投保人联系地址");
 		column.setColumnName("holder_addr");
 		column.setColumnType(ColumnType.string);
+		column.setNeedEncrypt(true);
 		column.setNullable(true);
 		standardColumns.add(column);
 
@@ -215,6 +220,7 @@ public class PolicyDtlsColumn {
 		column.setDisplayName("被保人姓名");
 		column.setColumnName("insured");
 		column.setColumnType(ColumnType.string);
+		column.setNeedEncrypt(true);
 		column.setNullable(true);
 		standardColumns.add(column);
 
@@ -229,6 +235,7 @@ public class PolicyDtlsColumn {
 		column.setDisplayName("被保人证件号码");
 		column.setColumnName("insured_card_num");
 		column.setColumnType(ColumnType.string);
+		column.setNeedEncrypt(true);
 		column.setNullable(true);
 		standardColumns.add(column);
 
@@ -313,6 +320,7 @@ public class PolicyDtlsColumn {
 		column.setDisplayName("保费");
 		column.setColumnName("policy_fee");
 		column.setColumnType(ColumnType.numeric);
+		column.setNeedEncrypt(true);
 		column.setNullable(true);
 		standardColumns.add(column);
 

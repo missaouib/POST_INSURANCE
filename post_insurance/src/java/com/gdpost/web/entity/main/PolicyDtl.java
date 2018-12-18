@@ -454,6 +454,10 @@ public class PolicyDtl implements Idable<Long>,Serializable {
 	}
 
 	@Column(name = "insured_card_num")
+	@ColumnTransformer(
+			forColumn="insured_card_num",
+			read="cast(aes_decrypt(unhex(holder_card_num), '" + com.gdpost.web.MySQLAESKey.AESKey + "') as char(100))", 
+			write="hex(aes_encrypt(?,'" + com.gdpost.web.MySQLAESKey.AESKey + "'))")
 	public String getInsuredCardNum() {
 		return insuredCardNum;
 	}
