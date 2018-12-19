@@ -39,14 +39,14 @@ response.setHeader("Content-Disposition", "inline; filename=QY_Write_LIST.xls");
 					<c:when test="${item.fixStatus eq 'NewStatus'}">
 						<span style="color:red; height:50%; margin-bottom:-contentheight;">待处理</span>
 					</c:when>
-					<c:when test="${item.fixStatus eq 'DealStatus'}">
-						已回复
+					<c:when test="${item.fixStatus eq 'IngStatus'}">
+						待审核
 					</c:when>
-					<c:when test="${item.fixStatus eq 'ReopenStatus'}">
-						重打开
+					<c:when test="${item.fixStatus eq 'CTStatus'}">
+						已退保
 					</c:when>
 					<c:otherwise>
-						已关闭
+						已整改
 					</c:otherwise>
 				</c:choose>
 				</td>
