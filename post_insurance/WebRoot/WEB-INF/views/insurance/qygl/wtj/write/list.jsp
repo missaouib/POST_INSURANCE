@@ -8,6 +8,8 @@
 	<input type="hidden" name="name" value="${name }"/>
 	<input type="hidden" name="search_LTE_policy.policyDate" value="${search_LTE_policy_policyDate }"/>
 	<input type="hidden" name="search_GTE_policy.policyDate" value="${search_GTE_policy_policyDate }"/>
+	<input type="hidden" name="search_LTE_dealTime" value="${param.search_LTE_dealTime }"/>
+	<input type="hidden" name="search_GTE_dealTime" value="${param.search_GTE_dealTime }"/>
 	<input type="hidden" name="fixStatus" value="${status }"/>
 </dwz:paginationForm>
 
@@ -31,6 +33,7 @@
 						<input name="orgCode" id="qy_w_orgCode" type="hidden" value="${orgCode }"/>
 						<input class="validate[required] required" name="name" id="qy_w_orgName" type="text" readonly="readonly" style="width: 100px;" value="${name }"/><a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="" title="选择机构" width="400">查</a>
 					</td>
+					<td>&nbsp;</td>
 				</tr>
 				<tr>
 					<td>
@@ -42,7 +45,12 @@
 						<input type="text" name="search_LTE_policy.policyDate" id="qy_w_date2" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${search_LTE_policy_policyDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
-						&nbsp;
+						<label>经办开始日期：</label>
+						<input type="text" name="search_GTE_dealTime" id="qyw_d_date1" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_dealTime }"/><a class="inputDateButton" href="javascript:;">选</a>
+					</td>
+					<td>
+						<label>经办结束日期：</label>
+						<input type="text" name="search_LTE_dealTime" id="qyw_d_date2" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_dealTime }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 				</tr>
 			</table>
@@ -66,7 +74,7 @@
 				<li class="line">line</li>
 				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/qygl/issue/write/update/{slt_uid}"><span>回复</span></a></li>
 			</shiro:hasPermission>
-			<li><a class="icon" target="_blank" href="${contextPath }/qygl/issue/write/toXls?fixStatus=${status }&orgCode=${orgCode }&search_GTE_policy.policyDate=${search_GTE_policy_policyDate}&search_LTE_policy.policyDate=${search_LTE_policy_policyDate}"><span>导出Excel</span></a></li>
+			<li><a class="icon" target="_blank" href="${contextPath }/qygl/issue/write/toXls?fixStatus=${status }&orgCode=${orgCode }&search_GTE_policy.policyDate=${search_GTE_policy_policyDate}&search_LTE_policy.policyDate=${search_LTE_policy_policyDate}&search_GTE_dealTime=${param.search_GTE_dealTime}&search_LTE_dealTime=${param.search_LTE_dealTime}"><span>导出Excel</span></a></li>
 			<li class="line">line</li>
 			<li><a class="icon" target="dialog" href="${contextPath }/qygl/help" mask="true" width="530" height="430"><span>功能说明</span></a></li>
 		</ul>
@@ -104,14 +112,17 @@
 					<c:when test="${item.fixStatus eq 'NewStatus'}">
 						<span style="color:red; height:50%; margin-bottom:-contentheight;">待处理</span>
 					</c:when>
-					<c:when test="${item.fixStatus eq 'DealStatus'}">
-						已回复
+					<c:when test="${item.fixStatus eq 'IngStatus'}">
+						待审核
 					</c:when>
-					<c:when test="${item.fixStatus eq 'ReopenStatus'}">
-						重打开
+					<c:when test="${item.fixStatus eq 'CTStatus'}">
+						已退保
+					</c:when>
+					<c:when test="${item.fixStatus eq 'CloseStatus'}">
+						已整改
 					</c:when>
 					<c:otherwise>
-						已关闭
+						${item.fixStatus}
 					</c:otherwise>
 				</c:choose>
 				</td>
@@ -129,7 +140,7 @@
 					    </c:otherwise>  
 					</c:choose>
 				</td>
-				<td>${item.dealTime=="null"?"":item.dealTime}</td>
+				<td><fmt:formatDate value="${item.dealTime }" pattern="yyyy-MM-dd"/></td>
 			</tr>
 			</c:forEach>
 		</tbody>

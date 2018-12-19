@@ -238,6 +238,8 @@ public class QyglController {
 			orgCode = userOrg.getOrgCode();
 		}
 		
+		page.setPageNum(0);
+		page.setNumPerPage(Integer.MAX_VALUE);
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 		if(status.trim().length()>0) {
@@ -388,6 +390,9 @@ public class QyglController {
 		} else if(!orgCode.contains(userOrg.getOrgCode())){
 			orgCode = userOrg.getOrgCode();
 		}
+		
+		page.setPageNum(0);
+		page.setNumPerPage(Integer.MAX_VALUE);
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));

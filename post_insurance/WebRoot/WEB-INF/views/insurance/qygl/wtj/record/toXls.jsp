@@ -45,8 +45,11 @@ response.setHeader("Content-Disposition", "inline; filename=QY_Record_LIST.xls")
 					<c:when test="${item.fixStatus eq 'CTStatus'}">
 						已退保
 					</c:when>
-					<c:otherwise>
+					<c:when test="${item.fixStatus eq 'CloseStatus'}">
 						已整改
+					</c:when>
+					<c:otherwise>
+						${item.fixStatus}
 					</c:otherwise>
 				</c:choose>
 				</td>
@@ -67,7 +70,7 @@ response.setHeader("Content-Disposition", "inline; filename=QY_Record_LIST.xls")
 				<td>${item.fixType=="null"?"":item.fixType}</td>
 				<td>${item.fixDesc=="null"?"":item.fixDesc}</td>
 				<td>${item.dealMan=="null"?"":item.dealMan}</td>
-				<td>${item.dealTime=="null"?"":item.dealTime}</td>
+				<td><fmt:formatDate value="${item.dealTime }" pattern="yyyy-MM-dd"/></td>
 			</tr>
 			</c:forEach>
 	</table>
