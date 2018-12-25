@@ -241,6 +241,9 @@ public class TaskService {
 			log.info("------------ sql :" + sql);
 			statement.executeUpdate(sql);
 			
+			// 获取保单号、投保人（姓名、证件号码）、被保险人（证件号码），双方年龄、关系、地址、电话、email；进行判断
+			sql = "select policy_no,";
+			
 			log.info("------------ task service update finish");
 			
 		} catch (SQLException e) {
