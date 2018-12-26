@@ -242,7 +242,15 @@ public class TaskService {
 			statement.executeUpdate(sql);
 			
 			// 获取保单号、投保人（姓名、证件号码）、被保险人（证件号码），双方年龄、关系、地址、电话、email；进行判断
-			sql = "select policy_no,";
+			boolean isHolderErr = false;
+			StringBuffer holderErr = new StringBuffer();
+			boolean isInsuredErr = false;
+			StringBuffer insuredErr = new StringBuffer();
+			boolean isEmailErr = false;
+			sql = "select policy_no,holder,holder_age,insured,insured_age,"
+					+ "holder_card_type,holder_card_num,holder_card_valid,holder_addr,holder_phone,holder_mobile,"
+					+ "insured_card_type,insured_card_num,insured_card_valid "
+					+ "from t_policy_dtl where check_flag=0";
 			
 			log.info("------------ task service update finish");
 			

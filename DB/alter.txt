@@ -1206,7 +1206,7 @@ create table t_customer_info_err
 )
 engine=innodb auto_increment=4 default charset=utf8;
 
-
+alter table t_policy_dtl add column check_flag boolean default false;
 
 
 
