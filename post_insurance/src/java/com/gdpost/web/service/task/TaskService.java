@@ -246,14 +246,21 @@ public class TaskService {
 			StringBuffer holderErr = new StringBuffer();
 			boolean isInsuredErr = false;
 			StringBuffer insuredErr = new StringBuffer();
-			boolean isEmailErr = false;
+			
 			sql = "select policy_no,holder,holder_age,insured,insured_age,"
 					+ "holder_card_type,holder_card_num,holder_card_valid,holder_addr,holder_phone,holder_mobile,"
 					+ "insured_card_type,insured_card_num,insured_card_valid "
 					+ "from t_policy_dtl where check_flag=0";
 			
-			log.info("------------ task service update finish");
+			statement.execute(sql);
 			
+			String updateSQL = "update t_policy_dtl set check_flag=true where check_flag=0;";
+			statement.executeUpdate(updateSQL);
+			
+			//TODO 单独处理证件有效期的判断。用存储过程吧。
+			//sql = "call procDealCardValid();";
+			
+			log.info("------------ task service update finish");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			sql = "insert into t_log_info (username, message,ip_address,log_level,module) values "
