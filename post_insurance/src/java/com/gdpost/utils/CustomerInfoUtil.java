@@ -11,11 +11,33 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.math.NumberUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class CustomerInfoUtil {
 
-	// private static final Logger LOG =
-	// LoggerFactory.getLogger(StringUtil.class);
+	private static final Logger LOG = LoggerFactory.getLogger(CustomerInfoUtil.class);
 
+	/**
+	 * 姓名不能为数字
+	 * 电话不能同时为空
+	 * 其他传过来的数据都不能为空
+	 * 
+	 * @param holder 
+	 * @param phone
+	 * @param mobile
+	 * @return
+	 */
+	public static String checkData(String holder, String insured, String phone, String mobile) {
+		return null;
+	}
+	
+	/**
+	 * 
+	 * @param email
+	 * @return
+	 */
 	public static boolean checkEmail(String email) {
 		// and (holder_email not regexp
 		// '^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$'
@@ -23,19 +45,46 @@ public class CustomerInfoUtil {
 		if (email == null || email.trim().length() <= 0) {
 			return false;
 		}
-		String check = "^([a-z0-9A-Z]+[-|//._]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?//.)+[a-zA-Z]{2,}$";
+		String check = "^([a-z0-9A-Z]+[-|\\.|_]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
 		Pattern regex = Pattern.compile(check);
 		Matcher matcher = regex.matcher(email);
 		boolean isMatched = matcher.matches();
-
+		if(!isMatched) {
+			return false;
+		}
+		
 		String c2 = "//..*";
 		Pattern r2 = Pattern.compile(c2);
 		Matcher m2 = r2.matcher(email);
-		
-		//TODO:增加Email校验规则，如QQ邮箱的规则等
-		
 		boolean isM2 = m2.matches();
-		if (isMatched && !isM2) {
+		if(isM2) {
+			return false;
+		}
+		//TODO:增加Email校验规则，如QQ邮箱的规则等
+		String ss = email.substring(email.indexOf("@") + 1);
+		String name = email.substring(0,email.indexOf("@"));
+		LOG.debug("---- 11111111 ----" + name + ":" + ss);
+		boolean patch = true;
+		switch(ss) {
+		case "163.com":
+		case "126.com":
+		case "yeah.com":
+			if (name.length()<6) return false;
+			break;
+		case "qq.com":
+			if (NumberUtils.isDigits(name) && name.length()<5) return false;
+			break;
+		case "139.com":
+		case "wo.com":
+		case "189.com":
+			if (NumberUtils.isDigits(name) && name.length()<11) return false;
+			break;
+		case "sina.com":
+			if (name.length()<4) return false;
+			break;
+		}
+		
+		if (isMatched && !isM2 && patch) {
 			return true;
 		} else {
 			return false;
@@ -95,11 +144,12 @@ public class CustomerInfoUtil {
 
 	/**
 	 * 规则描述：
-	 * 1、长度
+	 * 1、长度＜7位
 	 * 2、地址库结尾校验：以县区（镇/区）结尾，镇数据没有维护
-	 * 3、以“附近"、“栋、幢"结尾
+	 * 3、以“附近"、对面、旁边、“路”“街”，“道”，“栋、幢"结尾、市场、小区、开发区、工业区
 	 * 4、含有“邮政……等字样（待完善）
 	 * 5、不含数字以及中文数字
+	 * 6、以村结尾：要含有乡、镇、村、屯/组
 	 * 
 	 * @param stat
 	 * @param addr
@@ -108,7 +158,7 @@ public class CustomerInfoUtil {
 	public static String checkAddr(Statement stat,String addr) {
 		StringBuffer str = new StringBuffer("");
 		//1、长度校验
-		if(addr == null || addr.trim().length()<5) {
+		if(addr == null || addr.trim().length()<7) {
 			str.append("地址长度太短；");
 		}
 		//2、地址库结尾校验。
@@ -120,13 +170,33 @@ public class CustomerInfoUtil {
 				
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return str.toString();
 	}
 	
-	public static boolean isSalesPhone(String phone) {
+	/**
+	 * 
+	 * @param stat
+	 * @param holder
+	 * @param phone
+	 * @return
+	 */
+	public static boolean isSalesPhone(Statement stat, String holder, String phone) {
+		if(phone == null || phone.trim().length()<=10 || !NumberUtils.isDigits(phone)) {
+			return false;
+		}
+		String sql = "select sales_name,phone from t_sales where phone=\"" + phone + "\"";
+		try {
+			ResultSet rst = stat.executeQuery(sql);
+			while(rst.next()) {
+				if(rst.getString("sales_name") != null && !rst.getString("sales_name").equals(holder)) {
+					return true;
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return false;
 	}
 
@@ -150,6 +220,11 @@ public class CustomerInfoUtil {
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param mobile
+	 * @return
+	 */
 	public static boolean checkMobile(String mobile) {
 		if (mobile == null || mobile.trim().length() <= 0) {
 			return false;
@@ -160,6 +235,11 @@ public class CustomerInfoUtil {
 		return matcher.matches();
 	}
 
+	/**
+	 * 
+	 * @param phone
+	 * @return
+	 */
 	public static boolean checkPhone(String phone) {
 		// ^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$
 		if (phone == null || phone.trim().length() <= 0) {
@@ -180,6 +260,13 @@ public class CustomerInfoUtil {
 		return b;
 	}
 
+	/**
+	 * 
+	 * @param type
+	 * @param cardNum
+	 * @param dateValid
+	 * @return
+	 */
 	public static String checkCardInfo(String type, String cardNum, String dateValid) {
 		StringBuffer str = new StringBuffer("");
 		switch (type) {
@@ -315,5 +402,8 @@ public class CustomerInfoUtil {
 		System.out.println(i1);
 		System.out.println(i2);
 		System.out.println(str.substring(16, 17));
+		
+		String email = "12345@qq.com";
+		System.out.print(CustomerInfoUtil.checkEmail(email));
 	}
 }

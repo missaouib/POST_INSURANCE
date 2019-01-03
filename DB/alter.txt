@@ -1130,21 +1130,8 @@ alter table t_issue add column check_date datetime;
 alter table t_policy add column plan_code varchar(6) after insured;
 alter table t_policy add column plan_name varchar(24) after plan_code;
 
-create table t_sales
-(
-   id   bigint not null auto_increment,
-   organ_code varchar(8),
-   organ_name varchar(64),
-   bank_name varchar(64),
-   sales_code varchar(11),
-   sales_name	varchar(18),
-   phone  varchar(18),
-   status	int(2),
-   operate_id	  bigint,
-   operate_time	datetime    default   current_timestamp,
-   primary  key (id)
-)
-engine=innodb auto_increment=4 default charset=utf8;
+
+
 
 alter table t_policy_dtl add column prov_code varchar(4) comment '省分机构-代码' after id;
 alter table t_policy_dtl add column prov_name varchar(64) comment '省分机构名称' after prov_code;
@@ -1210,7 +1197,21 @@ alter table t_policy_dtl add column check_flag boolean default false;
 
 
 
-
+create table t_sales
+(
+   id   bigint not null auto_increment,
+   organ_code varchar(8),
+   organ_name varchar(64),
+   bank_name varchar(64),
+   sales_code varchar(11),
+   sales_name	varchar(18),
+   phone  varchar(18),
+   status	int(2),
+   operate_id	  bigint,
+   operate_time	datetime    default   current_timestamp,
+   primary  key (id)
+)
+engine=innodb auto_increment=4 default charset=utf8;
 
 
 
