@@ -2,25 +2,21 @@
 <%@page import="java.util.Date"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 
-<dwz:paginationForm action="${contextPath }/basedata/bankCode/list" page="${page }">
-	<input type="hidden" name="search_LIKE_ybtCode" value="${param.search_LIKE_ybtCode }"/>
-	<input type="hidden" name="search_LIKE_bankCode" value="${param.search_LIKE_bankCode }"/>
-	<input type="hidden" name="search_LIKE_name" value="${param.search_LIKE_name }"/>
+<dwz:paginationForm action="${contextPath }/basedata/sales/list" page="${page }">
+	<input type="hidden" name="search_LIKE_phone" value="${param.search_LIKE_phone }"/>
+	<input type="hidden" name="search_LIKE_saleName" value="${param.search_LIKE_saleName }"/>
 </dwz:paginationForm>
 
-<form method="post" action="${contextPath }/basedata/bankCode/list" onsubmit="return navTabSearch(this)">
+<form method="post" action="${contextPath }/basedata/sales/list" onsubmit="return navTabSearch(this)">
 	<div class="pageHeader">
 		<div class="searchBar">
 			<table class="searchContent">
 			<tr>
-				<td>邮保通网点代码：
-					<input type="text" name="search_LIKE_ybtCode" value="${param.search_LIKE_ybtCode }"/>
+				<td>姓名：
+					<input type="text" name="search_LIKE_salesName" value="${param.search_LIKE_salesName }"/>
 				</td>
-				<td>银行网点编码：
-					<input type="text" name="search_LIKE_bankCode" value="${param.search_LIKE_bankCode }"/>
-				</td>
-				<td>网点名称：
-					<input type="text" name="search_LIKE_name" value="${param.search_LIKE_name }"/>
+				<td>电话：
+					<input type="text" name="search_LIKE_phone" value="${param.search_LIKE_phone }"/>
 				</td>
 			</tr>
 			</table>
@@ -37,14 +33,14 @@
 
 	<div class="panelBar">
 		<ul class="toolBar">
-			<shiro:hasPermission name="BankCode:save">
-				<li><a class="add" target="dialog" rel="lookup2organization_add" mask="true" width="530" height="330" href="${contextPath }/basedata/bankCode/create"><span>添加网点对应</span></a></li>
+			<shiro:hasPermission name="sales:save">
+				<li><a class="add" target="dialog" rel="sales_add" mask="true" width="530" height="330" href="${contextPath }/basedata/sales/create"><span>添加销售人员</span></a></li>
 			</shiro:hasPermission>
-			<shiro:hasPermission name="BankCode:edit">
-				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="330" href="${contextPath }/basedata/bankCode/update/{slt_uid}"><span>编辑网点对应</span></a></li>
+			<shiro:hasPermission name="sales:edit">
+				<li><a class="edit" target="dialog" rel="sales_edit" mask="true" width="530" height="330" href="${contextPath }/basedata/sales/update/{slt_uid}"><span>编辑销售人员</span></a></li>
 			</shiro:hasPermission>
-			<shiro:hasPermission name="BankCode:delete">
-				<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/basedata/bankCode/delete" title="确认要删除?"><span>删除网点对应</span></a></li>
+			<shiro:hasPermission name="sales:delete">
+				<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/basedata/sales/delete" title="确认要删除?"><span>删除销售人员</span></a></li>
 			</shiro:hasPermission>
 		</ul>
 	</div>
@@ -53,34 +49,34 @@
 		<thead>
 			<tr>
 				<th width="22"><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
-				<th width="100">邮保通代码</th>
-				<th width="100">中邮网点代码</th>
-				<th width="100">银行网点代码</th>
-				<th width="100">网点名称</th>
-				<th width="100">管理机构</th>
-				<th width="100">网点属性</th>
+				<th width="100">机构代码</th>
+				<th width="100">机构名称</th>
+				<th width="100">姓名</th>
+				<th width="100">电话</th>
+				<th width="100">状态</th>
+				<th width="100">网点</th>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach var="item" items="${basedata}">
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
-				<td>${item.ybtCode}</td>
-				<td>${item.cpiCode}</td>
-				<td>${item.bankCode}</td>
-				<td>${item.name}</td>
-				<td>${item.organization.shortName}</td>
+				<td>${item.organCode}</td>
+				<td>${item.organName}</td>
+				<td>${item.salesName}</td>
+				<td>${item.phone}</td>
 				<td>
 					<c:choose>  
-					    <c:when test="${item.netFlag == 1}">  
-					                    邮政网点
+					    <c:when test="${item.status == 1}">  
+					                    有效
 					    </c:when>  
 					   <c:otherwise>  
-					      银行网点  
+					      失效 
 					    </c:otherwise>  
 					</c:choose>
 				</td>
-			</tr>			
+				<td>${item.bankName}</td>
+			</tr>	
 			</c:forEach>
 		</tbody>
 	</table>

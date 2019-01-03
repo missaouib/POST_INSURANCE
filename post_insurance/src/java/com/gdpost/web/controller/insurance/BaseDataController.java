@@ -33,6 +33,7 @@ import com.gdpost.web.entity.basedata.ConservationError;
 import com.gdpost.web.entity.basedata.IssueType;
 import com.gdpost.web.entity.basedata.Prd;
 import com.gdpost.web.entity.basedata.RenewalType;
+import com.gdpost.web.entity.basedata.Sales;
 import com.gdpost.web.entity.component.CsAddr;
 import com.gdpost.web.entity.component.Staff;
 import com.gdpost.web.entity.main.ConservationType;
@@ -105,6 +106,10 @@ public class BaseDataController {
 	private static final String CS_ADDR_CREATE = "insurance/basedata/csaddr/create";
 	private static final String CS_ADDR_UPDATE = "insurance/basedata/csaddr/update";
 	private static final String CS_ADDR_LIST = "insurance/basedata/csaddr/list";
+	
+	private static final String SALES_CREATE = "insurance/basedata/sales/create";
+	private static final String SALES_UPDATE = "insurance/basedata/sales/update";
+	private static final String SALES_LIST = "insurance/basedata/sales/list";
 	/*
 	 * =======================================
 	 * call deal type 回访类型
@@ -1122,5 +1127,97 @@ public class BaseDataController {
 		map.put("page", page);
 		map.put("basedata", basedata);
 		return CS_ADDR_LIST;
+	}
+	
+	/*
+	 * =======================================
+	 * SALES 销售人员
+	 * =======================================
+	 * 
+	 */
+	@RequiresPermissions("Sales:save")
+	@RequestMapping(value="/sales/create", method=RequestMethod.GET)
+	public String preCreateSales() {
+		return SALES_CREATE;
+	}
+
+	@Log(message="添加了{0}销售人员信息。", level=LogLevel.WARN, module=LogModule.BaseDate)
+	@RequiresPermissions("Sales:save")
+	@RequestMapping(value="/sales/create", method=RequestMethod.POST)
+	public @ResponseBody String createSales(@Valid Sales sales) {	
+		try {
+			baseService.saveOrUpdateSales(sales);
+		} catch (ExistedException e) {
+			return AjaxObject.newError("添加销售人员信息失败：" + e.getMessage()).setCallbackType("").toString();
+		}
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{sales.getSalesName()}));
+		return AjaxObject.newOk("添加销售人员信息成功！").toString();
+	}
+
+	@RequiresPermissions("Sales:edit")
+	@RequestMapping(value="/sales/update/{id}", method=RequestMethod.GET)
+	public String preUpdateSales(@PathVariable Long id, Map<String, Object> map) {
+		Sales basedata = baseService.getSales(id);
+		
+		map.put("basedata", basedata);
+		return SALES_UPDATE;
+	}
+
+	@Log(message="修改了{0}销售人员信息的信息。", level=LogLevel.WARN, module=LogModule.BaseDate)
+	@RequiresPermissions("Sales:edit")
+	@RequestMapping(value="/sales/update", method=RequestMethod.POST)
+	public @ResponseBody String updateSales(Sales sales) {
+		baseService.saveOrUpdateSales(sales);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{sales.getSalesName()}));
+		return	AjaxObject.newOk("修改销售人员信息成功！").toString(); 
+	}
+
+	@Log(message="删除了{0}销售人员信息。", level=LogLevel.WARN, module=LogModule.BaseDate)
+	@RequiresPermissions("Sales:delete")
+	@RequestMapping(value="/sales/delete/{id}", method=RequestMethod.POST)
+	public @ResponseBody String deleteSales(@PathVariable Long id) {
+		Sales sales = null;
+		try {
+			sales = baseService.getSales(id);
+			baseService.deleteSales(sales.getId());
+		} catch (ServiceException e) {
+			return AjaxObject.newError("删除销售人员信息失败：" + e.getMessage()).setCallbackType("").toString();
+		}
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{sales.getSalesName()}));
+		return AjaxObject.newOk("删除销售人员信息成功！").setCallbackType("").toString();
+	}
+
+	@Log(message="删除了{0}销售人员信息。", level=LogLevel.WARN, module=LogModule.BaseDate)
+	@RequiresPermissions("Sales:delete")
+	@RequestMapping(value="/sales/delete", method=RequestMethod.POST)
+	public @ResponseBody String deleteManySales(Long[] ids) {
+		String[] saless = new String[ids.length];
+		try {
+			for (int i = 0; i < ids.length; i++) {
+				Sales sales = baseService.getSales(ids[i]);
+				baseService.deleteSales(sales.getId());
+				
+				saless[i] = sales.getSalesName();
+			}
+		} catch (ServiceException e) {
+			return AjaxObject.newError("删除销售人员信息失败：" + e.getMessage()).setCallbackType("").toString();
+		}
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{Arrays.toString(saless)}));
+		return AjaxObject.newOk("删除销售人员信息成功！").setCallbackType("").toString();
+	}
+
+	@RequiresPermissions("Sales:view")
+	@RequestMapping(value="/sales/list", method={RequestMethod.GET, RequestMethod.POST})
+	public String listSales(ServletRequest request, Page page, Map<String, Object> map) {
+		Specification<Sales> specification = DynamicSpecifications.bySearchFilter(request, Sales.class);
+		List<Sales> basedata = baseService.findBySalesExample(specification, page);
+	
+		map.put("page", page);
+		map.put("basedata", basedata);
+		return SALES_LIST;
 	}
 }

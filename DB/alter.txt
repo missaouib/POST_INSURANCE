@@ -1204,16 +1204,16 @@ create table t_sales
    organ_name varchar(64),
    bank_name varchar(64),
    sales_code varchar(11),
-   sales_name	varchar(18),
+   sales_name  	varchar(18),
    phone  varchar(18),
-   status	int(2),
+   status 	int(2)  comment '失效0有效1' default 1
    operate_id	  bigint,
-   operate_time	datetime    default   current_timestamp,
+   operate_time  	datetime    default   current_timestamp,
    primary  key (id)
 )
 engine=innodb auto_increment=4 default charset=utf8;
 
-
+ALTER TABLE t_sales ADD unique INDEX `idx_sales` (`sales_name`,`phone`);
 
 
 

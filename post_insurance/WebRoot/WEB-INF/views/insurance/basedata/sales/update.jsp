@@ -1,38 +1,32 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 <div class="pageContent">
-<form method="post" action="${contextPath}/basedata/bankCode/update" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
+<form method="post" action="${contextPath}/basedata/sales/update" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
 	<input type="hidden" name="id" value="${basedata.id}"/>
 	<div class="pageFormContent" layoutH="58">
 		<p>
-			<label>邮保通代码：</label>
-			<input type="text" name="ybtCode" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${basedata.ybtCode }"/>
+			<label>机构代码：</label>
+			<input type="text" name="organCode" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${basedata.organCode }"/>
 		</p>
 		<p>
-			<label>中邮网点代码：</label>
-			<input type="text" name="cpiCode" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${basedata.cpiCode }"/>
+			<label>机构名称：</label>
+			<input type="text" name="organName" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${basedata.organName }"/>
 		</p>
 		<p>
-			<label>银行网点名称：</label>
-			<input type="text" name="bankCode" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${basedata.bankCode }"/>
+			<label>销售人员姓名：</label>
+			<input type="text" name="salesName" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${basedata.salesName }"/>
 		</p>
 		<p>
-			<label>网点名称：</label>
-			<input type="text" name="name" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${basedata.name }"/>
+			<label>电话：</label>
+			<input type="text" name="phone" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${basedata.phone }"/>
 		</p>
 		<p>
-			<label>管理机构：</label>
-			<input name="organization.id" id="uw_orgId" type="hidden" value="${underwrite.organization.id }"/>
-			<input class="validate[required] required" name="organization.orgCode" id="uw_orgCode" type="text" readonly="readonly" style="width: 140px;" value="${basedata.organization.orgCode }"/>
-			<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="organization" title="选择机构" width="400">查找带回</a>
-		</p>
-		<p>
-			<label>网点属性：</label>
-			<input type="text" name="netFlag" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${basedata.netFlag }"/>(邮政:1,银行:2)
+			<label>网点：</label>
+			<input type="text" name="bankName" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${basedata.bankName }"/>
 		</p>	
 		<p>
 			<label>网点状态：</label>
-			<input type="text" name="status" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${basedata.status }"/>
+			<input type="text" name="status" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${basedata.status }"/> 0：失效；1：有效
 		</p>
 	</div>
 			

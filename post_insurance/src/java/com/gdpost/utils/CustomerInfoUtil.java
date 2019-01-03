@@ -159,14 +159,39 @@ public class CustomerInfoUtil {
 		StringBuffer str = new StringBuffer("");
 		//1、长度校验
 		if(addr == null || addr.trim().length()<7) {
-			str.append("地址长度太短；");
+			return "地址长度太短；";
 		}
 		//2、地址库结尾校验。
 		//拿到地址库的地址
 		String sql = "select area,city from t_area";
 		try {
 			ResultSet rst = stat.executeQuery(sql);
+			boolean backAddr = false;
+			//String town = null;
+			String area = null;
+			String city = null;
+			
+			String ap = addr.substring(0, addr.indexOf("省"));
+			String ac = addr.substring(0, addr.indexOf("市"));
+			boolean ah = true;
+			if(ap.length()<=0 && ac.length()<=0) { //如果没有省也没有市的
+				ah = false;
+			}
 			while(rst.next()) {
+				area = rst.getString("area");
+				city = rst.getString("city");
+				if(!ah) {
+					if(addr.contains("广东") || addr.contains(city)) {
+						ah = true; //带有广东或者地市开头
+					} else {
+						return "地址没有省和市开头";
+					}
+				}
+				if(ah) {
+					if((addr.length() - addr.indexOf(city) <= 5) || (addr.length() - addr.indexOf(area) <= 5)) {
+						return "地址不够详细";
+					}
+				}
 				
 			}
 		} catch (SQLException e) {
