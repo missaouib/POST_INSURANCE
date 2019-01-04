@@ -251,6 +251,7 @@ public class XlsFileHandler extends AbstractFileHandler {
 								dataRow.setValue(j, "");
 								break;
 							case FORMULA:
+								cell.setCellType(CellType.STRING);
 								dataRow.setValue(j, StringUtil.trimStr(cell.getStringCellValue()));
 								break;
 							case BOOLEAN:

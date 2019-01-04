@@ -89,6 +89,7 @@ public class XlsxFileHandler extends AbstractFileHandler {
 						case BLANK:
 							break;
 						case FORMULA:
+							checkCell.setCellType(CellType.STRING);
 							check = checkCell.getStringCellValue();
 							break;
 						case NUMERIC:
