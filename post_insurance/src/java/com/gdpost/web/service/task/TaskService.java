@@ -1,6 +1,9 @@
 package com.gdpost.web.service.task;
 
+import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.slf4j.Logger;
@@ -10,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.gdpost.utils.CustomerInfoUtil;
+import com.gdpost.utils.StringUtil;
 import com.mysql.cj.jdbc.JdbcStatement;
 
 @Service
@@ -29,13 +34,19 @@ public class TaskService {
 	}
 
 	public void updateDB() {		
-		log.info("---------   task to update hfgl's data");
+		log.info("---------   task to update data");
 		java.sql.Connection connection = null;
+		Connection conn2 = null;
 		JdbcStatement statement = null;
+		JdbcStatement stat2 = null;
+		ResultSet rst = null;
+		PreparedStatement preStat = null;
 		try {
 			DruidDataSource dataSource = (DruidDataSource)this.getDateSource();
 			connection = DriverManager.getConnection(dataSource.getUrl(), dataSource.getUsername(), dataSource.getPassword());
+			conn2 = DriverManager.getConnection(dataSource.getUrl(), dataSource.getUsername(), dataSource.getPassword());
 			statement = (JdbcStatement)connection.createStatement();
+			stat2 = (JdbcStatement) conn2.createStatement();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -242,23 +253,89 @@ public class TaskService {
 			statement.executeUpdate(sql);
 			
 			// 获取保单号、投保人（姓名、证件号码）、被保险人（证件号码），双方年龄、关系、地址、电话、email；进行判断
-			boolean isHolderErr = false;
-			StringBuffer holderErr = new StringBuffer();
-			boolean isInsuredErr = false;
-			StringBuffer insuredErr = new StringBuffer();
-			
 			//剔除简易险
-			sql = "select policy_no,holder,holder_age,insured,insured_age,"
-					+ "holder_card_type,holder_card_num,holder_card_valid,holder_addr,holder_phone,holder_mobile,"
-					+ "insured_card_type,insured_card_num,insured_card_valid "
-					+ "from t_policy_dtl where check_flag=0 and policy_no not like \"5244%\";";
+			sql = "select form_no, policy_no, prod_name, cast(aes_decrypt(unhex(holder), 'GDPost') as char(100)) as holder,holder_age,"
+					+ "cast(aes_decrypt(unhex(insured), 'GDPost') as char(100)) as insured,insured_age,"
+					+ "holder_card_type,cast(aes_decrypt(unhex(holder_card_num), 'GDPost') as char(100)) as holder_card_num,holder_card_valid,"
+					+ "cast(aes_decrypt(unhex(holder_addr), 'GDPost') as char(100)) as holder_addr,"
+					+ "cast(aes_decrypt(unhex(holder_phone), 'GDPost') as char(100)) as holder_phone,"
+					+ "cast(aes_decrypt(unhex(holder_mobile), 'GDPost') as char(100)) as holder_mobile,"
+					+ "insured_card_type,cast(aes_decrypt(unhex(insured_card_num), 'GDPost') as char(100)) as insured_card_num,insured_card_valid, prod_name, holder_email, relation "
+					+ "from t_policy_dtl where check_flag=0 and relation is not null and policy_no not like \"5244%\";";
 			
-			statement.execute(sql);
+			log.debug(" ----- sql:" + sql);
 			
-			String updateSQL = "update t_policy_dtl set check_flag=true where check_flag=0 and policy_no not like \"5244%\";";
+			rst = statement.executeQuery(sql);
+			String checkRst = null;
+			String formNo = null;
+			String policyNo = null;
+			String holder = null;
+			Integer holderAge = null;
+			String insured = null;
+			Integer insuredAge = null;
+			String holderCardType = null;
+			String holderCardNum = null;
+			String holderCardValid = null;
+			String holderAddr = null;
+			String holderPhone = null;
+			String holderMobile = null;
+			String insuredCardType = null;
+			String insuredCardNum = null;
+			//String insuredCardValid = null;
+			String relation = null;
+			String holderEmail = null;
+			String prodName = null;
+			
+			String checkBatch = StringUtil.date2Str(new java.util.Date(), "yyyyMMddHH");
+			String keySql = "insert into t_check_write (check_batch,form_no,policy_no,prod_name,need_fix,key_info, checker) values (?,?,?,?,?,?,?);";
+			
+			preStat = connection.prepareStatement(keySql);
+			int idx = 0;
+			while(rst.next()) {
+				formNo = rst.getString("form_no");
+				policyNo = rst.getString("policy_no");
+				holder = rst.getString("holder");
+				holderAge = rst.getInt("holder_age");
+				insured = rst.getString("insured");
+				insuredAge = rst.getInt("insured_age");
+				holderCardType = rst.getString("holder_card_type");
+				holderCardNum = rst.getString("holder_card_num");
+				holderCardValid = rst.getString("holder_card_valid");
+				holderAddr = rst.getString("holder_addr");
+				holderPhone = rst.getString("holder_phone");
+				holderMobile = rst.getString("holder_mobile");
+				insuredCardType = rst.getString("insured_card_type");
+				insuredCardNum = rst.getString("insured_card_num");
+				//insuredCardValid = rst.getString("insured_card_valid");
+				relation = rst.getString("relation");
+				holderEmail = rst.getString("holder_email");
+				prodName = rst.getString("prod_name");
+				
+				log.debug(" --------- holderaddr:" + holderAddr);
+				
+				checkRst = CustomerInfoUtil.checkData(stat2, holder, holderAge, holderCardType, holderCardNum, holderCardValid, 
+						insured, insuredCardType, insuredCardNum, insuredAge, relation, holderPhone, holderMobile, holderEmail, holderAddr);
+				
+				if(checkRst != null && checkRst.trim().length() <=0) {
+					preStat.setString(0, checkBatch);
+					preStat.setString(1, formNo);
+					preStat.setString(2, policyNo);
+					preStat.setString(3, prodName);
+					preStat.setString(4, "要整改");
+					preStat.setString(5, checkRst);
+					preStat.setString(6, "System");
+					idx++;
+					preStat.execute();
+				}
+			}
+			
+			log.info(" -----------customer info check, error: " + idx);
+			
+			//"insert into t_check_write (check_batch,form_no,policy_no,prod_name,need_fix,key_info, checker) values";
+			
+			String updateSQL = "update t_policy_dtl set check_flag=true where check_flag=false and relation is not null and policy_no not like \"5244%\";";
 			statement.executeUpdate(updateSQL);
 			
-			//TODO 单独处理证件有效期的判断。用存储过程吧。
 			//sql = "call procDealCardValid();";
 			
 			log.info("------------ task service update finish");
@@ -274,6 +351,8 @@ public class TaskService {
 		} finally {
 			if(statement != null) {
 				try {
+					rst.close();
+					preStat.close();
 					statement.close();
 					connection.close();
 				} catch (SQLException e) {

@@ -24,16 +24,53 @@ public class CustomerInfoUtil {
 	 * 电话不能同时为空
 	 * 其他传过来的数据都不能为空
 	 * 
-	 * @param holder 
+	 * @param holder
+	 * @param holderAge
+	 * @param holderCardType
+	 * @param holderCardNum
+	 * @param holderCardValid
+	 * @param insured
+	 * @param insuredCardType
+	 * @param insuredCardNum
+	 * @param insuredAge
 	 * @param phone
 	 * @param mobile
+	 * @param email
+	 * @param addr
 	 * @return
 	 */
-	public static String checkData(String holder, String insured, String phone, String mobile) {
-		return null;
+	public static String checkData(Statement stat, String holder, Integer holderAge, String holderCardType, String holderCardNum, String holderCardValid, 
+			String insured, String insuredCardType, String insuredCardNum, Integer insuredAge, String relation, String phone, String mobile, String email, String addr) {
+		StringBuffer str = new StringBuffer("");
+		if(holder == null || insured == null || NumberUtils.isDigits(holder) || NumberUtils.isDigits(insured)) {
+			str.append("投保人姓名或者被保险人姓名有误;");
+		}
+		if((phone == null || phone.trim().length()<=0) && (mobile == null || mobile.trim().length()<=0)) {
+			str.append("联系方式全为空;");
+		}
+		if(!checkEmail(email)) {
+			str.append("Email地址有误;");
+		}
+		str.append(checkLogic(holderAge, insuredAge, insuredCardType, insuredCardNum, relation));
+		str.append(checkAddr(stat, addr));
+		boolean isSales = isSalesPhone(stat, holder, mobile);
+		if(isSales) {
+			str.append("使用了销售人员电话出单;");
+		}
+		str.append(checkDateValid(holderCardValid));
+		if( !checkMobile(mobile)) {
+			str.append("手机号码有误;");
+		}
+		if( !checkPhone(phone)) {
+			str.append("固定号码有误;");
+		}
+		str.append(checkCardInfo(holderCardType, holderCardNum));
+		str.append(checkCardInfo(insuredCardType, insuredCardNum));
+		return str.toString();
 	}
 	
 	/**
+	 * 如果空，返回true
 	 * 
 	 * @param email
 	 * @return
@@ -42,8 +79,9 @@ public class CustomerInfoUtil {
 		// and (holder_email not regexp
 		// '^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$'
 		// or holder_email regexp '//..*')
+		LOG.debug("---- CHECK EMAIL ----" + email);
 		if (email == null || email.trim().length() <= 0) {
-			return false;
+			return true;
 		}
 		String check = "^([a-z0-9A-Z]+[-|\\.|_]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
 		Pattern regex = Pattern.compile(check);
@@ -63,7 +101,7 @@ public class CustomerInfoUtil {
 		//TODO:增加Email校验规则，如QQ邮箱的规则等
 		String ss = email.substring(email.indexOf("@") + 1);
 		String name = email.substring(0,email.indexOf("@"));
-		LOG.debug("---- 11111111 ----" + name + ":" + ss);
+		
 		boolean patch = true;
 		switch(ss) {
 		case "163.com":
@@ -103,7 +141,7 @@ public class CustomerInfoUtil {
 		
 		StringBuffer str = new StringBuffer("");
 		if(holderAge == null || insuredCardType==null || insuredAge == null || relation == null || insuredCardNum == null) {
-			str.append("客户证件信息不完整；");
+			return "客户证件信息不完整；";
 		}
 		if (relation.equals("本人")) {
 			return null;
@@ -157,45 +195,61 @@ public class CustomerInfoUtil {
 	 */
 	public static String checkAddr(Statement stat,String addr) {
 		StringBuffer str = new StringBuffer("");
+		LOG.debug(" --------- addr: " + addr);
 		//1、长度校验
 		if(addr == null || addr.trim().length()<7) {
 			return "地址长度太短；";
 		}
 		//2、地址库结尾校验。
 		//拿到地址库的地址
-		String sql = "select area,city from t_area";
+		String sql = "select area,city from t_addr_lib";
+		ResultSet rst = null;
 		try {
-			ResultSet rst = stat.executeQuery(sql);
-			boolean backAddr = false;
+			rst = stat.executeQuery(sql);
+			//boolean backAddr = false;
 			//String town = null;
 			String area = null;
 			String city = null;
-			
-			String ap = addr.substring(0, addr.indexOf("省"));
-			String ac = addr.substring(0, addr.indexOf("市"));
+			String ap = addr.indexOf("省") ==-1?"":addr.substring(0, addr.indexOf("省"));
+			String ac = addr.indexOf("市") == -1?"":addr.substring(0, addr.indexOf("市"));
 			boolean ah = true;
 			if(ap.length()<=0 && ac.length()<=0) { //如果没有省也没有市的
 				ah = false;
 			}
-			while(rst.next()) {
+			while(rst != null && rst.next()) {
 				area = rst.getString("area");
 				city = rst.getString("city");
 				if(!ah) {
 					if(addr.contains("广东") || addr.contains(city)) {
 						ah = true; //带有广东或者地市开头
 					} else {
-						return "地址没有省和市开头";
+						return "地址没有省和市开头；";
 					}
 				}
 				if(ah) {
 					if((addr.length() - addr.indexOf(city) <= 5) || (addr.length() - addr.indexOf(area) <= 5)) {
-						return "地址不够详细";
+						return "地址不够详细1-length；";
 					}
+				}
+				if(addr.endsWith("附近") || addr.endsWith("对面") || addr.endsWith("旁边") 
+						|| addr.endsWith("路") || addr.endsWith("街") || addr.endsWith("道") 
+						|| addr.endsWith("花园") || addr.endsWith("工业区") || addr.endsWith("镇") || addr.endsWith("乡") || addr.endsWith("县") || addr.endsWith("小区")
+						|| addr.endsWith("栋") || addr.endsWith("幢") || addr.endsWith("楼")) {
+					return "地址不够详细2-end；";
+				}
+				if(addr.contains("邮政") || addr.contains("邮政") || addr.endsWith("邮储") || addr.endsWith("支局") || addr.endsWith("支行")) {
+					return "地址含有邮政关键信息；";
 				}
 				
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				if(rst != null) rst.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return str.toString();
 	}
@@ -212,15 +266,22 @@ public class CustomerInfoUtil {
 			return false;
 		}
 		String sql = "select sales_name,phone from t_sales where phone=\"" + phone + "\"";
+		ResultSet rst = null;
 		try {
-			ResultSet rst = stat.executeQuery(sql);
-			while(rst.next()) {
+			rst = stat.executeQuery(sql);
+			while(rst != null && rst.next()) {
 				if(rst.getString("sales_name") != null && !rst.getString("sales_name").equals(holder)) {
 					return true;
 				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				if(rst != null) rst.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return false;
 	}
@@ -289,16 +350,16 @@ public class CustomerInfoUtil {
 	 * 
 	 * @param type
 	 * @param cardNum
-	 * @param dateValid
 	 * @return
 	 */
-	public static String checkCardInfo(String type, String cardNum, String dateValid) {
+	public static String checkCardInfo(String type, String cardNum) {
 		StringBuffer str = new StringBuffer("");
 		switch (type) {
 		case "身份证":
 		case "户口本":
 			if (cardNum == null || cardNum.trim().length() < 18) {
 				str.append("证件号码长度不符；");
+				break;
 			}
 			if(!is18ByteIdCardComplex(cardNum)) {
 				str.append("证件号码不符合身份证号码标准；");
@@ -307,6 +368,7 @@ public class CustomerInfoUtil {
 		case "出生证":
 			if (cardNum == null || cardNum.trim().length() != 8) {
 				str.append("出生证号码应为8位出生年月日；");
+				break;
 			}
 			String rexp = "^((\\d{2}(([02468][048])|([13579][26]))[\\-\\/\\s]?((((0?[13578])|(1[02]))[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])|(3[01])))|(((0?[469])|(11))[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])|(30)))|(0?2[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])))))|(\\d{2}(([02468][1235679])|([13579][01345789]))[\\-\\/\\s]?((((0?[13578])|(1[02]))[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])|(3[01])))|(((0?[469])|(11))[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])|(30)))|(0?2[\\-\\/\\s]?((0?[1-9])|(1[0-9])|(2[0-8]))))))";  
 			Pattern pat = Pattern.compile(rexp);    
@@ -400,6 +462,7 @@ public class CustomerInfoUtil {
      * @return
      */
     public static boolean is18ByteIdCardComplex(CharSequence idCard){
+    	LOG.debug(" ----------- check idCard: " + idCard);
         int[] prefix = new int[]{7,9,10,5,8,4,2,1,6,3,7,9,10,5,8,4,2};
         char[] suffix = new char[]{ '1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2' };
         if(is18ByteIdCard(idCard)){

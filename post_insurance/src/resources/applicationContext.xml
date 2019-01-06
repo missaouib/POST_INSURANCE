@@ -33,7 +33,7 @@
         cron="0/5 * * * * ?"  //表示五秒钟执行一次
      -->
     <task:scheduled-tasks>
-        <task:scheduled ref="taskService" method="updateDB" cron="0 0 2 * * ?"/>
+        <task:scheduled ref="taskService" method="updateDB" cron="0 27 13 * * ?"/>
     </task:scheduled-tasks>
 	
 	<!-- Spring Data Jpa配置 , 扫描base-package下所有继承于Repository<T,ID>的接口-->

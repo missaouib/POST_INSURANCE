@@ -1215,7 +1215,7 @@ engine=innodb auto_increment=4 default charset=utf8;
 
 ALTER TABLE t_sales ADD unique INDEX `idx_sales` (`sales_name`,`phone`);
 
-
+sales sql，t_addr_lib sql.
 
 
 
