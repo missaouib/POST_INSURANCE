@@ -287,7 +287,7 @@ public class TaskService {
 			String prodName = null;
 			
 			String checkBatch = StringUtil.date2Str(new java.util.Date(), "yyyyMMddHH");
-			String keySql = "insert into t_check_write (check_batch,form_no,policy_no,prod_name,need_fix,key_info, checker) values (?,?,?,?,?,?,?);";
+			String keySql = "insert into t_check_write (check_batch,form_no,policy_no,prd_name,need_fix,key_info, checker) values (?,?,?,?,?,?,?);";
 			
 			preStat = connection.prepareStatement(keySql);
 			int idx = 0;
@@ -310,33 +310,38 @@ public class TaskService {
 				relation = rst.getString("relation");
 				holderEmail = rst.getString("holder_email");
 				prodName = rst.getString("prod_name");
-				
-				log.debug(" --------- holderaddr:" + holderAddr);
+				//log.debug(" --------- holderaddr:" + holderAddr);
 				
 				checkRst = CustomerInfoUtil.checkData(stat2, holder, holderAge, holderCardType, holderCardNum, holderCardValid, 
 						insured, insuredCardType, insuredCardNum, insuredAge, relation, holderPhone, holderMobile, holderEmail, holderAddr);
 				
-				if(checkRst != null && checkRst.trim().length() <=0) {
-					preStat.setString(0, checkBatch);
-					preStat.setString(1, formNo);
-					preStat.setString(2, policyNo);
-					preStat.setString(3, prodName);
-					preStat.setString(4, "要整改");
-					preStat.setString(5, checkRst);
-					preStat.setString(6, "System");
+				log.debug(" ----- data: " + checkBatch + "," + holder + "," + holderAge + "," + holderCardType + "," + holderCardNum + "," + holderCardValid + "," + insured + "," + insuredCardType + "," + insuredCardNum + "," + insuredAge + "," + relation + "," + holderPhone + "," + holderMobile + "," + holderEmail + "," + holderAddr);
+				if(checkRst != null && checkRst.trim().length() > 0) {
+					preStat.setString(1, checkBatch);
+					preStat.setString(2, formNo);
+					preStat.setString(3, policyNo);
+					preStat.setString(4, prodName);
+					preStat.setString(5, "要整改");
+					preStat.setString(6, checkRst);
+					preStat.setString(7, "System");
 					idx++;
+					log.warn(" --------- err:" + checkRst);
 					preStat.execute();
 				}
 			}
 			
 			log.info(" -----------customer info check, error: " + idx);
-			
 			//"insert into t_check_write (check_batch,form_no,policy_no,prod_name,need_fix,key_info, checker) values";
 			
 			String updateSQL = "update t_policy_dtl set check_flag=true where check_flag=false and relation is not null and policy_no not like \"5244%\";";
 			statement.executeUpdate(updateSQL);
 			
 			//sql = "call procDealCardValid();";
+			
+			sql = "insert into t_log_info (username, message,ip_address,log_level,module) values "
+					+ "('admin','customer info check, error:" + idx + "','127.0.0.1','WARN','其他操作');";
+			log.info("------------ sql :" + sql);
+			statement.executeUpdate(sql);
 			
 			log.info("------------ task service update finish");
 		} catch (SQLException e) {

@@ -33,6 +33,7 @@ import com.gdpost.utils.TemplateHelper.CallFailMailBackListColumn;
 import com.gdpost.utils.TemplateHelper.CallFailMailListColumn;
 import com.gdpost.utils.TemplateHelper.CallFailMailSuccessListColumn;
 import com.gdpost.utils.TemplateHelper.CallFailNeedDoorListColumn;
+import com.gdpost.utils.TemplateHelper.CheckCityBackColumn;
 import com.gdpost.utils.TemplateHelper.CheckColumn;
 import com.gdpost.utils.TemplateHelper.ColumnItem;
 import com.gdpost.utils.TemplateHelper.ColumnType;
@@ -250,6 +251,9 @@ public class UploadDataServiceImpl implements UploadDataService{
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_check_record character set utf8 (fix_status, ";
 			sql1 = "update t_check_record set need_fix=\"要整改\" where key_info is not null and length(key_info)>0;";
 			break;
+		case CheckCityBack:
+			standardColumns = CheckCityBackColumn.getStandardColumns();
+			return dr;
 		case PayToFailList:
 			sql1 = "update t_pay_fail_list set status=\"CloseStatus\" where pay_type=" + PayFailList.PAY_TO + " and operate_time<CURRENT_DATE and fee_type<>'保全受理号'; ";
 			standardColumns = PayFailListColumn.getStandardColumns();
@@ -1203,6 +1207,26 @@ public class UploadDataServiceImpl implements UploadDataService{
 			return dr;
 		case CheckRecord:
 			return dr;
+		case CheckCityBack:
+			standardColumns = CheckCityBackColumn.getStandardColumns();
+			sql = new StringBuffer("INSERT INTO t_check_write (policy_no, check_batch, fix_desc, deal_man, deal_time, fix_status) VALUES ");
+			for (DataRow row : dt.Rows) {
+				line = new StringBuffer("(");
+	        	for(ColumnItem item : standardColumns) {
+	        		val = row.getValue(item.getDisplayName());
+                	
+	        		line.append("\"" + StringUtil.trimStr(val, true) + "\",");
+	        	}
+	        	//line.deleteCharAt(line.length() - 1);
+	        	line.append("\"IngStatus\"),");
+	        	sql.append(line);
+	        }
+			sql.deleteCharAt(sql.length() - 1);
+			sql.append(" ON DUPLICATE KEY UPDATE ");
+			sql.append("fix_desc=VALUES(fix_desc), deal_man=VALUES(deal_man), deal_time=VALUES(deal_time), fix_status=VALUES(fix_status);");
+			log.debug("---------------check city back data sql : " + sql);
+			sql2 = "delete from t_check_write where form_no is null;";
+			break;
 		case PayToFailList:
 			return dr;
 		case PayFromFailList:
@@ -1555,6 +1579,10 @@ public class UploadDataServiceImpl implements UploadDataService{
 			standardColumns = CheckColumn.getStandardColumns();
 			keyRow = CheckColumn.KEY_ROW;
 			break;
+		case CheckCityBack:
+			standardColumns = CheckCityBackColumn.getStandardColumns();
+			keyRow = CheckCityBackColumn.KEY_ROW;
+			break;
 		case PayToFailList:
 			standardColumns = PayFailListColumn.getStandardColumns();
 			keyRow = PayFailListColumn.KEY_ROW;
@@ -1730,7 +1758,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 						|| t.name().equals(FileTemplate.UnderWriteDtlData.name())
 						|| t.name().equals(FileTemplate.UnderWriteRemark.name())
 						|| t.name().equals(FileTemplate.UnderWriteInsured.name())
-						|| t.name().equals(FileTemplate.IssuePFRDeal.name())) {
+						|| t.name().equals(FileTemplate.IssuePFRDeal.name())
+						|| t.name().equals(FileTemplate.CheckCityBack.name())) {
 					
 					dr = updateStatusData(t, request, dt);
 					log.info("-------- finish update;");

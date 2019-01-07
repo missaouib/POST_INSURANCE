@@ -144,7 +144,7 @@ public class CustomerInfoUtil {
 			return "客户证件信息不完整；";
 		}
 		if (relation.equals("本人")) {
-			return null;
+			return "";
 		}
 		//List<String> older = Arrays.asList("父亲","母亲","祖父","祖母","外祖父","外祖母","哥哥","姐姐","公公","婆婆","岳父","岳母");
 		//List<String> younger = Arrays.asList("儿子","女儿","孙子","孙女","外孙子","外孙女","弟弟","妹妹","儿媳","女婿");
@@ -212,36 +212,75 @@ public class CustomerInfoUtil {
 			String city = null;
 			String ap = addr.indexOf("省") ==-1?"":addr.substring(0, addr.indexOf("省"));
 			String ac = addr.indexOf("市") == -1?"":addr.substring(0, addr.indexOf("市"));
-			boolean ah = true;
+			boolean bah = false;
+			boolean blen = true;
 			if(ap.length()<=0 && ac.length()<=0) { //如果没有省也没有市的
-				ah = false;
+				bah = false;
 			}
 			while(rst != null && rst.next()) {
 				area = rst.getString("area");
 				city = rst.getString("city");
-				if(!ah) {
-					if(addr.contains("广东") || addr.contains(city)) {
-						ah = true; //带有广东或者地市开头
+				if(!bah) {
+					if((addr.contains("广东") && addr.contains(city)) 
+							|| (addr.contains("广东") && addr.contains(area))) {
+						bah = true; //带有广东或者地市开头
+					}
+					if((addr.contains(city) && addr.contains(area))) {
+						bah = true; //带有广东或者地市开头
 					} else {
-						return "地址没有省和市开头；";
+						if((addr.contains("省") && addr.contains("市"))
+								|| (addr.contains("省") && addr.contains("县"))) {
+							bah = true;
+							if((addr.contains("市") && (addr.length() - addr.indexOf("市") <= 6)) 
+									|| (addr.contains("县") && (addr.length() - addr.indexOf("县") <= 6))) {
+								blen = false;
+								//return "地址不够详细1-length；";
+							}
+						}
+						if((addr.contains("市") && addr.contains("县"))
+								|| (addr.contains("市") && addr.contains("区"))
+								|| (addr.contains("市") && addr.contains("镇"))) {
+							bah = true;
+							if((addr.contains("市") && (addr.length() - addr.indexOf("市") <= 5)) 
+									|| (addr.contains("区") && (addr.length() - addr.indexOf("区") <= 5))
+									|| (addr.contains("县") && (addr.length() - addr.indexOf("县") <= 5))) {
+								blen = false;
+								//return "地址不够详细1-length；";
+							}
+						}
+						if((addr.contains("省") && addr.contains("市") && addr.contains("镇"))
+								|| (addr.contains("省") && addr.contains("县") && addr.contains("镇"))) {
+							bah = true;
+							if(addr.length() - addr.indexOf("镇") <= 5) {
+								blen = false;
+								//return "地址不够详细1-length；";
+							}
+						}
 					}
 				}
-				if(ah) {
-					if((addr.length() - addr.indexOf(city) <= 5) || (addr.length() - addr.indexOf(area) <= 5)) {
-						return "地址不够详细1-length；";
-					}
+				if((addr.contains(city) && (addr.length() - addr.indexOf(city) <= 5)) 
+						|| (addr.contains(area) && (addr.length() - addr.indexOf(area) <= 5))) {
+					blen = false;
+					//return "地址不够详细1-length；";
 				}
-				if(addr.endsWith("附近") || addr.endsWith("对面") || addr.endsWith("旁边") 
-						|| addr.endsWith("路") || addr.endsWith("街") || addr.endsWith("道") 
-						|| addr.endsWith("花园") || addr.endsWith("工业区") || addr.endsWith("镇") || addr.endsWith("乡") || addr.endsWith("县") || addr.endsWith("小区")
-						|| addr.endsWith("栋") || addr.endsWith("幢") || addr.endsWith("楼")) {
-					return "地址不够详细2-end；";
-				}
-				if(addr.contains("邮政") || addr.contains("邮政") || addr.endsWith("邮储") || addr.endsWith("支局") || addr.endsWith("支行")) {
-					return "地址含有邮政关键信息；";
-				}
-				
 			}
+			if(!bah) {
+				return "地址疑似不够详细1；缺省市信息";
+			}
+			if(!blen) {
+				return "地址疑似不够详细2；省市后信息不详";
+			}
+			
+			if(addr.endsWith("附近") || addr.endsWith("对面") || addr.endsWith("旁边") 
+					|| addr.endsWith("路") || addr.endsWith("街") || addr.endsWith("道") 
+					|| addr.endsWith("花园") || addr.endsWith("工业区") || addr.endsWith("镇") || addr.endsWith("乡") || addr.endsWith("县") || addr.endsWith("小区")
+					|| addr.endsWith("栋") || addr.endsWith("幢") || addr.endsWith("楼")) {
+				return "地址不够详细3-end；";
+			}
+			if(addr.contains("邮政") || addr.contains("邮政") || addr.endsWith("邮储") || addr.endsWith("支局") || addr.endsWith("支行")) {
+				return "地址含有邮政关键信息；";
+			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -296,14 +335,14 @@ public class CustomerInfoUtil {
 	 */
 	public static String checkDateValid(String date) {
 		if (date == null || date.trim().length() <= 0 || date.trim().equals("长期")) {
-			return null;
+			return "";
 		}
 		Date d1 = StringUtil.str2Date(date, "yyyy-MM-dd");
-		int dc = StringUtil.getBetweenDay(d1, new Date());
+		int dc = StringUtil.getBetweenDay(new Date(), d1);
 		if (dc <= 30) {
-			return "证件有效期过期了";
+			return "证件有效期30日内失效;";
 		}
-		return null;
+		return "";
 	}
 
 	/**
@@ -313,7 +352,7 @@ public class CustomerInfoUtil {
 	 */
 	public static boolean checkMobile(String mobile) {
 		if (mobile == null || mobile.trim().length() <= 0) {
-			return false;
+			return true;
 		}
 		String check = "^((13[0-9])|(14[5,7,9])|(15([0-3]|[5-9]))|(166)|(17[0,1,3,5,6,7,8])|(18[0-9])|(19[8|9]))\\d{8}$";
 		Pattern regex = Pattern.compile(check);
@@ -329,7 +368,7 @@ public class CustomerInfoUtil {
 	public static boolean checkPhone(String phone) {
 		// ^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$
 		if (phone == null || phone.trim().length() <= 0) {
-			return false;
+			return true;
 		}
 		Pattern p1 = null, p2 = null;
 		Matcher m = null;
@@ -491,7 +530,13 @@ public class CustomerInfoUtil {
 		System.out.println(i2);
 		System.out.println(str.substring(16, 17));
 		
-		String email = "12345@qq.com";
-		System.out.print(CustomerInfoUtil.checkEmail(email));
+		String email = "12345@qq..com";
+		System.out.println(CustomerInfoUtil.checkEmail(email));
+		
+		String city = "肇庆";
+		String area = "四会";
+		String addr = "肇庆市四会市迳口镇南乡村委会松子三乡村5号";
+		System.out.println(addr.length() - addr.indexOf(city));
+		System.out.println(addr.length() - addr.indexOf(area));
 	}
 }

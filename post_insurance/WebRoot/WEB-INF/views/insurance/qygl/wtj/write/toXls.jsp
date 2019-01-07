@@ -10,8 +10,9 @@ response.setHeader("Content-Disposition", "inline; filename=QY_Write_LIST.xls");
 	<table border="1" cellspacing="1" cellpadding="0">
 		<thead>
 			<tr>
+				<th>批次号</th>
 				<th>所属机构</th>
-				<th>所属保单号</th>
+				<th>保单号</th>
 				<th>投保单号</th>
 				<th>投保人</th>
 				<th>承保日期</th>
@@ -29,6 +30,7 @@ response.setHeader("Content-Disposition", "inline; filename=QY_Write_LIST.xls");
 		</thead>
 		<c:forEach var="item" items="${issues}">
 			<tr>
+				<td>${item.checkBatch}</td>
 				<td>${item.policy.organization.shortName}</td>
 				<td>${item.policy.policyNo}</td>
 				<td>${item.policy.formNo}</td>

@@ -18,7 +18,7 @@ public class Template {
 		CallFailCloseStatus("回访结案数据", "HF"), CallFailPhoneStatus("二访通话清单", "HF"), 
 		Renewed("续期应交清单", "XQ"), RenewedStatus("续期继续率清单", "XQ"), RenewedHQList("总部催收清单", "XQ"), 
 		RenewedProvList("省分续期催收详情", "XQ"), RenewedFeeMatchList("余额匹配结果及省分催收数据", "XQ"), RenewedFeeRst("需求实收日期清单", "XQ"), RenewedCityList("市县续期催收详情", "XQ"),
-		CheckWrite("抽检填写明细", "QY"), CheckRecord("抽检录入明细", "QY"), ConversationReq("保全免填单申请", "BQ"), 
+		CheckWrite("抽检填写明细", "QY"), CheckRecord("抽检录入明细", "QY"),CheckCityBack("市县新契约填写整改明细", "QY"), ConversationReq("保全免填单申请", "BQ"), 
 		ConversationReport("保全月报", "BQ"),CsLoan("保全质押借款未还报表", "BQ"), CsExpire("保全满期数据", "BQ"), PayToFailList("付费失败清单", "ALL"), 
 		PayFromFailList("收费失败清单", "ALL"), PaySuccessList("付费成功清单", "ALL"), PayFromSuccessList("收费成功清单", "ALL"), PolicyUnderWrite("人核件回单数据", "QT");
 		private String desc;

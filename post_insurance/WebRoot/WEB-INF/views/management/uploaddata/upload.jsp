@@ -139,6 +139,10 @@ function displayTips(val) {
 		$("#tipsDesc").html("问题件工单处理详情。须含列：事件编号\t保单号\t工单状态\t处理结果\t经办人\t经办日期，关键列：事件编号");
 		return;
 	}
+	if(val=="CheckCityBack") {
+		$("#tipsDesc").html("新契约填写地市整改明细。须含列：\t批次号\t保单号\t处理结果\t经办人\t经办日期，关键列：保单号");
+		return;
+	}
 }
 
 var strFileGroup = new Date().Format("yyyyMMddhhmmss");

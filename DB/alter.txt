@@ -1206,7 +1206,7 @@ create table t_sales
    sales_code varchar(11),
    sales_name  	varchar(18),
    phone  varchar(18),
-   status 	int(2)  comment '失效0有效1' default 1
+   status 	int(2)  comment '失效0有效1' default 1,
    operate_id	  bigint,
    operate_time  	datetime    default   current_timestamp,
    primary  key (id)
