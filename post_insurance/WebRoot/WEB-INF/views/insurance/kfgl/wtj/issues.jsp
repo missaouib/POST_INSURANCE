@@ -116,6 +116,8 @@
         <th>手机号码</th>
         <th>处理结果</th>
         <th>经办人员</th>
+        <th>复核人员</th>
+        <th>复核意见</th>
         <th>处理日期</th>
       </tr>
       </thead>
@@ -142,6 +144,8 @@
 			<td>${item.holderMobile}</td>
 			<td>${item.result}</td>
 			<td>${item.dealMan}</td>
+			<td>${item.cityReviewer}</td>
+			<td>${item.cityReviewRst}</td>
 			<td>${item.dealTime}</td>
 		</tr>
 		</c:forEach>

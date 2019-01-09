@@ -68,6 +68,14 @@
 			<input type="text" name="dealTime" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="${issue.dealTime }"/>
 				<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
+		<p class="nowrap">
+			<label>复核人：</label>
+			<span class="unit">${issue.cityReviewer }</span>
+		</p>
+		<p class="nowrap">
+			<label>复核意见：</label>
+			<span class="unit">${issue.cityReviewRst }</span>
+		</p>
 	</fieldset>
 	<div class="divider"></div>
 	<fieldset>

@@ -27,6 +27,10 @@ response.setHeader("Content-Disposition", "inline; filename=Issue_xls.xls");
 				<th>市县处理结果</th>
 				<th>市县经办人</th>
 				<th>市县经办时间</th>
+				<th>市县复核人</th>
+				<th>市县复核意见</th>
+				<th>审核人</th>
+				<th>审核日期</th>
 				<th>是否银行单子</th>
 			</tr>
 			<c:forEach var="item" items="${reqs}" varStatus="status">
@@ -58,6 +62,10 @@ response.setHeader("Content-Disposition", "inline; filename=Issue_xls.xls");
 				<td>${item.result}</td>
 				<td>${item.dealMan}</td>
 				<td>${item.dealTime}</td>
+				<td>${item.cityReviewer}</td>
+				<td>${item.cityReviewRst}</td>
+				<td>${item.checker}</td>
+				<td><fmt:formatDate value="${item.checkDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.policy.bankCode!=null && item.policy.bankCode.netFlag==2?"是":"否" }</td>
 			</tr>
 			</c:forEach>

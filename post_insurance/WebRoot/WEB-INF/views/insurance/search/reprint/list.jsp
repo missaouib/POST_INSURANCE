@@ -9,6 +9,8 @@
 	<input type="hidden" name="orgCode" value="${orgCode }"/>
 	<input type="hidden" name="name" value="${name }"/>
 	<input type="hidden" name="plFlag" value="${plFlag }"/>
+	<input type="hidden" name="search_LTE_printDate" value="${param.search_LTE_printDate }"/>
+	<input type="hidden" name="search_GTE_printDate" value="${param.search_GTE_printDate }"/>
 </dwz:paginationForm>
 
 <form method="post" id="payqyForm" action="${contextPath }/client/listPolicyReprintDtl" onsubmit="return navTabSearch(this)">
@@ -26,8 +28,8 @@
 						<label>标记：</label>
 						<select name="plFlag" id="policyFlag" class="combox">
 							<option value=""> -- -- </option>
-							<option value="P" <%if(request.getAttribute("plFlag") != null && request.getAttribute("plFlag").equals("P")){%>selected<%} %>>新单打印</option>
-							<option value="L" <%if(request.getAttribute("plFlag") != null && request.getAttribute("plFlag").equals("L")){%>selected<%} %>>合同补发</option>
+							<option value="个险新单" <%if(request.getAttribute("plFlag") != null && request.getAttribute("plFlag").equals("个险新单")){%>selected<%} %>>个险新单</option>
+							<option value="个险保全补打" <%if(request.getAttribute("plFlag") != null && request.getAttribute("plFlag").equals("个险保全补打")){%>selected<%} %>>个险保全补打</option>
 						</select>
 					</td>
 					<td>
@@ -35,6 +37,18 @@
 						<input name="orgCode" id="payqy_forgCode" type="hidden" value="${orgCode }"/>
 						<input class="validate[required] required" name="name" id="payqy_forgName" type="text" readonly="readonly" style="width: 100px;" value="${name }"/><a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="" title="选择机构" width="400">查</a>
 					</td>
+				</tr>
+				<tr>
+				<td>
+				<label>打印日期：</label>
+				<input type="text" name="search_GTE_printDate" id="prDate1" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_printDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+				</td>
+				<td>
+				<label>打印日期：</label>
+				<input type="text" name="search_LTE_printDate" id="prDate2" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_printDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+				</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
 				</tr>
 			</table>
 			<div class="subBar">
@@ -63,7 +77,7 @@
 				<th orderField=policyNo class="${page.orderField eq 'policyNo' ? page.orderDirection : ''}">保单号</th>
 				<th>状态</th>
 				<th>快递单号</th>
-				<th>寄出日期</th>
+				<th orderField=printDate class="${page.orderField eq 'printDate' ? page.orderDirection : ''}">寄出日期</th>
 				<th>标记</th>
 			</tr>
 		</thead>
@@ -79,7 +93,7 @@
 				<td><fmt:formatDate value="${item.printDate }" pattern="yyyy-MM-dd"/></td>
 				<td>
 					<c:choose>
-					<c:when test="${item.plFlag eq 'L'}">
+					<c:when test="${item.plFlag eq '个险保全补打'}">
 						合同补发
 					</c:when>
 					<c:otherwise>

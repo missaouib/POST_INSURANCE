@@ -95,6 +95,8 @@ public class Issue implements Idable<Long> {
 	private String policyFeeYear;
 	private String checker;
 	private Date checkDate;
+	private String cityReviewer;
+	private String cityReviewRst;
 	
 	@Transient
 	private Date readyDate1;
@@ -748,4 +750,21 @@ public class Issue implements Idable<Long> {
 	public void setCheckDate(Date checkDate) {
 		this.checkDate = checkDate;
 	}
+	
+	@Column(name="city_reviewer")
+	public String getCityReviewer() {
+		return cityReviewer;
+	}
+	public void setCityReviewer(String cityReviewer) {
+		this.cityReviewer = cityReviewer;
+	}
+	
+	@Column(name="city_review_rst")
+	public String getCityReviewRst() {
+		return cityReviewRst;
+	}
+	public void setCityReviewRst(String cityReviewRst) {
+		this.cityReviewRst = cityReviewRst;
+	}
+	
 }

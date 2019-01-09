@@ -1217,7 +1217,8 @@ ALTER TABLE t_sales ADD unique INDEX `idx_sales` (`sales_name`,`phone`);
 
 sales sql，t_addr_lib sql.
 
-
+alter table t_issue add column city_reviewer varchar(16) after deal_time;
+alter table t_issue add column city_review_rst varchar(64) after city_reviewer;
 
 
 

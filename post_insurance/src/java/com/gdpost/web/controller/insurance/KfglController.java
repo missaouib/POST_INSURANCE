@@ -207,6 +207,8 @@ public class KfglController {
 		src.setDealMan(issue.getDealMan());
 		src.setDealTime(issue.getDealTime());
 		src.setResult(issue.getResult());
+		src.setCityReviewRst(issue.getCityReviewRst());
+		src.setCityReviewer(issue.getCityReviewer());
 		src.setStatus(StatusDefine.STATUS.IngStatus.getDesc());
 		kfglService.saveOrUpdate(src);
 		
@@ -677,9 +679,14 @@ public class KfglController {
 				range.replaceText("${issueReq}", issueReq);
 				range.replaceText("${userName}", shiroUser.getUser().getRealname());
 				range.replaceText("${shouldDate}", StringUtil.date2Str(issue.getShouldDate(),"yyyy-MM-dd"));
+				range.replaceText("${checker}", issue.getChecker()==null?"":issue.getChecker());
+				range.replaceText("${checkDate}", issue.getCheckDate()==null?"":StringUtil.date2Str(issue.getCheckDate(),"yyyy-MM-dd"));
 				range.replaceText("${issueResult}", issue.getResult());
 				range.replaceText("${dealMan}", issue.getDealMan());
 				range.replaceText("${dealTime}", StringUtil.date2Str(issue.getDealTime(),"yyyy-MM-dd"));
+				range.replaceText("${cityReviewRst}", issue.getCityReviewRst()==null?"":issue.getCityReviewRst());
+				range.replaceText("${cityReviewer}", issue.getCityReviewer()==null?"":issue.getCityReviewer());
+				range.replaceText("${reviewTime}", StringUtil.date2Str(issue.getDealTime(),"yyyy-MM-dd"));
 				os = new FileOutputStream(newPath);
 				// 把doc输出到输出流中
 				doc.write(os);
