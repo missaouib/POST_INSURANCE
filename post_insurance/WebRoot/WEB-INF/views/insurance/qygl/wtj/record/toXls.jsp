@@ -63,9 +63,12 @@ response.setHeader("Content-Disposition", "inline; filename=QY_Record_LIST.xls")
 				<c:choose>  
 					    <c:when test="${fn:length(item.netName) > 14}">  
 					        <c:out value="${fn:substring(item.netName, 14, 30)}" />  
-					    </c:when>  
+					    </c:when> 
+					    <c:when test="${fn:length(item.netName) > 0}">  
+					        <c:out value="${item.netName}" />  
+					    </c:when> 
 					   <c:otherwise>  
-					      <c:out value="${item.netName}" />  
+					      <c:out value="${item.policy.bankName}" />  
 					    </c:otherwise>  
 					</c:choose>
 				</td>

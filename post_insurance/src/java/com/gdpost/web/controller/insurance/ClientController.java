@@ -70,6 +70,15 @@ public class ClientController {
 		return VIEW;
 	}
 	
+	@RequiresPermissions("Client:view")
+	@RequestMapping(value="/view/byPolicyNo/{policyNo}", method=RequestMethod.GET)
+	public String viewByPolicyNo(@PathVariable String policyNo, Map<String, Object> map) {
+		Policy req = policyService.getByPolicyNo(policyNo);
+		
+		map.put("policy", req);
+		return VIEW;
+	}
+	
 	
 	@RequiresPermissions("Client:view")
 	@RequestMapping(value="/list", method={RequestMethod.GET, RequestMethod.POST})

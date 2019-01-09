@@ -10,6 +10,7 @@
 	<input type="hidden" name="search_LTE_dealTime" value="${param.search_LTE_dealTime }"/>
 	<input type="hidden" name="search_GTE_dealTime" value="${param.search_GTE_dealTime }"/>
 	<input type="hidden" name="fixStatus" value="${status }"/>
+	<input type="hidden" name="checker" value="${checker }"/>
 </dwz:paginationForm>
 
 <form method="post" id="qyRecordForm" action="${contextPath }/qygl/issue/record/list" onsubmit="return navTabSearch(this)">
@@ -32,7 +33,12 @@
 						<input name="orgCode" id="qy_r_orgCode" type="hidden" value="${orgCode }"/>
 						<input class="validate[required] required" name="name" id="qy_r_orgName" type="text" readonly="readonly" style="width: 100px;" value="${name }"/><a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="" title="选择机构" width="400">查</a>
 					</td>
-					<td>&nbsp;</td>
+					<td><label>排查类型:</label>
+					<form:select path="issue.checker" id="qyRecordchecker" class="combox">
+							<form:option value=""> -- -- </form:option>
+							<form:option value="System">真实性排查</form:option>
+						</form:select>
+					</td>
 				</tr>
 				<tr>
 					<td>
@@ -67,7 +73,7 @@
 	<div class="panelBar">
 		<ul class="toolBar">
 			<shiro:hasPermission name="CheckRecord:view">
-				<li><a iconClass="magnifier" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/qygl/issue/record/view/{slt_uid}"><span>查看详情</span></a></li>
+				<li><a target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/qygl/issue/record/view/{slt_uid}"><span>查看详情</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="CheckRecord:edit">
 				<li class="line">line</li>
@@ -102,14 +108,14 @@
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
 				<td>${item.policy.organization.shortName}</td>
-				<td>${item.policy.policyNo}</td>
+				<td><a target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/client/view/byPolicyNo/${item.policy.policyNo}"><div style="color: blue;vertical-align:middle;font-weight:normal;">${item.policy.policyNo}</div></a></td>
 				<td>${item.policy.formNo}</td>
 				<td>${item.policy.holder}</td>
 				<td>${item.policy.policyDate}</td>
 				<td>
 				<c:choose>
 					<c:when test="${item.fixStatus eq 'NewStatus'}">
-						<span style="color:red; height:50%; margin-bottom:-contentheight;">待处理</span>
+						<div style="color: red;vertical-align:middle;font-weight:normal;">待处理</div>
 					</c:when>
 					<c:when test="${item.fixStatus eq 'CTStatus'}">
 						已退保
@@ -130,9 +136,12 @@
 				<c:choose>  
 					    <c:when test="${fn:length(item.netName) > 14}">  
 					        <c:out value="${fn:substring(item.netName, 14, 30)}" />  
-					    </c:when>  
+					    </c:when> 
+					    <c:when test="${fn:length(item.netName) > 0}">  
+					        <c:out value="${item.netName}" />  
+					    </c:when> 
 					   <c:otherwise>  
-					      <c:out value="${item.netName}" />  
+					      <c:out value="${item.policy.bankName}" />  
 					    </c:otherwise>  
 					</c:choose>
 				</td>

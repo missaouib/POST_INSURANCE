@@ -261,7 +261,7 @@ public class TaskService {
 					+ "cast(aes_decrypt(unhex(holder_phone), 'GDPost') as char(100)) as holder_phone,"
 					+ "cast(aes_decrypt(unhex(holder_mobile), 'GDPost') as char(100)) as holder_mobile,"
 					+ "insured_card_type,cast(aes_decrypt(unhex(insured_card_num), 'GDPost') as char(100)) as insured_card_num,insured_card_valid, prod_name, holder_email, relation "
-					+ "from t_policy_dtl where check_flag=0 and relation is not null and policy_no not like \"5244%\";";
+					+ "from t_policy_dtl where check_flag=0 and relation is not null and policy_no not like \"5244%\" and policy_no not in (select policy_no from t_under_write where policy_no is not null);";
 			
 			log.debug(" ----- sql:" + sql);
 			
@@ -312,7 +312,7 @@ public class TaskService {
 				prodName = rst.getString("prod_name");
 				//log.debug(" --------- holderaddr:" + holderAddr);
 				
-				checkRst = CustomerInfoUtil.checkData(stat2, holder, holderAge, holderCardType, holderCardNum, holderCardValid, 
+				checkRst = CustomerInfoUtil.checkData(stat2, policyNo, holder, holderAge, holderCardType, holderCardNum, holderCardValid, 
 						insured, insuredCardType, insuredCardNum, insuredAge, relation, holderPhone, holderMobile, holderEmail, holderAddr);
 				
 				log.debug(" ----- data: " + checkBatch + "," + holder + "," + holderAge + "," + holderCardType + "," + holderCardNum + "," + holderCardValid + "," + insured + "," + insuredCardType + "," + insuredCardNum + "," + insuredAge + "," + relation + "," + holderPhone + "," + holderMobile + "," + holderEmail + "," + holderAddr);
@@ -337,6 +337,7 @@ public class TaskService {
 			statement.executeUpdate(updateSQL);
 			
 			//sql = "call procDealCardValid();";
+			sql = "update t_check_write set fix_status=\"CloseStatus\",fix_desc=\"已退保\",deal_man=\"System\", deal_time=now() where policy_no in (select policy_no from t_policy where cs_flag<>0);";
 			
 			sql = "insert into t_log_info (username, message,ip_address,log_level,module) values "
 					+ "('admin','customer info check, error:" + idx + "','127.0.0.1','WARN','其他操作');";

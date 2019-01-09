@@ -20,7 +20,19 @@
 		</p>
 		<p>
 			<label>出单网点：</label>
-			<span class="unit">${fn:replace(issue.netName,'中国邮政储蓄银行股份有限公司','')}</span>
+			<span class="unit">
+			<c:choose>  
+					    <c:when test="${fn:length(issue.netName) > 14}">  
+					        <c:out value="${fn:substring(issue.netName, 14, 30)}" />  
+					    </c:when> 
+					    <c:when test="${fn:length(issue.netName) > 0}">  
+					        <c:out value="${issue.netName}" />  
+					    </c:when> 
+					   <c:otherwise>  
+					      <c:out value="${issue.policy.bankName}" />  
+					    </c:otherwise>  
+					</c:choose>
+			</span>
 		</p>
 		<p>
 			<label>抽检人：</label>
@@ -60,9 +72,9 @@
 		<legend>不合格件处理详情</legend>
 		<p class="nowrap">
 			<label>处理结果类型：</label>
-			<form:select path="issue.fixType" onchange="javascript:$('#fixDesc').val($('#fixType').find('option:selected').text())" class="combox validate[required] required">
+			<form:select path="issue.fixType" onchange="javascript:$('#fixDesc').val($('#fixType').val())" class="combox validate[required] required">
 				<form:option value=""> -- </form:option>
-				<form:options items="${checkFixList }" itemLabel="typeDesc" itemValue="typeName"/>
+				<form:options items="${checkFixList }" itemLabel="typeName" itemValue="typeDesc"/>
 			</form:select>
 		</p>
 		<p class="nowrap">

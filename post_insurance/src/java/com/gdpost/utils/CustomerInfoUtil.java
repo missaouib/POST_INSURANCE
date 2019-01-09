@@ -39,7 +39,7 @@ public class CustomerInfoUtil {
 	 * @param addr
 	 * @return
 	 */
-	public static String checkData(Statement stat, String holder, Integer holderAge, String holderCardType, String holderCardNum, String holderCardValid, 
+	public static String checkData(Statement stat, String policyNo, String holder, Integer holderAge, String holderCardType, String holderCardNum, String holderCardValid, 
 			String insured, String insuredCardType, String insuredCardNum, Integer insuredAge, String relation, String phone, String mobile, String email, String addr) {
 		StringBuffer str = new StringBuffer("");
 		if(holder == null || insured == null || NumberUtils.isDigits(holder) || NumberUtils.isDigits(insured)) {
@@ -52,7 +52,7 @@ public class CustomerInfoUtil {
 			str.append("Email地址有误;");
 		}
 		str.append(checkLogic(holderAge, insuredAge, insuredCardType, insuredCardNum, relation));
-		str.append(checkAddr(stat, addr));
+		str.append(checkAddr(stat, policyNo, addr));
 		boolean isSales = isSalesPhone(stat, holder, mobile);
 		if(isSales) {
 			str.append("使用了销售人员电话出单;");
@@ -193,11 +193,11 @@ public class CustomerInfoUtil {
 	 * @param addr
 	 * @return
 	 */
-	public static String checkAddr(Statement stat,String addr) {
+	public static String checkAddr(Statement stat,String policyNo, String addr) {
 		StringBuffer str = new StringBuffer("");
 		LOG.debug(" --------- addr: " + addr);
 		//1、长度校验
-		if(addr == null || addr.trim().length()<7) {
+		if(addr == null || addr.trim().length()<=7) {
 			return "地址长度太短；";
 		}
 		//2、地址库结尾校验。
@@ -214,12 +214,16 @@ public class CustomerInfoUtil {
 			String ac = addr.indexOf("市") == -1?"":addr.substring(0, addr.indexOf("市"));
 			boolean bah = false;
 			boolean blen = true;
+			boolean hasCity = false;
 			if(ap.length()<=0 && ac.length()<=0) { //如果没有省也没有市的
 				bah = false;
 			}
 			while(rst != null && rst.next()) {
 				area = rst.getString("area");
 				city = rst.getString("city");
+				if(addr.contains(city)) {
+					hasCity = true;
+				}
 				if(!bah) {
 					if((addr.contains("广东") && addr.contains(city)) 
 							|| (addr.contains("广东") && addr.contains(area))) {
@@ -264,8 +268,11 @@ public class CustomerInfoUtil {
 					//return "地址不够详细1-length；";
 				}
 			}
-			if(!bah) {
-				return "地址疑似不够详细1；缺省市信息";
+			if(hasCity) {
+				if((addr.length() - addr.indexOf(city) <= 7)) {
+					blen = false;
+					//return "地址不够详细1-length；";
+				}
 			}
 			if(!blen) {
 				return "地址疑似不够详细2；省市后信息不详";
@@ -280,7 +287,9 @@ public class CustomerInfoUtil {
 			if(addr.contains("邮政") || addr.contains("邮政") || addr.endsWith("邮储") || addr.endsWith("支局") || addr.endsWith("支行")) {
 				return "地址含有邮政关键信息；";
 			}
-			
+			if(!bah && policyNo.startsWith("8644")) {
+				return "地址疑似不够详细1；缺省市信息";
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -291,6 +300,85 @@ public class CustomerInfoUtil {
 			}
 		}
 		return str.toString();
+	}
+	
+	public static String testAddr (String policyNo, String addr) {
+		String area = "天河";
+		String city = "广州";
+		String ap = addr.indexOf("省") ==-1?"":addr.substring(0, addr.indexOf("省"));
+		String ac = addr.indexOf("市") == -1?"":addr.substring(0, addr.indexOf("市"));
+		boolean bah = false;
+		boolean blen = true;
+		boolean hasCity = addr.contains(city);
+		if(ap.length()<=0 && ac.length()<=0) { //如果没有省也没有市的
+			bah = false;
+		}
+		if(!bah) {
+			if((addr.contains("广东") && addr.contains(city)) 
+					|| (addr.contains("广东") && addr.contains(area))) {
+				bah = true; //带有广东或者地市开头
+			}
+			if((addr.contains(city) && addr.contains(area))) {
+				bah = true; //带有广东或者地市开头
+			} else {
+				if((addr.contains("省") && addr.contains("市"))
+						|| (addr.contains("省") && addr.contains("县"))) {
+					bah = true;
+					if((addr.contains("市") && (addr.length() - addr.indexOf("市") <= 6)) 
+							|| (addr.contains("县") && (addr.length() - addr.indexOf("县") <= 6))) {
+						blen = false;
+						//return "地址不够详细1-length；";
+					}
+				}
+				if((addr.contains("市") && addr.contains("县"))
+						|| (addr.contains("市") && addr.contains("区"))
+						|| (addr.contains("市") && addr.contains("镇"))) {
+					bah = true;
+					if((addr.contains("市") && (addr.length() - addr.indexOf("市") <= 5)) 
+							|| (addr.contains("区") && (addr.length() - addr.indexOf("区") <= 5))
+							|| (addr.contains("县") && (addr.length() - addr.indexOf("县") <= 5))) {
+						blen = false;
+						//return "地址不够详细1-length；";
+					}
+				}
+				if((addr.contains("省") && addr.contains("市") && addr.contains("镇"))
+						|| (addr.contains("省") && addr.contains("县") && addr.contains("镇"))) {
+					bah = true;
+					if(addr.length() - addr.indexOf("镇") <= 5) {
+						blen = false;
+						//return "地址不够详细1-length；";
+					}
+				}
+			}
+		}
+		if((addr.contains(city) && (addr.length() - addr.indexOf(city) <= 5)) 
+				|| (addr.contains(area) && (addr.length() - addr.indexOf(area) <= 5))) {
+			blen = false;
+			//return "地址不够详细1-length；";
+		}
+		if(hasCity) {
+			if((addr.length() - addr.indexOf(city) <= 7)) {
+				blen = false;
+				//return "地址不够详细1-length；";
+			}
+		}
+		if(!blen) {
+			return "地址疑似不够详细2；省市后信息不详";
+		}
+		
+		if(addr.endsWith("附近") || addr.endsWith("对面") || addr.endsWith("旁边") 
+				|| addr.endsWith("路") || addr.endsWith("街") || addr.endsWith("道") 
+				|| addr.endsWith("花园") || addr.endsWith("工业区") || addr.endsWith("镇") || addr.endsWith("乡") || addr.endsWith("县") || addr.endsWith("小区")
+				|| addr.endsWith("栋") || addr.endsWith("幢") || addr.endsWith("楼")) {
+			return "地址不够详细3-end；";
+		}
+		if(addr.contains("邮政") || addr.contains("邮政") || addr.endsWith("邮储") || addr.endsWith("支局") || addr.endsWith("支行")) {
+			return "地址含有邮政关键信息；";
+		}
+		if(!bah && policyNo.startsWith("8644")) {
+			return "地址疑似不够详细1；缺省市信息";
+		}
+		return null;
 	}
 	
 	/**
@@ -535,8 +623,9 @@ public class CustomerInfoUtil {
 		
 		String city = "肇庆";
 		String area = "四会";
-		String addr = "肇庆市四会市迳口镇南乡村委会松子三乡村5号";
+		String addr = " 东莞市凤岗区雁田布心村第二工业区12号";
 		System.out.println(addr.length() - addr.indexOf(city));
 		System.out.println(addr.length() - addr.indexOf(area));
+		System.out.println(CustomerInfoUtil.testAddr("814400000124544", addr));
 	}
 }

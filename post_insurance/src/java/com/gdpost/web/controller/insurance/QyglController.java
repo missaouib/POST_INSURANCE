@@ -188,6 +188,7 @@ public class QyglController {
 		//默认返回未处理工单
 		String status = request.getParameter("fixStatus");
 		String orgCode = request.getParameter("orgCode");
+		String checker = request.getParameter("checker");
 		if(orgCode == null || orgCode.trim().length()<=0) {
 			orgCode = userOrg.getOrgCode();
 		} else if(!orgCode.contains(userOrg.getOrgCode())){
@@ -205,11 +206,16 @@ public class QyglController {
 		}
 		request.setAttribute("status", status);
 		issue.setFixStatus(status);
+		request.setAttribute("checker", checker);
+		issue.setChecker(checker);
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 		if(status.trim().length()>0) {
 			csf.add(new SearchFilter("fixStatus", Operator.EQ, status));
+		}
+		if(checker != null && checker.trim().length()>0) {
+			csf.add(new SearchFilter("checker", Operator.EQ, checker));
 		}
 		
 		Specification<CheckWrite> specification = DynamicSpecifications.bySearchFilter(request, CheckWrite.class, csf);
@@ -232,18 +238,22 @@ public class QyglController {
 		//默认返回未处理工单
 		String status = request.getParameter("fixStatus");
 		String orgCode = request.getParameter("orgCode");
+		String checker = request.getParameter("checker");
 		if(orgCode == null || orgCode.trim().length()<=0) {
 			orgCode = userOrg.getOrgCode();
 		} else if(!orgCode.contains(userOrg.getOrgCode())){
 			orgCode = userOrg.getOrgCode();
 		}
-		
+		request.setAttribute("status", status);
 		page.setPageNum(0);
 		page.setNumPerPage(Integer.MAX_VALUE);
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 		if(status.trim().length()>0) {
 			csf.add(new SearchFilter("fixStatus", Operator.EQ, status));
+		}
+		if(checker != null && checker.trim().length()>0) {
+			csf.add(new SearchFilter("checker", Operator.EQ, checker));
 		}
 		
 		Specification<CheckWrite> specification = DynamicSpecifications.bySearchFilter(request, CheckWrite.class, csf);
@@ -341,6 +351,7 @@ public class QyglController {
 		//默认返回未处理工单
 		String status = request.getParameter("fixStatus");
 		String orgCode = request.getParameter("orgCode");
+		String checker = request.getParameter("checker");
 		if(orgCode == null || orgCode.trim().length()<=0) {
 			orgCode = userOrg.getOrgCode();
 		} else if(!orgCode.contains(userOrg.getOrgCode())){
@@ -358,11 +369,16 @@ public class QyglController {
 		}
 		request.setAttribute("status", status);
 		issue.setFixStatus(status);
+		request.setAttribute("checker", checker);
+		issue.setChecker(checker);
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 		if(status.trim().length()>0) {
 			csf.add(new SearchFilter("fixStatus", Operator.EQ, status));
+		}
+		if(checker != null && checker.trim().length()>0) {
+			csf.add(new SearchFilter("checker", Operator.EQ, checker));
 		}
 		
 		Specification<CheckRecord> specification = DynamicSpecifications.bySearchFilter(request, CheckRecord.class, csf);
@@ -385,11 +401,13 @@ public class QyglController {
 		//默认返回未处理工单
 		String status = request.getParameter("fixStatus");
 		String orgCode = request.getParameter("orgCode");
+		String checker = request.getParameter("checker");
 		if(orgCode == null || orgCode.trim().length()<=0) {
 			orgCode = userOrg.getOrgCode();
 		} else if(!orgCode.contains(userOrg.getOrgCode())){
 			orgCode = userOrg.getOrgCode();
 		}
+		request.setAttribute("status", status);
 		
 		page.setPageNum(0);
 		page.setNumPerPage(Integer.MAX_VALUE);
@@ -398,6 +416,9 @@ public class QyglController {
 		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 		if(status.trim().length()>0) {
 			csf.add(new SearchFilter("fixStatus", Operator.EQ, status));
+		}
+		if(checker != null && checker.trim().length()>0) {
+			csf.add(new SearchFilter("checker", Operator.EQ, checker));
 		}
 		
 		Specification<CheckRecord> specification = DynamicSpecifications.bySearchFilter(request, CheckRecord.class, csf);

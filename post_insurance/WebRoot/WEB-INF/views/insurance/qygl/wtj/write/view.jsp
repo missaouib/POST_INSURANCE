@@ -21,7 +21,19 @@
 		</p>
 		<p>
 			<label>出单网点：</label>
-			<span class="unit">${fn:replace(issue.netName,'中国邮政储蓄银行股份有限公司','')}</span>
+			<span class="unit">
+			<c:choose>  
+					    <c:when test="${fn:length(issue.netName) > 14}">  
+					        <c:out value="${fn:substring(issue.netName, 14, 30)}" />  
+					    </c:when> 
+					    <c:when test="${fn:length(issue.netName) > 0}">  
+					        <c:out value="${issue.netName}" />  
+					    </c:when> 
+					   <c:otherwise>  
+					      <c:out value="${issue.policy.bankName}" />  
+					    </c:otherwise>  
+					</c:choose>
+			</span>
 		</p>
 		<p>
 			<label>抽检人：</label>
