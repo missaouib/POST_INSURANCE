@@ -141,7 +141,7 @@ public class CustomerInfoUtil {
 		
 		StringBuffer str = new StringBuffer("");
 		if(holderAge == null || insuredCardType==null || insuredAge == null || relation == null || insuredCardNum == null) {
-			return "客户证件信息不完整；";
+			return "客户证件信息不完整;";
 		}
 		if (relation.equals("本人")) {
 			return "";
@@ -157,21 +157,21 @@ public class CustomerInfoUtil {
 			if (flag % 2 ==0) { //女
 				if (holderAge > insuredAge) {
 					if (youngerMale.contains(relation)) {
-						str.append("关系不符逻辑要求；");
+						str.append("关系不符逻辑要求;");
 					}
 				} else {
 					if (olderMale.contains(relation)) {
-						str.append("关系不符逻辑要求；");
+						str.append("关系不符逻辑要求;");
 					}
 				}
 			} else { //男
 				if (holderAge > insuredAge) {
 					if (youngerFemale.contains(relation)) {
-						str.append("关系不符逻辑要求；");
+						str.append("关系不符逻辑要求;");
 					}
 				} else {
 					if (olderFemale.contains(relation)) {
-						str.append("关系不符逻辑要求；");
+						str.append("关系不符逻辑要求;");
 					}
 				}
 			}
@@ -198,11 +198,19 @@ public class CustomerInfoUtil {
 		LOG.debug(" --------- addr: " + addr);
 		//1、长度校验
 		if(addr == null || addr.trim().length()<=7) {
-			return "地址长度太短；";
+			return "地址长度太短;";
+		}
+		boolean hasNum = false;
+		String pattern = ".*[一二三四五六七八九零十百千万亿〇壹贰叁肆伍陆柒捌玖０１２３４５６７８９0-9]+.*";
+		Pattern regex = Pattern.compile(pattern);
+		Matcher matcher = regex.matcher(addr);
+		if(matcher.matches()) {
+			hasNum = true;
 		}
 		//2、地址库结尾校验。
 		//拿到地址库的地址
 		String sql = "select area,city from t_addr_lib";
+		
 		ResultSet rst = null;
 		try {
 			rst = stat.executeQuery(sql);
@@ -235,8 +243,8 @@ public class CustomerInfoUtil {
 						if((addr.contains("省") && addr.contains("市"))
 								|| (addr.contains("省") && addr.contains("县"))) {
 							bah = true;
-							if((addr.contains("市") && (addr.length() - addr.indexOf("市") <= 6)) 
-									|| (addr.contains("县") && (addr.length() - addr.indexOf("县") <= 6))) {
+							if((addr.contains("市") && (addr.length() - addr.indexOf("市") <= 7)) 
+									|| (addr.contains("县") && (addr.length() - addr.indexOf("县") <= 7))) {
 								blen = false;
 								//return "地址不够详细1-length；";
 							}
@@ -245,9 +253,9 @@ public class CustomerInfoUtil {
 								|| (addr.contains("市") && addr.contains("区"))
 								|| (addr.contains("市") && addr.contains("镇"))) {
 							bah = true;
-							if((addr.contains("市") && (addr.length() - addr.indexOf("市") <= 5)) 
-									|| (addr.contains("区") && (addr.length() - addr.indexOf("区") <= 5))
-									|| (addr.contains("县") && (addr.length() - addr.indexOf("县") <= 5))) {
+							if((addr.contains("市") && (addr.length() - addr.indexOf("市") <= 7)) 
+									|| (addr.contains("区") && (addr.length() - addr.indexOf("区") <= 7))
+									|| (addr.contains("县") && (addr.length() - addr.indexOf("县") <= 7))) {
 								blen = false;
 								//return "地址不够详细1-length；";
 							}
@@ -255,15 +263,15 @@ public class CustomerInfoUtil {
 						if((addr.contains("省") && addr.contains("市") && addr.contains("镇"))
 								|| (addr.contains("省") && addr.contains("县") && addr.contains("镇"))) {
 							bah = true;
-							if(addr.length() - addr.indexOf("镇") <= 5) {
+							if(addr.length() - addr.indexOf("镇") <= 7) {
 								blen = false;
 								//return "地址不够详细1-length；";
 							}
 						}
 					}
 				}
-				if((addr.contains(city) && (addr.length() - addr.indexOf(city) <= 5)) 
-						|| (addr.contains(area) && (addr.length() - addr.indexOf(area) <= 5))) {
+				if((addr.contains(city) && (addr.length() - addr.indexOf(city) <= 7)) 
+						|| (addr.contains(area) && (addr.length() - addr.indexOf(area) <= 7))) {
 					blen = false;
 					//return "地址不够详细1-length；";
 				}
@@ -274,21 +282,23 @@ public class CustomerInfoUtil {
 					//return "地址不够详细1-length；";
 				}
 			}
-			if(!blen) {
-				return "地址疑似不够详细2；省市后信息不详";
+			if(!blen || !hasNum) {
+				return "地址疑似不够详细2；省市后信息不详;";
 			}
 			
 			if(addr.endsWith("附近") || addr.endsWith("对面") || addr.endsWith("旁边") 
 					|| addr.endsWith("路") || addr.endsWith("街") || addr.endsWith("道") 
-					|| addr.endsWith("花园") || addr.endsWith("工业区") || addr.endsWith("镇") || addr.endsWith("乡") || addr.endsWith("县") || addr.endsWith("小区")
-					|| addr.endsWith("栋") || addr.endsWith("幢") || addr.endsWith("楼")) {
-				return "地址不够详细3-end；";
+					|| addr.endsWith("园") || addr.endsWith("区") || addr.endsWith("镇") || addr.endsWith("乡") || addr.endsWith("县")) {
+				return "地址不够详细3-end;";
+			}
+			if(!hasNum && (addr.endsWith("栋") || addr.endsWith("幢") || addr.endsWith("楼"))) {
+				return "地址缺门牌号码;";
 			}
 			if(addr.contains("邮政") || addr.contains("邮政") || addr.endsWith("邮储") || addr.endsWith("支局") || addr.endsWith("支行")) {
-				return "地址含有邮政关键信息；";
+				return "地址含有邮政关键信息;";
 			}
 			if(!bah && policyNo.startsWith("8644")) {
-				return "地址疑似不够详细1；缺省市信息";
+				return "地址疑似不够详细1；缺省市信息;";
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -304,7 +314,7 @@ public class CustomerInfoUtil {
 	
 	public static String testAddr (String policyNo, String addr) {
 		String area = "天河";
-		String city = "广州";
+		String city = "东莞";
 		String ap = addr.indexOf("省") ==-1?"":addr.substring(0, addr.indexOf("省"));
 		String ac = addr.indexOf("市") == -1?"":addr.substring(0, addr.indexOf("市"));
 		boolean bah = false;
@@ -362,7 +372,16 @@ public class CustomerInfoUtil {
 				//return "地址不够详细1-length；";
 			}
 		}
-		if(!blen) {
+		boolean hasNum = false;
+		String pattern = "[一二三四五六七八九零十百千万亿〇壹贰叁肆伍陆柒捌玖０１２３４５６７８９0-9]+";
+		Pattern regex = null;
+		Matcher matcher = null;
+    	regex = Pattern.compile(pattern);
+		matcher = regex.matcher(addr);
+		if(matcher.matches()) {
+			hasNum = true;
+		}
+		if(!blen && !hasNum) {
 			return "地址疑似不够详细2；省市后信息不详";
 		}
 		
@@ -442,7 +461,7 @@ public class CustomerInfoUtil {
 		if (mobile == null || mobile.trim().length() <= 0) {
 			return true;
 		}
-		String check = "^((13[0-9])|(14[5,7,9])|(15([0-3]|[5-9]))|(166)|(17[0,1,3,5,6,7,8])|(18[0-9])|(19[8|9]))\\d{8}$";
+		String check = "^((13[0-9])|(14[5,7,9])|(15([0-3]|[5-9]))|(166)|(17[0,1,3,5,6,7,8])|(18[0-9])|(19[0-9]))\\d{8}$";
 		Pattern regex = Pattern.compile(check);
 		Matcher matcher = regex.matcher(mobile);
 		return matcher.matches();
@@ -611,21 +630,29 @@ public class CustomerInfoUtil {
 
 	public static void main(String[] args) {
 		
-		String str = "441827197812105641";
-		boolean i1 = CustomerInfoUtil.is18ByteIdCardComplex(str);
-		boolean i2 = CustomerInfoUtil.is18ByteIdCard(str);
-		System.out.println(i1);
-		System.out.println(i2);
-		System.out.println(str.substring(16, 17));
+		//String str = "441827197812105641";
+		//boolean i1 = CustomerInfoUtil.is18ByteIdCardComplex(str);
+		//boolean i2 = CustomerInfoUtil.is18ByteIdCard(str);
+		//System.out.println(i1);
+		//System.out.println(i2);
+		//System.out.println(str.substring(16, 17));
 		
-		String email = "12345@qq..com";
-		System.out.println(CustomerInfoUtil.checkEmail(email));
+		//String email = "12345@qq..com";
+		//System.out.println(CustomerInfoUtil.checkEmail(email));
 		
-		String city = "肇庆";
-		String area = "四会";
-		String addr = " 东莞市凤岗区雁田布心村第二工业区12号";
-		System.out.println(addr.length() - addr.indexOf(city));
-		System.out.println(addr.length() - addr.indexOf(area));
-		System.out.println(CustomerInfoUtil.testAddr("814400000124544", addr));
+		//String city = "肇庆";
+		//String area = "四会";
+		String addr = "东莞是号";
+		
+		//System.out.println(addr.length() - addr.indexOf(city));
+		//System.out.println(addr.length() - addr.indexOf(area));
+		//System.out.println(CustomerInfoUtil.testAddr("814400000124544", addr));
+		//一二三四五六七八九零十百千万亿〇壹贰叁肆伍陆柒捌玖０１２３４５６７８９
+		//".*\\d+.*"
+		String pattern = ".*[一二三四五六七八九零十百千万亿〇壹贰叁肆伍陆柒捌玖０１２３４５６７８９0-9]+.*";
+		Pattern regex = Pattern.compile(pattern);;
+		Matcher matcher = regex.matcher(addr);
+		System.out.println(matcher.matches());
+		System.out.println(addr.matches(pattern));
 	}
 }

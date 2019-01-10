@@ -1220,7 +1220,8 @@ sales sql，t_addr_lib sql.
 alter table t_issue add column city_reviewer varchar(16) after deal_time;
 alter table t_issue add column city_review_rst varchar(64) after city_reviewer;
 
-
+alter table t_check_write add column is_pass varchar(9) after need_fix;
+alter table t_check_record add column is_pass varchar(9) after need_fix;
 
 
 

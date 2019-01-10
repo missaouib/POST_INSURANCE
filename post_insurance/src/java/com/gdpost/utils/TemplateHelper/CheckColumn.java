@@ -30,9 +30,6 @@ public class CheckColumn {
 		column.setColumnName("check_batch");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(false);
-		column.setNeedOutput(true);
-		column.setiOutputOrder(1);
-		column.setOutputName("CJPCH");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -40,9 +37,6 @@ public class CheckColumn {
 		column.setColumnName("form_no");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(false);
-		column.setNeedOutput(true);
-		column.setiOutputOrder(2);
-		column.setOutputName("TBDH");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -50,19 +44,13 @@ public class CheckColumn {
 		column.setColumnName("policy_no");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(false);
-		column.setNeedOutput(true);
-		column.setiOutputOrder(3);
-		column.setOutputName("BDH");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
 		column.setDisplayName("网点类型");
 		column.setColumnName("net_type");
 		column.setColumnType(ColumnType.string);
-		column.setNullable(false);
-		column.setNeedOutput(true);
-		column.setiOutputOrder(4);
-		column.setOutputName("WDLX");
+		column.setNullable(true);
 		standardColumns.add(column);
 
 		column = new ColumnItem();
@@ -70,9 +58,6 @@ public class CheckColumn {
 		column.setColumnName("prd_name");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(false);
-		column.setNeedOutput(true);
-		column.setiOutputOrder(5);
-		column.setOutputName("XZMC");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -80,19 +65,20 @@ public class CheckColumn {
 		column.setColumnName("pay_method");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setNeedOutput(true);
-		column.setiOutputOrder(6);
-		column.setOutputName("JFFS");
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
+		column.setDisplayName("是否合格");
+		column.setColumnName("is_pass");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(true);
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
 		column.setDisplayName("是否整改");
 		column.setColumnName("need_fix");
 		column.setColumnType(ColumnType.string);
-		column.setNullable(true);
-		column.setNeedOutput(true);
-		column.setiOutputOrder(7);
-		column.setOutputName("SFZG");
+		column.setNullable(false);
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -100,9 +86,6 @@ public class CheckColumn {
 		column.setColumnName("key_info");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setNeedOutput(true);
-		column.setiOutputOrder(8);
-		column.setOutputName("GJXX");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -110,9 +93,6 @@ public class CheckColumn {
 		column.setColumnName("importance_info");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setNeedOutput(true);
-		column.setiOutputOrder(9);
-		column.setOutputName("ZYXX");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -120,9 +100,6 @@ public class CheckColumn {
 		column.setColumnName("else_info");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setNeedOutput(true);
-		column.setiOutputOrder(10);
-		column.setOutputName("QTXX");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -130,9 +107,6 @@ public class CheckColumn {
 		column.setColumnName("doc_error");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setNeedOutput(true);
-		column.setiOutputOrder(11);
-		column.setOutputName("DZSFSYCW");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -140,9 +114,6 @@ public class CheckColumn {
 		column.setColumnName("doc_miss");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setNeedOutput(true);
-		column.setiOutputOrder(12);
-		column.setOutputName("TBZLSFQS");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -150,9 +121,6 @@ public class CheckColumn {
 		column.setColumnName("checker");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setNeedOutput(true);
-		column.setiOutputOrder(13);
-		column.setOutputName("CJR");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
@@ -160,9 +128,6 @@ public class CheckColumn {
 		column.setColumnName("net_name");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
-		column.setNeedOutput(true);
-		column.setiOutputOrder(14);
-		column.setOutputName("WDMC");
 		standardColumns.add(column);
 		
 		return(standardColumns);

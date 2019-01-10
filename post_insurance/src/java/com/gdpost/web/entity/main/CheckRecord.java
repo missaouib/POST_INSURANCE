@@ -59,6 +59,7 @@ public class CheckRecord implements Idable<Long> {
 	private String reopenReason;
 	private User reopenUser;
 	private Date reopenDate;
+	private String isPass;
 	
 	private String fixType;
 	
@@ -340,5 +341,13 @@ public class CheckRecord implements Idable<Long> {
 	@Transient
 	public void setTag(String tag) {
 		this.tag = tag;
+	}
+	@Column(name="is_pass")
+	public String getIsPass() {
+		return isPass;
+	}
+
+	public void setIsPass(String isPass) {
+		this.isPass = isPass;
 	}
 }

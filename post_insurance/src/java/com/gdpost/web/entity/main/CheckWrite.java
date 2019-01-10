@@ -61,6 +61,7 @@ public class CheckWrite implements Idable<Long> {
 	private User reopenUser;
 	private Date reopenDate;
 	private String fixType;
+	private String isPass;
 
 	@Transient
 	private String tag = "填写错误";
@@ -339,4 +340,14 @@ public class CheckWrite implements Idable<Long> {
 	public void setTag(String tag) {
 		this.tag = tag;
 	}
+
+	@Column(name="is_pass")
+	public String getIsPass() {
+		return isPass;
+	}
+
+	public void setIsPass(String isPass) {
+		this.isPass = isPass;
+	}
+	
 }

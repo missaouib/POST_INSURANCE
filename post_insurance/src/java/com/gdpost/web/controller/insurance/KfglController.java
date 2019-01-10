@@ -630,7 +630,7 @@ public class KfglController {
 	@RequestMapping(value = "/issue/toWord", method = { RequestMethod.POST, RequestMethod.GET })
 	public String toWord(ServletRequest request, String ids) {
 		// 如果是市局登录
-		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		//ShiroUser shiroUser = SecurityUtils.getShiroUser();
 
 		Issue issue = null;
 		String policyNo = null;
@@ -648,10 +648,11 @@ public class KfglController {
 			dfile.mkdirs();
 		}
 		String[] strIds = ids.split(",");
+		String operater = null;
 		for(String id:strIds) {
 			issue = kfglService.get(new Long(id));
 			policyNo = issue.getPolicy().getPolicyNo();
-			
+			operater = userService.get(issue.getOperateId()).getRealname();
 			newPath = issuePath + File.separator + policyNo + "_" + issue.getIssueNo() + ".doc";
 			try {
 				is = new FileInputStream(templatePath);
@@ -677,7 +678,7 @@ public class KfglController {
 				range.replaceText("${finishDate}", StringUtil.date2Str(issue.getFinishDate(),"yyyy-MM-dd"));
 				range.replaceText("${issueContent}", issue.getIssueContent());
 				range.replaceText("${issueReq}", issueReq);
-				range.replaceText("${userName}", shiroUser.getUser().getRealname());
+				range.replaceText("${userName}", operater);
 				range.replaceText("${shouldDate}", StringUtil.date2Str(issue.getShouldDate(),"yyyy-MM-dd"));
 				range.replaceText("${checker}", issue.getChecker()==null?"":issue.getChecker());
 				range.replaceText("${checkDate}", issue.getCheckDate()==null?"":StringUtil.date2Str(issue.getCheckDate(),"yyyy-MM-dd"));

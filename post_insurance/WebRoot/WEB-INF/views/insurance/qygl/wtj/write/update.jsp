@@ -15,6 +15,26 @@
 			<span class="unit">${issue.formNo }</span>
 		</p>
 		<p>
+			<label>投保人：</label>
+			<span class="unit">${issue.policy.holder }</span>
+		</p>
+		<p>
+			<label>电话：</label>
+			<span class="unit">${issue.policy.holderPhone }</span>
+		</p>
+		<p>
+			<label>手机：</label>
+			<span class="unit">${issue.policy.holderMobile }</span>
+		</p>
+		<p>
+			<label>EMAIL：</label>
+			<span class="unit">${issue.policy.holderEmail }</span>
+		</p>
+		<p>
+			<label>地址：</label>
+			<span class="unit">${issue.policy.holderAddr }</span>
+		</p>
+		<p>
 			<label>网点类型：</label>
 			<span class="unit">${issue.netType }</span>
 		</p>
@@ -72,7 +92,7 @@
 		<legend>不合格件处理详情</legend>
 		<p class="nowrap">
 			<label>处理结果类型：</label>
-			<form:select path="issue.fixType" onchange="javascript:$('#fixDesc').val($('#fixType').val())" class="combox validate[required] required">
+			<form:select path="issue.fixType" onchange="javascript:$('#fixDesc').val($('#fixType').val())" class="combox">
 				<form:option value=""> -- </form:option>
 				<form:options items="${checkFixList }" itemLabel="typeName" itemValue="typeDesc"/>
 			</form:select>
