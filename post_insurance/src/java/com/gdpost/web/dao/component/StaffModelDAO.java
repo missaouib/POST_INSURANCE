@@ -52,12 +52,13 @@ public interface StaffModelDAO extends JpaRepository<StaffModel, String>, JpaSpe
 		      + "tp.organ_code like :orgCode "
 		      + "and tp.organ_code<>\"86440001\" and tp.attached_flag=0 and tp.cs_flag<>1 "
 		      + "and tp.policy_date between :p1 and :p2 "
+		      + "and tp.duration >= :duration "
 		      + "and tp.prod_code like :prdCode "
 		      + "and tp.fee_frequency like :toPerm "
 		      + "group by left(tp.organ_name,2) "
 		      + "order by tp.organ_code;",
 			nativeQuery=true)
-	List<StaffModel> getProvStaffCountWithPolicyDateNoBankCode(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm);
+	List<StaffModel> getProvStaffCountWithPolicyDateNoBankCode(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("duration")Integer duration);
 	
 	@Query(name="getProvStaffCountWithPolicyDate",
 			value="select left(tp.organ_name,2) as organ_name,count(tp.organ_name) as sum_staff_count,sum(tp.total_fee) as sum_policy_fee, "
@@ -92,12 +93,13 @@ public interface StaffModelDAO extends JpaRepository<StaffModel, String>, JpaSpe
 	        + "and tp.organ_code like :orgCode "
 	        + "and tp.organ_code<>\"86440001\" "
 	        + "and tp.policy_date between :p1 and :p2 "
+	        + "and tp.duration >= :duration "
 	        + "and tp.prod_code like :prdCode "
 	        + "and tp.fee_frequency like :toPerm "
 	        + "group by left(tp.organ_name,2) "
 	        + "order by tp.organ_code;",
 			nativeQuery=true)
-	List<StaffModel> getProvStaffCountWithPolicyDate(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm);
+	List<StaffModel> getProvStaffCountWithPolicyDate(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("duration")Integer duration);
 	
 	@Query(name="getStaffCountWithPolicyDateNoBankCode",
 			value="select tp.organ_name as organ_name,count(tp.organ_name) as sum_staff_count,sum(tp.total_fee) as sum_policy_fee, "
@@ -130,12 +132,13 @@ public interface StaffModelDAO extends JpaRepository<StaffModel, String>, JpaSpe
 		      + "and tp.organ_code like :orgCode "
 		      + "and tp.organ_code<>\"86440001\" "
 		      + "and tp.policy_date between :p1 and :p2 "
+		      + "and tp.duration >= :duration "
 		      + "and tp.prod_code like :prdCode "
 		      + "and tp.fee_frequency like :toPerm "
 		      + "group by tp.organ_name "
 		      + "order by tp.organ_code;",
 			nativeQuery=true)
-	List<StaffModel> getStaffCountWithPolicyDateNoBankCode(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm);
+	List<StaffModel> getStaffCountWithPolicyDateNoBankCode(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("duration")Integer duration);
 	
 	@Query(name="getStaffCountWithPolicyDate",
 			value="select tp.organ_name as organ_name,count(tp.organ_name) as sum_staff_count,sum(tp.total_fee) as sum_policy_fee, "
@@ -168,10 +171,11 @@ public interface StaffModelDAO extends JpaRepository<StaffModel, String>, JpaSpe
 	        + "and tp.organ_code like :orgCode "
 	        + "and tp.organ_code<>\"86440001\" "
 	        + "and tp.policy_date between :p1 and :p2 "
+	        + "and tp.duration >= :duration "
 	        + "and tp.prod_code like :prdCode "
 	        + "and tp.fee_frequency like :toPerm "
 	        + "group by tp.organ_name "
 	        + "order by tp.organ_code;",
 			nativeQuery=true)
-	List<StaffModel> getStaffCountWithPolicyDate(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm);
+	List<StaffModel> getStaffCountWithPolicyDate(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("duration")Integer duration);
 }

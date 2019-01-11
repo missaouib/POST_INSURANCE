@@ -62,6 +62,7 @@ public class CheckWrite implements Idable<Long> {
 	private Date reopenDate;
 	private String fixType;
 	private String isPass;
+	private Date replyTime;
 
 	@Transient
 	private String tag = "填写错误";
@@ -348,6 +349,16 @@ public class CheckWrite implements Idable<Long> {
 
 	public void setIsPass(String isPass) {
 		this.isPass = isPass;
+	}
+
+	@Column(name="reply_time")
+	@Temporal(TemporalType.DATE)
+	public Date getReplyTime() {
+		return replyTime;
+	}
+
+	public void setReplyTime(Date replyTime) {
+		this.replyTime = replyTime;
 	}
 	
 }

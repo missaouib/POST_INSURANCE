@@ -92,6 +92,7 @@ public class Policy implements Idable<Long>, Serializable{
 	private Date csDate;
 	
 	private Integer saleType;
+	private Integer duration;
 	
 	@Transient
 	private Boolean isStaff;
@@ -581,6 +582,15 @@ public class Policy implements Idable<Long>, Serializable{
 	@Transient
 	public void setIsStaff(Boolean isStaff) {
 		this.isStaff = isStaff;
+	}
+
+	@Column(name="duration")
+	public Integer getDuration() {
+		return duration;
+	}
+
+	public void setDuration(Integer duration) {
+		this.duration = duration;
 	}
 	
 	

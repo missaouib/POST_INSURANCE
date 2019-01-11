@@ -8,10 +8,11 @@
 	<input type="hidden" name="name" value="${name }"/>
 	<input type="hidden" name="search_LTE_policy.policyDate" value="${search_LTE_policy_policyDate }"/>
 	<input type="hidden" name="search_GTE_policy.policyDate" value="${search_GTE_policy_policyDate }"/>
-	<input type="hidden" name="search_LTE_dealTime" value="${param.search_LTE_dealTime }"/>
-	<input type="hidden" name="search_GTE_dealTime" value="${param.search_GTE_dealTime }"/>
+	<input type="hidden" name="search_LTE_replyTime" value="${param.search_LTE_replyTime }"/>
+	<input type="hidden" name="search_GTE_replyTime" value="${param.search_GTE_replyTime }"/>
 	<input type="hidden" name="fixStatus" value="${status }"/>
 	<input type="hidden" name="checker" value="${checker }"/>
+	<input type="hidden" name="search_LIKE_checkBatch" value="${param.search_LIKE_checkBatch }"/>
 </dwz:paginationForm>
 
 <form id="qyWriteForm" method="post" action="${contextPath }/qygl/issue/write/list" onsubmit="return navTabSearch(this)">
@@ -21,6 +22,9 @@
 				<tr>
 					<td>
 						保单号：<input type="text" id="qyWritePolicyNo" style="width: 100px;" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
+					</td>
+					<td>
+						批次号：<input type="text" id="qyWritebatchNo" style="width: 100px;" name="search_LIKE_checkBatch" value="${param.search_LIKE_checkBatch }"/>
 					</td>
 					<td>
 						<label>状态：</label>
@@ -39,6 +43,7 @@
 					<form:select path="issue.checker" id="qywchecker" class="combox">
 							<form:option value=""> -- -- </form:option>
 							<form:option value="System">真实性排查</form:option>
+							<form:option value="zhaoyong">档案整改</form:option>
 						</form:select>
 					</td>
 				</tr>
@@ -52,13 +57,14 @@
 						<input type="text" name="search_LTE_policy.policyDate" id="qy_w_date2" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${search_LTE_policy_policyDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
-						<label>经办开始日期：</label>
-						<input type="text" name="search_GTE_dealTime" id="qyw_d_date1" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_dealTime }"/><a class="inputDateButton" href="javascript:;">选</a>
+						<label>回复开始日期：</label>
+						<input type="text" name="search_GTE_replyTime" id="qyw_d_date1" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_replyTime }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
-						<label>经办结束日期：</label>
-						<input type="text" name="search_LTE_dealTime" id="qyw_d_date2" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_dealTime }"/><a class="inputDateButton" href="javascript:;">选</a>
+						<label>回复结束日期：</label>
+						<input type="text" name="search_LTE_replyTime" id="qyw_d_date2" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_replyTime }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
+					<td>&nbsp;</td>
 				</tr>
 			</table>
 			<div class="subBar">
@@ -81,7 +87,7 @@
 				<li class="line">line</li>
 				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/qygl/issue/write/update/{slt_uid}"><span>回复</span></a></li>
 			</shiro:hasPermission>
-			<li><a class="icon" target="_blank" href="${contextPath }/qygl/issue/write/toXls?fixStatus=${status }&orgCode=${orgCode }&search_GTE_policy.policyDate=${search_GTE_policy_policyDate}&search_LTE_policy.policyDate=${search_LTE_policy_policyDate}&search_GTE_dealTime=${param.search_GTE_dealTime}&search_LTE_dealTime=${param.search_LTE_dealTime}"><span>导出Excel</span></a></li>
+			<li><a class="icon" target="_blank" href="${contextPath }/qygl/issue/write/toXls?fixStatus=${status }&orgCode=${orgCode }&search_GTE_policy.policyDate=${search_GTE_policy_policyDate}&search_LTE_policy.policyDate=${search_LTE_policy_policyDate}&search_GTE_replyTime=${param.search_GTE_replyTime}&search_LTE_replyTime=${param.search_LTE_replyTime}"><span>导出Excel</span></a></li>
 			<li class="line">line</li>
 			<li><a class="icon" target="dialog" href="${contextPath }/qygl/help" mask="true" width="530" height="430"><span>功能说明</span></a></li>
 		</ul>
@@ -90,7 +96,8 @@
 	<table class="table" layoutH="160" width="100%">
 		<thead>
 			<tr>
-				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
+				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>
+				<th>批次号</th>		
 				<th orderField=policy.organization.name class="${page.orderField eq 'policy.organization.name' ? page.orderDirection : ''}">所属机构</th>
 				<th orderField=policy.policyNo class="${page.orderField eq 'policy.policyNo' ? page.orderDirection : ''}">所属保单号</th>
 				<th orderField=policy.formNo class="${page.orderField eq 'policy.formNo' ? page.orderDirection : ''}">投保单号</th>
@@ -102,13 +109,14 @@
 				<th orderField=importanceInfo class="${page.orderField eq 'importanceInfo' ? page.orderDirection : ''}">重要信息</th>
 				<th orderField=elseInfo class="${page.orderField eq 'elseInfo' ? page.orderDirection : ''}">其他信息</th>
 				<th orderField=netName class="${page.orderField eq 'netName' ? page.orderDirection : ''}">网点名称</th>
-				<th orderField=dealTime class="${page.orderField eq 'dealTime' ? page.orderDirection : ''}">经办日期</th>
+				<th orderField=payMethod class="${page.orderField eq 'payMethod' ? page.orderDirection : ''}">档案下发</th>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach var="item" items="${issues}">
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
+				<td>${item.checkBatch}</td>
 				<td>${item.policy.organization.shortName}</td>
 				<td><a target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/client/view/byPolicyNo/${item.policy.policyNo}"><div style="color: blue;vertical-align:middle;font-weight:normal;">${item.policy.policyNo}</div></a></td>
 				<td>${item.policy.formNo}</td>
@@ -150,7 +158,16 @@
 					    </c:otherwise>  
 					</c:choose>
 				</td>
-				<td><fmt:formatDate value="${item.dealTime }" pattern="yyyy-MM-dd"/></td>
+				<td>
+				<c:choose>  
+					    <c:when test="${item.payMethod eq '期交' or item.payMethod eq '趸交'}">  
+					        &nbsp;
+					    </c:when>
+					    <c:otherwise>  
+					      <c:out value="${item.payMethod}" />  
+					    </c:otherwise>  
+					</c:choose>
+				</td>
 			</tr>
 			</c:forEach>
 		</tbody>

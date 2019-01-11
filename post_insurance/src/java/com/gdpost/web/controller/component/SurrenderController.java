@@ -164,8 +164,8 @@ public class SurrenderController {
 		Double orgCurStaffRate = 0.0;
 		Double orgNewStaffRate = 0.0;
 		*/
-		List<TuiBaoModel> permlist = statService.getTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(orgCode + "%", p1, p2, p1, c2, "%%", "%年交%", "%%");
-		List<TuiBaoModel> permStafflist = statService.getTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(orgCode + "%", p1, p2, p1, c2, "%%", "%年交%", "1");
+		List<TuiBaoModel> permlist = statService.getTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(orgCode + "%", p1, p2, p1, c2, "%%", "%年交%", "%%", 0);
+		List<TuiBaoModel> permStafflist = statService.getTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(orgCode + "%", p1, p2, p1, c2, "%%", "%年交%", "1", 0);
 		//List<TuiBaoModel> list = statService.getTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(orgCode + "%", p1, p2, p1, c2, "%%", "%%", "%%");
 		//List<TuiBaoModel> Stafflist = statService.getTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(orgCode + "%", p1, p2, p1, c2, "%%", "%%", "1");
 		for (TuiBaoModel tbm : permlist) {

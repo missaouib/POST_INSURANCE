@@ -26,6 +26,7 @@ response.setHeader("Content-Disposition", "inline; filename=policy_data.xls");
 				<th>基本保额</th>
 				<th>缴费频率</th>
 				<th>缴费期数</th>
+				<th>保险期交</th>
 				<th>签单日期</th>
 				<th>生效日期</th>
 				<th>投保状态</th>
@@ -56,6 +57,7 @@ response.setHeader("Content-Disposition", "inline; filename=policy_data.xls");
 				<td>${item.insuredAmount}</td>
 				<td>${item.feeFrequency}</td>
 				<td>${item.perm}</td>
+				<td>${item.duration}</td>
 				<td><fmt:formatDate value="${item.policyDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.plicyValidDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.status}</td>

@@ -22,6 +22,9 @@
 						保单号：<input type="text" id="qyRecordPolicyNo" style="width: 100px;" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
 					</td>
 					<td>
+						批次号：<input type="text" id="qyWritebatchNo" style="width: 100px;" name="search_LIKE_checkBatch" value="${param.search_LIKE_checkBatch }"/>
+					</td>
+					<td>
 						<label>工单状态：</label>
 						<form:select path="issue.fixStatus" id="qyRecordStatus" class="combox">
 							<form:option value=""> -- -- </form:option>
@@ -36,7 +39,8 @@
 					<td><label>排查类型:</label>
 					<form:select path="issue.checker" id="qyRecordchecker" class="combox">
 							<form:option value=""> -- -- </form:option>
-							<form:option value="System">真实性排查</form:option>
+							<form:option value="System">系统真实性排查</form:option>
+							<form:option value="zhaoyong">档案整改</form:option>
 						</form:select>
 					</td>
 				</tr>
@@ -57,6 +61,7 @@
 						<label>经办结束日期：</label>
 						<input type="text" name="search_LTE_dealTime" id="qyr_d_date2" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_dealTime }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
+					<td>&nbsp;</td>
 				</tr>
 			</table>
 			<div class="subBar">

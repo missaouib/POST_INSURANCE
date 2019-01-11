@@ -82,12 +82,16 @@
 			<span class="unit">${policy.perm }</span>
 		</p>
 		<p>
-			<label>保险费：</label>
-			<span class="unit">${policy.policyFee }</span>
+			<label>期间类型：</label>
+			<span class="unit">${policy.policyDtl.durationType }</span>
 		</p>
 		<p>
 			<label>保险期间：</label>
 			<span class="unit">${policy.policyDtl.duration }</span>
+		</p>
+		<p>
+			<label>保险费：</label>
+			<span class="unit">${policy.policyFee }</span>
 		</p>
 		<p>
 			<label>承保日期：</label>

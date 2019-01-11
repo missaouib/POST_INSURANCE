@@ -47,7 +47,13 @@
 						<form:option value="0"> 趸交 </form:option>
 					</form:select>
 					</td>
-					<td>&nbsp;</td>
+					<td>
+					<label>长期险：</label>
+						<form:select path="StaffModel.duration" id="psdurationFlag" class="combox">
+							<form:option value="0">全部</form:option>
+							<form:option value="10">长期险</form:option>
+						</form:select>
+					</td>
 				</tr>
 			</table>
 			<div class="subBar">
@@ -59,9 +65,9 @@
 	</div>
 </form>
 <h2 class="contentTitle"><label>统计结果</label>
-<a class="buttonActive" target="_blank" href="${contextPath }/component/stastics/staff/toXls?orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&prdCode=${prdCode}&levelFlag=${levelFlag}&netFlag=${netFlag}&perm=${perm}"><span>导出统计结果</span></a>
+<a class="buttonActive" target="_blank" href="${contextPath }/component/stastics/staff/toXls?duration=${duration }&orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&prdCode=${prdCode}&levelFlag=${levelFlag}&netFlag=${netFlag}&perm=${perm}"><span>导出统计结果</span></a>
 &nbsp;&nbsp;&nbsp;&nbsp;
-<a class="buttonActive" target="_blank" href="${contextPath }/component/stastics/staff/dtlXls?orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&prdCode=${prdCode}&levelFlag=${levelFlag}&netFlag=${netFlag}&perm=${perm}"><span>导出明细数据</span></a>
+<a class="buttonActive" target="_blank" href="${contextPath }/component/stastics/staff/dtlXls?duration=${duration }&orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&prdCode=${prdCode}&levelFlag=${levelFlag}&netFlag=${netFlag}&perm=${perm}"><span>导出明细数据</span></a>
 </h2>
 <br>
 <div class="pageContent" layoutH="120">

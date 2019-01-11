@@ -49,43 +49,43 @@ public class StasticsServiceImpl implements StasticsService {
 	private PolicyStatDAO policyDAO;
 
 	@Override
-	public List<TuiBaoModel> getTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(String organCode, String d1, String d2, String d3, String d4, String prdCode, String toPerm, String staffFlag) {
-		return cmDAO.getTuiBaoWarningWithPolicyDateAndCsDateNoBankCode(organCode, d1, d2, d3, d4, prdCode, toPerm, staffFlag);
+	public List<TuiBaoModel> getTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(String organCode, String d1, String d2, String d3, String d4, String prdCode, String toPerm, String staffFlag, Integer duration) {
+		return cmDAO.getTuiBaoWarningWithPolicyDateAndCsDateNoBankCode(organCode, d1, d2, d3, d4, prdCode, toPerm, staffFlag, duration);
 	}
 	
 	@Override
-	public List<TuiBaoModel> getTuiBaoWarnningWithPolicyDateAndCsDate(String organCode, String d1, String d2, String d3, String d4, String flag, String prdCode, String toPerm, String staffFlag) {
-		return cmDAO.getTuiBaoWarningWithPolicyDateAndCsDate(organCode, d1, d2, d3, d4, flag, prdCode, toPerm, staffFlag);
+	public List<TuiBaoModel> getTuiBaoWarnningWithPolicyDateAndCsDate(String organCode, String d1, String d2, String d3, String d4, String flag, String prdCode, String toPerm, String staffFlag, Integer duration) {
+		return cmDAO.getTuiBaoWarningWithPolicyDateAndCsDate(organCode, d1, d2, d3, d4, flag, prdCode, toPerm, staffFlag, duration);
 	}
 	
 	@Override
-	public List<TuiBaoModel> getNetTuiBaoWarnningWithPolicyDateAndCsDate(String organCode, String d1, String d2, String d3, String d4, String prdCode, String toPerm, String staffFlag, String bankNaem) {
-		return cmDAO.getNetTuiBaoWarningWithPolicyDateAndCsDate(organCode, d1, d2, d3, d4, prdCode, toPerm, staffFlag, bankNaem);
+	public List<TuiBaoModel> getNetTuiBaoWarnningWithPolicyDateAndCsDate(String organCode, String d1, String d2, String d3, String d4, String prdCode, String toPerm, String staffFlag, String bankNaem, Integer duration) {
+		return cmDAO.getNetTuiBaoWarningWithPolicyDateAndCsDate(organCode, d1, d2, d3, d4, prdCode, toPerm, staffFlag, bankNaem, duration);
 	}
 	
 	@Override
-	public List<TuiBaoModel> getNetTuiBaoWarnningWithPolicyDateAndCsDate(String organCode, String d1, String d2, String d3, String d4, String flag, String prdCode, String toPerm, String staffFlag, String bankNaem) {
-		return cmDAO.getNetTuiBaoWarningWithPolicyDateAndCsDate(organCode, d1, d2, d3, d4, flag, prdCode, toPerm, staffFlag, bankNaem);
+	public List<TuiBaoModel> getNetTuiBaoWarnningWithPolicyDateAndCsDate(String organCode, String d1, String d2, String d3, String d4, String flag, String prdCode, String toPerm, String staffFlag, String bankNaem, Integer duration) {
+		return cmDAO.getNetTuiBaoWarningWithPolicyDateAndCsDate(organCode, d1, d2, d3, d4, flag, prdCode, toPerm, staffFlag, bankNaem, duration);
 	}
 	
 	@Override
-	public List<TuiBaoModel> getProvTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(String organCode, String d1, String d2, String d3, String d4, String prdCode, String toPerm, String staffFlag) {
-		return cmDAO.getProvAllCityTuiBaoWarning(organCode, d1, d2, d3, d4, prdCode, toPerm, staffFlag);
+	public List<TuiBaoModel> getProvTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(String organCode, String d1, String d2, String d3, String d4, String prdCode, String toPerm, String staffFlag, Integer duration) {
+		return cmDAO.getProvAllCityTuiBaoWarning(organCode, d1, d2, d3, d4, prdCode, toPerm, staffFlag, duration);
 	}
 	
 	@Override
-	public List<TuiBaoModel> getProvTuiBaoWarnningWithPolicyDateAndCsDate(String organCode, String d1, String d2, String d3, String d4, String flag, String prdCode, String toPerm, String staffFlag) {
-		return cmDAO.getProvAllCityTuiBaoWarningWithBankCode(organCode, d1, d2, d3, d4, flag, prdCode, toPerm, staffFlag);
+	public List<TuiBaoModel> getProvTuiBaoWarnningWithPolicyDateAndCsDate(String organCode, String d1, String d2, String d3, String d4, String flag, String prdCode, String toPerm, String staffFlag, Integer duration) {
+		return cmDAO.getProvAllCityTuiBaoWarningWithBankCode(organCode, d1, d2, d3, d4, flag, prdCode, toPerm, staffFlag, duration);
 	}
 	
 	@Override
-	public List<TuiBaoDtlModel> getTuiBaoWarnningDetailWithBankCode(String organCode, String d1, String d2, String d3, String d4, String flag, String prdCode, String toPerm, String staffFlag, String bankName) {
-		return tbdDAO.getAllTuiBaoWarningDetailWithBankCode(organCode, d1, d2, d3, d4, flag, prdCode, toPerm, staffFlag, bankName);
+	public List<TuiBaoDtlModel> getTuiBaoWarnningDetailWithBankCode(String organCode, String d1, String d2, String d3, String d4, String flag, String prdCode, String toPerm, String staffFlag, String bankName, Integer duration) {
+		return tbdDAO.getAllTuiBaoWarningDetailWithBankCode(organCode, d1, d2, d3, d4, flag, prdCode, toPerm, staffFlag, bankName, duration);
 	}
 	
 	@Override
-	public List<TuiBaoDtlModel> getTuiBaoCsDetailWithBankCode(String organCode, String d1, String d2, String d3, String d4, String flag, String prdCode, String toPerm, String staffFlag, String bankName) {
-		return tbdDAO.getAllTuiBaoCsDetailWithBankCode(organCode, d1, d2, d3, d4, flag, prdCode, toPerm, staffFlag, bankName);
+	public List<TuiBaoDtlModel> getTuiBaoCsDetailWithBankCode(String organCode, String d1, String d2, String d3, String d4, String flag, String prdCode, String toPerm, String staffFlag, String bankName, Integer duration) {
+		return tbdDAO.getAllTuiBaoCsDetailWithBankCode(organCode, d1, d2, d3, d4, flag, prdCode, toPerm, staffFlag, bankName, duration);
 	}
 	
 	/*
@@ -94,28 +94,28 @@ public class StasticsServiceImpl implements StasticsService {
 	 * =========================================
 	 */
 	@Override
-	public List<StaffModel> getStaffCountWithPolicyDateNoBankCode(String organCode, String d1, String d2, String prdCode, String toPerm) {
-		return smDAO.getStaffCountWithPolicyDateNoBankCode(organCode, d1, d2, prdCode, toPerm);
+	public List<StaffModel> getStaffCountWithPolicyDateNoBankCode(String organCode, String d1, String d2, String prdCode, String toPerm, Integer duration) {
+		return smDAO.getStaffCountWithPolicyDateNoBankCode(organCode, d1, d2, prdCode, toPerm, duration);
 	}
 	
 	@Override
-	public List<StaffModel> getStaffCountWithPolicyDate(String organCode, String d1, String d2, String flag, String prdCode, String toPerm) {
-		return smDAO.getStaffCountWithPolicyDate(organCode, d1, d2, flag, prdCode, toPerm);
+	public List<StaffModel> getStaffCountWithPolicyDate(String organCode, String d1, String d2, String flag, String prdCode, String toPerm, Integer duration) {
+		return smDAO.getStaffCountWithPolicyDate(organCode, d1, d2, flag, prdCode, toPerm, duration);
 	}
 	
 	@Override
-	public List<StaffModel> getProvStaffCountWithPolicyDateNoBankCode(String organCode, String d1, String d2, String prdCode, String toPerm) {
-		return smDAO.getProvStaffCountWithPolicyDateNoBankCode(organCode, d1, d2, prdCode, toPerm);
+	public List<StaffModel> getProvStaffCountWithPolicyDateNoBankCode(String organCode, String d1, String d2, String prdCode, String toPerm, Integer duration) {
+		return smDAO.getProvStaffCountWithPolicyDateNoBankCode(organCode, d1, d2, prdCode, toPerm, duration);
 	}
 	
 	@Override
-	public List<StaffModel> getProvStaffCountWithPolicyDate(String organCode, String d1, String d2, String flag, String prdCode, String toPerm) {
-		return smDAO.getProvStaffCountWithPolicyDate(organCode, d1, d2, flag, prdCode, toPerm);
+	public List<StaffModel> getProvStaffCountWithPolicyDate(String organCode, String d1, String d2, String flag, String prdCode, String toPerm, Integer duration) {
+		return smDAO.getProvStaffCountWithPolicyDate(organCode, d1, d2, flag, prdCode, toPerm, duration);
 	}
 
 	@Override
-	public List<StaffDtlModel> getStaffDetailWithPolicyDate(String organCode, String d1, String d2, String flag, String prdCode, String toPerm) {
-		return sdDAO.getProvAllStaffDetailWithBankCode(organCode, d1, d2, flag, prdCode, toPerm);
+	public List<StaffDtlModel> getStaffDetailWithPolicyDate(String organCode, String d1, String d2, String flag, String prdCode, String toPerm, Integer duration) {
+		return sdDAO.getProvAllStaffDetailWithBankCode(organCode, d1, d2, flag, prdCode, toPerm, duration);
 	}
 
 	/*
@@ -170,61 +170,61 @@ public class StasticsServiceImpl implements StasticsService {
 	 */
 	@Override
 	public List<PolicyStatModel> getPolicyProdStastics(String organCode, String d1, String d2, String prdCode,
-			String toPerm, String staffFlag, String csFlag, String saleType, String status) {
-		return policyDAO.getPolicyDateProdStat(organCode, d1, d2, prdCode, toPerm, staffFlag, csFlag, saleType, status);
+			String toPerm, String staffFlag, String csFlag, String saleType, String status, Integer duration) {
+		return policyDAO.getPolicyDateProdStat(organCode, d1, d2, prdCode, toPerm, staffFlag, csFlag, saleType, status, duration);
 	}
 
 	@Override
 	public List<PolicyStatModel> getPolicyProdStasticsWithBankCode(String organCode, String d1, String d2, String flag,
-			String prdCode, String toPerm, String staffFlag, String bankName, String csFlag, String saleType, String status) {
-		return policyDAO.getPolicyDateProdStatWithBankCode(organCode, d1, d2, flag, prdCode, toPerm, staffFlag, bankName, csFlag, saleType, status);
+			String prdCode, String toPerm, String staffFlag, String bankName, String csFlag, String saleType, String status, Integer duration) {
+		return policyDAO.getPolicyDateProdStatWithBankCode(organCode, d1, d2, flag, prdCode, toPerm, staffFlag, bankName, csFlag, saleType, status, duration);
 	}
 
 	@Override
 	public List<PolicyStatModel> getProvPolicyOrganStastics(String organCode, String d1, String d2, String prdCode,
-			String toPerm, String staffFlag, String csFlag, String saleType, String status) {
-		return policyDAO.getProvPolicyDateOrganStat(organCode, d1, d2, prdCode, toPerm, staffFlag, csFlag, saleType, status);
+			String toPerm, String staffFlag, String csFlag, String saleType, String status, Integer duration) {
+		return policyDAO.getProvPolicyDateOrganStat(organCode, d1, d2, prdCode, toPerm, staffFlag, csFlag, saleType, status, duration);
 	}
 	
 	@Override
 	public List<PolicyStatModel> getPolicyOrganStastics(String organCode, String d1, String d2, String prdCode,
-			String toPerm, String staffFlag, String csFlag, String saleType, String status) {
-		return policyDAO.getPolicyDateOrganStat(organCode, d1, d2, prdCode, toPerm, staffFlag, csFlag, saleType, status);
+			String toPerm, String staffFlag, String csFlag, String saleType, String status, Integer duration) {
+		return policyDAO.getPolicyDateOrganStat(organCode, d1, d2, prdCode, toPerm, staffFlag, csFlag, saleType, status, duration);
 	}
 	
 	@Override
 	public List<PolicyStatModel> getPolicyOrganNetStastics(String organCode, String d1, String d2, String prdCode,
-			String toPerm, String staffFlag, String bankName, String csFlag, String saleType, String status) {
-		return policyDAO.getPolicyDateOrganNetStat(organCode, d1, d2, prdCode, toPerm, staffFlag, bankName, csFlag, saleType, status);
+			String toPerm, String staffFlag, String bankName, String csFlag, String saleType, String status, Integer duration) {
+		return policyDAO.getPolicyDateOrganNetStat(organCode, d1, d2, prdCode, toPerm, staffFlag, bankName, csFlag, saleType, status, duration);
 	}
 
 	@Override
 	public List<PolicyStatModel> getProvPolicyOrganStasticsWithBankCode(String organCode, String d1, String d2, String flag,
-			String prdCode, String toPerm, String staffFlag, String bankName, String csFlag, String saleType, String status) {
-		return policyDAO.getProvPolicyDateOrganStatWithBankCode(organCode, d1, d2, flag, prdCode, toPerm, staffFlag, bankName, csFlag, saleType, status);
+			String prdCode, String toPerm, String staffFlag, String bankName, String csFlag, String saleType, String status, Integer duration) {
+		return policyDAO.getProvPolicyDateOrganStatWithBankCode(organCode, d1, d2, flag, prdCode, toPerm, staffFlag, bankName, csFlag, saleType, status, duration);
 	}
 	
 	@Override
 	public List<PolicyStatModel> getPolicyOrganStasticsWithBankCode(String organCode, String d1, String d2, String flag,
-			String prdCode, String toPerm, String staffFlag, String bankName, String csFlag, String saleType, String status) {
-		return policyDAO.getPolicyDateOrganStatWithBankCode(organCode, d1, d2, flag, prdCode, toPerm, staffFlag, bankName, csFlag, saleType, status);
+			String prdCode, String toPerm, String staffFlag, String bankName, String csFlag, String saleType, String status, Integer duration) {
+		return policyDAO.getPolicyDateOrganStatWithBankCode(organCode, d1, d2, flag, prdCode, toPerm, staffFlag, bankName, csFlag, saleType, status, duration);
 	}
 	
 	@Override
 	public List<PolicyStatModel> getPolicyOrganNetStasticsWithBankCode(String organCode, String d1, String d2, String flag,
-			String prdCode, String toPerm, String staffFlag, String bankName, String csFlag, String saleType, String status) {
-		return policyDAO.getPolicyDateOrganNetStatWithBankCode(organCode, d1, d2, flag, prdCode, toPerm, staffFlag, bankName, csFlag, saleType, status);
+			String prdCode, String toPerm, String staffFlag, String bankName, String csFlag, String saleType, String status, Integer duration) {
+		return policyDAO.getPolicyDateOrganNetStatWithBankCode(organCode, d1, d2, flag, prdCode, toPerm, staffFlag, bankName, csFlag, saleType, status, duration);
 	}
 
 	@Override
 	public List<PolicyStatModel> getPolicyFeeFrequencyStastics(String organCode, String d1, String d2, String prdCode,
-			String toPerm, String staffFlag, String csFlag, String saleType, String status) {
-		return policyDAO.getPolicyDateFeeTypeStat(organCode, d1, d2, prdCode, toPerm, staffFlag, csFlag, saleType, status);
+			String toPerm, String staffFlag, String csFlag, String saleType, String status, Integer duration) {
+		return policyDAO.getPolicyDateFeeTypeStat(organCode, d1, d2, prdCode, toPerm, staffFlag, csFlag, saleType, status, duration);
 	}
 
 	@Override
 	public List<PolicyStatModel> getPolicyFeeFrequencyStasticsWithBankCode(String organCode, String d1, String d2,
-			String flag, String prdCode, String toPerm, String staffFlag, String bankName, String csFlag, String saleType, String status) {
-		return policyDAO.getPolicyDateFeeTypeStatWithBankCode(organCode, d1, d2, flag, prdCode, toPerm, staffFlag, bankName, csFlag, saleType, status);
+			String flag, String prdCode, String toPerm, String staffFlag, String bankName, String csFlag, String saleType, String status, Integer duration) {
+		return policyDAO.getPolicyDateFeeTypeStatWithBankCode(organCode, d1, d2, flag, prdCode, toPerm, staffFlag, bankName, csFlag, saleType, status, duration);
 	}
 }

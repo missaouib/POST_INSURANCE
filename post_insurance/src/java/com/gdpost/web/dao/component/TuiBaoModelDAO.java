@@ -50,6 +50,7 @@ public interface TuiBaoModelDAO extends JpaRepository<TuiBaoModel, String>, JpaS
         + "on t3.organ_name=left(tp.organ_name,2) "
         + "where tp.organ_code<>\"86440001\" and tp.attached_flag=0 and tp.cs_flag<>1 "
         + "and tp.policy_date between :p1 and :p2 "
+        + "and tp.duration >= :duration "
         + "and tp.organ_code like :orgCode "
         + "and tp.prod_code like :prdCode "
         + "and tp.fee_frequency like :toPerm "
@@ -57,7 +58,7 @@ public interface TuiBaoModelDAO extends JpaRepository<TuiBaoModel, String>, JpaS
         + "group by left(tp.organ_name,2) "
         + "order by tp.organ_code;",
 			nativeQuery=true)
-	List<TuiBaoModel> getProvAllCityTuiBaoWarning(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag);
+	List<TuiBaoModel> getProvAllCityTuiBaoWarning(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("duration")Integer duration);
 	
 	@Query(name="getProvAllCityTuiBaoWarningWithBankCode",
 			value="select left(tp.organ_name,2) as organ_name,sum(tp.total_fee) as sum_policy_fee, "
@@ -90,6 +91,7 @@ public interface TuiBaoModelDAO extends JpaRepository<TuiBaoModel, String>, JpaS
         + "on t3.organ_name=LEFT(tp.organ_name,2) "
         + "where tp.bank_code=tbc.cpi_code and tp.attached_flag=0 and tbc.net_flag=:netFlag and tp.organ_code<>\"86440001\" and tp.cs_flag<>1 "
         + "and tp.policy_date between :p1 and :p2 "
+        + "and tp.duration >= :duration "
         + "and tp.organ_code like :orgCode "
         + "and tp.prod_code like  :prdCode  "
         + "and tp.fee_frequency like :toPerm "
@@ -97,7 +99,7 @@ public interface TuiBaoModelDAO extends JpaRepository<TuiBaoModel, String>, JpaS
         + "group by left(tp.organ_name,2) "
         + "order by tp.organ_code;",
 			nativeQuery=true)
-	List<TuiBaoModel> getProvAllCityTuiBaoWarningWithBankCode(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag);
+	List<TuiBaoModel> getProvAllCityTuiBaoWarningWithBankCode(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("duration")Integer duration);
 	
 	@Query(name="getTuiBaoWarningWithPolicyDateAndCsDateNoBankCode",
 			value="select tp.organ_name,sum(tp.total_fee) as sum_policy_fee, "
@@ -122,6 +124,7 @@ public interface TuiBaoModelDAO extends JpaRepository<TuiBaoModel, String>, JpaS
 			+ "from t_policy tp "
 			+ "where tp.cs_flag<>1 and tp.attached_flag=0 "
 			+ "and tp.policy_date between :p1 and :p2 "
+			+ "and tp.duration >= :duration "
 			+ "and tp.organ_code like :orgCode "
 			+ "and tp.prod_code like :prdCode "
 			+ "and tp.fee_frequency like :toPerm "
@@ -129,7 +132,7 @@ public interface TuiBaoModelDAO extends JpaRepository<TuiBaoModel, String>, JpaS
 			+ "group by tp.organ_name "
 			+ "order by tp.organ_code;",
 			nativeQuery=true)
-	List<TuiBaoModel> getTuiBaoWarningWithPolicyDateAndCsDateNoBankCode(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag);
+	List<TuiBaoModel> getTuiBaoWarningWithPolicyDateAndCsDateNoBankCode(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("duration")Integer duration);
 	
 	@Query(name="getTuiBaoWarningWithPolicyDateAndCsDate",
 			value="select tp.organ_name,sum(tp.total_fee) as sum_policy_fee, "
@@ -156,6 +159,7 @@ public interface TuiBaoModelDAO extends JpaRepository<TuiBaoModel, String>, JpaS
 			+ "from t_policy tp, t_bank_code tbc "
 			+ "where tp.bank_code=tbc.cpi_code and tp.attached_flag=0 and tp.cs_flag<>1 "
 			+ "and tp.policy_date between :p1 and :p2 "
+			+ "and tp.duration >= :duration "
 			+ "and tp.organ_code like :orgCode "
 			+ "and tp.prod_code like :prdCode "
 			+ "and tbc.net_flag=:netFlag "
@@ -164,7 +168,7 @@ public interface TuiBaoModelDAO extends JpaRepository<TuiBaoModel, String>, JpaS
 			+ "group by tp.organ_name "
 			+ "order by tp.organ_code;",
 			nativeQuery=true)
-	List<TuiBaoModel> getTuiBaoWarningWithPolicyDateAndCsDate(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag);
+	List<TuiBaoModel> getTuiBaoWarningWithPolicyDateAndCsDate(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("duration")Integer duration);
 	
 	@Query(name="getNetTuiBaoWarningWithPolicyDateAndCsDate",
 			value="select tp.bank_name as organ_name,sum(tp.total_fee) as sum_policy_fee, "
@@ -189,6 +193,7 @@ public interface TuiBaoModelDAO extends JpaRepository<TuiBaoModel, String>, JpaS
 					+ "from t_policy tp "
 					+ "where tp.cs_flag<>1 and tp.attached_flag=0 "
 					+ "and tp.policy_date between :p1 and :p2 "
+					+ "and tp.duration >= :duration "
 					+ "and tp.organ_code like :orgCode "
 					+ "and tp.bank_name like :bankName "
 					+ "and tp.prod_code like :prdCode "
@@ -197,7 +202,7 @@ public interface TuiBaoModelDAO extends JpaRepository<TuiBaoModel, String>, JpaS
 					+ "group by tp.bank_name "
 					+ "order by tp.organ_code;",
 			nativeQuery=true)
-	List<TuiBaoModel> getNetTuiBaoWarningWithPolicyDateAndCsDate(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("bankName")String bankName);
+	List<TuiBaoModel> getNetTuiBaoWarningWithPolicyDateAndCsDate(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("bankName")String bankName, @Param("duration")Integer duration);
 	
 	
 	@Query(name="getNetTuiBaoWarningWithPolicyDateAndCsDate",
@@ -225,6 +230,7 @@ public interface TuiBaoModelDAO extends JpaRepository<TuiBaoModel, String>, JpaS
 					+ "from t_policy tp, t_bank_code tbc "
 					+ "where tp.bank_code=tbc.cpi_code and tp.cs_flag<>1 and tp.attached_flag=0 "
 					+ "and tp.policy_date between :p1 and :p2 "
+					+ "and tp.duration >= :duration "
 					+ "and tp.organ_code like :orgCode "
 					+ "and tp.bank_name like :bankName "
 					+ "and tp.prod_code like :prdCode "
@@ -234,6 +240,6 @@ public interface TuiBaoModelDAO extends JpaRepository<TuiBaoModel, String>, JpaS
 					+ "group by tp.bank_name "
 					+ "order by tp.organ_code;",
 			nativeQuery=true)
-	List<TuiBaoModel> getNetTuiBaoWarningWithPolicyDateAndCsDate(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("bankName")String bankName);
+	List<TuiBaoModel> getNetTuiBaoWarningWithPolicyDateAndCsDate(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("bankName")String bankName, @Param("duration")Integer duration);
 	
 }

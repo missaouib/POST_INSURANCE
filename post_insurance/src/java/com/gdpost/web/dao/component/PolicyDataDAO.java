@@ -31,7 +31,7 @@ public interface PolicyDataDAO extends JpaRepository<PolicyDataModel, Long>, Jpa
 					+ "'' as insured_phone,'' as insured_card_num, "
 					+ "tp.prod_code,tp.prod_name,tp.policy_fee,tp.insured_amount,tp.fee_frequency, "
 					+ "tp.perm,tp.policy_date,tp.plicy_valid_date,tp.status,tp.bank_code,'银行转账' as fee_type, "
-					+ "'' as bank_account, tp.cs_flag, case when uw.policy_no is null then 'N' else 'Y' end as uw_flag "
+					+ "'' as bank_account, tp.cs_flag, case when uw.policy_no is null then 'N' else 'Y' end as uw_flag, tpd.duration "
 					+ "from t_policy tp "
 					+ "left join t_policy_dtl tpd on tp.policy_no=tpd.policy_no "
 					+ "left join t_under_write uw on tp.policy_no=uw.policy_no "

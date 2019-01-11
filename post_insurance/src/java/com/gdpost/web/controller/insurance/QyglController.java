@@ -144,6 +144,7 @@ public class QyglController {
 		src.setFixType(issue.getFixType());
 		src.setFixDesc(issue.getFixDesc());
 		src.setFixStatus(QY_STATUS.IngStatus.name());
+		src.setReplyTime(new Date());
 		qyglService.saveOrUpdateCheckWrite(src);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));

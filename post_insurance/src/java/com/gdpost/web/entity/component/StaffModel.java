@@ -30,6 +30,8 @@ public class StaffModel implements java.io.Serializable {
 	private String prdCode;
 	@Transient
 	private String perm;
+	@Transient
+	private Integer duration;
 
 	// Constructors
 
@@ -123,5 +125,16 @@ public class StaffModel implements java.io.Serializable {
 	public void setPerm(String perm) {
 		this.perm = perm;
 	}
+
+	@Transient
+	public Integer getDuration() {
+		return duration;
+	}
+
+	@Transient
+	public void setDuration(Integer duration) {
+		this.duration = duration;
+	}
+	
 	
 }

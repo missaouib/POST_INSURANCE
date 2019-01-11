@@ -42,6 +42,13 @@ function toTips(val) {
 						<form:option value="0"> 趸交 </form:option>
 					</form:select>
 					</td>
+					<td>
+					<label>长期险：</label>
+						<form:select path="TuiBaoModel.duration" id="tbdurationFlag" class="combox">
+							<form:option value="0">全部</form:option>
+							<form:option value="10">长期险</form:option>
+						</form:select>
+					</td>
 				</tr>
 				<tr>
 					<td><label>标记：</label>
@@ -72,6 +79,7 @@ function toTips(val) {
 						<form:option value="1"> 员工单 </form:option>
 					</form:select>
 					</td>
+					<td>&nbsp;</td>
 				</tr>
 			</table>
 			<div class="subBar">
@@ -83,11 +91,11 @@ function toTips(val) {
 	</div>
 </form>
 <h2 class="contentTitle"><label>统计结果</label>
-<a class="buttonActive" target="_blank" href="${contextPath }/component/stastics/tuibao/toXls?orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&csDate1=${csDate1 }&csDate2=${csDate2 }&prdCode=${prdCode}&levelFlag=${levelFlag}&netFlag=${netFlag}&perm=${perm}&staffFlag=${staffFlag}"><span>导出统计结果</span></a>
+<a class="buttonActive" target="_blank" href="${contextPath }/component/stastics/tuibao/toXls?duration=${duration }&orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&csDate1=${csDate1 }&csDate2=${csDate2 }&prdCode=${prdCode}&levelFlag=${levelFlag}&netFlag=${netFlag}&perm=${perm}&staffFlag=${staffFlag}"><span>导出统计结果</span></a>
 &nbsp;&nbsp;&nbsp;&nbsp;
-<a class="buttonActive" target="_blank" href="${contextPath }/component/stastics/tuibao/dtlXls?orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&csDate1=${csDate1 }&csDate2=${csDate2 }&prdCode=${prdCode}&levelFlag=${levelFlag}&netFlag=${netFlag}&perm=${perm}&staffFlag=${staffFlag}"><span>导出明细数据</span></a>
+<a class="buttonActive" target="_blank" href="${contextPath }/component/stastics/tuibao/dtlXls?duration=${duration }&orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&csDate1=${csDate1 }&csDate2=${csDate2 }&prdCode=${prdCode}&levelFlag=${levelFlag}&netFlag=${netFlag}&perm=${perm}&staffFlag=${staffFlag}"><span>导出明细数据</span></a>
 &nbsp;&nbsp;&nbsp;&nbsp;
-<a class="buttonActive" target="_blank" href="${contextPath }/component/stastics/tuibao/csdtlXls?orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&csDate1=${csDate1 }&csDate2=${csDate2 }&prdCode=${prdCode}&levelFlag=${levelFlag}&netFlag=${netFlag}&perm=${perm}&staffFlag=${staffFlag}"><span>导出犹撤明细数据</span></a>
+<a class="buttonActive" target="_blank" href="${contextPath }/component/stastics/tuibao/csdtlXls?duration=${duration }&orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&csDate1=${csDate1 }&csDate2=${csDate2 }&prdCode=${prdCode}&levelFlag=${levelFlag}&netFlag=${netFlag}&perm=${perm}&staffFlag=${staffFlag}"><span>导出犹撤明细数据</span></a>
 </h2>
 <br>
 <div class="pageContent" layoutH="130" width="150%">

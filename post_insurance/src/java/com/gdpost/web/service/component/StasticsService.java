@@ -19,31 +19,31 @@ import com.gdpost.web.entity.component.UwModel;
 
 public interface StasticsService {
 	
-	List<TuiBaoModel> getTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(String organCode, String d1, String d2, String d3, String d4, String prdCode, String toPerm, String staffFlag);
+	List<TuiBaoModel> getTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(String organCode, String d1, String d2, String d3, String d4, String prdCode, String toPerm, String staffFlag, Integer duration);
 	
-	List<TuiBaoModel> getTuiBaoWarnningWithPolicyDateAndCsDate(String organCode, String d1, String d2, String d3, String d4, String flag, String prdCode, String toPerm, String staffFlag);
+	List<TuiBaoModel> getTuiBaoWarnningWithPolicyDateAndCsDate(String organCode, String d1, String d2, String d3, String d4, String flag, String prdCode, String toPerm, String staffFlag, Integer duration);
 	
-	List<TuiBaoModel> getProvTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(String organCode, String d1, String d2, String d3, String d4, String prdCode, String toPerm, String staffFlag);
+	List<TuiBaoModel> getProvTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(String organCode, String d1, String d2, String d3, String d4, String prdCode, String toPerm, String staffFlag, Integer duration);
 	
-	List<TuiBaoModel> getProvTuiBaoWarnningWithPolicyDateAndCsDate(String organCode, String d1, String d2, String d3, String d4, String flag, String prdCode, String toPerm, String staffFlag);
+	List<TuiBaoModel> getProvTuiBaoWarnningWithPolicyDateAndCsDate(String organCode, String d1, String d2, String d3, String d4, String flag, String prdCode, String toPerm, String staffFlag, Integer duration);
 	
-	List<TuiBaoDtlModel> getTuiBaoWarnningDetailWithBankCode(String organCode, String d1, String d2, String d3, String d4, String flag, String prdCode, String toPerm, String staffFlag, String bankName);
+	List<TuiBaoDtlModel> getTuiBaoWarnningDetailWithBankCode(String organCode, String d1, String d2, String d3, String d4, String flag, String prdCode, String toPerm, String staffFlag, String bankName, Integer duration);
 	
-	List<TuiBaoDtlModel> getTuiBaoCsDetailWithBankCode(String organCode, String d1, String d2, String d3, String d4, String flag, String prdCode, String toPerm, String staffFlag, String bankName);
+	List<TuiBaoDtlModel> getTuiBaoCsDetailWithBankCode(String organCode, String d1, String d2, String d3, String d4, String flag, String prdCode, String toPerm, String staffFlag, String bankName, Integer duration);
 	
-	List<TuiBaoModel> getNetTuiBaoWarnningWithPolicyDateAndCsDate(String organCode, String d1, String d2, String d3, String d4, String prdCode, String toPerm, String staffFlag, String bankName);
+	List<TuiBaoModel> getNetTuiBaoWarnningWithPolicyDateAndCsDate(String organCode, String d1, String d2, String d3, String d4, String prdCode, String toPerm, String staffFlag, String bankName, Integer duration);
 	
-	List<TuiBaoModel> getNetTuiBaoWarnningWithPolicyDateAndCsDate(String organCode, String d1, String d2, String d3, String d4, String flag, String prdCode, String toPerm, String staffFlag, String bankName);
+	List<TuiBaoModel> getNetTuiBaoWarnningWithPolicyDateAndCsDate(String organCode, String d1, String d2, String d3, String d4, String flag, String prdCode, String toPerm, String staffFlag, String bankName, Integer duration);
 	
-	List<StaffModel> getStaffCountWithPolicyDateNoBankCode(String organCode, String d1, String d2, String prdCode, String toPerm);
+	List<StaffModel> getStaffCountWithPolicyDateNoBankCode(String organCode, String d1, String d2, String prdCode, String toPerm, Integer duration);
 	
-	List<StaffModel> getStaffCountWithPolicyDate(String organCode, String d1, String d2, String flag, String prdCode, String toPerm);
+	List<StaffModel> getStaffCountWithPolicyDate(String organCode, String d1, String d2, String flag, String prdCode, String toPerm, Integer duration);
 	
-	List<StaffModel> getProvStaffCountWithPolicyDateNoBankCode(String organCode, String d1, String d2, String prdCode, String toPerm);
+	List<StaffModel> getProvStaffCountWithPolicyDateNoBankCode(String organCode, String d1, String d2, String prdCode, String toPerm, Integer duration);
 	
-	List<StaffModel> getProvStaffCountWithPolicyDate(String organCode, String d1, String d2, String flag, String prdCode, String toPerm);
+	List<StaffModel> getProvStaffCountWithPolicyDate(String organCode, String d1, String d2, String flag, String prdCode, String toPerm, Integer duration);
 	
-	List<StaffDtlModel> getStaffDetailWithPolicyDate(String organCode, String d1, String d2, String flag, String prdCode, String toPerm);
+	List<StaffDtlModel> getStaffDetailWithPolicyDate(String organCode, String d1, String d2, String flag, String prdCode, String toPerm, Integer duration);
 	
 	List<UwModel> getProvUwStastics(String organCode, String d1, String d2);
 	
@@ -61,23 +61,23 @@ public interface StasticsService {
 	
 	List<UwDtlModel> getLongUwDtlStastics(String organCode, String d1, String d2);
 	
-	List<PolicyStatModel> getPolicyProdStastics(String organCode, String d1, String d2, String prdCode, String toPerm, String staffFlag, String csFlag, String saleType, String status);
+	List<PolicyStatModel> getPolicyProdStastics(String organCode, String d1, String d2, String prdCode, String toPerm, String staffFlag, String csFlag, String saleType, String status, Integer duration);
 	
-	List<PolicyStatModel> getPolicyProdStasticsWithBankCode(String organCode, String d1, String d2, String flag, String prdCode, String toPerm, String staffFlag, String bankName, String csFlag, String saleType, String status);
+	List<PolicyStatModel> getPolicyProdStasticsWithBankCode(String organCode, String d1, String d2, String flag, String prdCode, String toPerm, String staffFlag, String bankName, String csFlag, String saleType, String status, Integer duration);
 	
-	List<PolicyStatModel> getProvPolicyOrganStastics(String organCode, String d1, String d2, String prdCode, String toPerm, String staffFlag, String csFlag, String saleType, String status);
+	List<PolicyStatModel> getProvPolicyOrganStastics(String organCode, String d1, String d2, String prdCode, String toPerm, String staffFlag, String csFlag, String saleType, String status, Integer duration);
 	
-	List<PolicyStatModel> getPolicyOrganStastics(String organCode, String d1, String d2, String prdCode, String toPerm, String staffFlag, String csFlag, String saleType, String status);
+	List<PolicyStatModel> getPolicyOrganStastics(String organCode, String d1, String d2, String prdCode, String toPerm, String staffFlag, String csFlag, String saleType, String status, Integer duration);
 	
-	List<PolicyStatModel> getPolicyOrganNetStastics(String organCode, String d1, String d2, String prdCode, String toPerm, String staffFlag, String bankName, String csFlag, String saleType, String status);
+	List<PolicyStatModel> getPolicyOrganNetStastics(String organCode, String d1, String d2, String prdCode, String toPerm, String staffFlag, String bankName, String csFlag, String saleType, String status, Integer duration);
 	
-	List<PolicyStatModel> getProvPolicyOrganStasticsWithBankCode(String organCode, String d1, String d2, String flag, String prdCode, String toPerm, String staffFlag, String bankName, String csFlag, String saleType, String status);
+	List<PolicyStatModel> getProvPolicyOrganStasticsWithBankCode(String organCode, String d1, String d2, String flag, String prdCode, String toPerm, String staffFlag, String bankName, String csFlag, String saleType, String status, Integer duration);
 	
-	List<PolicyStatModel> getPolicyOrganStasticsWithBankCode(String organCode, String d1, String d2, String flag, String prdCode, String toPerm, String staffFlag, String bankName, String csFlag, String saleType, String status);
+	List<PolicyStatModel> getPolicyOrganStasticsWithBankCode(String organCode, String d1, String d2, String flag, String prdCode, String toPerm, String staffFlag, String bankName, String csFlag, String saleType, String status, Integer duration);
 	
-	List<PolicyStatModel> getPolicyOrganNetStasticsWithBankCode(String organCode, String d1, String d2, String flag, String prdCode, String toPerm, String staffFlag, String bankName, String csFlag, String saleType, String status);
+	List<PolicyStatModel> getPolicyOrganNetStasticsWithBankCode(String organCode, String d1, String d2, String flag, String prdCode, String toPerm, String staffFlag, String bankName, String csFlag, String saleType, String status, Integer duration);
 	
-	List<PolicyStatModel> getPolicyFeeFrequencyStastics(String organCode, String d1, String d2, String prdCode, String toPerm, String staffFlag, String csFlag, String saleType, String status);
+	List<PolicyStatModel> getPolicyFeeFrequencyStastics(String organCode, String d1, String d2, String prdCode, String toPerm, String staffFlag, String csFlag, String saleType, String status, Integer duration);
 	
-	List<PolicyStatModel> getPolicyFeeFrequencyStasticsWithBankCode(String organCode, String d1, String d2, String flag, String prdCode, String toPerm, String staffFlag, String bankName, String csFlag, String saleType, String status);
+	List<PolicyStatModel> getPolicyFeeFrequencyStasticsWithBankCode(String organCode, String d1, String d2, String flag, String prdCode, String toPerm, String staffFlag, String bankName, String csFlag, String saleType, String status, Integer duration);
 }

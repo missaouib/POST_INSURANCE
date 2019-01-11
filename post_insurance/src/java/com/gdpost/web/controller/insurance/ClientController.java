@@ -98,6 +98,7 @@ public class ClientController {
 		String attachedFlag = request.getParameter("attachedFlag");
 		String feeFrequency = request.getParameter("feeFrequency");
 		String staffFlag = request.getParameter("staffFlag");
+		String duration = request.getParameter("duration");
 		Boolean staff = null;
 		if(staffFlag != null && staffFlag.trim().equals("0")) {
 			staff = false;
@@ -107,6 +108,7 @@ public class ClientController {
 		policy.setAttachedFlag((attachedFlag==null||attachedFlag.trim().length()<=0)?null:new Integer(attachedFlag));
 		policy.setFeeFrequency(feeFrequency);
 		policy.setStaffFlag(staff);
+		policy.setDuration(Integer.valueOf(duration==null?"0":duration));
 		
 		map.put("policy", policy);
 		map.put("page", page);
@@ -157,6 +159,10 @@ public class ClientController {
 		if(staff != null) {
 			csf.add(new SearchFilter("staffFlag", Operator.EQ, staff));
 			request.setAttribute("staffFlag", staffFlag);
+		}
+		if(duration != null && duration.trim().length()>0) {
+			csf.add(new SearchFilter("duration", Operator.GTE, duration));
+			request.setAttribute("duration", duration);
 		}
 		Specification<Policy> specification = DynamicSpecifications.bySearchFilter(request, Policy.class, csf);
 		List<Policy> policies = policyService.findByExample(specification, page);
@@ -270,6 +276,7 @@ public class ClientController {
 		String attachedFlag = request.getParameter("attachedFlag");
 		String feeFrequency = request.getParameter("feeFrequency");
 		String staffFlag = request.getParameter("staffFlag");
+		String duration = request.getParameter("duration");
 		Boolean staff = null;
 		if(staffFlag != null && staffFlag.trim().equals("0")) {
 			staff = false;
@@ -315,15 +322,15 @@ public class ClientController {
 		}
 		if(attachedFlag != null && attachedFlag.trim().length()>0) {
 			csf.add(new SearchFilter("attachedFlag", Operator.EQ, attachedFlag));
-			request.setAttribute("attachedFlag", attachedFlag);
 		}
 		if(feeFrequency != null && feeFrequency.trim().length()>0) {
 			csf.add(new SearchFilter("feeFrequency", Operator.EQ, feeFrequency));
-			request.setAttribute("feeFrequency", feeFrequency);
 		}
 		if(staff != null) {
 			csf.add(new SearchFilter("staffFlag", Operator.EQ, staff));
-			request.setAttribute("staffFlag", staffFlag);
+		}
+		if(duration != null && duration.trim().length()>0) {
+			csf.add(new SearchFilter("duration", Operator.GTE, duration));
 		}
 		Specification<Policy> specification = DynamicSpecifications.bySearchFilter(request, Policy.class, csf);
 		List<Policy> policies = policyService.findByExample(specification, page);

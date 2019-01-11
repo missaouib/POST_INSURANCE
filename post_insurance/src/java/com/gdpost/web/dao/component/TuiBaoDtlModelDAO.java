@@ -29,6 +29,7 @@ public interface TuiBaoDtlModelDAO extends JpaRepository<TuiBaoDtlModel, String>
 			+ "and itp.organ_code like :orgCode "
 			+ "and itp.policy_date between :p1 and :p2 "
 			+ "and itcr.cs_date between :c1 and :c2 "
+			+ "and tp.duration >= :duration "
 			+ "and itp.prod_code like :prdCode "
 			+ "and itp.bank_name like :bankName "
 			+ "and itbc.net_flag like :netFlag "
@@ -36,7 +37,7 @@ public interface TuiBaoDtlModelDAO extends JpaRepository<TuiBaoDtlModel, String>
 			+ "and itp.staff_flag like :staffFlag "
 			+ "order by itp.organ_code, itp.policy_no;",
 			nativeQuery=true)
-	List<TuiBaoDtlModel> getAllTuiBaoWarningDetailWithBankCode(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("bankName")String bankName);
+	List<TuiBaoDtlModel> getAllTuiBaoWarningDetailWithBankCode(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("bankName")String bankName, @Param("duration")Integer duration);
 	
 	@Query(name="getAllTuiBaoCsDetailWithBankCode",
 			value="select itp.id, itp.organ_name, itp.policy_no, itp.policy_date, itp.total_fee as policy_fee, itp.prod_name, itcr.cs_no, itcr.cs_code, itcr.cs_date, "
@@ -46,6 +47,7 @@ public interface TuiBaoDtlModelDAO extends JpaRepository<TuiBaoDtlModel, String>
 			+ "and itp.organ_code like :orgCode "
 			+ "and itp.policy_date between :p1 and :p2 "
 			+ "and itcr.cs_date between :c1 and :c2 "
+			+ "and tp.duration >= :duration "
 			+ "and itp.prod_code like :prdCode "
 			+ "and itp.bank_name like :bankName "
 			+ "and itbc.net_flag like :netFlag "
@@ -53,6 +55,6 @@ public interface TuiBaoDtlModelDAO extends JpaRepository<TuiBaoDtlModel, String>
 			+ "and itp.staff_flag like :staffFlag "
 			+ "order by itp.organ_code, itp.policy_no;",
 			nativeQuery=true)
-	List<TuiBaoDtlModel> getAllTuiBaoCsDetailWithBankCode(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("bankName")String bankName);
+	List<TuiBaoDtlModel> getAllTuiBaoCsDetailWithBankCode(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("bankName")String bankName, @Param("duration")Integer duration);
 	
 }

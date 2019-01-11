@@ -40,6 +40,8 @@ public class PolicyStatModel implements java.io.Serializable {
 	private String saleType;
 	@Transient
 	private String status;
+	@Transient
+	private Integer duration;
 
 	// Constructors
 
@@ -174,6 +176,16 @@ public class PolicyStatModel implements java.io.Serializable {
 	@Transient
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	
+	@Transient
+	public Integer getDuration() {
+		return duration;
+	}
+
+	@Transient
+	public void setDuration(Integer duration) {
+		this.duration = duration;
 	}
 
 	@Override

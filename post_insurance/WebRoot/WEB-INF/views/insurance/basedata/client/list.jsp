@@ -17,6 +17,7 @@
 	<input type="hidden" name="prd.prdName" value="${prd_name }"/>
 	<input type="hidden" name="attachedFlag" value="${attachedFlag }"/>
 	<input type="hidden" name="staffFlag" value="${staffFlag }"/>
+	<input type="hidden" name="duration" value="${duration }"/>
 	<input type="hidden" name="search_LIKE_holder" value="${param.search_LIKE_holder}"/>
 </dwz:paginationForm>
 
@@ -102,7 +103,11 @@
 						<label>身份证：</label><input type="text" id="cl_card" style="width: 100px;" name="search_LIKE_policyDtl.holderCardNum" value="${search_LIKE_policyDtl_holderCardNum }"/>
 					</td>
 					<td>
-						&nbsp;
+						<label>长期险：</label>
+						<form:select path="policy.duration" id="cpadurationFlag" class="combox">
+							<form:option value="0">全部</form:option>
+							<form:option value="10">长期险</form:option>
+						</form:select>
 					</td>
 					<td>
 						&nbsp;
@@ -125,7 +130,7 @@
 			<shiro:hasPermission name="Client:view">
 				<li><a iconClass="magnifier" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/client/view/{slt_uid}"><span>查看详情</span></a></li>
 				<li class="line">line</li>
-				<li><a class="icon" target="_blank" href="${contextPath }/client/toXls?search_GTE_policyFee=${param.search_GTE_policyFee }&search_LTE_policyFee=${param.search_LTE_policyFee }&orgCode=${policy_orgCode }&search_LTE_policyDate=${param.search_LTE_policyDate }&search_GTE_policyDate=${param.search_GTE_policyDate }&feeFrequency=${param.feeFrequency }&prd.prdName=${prd_name }&search_LIKE_policyNo=${param.search_LIKE_policyNo }&search_LIKE_formNo=${param.search_LIKE_formNo }&encodeStatus=${encodeStatus == null?'null':encodeStatus }&staffFlag=${staffFlag}&attachedFlag=${attachedFlag}"><span>导出Excel</span></a></li>
+				<li><a class="icon" target="_blank" href="${contextPath }/client/toXls?search_GTE_policyFee=${param.search_GTE_policyFee }&search_LTE_policyFee=${param.search_LTE_policyFee }&orgCode=${policy_orgCode }&search_LTE_policyDate=${param.search_LTE_policyDate }&search_GTE_policyDate=${param.search_GTE_policyDate }&feeFrequency=${param.feeFrequency }&prd.prdName=${prd_name }&search_LIKE_policyNo=${param.search_LIKE_policyNo }&search_LIKE_formNo=${param.search_LIKE_formNo }&duration=${duration }&encodeStatus=${encodeStatus == null?'null':encodeStatus }&staffFlag=${staffFlag}&attachedFlag=${attachedFlag}"><span>导出Excel</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Client:prov">
 				<li class="line">line</li>
@@ -148,6 +153,7 @@
 				<th>保费</th>
 				<th>交费方式</th>
 				<th>交费期间</th>
+				<th>保险期间</th>
 				<th>承保日期</th>
 				<th>状态</th>
 				<th>退保日期</th>
@@ -171,6 +177,7 @@
 				<td>${item.policyFee}</td>
 				<td>${item.feeFrequency}</td>
 				<td>${item.perm}</td>
+				<td>${item.policyDtl.duration}</td>
 				<td><fmt:formatDate value="${item.policyDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.status}</td>
 				<td>${item.csDate != null?item.csDate:""}</td>

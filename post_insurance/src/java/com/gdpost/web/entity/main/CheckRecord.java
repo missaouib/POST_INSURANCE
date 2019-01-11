@@ -60,6 +60,7 @@ public class CheckRecord implements Idable<Long> {
 	private User reopenUser;
 	private Date reopenDate;
 	private String isPass;
+	private Date replyTime;
 	
 	private String fixType;
 	
@@ -349,5 +350,15 @@ public class CheckRecord implements Idable<Long> {
 
 	public void setIsPass(String isPass) {
 		this.isPass = isPass;
+	}
+	
+	@Column(name="reply_time")
+	@Temporal(TemporalType.DATE)
+	public Date getReplyTime() {
+		return replyTime;
+	}
+
+	public void setReplyTime(Date replyTime) {
+		this.replyTime = replyTime;
 	}
 }

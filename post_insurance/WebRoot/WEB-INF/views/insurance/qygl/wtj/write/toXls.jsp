@@ -26,6 +26,8 @@ response.setHeader("Content-Disposition", "inline; filename=QY_Write_LIST.xls");
 				<th>处理详情</th>
 				<th>经办人</th>
 				<th>经办日期</th>
+				<th>回复日期</th>
+				<th>档案下发</th>
 			</tr>
 		</thead>
 		<c:forEach var="item" items="${issues}">
@@ -76,6 +78,17 @@ response.setHeader("Content-Disposition", "inline; filename=QY_Write_LIST.xls");
 				<td>${item.fixDesc=="null"?"":item.fixDesc}</td>
 				<td>${item.dealMan=="null"?"":item.dealMan}</td>
 				<td><fmt:formatDate value="${item.dealTime }" pattern="yyyy-MM-dd"/></td>
+				<td><fmt:formatDate value="${item.replyTime }" pattern="yyyy-MM-dd"/></td>
+				<td>
+				<c:choose>  
+					    <c:when test="${item.payMethod eq '期交' or item.payMethod eq '趸交'}">  
+					        &nbsp;
+					    </c:when>
+					    <c:otherwise>  
+					      <c:out value="${item.payMethod}" />  
+					    </c:otherwise>  
+					</c:choose>
+					</td>
 			</tr>
 			</c:forEach>
 	</table>

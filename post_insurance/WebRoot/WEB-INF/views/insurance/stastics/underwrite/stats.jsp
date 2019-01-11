@@ -79,7 +79,7 @@ function toTips(val) {
 			<tr>
 				<td>${idx.index+1 }</td>
 				<td>${item.orgName}</td>
-				<td style="text-align: right;width: 100px;font-weight:800; "><fmt:formatNumber value="${item.l10 eq 0?'':item.l10}" pattern="#,###" /></td>
+				<td style="text-align: right;width: 100px;font-weight:800;"><fmt:formatNumber value="${item.l10 eq 0?'':item.l10}" pattern="#,###" /></td>
 				<td style="text-align: right;width: 100px;font-weight:800;"><fmt:formatNumber value="${item.l20 eq 0?'':item.l20}" pattern="#,###" /></td>
 				<td style="text-align: right;width: 100px;font-weight:800;"><fmt:formatNumber value="${item.l30 eq 0?'':item.l30}" pattern="#,###.#" /></td>
 				<td style="text-align: right;width: 100px;font-weight:800;"><fmt:formatNumber value="${item.l50 eq 0?'':item.l50}" pattern="#,###.#" /></td>

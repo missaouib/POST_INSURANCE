@@ -20,19 +20,19 @@
 		</p>
 		<p>
 			<label>电话：</label>
-			<span class="unit">${issue.policy.holderPhone }</span>
+			<span class="unit">${issue.policy.policyDtl.holderPhone }</span>
 		</p>
 		<p>
 			<label>手机：</label>
-			<span class="unit">${issue.policy.holderMobile }</span>
+			<span class="unit">${issue.policy.policyDtl.holderMobile }</span>
 		</p>
 		<p>
 			<label>EMAIL：</label>
-			<span class="unit">${issue.policy.holderEmail }</span>
+			<span class="unit">${issue.policy.policyDtl.holderEmail }</span>
 		</p>
 		<p>
 			<label>地址：</label>
-			<span class="unit">${issue.policy.holderAddr }</span>
+			<span class="unit">${issue.policy.policyDtl.holderAddr }</span>
 		</p>
 		<p>
 			<label>网点类型：</label>

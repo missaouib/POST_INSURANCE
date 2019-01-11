@@ -1223,7 +1223,12 @@ alter table t_issue add column city_review_rst varchar(64) after city_reviewer;
 alter table t_check_write add column is_pass varchar(9) after need_fix;
 alter table t_check_record add column is_pass varchar(9) after need_fix;
 
+alter table t_check_write add column reply_time date after deal_time;
+alter table t_check_record add column reply_time date after deal_time;
+update t_check_write set reply_time=deal_time;
+update t_check_record set reply_time=deal_time;
 
-
-
+将tpd的duration改为tinyint（3）
+alter table t_policy add column duration tinyint(3) default 1 after perm;
+update t_policy tp, t_policy_dtl tpd set tp.duration=tpd.duration where tp.policy_no=tpd.policy_no and tp.attached_flag=0;
 
