@@ -15,6 +15,11 @@ response.setHeader("Content-Disposition", "inline; filename=QY_Write_LIST.xls");
 				<th>保单号</th>
 				<th>投保单号</th>
 				<th>投保人</th>
+				<th>电话</th>
+				<th>手机</th>
+				<th>地址</th>
+				<th>被保险人</th>
+				<th>关系</th>
 				<th>承保日期</th>
 				<th>问题件状态</th>
 				<th>资料缺失</th>
@@ -37,6 +42,11 @@ response.setHeader("Content-Disposition", "inline; filename=QY_Write_LIST.xls");
 				<td>${item.policy.policyNo}</td>
 				<td>${item.policy.formNo}</td>
 				<td>${item.policy.holder}</td>
+				<td>${item.policy.policyDtl.holderPhone}</td>
+				<td>${item.policy.policyDtl.holderMobile}</td>
+				<td>${item.policy.policyDtl.holderAddr}</td>
+				<td>${item.policy.insured}</td>
+				<td>${item.policy.policyDtl.relation}</td>
 				<td>${item.policy.policyDate}</td>
 				<td>
 				<c:choose>
