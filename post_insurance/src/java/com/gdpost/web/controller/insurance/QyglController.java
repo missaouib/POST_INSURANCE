@@ -104,6 +104,8 @@ public class QyglController {
 	
 	private static final String TO_HELP = "insurance/help/qygl";
 	
+	private static final String YBT_LIST = "insurance/qygl/ybt/list";
+	
 	@RequestMapping(value="/help", method=RequestMethod.GET)
 	public String toHelp() {
 		return TO_HELP;
@@ -944,6 +946,41 @@ public class QyglController {
 		map.put("underwriteList", qyglService.getTODOUnderWriteList(shiroUser.getUser()));
 		map.put("page", page);
 		return UNDERWRITE_LIST;
+	}
+	
+	@RequiresPermissions("YBT:view")
+	@RequestMapping(value="/ybt/list", method={RequestMethod.GET, RequestMethod.POST})
+	public String ybtList(ServletRequest request, Page page, Map<String, Object> map) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
+		String orgCode = request.getParameter("orgCode");
+		if(orgCode == null || orgCode.trim().length()<=0) {
+			orgCode = userOrg.getOrgCode();
+		} else if(!orgCode.contains(userOrg.getOrgCode())){
+			orgCode = userOrg.getOrgCode();
+		}
+		
+		if(page.getOrderField() == null || page.getOrderField().trim().length() <= 0) {
+			page.setOrderField("planDate");
+			page.setOrderDirection("ASC");
+		}
+		
+		//TODO: ybt list fowller
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("status", Operator.OR_EQ, UW_STATUS.SendStatus.name()));
+		csf.add(new SearchFilter("status", Operator.OR_EQ, UW_STATUS.NewStatus.name()));
+		csf.add(new SearchFilter("planFlag", Operator.EQ, 1));
+		
+		Specification<UnderWrite> specification = DynamicSpecifications.bySearchFilter(request, UnderWrite.class, csf);
+		
+		List<UnderWrite> underwrites = qyglService.findByUnderWriteExample(specification, page);
+		
+		map.put("underwrites", underwrites);
+		map.put("page", page);
+		
+		return UW_PLAN_LIST;
 	}
 	
 	// 使用初始化绑定器, 将参数自动转化为日期类型,即所有日期类型的数据都能自动转化为yyyy-MM-dd格式的Date类型
