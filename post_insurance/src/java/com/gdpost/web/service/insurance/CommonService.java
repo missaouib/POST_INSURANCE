@@ -21,7 +21,7 @@ public interface CommonService {
 	Policy getByPolicyNo(String policyNo);
 	
 	List<Policy> findByPolicyExample(Specification<Policy> specification, Page page);
-
+	
 	/*
 	List<ConservationError> findByConservationErrorExample(Specification<ConservationError> specification, Page page);
 

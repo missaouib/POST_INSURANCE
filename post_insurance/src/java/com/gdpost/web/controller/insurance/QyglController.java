@@ -40,6 +40,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.gdpost.utils.SecurityUtils;
 import com.gdpost.utils.StringUtil;
 import com.gdpost.web.entity.basedata.CheckFixType;
+import com.gdpost.web.entity.component.YbtPolicyModel;
 import com.gdpost.web.entity.main.CheckRecord;
 import com.gdpost.web.entity.main.CheckWrite;
 import com.gdpost.web.entity.main.Organization;
@@ -961,26 +962,22 @@ public class QyglController {
 			orgCode = userOrg.getOrgCode();
 		}
 		
-		if(page.getOrderField() == null || page.getOrderField().trim().length() <= 0) {
-			page.setOrderField("planDate");
-			page.setOrderDirection("ASC");
+		String date1 = request.getParameter("date1");
+		String date2 = request.getParameter("date2");
+		if(date1 == null || date1.trim().length()<=0) {
+			date1 = StringUtil.date2Str(StringUtil.dateAdd(new Date(), -15), "yyyy-MM-dd");
 		}
+		request.setAttribute("date1", date1);
+		if(date2 == null || date2.trim().length()<=0) {
+			date2 = StringUtil.date2Str(new Date(), "yyyy-MM-dd");
+		}
+		request.setAttribute("date2", date2);
+		List<YbtPolicyModel> ybts = qyglService.listYBTPolicys(orgCode + "%", date1, date2, page);
 		
-		//TODO: ybt list fowller
-		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
-		csf.add(new SearchFilter("status", Operator.OR_EQ, UW_STATUS.SendStatus.name()));
-		csf.add(new SearchFilter("status", Operator.OR_EQ, UW_STATUS.NewStatus.name()));
-		csf.add(new SearchFilter("planFlag", Operator.EQ, 1));
-		
-		Specification<UnderWrite> specification = DynamicSpecifications.bySearchFilter(request, UnderWrite.class, csf);
-		
-		List<UnderWrite> underwrites = qyglService.findByUnderWriteExample(specification, page);
-		
-		map.put("underwrites", underwrites);
+		map.put("ybtPolicys", ybts);
 		map.put("page", page);
 		
-		return UW_PLAN_LIST;
+		return YBT_LIST;
 	}
 	
 	// 使用初始化绑定器, 将参数自动转化为日期类型,即所有日期类型的数据都能自动转化为yyyy-MM-dd格式的Date类型

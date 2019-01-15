@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.gdpost.web.entity.basedata.CheckFixType;
+import com.gdpost.web.entity.component.YbtPolicyModel;
 import com.gdpost.web.entity.main.CheckRecord;
 import com.gdpost.web.entity.main.CheckWrite;
 import com.gdpost.web.entity.main.UnderWrite;
@@ -81,5 +82,10 @@ public interface QyglService {
 	List<UnderWrite> getOverdueUWList2Call(User user, Page page);
 	
 	List<UnderWrite> getOverdueUWList2Weixin(User user, Page page);
+	
+	/*
+	 * ============== YBT POLICY LIST ================
+	 */
+	List<YbtPolicyModel> listYBTPolicys(String orgCode, String date1, String date2, Page pageable);
 
 }

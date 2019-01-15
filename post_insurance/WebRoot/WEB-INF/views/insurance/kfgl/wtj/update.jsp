@@ -95,6 +95,7 @@
 			<input type="text" name="dealTime" class="date validate[required,maxSize[32]] required" dateFmt="yyyy-MM-dd" readonly="true" value="${issue.dealTime }"/>
 				<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
+		<!-- 
 		<p class="nowrap">
 			<label>复核人：</label>
 			<input type="text" name="cityReviewer" class="input-medium validate[required,maxSize[12]] required" maxlength="12" value="${issue.cityReviewer }"/>
@@ -103,6 +104,7 @@
 			<label>复核意见：</label>
 			<input type="text" name="cityReviewRst" class="input-medium validate[required,maxSize[12]] required" maxlength="12" value="${issue.cityReviewRst eq null?'同意，复核无误。': issue.cityReviewRst}"/>
 		</p>
+		 -->
 	</fieldset>
 	</div>
 			

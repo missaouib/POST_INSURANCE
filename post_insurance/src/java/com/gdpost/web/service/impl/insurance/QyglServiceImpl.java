@@ -25,7 +25,9 @@ import com.gdpost.web.dao.CheckFixTypeDAO;
 import com.gdpost.web.dao.CheckRecordDAO;
 import com.gdpost.web.dao.CheckWriteDAO;
 import com.gdpost.web.dao.UnderWriteDAO;
+import com.gdpost.web.dao.model.YbtPolicyModelDAO;
 import com.gdpost.web.entity.basedata.CheckFixType;
+import com.gdpost.web.entity.component.YbtPolicyModel;
 import com.gdpost.web.entity.main.CheckRecord;
 import com.gdpost.web.entity.main.CheckWrite;
 import com.gdpost.web.entity.main.Organization;
@@ -58,6 +60,9 @@ public class QyglServiceImpl implements QyglService {
 	
 	@Autowired
 	private CheckFixTypeDAO checkFixTypeDAO;
+	
+	@Autowired
+	private YbtPolicyModelDAO ybtDAO;
 	
 	/*
 	 * (non-Javadoc)
@@ -434,6 +439,13 @@ public class QyglServiceImpl implements QyglService {
 	@Override
 	public List<UnderWrite> getOverdueUWList2Weixin(User user, Page page) {
 		org.springframework.data.domain.Page<UnderWrite> springDataPage = uwDAO.findDistinctUnderWrite2Weixin("%" + user.getOrganization().getOrgCode() + "%", "SendStatus", PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
+	}
+	
+	@Override
+	public List<YbtPolicyModel> listYBTPolicys(String orgCode, String date1, String date2, Page page) {
+		org.springframework.data.domain.Page<YbtPolicyModel> springDataPage = ybtDAO.getYbtPolicyDateList(orgCode, date1, date2, PageUtils.createPageable(page));
 		page.setTotalCount(springDataPage.getTotalElements());
 		return springDataPage.getContent();
 	}
