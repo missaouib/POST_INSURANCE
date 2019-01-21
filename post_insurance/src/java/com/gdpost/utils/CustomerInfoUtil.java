@@ -52,12 +52,15 @@ public class CustomerInfoUtil {
 			str.append("Email地址有误;");
 		}
 		str.append(checkLogic(holderAge, insuredAge, insuredCardType, insuredCardNum, relation));
-		str.append(checkAddr(stat, policyNo, addr));
+		
 		boolean isSales = isSalesPhone(stat, holder, mobile);
 		if(isSales) {
 			str.append("使用了销售人员电话出单;");
 		}
-		str.append(checkDateValid(holderCardValid));
+		
+		str.append(checkAddr(stat, policyNo, addr, isSales));
+		
+		//str.append(checkDateValid(holderCardValid));
 		if( !checkMobile(mobile)) {
 			str.append("手机号码有误;");
 		}
@@ -193,7 +196,7 @@ public class CustomerInfoUtil {
 	 * @param addr
 	 * @return
 	 */
-	public static String checkAddr(Statement stat,String policyNo, String addr) {
+	public static String checkAddr(Statement stat,String policyNo, String addr, boolean isSales) {
 		StringBuffer str = new StringBuffer("");
 		LOG.debug(" --------- addr: " + addr);
 		//1、长度校验
@@ -298,7 +301,7 @@ public class CustomerInfoUtil {
 			if(!hasNum && (addr.endsWith("栋") || addr.endsWith("幢") || addr.endsWith("楼"))) {
 				return "地址缺门牌号码;";
 			}
-			if(addr.contains("邮政") || addr.contains("邮政") || addr.endsWith("邮储") || addr.endsWith("支局") || addr.endsWith("支行")) {
+			if(!isSales && (addr.contains("邮政") || addr.contains("营业所") || addr.contains("邮局") || addr.endsWith("邮储") || addr.endsWith("支局") || addr.endsWith("支行"))) {
 				return "地址含有邮政关键信息;";
 			}
 			if(!bah && policyNo.startsWith("8644")) {
@@ -487,8 +490,8 @@ public class CustomerInfoUtil {
 		}
 		Date d1 = StringUtil.str2Date(date, "yyyy-MM-dd");
 		int dc = StringUtil.getBetweenDay(new Date(), d1);
-		if (dc <= 30) {
-			return "证件有效期30日内失效;";
+		if (dc <= 5) {
+			return "证件有效期5日内失效;";
 		}
 		return "";
 	}
@@ -566,7 +569,7 @@ public class CustomerInfoUtil {
 			}
 			break;
 		case "港澳居民来往内地通行证":
-			String check = "^([H|M])\\d{8}$";
+			String check = "^([H|M|C])([A-Z^I^O]??)\\d{8,}$";
 			Pattern regex = Pattern.compile(check);
 			Matcher matcher = regex.matcher(cardNum);
 			if (!matcher.matches()) {
@@ -683,10 +686,10 @@ public class CustomerInfoUtil {
 		
 		//String city = "肇庆";
 		//String area = "四会";
-		String addr = "广东梅州丰顺县埔寨镇采芝村半东坑";
+		//String addr = "广东梅州丰顺县埔寨镇采芝村半东坑";
 		//System.out.println(addr.length() - addr.indexOf(city));
 		//System.out.println(addr.length() - addr.indexOf(area));
-		System.out.println(CustomerInfoUtil.testAddr("814400000124544", addr));
+		//System.out.println(CustomerInfoUtil.testAddr("814400000124544", addr));
 		//一二三四五六七八九零十百千万亿〇壹贰叁肆伍陆柒捌玖０１２３４５６７８９
 		//".*\\d+.*"
 		/*
@@ -699,5 +702,9 @@ public class CustomerInfoUtil {
 		String mobile = "1752-8871728";
 		System.out.println(CustomerInfoUtil.checkPhone(mobile));
 		*/
+		
+		String type = "港澳居民来往内地通行证";
+		String num = "CA12345678";
+		System.out.println(CustomerInfoUtil.checkCardInfo(type, num));
 	}
 }

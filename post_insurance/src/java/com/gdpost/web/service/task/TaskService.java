@@ -344,6 +344,10 @@ public class TaskService {
 			log.info("------------ sql :" + sql);
 			statement.executeUpdate(sql);
 			
+			sql = "update t_check_write cw, t_staff ts set cw.fix_status=\"CloseStatus\",cw.fix_desc=\"员工单\",cw.deal_man=\"System\",cw.deal_time=current_timestamp where cw.key_info=\"含有邮政、邮储、邮局、支行、营业所等字样\" and cw.is_pass=cast(aes_decrypt(unhex(ts.id_card), 'GDPost') as char(100));";
+			log.info("------------ sql :" + sql);
+			statement.executeUpdate(sql);
+			
 			log.info("------------ task service update finish");
 		} catch (SQLException e) {
 			e.printStackTrace();
