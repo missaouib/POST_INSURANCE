@@ -208,6 +208,11 @@ public class QyglController {
 		} else if(status.trim().length()>0) {
 			issue.setFixStatus(QY_STATUS.valueOf(status).name());
 		}
+		
+		String keyInfo = request.getParameter("keyInfo");
+		request.setAttribute("keyInfo", keyInfo);
+		issue.setKeyInfo(keyInfo);
+		
 		request.setAttribute("status", status);
 		issue.setFixStatus(status);
 		request.setAttribute("checker", checker);
@@ -220,6 +225,23 @@ public class QyglController {
 		}
 		if(checker != null && checker.trim().length()>0) {
 			csf.add(new SearchFilter("checker", Operator.EQ, checker));
+		}
+		if(keyInfo != null && keyInfo.trim().length()>0) {
+			switch(keyInfo) {
+			case "Email":
+			case "销售人员":
+			case "地址":
+			case "号码有误":
+			case "关系不符逻辑要求":
+			case "联系方式":
+			case "姓名有误":
+				csf.add(new SearchFilter("keyInfo", Operator.LIKE, keyInfo));
+				break;
+			case "证件":
+				csf.add(new SearchFilter("keyInfo", Operator.OR_LIKE, "证件号码"));
+				csf.add(new SearchFilter("keyInfo", Operator.OR_LIKE, "出生证号码"));
+				break;
+			}
 		}
 		
 		Specification<CheckWrite> specification = DynamicSpecifications.bySearchFilter(request, CheckWrite.class, csf);

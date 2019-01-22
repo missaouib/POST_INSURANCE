@@ -12,6 +12,7 @@
 	<input type="hidden" name="search_GTE_replyTime" value="${param.search_GTE_replyTime }"/>
 	<input type="hidden" name="fixStatus" value="${status }"/>
 	<input type="hidden" name="checker" value="${checker }"/>
+	<input type="hidden" name="keyInfo" value="${keyInfo }"/>
 	<input type="hidden" name="search_LIKE_checkBatch" value="${param.search_LIKE_checkBatch }"/>
 </dwz:paginationForm>
 
@@ -64,7 +65,20 @@
 						<label>回复结束日期：</label>
 						<input type="text" name="search_LTE_replyTime" id="qyw_d_date2" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_replyTime }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
-					<td>&nbsp;</td>
+					<td>
+					<label>错误类型:</label>
+					<form:select path="issue.keyInfo" id="cwki" class="combox">
+							<form:option value=""> -- -- </form:option>
+							<form:option value="Email">Email错误</form:option>
+							<form:option value="销售人员">使用销售人员电话</form:option>
+							<form:option value="地址">地址不详</form:option>
+							<form:option value="号码有误">电话号码有误</form:option>
+							<form:option value="证件">证件号码有误</form:option>
+							<form:option value="关系不符逻辑要求">关系不符逻辑要求</form:option>
+							<form:option value="联系方式">联系方式为空</form:option>
+							<form:option value="姓名有误">姓名有误</form:option>
+						</form:select>
+					</td>
 				</tr>
 			</table>
 			<div class="subBar">

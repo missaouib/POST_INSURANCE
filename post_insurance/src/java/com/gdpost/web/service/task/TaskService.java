@@ -102,7 +102,7 @@ public class TaskService {
 			iRst2 = statement.executeUpdate(sql2);
 			log.info("------------ task service 2 rst :" + iRst2);
 			
-			sql3 = "update t_call_fail_list set status=\"需上门回访\" where datediff(NOW(),bill_back_date)>=15 and (status=\"二访失败\" or status=\"重点跟进\" or status='待处理');";
+			sql3 = "update t_call_fail_list set status=\"需上门回访\" where datediff(NOW(),bill_back_date)>15 and (status=\"二访失败\" or status=\"重点跟进\" or status='待处理');";
 			log.info("------------ task service 3 :" + sql3);
 			iRst3 = statement.executeUpdate(sql3);
 			log.info("------------ task service 3 rst :" + iRst3);
@@ -339,12 +339,12 @@ public class TaskService {
 			//sql = "call procDealCardValid();";
 			sql = "update t_check_write set fix_status=\"CloseStatus\",fix_desc=\"已退保\",deal_man=\"System\", deal_time=now() where policy_no in (select policy_no from t_policy where cs_flag<>0);";
 			
-			sql = "insert into t_log_info (username, message,ip_address,log_level,module) values "
-					+ "('admin','customer info check, error:" + idx + "','127.0.0.1','WARN','其他操作');";
+			sql = "update t_check_write cw, t_staff ts set cw.fix_status=\"CloseStatus\",cw.fix_desc=\"员工单\",cw.deal_man=\"System\",cw.deal_time=current_timestamp where cw.key_info=\"含有邮政、邮储、邮局、支行、营业所等字样\" and cw.is_pass=cast(aes_decrypt(unhex(ts.id_card), 'GDPost') as char(100));";
 			log.info("------------ sql :" + sql);
 			statement.executeUpdate(sql);
 			
-			sql = "update t_check_write cw, t_staff ts set cw.fix_status=\"CloseStatus\",cw.fix_desc=\"员工单\",cw.deal_man=\"System\",cw.deal_time=current_timestamp where cw.key_info=\"含有邮政、邮储、邮局、支行、营业所等字样\" and cw.is_pass=cast(aes_decrypt(unhex(ts.id_card), 'GDPost') as char(100));";
+			sql = "insert into t_log_info (username, message,ip_address,log_level,module) values "
+					+ "('admin','customer info check, error:" + idx + "','127.0.0.1','WARN','其他操作');";
 			log.info("------------ sql :" + sql);
 			statement.executeUpdate(sql);
 			

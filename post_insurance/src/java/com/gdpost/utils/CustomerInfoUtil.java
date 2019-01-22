@@ -703,8 +703,8 @@ public class CustomerInfoUtil {
 		System.out.println(CustomerInfoUtil.checkPhone(mobile));
 		*/
 		
-		String type = "港澳居民来往内地通行证";
-		String num = "CA12345678";
-		System.out.println(CustomerInfoUtil.checkCardInfo(type, num));
+		//String type = "港澳居民来往内地通行证";
+		String num = "44162319760819001X";
+		System.out.println(CustomerInfoUtil.is18ByteIdCardComplex(num));
 	}
 }
