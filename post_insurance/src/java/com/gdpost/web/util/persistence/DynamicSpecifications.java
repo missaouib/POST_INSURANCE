@@ -428,6 +428,9 @@ public class DynamicSpecifications {
 						case LIKE:
 							predicates.add(builder.like(expression, "%" + filter.getValue() + "%"));
 							break;
+						case NOT_LIKE:
+							predicates.add(builder.notLike(expression, "%" + filter.getValue() + "%"));
+							break;
 						case GT:
 							predicates.add(builder.greaterThan(expression, (Comparable) filter.getValue()));
 							break;

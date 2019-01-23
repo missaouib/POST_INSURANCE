@@ -14,7 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 public class SearchFilter {
 
 	public enum Operator {
-		EQ, LIKE, GT, LT, GTE, LTE, IN, NEQ, ISNULL, NOTNULL, OR_EQ, OR_IN, OR_LIKE, OR_NEQ, OR_ISNULL
+		EQ, LIKE, NOT_LIKE, GT, LT, GTE, LTE, IN, NEQ, ISNULL, NOTNULL, OR_EQ, OR_IN, OR_LIKE, OR_NEQ, OR_ISNULL
 	}
 
 	private String fieldName;

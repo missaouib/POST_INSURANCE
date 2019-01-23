@@ -304,9 +304,13 @@ public class CustomerInfoUtil {
 			if(!isSales && (addr.contains("邮政") || addr.contains("营业所") || addr.contains("邮局") || addr.endsWith("邮储") || addr.endsWith("支局") || addr.endsWith("支行"))) {
 				return "地址含有邮政关键信息;";
 			}
+			/*
+			 * 如果以上条件都满足的话，估计这个柜面出单的省市县信息是对的了。
+			 * 只能这样子了，无可奈何 20190123 closed
 			if(!bah && policyNo.startsWith("8644")) {
 				return "地址疑似不够详细1；缺省市信息;";
 			}
+			*/
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

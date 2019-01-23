@@ -236,6 +236,9 @@ public class QyglController {
 			case "联系方式":
 			case "姓名有误":
 				csf.add(new SearchFilter("keyInfo", Operator.LIKE, keyInfo));
+				if(keyInfo.equals("地址")) {
+					csf.add(new SearchFilter("keyInfo", Operator.NOT_LIKE, "Email"));
+				}
 				break;
 			case "证件":
 				csf.add(new SearchFilter("keyInfo", Operator.OR_LIKE, "证件号码"));
