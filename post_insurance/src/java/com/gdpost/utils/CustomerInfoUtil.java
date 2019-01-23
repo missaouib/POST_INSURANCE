@@ -251,7 +251,7 @@ public class CustomerInfoUtil {
 								|| (addr.contains("省") && addr.contains("县"))) {
 							bah = true;
 							if((addr.contains("市") && (addr.length() - addr.indexOf("市") <= 7)) 
-									|| (addr.contains("县") && (addr.length() - addr.indexOf("县") <= 7))) {
+									|| (addr.contains("县") && (addr.length() - addr.indexOf("县") < 7))) {
 								blen = false;
 								//return "地址不够详细1-length；";
 							}
@@ -261,8 +261,8 @@ public class CustomerInfoUtil {
 								|| (addr.contains("市") && addr.contains("镇"))) {
 							bah = true;
 							if((addr.contains("市") && (addr.length() - addr.indexOf("市") <= 7)) 
-									|| (addr.contains("区") && (addr.length() - addr.indexOf("区") <= 7))
-									|| (addr.contains("县") && (addr.length() - addr.indexOf("县") <= 7))) {
+									|| (addr.contains("区") && (addr.length() - addr.indexOf("区") < 7))
+									|| (addr.contains("县") && (addr.length() - addr.indexOf("县") < 7))) {
 								blen = false;
 								//return "地址不够详细1-length；";
 							}
@@ -278,7 +278,7 @@ public class CustomerInfoUtil {
 					}
 				}
 				if((addr.contains(city) && (addr.length() - addr.indexOf(city) <= 7)) 
-						|| (addr.contains(area) && (addr.length() - addr.indexOf(area) <= 7))) {
+						|| (addr.contains(area) && (addr.length() - addr.indexOf(area) < 7))) {
 					blen = false;
 					//return "地址不够详细1-length；";
 				}
@@ -294,7 +294,7 @@ public class CustomerInfoUtil {
 			}
 			
 			if(addr.endsWith("附近") || addr.endsWith("对面") || addr.endsWith("旁边") 
-					|| addr.endsWith("路") || addr.endsWith("街") || addr.endsWith("道") 
+					|| addr.endsWith("路") || addr.endsWith("街") || addr.endsWith("道") || addr.endsWith("里") 
 					|| addr.endsWith("园") || addr.endsWith("区") || addr.endsWith("镇") || addr.endsWith("乡") || addr.endsWith("县")) {
 				return "地址不够详细3-end;";
 			}
