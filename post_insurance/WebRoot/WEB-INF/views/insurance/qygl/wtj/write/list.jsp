@@ -101,7 +101,7 @@
 				<li class="line">line</li>
 				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/qygl/issue/write/update/{slt_uid}"><span>回复</span></a></li>
 			</shiro:hasPermission>
-			<li><a class="icon" target="_blank" href="${contextPath }/qygl/issue/write/toXls?fixStatus=${status }&orgCode=${orgCode }&search_GTE_policy.policyDate=${search_GTE_policy_policyDate}&search_LTE_policy.policyDate=${search_LTE_policy_policyDate}&search_GTE_replyTime=${param.search_GTE_replyTime}&search_LTE_replyTime=${param.search_LTE_replyTime}&search_LIKE_checkBatch=${param.search_LIKE_checkBatch}"><span>导出Excel</span></a></li>
+			<li><a class="icon" target="_blank" href="${contextPath }/qygl/issue/write/toXls?checker=${checker }&keyInfo=${keyInfo }&fixStatus=${status }&orgCode=${orgCode }&search_GTE_policy.policyDate=${search_GTE_policy_policyDate}&search_LTE_policy.policyDate=${search_LTE_policy_policyDate}&search_GTE_replyTime=${param.search_GTE_replyTime}&search_LTE_replyTime=${param.search_LTE_replyTime}&search_LIKE_checkBatch=${param.search_LIKE_checkBatch}"><span>导出Excel</span></a></li>
 			<li class="line">line</li>
 			<li><a class="icon" target="dialog" href="${contextPath }/qygl/help" mask="true" width="530" height="430"><span>功能说明</span></a></li>
 		</ul>

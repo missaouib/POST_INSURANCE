@@ -276,6 +276,9 @@ public class QyglController {
 		request.setAttribute("status", status);
 		page.setPageNum(0);
 		page.setNumPerPage(Integer.MAX_VALUE);
+		
+		String keyInfo = request.getParameter("keyInfo");
+		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 		if(status.trim().length()>0) {
@@ -283,6 +286,26 @@ public class QyglController {
 		}
 		if(checker != null && checker.trim().length()>0) {
 			csf.add(new SearchFilter("checker", Operator.EQ, checker));
+		}
+		if(keyInfo != null && keyInfo.trim().length()>0) {
+			switch(keyInfo) {
+			case "Email":
+			case "销售人员":
+			case "地址":
+			case "号码有误":
+			case "关系不符逻辑要求":
+			case "联系方式":
+			case "姓名有误":
+				csf.add(new SearchFilter("keyInfo", Operator.LIKE, keyInfo));
+				if(keyInfo.equals("地址")) {
+					csf.add(new SearchFilter("keyInfo", Operator.NOT_LIKE, "Email"));
+				}
+				break;
+			case "证件":
+				csf.add(new SearchFilter("keyInfo", Operator.OR_LIKE, "证件号码"));
+				csf.add(new SearchFilter("keyInfo", Operator.OR_LIKE, "出生证号码"));
+				break;
+			}
 		}
 		
 		Specification<CheckWrite> specification = DynamicSpecifications.bySearchFilter(request, CheckWrite.class, csf);
