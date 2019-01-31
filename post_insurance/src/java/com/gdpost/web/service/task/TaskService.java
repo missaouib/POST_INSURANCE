@@ -66,32 +66,32 @@ public class TaskService {
 		int iRst6 = -1;
 		
         try {
-        	sql = "delete from t_policy where form_no is null;";
-			log.info("------------ sql :" + sql);
-			statement.executeUpdate(sql);
-			log.info("------------ finish exec sql");
-			
-        	sql = "update t_policy set attached_flag = 1 where prod_name like \"%附加%\";";
-			log.info("------------ sql :" + sql);
-			statement.executeUpdate(sql);
-			log.info("------------ finish exec sql");
-			
-			sql = "update t_policy set attached_flag = 2 where prod_name like \"%禄禄通%\";";
-			log.info("------------ sql :" + sql);
-			statement.executeUpdate(sql);
-			log.info("------------ finish exec sql");
-			
-			sql = "update t_policy set attached_flag = 3 where policy_no like \"5244%\";";
-			log.info("------------ sql :" + sql);
-			statement.executeUpdate(sql);
-			log.info("------------ finish exec sql");
-			
         	sql = "insert into t_log_info (username, message,ip_address,log_level,module) values "
 					+ "('admin','spring task update batch job start.','127.0.0.1','WARN','其他操作');";
         	log.info("------------ task service 1 :" + sql);
         	statement.executeUpdate(sql);
         	log.info("------------ finish exec sql");
         	
+        	sql = "delete from t_policy where form_no is null;";
+			log.info("------------ sql :" + sql);
+			statement.executeUpdate(sql);
+			log.info("------------ finish exec sql");
+			
+        	sql = "update t_policy set attached_flag = 1 where attached_flag=0 and prod_name like \"%附加%\";";
+			log.info("------------ sql :" + sql);
+			statement.executeUpdate(sql);
+			log.info("------------ finish exec sql");
+			
+			sql = "update t_policy set attached_flag = 2 where attached_flag=0 and prod_name like \"%禄禄通%\";";
+			log.info("------------ sql :" + sql);
+			statement.executeUpdate(sql);
+			log.info("------------ finish exec sql");
+			
+			sql = "update t_policy set attached_flag = 3 where attached_flag=0 and policy_no like \"5244%\";";
+			log.info("------------ sql :" + sql);
+			statement.executeUpdate(sql);
+			log.info("------------ finish exec sql");
+			
         	sql1 = "update t_call_fail_list set status = \"重点跟进\" where (status='二访失败' or status='待处理') and 15-datediff(now(),bill_back_date)<=3;";
         	log.info("------------ task service :" + sql1);
         	iRst1 = statement.executeUpdate(sql1);
@@ -204,7 +204,7 @@ public class TaskService {
 			statement.executeUpdate(sql);
 			log.info("------------ finish exec sql");
 			
-			sql = "update t_under_write uw, t_policy tp set uw.policy_no=tp.policy_no, uw.holder=tp.holder, uw.sign_date=tp.policy_date, uw.policy_fee=tp.policy_fee, uw.perm=tp.perm, uw.sync=true where uw.form_no=tp.form_no and sync=false;";
+			sql = "update t_under_write uw, t_policy tp set uw.policy_no=tp.policy_no, uw.holder=tp.holder, uw.sign_date=tp.policy_date, uw.policy_fee=tp.policy_fee, uw.perm=tp.perm, uw.sync=true where uw.form_no=tp.form_no and sync=false and uw.policy_no is null;";
 			log.info("------------ sql :" + sql);
 			statement.executeUpdate(sql);
 			log.info("------------ finish exec sql");

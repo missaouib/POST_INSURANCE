@@ -210,10 +210,19 @@ public class CustomerInfoUtil {
 		if(matcher.matches()) {
 			hasNum = true;
 		}
+		boolean endNum = false;
+		String p2 = ".*[一二三四五六七八九零十百千万亿〇壹贰叁肆伍陆柒捌玖０１２３４５６７８９0-9]+$";
+		Pattern regex2 = Pattern.compile(p2);
+		Matcher matcher2 = regex2.matcher(addr);
+		if(matcher2.matches()) {
+			endNum = true;
+		}
+		
 		boolean isTown = false;
 		if(addr.contains("村")) {
 			isTown = true;
 		}
+		
 		//2、地址库结尾校验。
 		//拿到地址库的地址
 		String sql = "select area,city from t_addr_lib";
@@ -289,9 +298,21 @@ public class CustomerInfoUtil {
 					//return "地址不够详细1-length；";
 				}
 			}
-			if((!blen || !hasNum) && !isTown) {
+			
+			if(!isSales && (addr.contains("邮政") || addr.contains("营业所") || addr.contains("邮局") || addr.endsWith("邮储") || addr.endsWith("支局") || addr.endsWith("支行"))) {
+				return "地址含有邮政关键信息;";
+			}
+			
+			if( !hasNum ) {
+				if(!blen && !isTown) {
+					return "地址疑似不够详细2；省市后信息不详;";
+				}
+			}
+			/*
+			if((!blen && !hasNum) && !isTown) {
 				return "地址疑似不够详细2；省市后信息不详;";
 			}
+			*/
 			
 			if(addr.endsWith("附近") || addr.endsWith("对面") || addr.endsWith("旁边") 
 					|| addr.endsWith("路") || addr.endsWith("街") || addr.endsWith("道") || addr.endsWith("里") 
@@ -301,8 +322,9 @@ public class CustomerInfoUtil {
 			if(!hasNum && (addr.endsWith("栋") || addr.endsWith("幢") || addr.endsWith("楼"))) {
 				return "地址缺门牌号码;";
 			}
-			if(!isSales && (addr.contains("邮政") || addr.contains("营业所") || addr.contains("邮局") || addr.endsWith("邮储") || addr.endsWith("支局") || addr.endsWith("支行"))) {
-				return "地址含有邮政关键信息;";
+			
+			if (endNum) {
+				return "地址不够详细4-end with num;";
 			}
 			/*
 			 * 如果以上条件都满足的话，估计这个柜面出单的省市县信息是对的了。
@@ -324,8 +346,8 @@ public class CustomerInfoUtil {
 	}
 	
 	public static String testAddr (String policyNo, String addr) {
-		String area = "丰顺";
-		String city = "梅州";
+		String area = "清溪";
+		String city = "东莞";
 		StringBuffer str = new StringBuffer("");
 		LOG.debug(" --------- addr: " + addr);
 		//1、长度校验
@@ -340,6 +362,13 @@ public class CustomerInfoUtil {
 			hasNum = true;
 		}
 		LOG.debug(" --------- hasNum: " + hasNum);
+		boolean endNum = false;
+		String p2 = ".*[一二三四五六七八九零十百千万亿〇壹贰叁肆伍陆柒捌玖０１２３４５６７８９0-9]+$";
+		Pattern regex2 = Pattern.compile(p2);
+		Matcher matcher2 = regex2.matcher(addr);
+		if(matcher2.matches()) {
+			endNum = true;
+		}
 		//2、地址库结尾校验。
 		//拿到地址库的地址
 		
@@ -427,10 +456,16 @@ public class CustomerInfoUtil {
 			}
 		}
 		LOG.debug(" --------- blen3: " + blen);
-		if((!blen || !hasNum) && !isTown) {
+		if( !hasNum ) {
+			if(!blen && !isTown) {
+				return "地址疑似不够详细2；省市后信息不详;";
+			}
+		}
+		/*
+		if((!blen && !hasNum) && !isTown) {
 			return "地址疑似不够详细2；省市后信息不详;";
 		}
-		
+		*/
 		if(addr.endsWith("附近") || addr.endsWith("对面") || addr.endsWith("旁边") 
 				|| addr.endsWith("路") || addr.endsWith("街") || addr.endsWith("道") 
 				|| addr.endsWith("园") || addr.endsWith("区") || addr.endsWith("镇") || addr.endsWith("乡") || addr.endsWith("县")) {
@@ -444,6 +479,9 @@ public class CustomerInfoUtil {
 		}
 		if(!bah && policyNo.startsWith("8644")) {
 			return "地址疑似不够详细1；缺省市信息;";
+		}
+		if (endNum) {
+			return "地址不够详细4-end with num;";
 		}
 		return str.append("addr is good!").toString();
 	}
@@ -690,10 +728,10 @@ public class CustomerInfoUtil {
 		
 		//String city = "肇庆";
 		//String area = "四会";
-		//String addr = "广东梅州丰顺县埔寨镇采芝村半东坑";
+		String addr = "东莞市茶山石大路15";
 		//System.out.println(addr.length() - addr.indexOf(city));
 		//System.out.println(addr.length() - addr.indexOf(area));
-		//System.out.println(CustomerInfoUtil.testAddr("814400000124544", addr));
+		System.out.println(CustomerInfoUtil.testAddr("814400000124544", addr));
 		//一二三四五六七八九零十百千万亿〇壹贰叁肆伍陆柒捌玖０１２３４５６７８９
 		//".*\\d+.*"
 		/*
@@ -708,7 +746,13 @@ public class CustomerInfoUtil {
 		*/
 		
 		//String type = "港澳居民来往内地通行证";
-		String num = "44162319760819001X";
-		System.out.println(CustomerInfoUtil.is18ByteIdCardComplex(num));
+		//String num = "44162319760819001X";
+		//System.out.println(CustomerInfoUtil.is18ByteIdCardComplex(num));
+		/*
+		String pattern = ".*[一二三四五六七八九零十百千万亿〇壹贰叁肆伍陆柒捌玖０１２３４５６７８９0-9]+$";
+		Pattern p=Pattern.compile(pattern);
+		String str = "东莞市清溪镇12e323元厦坭园宝厂０";
+        System.out.println(p.matcher(str).matches());;
+        */
 	}
 }
