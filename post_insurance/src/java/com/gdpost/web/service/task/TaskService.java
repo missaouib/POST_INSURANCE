@@ -179,7 +179,7 @@ public class TaskService {
 			statement.executeUpdate(sql);
 			log.info("------------ finish exec sql");
 			
-			sql = "update t_call_fail_list t1, t_cs_report t2 set t1.status=\"已退保\" where t1.policy_no=t2.policy_no and t2.cs_code=\"CT\";";
+			sql = "update t_call_fail_list t1, t_cs_report t2 set t1.status=\"已退保\" where t1.status<>\"已退保\" and t1.policy_no=t2.policy_no and t2.cs_code=\"CT\";";
 			log.info("------------ sql :" + sql);
 			statement.executeUpdate(sql);
 			log.info("------------ finish exec sql");
@@ -189,7 +189,7 @@ public class TaskService {
 			statement.executeUpdate(sql);
 			log.info("------------ finish exec sql");
 			
-			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=2,tp.status=\"终止\" where tp.policy_no=tcr.policy_no and tp.cs_flag=0 and tp.attached_flag=0 and tcr.cs_code=\"CT\" and abs(tcr.money)>(tp.total_fee*0.1);";
+			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=2,tp.status=\"终止\" where tp.status<>\"终止\" and tp.policy_no=tcr.policy_no and tp.cs_flag=0 and tp.attached_flag=0 and tcr.cs_code=\"CT\" and abs(tcr.money)>(tp.total_fee*0.1);";
 			log.info("------------ sql :" + sql);
 			statement.executeUpdate(sql);
 			log.info("------------ finish exec sql");
@@ -244,7 +244,7 @@ public class TaskService {
 			log.info("------------ sql :" + sql);
 			statement.executeUpdate(sql);
 			
-			sql = "insert into t_cs_reissue (cs_id,status) (select tsr.id,\"NewStatus\" from t_cs_report tsr where tsr.cs_code=\"LR\" and tsr.id not in (select cs_id from t_cs_reissue));";
+			sql = "insert IGNORE into t_cs_reissue (cs_id,status) (select tsr.id,\"NewStatus\" from t_cs_report tsr where tsr.cs_code=\"LR\" and tsr.id not in (select cs_id from t_cs_reissue));";
 			log.info("------------ sql :" + sql);
 			statement.executeUpdate(sql);
 			
@@ -287,7 +287,7 @@ public class TaskService {
 			String prodName = null;
 			
 			String checkBatch = StringUtil.date2Str(new java.util.Date(), "yyyyMMddHH");
-			String keySql = "insert into t_check_write (check_batch,form_no,policy_no,prd_name,need_fix,key_info, checker) values (?,?,?,?,?,?,?);";
+			String keySql = "insert IGNORE into t_check_write (check_batch,form_no,policy_no,prd_name,need_fix,key_info, checker) values (?,?,?,?,?,?,?);";
 			
 			preStat = connection.prepareStatement(keySql);
 			int idx = 0;

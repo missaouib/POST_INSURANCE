@@ -1232,3 +1232,4 @@ update t_check_record set reply_time=deal_time;
 alter table t_policy add column duration tinyint(3) default 1 after perm;
 update t_policy tp, t_policy_dtl tpd set tp.duration=tpd.duration where tp.policy_no=tpd.policy_no and tp.attached_flag=0;
 
+alter table t_check_write add unique index idx_pno_checker(`policy_no`,`checker`);
