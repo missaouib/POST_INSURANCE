@@ -218,6 +218,11 @@ public class QyglController {
 		request.setAttribute("checker", checker);
 		issue.setChecker(checker);
 		
+		if(page.getOrderField() == null || page.getOrderField().trim().length() <= 0) {
+			page.setOrderField("id");
+			page.setOrderDirection("DESC");
+		}
+		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 		if(status.trim().length()>0) {

@@ -149,7 +149,7 @@ public class TaskService {
 			statement.executeUpdate(sql);
 			log.info("------------ finish exec sql");
 			
-			sql = "update t_pay_fail_list set status='CloseStatus' where rel_no in (select rel_no from t_pay_success_list);";
+			sql = "update t_pay_fail_list set status='CloseStatus' where status<>'CloseStatus' and rel_no in (select rel_no from t_pay_success_list);";
 			log.info("------------ sql :" + sql);
 			statement.executeUpdate(sql);
 			log.info("------------ finish exec sql");
@@ -166,7 +166,7 @@ public class TaskService {
 			statement.executeUpdate(sql);
 			log.info("------------ finish exec sql");
 			
-			sql = "update t_policy t0 set t0.status='有效' where t0.policy_no in (select t2.policy_no from t_pay_success_list t1, t_cs_report t2 "
+			sql = "update t_policy t0 set t0.status='有效' where t0.status<>'有效' and t0.policy_no in (select t2.policy_no from t_pay_success_list t1, t_cs_report t2 "
 					+ "where t1.pay_type=2 and t1.rel_no=t2.cs_no and t2.cs_code='RE');";
 			log.info("------------ sql :" + sql);
 			statement.executeUpdate(sql);
@@ -194,7 +194,7 @@ public class TaskService {
 			statement.executeUpdate(sql);
 			log.info("------------ finish exec sql");
 			
-			sql = "update t_renewed_list t1, t_cs_report t2, t_policy t3 set t1.fee_status=\"已终止\" where t1.policy_no=t2.policy_no and t2.policy_no=t3.policy_no and t3.attached_flag=0 and t2.cs_code=\"CT\" and abs(t2.money)>(t3.total_fee*0.1);";
+			sql = "update t_renewed_list t1, t_cs_report t2, t_policy t3 set t1.fee_status=\"已终止\" where t1.fee_status<>\"已终止\" and t1.policy_no=t2.policy_no and t2.policy_no=t3.policy_no and t3.attached_flag=0 and t2.cs_code=\"CT\" and abs(t2.money)>(t3.total_fee*0.1);";
 			log.info("------------ sql :" + sql);
 			statement.executeUpdate(sql);
 			log.info("------------ finish exec sql");
@@ -219,7 +219,7 @@ public class TaskService {
 			statement.executeUpdate(sql);
 			log.info("------------ finish exec sql");
 			
-			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=1,tp.status=\"终止\",tp.cs_date=tcr.cs_date where tp.policy_no=tcr.policy_no and (tp.cs_flag=0 or tp.cs_flag=2) and tcr.cs_code=\"CT\" and abs(tcr.money)=tp.total_fee;";
+			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=1,tp.status=\"终止\",tp.cs_date=tcr.cs_date where tp.cs_flag<>1 and tp.policy_no=tcr.policy_no and (tp.cs_flag=0 or tp.cs_flag=2) and tcr.cs_code=\"CT\" and abs(tcr.money)=tp.total_fee;";
 			log.info("------------ sql :" + sql);
 			statement.executeUpdate(sql);
 			log.info("------------ finish exec sql");
@@ -248,7 +248,7 @@ public class TaskService {
 			log.info("------------ sql :" + sql);
 			statement.executeUpdate(sql);
 			
-			sql = "update t_policy tp, t_cs_report tcr set tp.status=\"满期终止\",tp.cs_date=tcr.cs_date where tp.policy_no=tcr.policy_no and tcr.cs_code=\"AG\";";
+			sql = "update t_policy tp, t_cs_report tcr set tp.status=\"满期终止\",tp.cs_date=tcr.cs_date where tp.status<>\"满期终止\" and tp.policy_no=tcr.policy_no and tcr.cs_code=\"AG\";";
 			log.info("------------ sql :" + sql);
 			statement.executeUpdate(sql);
 			
@@ -325,7 +325,7 @@ public class TaskService {
 					preStat.setString(6, checkRst);
 					preStat.setString(7, "System");
 					idx++;
-					log.warn(" --------- err:" + checkRst);
+					log.warn(policyNo + " --------- err:" + checkRst);
 					preStat.execute();
 				}
 			}
@@ -337,11 +337,11 @@ public class TaskService {
 			statement.executeUpdate(updateSQL);
 			
 			//sql = "call procDealCardValid();";
-			sql = "update t_check_write set fix_status=\"CloseStatus\",fix_desc=\"已退保\",deal_man=\"System\", deal_time=now() where policy_no in (select policy_no from t_policy where cs_flag<>0);";
+			sql = "update t_check_write set fix_status=\"CloseStatus\",fix_desc=\"已退保\",deal_man=\"System\", deal_time=now() where fix_status<>\"CloseStatus\" and policy_no in (select policy_no from t_policy where cs_flag<>0);";
 			log.info("------------ sql :" + sql);
 			statement.executeUpdate(sql);
 			
-			sql = "update t_check_write cw, t_staff ts set cw.fix_status=\"CloseStatus\",cw.fix_desc=\"员工单\",cw.deal_man=\"System\",cw.deal_time=current_timestamp where cw.key_info=\"含有邮政、邮储、邮局、支行、营业所等字样\" and cw.is_pass=cast(aes_decrypt(unhex(ts.id_card), 'GDPost') as char(100));";
+			sql = "update t_check_write cw, t_staff ts set cw.fix_status=\"CloseStatus\",cw.fix_desc=\"员工单\",cw.deal_man=\"System\",cw.deal_time=current_timestamp where cw.fix_status<>\"CloseStatus\" and cw.key_info=\"含有邮政、邮储、邮局、支行、营业所等字样\" and cw.is_pass=cast(aes_decrypt(unhex(ts.id_card), 'GDPost') as char(100));";
 			log.info("------------ sql :" + sql);
 			statement.executeUpdate(sql);
 			
