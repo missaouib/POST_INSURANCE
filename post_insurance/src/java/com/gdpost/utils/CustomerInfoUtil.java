@@ -315,8 +315,8 @@ public class CustomerInfoUtil {
 			*/
 			
 			if(addr.endsWith("附近") || addr.endsWith("对面") || addr.endsWith("旁边") 
-					|| addr.endsWith("路") || addr.endsWith("街") || addr.endsWith("道") || addr.endsWith("里") || addr.endsWith("巷") 
-					|| addr.endsWith("园") || addr.endsWith("区") || addr.endsWith("镇") || addr.endsWith("乡") || addr.endsWith("县")) {
+					|| addr.endsWith("路") || addr.endsWith("街") || addr.endsWith("道") || (!isTown && addr.endsWith("里")) || addr.endsWith("巷") 
+					|| (!isTown && addr.endsWith("园")) || addr.endsWith("区") || addr.endsWith("镇") || addr.endsWith("乡") || addr.endsWith("县")) {
 				return "地址不够详细3-end;";
 			}
 			if(!hasNum && (addr.endsWith("栋") || addr.endsWith("幢") || addr.endsWith("楼"))) {
