@@ -204,14 +204,14 @@ public class CustomerInfoUtil {
 			return "地址长度太短;";
 		}
 		boolean hasNum = false;
-		String pattern = ".*[一二三四五六七八九零十百千万亿〇壹贰叁肆伍陆柒捌玖０１２３４５６７８９0-9]+.*";
+		String pattern = ".*[一二三四五六七八九零十百千万亿〇壹贰叁肆伍陆柒捌玖０１２３４５６７８９0-9a-zA-Z]+.*";
 		Pattern regex = Pattern.compile(pattern);
 		Matcher matcher = regex.matcher(addr);
 		if(matcher.matches()) {
 			hasNum = true;
 		}
 		boolean endNum = false;
-		String p2 = ".*[一二三四五六七八九零十百千万亿〇壹贰叁肆伍陆柒捌玖０１２３４５６７８９0-9]+$";
+		String p2 = ".*[一二三四五六七八九零十百千万亿〇壹贰叁肆伍陆柒捌玖０１２３４５６７８９0-9a-zA-Z]+$";
 		Pattern regex2 = Pattern.compile(p2);
 		Matcher matcher2 = regex2.matcher(addr);
 		if(matcher2.matches()) {
@@ -324,7 +324,7 @@ public class CustomerInfoUtil {
 			}
 			
 			if (endNum && !addr.contains("栋") && !addr.contains("幢") && !addr.contains("楼") && !addr.contains("座") && !addr.contains("层") 
-					&& !addr.contains("阁") && !addr.contains("榭") && !addr.contains("里") && !addr.contains("巷") && !addr.contains("厝")) {
+					&& !addr.contains("阁") && !addr.contains("榭") && !addr.contains("里") && !addr.contains("巷") && !addr.contains("厝") && !addr.contains("-") && !addr.contains("号")) {
 				return "地址不够详细4-end with num;";
 			}
 			/*
@@ -356,7 +356,7 @@ public class CustomerInfoUtil {
 			return "地址长度太短;";
 		}
 		boolean hasNum = false;
-		String pattern = ".*[一二三四五六七八九零十百千万亿〇壹贰叁肆伍陆柒捌玖０１２３４５６７８９0-9]+.*";
+		String pattern = ".*[一二三四五六七八九零十百千万亿〇壹贰叁肆伍陆柒捌玖０１２３４５６７８９0-9a-zA-Z]+.*";
 		Pattern regex = Pattern.compile(pattern);
 		Matcher matcher = regex.matcher(addr);
 		if(matcher.matches()) {
@@ -364,7 +364,7 @@ public class CustomerInfoUtil {
 		}
 		LOG.debug(" --------- hasNum: " + hasNum);
 		boolean endNum = false;
-		String p2 = ".*[一二三四五六七八九零十百千万亿〇壹贰叁肆伍陆柒捌玖０１２３４５６７８９0-9]+$";
+		String p2 = ".*[一二三四五六七八九零十百千万亿〇壹贰叁肆伍陆柒捌玖０１２３４５６７８９0-9a-zA-Z]+$";
 		Pattern regex2 = Pattern.compile(p2);
 		Matcher matcher2 = regex2.matcher(addr);
 		if(matcher2.matches()) {
@@ -729,7 +729,7 @@ public class CustomerInfoUtil {
 		
 		//String city = "肇庆";
 		//String area = "四会";
-		String addr = "东莞市凤岗镇竹尾田麻浦坳工业区";
+		String addr = "广东省东莞市东莞县高步镇低涌工业区宝元C栋";
 		//System.out.println(addr.length() - addr.indexOf(city));
 		//System.out.println(addr.length() - addr.indexOf(area));
 		System.out.println(CustomerInfoUtil.testAddr("814400000124544", addr));
