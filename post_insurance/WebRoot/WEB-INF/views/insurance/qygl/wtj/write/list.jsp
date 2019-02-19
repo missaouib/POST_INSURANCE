@@ -95,11 +95,13 @@
 	<div class="panelBar">
 		<ul class="toolBar">
 			<shiro:hasPermission name="CheckWrite:view">
-				<li><a iconClass="magnifier" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/qygl/issue/write/view/{slt_uid}"><span>查看详情</span></a></li>
+				<li><a iconClass="magnifier" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/qygl/issue/write/view/{slt_uid}"><span>处理详情</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="CheckWrite:edit">
 				<li class="line">line</li>
 				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/qygl/issue/write/update/{slt_uid}"><span>回复</span></a></li>
+				<li class="line">line</li>
+				<li><a class="edit" target="selectedTodo" rel="ids" href="${contextPath }/qygl/issue/write/close" title="确认已完成整改?"><span>确认整改完毕</span></a></li>
 			</shiro:hasPermission>
 			<li><a class="icon" target="_blank" href="${contextPath }/qygl/issue/write/toXls?checker=${checker }&keyInfo=${keyInfo }&fixStatus=${status }&orgCode=${orgCode }&search_GTE_policy.policyDate=${search_GTE_policy_policyDate}&search_LTE_policy.policyDate=${search_LTE_policy_policyDate}&search_GTE_replyTime=${param.search_GTE_replyTime}&search_LTE_replyTime=${param.search_LTE_replyTime}&search_LIKE_checkBatch=${param.search_LIKE_checkBatch}"><span>导出Excel</span></a></li>
 			<li class="line">line</li>

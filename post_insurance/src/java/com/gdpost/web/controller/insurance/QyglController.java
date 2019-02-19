@@ -146,7 +146,11 @@ public class QyglController {
 		src.setDealTime(issue.getDealTime());
 		src.setFixType(issue.getFixType());
 		src.setFixDesc(issue.getFixDesc());
-		src.setFixStatus(QY_STATUS.IngStatus.name());
+		if(issue.getFixType().contains("继续跟进") || issue.getFixDesc().contains("继续跟进")) {
+			//nothing
+		} else {
+			src.setFixStatus(QY_STATUS.IngStatus.name());
+		}
 		src.setReplyTime(new Date());
 		qyglService.saveOrUpdateCheckWrite(src);
 		

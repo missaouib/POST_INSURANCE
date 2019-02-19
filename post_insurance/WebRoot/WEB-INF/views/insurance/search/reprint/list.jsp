@@ -89,7 +89,7 @@
 				<td>${item.formNo}</td>
 				<td>${item.policyNo}</td>
 				<td>${item.status}</td>
-				<td>${item.emsNo}</td>
+				<td><a target="_blank" href="https://m.kuaidi100.com/index_all.html?type=ems%20&postid=${item.emsNo}"><div style="color: blue;vertical-align:middle;font-weight:normal;">${item.emsNo}</div></a></td>
 				<td><fmt:formatDate value="${item.printDate }" pattern="yyyy-MM-dd"/></td>
 				<td>
 					<c:choose>
