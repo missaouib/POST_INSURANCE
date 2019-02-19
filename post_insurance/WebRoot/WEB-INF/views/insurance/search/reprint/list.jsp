@@ -28,8 +28,8 @@
 						<label>标记：</label>
 						<select name="plFlag" id="policyFlag" class="combox">
 							<option value=""> -- -- </option>
-							<option value="个险新单" <%if(request.getAttribute("plFlag") != null && request.getAttribute("plFlag").equals("个险新单")){%>selected<%} %>>个险新单</option>
-							<option value="个险保全补打" <%if(request.getAttribute("plFlag") != null && request.getAttribute("plFlag").equals("个险保全补打")){%>selected<%} %>>个险保全补打</option>
+							<option value="承保新单" <%if(request.getAttribute("plFlag") != null && request.getAttribute("plFlag").equals("承保新单")){%>selected<%} %>>承保新单</option>
+							<option value="保全补发" <%if(request.getAttribute("plFlag") != null && request.getAttribute("plFlag").equals("保全补发")){%>selected<%} %>>保全补发</option>
 						</select>
 					</td>
 					<td>
@@ -93,7 +93,7 @@
 				<td><fmt:formatDate value="${item.printDate }" pattern="yyyy-MM-dd"/></td>
 				<td>
 					<c:choose>
-					<c:when test="${item.plFlag eq '个险保全补打'}">
+					<c:when test="${item.plFlag eq '保全补发'}">
 						合同补发
 					</c:when>
 					<c:otherwise>
