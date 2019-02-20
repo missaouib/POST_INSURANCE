@@ -323,7 +323,7 @@ public class CustomerInfoUtil {
 				return "地址缺门牌号码;";
 			}
 			
-			if (endNum && !addr.contains("栋") && !addr.contains("幢") && !addr.contains("楼") && !addr.contains("座") && !addr.contains("层") 
+			if (endNum && !isTown && !addr.contains("栋") && !addr.contains("幢") && !addr.contains("楼") && !addr.contains("座") && !addr.contains("层") 
 					&& !addr.contains("阁") && !addr.contains("榭") && !addr.contains("里") && !addr.contains("巷") && !addr.contains("厝") && !addr.contains("-") && !addr.contains("号")) {
 				if((addr.contains("路") || addr.contains("道") || addr.contains("街")) 
 						&& (addr.length()-addr.indexOf("路")>5 || addr.length()-addr.indexOf("道")>5 || addr.length()-addr.indexOf("街")>5)) {
