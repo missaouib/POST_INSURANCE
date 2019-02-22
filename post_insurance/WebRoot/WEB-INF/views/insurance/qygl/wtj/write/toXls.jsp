@@ -32,6 +32,7 @@ response.setHeader("Content-Disposition", "inline; filename=QY_Write_LIST.xls");
 				<th>经办人</th>
 				<th>经办日期</th>
 				<th>回复日期</th>
+				<th>抽检人</th>
 				<th>档案下发</th>
 			</tr>
 		</thead>
@@ -89,6 +90,7 @@ response.setHeader("Content-Disposition", "inline; filename=QY_Write_LIST.xls");
 				<td>${item.dealMan=="null"?"":item.dealMan}</td>
 				<td><fmt:formatDate value="${item.dealTime }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.replyTime }" pattern="yyyy-MM-dd"/></td>
+				<td>${item.checker}</td>
 				<td>
 				<c:choose>  
 					    <c:when test="${item.payMethod eq '期交' or item.payMethod eq '趸交'}">  

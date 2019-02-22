@@ -13,7 +13,8 @@
 	<input type="hidden" name="fixStatus" value="${status }"/>
 	<input type="hidden" name="checker" value="${checker }"/>
 	<input type="hidden" name="keyInfo" value="${keyInfo }"/>
-	<input type="hidden" name="search_LIKE_checkBatch" value="${param.search_LIKE_checkBatch }"/>
+	<input type="hidden" name="search_GTE_checkBatch" value="${param.search_GTE_checkBatch }"/>
+	<input type="hidden" name="search_LTE_checkBatch" value="${param.search_LTE_checkBatch }"/>
 </dwz:paginationForm>
 
 <form id="qyWriteForm" method="post" action="${contextPath }/qygl/issue/write/list" onsubmit="return navTabSearch(this)">
@@ -22,10 +23,16 @@
 		<table class="searchContent">
 				<tr>
 					<td>
-						保单号：<input type="text" id="qyWritePolicyNo" style="width: 100px;" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
+						<label>保单号：</label>
+						<input type="text" id="qyWritePolicyNo" style="width: 100px;" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
 					</td>
 					<td>
-						批次号：<input type="text" id="qyWritebatchNo" style="width: 100px;" name="search_LIKE_checkBatch" value="${param.search_LIKE_checkBatch }"/>
+						<label>批次号：</label>
+						<input type="text" id="qyWriteGTEbatchNo" style="width: 100px;" name="search_GTE_checkBatch" value="${param.search_GTE_checkBatch }"/>
+					</td>
+					<td>
+						<label>批次号：</label>
+						<input type="text" id="qyWriteLTEbatchNo" style="width: 100px;" name="search_LTE_checkBatch" value="${param.search_LTE_checkBatch }"/>
 					</td>
 					<td>
 						<label>状态：</label>
@@ -50,19 +57,19 @@
 				</tr>
 				<tr>
 					<td>
-						<label>承保开始日期：</label>
+						<label>承保日期：</label>
 						<input type="text" name="search_GTE_policy.policyDate" id="qy_w_date1" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${search_GTE_policy_policyDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
-						<label>承保结束日期：</label>
+						<label>承保日期：</label>
 						<input type="text" name="search_LTE_policy.policyDate" id="qy_w_date2" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${search_LTE_policy_policyDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
-						<label>回复开始日期：</label>
+						<label>回复日期：</label>
 						<input type="text" name="search_GTE_replyTime" id="qyw_d_date1" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_replyTime }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
-						<label>回复结束日期：</label>
+						<label>回复日期：</label>
 						<input type="text" name="search_LTE_replyTime" id="qyw_d_date2" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_replyTime }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
@@ -79,6 +86,7 @@
 							<form:option value="姓名有误">姓名有误</form:option>
 						</form:select>
 					</td>
+					<td>&nbsp;</td>
 				</tr>
 			</table>
 			<div class="subBar">
@@ -103,7 +111,7 @@
 				<li class="line">line</li>
 				<li><a class="edit" target="selectedTodo" rel="ids" href="${contextPath }/qygl/issue/write/close" title="确认已完成整改?"><span>确认整改完毕</span></a></li>
 			</shiro:hasPermission>
-			<li><a class="icon" target="_blank" href="${contextPath }/qygl/issue/write/toXls?checker=${checker }&keyInfo=${keyInfo }&fixStatus=${status }&orgCode=${orgCode }&search_GTE_policy.policyDate=${search_GTE_policy_policyDate}&search_LTE_policy.policyDate=${search_LTE_policy_policyDate}&search_GTE_replyTime=${param.search_GTE_replyTime}&search_LTE_replyTime=${param.search_LTE_replyTime}&search_LIKE_checkBatch=${param.search_LIKE_checkBatch}"><span>导出Excel</span></a></li>
+			<li><a class="icon" target="_blank" href="${contextPath }/qygl/issue/write/toXls?checker=${checker }&keyInfo=${keyInfo }&fixStatus=${status }&orgCode=${orgCode }&search_GTE_policy.policyDate=${search_GTE_policy_policyDate}&search_LTE_policy.policyDate=${search_LTE_policy_policyDate}&search_GTE_replyTime=${param.search_GTE_replyTime}&search_LTE_replyTime=${param.search_LTE_replyTime}&search_GTE_checkBatch=${param.search_GTE_checkBatch}&search_LTE_checkBatch=${param.search_LTE_checkBatch}"><span>导出Excel</span></a></li>
 			<li class="line">line</li>
 			<li><a class="icon" target="dialog" href="${contextPath }/qygl/help" mask="true" width="530" height="430"><span>功能说明</span></a></li>
 		</ul>
