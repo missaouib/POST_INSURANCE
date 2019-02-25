@@ -112,9 +112,9 @@ public class XqglServiceImpl implements XqglService {
 					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
 		}
 		Page page = new Page();
-		page.setNumPerPage(10);
+		page.setNumPerPage(5);
 		page.setOrderField("policy.policyDate");
-		page.setOrderDirection("ASC");
+		page.setOrderDirection("Desc");
 		
 		List<RenewedList> issues = this.findByExample(specification, page);
 		if (issues == null || issues.isEmpty()) {

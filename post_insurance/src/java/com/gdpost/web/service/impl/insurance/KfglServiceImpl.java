@@ -99,9 +99,9 @@ public class KfglServiceImpl implements KfglService {
 	public List<Issue> getTODOIssueList(User user) {
 		Organization userOrg = user.getOrganization();
 		Page page = new Page();
-		page.setNumPerPage(10);
+		page.setNumPerPage(5);
 		page.setOrderField("shouldDate");
-		page.setOrderDirection("ASC");
+		page.setOrderDirection("DESC");
 		//默认返回未处理工单
 		Specification<Issue> specification = null;
 		

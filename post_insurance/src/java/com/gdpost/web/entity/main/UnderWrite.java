@@ -80,6 +80,8 @@ public class UnderWrite implements Idable<Long> {
 	private String netName;
 	private PolicyDtl policyDtl;
 	
+	private String feeType;
+	
 	private PayFailList payFailList;
 	@Transient
 	private boolean payFail;
@@ -633,6 +635,14 @@ public class UnderWrite implements Idable<Long> {
 	
 	public void setPayFailList(PayFailList payFailList) {
 		this.payFailList = payFailList;
+	}
+	
+	@Column(name="fee_type")
+	public String getFeeType() {
+		return feeType;
+	}
+	public void setFeeType(String feeType) {
+		this.feeType = feeType;
 	}
 	
 	

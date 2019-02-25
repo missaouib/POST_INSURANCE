@@ -147,7 +147,7 @@ public class BqglServiceImpl implements BqglService {
 					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
 		}
 		Page page = new Page();
-		page.setNumPerPage(10);
+		page.setNumPerPage(5);
 		LOG.debug("------------ ready to search:");
 		List<ConservationDtl> issues = this.findByExample(specification, page);
 		if (issues == null || issues.isEmpty()) {

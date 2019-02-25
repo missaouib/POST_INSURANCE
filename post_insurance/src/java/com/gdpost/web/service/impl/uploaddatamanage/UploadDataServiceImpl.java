@@ -1325,7 +1325,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			break;
 		case UnderWriteDtlData:
 			standardColumns = UnderWriteDtlColumn.getStandardColumns();
-			sql = new StringBuffer("INSERT INTO t_under_write(policy_no,prd_name,policy_fee,perm,underwrite_reason,issue,insured_age,insured_sex,insured_job,ybt_date,sys_date,check_date,"
+			sql = new StringBuffer("INSERT INTO t_under_write(form_no, policy_no,prd_name,policy_fee,perm,fee_type,underwrite_reason,issue,insured_age,insured_sex,insured_job,ybt_date,sys_date,check_date,"
 					+ "body_check_date1,body_check_date2,deal_check_date1,deal_check_date2,hb_end_date,prov_send_date,sign_date,client_receive_date,bill_back_date,form_write_date) VALUES ");
 			line = null;
 			for (DataRow row : dt.Rows) {
@@ -1348,8 +1348,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        	sql.append(line);
 	        }
 			sql.deleteCharAt(sql.length() - 1);
-			sql.append(" ON DUPLICATE KEY UPDATE prd_name=VALUES(prd_name), ");
-			sql.append("policy_fee=VALUES(policy_fee), perm=VALUES(perm), ");
+			sql.append(" ON DUPLICATE KEY UPDATE form_no=VALUES(form_no), policy_no=VALUES(policy_no),prd_name=VALUES(prd_name), ");
+			sql.append("policy_fee=VALUES(policy_fee), perm=VALUES(perm), fee_type=VALUES(fee_type), ");
 			sql.append("underwrite_reason=VALUES(underwrite_reason), issue=VALUES(issue), insured_age=VALUES(insured_age), insured_sex=VALUES(insured_sex), insured_job=VALUES(insured_job), ");
 			sql.append("ybt_date=VALUES(ybt_date), sys_date=VALUES(sys_date), ");
 			sql.append("check_date=VALUES(check_date), body_check_date1=VALUES(body_check_date1), ");
@@ -1358,7 +1358,10 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql.append("client_receive_date=VALUES(client_receive_date), bill_back_date=VALUES(bill_back_date), ");
 			sql.append("form_write_date=VALUES(form_write_date);");
 			log.debug("----------------batch update : " + sql);
-			sql2 = "delete from t_under_write where form_no is null or ybt_date is null;";
+			sql2 = "delete from t_under_write where form_no is null;";
+			log.debug("----------------batch update2 : " + sql2);
+			sql3 = "update t_under_write uw, t_policy tp, t_prd prd set uw.product_id=prd.id where uw.policy_no=tp.policy_no and tp.attached_flag=0 and tp.prod_code=left(prd.prd_code,6);";
+			sql4= "update t_under_write uw, t_policy tp, t_organization org set uw.organ_id=org.id where uw.policy_no=tp.policy_no and tp.organ_code=org.org_code and tp.attached_flag=0;";
 			break;
 		case UnderWriteRemark:
 			standardColumns = UnderWriteRemarkColumn.getStandardColumns();
