@@ -229,6 +229,7 @@ public class QyglController {
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("needFix", Operator.EQ, "要整改"));
 		if(status.trim().length()>0) {
 			csf.add(new SearchFilter("fixStatus", Operator.EQ, status));
 		}
@@ -239,15 +240,18 @@ public class QyglController {
 			switch(keyInfo) {
 			case "Email":
 			case "销售人员":
-			case "地址":
 			case "号码有误":
 			case "关系不符逻辑要求":
 			case "联系方式":
 			case "姓名有误":
 				csf.add(new SearchFilter("keyInfo", Operator.LIKE, keyInfo));
-				if(keyInfo.equals("地址")) {
-					csf.add(new SearchFilter("keyInfo", Operator.NOT_LIKE, "Email"));
-				}
+				break;
+			case "地址":
+				csf.add(new SearchFilter("keyInfo", Operator.OR_LIKE, "地址长度"));
+				csf.add(new SearchFilter("keyInfo", Operator.OR_LIKE, "地址含有邮政关键信息"));
+				csf.add(new SearchFilter("keyInfo", Operator.OR_LIKE, "地址疑似不够详细"));
+				csf.add(new SearchFilter("keyInfo", Operator.OR_LIKE, "地址不够详细"));
+				csf.add(new SearchFilter("keyInfo", Operator.OR_LIKE, "地址缺门牌号码"));
 				break;
 			case "证件":
 				csf.add(new SearchFilter("keyInfo", Operator.OR_LIKE, "证件号码"));
@@ -282,14 +286,24 @@ public class QyglController {
 		} else if(!orgCode.contains(userOrg.getOrgCode())){
 			orgCode = userOrg.getOrgCode();
 		}
-		request.setAttribute("status", status);
 		page.setPageNum(0);
 		page.setNumPerPage(Integer.MAX_VALUE);
 		
+		log.debug("-------------- orgCode: " + orgCode);
+		if(status == null) {
+			status = QY_STATUS.NewStatus.name();
+		}
+		
 		String keyInfo = request.getParameter("keyInfo");
+		
+		if(page.getOrderField() == null || page.getOrderField().trim().length() <= 0) {
+			page.setOrderField("id");
+			page.setOrderDirection("ASC");
+		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("needFix", Operator.EQ, "要整改"));
 		if(status.trim().length()>0) {
 			csf.add(new SearchFilter("fixStatus", Operator.EQ, status));
 		}
@@ -300,15 +314,18 @@ public class QyglController {
 			switch(keyInfo) {
 			case "Email":
 			case "销售人员":
-			case "地址":
 			case "号码有误":
 			case "关系不符逻辑要求":
 			case "联系方式":
 			case "姓名有误":
 				csf.add(new SearchFilter("keyInfo", Operator.LIKE, keyInfo));
-				if(keyInfo.equals("地址")) {
-					csf.add(new SearchFilter("keyInfo", Operator.NOT_LIKE, "Email"));
-				}
+				break;
+			case "地址":
+				csf.add(new SearchFilter("keyInfo", Operator.OR_LIKE, "地址长度"));
+				csf.add(new SearchFilter("keyInfo", Operator.OR_LIKE, "地址含有邮政关键信息"));
+				csf.add(new SearchFilter("keyInfo", Operator.OR_LIKE, "地址疑似不够详细"));
+				csf.add(new SearchFilter("keyInfo", Operator.OR_LIKE, "地址不够详细"));
+				csf.add(new SearchFilter("keyInfo", Operator.OR_LIKE, "地址缺门牌号码"));
 				break;
 			case "证件":
 				csf.add(new SearchFilter("keyInfo", Operator.OR_LIKE, "证件号码"));

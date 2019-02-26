@@ -97,7 +97,7 @@ public class PayListServiceImpl implements PayListService {
 				new SearchFilter("organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
 		
 		Page page = new Page();
-		page.setNumPerPage(100);
+		page.setNumPerPage(5);
 		List<PayFailList> issues = this.findByExample(specification, page);
 		if (issues == null || issues.isEmpty()) {
 			issues = new ArrayList<PayFailList>();
@@ -117,7 +117,7 @@ public class PayListServiceImpl implements PayListService {
 				new SearchFilter("organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
 		
 		Page page = new Page();
-		page.setNumPerPage(100);
+		page.setNumPerPage(5);
 		List<PayFailList> issues = this.findByExample(specification, page);
 		if (issues == null || issues.isEmpty()) {
 			issues = new ArrayList<PayFailList>();
@@ -137,7 +137,7 @@ public class PayListServiceImpl implements PayListService {
 				new SearchFilter("organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
 		
 		Page page = new Page();
-		page.setNumPerPage(100);
+		page.setNumPerPage(5);
 		List<PayFailList> issues = this.findByExample(specification, page);
 		if (issues == null || issues.isEmpty()) {
 			issues = new ArrayList<PayFailList>();
@@ -157,7 +157,7 @@ public class PayListServiceImpl implements PayListService {
 				new SearchFilter("organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
 		
 		Page page = new Page();
-		page.setNumPerPage(100);
+		page.setNumPerPage(5);
 		List<PayFailList> issues = this.findByExample(specification, page);
 		if (issues == null || issues.isEmpty()) {
 			issues = new ArrayList<PayFailList>();
@@ -178,7 +178,7 @@ public class PayListServiceImpl implements PayListService {
 				new SearchFilter("organization.orgCode", Operator.OR_LIKE, userOrg.getOrgCode()));
 		
 		Page page = new Page();
-		page.setNumPerPage(100);
+		page.setNumPerPage(5);
 		List<PayFailList> issues = this.findByExample(specification, page);
 		if (issues == null || issues.isEmpty()) {
 			issues = new ArrayList<PayFailList>();
@@ -235,7 +235,7 @@ public class PayListServiceImpl implements PayListService {
 				new SearchFilter("organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
 		
 		Page page = new Page();
-		page.setNumPerPage(100);
+		page.setNumPerPage(5);
 		List<PaySuccessList> issues = this.findBySuccessDtlExample(specification, page);
 		if (issues == null || issues.isEmpty()) {
 			issues = new ArrayList<PaySuccessList>();
@@ -255,7 +255,7 @@ public class PayListServiceImpl implements PayListService {
 				new SearchFilter("organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
 		
 		Page page = new Page();
-		page.setNumPerPage(100);
+		page.setNumPerPage(5);
 		List<PaySuccessList> issues = this.findBySuccessDtlExample(specification, page);
 		if (issues == null || issues.isEmpty()) {
 			issues = new ArrayList<PaySuccessList>();
@@ -275,7 +275,7 @@ public class PayListServiceImpl implements PayListService {
 				new SearchFilter("organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
 		
 		Page page = new Page();
-		page.setNumPerPage(100);
+		page.setNumPerPage(5);
 		List<PaySuccessList> issues = this.findBySuccessDtlExample(specification, page);
 		if (issues == null || issues.isEmpty()) {
 			issues = new ArrayList<PaySuccessList>();
@@ -295,7 +295,7 @@ public class PayListServiceImpl implements PayListService {
 				new SearchFilter("organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
 		
 		Page page = new Page();
-		page.setNumPerPage(100);
+		page.setNumPerPage(5);
 		List<PaySuccessList> issues = this.findBySuccessDtlExample(specification, page);
 		if (issues == null || issues.isEmpty()) {
 			issues = new ArrayList<PaySuccessList>();
@@ -316,7 +316,7 @@ public class PayListServiceImpl implements PayListService {
 				new SearchFilter("organization.orgCode", Operator.OR_LIKE, userOrg.getOrgCode()));
 		
 		Page page = new Page();
-		page.setNumPerPage(100);
+		page.setNumPerPage(5);
 		List<PaySuccessList> issues = this.findBySuccessDtlExample(specification, page);
 		if (issues == null || issues.isEmpty()) {
 			issues = new ArrayList<PaySuccessList>();
