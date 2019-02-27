@@ -10,6 +10,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import com.gdpost.web.entity.Idable;
 
 /**
@@ -17,7 +20,7 @@ import com.gdpost.web.entity.Idable;
  */
 @Entity
 @Table(name = "t_sales")
-
+@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="com.gdpost.web.entity.basedata.Sales")
 public class Sales implements Idable<Long>, Serializable {
 
 	// Fields

@@ -68,23 +68,23 @@
 		</p>
 		<p class="nowrap">
 			<label>关键信息错误情况：</label>
-			<span class="unit">${issue.keyInfo=="null"?"":issue.keyInfo }</span>
+			<span class="unit">${empty issue.keyInfo?"":issue.keyInfo }</span>
 		</p>
 		<p class="nowrap">
 			<label>重要信息错误情况：</label>
-			<span class="unit">${issue.importanceInfo=="null"?"":issue.importanceInfo }</span>
+			<span class="unit">${empty issue.importanceInfo?"":issue.importanceInfo }</span>
 		</p>
 		<p class="nowrap">
 			<label>其他信息错误情况：</label>
-			<span class="unit">${issue.elseInfo=="null"?"":issue.elseInfo }</span>
+			<span class="unit">${empty issue.elseInfo?"":issue.elseInfo }</span>
 		</p>
 		<p>
 			<label>扫描错误：</label>
-			<span class="unit">${issue.docError=='null'?'':issue.docError }</span>
+			<span class="unit">${empty issue.docError?'':issue.docError }</span>
 		</p>
 		<p class="nowrap">
 			<label>扫描缺失情况：</label>
-			<span class="unit">${issue.docMiss=="null"?"":issue.docMiss }</span>
+			<span class="unit">${empty issue.docMiss?"":issue.docMiss }</span>
 		</p>
 	</fieldset>
 	<div class="divider"></div>

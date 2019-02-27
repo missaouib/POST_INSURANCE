@@ -16,8 +16,6 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.JoinColumnOrFormula;
 import org.hibernate.annotations.JoinColumnsOrFormulas;
 import org.hibernate.annotations.JoinFormula;
@@ -29,7 +27,6 @@ import com.gdpost.web.entity.Idable;
  */
 @Entity
 @Table(name = "t_check_write", uniqueConstraints={@UniqueConstraint(columnNames={"policy_no", "prd_name"})})
-@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="com.gdpost.web.entity.main.CheckWrite")
 public class CheckWrite implements Idable<Long> {
 
 	// Fields

@@ -99,19 +99,7 @@
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.gdpost.web.entity.main.Issue"
-		maxEntriesLocalHeap="10000" 
-		eternal="false" 
-		overflowToDisk="true"
-		maxEntriesLocalDisk="100000" />
-	<cache 
 		name="com.gdpost.web.entity.main.ConvictedInfo"
-		maxEntriesLocalHeap="10000" 
-		eternal="false" 
-		overflowToDisk="true"
-		maxEntriesLocalDisk="100000" />
-	<cache 
-		name="com.gdpost.web.entity.main.ConservationDtl"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
@@ -123,43 +111,7 @@
 		overflowToDisk="true"
 		maxEntriesLocalDisk="100000" />
 	<cache 
-		name="com.gdpost.web.entity.main.CheckWrite"
-		maxEntriesLocalHeap="10000" 
-		eternal="false" 
-		overflowToDisk="true"
-		maxEntriesLocalDisk="100000" />
-	<cache 
-		name="com.gdpost.web.entity.main.CheckRecord"
-		maxEntriesLocalHeap="10000" 
-		eternal="false" 
-		overflowToDisk="true"
-		maxEntriesLocalDisk="100000" />
-	<cache 
-		name="com.gdpost.web.entity.main.CheckWriteDtl"
-		maxEntriesLocalHeap="10000" 
-		eternal="false" 
-		overflowToDisk="true"
-		maxEntriesLocalDisk="100000" />
-	<cache 
-		name="com.gdpost.web.entity.main.CheckRecordDtl"
-		maxEntriesLocalHeap="10000" 
-		eternal="false" 
-		overflowToDisk="true"
-		maxEntriesLocalDisk="100000" />
-	<cache 
 		name="com.gdpost.web.entity.main.CategoryOrg"
-		maxEntriesLocalHeap="10000" 
-		eternal="false" 
-		overflowToDisk="true"
-		maxEntriesLocalDisk="100000" />
-	<cache 
-		name="com.gdpost.web.entity.main.CallFeedback"
-		maxEntriesLocalHeap="10000" 
-		eternal="false" 
-		overflowToDisk="true"
-		maxEntriesLocalDisk="100000" />
-	<cache 
-		name="com.gdpost.web.entity.main.CallFail"
 		maxEntriesLocalHeap="10000" 
 		eternal="false" 
 		overflowToDisk="true"
@@ -220,6 +172,30 @@
 		maxEntriesLocalDisk="100000" />
 	<cache 
 		name="com.gdpost.web.entity.main.PolicyReprintDtl"
+		maxEntriesLocalHeap="1000" 
+		eternal="false" 
+		overflowToDisk="true"
+		maxEntriesLocalDisk="10000" />
+	<cache 
+		name="com.gdpost.web.entity.basedata.Sales"
+		maxEntriesLocalHeap="1000" 
+		eternal="false" 
+		overflowToDisk="true"
+		maxEntriesLocalDisk="10000" />
+	<cache 
+		name="com.gdpost.web.entity.component.CsAddr"
+		maxEntriesLocalHeap="1000" 
+		eternal="false" 
+		overflowToDisk="true"
+		maxEntriesLocalDisk="10000" />
+	<cache 
+		name="com.gdpost.web.entity.component.CsReport"
+		maxEntriesLocalHeap="1000" 
+		eternal="false" 
+		overflowToDisk="true"
+		maxEntriesLocalDisk="10000" />
+	<cache 
+		name="com.gdpost.web.entity.component.Staff"
 		maxEntriesLocalHeap="1000" 
 		eternal="false" 
 		overflowToDisk="true"

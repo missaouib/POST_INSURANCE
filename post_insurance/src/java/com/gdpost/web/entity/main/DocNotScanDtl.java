@@ -18,7 +18,6 @@ import com.gdpost.web.entity.Idable;
  */
 @Entity
 @Table(name = "t_doc_not_scan_dtl", uniqueConstraints = @UniqueConstraint(columnNames = "policy_no"))
-
 public class DocNotScanDtl implements Idable<Long> {
 
 	// Fields

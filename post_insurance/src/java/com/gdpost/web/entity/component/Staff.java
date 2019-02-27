@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.ColumnTransformer;
 
 import com.gdpost.web.entity.Idable;
@@ -18,7 +20,7 @@ import com.gdpost.web.entity.Idable;
  */
 @Entity
 @Table(name = "t_staff")
-
+@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="com.gdpost.web.entity.component.Staff")
 public class Staff implements Idable<Long>,Serializable {
 
 	/**

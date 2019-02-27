@@ -245,6 +245,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			standardColumns = CheckColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_check_write character set utf8 (fix_status, ";
 			sql1 = "update t_check_write set need_fix=\"要整改\" where key_info is not null and length(key_info)>0;";
+			sql2 = "update t_check_write cw, t_policy tp set cw.form_no=tp.form_no where cw.policy_no=tp.policy_no and tp.attached_flag=0 and cw.form_no is null and need_fix=\"要整改\";";
 			break;
 		case CheckRecord:
 			standardColumns = CheckColumn.getStandardColumns();
@@ -1225,7 +1226,13 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql.append(" ON DUPLICATE KEY UPDATE ");
 			sql.append("fix_desc=VALUES(fix_desc), deal_man=VALUES(deal_man), deal_time=VALUES(deal_time), fix_status=VALUES(fix_status);");
 			log.debug("---------------check city back data sql : " + sql);
-			sql2 = "delete from t_check_write where form_no is null;";
+			sql2 = "delete from t_check_write where need_fix is null;";
+			sql3 = "update t_check_write set fix_type=\"已整改完毕\" where fix_type is null and need_fix=\"要整改\" and fix_desc like \"%整改完毕%\";";
+			sql4 = "update t_check_write set fix_type=\"多次联系不上客户\" where fix_type is null and need_fix=\"要整改\" and fix_desc like \"%联系不上%\";";
+			sql5 = "update t_check_write set fix_type=\"客户不愿意配合整改\" where fix_type is null and need_fix=\"要整改\" and fix_desc like \"%不愿意配合%\";";
+			sql6 = "update t_check_write set fix_type=\"核实无误\" where fix_type is null and need_fix=\"要整改\" and fix_desc like \"%核实无误%\";";
+			sql7 = "update t_check_write set fix_type=\"继续跟进\" where fix_type is null and need_fix=\"要整改\" and fix_desc like \"%继续跟进%\";";
+			sql8 = "update t_check_write set fix_type=\"其他\" where fix_type is null and fix_desc is not null and need_fix=\"要整改\";";
 			break;
 		case PayToFailList:
 			return dr;
