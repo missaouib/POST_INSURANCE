@@ -171,10 +171,10 @@
 				<td>${item.elseInfo=="null"?"":item.elseInfo}</td>
 				<td>
 				<c:choose>  
-					    <c:when test="${fn:length(item.netName) > 14}">  
+					    <c:when test="${!empty item.netName && fn:length(item.netName) > 14}">  
 					        <c:out value="${fn:substring(item.netName, 14, 30)}" />  
 					    </c:when> 
-					    <c:when test="${fn:length(item.netName) > 0}">  
+					    <c:when test="${!empty item.netName && fn:length(item.netName) > 0}">  
 					        <c:out value="${item.netName}" />  
 					    </c:when> 
 					   <c:otherwise>  

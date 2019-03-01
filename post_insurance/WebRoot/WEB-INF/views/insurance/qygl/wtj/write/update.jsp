@@ -42,10 +42,10 @@
 			<label>出单网点：</label>
 			<span class="unit">
 			<c:choose>  
-					    <c:when test="${fn:length(issue.netName) > 14}">  
+					    <c:when test="${!empty item.netName && fn:length(issue.netName) > 14}">  
 					        <c:out value="${fn:substring(issue.netName, 14, 30)}" />  
 					    </c:when> 
-					    <c:when test="${fn:length(issue.netName) > 0}">  
+					    <c:when test="${!empty item.netName && fn:length(issue.netName) > 0}">  
 					        <c:out value="${issue.netName}" />  
 					    </c:when> 
 					   <c:otherwise>  

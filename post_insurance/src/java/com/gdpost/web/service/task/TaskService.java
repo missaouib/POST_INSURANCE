@@ -166,7 +166,7 @@ public class TaskService {
 			statement.executeUpdate(sql);
 			log.info("------------ finish exec sql");
 			
-			sql = "update t_policy tp, t_renewed_list rdl set tp.status=\"失效终止\" where tp.policy_no=rdl.policy_no and tp.status=\"有效\" and rdl.fee_status<>\"交费成功\" and TIMESTAMPDIFF(DAY,rdl.fee_date,now())>61 and rdl.policy_no not in (select psl.rel_no from t_pay_success_list psl where TIMESTAMPDIFF(DAY,psl.back_date,now())>60);";
+			sql = "update t_policy tp, t_renewed_list rdl set tp.status=\"失效\" where tp.policy_no=rdl.policy_no and tp.status=\"有效\" and rdl.fee_status<>\"交费成功\" and TIMESTAMPDIFF(DAY,rdl.fee_date,now())>61 and rdl.policy_no not in (select psl.rel_no from t_pay_success_list psl where TIMESTAMPDIFF(DAY,psl.back_date,now())>60);";
 			log.info("------------ sql :" + sql);
 			statement.executeUpdate(sql);
 			log.info("------------ finish exec sql");
