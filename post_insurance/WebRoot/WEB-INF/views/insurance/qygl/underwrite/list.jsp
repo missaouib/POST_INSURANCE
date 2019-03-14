@@ -159,7 +159,7 @@
 				<td title="${item.policyNo}">${item.policyNo}</td>
 				<td><fmt:formatDate value="${item.signDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.provSendDate }" pattern="yyyy-MM-dd"/></td>
-				<td>${item.provEmsNo}</td>
+				<td><a target="_blank" href="https://m.kuaidi100.com/index_all.html?type=ems%20&postid=${item.provEmsNo}"><div style="color: blue;vertical-align:middle;font-weight:normal;">${item.provEmsNo}</div></a></td>
 				<td>${item.longDate}</td>
 				<td>${item.hadSendDate}</td>
 				<td>${item.payFail?"失败":""}</td>
