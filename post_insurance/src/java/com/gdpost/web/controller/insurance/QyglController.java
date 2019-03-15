@@ -177,13 +177,23 @@ public class QyglController {
 	@Log(message="结案了{0}新契约填写不合格件的信息。", level=LogLevel.WARN, module=LogModule.QYGL)
 	@RequiresPermissions("CheckWrite:edit")
 	@RequestMapping(value="/issue/write/close", method=RequestMethod.POST)
-	public @ResponseBody String closeCheckWrite(CheckWrite issue) {
+	public @ResponseBody String closeCheckWrite(Long[] ids) {
 		//ShiroUser shiroUser = SecurityUtils.getShiroUser();
-		CheckWrite src = qyglService.getCheckWrite(issue.getId());
-		src.setFixStatus(QY_STATUS.CloseStatus.name());
-		qyglService.saveOrUpdateCheckWrite(src);
+		String[] policys = new String[ids.length];
+		try {
+			for (int i = 0; i < ids.length; i++) {
+				CheckWrite src = qyglService.getCheckWrite(ids[i]);
+				src.setFixStatus(QY_STATUS.CloseStatus.name());
+				qyglService.saveOrUpdateCheckWrite(src);
+				
+				policys[i] = src.getPolicy().getPolicyNo();
+			}
+		} catch (ServiceException e) {
+			return AjaxObject.newError("删除人核件信息失败：" + e.getMessage()).setCallbackType("").toString();
+		}
 		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{Arrays.toString(policys)}));
 		return	AjaxObject.newOk("结案新契约填写不合格件成功！").toString(); 
 	}
 	

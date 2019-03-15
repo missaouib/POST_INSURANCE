@@ -97,11 +97,24 @@ public class Policy implements Idable<Long>, Serializable{
 	@Transient
 	private Boolean isStaff;
 	
+	@Transient
+	private String saleChannel;
+	
 //	private List<CheckRecordDtl> checkRecordDtls = new ArrayList<CheckRecordDtl>(0);
 //	private List<CheckWriteDtl> checkWriteDtls = new ArrayList<CheckWriteDtl>(0);
 //	private List<CallFail> callFails = new ArrayList<CallFail>(0);
 
 	// Constructors
+
+	@Transient
+	public String getSaleChannel() {
+		return saleChannel;
+	}
+
+	@Transient
+	public void setSaleChannel(String saleChannel) {
+		this.saleChannel = saleChannel;
+	}
 
 	/** default constructor */
 	public Policy() {

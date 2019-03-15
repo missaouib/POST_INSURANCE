@@ -99,6 +99,7 @@ public class ClientController {
 		String feeFrequency = request.getParameter("feeFrequency");
 		String staffFlag = request.getParameter("staffFlag");
 		String duration = request.getParameter("duration");
+		String saleChannel = request.getParameter("saleChannel");
 		Boolean staff = null;
 		if(staffFlag != null && staffFlag.trim().equals("0")) {
 			staff = false;
@@ -108,6 +109,7 @@ public class ClientController {
 		policy.setAttachedFlag((attachedFlag==null||attachedFlag.trim().length()<=0)?null:new Integer(attachedFlag));
 		policy.setFeeFrequency(feeFrequency);
 		policy.setStaffFlag(staff);
+		policy.setSaleChannel(saleChannel);
 		policy.setDuration(Integer.valueOf(duration==null?"0":duration));
 		
 		map.put("policy", policy);
@@ -117,7 +119,7 @@ public class ClientController {
 		}
 		
 		if(page.getOrderField() == null || page.getOrderField().trim().length() <= 0) {
-			page.setOrderField("policyNo");
+			page.setOrderField("policyDate");
 			page.setOrderDirection("DESC");
 		}
 		
@@ -160,10 +162,16 @@ public class ClientController {
 			csf.add(new SearchFilter("staffFlag", Operator.EQ, staff));
 			request.setAttribute("staffFlag", staffFlag);
 		}
-		if(duration != null && duration.trim().length()>0) {
+		if(duration != null && duration.trim().length()>0 && !duration.equals("0")) {
 			csf.add(new SearchFilter("duration", Operator.GTE, duration));
 			request.setAttribute("duration", duration);
 		}
+		
+		if(saleChannel != null && saleChannel.trim().length()>0) {
+			csf.add(new SearchFilter("policyNo", Operator.LIKE_R, saleChannel));
+			request.setAttribute("saleChannel", saleChannel);
+		}
+		
 		Specification<Policy> specification = DynamicSpecifications.bySearchFilter(request, Policy.class, csf);
 		List<Policy> policies = policyService.findByExample(specification, page);
 		

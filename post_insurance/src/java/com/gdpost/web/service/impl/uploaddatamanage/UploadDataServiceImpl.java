@@ -171,12 +171,14 @@ public class UploadDataServiceImpl implements UploadDataService{
 			standardColumns = PolicyDtlColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_policy_dtl character set utf8 (";
 			sql2 = "update t_policy tp, t_policy_dtl tpd, t_staff ts set tp.staff_flag=true,tp.duration=tpd.duration where tp.staff_flag=0 and tp.policy_no=tpd.policy_no and tpd.holder_card_num=ts.id_card;";
+			sql3 = "update t_policy tp, t_policy_dtl tpd set tp.duration=tpd.duration where tp.policy_no=tpd.policy_no and tp.duration<>tpd.duration and tp.attached_flag=0 and tpd.duration<>1 and tp.duration=1;";
 			sql1 = "delete from t_policy_dtl where prod_name like \"%附加%\";";
 			break;
 		case NewPolicyDtl:
 			standardColumns = PolicyDtlsColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_policy_dtl character set utf8 (";
 			sql2 = "update t_policy tp, t_policy_dtl tpd, t_staff ts set tp.staff_flag=true,tp.duration=tpd.duration where tp.staff_flag=0 and tp.policy_no=tpd.policy_no and tpd.holder_card_num=ts.id_card;";
+			sql3 = "update t_policy tp, t_policy_dtl tpd set tp.duration=tpd.duration where tp.policy_no=tpd.policy_no and tp.duration<>tpd.duration and tp.attached_flag=0 and tpd.duration<>1 and tp.duration=1;";
 			sql1 = "delete from t_policy_dtl where prod_name like \"%附加%\";";
 			break;
 		case Issue:

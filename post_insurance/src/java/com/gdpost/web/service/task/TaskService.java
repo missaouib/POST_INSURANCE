@@ -92,6 +92,11 @@ public class TaskService {
 			statement.executeUpdate(sql);
 			log.info("------------ finish exec sql");
 			
+			sql = "update t_policy tp set tp.status=\"满期终止\" where attached_flag=3 and STATUS=\"有效\" and TIMESTAMPDIFF(DAY,tp.policy_date,now())>366;";
+			log.info("------------ sql :" + sql);
+			statement.executeUpdate(sql);
+			log.info("------------ finish exec sql");
+			
         	sql1 = "update t_call_fail_list set status = \"重点跟进\" where (status='二访失败' or status='待处理') and 15-datediff(now(),bill_back_date)<=3;";
         	log.info("------------ task service :" + sql1);
         	iRst1 = statement.executeUpdate(sql1);

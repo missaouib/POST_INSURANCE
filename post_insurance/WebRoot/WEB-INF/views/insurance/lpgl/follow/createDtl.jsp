@@ -49,7 +49,7 @@
 		</p>
 	</fieldset>
 	<fieldset>
-		<legend>报案进程</legend>
+		<legend>案件进度</legend>
 		<p>
 			<label>首次接触赔案时间：</label>
 			<input type="text" name="firstCaseTime" class="date validate[maxSize[12]]" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value="${settleDtl.firstCaseTime }" pattern="yyyy-MM-dd"/>"/>

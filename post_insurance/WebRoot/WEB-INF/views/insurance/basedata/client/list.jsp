@@ -14,10 +14,11 @@
 	<input type="hidden" name="feeFrequency" value="${param.feeFrequency }"/>
 	<%-- <input type="hidden" name="search_LTE_perm" value="${param.search_LTE_perm }"/> --%>
 	<input type="hidden" name="status" value="${param.status }"/>
-	<input type="hidden" name="prd.prdName" value="${prd_name }"/>
+	<input type="hidden" name="prd.prdFullName" value="${prd_name }"/>
 	<input type="hidden" name="attachedFlag" value="${attachedFlag }"/>
 	<input type="hidden" name="staffFlag" value="${staffFlag }"/>
 	<input type="hidden" name="duration" value="${duration }"/>
+	<input type="hidden" name="saleChannel" value="${saleChannel }"/>
 	<input type="hidden" name="search_LIKE_holder" value="${param.search_LIKE_holder}"/>
 </dwz:paginationForm>
 
@@ -85,6 +86,7 @@
 							<form:option value=""> -- -- </form:option>
 							<form:option value="0">主险</form:option>
 							<form:option value="1">附加险</form:option>
+							<form:option value="3">简易险</form:option>
 						</form:select>
 					</td>
 					<td>
@@ -111,7 +113,14 @@
 						</form:select>
 					</td>
 					<td>
-						&nbsp;
+						<label>出单方式：</label>
+					<form:select path="policy.saleChannel" id="cpcsstype" class="combox">
+						<form:option value=""> -- </form:option>
+						<form:option value="8144">手机销售</form:option>
+						<form:option value="7644">网银销售</form:option>
+						<form:option value="8644">柜面出单</form:option>
+						<form:option value="9644">老手机</form:option>
+					</form:select>
 					</td>
 				</tr>
 			</table>
