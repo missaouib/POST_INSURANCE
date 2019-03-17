@@ -165,15 +165,34 @@ public class LpglController {
 			lpglService.saveOrUpdateSettleDtl(dtl);
 			
 			Settlement settle = lpglService.getSettle(settleDtl.getSettlement().getId());
-			SettlementLog settleLog = new SettlementLog();
+			
 			User user = SecurityUtils.getShiroUser().getUser();
+			
+			SettlementLog settleLog = new SettlementLog();
 			settleLog.setSettlement(settle);
 			settleLog.setDealDate(new Date());
 			settleLog.setUser(user);
-			settleLog.setInfo("添加或者更新了理赔案件相信信息；");
+			settleLog.setInfo("添加或者更新了案件进度相关信息；");
 			settleLog.setIp(request.getRemoteAddr());
 			settleLog.setIsKeyInfo(true);
 			lpglService.saveOrUpdateSettleLog(settleLog);
+			
+			String toDealDay = request.getParameter("toDealDay");
+			String followDate = request.getParameter("followDate");
+			String info = request.getParameter("info");
+			SettlementLog settleInfo = new SettlementLog();
+			settleInfo.setSettlement(settle);
+			settleInfo.setDealDate(new Date());
+			if(followDate != null && followDate.trim().length()>0 && info != null && info.trim().length()>0) {
+				settleInfo.setfollowDate(StringUtil.str2Date(followDate, "yyyy-MM-dd"));
+				settleInfo.setInfo(info);
+				settleInfo.setToDealDay(null);
+			}
+			settleInfo.setToDealDay(Integer.valueOf(toDealDay));
+			settleInfo.setUser(user);
+			settleInfo.setIp(request.getRemoteAddr());
+			settleInfo.setIsKeyInfo(true);
+			lpglService.saveOrUpdateSettleLog(settleInfo);
 			
 		} catch (ExistedException e) {
 			return AjaxObject.newError("理赔案件详情登记失败：" + e.getMessage()).setCallbackType("").toString();

@@ -189,12 +189,12 @@ public class QyglController {
 				policys[i] = src.getPolicy().getPolicyNo();
 			}
 		} catch (ServiceException e) {
-			return AjaxObject.newError("删除人核件信息失败：" + e.getMessage()).setCallbackType("").toString();
+			return AjaxObject.newError("结案失败：" + e.getMessage()).setCallbackType("").toString();
 		}
 		
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{Arrays.toString(policys)}));
-		return	AjaxObject.newOk("结案新契约填写不合格件成功！").toString(); 
+		return AjaxObject.newOk("结案新契约填写不合格件成功！").setCallbackType("").toString();
 	}
 	
 	@RequiresPermissions("CheckWrite:view")

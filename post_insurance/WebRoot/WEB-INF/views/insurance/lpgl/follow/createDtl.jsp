@@ -51,6 +51,26 @@
 	<fieldset>
 		<legend>案件进度</legend>
 		<p>
+			<label>跟进反馈：</label>
+			<select name="toDealDay" id="lptdd" class="combox">
+				<option value="1">1日内反馈 </option>
+				<option value="3">3日内反馈 </option>
+				<option value="5">5日内反馈 </option>
+				<option value="15">15日内反馈 </option>
+				<option value="30">择期反馈 </option>
+			</select>
+		</p>
+		<p>
+			<label>跟进日期：</label>
+			<input type="text" name="followDate" class="date validate[maxSize[12]]" dateFmt="yyyy-MM-dd" readonly="true" value="" pattern="yyyy-MM-dd"/>
+			<a class="inputDateButton" href="javascript:;">选择</a>
+		</p>
+		<p class="nowrap">
+			<label>反馈内容：</label>
+			<textarea name="info" cols="50" rows="3"></textarea>
+		</p>
+		<!-- 
+		<p>
 			<label>首次接触赔案时间：</label>
 			<input type="text" name="firstCaseTime" class="date validate[maxSize[12]]" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value="${settleDtl.firstCaseTime }" pattern="yyyy-MM-dd"/>"/>
 			<a class="inputDateButton" href="javascript:;">选择</a>
@@ -77,6 +97,7 @@
 			<label>签收人：</label>
 			<input type="text" name="allSignMan" class="input-medium validate[maxSize[32]]" maxlength="32" value="${settleDtl.allSignMan }"/>
 		</p>
+		 -->
 	</fieldset>
 	<fieldset>
 		<legend>调查进程</legend>

@@ -106,7 +106,7 @@
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
 				<td>
-					<a target="dialog" mask="true" width="530" height="530" href="${contextPath }/lpgl/detail/${item.id}">登记详情</a> &nbsp;&nbsp;
+					<a target="dialog" mask="true" width="650" height="530" href="${contextPath }/lpgl/detail/${item.id}">登记详情</a> &nbsp;&nbsp;
 					<a target="dialog" mask="true" width="750" height="430" href="${contextPath }/lpgl/log/${item.id}">操作日志</a>
 				</td>	
 				<td>${idx.index+1 }</td>
