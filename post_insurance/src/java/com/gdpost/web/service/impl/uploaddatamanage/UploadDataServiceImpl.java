@@ -111,16 +111,16 @@ public class UploadDataServiceImpl implements UploadDataService{
 		DoRst dr = new DoRst();
 		dr.setNum(dt.Rows.size());
 		java.sql.Connection connection = null;
-		//JdbcStatement statement = null;
+		JdbcStatement statement = null;
 		
-		com.mysql.cj.jdbc.ServerPreparedStatement statement = null;
+		//com.mysql.cj.jdbc.ServerPreparedStatement statement = null;
 		try {
 			Object objDataSource = WebApplicationContextUtils.getWebApplicationContext(request.getServletContext()).getBean("dataSource");
 			@SuppressWarnings("resource")
 			DruidDataSource dataSource = (DruidDataSource)objDataSource;
 			connection = DriverManager.getConnection(dataSource.getUrl(), dataSource.getUsername(), dataSource.getPassword());
-			//statement = (JdbcStatement) connection.createStatement();
-			statement = (com.mysql.cj.jdbc.ServerPreparedStatement)connection.createStatement();
+			statement = (JdbcStatement) connection.createStatement();
+			//statement = (com.mysql.cj.jdbc.ServerPreparedStatement)connection.createStatement();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			dr.setFlag(false);
@@ -591,14 +591,14 @@ public class UploadDataServiceImpl implements UploadDataService{
 		dr.setNum(dt.Rows.size());
 		String strKey = com.gdpost.web.MySQLAESKey.AESKey;
 		java.sql.Connection connection = null;
-		//JdbcStatement statement = null;
-		com.mysql.cj.jdbc.ServerPreparedStatement statement = null;
+		JdbcStatement statement = null;
+		//com.mysql.cj.jdbc.ServerPreparedStatement statement = null;
 		try {
 			Object objDataSource = WebApplicationContextUtils.getWebApplicationContext(request.getServletContext()).getBean("dataSource");
 			DruidDataSource dataSource = (DruidDataSource)objDataSource;
 			connection = DriverManager.getConnection(dataSource.getUrl(), dataSource.getUsername(), dataSource.getPassword());
-			//statement = (JdbcStatement) connection.createStatement();
-			statement = (com.mysql.cj.jdbc.ServerPreparedStatement)connection.createStatement();
+			statement = (JdbcStatement) connection.createStatement();
+			//statement = (com.mysql.cj.jdbc.ServerPreparedStatement)connection.createStatement();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			dr.setFlag(false);
@@ -2141,15 +2141,15 @@ public class UploadDataServiceImpl implements UploadDataService{
 		Map<String, Integer> dtRelate = new Hashtable<String, Integer>(); // data table
 		
 		java.sql.Connection connection = null;
-		//JdbcStatement statement = null;
-		com.mysql.cj.jdbc.ServerPreparedStatement statement = null;
+		JdbcStatement statement = null;
+		//com.mysql.cj.jdbc.ServerPreparedStatement statement = null;
 		try {
 			Object objDataSource = WebApplicationContextUtils.getWebApplicationContext(request.getServletContext()).getBean("dataSource");
 			@SuppressWarnings("resource")
 			DruidDataSource dataSource = (DruidDataSource)objDataSource;
 			connection = DriverManager.getConnection(dataSource.getUrl(), dataSource.getUsername(), dataSource.getPassword());
-			//statement = (JdbcStatement)connection.createStatement();
-			statement = (com.mysql.cj.jdbc.ServerPreparedStatement)connection.createStatement();
+			statement = (JdbcStatement)connection.createStatement();
+			//statement = (com.mysql.cj.jdbc.ServerPreparedStatement)connection.createStatement();
 			String statementText = "SELECT " + strValueColumnName + "," + strIDColumnName + " FROM " + strTableName + " WHERE member_id=" + member_id;
 			ResultSet rs = statement.executeQuery(statementText);
 			while(rs.next()) {

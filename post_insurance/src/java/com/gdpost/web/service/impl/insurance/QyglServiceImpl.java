@@ -306,14 +306,12 @@ public class QyglServiceImpl implements QyglService {
 	@Override
 	public Integer getOverdueUWCount(HttpServletRequest request, User user) {
 		java.sql.Connection connection = null;
-		//JdbcStatement statement = null;
-		com.mysql.cj.jdbc.ServerPreparedStatement statement = null;
+		JdbcStatement statement = null;
+		//com.mysql.cj.jdbc.ServerPreparedStatement statement = null;
 		try {
 			Object objDataSource = WebApplicationContextUtils.getWebApplicationContext(request.getServletContext()).getBean("dataSource");
 			DruidDataSource dataSource = (DruidDataSource)objDataSource;
 			connection = DriverManager.getConnection(dataSource.getUrl(), dataSource.getUsername(), dataSource.getPassword());
-			//statement = (JdbcStatement)connection.createStatement();
-			statement = (com.mysql.cj.jdbc.ServerPreparedStatement)connection.createStatement();
 			
 			String sql = "select count(t1.id) from t_under_write t1,t_organization t2 where t1.organ_id=t2.id and "
 					+ "((prov_send_date is not null and city_send_date is null and area_send_date is null and NOW()-prov_send_date>3) or "
@@ -324,6 +322,9 @@ public class QyglServiceImpl implements QyglService {
 					+ "and t2.org_code like \"%" + user.getOrganization().getOrgCode() + "%\" and "
 					+ "bill_back_date is null and t1.status=\"SendStatus\";";
 			LOG.debug("----------- sql : " + sql);
+			
+			statement = (JdbcStatement)connection.createStatement();
+			//statement = (com.mysql.cj.jdbc.ServerPreparedStatement)connection.prepareStatement(sql);
 			
         	ResultSet rst = statement.executeQuery(sql);
         	while(rst.next()) {
@@ -350,14 +351,12 @@ public class QyglServiceImpl implements QyglService {
 	@Override
 	public Integer getOverdueUWCall(HttpServletRequest request, User user) {
 		java.sql.Connection connection = null;
-		//JdbcStatement statement = null;
-		com.mysql.cj.jdbc.ServerPreparedStatement statement = null;
+		JdbcStatement statement = null;
+		//com.mysql.cj.jdbc.ServerPreparedStatement statement = null;
 		try {
 			Object objDataSource = WebApplicationContextUtils.getWebApplicationContext(request.getServletContext()).getBean("dataSource");
 			DruidDataSource dataSource = (DruidDataSource)objDataSource;
 			connection = DriverManager.getConnection(dataSource.getUrl(), dataSource.getUsername(), dataSource.getPassword());
-			//statement = (JdbcStatement)connection.createStatement();
-			statement = (com.mysql.cj.jdbc.ServerPreparedStatement)connection.createStatement();
 			
 			String sql = "select count(t1.id) from t_under_write t1,t_organization t2 where t1.organ_id=t2.id and "
 					+ "((city_send_date is not null and to_net=1 and NOW()-city_send_date>10) or "
@@ -366,6 +365,9 @@ public class QyglServiceImpl implements QyglService {
 					+ "and t2.org_code like \"%" + user.getOrganization().getOrgCode() + "%\" and "
 					+ "bill_back_date is null and t1.status=\"SendStatus\";";
 			LOG.debug("----------- sql : " + sql);
+			
+			statement = (JdbcStatement)connection.createStatement();
+			//statement = (com.mysql.cj.jdbc.ServerPreparedStatement)connection.prepareStatement(sql);
 			
         	ResultSet rst = statement.executeQuery(sql);
         	while(rst.next()) {
@@ -392,20 +394,21 @@ public class QyglServiceImpl implements QyglService {
 	@Override
 	public Integer getOverdueUWWeixin(HttpServletRequest request, User user) {
 		java.sql.Connection connection = null;
-		//JdbcStatement statement = null;
-		com.mysql.cj.jdbc.ServerPreparedStatement statement = null;
+		JdbcStatement statement = null;
+		//com.mysql.cj.jdbc.ServerPreparedStatement statement = null;
 		try {
 			Object objDataSource = WebApplicationContextUtils.getWebApplicationContext(request.getServletContext()).getBean("dataSource");
 			DruidDataSource dataSource = (DruidDataSource)objDataSource;
 			connection = DriverManager.getConnection(dataSource.getUrl(), dataSource.getUsername(), dataSource.getPassword());
-			//statement = (JdbcStatement)connection.createStatement();
-			statement = (com.mysql.cj.jdbc.ServerPreparedStatement)connection.createStatement();
 			
 			String sql = "select count(t1.id) from t_under_write t1,t_organization t2 where t1.organ_id=t2.id and "
 					+ "(sys_date is not null and now()-sys_date>20) "
 					+ "and t2.org_code like \"%" + user.getOrganization().getOrgCode() + "%\" and "
 					+ "bill_back_date is null and t1.status=\"SendStatus\";";
 			LOG.debug("----------- sql : " + sql);
+			
+			statement = (JdbcStatement)connection.createStatement();
+			//statement = (com.mysql.cj.jdbc.ServerPreparedStatement)connection.prepareStatement(sql);
 			
         	ResultSet rst = statement.executeQuery(sql);
         	while(rst.next()) {
