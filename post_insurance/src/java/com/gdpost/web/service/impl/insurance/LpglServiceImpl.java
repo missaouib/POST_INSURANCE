@@ -122,7 +122,7 @@ public class LpglServiceImpl implements LpglService {
 	 */
 	@Override
 	public void saveOrUpdateSettleDtl(SettlementDtl SettlemenDtl) {
-		settlementDtlDAO.save(SettlemenDtl);
+		settlementDtlDAO.saveAndFlush(SettlemenDtl);
 	}
 
 	/*
@@ -184,6 +184,11 @@ public class LpglServiceImpl implements LpglService {
 	@Override
 	public List<SettlementLog> findLogBySettleId(Long id) {
 		return settlementLogDAO.findBySettlementId(id);
+	}
+	
+	@Override
+	public List<SettlementLog> findDealLogBySettleId(Long id) {
+		return settlementLogDAO.findBySettlementIdAndIsFollowOrderByIdDesc(id,true);
 	}
 	
 	/*

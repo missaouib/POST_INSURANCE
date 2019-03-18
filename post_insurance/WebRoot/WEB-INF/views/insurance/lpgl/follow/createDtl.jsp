@@ -50,6 +50,11 @@
 	</fieldset>
 	<fieldset>
 		<legend>案件进度</legend>
+		<p class="nowrap">
+		<c:forEach var="item" items="${dealLogs}" varStatus="idx" end="2">
+		<fmt:formatDate value="${item.dealDate}" pattern="yyyy-MM-dd"/>：${item.user.username}:${empty item.followDate?"":"反馈日期"}${item.followDate }&nbsp;${item.info} <br/>
+		</c:forEach>
+		</p>
 		<p>
 			<label>跟进反馈：</label>
 			<select name="toDealDay" id="lptdd" class="combox">

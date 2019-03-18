@@ -51,6 +51,8 @@ public interface LpglService {
 	
 	List<SettlementLog> findLogBySettleId(Long id);
 	
+	List<SettlementLog> findDealLogBySettleId(Long id);
+	
 	/**
 	 * SettleTask
 	 */

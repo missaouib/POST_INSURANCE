@@ -141,6 +141,10 @@ public class LpglController {
 		Settlement settle = lpglService.getSettle(id);
 		request.setAttribute("settle", settle);
 		SettlementDtl settleDtl = lpglService.getDtlBySettlementId(id);
+		
+		List<SettlementLog> dealLogs = lpglService.findDealLogBySettleId(id);
+		request.setAttribute("dealLogs", dealLogs);
+		
 		if(settleDtl != null && settleDtl.getId() != null) {
 			request.setAttribute("flag", "update");
 			request.setAttribute("settleDtl", settleDtl);
@@ -157,10 +161,12 @@ public class LpglController {
 		try {
 			LOG.debug("----------- settle dtl id:" + settleDtl.getId());
 			String id = request.getParameter("settleDtlId");
-			SettlementDtl dtl = settleDtl;
+			SettlementDtl dtl = null;
 			if(id != null && id.trim().length() >0) {
 				dtl = lpglService.getSettleDtl(new Long(id));
 				BeanUtils.copyProperties(settleDtl, dtl, "id");
+			} else {
+				dtl = settleDtl;
 			}
 			lpglService.saveOrUpdateSettleDtl(dtl);
 			
@@ -168,14 +174,14 @@ public class LpglController {
 			
 			User user = SecurityUtils.getShiroUser().getUser();
 			
-			SettlementLog settleLog = new SettlementLog();
-			settleLog.setSettlement(settle);
-			settleLog.setDealDate(new Date());
-			settleLog.setUser(user);
-			settleLog.setInfo("添加或者更新了案件进度相关信息；");
-			settleLog.setIp(request.getRemoteAddr());
-			settleLog.setIsKeyInfo(true);
-			lpglService.saveOrUpdateSettleLog(settleLog);
+//			SettlementLog settleLog = new SettlementLog();
+//			settleLog.setSettlement(settle);
+//			settleLog.setDealDate(new Date());
+//			settleLog.setUser(user);
+//			settleLog.setInfo("添加或者更新了案件进度相关信息；");
+//			settleLog.setIp(request.getRemoteAddr());
+//			settleLog.setIsKeyInfo(true);
+//			lpglService.saveOrUpdateSettleLog(settleLog);
 			
 			String toDealDay = request.getParameter("toDealDay");
 			String followDate = request.getParameter("followDate");
@@ -184,11 +190,15 @@ public class LpglController {
 			settleInfo.setSettlement(settle);
 			settleInfo.setDealDate(new Date());
 			if(followDate != null && followDate.trim().length()>0 && info != null && info.trim().length()>0) {
-				settleInfo.setfollowDate(StringUtil.str2Date(followDate, "yyyy-MM-dd"));
+				settleInfo.setFollowDate(StringUtil.str2Date(followDate, "yyyy-MM-dd"));
 				settleInfo.setInfo(info);
+				settleInfo.setIsFollow(true);
 				settleInfo.setToDealDay(null);
+			} else {
+				settleInfo.setIsFollow(true);
+				settleInfo.setToDealDay(Integer.valueOf(toDealDay));
+				settleInfo.setInfo("设置了案件进度跟进要求->第" + toDealDay + "日内反馈。");
 			}
-			settleInfo.setToDealDay(Integer.valueOf(toDealDay));
 			settleInfo.setUser(user);
 			settleInfo.setIp(request.getRemoteAddr());
 			settleInfo.setIsKeyInfo(true);

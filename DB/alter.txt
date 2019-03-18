@@ -1126,3 +1126,4 @@ alter table t_issue add column check_date datetime;
 
 alter table t_settlement_log add column to_deal_day int(4);
 alter table t_settlement_log add column follow_date datetime;
+alter table t_settlement_log add column is_follow boolean default false;

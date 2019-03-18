@@ -86,11 +86,11 @@
 			<tr>
 				<th width="22"><input type="checkbox" group="ids" class="checkboxCtrl"></th>
 				<th>操作</th>	
-				<th>序号</th>	
 				<th orderField=organization.name class="${page.orderField eq 'organization.name' ? page.orderDirection : ''}">机构名称</th>
 				<th>出险人</th>
 				<th>报案人</th>
 				<th>报案人电话</th>
+				<th>反馈要求</th>
 				<th orderField=caseDate class="${page.orderField eq 'caseDate' ? page.orderDirection : ''}">出险日期</th>
 				<th orderField=caseType class="${page.orderField eq 'caseType' ? page.orderDirection : ''}">理赔类型</th>
 				<th orderField=reporteDate class="${page.orderField eq 'reporteDate' ? page.orderDirection : ''}">报案日期</th>
@@ -109,11 +109,20 @@
 					<a target="dialog" mask="true" width="650" height="530" href="${contextPath }/lpgl/detail/${item.id}">登记详情</a> &nbsp;&nbsp;
 					<a target="dialog" mask="true" width="750" height="430" href="${contextPath }/lpgl/log/${item.id}">操作日志</a>
 				</td>	
-				<td>${idx.index+1 }</td>
 				<td>${item.organization.shortName}</td>
 				<td>${item.insured}</td>
 				<td>${item.reporter}</td>
 				<td>${item.reporterPhone}</td>
+				<td>
+				<c:choose>
+					<c:when test="${item.needFeedBack}">
+					<div style="color: red;vertical-align:middle;font-weight:normal;">待反馈</div>
+					</c:when>
+					<c:otherwise>
+						&nbsp;
+					</c:otherwise>
+				</c:choose>
+				</td>
 				<td><fmt:formatDate value="${item.caseDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.caseType}</td>
 				<td><fmt:formatDate value="${item.reporteDate }" pattern="yyyy-MM-dd"/></td>

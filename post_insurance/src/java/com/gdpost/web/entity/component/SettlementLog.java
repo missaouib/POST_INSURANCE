@@ -36,6 +36,7 @@ public class SettlementLog implements Idable<Long> {
 
 	private Integer toDealDay;
 	private Date followDate;
+	private Boolean isFollow;
 	// Constructors
 
 	/** default constructor */
@@ -138,12 +139,21 @@ public class SettlementLog implements Idable<Long> {
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "follow_date")
-	public Date getfollowDate() {
+	public Date getFollowDate() {
 		return followDate;
 	}
 
-	public void setfollowDate(Date followDate) {
+	public void setFollowDate(Date followDate) {
 		this.followDate = followDate;
+	}
+
+	@Column(name = "is_follow")
+	public Boolean getIsFollow() {
+		return isFollow;
+	}
+
+	public void setIsFollow(Boolean isFollow) {
+		this.isFollow = isFollow;
 	}
 
 }

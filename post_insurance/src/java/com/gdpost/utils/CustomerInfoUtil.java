@@ -200,7 +200,7 @@ public class CustomerInfoUtil {
 		StringBuffer str = new StringBuffer("");
 		LOG.debug(" --------- addr: " + addr);
 		//1、长度校验
-		if(addr == null || addr.trim().length()<=7) {
+		if(addr == null || addr.trim().length()<=5) {
 			return "地址长度太短;";
 		}
 		boolean hasNum = false;
@@ -324,8 +324,12 @@ public class CustomerInfoUtil {
 			}
 			
 			if( !hasNum ) {
-				if(!blen && !isTown) {
-					return "地址疑似不够详细2；省市后信息不详;";
+				if(!blen && !isTown && !hasDownTown) {
+					if( addr.contains("镇") && addr.contains("区") && addr.indexOf("区")-addr.indexOf("镇")>=4) {
+						//nothing
+					} else {
+						return "地址疑似不够详细2；省市后信息不详;";
+					}
 				}
 			}
 			/*
@@ -345,7 +349,8 @@ public class CustomerInfoUtil {
 			
 			if (endNum && !hasDownTown && !isTown && !addr.contains("栋") && !addr.contains("幢") && !addr.contains("楼") && !addr.contains("座") && !addr.contains("层") 
 					&& !addr.contains("阁") && !addr.contains("榭") && !addr.contains("里") && !addr.contains("巷") && !addr.contains("厝") && !addr.contains("-") && !addr.contains("号")) {
-				if(endCharNum || endNumChar || addr.contains("小区") || addr.contains("花园") || addr.contains("梯") || (addr.contains("镇") && (addr.contains("街道") || addr.contains("居委"))) || (addr.contains("路") || addr.contains("道") || addr.contains("街")) 
+				if(endCharNum || endNumChar || addr.contains("小区") || addr.contains("广场") || addr.contains("农场") || addr.contains("市场") || addr.contains("工业") || addr.contains("花园") 
+						|| addr.contains("梯") || (addr.contains("镇") && (addr.contains("街道") || addr.contains("居委"))) || (addr.contains("路") || addr.contains("道") || addr.contains("街")) 
 						&& (addr.length()-addr.indexOf("路")>5 || addr.length()-addr.indexOf("道")>5 || addr.length()-addr.indexOf("街")>5)) {
 					//nothing
 				} else {

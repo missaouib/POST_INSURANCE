@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.JoinColumnOrFormula;
 import org.hibernate.annotations.JoinColumnsOrFormulas;
@@ -55,6 +56,9 @@ public class Settlement implements Idable<Long> {
 //	private List<SettlementCheck> settlementChecks = new ArrayList<SettlementCheck>(0);
 	private List<SettlementLog> settlementLogs = new ArrayList<SettlementLog>(0);
 	private SettlementDtl settlementDtls;
+	
+	@Transient
+	private boolean needFeedBack;
 	
 	// Constructors
 
@@ -265,7 +269,7 @@ public class Settlement implements Idable<Long> {
 		this.settlementChecks = settlementChecks;
 	}
 */
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "settlement")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "settlement")
 	public List<SettlementLog> getSettlementLogs() {
 		return settlementLogs;
 	}
@@ -282,4 +286,22 @@ public class Settlement implements Idable<Long> {
 	public void setSettlementDtls(SettlementDtl settlementDtls) {
 		this.settlementDtls = settlementDtls;
 	}
+
+	@Transient
+	public boolean isNeedFeedBack() {
+		if(this.settlementLogs != null && this.settlementLogs.size()>0) {
+			SettlementLog slog = this.settlementLogs.get(this.settlementLogs.size()-1);
+			if (slog.getIsFollow() && slog.getFollowDate() == null) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Transient
+	public void setNeedFeedBack(boolean needFeedBack) {
+		this.needFeedBack = needFeedBack;
+	}
+	
+	
 }
