@@ -1046,6 +1046,10 @@ public class QyglController {
 			orgCode = userOrg.getOrgCode();
 		}
 		
+		String orgName = request.getParameter("name");
+		request.setAttribute("orgCode", orgCode);
+		request.setAttribute("name", orgName);
+		
 		String date1 = request.getParameter("date1");
 		String date2 = request.getParameter("date2");
 		if(date1 == null || date1.trim().length()<=0) {

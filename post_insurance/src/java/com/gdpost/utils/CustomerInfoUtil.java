@@ -343,7 +343,7 @@ public class CustomerInfoUtil {
 					|| (!isTown && !hasNum && addr.endsWith("园")) || (!hasNum && addr.endsWith("区")) || addr.endsWith("镇") || addr.endsWith("乡") || addr.endsWith("县")) {
 				return "地址不够详细3-end;";
 			}
-			if(!hasNum && (addr.endsWith("栋") || addr.endsWith("幢") || addr.endsWith("楼"))) {
+			if(!isTown && !hasNum && (addr.endsWith("栋") || addr.endsWith("幢") || addr.endsWith("楼"))) {
 				return "地址缺门牌号码;";
 			}
 			

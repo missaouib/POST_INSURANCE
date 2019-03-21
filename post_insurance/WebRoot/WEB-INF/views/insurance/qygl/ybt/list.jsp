@@ -93,7 +93,7 @@
 				<td>
 				<c:choose>  
 					    <c:when test="${item.hasErr}">  
-					        <div style="color: red;vertical-align:middle;font-weight:normal;">有差错</div>
+					        <div style="color: red;vertical-align:middle;font-weight:normal;">${item.fixStatus eq 'NewStatus'?"差错待处理":item.fixStatus eq 'IngStatus'?"差错待审核":"" }</div>
 					    </c:when>
 					    <c:otherwise>  
 					      &nbsp;

@@ -115,8 +115,11 @@
 				<td>${item.reporterPhone}</td>
 				<td>
 				<c:choose>
-					<c:when test="${item.needFeedBack}">
+					<c:when test="${not empty item.needFeedBack and item.needFeedBack eq '待反馈'}">
 					<div style="color: red;vertical-align:middle;font-weight:normal;">待反馈</div>
+					</c:when>
+					<c:when test="${not empty item.needFeedBack and item.needFeedBack eq '已反馈'}">
+					<div style="color: blue;vertical-align:middle;font-weight:normal;">已反馈</div>
 					</c:when>
 					<c:otherwise>
 						&nbsp;

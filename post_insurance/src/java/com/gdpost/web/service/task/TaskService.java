@@ -351,7 +351,7 @@ public class TaskService {
 			statement.executeUpdate(updateSQL);
 			
 			//sql = "call procDealCardValid();";
-			sql = "update t_check_write set fix_status=\"CloseStatus\",fix_desc=\"已退保\",deal_man=\"System\", deal_time=now() where fix_status<>\"CloseStatus\" and policy_no in (select policy_no from t_policy where cs_flag<>0);";
+			sql = "update t_check_write set fix_status=\"CTStatus\",fix_desc=\"已退保\",deal_man=\"System\", deal_time=now() where fix_status<>\"CloseStatus\" and policy_no in (select policy_no from t_policy where cs_flag<>0);";
 			log.info("------------ sql :" + sql);
 			statement.executeUpdate(sql);
 			

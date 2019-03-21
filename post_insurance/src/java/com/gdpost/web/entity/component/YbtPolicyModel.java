@@ -30,6 +30,7 @@ public class YbtPolicyModel implements java.io.Serializable {
 	private Date policyDate;
 	private Boolean hasErr;
 	private Boolean hasScan;
+	private String fixStatus;
 	
 
 	/** default constructor */
@@ -127,6 +128,15 @@ public class YbtPolicyModel implements java.io.Serializable {
 
 	public void setHasScan(Boolean hasScan) {
 		this.hasScan = hasScan;
+	}
+
+	@Column(name="fix_status")
+	public String getFixStatus() {
+		return fixStatus;
+	}
+
+	public void setFixStatus(String fixStatus) {
+		this.fixStatus = fixStatus;
 	}
 
 }
