@@ -291,7 +291,7 @@ public class Settlement implements Idable<Long> {
 	public boolean isNeedFeedBack() {
 		if(this.settlementLogs != null && this.settlementLogs.size()>0) {
 			SettlementLog slog = this.settlementLogs.get(this.settlementLogs.size()-1);
-			if (slog.getIsFollow() && slog.getFollowDate() == null) {
+			if (slog != null && slog.getIsFollow() != null && slog.getIsFollow() && slog.getFollowDate() == null) {
 				return true;
 			}
 		}

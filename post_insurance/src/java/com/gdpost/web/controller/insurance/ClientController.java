@@ -110,7 +110,7 @@ public class ClientController {
 		policy.setFeeFrequency(feeFrequency);
 		policy.setStaffFlag(staff);
 		policy.setSaleChannel(saleChannel);
-		policy.setDuration(Integer.valueOf(duration==null?"0":duration));
+		policy.setDuration(Integer.valueOf(duration==null||duration.trim().length()<=0?"0":duration));
 		
 		map.put("policy", policy);
 		map.put("page", page);
