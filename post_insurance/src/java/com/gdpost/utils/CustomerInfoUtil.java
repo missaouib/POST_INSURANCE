@@ -343,13 +343,13 @@ public class CustomerInfoUtil {
 					|| (!isTown && !hasNum && addr.endsWith("园")) || (!hasNum && addr.endsWith("区")) || addr.endsWith("镇") || addr.endsWith("乡") || addr.endsWith("县")) {
 				return "地址不够详细3-end;";
 			}
-			if(!isTown && !hasNum && (addr.endsWith("栋") || addr.endsWith("幢") || addr.endsWith("楼"))) {
+			if(!isTown && !hasNum && (addr.endsWith("栋") || addr.endsWith("幢") || addr.endsWith("楼") && !addr.contains("宿舍"))) {
 				return "地址缺门牌号码;";
 			}
 			
 			if (endNum && !hasDownTown && !isTown && !addr.contains("栋") && !addr.contains("幢") && !addr.contains("楼") && !addr.contains("座") && !addr.contains("层") 
 					&& !addr.contains("阁") && !addr.contains("榭") && !addr.contains("里") && !addr.contains("巷") && !addr.contains("厝") && !addr.contains("-") && !addr.contains("号")) {
-				if(endCharNum || endNumChar || addr.contains("小区") || addr.contains("广场") || addr.contains("农场") || addr.contains("市场") || addr.contains("工业") || addr.contains("花园") 
+				if(endCharNum || endNumChar || addr.contains("小区") || addr.contains("广场") || addr.contains("农场") || addr.contains("公司") || addr.contains("市场") || addr.contains("工业") || addr.contains("厂") || addr.contains("花园") 
 						|| addr.contains("梯") || (addr.contains("镇") && (addr.contains("街道") || addr.contains("居委"))) || (addr.contains("路") || addr.contains("道") || addr.contains("街")) 
 						&& (addr.length()-addr.indexOf("路")>5 || addr.length()-addr.indexOf("道")>5 || addr.length()-addr.indexOf("街")>5)) {
 					//nothing

@@ -102,7 +102,7 @@ $(document).ready(function(){
 			<a class="logo" href="${contextPath}/management/index">Logo</a>
 			<ul class="nav">
 				<li><a href="${contextPath}/web/index">网站</a></li>
-				<li><span style="color:#ffffff">欢迎您，${login_user.username } 登录管理系统</span></li>
+				<li><span style="color:#ffffff">欢迎您，${login_user.username }&nbsp;&nbsp;${login_user.realname} 登录管理系统</span></li>
 				<li><span style="color:#ffffff">所属机构：${login_user.organization.orgCode } ${login_user.organization.name }</span></li>
 				<li><a href="${contextPath}/management/index">主页</a></li>
 				<li><a href="${contextPath}/management/index/updateBase" target="dialog" mask="true" width="550" height="250">修改用户信息</a></li>
