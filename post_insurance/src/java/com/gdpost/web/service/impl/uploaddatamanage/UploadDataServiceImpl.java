@@ -358,7 +358,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql6 = "update t_cs_expire ce, t_cs_report tcr set ce.status=\"CTStatus\",ce.cs_date=tcr.cs_date where ce.policy_no=tcr.policy_no and tcr.cs_code=\"CT\";";
 			break;
 		case DocNotScanDtl:
-			firstsql = "delete from t_doc_not_scan_dtl;";
+			firstsql = "delete from t_doc_not_scan_dtl where operate_time<CURRENT_DATE;";
 			standardColumns = DocNotScanDtlColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_doc_not_scan_dtl character set utf8 (";
 			break;

@@ -101,6 +101,8 @@ public class CommonController {
 	
 	private static final String LOOK_USER = "insurance/common/lookup_user";
 	
+	private static final String LOOK_ROLE_USER = "insurance/common/lookup_roleUser";
+	
 	private static final String LOOK_ROLE = "insurance/common/lookup_role";
 	
 	@RequestMapping(value="/lookupPolicysuggest", method={RequestMethod.POST})
@@ -239,10 +241,27 @@ public class CommonController {
 		if(role != null && role.trim().length()>0) {
 			request.setAttribute("role", role);
 		}
-		List<User> org = userService.findByRoleName(role, page);
+		String roleIdStr = request.getParameter("roleId");
+		Long roleId = null;
+		if(roleIdStr != null && roleIdStr.trim().length()>0) {
+			request.setAttribute("roleId", roleIdStr);
+			roleId = new Long(roleIdStr);
+		}
+		String realname = request.getParameter("realname");
+		if(realname == null || realname.trim().length()<=0) {
+			realname = "%%";
+		} else {
+			realname = "%" + realname + "%";
+		}
+		List<User> org = null;
+		if(roleId != null) {
+			org = userService.findByRoleIdAndUserName(roleId, realname, page);
+		} else {
+			org = userService.findByRoleNameAndUserName(role, realname, page);
+		}
 		map.put("userlist", org);
 		map.put("page", page);
-		return LOOK_USER;
+		return LOOK_ROLE_USER;
 	}
 	
 	@RequestMapping(value="/lookupUserSuggest", method={RequestMethod.POST})

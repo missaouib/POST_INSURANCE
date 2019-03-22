@@ -123,6 +123,18 @@ public class UserServiceImpl implements UserService {
 		return list;
 	}
 	
+	@Override
+	public List<User> findByRoleNameAndUserName(String roleName, String realname, Page page) {
+		List<User> list = userDAO.findByRealnameLikeAndUserRolesRoleNameAndStatus(realname, roleName, User.STATUS_ENABLED, PageUtils.createPageable(page));
+		return list;
+	}
+	
+	@Override
+	public List<User> findByRoleIdAndUserName(Long roleId, String realname, Page page) {
+		List<User> list = userDAO.findByRealnameLikeAndUserRolesRoleIdAndStatus(realname, roleId, User.STATUS_ENABLED, PageUtils.createPageable(page));
+		return list;
+	}
+	
 	/**
 	 * 判断是否超级管理员.
 	 */
