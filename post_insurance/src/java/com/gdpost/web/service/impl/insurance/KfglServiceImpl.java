@@ -10,7 +10,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gdpost.web.dao.InquireDAO;
 import com.gdpost.web.dao.IssueDAO;
+import com.gdpost.web.entity.main.Inquire;
 import com.gdpost.web.entity.main.Issue;
 import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.User;
@@ -31,6 +33,9 @@ public class KfglServiceImpl implements KfglService {
 	@Autowired
 	private IssueDAO issueDAO;
 	
+	@Autowired
+	private InquireDAO inquireDAO;
+	
 	/*
 	 * (non-Javadoc)
 	 * @see com.gdpost.web.service.UserService#get(java.lang.Long)  
@@ -48,7 +53,7 @@ public class KfglServiceImpl implements KfglService {
 	public void saveOrUpdate(Issue policy) {
 		if (policy.getId() == null) {
 			if (issueDAO.getByIssueNo(policy.getIssueNo()) != null) {
-				throw new ExistedException("保单号：" + policy.getIssueNo() + "已存在。");
+				throw new ExistedException("工单号：" + policy.getIssueNo() + "已存在。");
 			}
 		}
 		
@@ -126,4 +131,86 @@ public class KfglServiceImpl implements KfglService {
 	public List<String> getIssueTypeList() {
 		return issueDAO.getIssueTypeList();
 	}
+	
+	/*
+	 * =========================================
+	 * Inquire
+	 * =========================================
+	 */
+	/*
+	 * (non-Javadoc)
+	 * @see com.gdpost.web.service.UserService#get(java.lang.Long)  
+	 */ 
+	@Override
+	public Inquire getInquire(Long id) {
+		return inquireDAO.findById(id).get();
+	}
+
+	/*
+	 * (non-Javadoc) 
+	 * @see com.gdpost.web.service.UserService#saveOrUpdate(com.gdpost.web.entity.main.Inquire)  
+	 */
+	@Override
+	public void saveOrUpdateInquire(Inquire policy) {
+		if (policy.getId() == null) {
+			if (inquireDAO.getByInquireNo(policy.getInquireNo()) != null) {
+				throw new ExistedException("咨询号：" + policy.getInquireNo() + "已存在。");
+			}
+		}
+		
+		inquireDAO.save(policy);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.gdpost.web.service.UserService#delete(java.lang.Long)  
+	 */
+	@Override
+	public void deleteInquire(Long id) {
+		inquireDAO.deleteById(id);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see com.gdpost.web.service.UserService#findAll(com.gdpost.web.util.dwz.Page)  
+	 */
+	@Override
+	public List<Inquire> findAllInquire(Page page) {
+		org.springframework.data.domain.Page<Inquire> springDataPage = inquireDAO.findAll(PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see com.gdpost.web.service.UserService#findByExample(org.springframework.data.jpa.domain.Specification, com.gdpost.web.util.dwz.Page)	
+	 */
+	@Override
+	public List<Inquire> findByInquireExample(
+			Specification<Inquire> specification, Page page) {
+		org.springframework.data.domain.Page<Inquire> springDataPage = inquireDAO.findAll(specification, PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.gdpost.web.service.UserService#getByInquireNo(java.lang.String)
+	 */
+	@Override
+	public Inquire getByInquireNo(String inquireNo) {
+		return inquireDAO.getByInquireNo(inquireNo);
+	}
+	
+	@Override
+	public List<String> getInquireSubtypeList() {
+		return inquireDAO.getInquireSubtypeList();
+	}
+	
+	/*
+	 * ============================================================
+	 * end of inquire
+	 * ============================================================
+	 */
+	
+	
 }

@@ -42,6 +42,7 @@ import com.gdpost.utils.TemplateHelper.CsExpireColumn;
 import com.gdpost.utils.TemplateHelper.CsLoanColumn;
 import com.gdpost.utils.TemplateHelper.CsReportColumn;
 import com.gdpost.utils.TemplateHelper.DocNotScanDtlColumn;
+import com.gdpost.utils.TemplateHelper.InquireColumn;
 import com.gdpost.utils.TemplateHelper.IssueColumn;
 import com.gdpost.utils.TemplateHelper.IssuePFRColumn;
 import com.gdpost.utils.TemplateHelper.IssuePFRDealColumn;
@@ -150,7 +151,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 		switch(ft) {
 		case Policy:
 			standardColumns = PolicyColumn.getStandardColumns();
-			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_policy character set utf8 (";
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_policy character set utf8 (";
 			sql1 = "delete from t_policy where form_no is null;";
 			sql2 = "update t_policy set attached_flag = 1 where attached_flag=0 and prod_name like \"%附加%\";";
 			sql3 = "update t_policy set attached_flag = 2 where attached_flag=0 and prod_name like \"%禄禄通%\";";
@@ -162,35 +163,33 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql7 = "update t_under_write as uw inner join t_policy tp on uw.form_no=tp.form_no set uw.policy_no=tp.policy_no,uw.sign_date=tp.policy_date where uw.policy_no is null;";
 			sql10 = "update t_policy t1, t_bank_code t2 set t1.bank_name=t2.name where (t1.bank_name like '%邮政局%' or t1.bank_name='') and t1.prod_name not like '%禄禄通%' and t1.bank_code=t2.cpi_code;";
 	        break;
-		case PolicyIngor:
-			standardColumns = PolicyColumn.getStandardColumns();
-			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_policy character set utf8 (";
-			sql1 = "delete from t_policy where form_no is null;";
-			sql2 = "update t_policy set attached_flag = 1 where prod_name like \"%附加%\";";
-			sql3 = "update t_under_write as uw inner join t_policy tp on uw.form_no=tp.form_no set uw.policy_no=tp.policy_no,uw.sign_date=tp.policy_date where uw.policy_no is null;";
-			break;
 		case PolicyDtl:
 			standardColumns = PolicyDtlColumn.getStandardColumns();
-			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_policy_dtl character set utf8 (";
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_policy_dtl character set utf8 (";
 			sql2 = "update t_policy tp, t_policy_dtl tpd, t_staff ts set tp.staff_flag=true,tp.duration=tpd.duration where tp.staff_flag=0 and tp.policy_no=tpd.policy_no and tpd.holder_card_num=ts.id_card;";
 			sql3 = "update t_policy tp, t_policy_dtl tpd set tp.duration=tpd.duration where tp.policy_no=tpd.policy_no and tp.duration<>tpd.duration and tp.attached_flag=0 and tpd.duration<>1 and tp.duration=1;";
 			sql1 = "delete from t_policy_dtl where prod_name like \"%附加%\";";
 			break;
 		case NewPolicyDtl:
 			standardColumns = PolicyDtlsColumn.getStandardColumns();
-			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_policy_dtl character set utf8 (";
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_policy_dtl character set utf8 (";
 			sql2 = "update t_policy tp, t_policy_dtl tpd, t_staff ts set tp.staff_flag=true,tp.duration=tpd.duration where tp.staff_flag=0 and tp.policy_no=tpd.policy_no and tpd.holder_card_num=ts.id_card;";
 			sql3 = "update t_policy tp, t_policy_dtl tpd set tp.duration=tpd.duration where tp.policy_no=tpd.policy_no and tp.duration<>tpd.duration and tp.attached_flag=0 and tpd.duration<>1 and tp.duration=1;";
 			sql1 = "delete from t_policy_dtl where prod_name like \"%附加%\";";
 			break;
 		case Issue:
 			standardColumns = IssueColumn.getStandardColumns();
-			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_issue character set utf8 (";
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_issue character set utf8 (";
 			sql1 = "update t_issue set issue_type=\"条款解释不清\" where issue_type like \"%条款解释不清%\";";
+			break;
+		case Inquire:
+			standardColumns = InquireColumn.getStandardColumns();
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_inquire character set utf8 (";
+			sql1 = "update t_inquire set policy_no=left(policy_nos,14) where policy_no is null;";
 			break;
 		case IssuePFR:
 			standardColumns = IssuePFRColumn.getStandardColumns();
-			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_issue character set utf8 (";
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_issue character set utf8 (";
 			sql1 = "update t_issue set should_date=ready_date where should_date is null or should_date<\"2000-11-01 09:00:00\";";
 			sql2 = "update t_issue set issue_type=\"条款解释不清\" where issue_type like \"%条款解释不清%\";";
 			sql3 = "update t_issue set issue_type=\"代签名\" where issue_type like \"%代签名%\";";
@@ -621,13 +620,13 @@ public class UploadDataServiceImpl implements UploadDataService{
 		switch(ft) {
 		case Policy:
 			return dr;
-		case PolicyIngor:
-			return dr;
 		case PolicyDtl:
 			return dr;
 		case NewPolicyDtl:
 			return dr;
 		case Issue:
+			return dr;
+		case Inquire:
 			return dr;
 		case IssuePFRDeal:
 			standardColumns = IssuePFRDealColumn.getStandardColumns();
@@ -1516,11 +1515,6 @@ public class UploadDataServiceImpl implements UploadDataService{
 			standardColumns = PolicyColumn.getStandardColumns();
 			keyRow = PolicyColumn.KEY_ROW;
 			break;
-		case PolicyIngor:
-			log.debug("----------get the policyIngor column");
-			standardColumns = PolicyColumn.getStandardColumns();
-			keyRow = PolicyColumn.KEY_ROW;
-			break;
 		case PolicyDtl:
 			log.debug("----------get the dtl column");
 			standardColumns = PolicyDtlColumn.getStandardColumns();
@@ -1540,6 +1534,11 @@ public class UploadDataServiceImpl implements UploadDataService{
 			log.debug("----------get the issue column");
 			standardColumns = IssueColumn.getStandardColumns();
 			keyRow = IssueColumn.KEY_ROW;
+			break;
+		case Inquire:
+			log.debug("----------get the inquire column");
+			standardColumns = InquireColumn.getStandardColumns();
+			keyRow = InquireColumn.KEY_ROW;
 			break;
 		case CallFail:
 			standardColumns = IssueColumn.getStandardColumns();
