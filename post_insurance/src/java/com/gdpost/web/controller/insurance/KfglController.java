@@ -234,6 +234,9 @@ public class KfglController {
 	public @ResponseBody String reopen(@Valid @ModelAttribute("preloadIssue") Issue issue) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		Issue src = kfglService.get(issue.getId());
+		if (!src.getStatus().equals(STATUS.IngStatus.name())) {
+			return AjaxObject.newError("工单状态不足以操作审核：请核查工单状态。").setCallbackType("").toString();
+		}
 		src.setStatus(StatusDefine.STATUS.NewStatus.getDesc());
 		src.setReopenUser(shiroUser.getUser());
 		src.setReopenReason(issue.getReopenReason());
@@ -250,6 +253,9 @@ public class KfglController {
 	public @ResponseBody String dealIssue(@Valid @ModelAttribute("preloadIssue") Issue issue) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		Issue src = kfglService.get(issue.getId());
+		if (!src.getStatus().equals(STATUS.IngStatus.name())) {
+			return AjaxObject.newError("工单状态不足以操作审核：请核查工单状态。").setCallbackType("").toString();
+		}
 		src.setStatus(STATUS.DealStatus.getDesc());
 		src.setChecker(shiroUser.getUser().getUsername() + "_" + shiroUser.getUser().getRealname());
 		src.setCheckDate(new Date());
@@ -776,7 +782,8 @@ public class KfglController {
 	@RequestMapping(value = "/inquire/view/{id}", method = RequestMethod.GET)
 	public String viewAsk(@PathVariable Long id, Map<String, Object> map) {
 		Inquire inquire = kfglService.getInquire(id);
-
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		map.put("checker", shiroUser.getUser().getRealname());
 		map.put("inquire", inquire);
 		map.put("inquireStatus", STATUS.NewStatus);
 		return ASK_VIEW;
@@ -890,6 +897,9 @@ public class KfglController {
 	public @ResponseBody String reopenAsk(@Valid @ModelAttribute("preloadInquire") Inquire inquire) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		Inquire src = kfglService.getInquire(inquire.getId());
+		if (!src.getInquireStatus().equals(STATUS.IngStatus.name())) {
+			return AjaxObject.newError("工单状态不足以操作审核：请核查工单状态。").setCallbackType("").toString();
+		}
 		src.setInquireStatus(StatusDefine.STATUS.NewStatus.name());
 		src.setReopenUser(shiroUser.getUser());
 		src.setReopenReason(inquire.getReopenReason());
@@ -904,10 +914,14 @@ public class KfglController {
 	@RequiresPermissions("Inquire:edit")
 	@RequestMapping(value = "/inquire/deal", method = RequestMethod.POST)
 	public @ResponseBody String dealAsk(@Valid @ModelAttribute("preloadInquire") Inquire inquire) {
-		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		//ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		Inquire src = kfglService.getInquire(inquire.getId());
+		if (!src.getInquireStatus().equals(STATUS.IngStatus.name())) {
+			return AjaxObject.newError("工单状态不足以操作审核：请核查咨询件状态。").setCallbackType("").toString();
+		}
 		src.setInquireStatus(STATUS.DealStatus.name());
-		src.setChecker(shiroUser.getUser().getUsername() + "_" + shiroUser.getUser().getRealname());
+		src.setChecker(inquire.getChecker());
+		src.setCheckRst(inquire.getCheckRst());
 		src.setCheckDate(new Date());
 		kfglService.saveOrUpdateInquire(src);
 
@@ -984,6 +998,7 @@ public class KfglController {
 				inquire = kfglService.getInquire(ids[i]);
 				inquire.setInquireStatus(STATUS.DealStatus.name());
 				inquire.setChecker(shiroUser.getUser().getUsername() + "_" + shiroUser.getUser().getRealname());
+				inquire.setCheckRst("审核通过。");
 				inquire.setCheckDate(new Date());
 				kfglService.saveOrUpdateInquire(inquire);
 

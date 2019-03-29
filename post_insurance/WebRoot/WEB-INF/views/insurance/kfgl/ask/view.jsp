@@ -4,7 +4,7 @@
 <form method="post" id="inquireForm" action="${contextPath}/kfgl/inquire/reopen" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
 	<input type="hidden" name="id" value="${inquire.id}"/>
 	<input type="hidden" name="inquireStatus" value="${inquire.inquireStatus}"/>
-	<div class="pageFormContent" layoutH="58">
+	<div class="pageFormContent" layoutH="60">
 	<fieldset>
 		<legend>工单基本信息</legend>
 		<p>
@@ -95,19 +95,19 @@
 			<input type="text" name="reopenDate" disabled="true" class="input-medium" maxlength="32" value="${inquire.reopenDate }"/>
 		</p>
 	</fieldset>
-	</div>
 	<div class="divider"></div>
 	<fieldset>
 		<legend>审核</legend>
 		<p class="nowrap">
 			<label>审核人：</label>
-			${inquire.checker }
+			<input type="text" name="checker" class="input-medium" maxlength="32" value="${checker }"/>
 		</p>
 		<p class="nowrap">
-			<label>审核日期：</label>
-			<fmt:formatDate value="${item.checkDate }" pattern="yyyy-MM-dd"/>
+			<label>审核意见：</label>
+			<input type="text" name="checkRst" class="input-medium" maxlength="52" value="审核通过。"/>
 		</p>
 	</fieldset>
+	</div>
 	<div class="formBar">
 		<ul>
 			<shiro:hasPermission name="Inquire:provEdit">

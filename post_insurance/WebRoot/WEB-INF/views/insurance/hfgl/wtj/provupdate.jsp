@@ -140,6 +140,18 @@
 			<span class="unit">${issue.dealMan }</span>
 		</p>
 	</fieldset>
+	<div class="divider"></div>
+	<fieldset>
+		<legend>审核记录</legend>
+		<p class="nowrap">
+			<label>审核人：</label>
+			<span class="unit">${issue.checker }</span>
+		</p>
+		<p class="nowrap">
+			<label>审核日期：</label>
+			<span class="unit">${issue.checkDate }</span>
+		</p>
+	</fieldset>
 	</div>
 			
 	<div class="formBar">
