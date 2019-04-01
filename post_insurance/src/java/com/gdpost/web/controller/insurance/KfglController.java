@@ -928,6 +928,46 @@ public class KfglController {
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[] { inquire.getInquireNo() }));
 		return AjaxObject.newOk("审核问题工单成功！").toString();
 	}
+	
+	@Log(message = "转办了{0}问题工单的信息。", level = LogLevel.WARN, module = LogModule.KFGL)
+	@RequiresPermissions("Inquire:edit")
+	@RequestMapping(value = "/inquire/toCity", method = RequestMethod.POST)
+	public @ResponseBody String toCity(@Valid @ModelAttribute("preloadInquire") Inquire inquire) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		Inquire src = kfglService.getInquire(inquire.getId());
+		src.setCityDealFlag(true);
+		src.setToCityUser(shiroUser.getUser());
+		src.setToCityDate(new Date());
+		kfglService.saveOrUpdateInquire(src);
+
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[] { inquire.getInquireNo() }));
+		return AjaxObject.newOk("咨询工单转办成功！").toString();
+	}
+	
+	@Log(message = "对{0}问题工单进行了批量转办。", level = LogLevel.WARN, module = LogModule.KFGL)
+	@RequiresPermissions("Inquire:provEdit")
+	@RequestMapping(value = "/inquire/batchToCity", method = RequestMethod.POST)
+	public @ResponseBody String batchToCity(Long[] ids) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		String[] policys = new String[ids.length];
+		try {
+			Inquire inquire = null;
+			for (int i = 0; i < ids.length; i++) {
+				inquire = kfglService.getInquire(ids[i]);
+				inquire.setCityDealFlag(true);
+				inquire.setToCityUser(shiroUser.getUser());
+				inquire.setToCityDate(new Date());
+				kfglService.saveOrUpdateInquire(inquire);
+
+				policys[i] = inquire.getInquireNo();
+			}
+		} catch (ServiceException e) {
+			return AjaxObject.newError("批量转办工单失败：" + e.getMessage()).setCallbackType("").toString();
+		}
+
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[] { Arrays.toString(policys) }));
+		return AjaxObject.newOk("成功批量转办咨询工单！").setCallbackType("").toString();
+	}
 
 	@Log(message = "结案了{0}问题工单的信息。", level = LogLevel.WARN, module = LogModule.KFGL)
 	@RequiresPermissions("Inquire:edit")
@@ -1063,6 +1103,11 @@ public class KfglController {
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 
+		//只回显需要地市处理的
+		if(orgCode.length() >= 6) {
+			csf.add(new SearchFilter("cityDealFlag", Operator.EQ, 1));
+		}
+		
 		if (inquireSubtype != null && inquireSubtype.trim().length() > 0) {
 			csf.add(new SearchFilter("inquireSubtype", Operator.EQ, inquireSubtype));
 		}
@@ -1125,6 +1170,11 @@ public class KfglController {
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 		
+		//只回显需要地市处理的
+		if(orgCode.length() >= 6) {
+			csf.add(new SearchFilter("cityDealFlag", Operator.EQ, 1));
+		}
+				
 		if(inquireType != null && inquireType.trim().length()>0) {
 			csf.add(new SearchFilter("inquireType", Operator.EQ, inquireType));
 		}
@@ -1179,6 +1229,11 @@ public class KfglController {
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 
+		//只回显需要地市处理的
+		if(orgCode.length() >= 6) {
+			csf.add(new SearchFilter("cityDealFlag", Operator.EQ, 1));
+		}
+				
 		// 如果是县区局登录的机构号为8位，需要根据保单的所在机构进行筛选
 		if (user.getOrganization().getOrgCode().length() > 4) {
 			if (inquireStatus.length() <= 0) {

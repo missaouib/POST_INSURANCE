@@ -14,10 +14,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.JoinColumnOrFormula;
 import org.hibernate.annotations.JoinColumnsOrFormulas;
 import org.hibernate.annotations.JoinFormula;
+
+import com.gdpost.utils.StringUtil;
 
 /**
  * Inquire entity. @author MyEclipse Persistence Tools
@@ -84,10 +87,27 @@ public class Inquire implements java.io.Serializable {
 	private String checker;
 	private Date checkDate;
 	private String checkRst;
+	private Boolean cityDealFlag;
+	private Date toCityDate;
+	private User toCityUser;
 	private Long operateId;
 	private Date operateTime;
+	
+	@Transient
+	private Date shouldDate;
+	
 
 	// Constructors
+
+	@Transient
+	public Date getShouldDate() {
+		return StringUtil.dateAdd(operateTime, 5);
+	}
+
+	@Transient
+	public void setShouldDate(Date shouldDate) {
+		this.shouldDate = shouldDate;
+	}
 
 	/** default constructor */
 	public Inquire() {
@@ -677,9 +697,38 @@ public class Inquire implements java.io.Serializable {
 	public void setCheckRst(String checkRst) {
 		this.checkRst = checkRst;
 	}
+	
+
+	@Column(name = "city_deal_flag")
+	public Boolean getCityDealFlag() {
+		return cityDealFlag;
+	}
+
+	public void setCityDealFlag(Boolean cityDealFlag) {
+		this.cityDealFlag = cityDealFlag;
+	}
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "to_city_date")
+	public Date getToCityDate() {
+		return toCityDate;
+	}
+
+	public void setToCityDate(Date toCityDate) {
+		this.toCityDate = toCityDate;
+	}
+
+	@ManyToOne(optional=true)
+	@JoinColumn(name = "to_city_user_id", referencedColumnName="id")
+	public User getToCityUser() {
+		return toCityUser;
+	}
+
+	public void setToCityUser(User toCityUser) {
+		this.toCityUser = toCityUser;
+	}
 
 	@Column(name = "operate_id")
-
 	public Long getOperateId() {
 		return this.operateId;
 	}

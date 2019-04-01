@@ -54,7 +54,7 @@
         <td>工单子类型： </td>
         <td>${inquire.inquireSubtype } </td>
         <td>要求时效： </td>
-        <td><fmt:formatDate value="${inquire.operateTime+5}" pattern="yyyy-MM-dd"/></td>
+        <td><fmt:formatDate value="${inquire.shouldDate}" pattern="yyyy-MM-dd"/></td>
       </tr>
     </table></td>
     </tr>

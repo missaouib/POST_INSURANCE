@@ -28,7 +28,7 @@
 				<th orderField=organization.name class="${page.orderField eq 'organization.name' ? page.orderDirection : ''}">所属机构</th>
 				<th orderField=inquireNo class="${page.orderField eq 'inquireNo' ? page.orderDirection : ''}">工单编号</th>
 				<th>工单内容</th>
-				<th orderField=shouldDate class="${page.orderField eq 'shouldDate' ? page.orderDirection : ''}">待处理时间</th>
+				<th orderField=shouldDate class="${page.orderField eq 'operateTime' ? page.orderDirection : ''}">待处理时间</th>
 				<th>离结案还有（天）</th>
 				<th orderField=policy.policyNo class="${page.orderField eq 'policy.policyNo' ? page.orderDirection : ''}">所属保单号</th>
 				<th>保单所属机构</th>
@@ -43,7 +43,7 @@
 				<td>${item.inquireNo}</td>
 				<td>${item.inquireDesc}</td>
 				<td>${item.operateTime }</td>
-				<td><span style="color:red; height:50%; margin-bottom:-contentheight;">${item.operateTime+5 }</span></td>
+				<td><span style="color:red; height:50%; margin-bottom:-contentheight;">${item.shouldDate }</span></td>
 				<td>${item.policy.policyNo}</td>
 				<td>${item.policy.organization.shortName}</td>
 				<td>${item.status}</td>

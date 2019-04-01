@@ -49,12 +49,13 @@ response.setHeader("Content-Disposition", "inline; filename=Inquires_xls.xls");
     <thead>
       <tr>
         <th>机构名称</th>
-        <th>工单流水号</th>
+        <th>工单标记</th>
+        <th>流水号</th>
         <th>保单号</th>
         <th>客户姓名</th>
         <th>工单子类</th>
         <th>工单内容</th>
-        <th>银行网点名称</th>
+        <th>网点名称</th>
         <th>联系电话</th>
         <th>手机号码</th>
         <th>处理结果</th>
@@ -67,6 +68,17 @@ response.setHeader("Content-Disposition", "inline; filename=Inquires_xls.xls");
       <c:forEach var="item" items="${reqs}">
 		<tr>
 			<td>${item.organName}</td>
+			<td>
+					<c:choose>
+                        <c:when test="${not empty item.policyNos}">
+                        	<div style="color: blue;vertical-align:middle;">个险</div>
+                        </c:when>
+                        <c:when test="${not empty item.gpolicyNo}">
+                        	<div style="color: blue;vertical-align:middle;">团险</div>
+                        </c:when>
+                       <c:otherwise>个险团险 </c:otherwise>
+                    </c:choose>
+				</td>
 			<td>${item.inquireNo}</td>
 			<td style="vnd.ms-excel.numberformat:@">${item.policy.policyNo}</td>
 			<td>${item.policy.holder}</td>

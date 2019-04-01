@@ -11,6 +11,7 @@ response.setHeader("Content-Disposition", "inline; filename=Inquire_xls.xls");
 			<tr>
 				<th>序号</th>
 				<th>保单机构</th>
+				<th>工单标记</th>
 				<th>工单编号</th>
 				<th>工单类型</th>
 				<th>工单内容</th>
@@ -23,9 +24,9 @@ response.setHeader("Content-Disposition", "inline; filename=Inquire_xls.xls");
 				<th>出单网点</th>
 				<th>工单状态</th>
 				<th>所属机构</th>
-				<th>市县处理结果</th>
-				<th>市县经办人</th>
-				<th>市县经办时间</th>
+				<th>处理情况</th>
+				<th>经办人</th>
+				<th>经办时间</th>
 				<th>审核人</th>
 				<th>审核日期</th>
 				<th>是否银行单子</th>
@@ -34,6 +35,17 @@ response.setHeader("Content-Disposition", "inline; filename=Inquire_xls.xls");
 			<tr>
 				<td><c:out value="${status.index+1}"/></td>
 				<td>${item.policy.organization.shortName}</td>
+				<td>
+					<c:choose>
+                        <c:when test="${not empty item.policyNos}">
+                        	<div style="color: blue;vertical-align:middle;">个险</div>
+                        </c:when>
+                        <c:when test="${not empty item.gpolicyNo}">
+                        	<div style="color: blue;vertical-align:middle;">团险</div>
+                        </c:when>
+                       <c:otherwise>个险团险 </c:otherwise>
+                    </c:choose>
+				</td>
 				<td>${item.inquireNo}</td>
 				<td>${item.inquireSubtype}</td>
 				<td>${item.inquireDesc}</td>
