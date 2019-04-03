@@ -158,7 +158,7 @@ public class UploadController {
         {
             Long lFileSize = Long.parseLong(request.getParameter("size"));
             int iNY = UploadDataUtils.getNianYue();
-            String strPath = UploadDataUtils.getFileStorePath(request, iNY);
+            String strPath = UploadDataUtils.getFileStorePath(request, iNY, "UPDATE");
     		String strTempPath = UploadDataUtils.getFileStoreTempPath(request);
     		String strFileName = file.getOriginalFilename();
             // 临时文件目录不存在创建目录

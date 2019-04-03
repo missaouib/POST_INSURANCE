@@ -14,7 +14,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collection;
@@ -24,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.poi.hwpf.HWPFDocument;
@@ -48,10 +52,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.gdpost.utils.FileUtils;
 import com.gdpost.utils.SecurityUtils;
 import com.gdpost.utils.StringUtil;
+import com.gdpost.utils.UploadDataHelper.UploadDataUtils;
 import com.gdpost.web.entity.main.Inquire;
 import com.gdpost.web.entity.main.Issue;
 import com.gdpost.web.entity.main.Organization;
@@ -78,6 +84,8 @@ import com.gdpost.web.util.persistence.SearchFilter.Operator;
 @RequestMapping("/kfgl")
 public class KfglController {
 	private static final Logger LOG = LoggerFactory.getLogger(KfglController.class);
+	
+	String strError = "{\"jsonrpc\":\"2.0\",\"result\":\"error\",\"id\":\"id\",\"message\":\"操作失败。\"}";
 
 	@Autowired
 	private KfglService kfglService;
@@ -877,7 +885,150 @@ public class KfglController {
 	@Log(message = "回复了{0}问题工单的信息。", level = LogLevel.WARN, module = LogModule.KFGL)
 	@RequiresPermissions("Inquire:edit")
 	@RequestMapping(value = "/inquire/update", method = RequestMethod.POST)
-	public @ResponseBody String updateAsk(@Valid @ModelAttribute("preloadInquire") Inquire inquire) {
+	public @ResponseBody String updateAsk(HttpServletRequest request, @RequestParam(value = "file", required = true) MultipartFile file, @Valid @ModelAttribute("preloadInquire") Inquire inquire) {
+		int iNY = UploadDataUtils.getNianYue();
+        String strPath = UploadDataUtils.getNoticeFileStorePath(request, iNY, "KFGL");
+        String updatePath = UploadDataUtils.getNoticeRelateFileStorePath(request, iNY, "KFGL");
+		String strNewFileName = null;
+		boolean hasFile = false;
+        if(file != null && file.getOriginalFilename() != null && file.getOriginalFilename().trim().length()>0) {
+	        try
+	        {
+	        	hasFile = true;
+	        	String name = file.getOriginalFilename();
+	            Long lFileSize = file.getSize();
+	
+	            com.gdpost.utils.UploadDataHelper.SessionChunk sessionChunk = new com.gdpost.utils.UploadDataHelper.SessionChunk();
+	            com.gdpost.utils.UploadDataHelper.FileChunk fileChunk = sessionChunk.getSessionChunk(request);
+	            if(fileChunk == null) {
+	                fileChunk = new com.gdpost.utils.UploadDataHelper.FileChunk();
+	            }
+	            String chunkSize = request.getParameter("chunkSize");
+	            int iChunkSize = Integer.parseInt(chunkSize==null?"0":chunkSize); //分块大小
+	            String strOriginalFileName = name;
+	            String strSessionID = request.getSession().getId();
+	            
+	            int iCurrentChunk = 1;
+	            int iChunks = 1;
+	            try {
+	            	iCurrentChunk = Integer.parseInt(request.getParameter("chunk")); //当前分块
+	            	iChunks = Integer.parseInt(request.getParameter("chunks"));//总的分块数量
+	            } catch(Exception e) {
+	            }
+	            
+	            strNewFileName = strOriginalFileName;
+	            if (iChunks > 1) {
+	            	strNewFileName = iCurrentChunk + "_" + strSessionID + "_" + strOriginalFileName;   //按文件块重命名块文件
+	            }
+	            
+	            String strFileGroup = request.getParameter("fileGroup"); // 当前文件组
+	            fileChunk.setChunks(iChunks);
+	            fileChunk.setChunkSize(iChunkSize);
+	            fileChunk.setCurrentChunk(iCurrentChunk);
+	            fileChunk.setFileName(strOriginalFileName);
+	            fileChunk.setFileGroup(strFileGroup);
+	            fileChunk.setFileSize(lFileSize);
+	            fileChunk.setListFileName(strOriginalFileName);
+	            
+	            sessionChunk.setSessionChunk(request, fileChunk);
+	            
+	            File uploadedFile = null;
+	            if (iChunks > 1) {
+	            	uploadedFile = new File(strPath, strNewFileName);
+	            	if(uploadedFile.exists()) {
+	            		uploadedFile.delete();
+	            	}
+	            	
+	            	uploadedFile = new File(strPath, strNewFileName);
+	            	
+	            	try {
+	    				org.apache.commons.io.FileUtils.writeByteArrayToFile(uploadedFile, file.getBytes());
+	    			} catch (IOException e) {
+	    				LOG.error(e.getMessage());
+	    				return (strError);
+	    			} catch (Exception e) {
+	    				LOG.error(e.getMessage());
+	    				return (strError);				
+	    			}
+	            	
+	                if(iCurrentChunk + 1 == iChunks) {
+	                    // 上传完成转移到完成文件目录
+	                    int BUFSIZE = 1024 * 1024 * 8;
+	                    FileChannel outChannel = null;
+	                    
+	                	try {
+	                		FileOutputStream fos = new FileOutputStream(strPath + File.separator + strOriginalFileName);
+	                		outChannel = fos.getChannel();
+	                		String strChunkFile = "";
+	                		ByteBuffer bb = ByteBuffer.allocate(BUFSIZE);
+	                	    for (int i = 0; i < iChunks; i++) {
+	                	    	strChunkFile = strPath + File.separator + i + "_" + strSessionID + "_" + strOriginalFileName;
+	                	    	FileInputStream fis = new FileInputStream(strChunkFile);
+	                	    	FileChannel fc = fis.getChannel();
+	                	    	while(fc.read(bb) != -1){
+	                	    		bb.flip();
+	                	    	    outChannel.write(bb);
+	                	    		bb.clear();
+	                	    	}
+	                	    	
+	                	    	fc.close();
+	                	    	fis.close();
+	                	    
+	                	    	java.nio.file.Path path = java.nio.file.Paths.get(strChunkFile);
+	                	    	Files.delete(path);
+	            	    	}
+	
+	                	    fos.close();
+	            	    	
+	                		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{strNewFileName}));
+	                	    ShiroUser shiroUser = SecurityUtils.getShiroUser();
+	                	    LOG.info(shiroUser.getLoginName() + "上传了" + strOriginalFileName);
+	    				
+	            		} catch (FileNotFoundException e) {
+	            			LOG.error(e.getMessage());
+	            			return AjaxObject.newError("发布失败！").toString();
+	    				} catch (IOException e) {
+	    					LOG.error(e.getMessage());
+	    					return AjaxObject.newError("发布失败！").toString();
+	    				} catch (Exception e) {
+	    					LOG.error(e.getMessage());
+	    					return AjaxObject.newError("发布失败！").toString();
+	    				}
+	                	finally {
+	            			try {
+	            				if(outChannel != null) {
+	            					outChannel.close();
+	            				}
+	    					} catch (IOException e) {
+	    					}
+	                	}
+	                }
+	            } else { 
+	                // 单个文件直接保存
+	            	LOG.debug("-------------single file name:" + strOriginalFileName);
+	            	uploadedFile = new File(strPath, strNewFileName);
+	            	try {
+	    				org.apache.commons.io.FileUtils.writeByteArrayToFile(uploadedFile, file.getBytes());
+	            	    ShiroUser shiroUser = SecurityUtils.getShiroUser();
+	            	    LOG.info(shiroUser.getLoginName() + "上传了" + strNewFileName);
+	    				LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{strOriginalFileName}));
+	    			} catch (IOException e) {
+	    				LOG.error(e.getMessage());
+	    				return AjaxObject.newError("发布失败！").toString();
+	    			}
+	            	
+	            }
+	        }
+	        catch (Exception e)
+	        {
+	            // 上传失败，IO异常！
+	            e.printStackTrace();
+	            LOG.error("--- UPLOAD FAIL ---");
+	            LOG.error(e.getMessage());
+	            return AjaxObject.newError("发布失败！").toString();
+	        }
+        }
+        
 		Inquire src = kfglService.getInquire(inquire.getId());
 		src.setDealMan(inquire.getDealMan());
 		src.setDealTime(inquire.getDealTime());
@@ -885,6 +1036,12 @@ public class KfglController {
 		//src.setCityReviewRst(inquire.getCityReviewRst());
 		//src.setCityReviewer(inquire.getCityReviewer());
 		src.setInquireStatus(StatusDefine.STATUS.IngStatus.getDesc());
+		if(src.getAttrLink() != null && src.getAttrLink().trim().length() >0 ) {
+			UploadDataUtils.delateFile(request, src.getAttrLink());
+		}
+		if (hasFile) {
+	        src.setAttrLink(updatePath + "/" + strNewFileName);
+        }
 		kfglService.saveOrUpdateInquire(src);
 
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[] { inquire.getInquireNo() }));

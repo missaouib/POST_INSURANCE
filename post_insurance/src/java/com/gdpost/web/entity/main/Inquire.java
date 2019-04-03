@@ -92,6 +92,7 @@ public class Inquire implements java.io.Serializable {
 	private User toCityUser;
 	private Long operateId;
 	private Date operateTime;
+	private String attrLink;
 	
 	@Transient
 	private Date shouldDate;
@@ -745,6 +746,15 @@ public class Inquire implements java.io.Serializable {
 
 	public void setOperateTime(Date operateTime) {
 		this.operateTime = operateTime;
+	}
+
+	@Column(name = "attr_link")
+	public String getAttrLink() {
+		return attrLink;
+	}
+
+	public void setAttrLink(String attrLink) {
+		this.attrLink = attrLink;
 	}
 
 }

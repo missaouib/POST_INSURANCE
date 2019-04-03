@@ -453,8 +453,8 @@ public class LpglController {
 		LOG.debug("-------------------------------------upload:" + file.getOriginalFilename());
         LOG.debug("------------" + task.toString());
         int iNY = UploadDataUtils.getNianYue();
-        String strPath = UploadDataUtils.getNoticeFileStorePath(request, iNY);
-        String updatePath = UploadDataUtils.getNoticeRelateFileStorePath(request, iNY);
+        String strPath = UploadDataUtils.getNoticeFileStorePath(request, iNY, "LPGL");
+        String updatePath = UploadDataUtils.getNoticeRelateFileStorePath(request, iNY, "LPGL");
 		String strNewFileName = null;
 		boolean hasFile = false;
 		String realname = request.getParameter("realname");
@@ -682,15 +682,170 @@ public class LpglController {
 	@Log(message="修改了出险人{0}的案件调查任务信息。", level=LogLevel.WARN, module=LogModule.LPGL)
 	@RequiresPermissions("SettleTask:edit")
 	@RequestMapping(value="/task/update", method=RequestMethod.POST)
-	public @ResponseBody String updateTask(@Valid SettleTask task, HttpServletRequest request) {
+	public @ResponseBody String updateTask(HttpServletRequest request, @RequestParam(value = "file", required = true) MultipartFile file, SettleTask task) {
 		String taskId = request.getParameter("taskId");
 		String policyNo = request.getParameter("policyNo");
 		String realname = request.getParameter("user.realname");
+		
+		int iNY = UploadDataUtils.getNianYue();
+        String strPath = UploadDataUtils.getNoticeFileStorePath(request, iNY, "LPGL");
+        String updatePath = UploadDataUtils.getNoticeRelateFileStorePath(request, iNY, "LPGL");
+		String strNewFileName = null;
+		boolean hasFile = false;
+        if(file != null && file.getOriginalFilename() != null && file.getOriginalFilename().trim().length()>0) {
+	        try
+	        {
+	        	hasFile = true;
+	        	String name = file.getOriginalFilename();
+	            Long lFileSize = file.getSize();
+	
+	            com.gdpost.utils.UploadDataHelper.SessionChunk sessionChunk = new com.gdpost.utils.UploadDataHelper.SessionChunk();
+	            com.gdpost.utils.UploadDataHelper.FileChunk fileChunk = sessionChunk.getSessionChunk(request);
+	            if(fileChunk == null) {
+	                fileChunk = new com.gdpost.utils.UploadDataHelper.FileChunk();
+	            }
+	            String chunkSize = request.getParameter("chunkSize");
+	            int iChunkSize = Integer.parseInt(chunkSize==null?"0":chunkSize); //分块大小
+	            String strOriginalFileName = name;
+	            String strSessionID = request.getSession().getId();
+	            
+	            int iCurrentChunk = 1;
+	            int iChunks = 1;
+	            try {
+	            	iCurrentChunk = Integer.parseInt(request.getParameter("chunk")); //当前分块
+	            	iChunks = Integer.parseInt(request.getParameter("chunks"));//总的分块数量
+	            } catch(Exception e) {
+	            }
+	            
+	            strNewFileName = strOriginalFileName;
+	            if (iChunks > 1) {
+	            	strNewFileName = iCurrentChunk + "_" + strSessionID + "_" + strOriginalFileName;   //按文件块重命名块文件
+	            }
+	            
+	            String strFileGroup = request.getParameter("fileGroup"); // 当前文件组
+	            fileChunk.setChunks(iChunks);
+	            fileChunk.setChunkSize(iChunkSize);
+	            fileChunk.setCurrentChunk(iCurrentChunk);
+	            fileChunk.setFileName(strOriginalFileName);
+	            fileChunk.setFileGroup(strFileGroup);
+	            fileChunk.setFileSize(lFileSize);
+	            fileChunk.setListFileName(strOriginalFileName);
+	            
+	            sessionChunk.setSessionChunk(request, fileChunk);
+	            
+	            File uploadedFile = null;
+	            if (iChunks > 1) {
+	            	uploadedFile = new File(strPath, strNewFileName);
+	            	if(uploadedFile.exists()) {
+	            		uploadedFile.delete();
+	            	}
+	            	
+	            	uploadedFile = new File(strPath, strNewFileName);
+	            	
+	            	try {
+	    				org.apache.commons.io.FileUtils.writeByteArrayToFile(uploadedFile, file.getBytes());
+	    			} catch (IOException e) {
+	    				LOG.error(e.getMessage());
+	    				return (strError);
+	    			} catch (Exception e) {
+	    				LOG.error(e.getMessage());
+	    				return (strError);				
+	    			}
+	            	
+	                if(iCurrentChunk + 1 == iChunks) {
+	                    // 上传完成转移到完成文件目录
+	                    int BUFSIZE = 1024 * 1024 * 8;
+	                    FileChannel outChannel = null;
+	                    
+	                	try {
+	                		FileOutputStream fos = new FileOutputStream(strPath + File.separator + strOriginalFileName);
+	                		outChannel = fos.getChannel();
+	                		String strChunkFile = "";
+	                		ByteBuffer bb = ByteBuffer.allocate(BUFSIZE);
+	                	    for (int i = 0; i < iChunks; i++) {
+	                	    	strChunkFile = strPath + File.separator + i + "_" + strSessionID + "_" + strOriginalFileName;
+	                	    	FileInputStream fis = new FileInputStream(strChunkFile);
+	                	    	FileChannel fc = fis.getChannel();
+	                	    	while(fc.read(bb) != -1){
+	                	    		bb.flip();
+	                	    	    outChannel.write(bb);
+	                	    		bb.clear();
+	                	    	}
+	                	    	
+	                	    	fc.close();
+	                	    	fis.close();
+	                	    
+	                	    	java.nio.file.Path path = java.nio.file.Paths.get(strChunkFile);
+	                	    	Files.delete(path);
+	            	    	}
+	
+	                	    fos.close();
+	            	    	
+	                		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{strNewFileName}));
+	                	    ShiroUser shiroUser = SecurityUtils.getShiroUser();
+	                	    LOG.info(shiroUser.getLoginName() + "上传了" + strOriginalFileName);
+	    				
+	            		} catch (FileNotFoundException e) {
+	            			LOG.error(e.getMessage());
+	            			return AjaxObject.newError("新增失败！").toString();
+	    				} catch (IOException e) {
+	    					LOG.error(e.getMessage());
+	    					return AjaxObject.newError("新增失败！").toString();
+	    				} catch (Exception e) {
+	    					LOG.error(e.getMessage());
+	    					return AjaxObject.newError("新增失败！").toString();
+	    				}
+	                	finally {
+	            			try {
+	            				if(outChannel != null) {
+	            					outChannel.close();
+	            				}
+	    					} catch (IOException e) {
+	    					}
+	                	}
+	                }
+	            } else { 
+	                // 单个文件直接保存
+	            	LOG.debug("-------------single file name:" + strOriginalFileName);
+	            	uploadedFile = new File(strPath, strNewFileName);
+	            	try {
+	    				org.apache.commons.io.FileUtils.writeByteArrayToFile(uploadedFile, file.getBytes());
+	            	    ShiroUser shiroUser = SecurityUtils.getShiroUser();
+	            	    LOG.info(shiroUser.getLoginName() + "上传了" + strNewFileName);
+	    				LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{strOriginalFileName}));
+	    			} catch (IOException e) {
+	    				LOG.error(e.getMessage());
+	    				return AjaxObject.newError("发布失败！").toString();
+	    			}
+	            }
+	        }
+	        catch (Exception e)
+	        {
+	            // 上传失败，IO异常！
+	            e.printStackTrace();
+	            LOG.error("--- UPLOAD FAIL ---");
+	            LOG.error(e.getMessage());
+	            return AjaxObject.newError("增加失败！").toString();
+	        }
+        }
+        ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();
+
+        String attrLink = updatePath + "/" + strNewFileName;
+        
 		Policy policy = policyService.getByPolicyNo(policyNo);
 		SettleTask src = lpglService.getSettleTask(new Long(taskId));
+		
+		if(src.getAttrLink() != null && src.getAttrLink().trim().length()>0) {
+			UploadDataUtils.delateFile(request, src.getAttrLink());
+		}
+		if(hasFile) {
+			src.setAttrLink(attrLink);
+		}
+		
 		StringBuffer loginfo = new StringBuffer("");
-		if(task.getAttrLink()!=null && src.getAttrLink() == null) {
-			loginfo.append("上传附件；");
+		if(task.getAttrLink()!=null) {
+			loginfo.append("修改附件；");
 			src.setAttrLink(task.getAttrLink());
 		}
 		if(realname!=null && !src.getChecker().equals(realname)) {
@@ -710,27 +865,17 @@ public class LpglController {
 			src.setCheckFee(task.getCheckFee());
 		}
 		
-//		task.setOrganization(policy.getOrganization());
-//		task.setPolicy(policy);
-//		task.setSettlementDtl(settleDtl);
 		src.setPolicyNo(policyNo);
 		if(policy != null) {
 			SettlementDtl settleDtl = lpglService.getDtlByPolicyPolicyNo(policyNo);
 			src.setSettlementDtl(settleDtl);
 			src.setOrganization(policy.getOrganization());
 		} else {
-			User user = SecurityUtils.getShiroUser().getUser();
 			src.setOrganization(user.getOrganization());
 		}
 		src.setCheckStatus(SettleTask.STATUS_ING);
-//		task.setCheckStartDate(src.getCheckStartDate());
-//		task.setAttrLink(src.getAttrLink());
-//		task.setOperateId(src.getOperateId());
-//		task.setCreateTime(src.getCreateTime());
-		//src.setChecker(realname);
 		lpglService.saveOrUpdateSettleTask(src);
 		
-		User user = SecurityUtils.getShiroUser().getUser();
 		SettleTaskLog settleLog = new SettleTaskLog();
 		settleLog.setSettleTask(src);
 		settleLog.setUser(user);
@@ -741,7 +886,7 @@ public class LpglController {
 		lpglService.saveOrUpdateSettleTaskLog(settleLog);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{task.getInsured()}));
-		return	AjaxObject.newOk("修改案件调查任务成功！").toString(); 
+		return	AjaxObject.newOk("修改案件调查任务成功！").setCallbackType("").toString(); 
 	}
 	
 	@Log(message="删除了{0}的案件调查任务信息。", level=LogLevel.WARN, module=LogModule.LPGL)
@@ -751,6 +896,10 @@ public class LpglController {
 		SettleTask settle = null;
 		try {
 			settle = lpglService.getSettleTask(id);
+			
+			if(settle.getAttrLink() != null && settle.getAttrLink().trim().length() >0 ) {
+				UploadDataUtils.delateFile(request, settle.getAttrLink());
+			}
 			
 			User user = SecurityUtils.getShiroUser().getUser();
 			SettleTaskLog settleLog = new SettleTaskLog();
@@ -780,6 +929,10 @@ public class LpglController {
 		try {
 			for (int i = 0; i < ids.length; i++) {
 				SettleTask settle = lpglService.getSettleTask(ids[i]);
+				
+				if(settle.getAttrLink() != null && settle.getAttrLink().trim().length() >0 ) {
+					UploadDataUtils.delateFile(request, settle.getAttrLink());
+				}
 				
 				User user = SecurityUtils.getShiroUser().getUser();
 				SettleTaskLog settleLog = new SettleTaskLog();

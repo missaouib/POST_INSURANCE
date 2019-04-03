@@ -148,7 +148,7 @@ public class UploadDataController {
         String strSessionID = request.getSession().getId();
         
 		//String strPath = UploadDataUtils.getFileStorePath(request);
-		String strPath = UploadDataUtils.getFileStorePath(request, iNY);
+		String strPath = UploadDataUtils.getFileStorePath(request, iNY, "UPDATE");
 		String strTempPath = UploadDataUtils.getFileStoreTempPath(request);
 		String strFileName = file.getOriginalFilename();
 		

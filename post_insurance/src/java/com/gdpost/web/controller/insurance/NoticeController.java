@@ -149,8 +149,8 @@ public class NoticeController {
         log.debug("-------------------------------------upload:" + file.getOriginalFilename());
         log.debug("------------" + notice.toString());
         int iNY = UploadDataUtils.getNianYue();
-        String strPath = UploadDataUtils.getNoticeFileStorePath(request, iNY);
-        String updatePath = UploadDataUtils.getNoticeRelateFileStorePath(request, iNY);
+        String strPath = UploadDataUtils.getNoticeFileStorePath(request, iNY, "Notice");
+        String updatePath = UploadDataUtils.getNoticeRelateFileStorePath(request, iNY, "Notice");
 		//String strTempPath = UploadDataUtils.getFileStoreTempPath(request);
 		String strNewFileName = null;
 		boolean hasFile = false;

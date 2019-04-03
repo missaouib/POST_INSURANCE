@@ -107,6 +107,13 @@
 			<input type="text" name="checkRst" class="input-medium" maxlength="52" value="审核通过。"/>
 		</p>
 	</fieldset>
+	<fieldset>
+		<legend>附件</legend>
+		<p>
+			<label>附件：</label>
+			<a href="${inquire.attrLink}">${inquire.attrLink }</a>
+		</p>
+		</fieldset>
 	</div>
 	<div class="formBar">
 		<ul>

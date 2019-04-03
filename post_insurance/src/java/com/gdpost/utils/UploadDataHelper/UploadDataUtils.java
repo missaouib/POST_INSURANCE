@@ -42,8 +42,14 @@ public class UploadDataUtils {
 	
 	private static final String STORE_DIR_TEMP = "uploaddatatemp";
 	private static final String STORE_DIR = "uploaddata";
+	
+	public static void delateFile(HttpServletRequest request, String file) {
+		String strPath = request.getSession().getServletContext().getRealPath("/");
+		File dfile = new File(strPath + file);
+		dfile.deleteOnExit();
+	}
 
-	public static String getFileStorePath(HttpServletRequest request, int iMonth) {
+	public static String getFileStorePath(HttpServletRequest request, int iMonth, String module) {
 		java.util.Calendar.getInstance();
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		//long lID = shiroUser.getMemberUser() != null ? shiroUser.getMemberUser().getId() : shiroUser.getUser().getId();
@@ -56,7 +62,7 @@ public class UploadDataUtils {
 		strPath = strPath.substring(0, strPath.lastIndexOf(File.separator));
 		strPath = strPath.substring(0, strPath.lastIndexOf(File.separator) + 1);
 
-		strPath = strPath + STORE_DIR;
+		strPath = strPath + STORE_DIR + File.separator + module;
 		if(!(new File(strPath )).isDirectory()) {
 			new File(strPath).mkdir();
 		}
@@ -77,7 +83,7 @@ public class UploadDataUtils {
 		return(strPath);
 	}
 	
-	public static String getFileStorePath(HttpServletRequest request) {
+	public static String getFileStorePath(HttpServletRequest request, String module) {
 		java.util.Calendar.getInstance();
 		// 按月、用户ID存放
 		Date date = new Date();
@@ -95,7 +101,7 @@ public class UploadDataUtils {
 		strPath = strPath.substring(0, strPath.lastIndexOf(File.separator));
 		strPath = strPath.substring(0, strPath.lastIndexOf(File.separator) + 1);
 
-		strPath = strPath + STORE_DIR;
+		strPath = strPath + STORE_DIR + File.separator + module;
 		if(!(new File(strPath )).isDirectory()) {
 			new File(strPath).mkdir();
 		}
@@ -116,7 +122,7 @@ public class UploadDataUtils {
 		return(strPath);
 	}
 	
-	public static String getNoticeFileStorePath(HttpServletRequest request, int iMonth) {
+	public static String getNoticeFileStorePath(HttpServletRequest request, int iMonth, String module) {
 		java.util.Calendar.getInstance();
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		//long lID = shiroUser.getMemberUser() != null ? shiroUser.getMemberUser().getId() : shiroUser.getUser().getId();
@@ -126,7 +132,7 @@ public class UploadDataUtils {
 			strPath = strPath.substring(0, strPath.length() - 1);
 		}
 
-		strPath = strPath + File.separator + STORE_DIR;
+		strPath = strPath + File.separator + STORE_DIR + File.separator + module;
 		if(!(new File(strPath )).isDirectory()) {
 			new File(strPath).mkdir();
 		}
@@ -147,19 +153,19 @@ public class UploadDataUtils {
 		return(strPath);
 	}
 	
-	public static String getNoticeRelateFileStorePath(HttpServletRequest request, int iMonth) {
+	public static String getNoticeRelateFileStorePath(HttpServletRequest request, int iMonth, String module) {
 		java.util.Calendar.getInstance();
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		//long lID = shiroUser.getMemberUser() != null ? shiroUser.getMemberUser().getId() : shiroUser.getUser().getId();
 		String strID = shiroUser.getUser().getId().toString();
 		String strPath = "/";
-		strPath = strPath + STORE_DIR;
+		strPath = strPath + STORE_DIR + File.separator + module;
 		strPath = strPath + "/" + iMonth;
 		strPath = strPath + "/" + strID;
 		return(strPath);
 	}
 	
-	public static String getNoticeFileStorePath(HttpServletRequest request) {
+	public static String getNoticeFileStorePath(HttpServletRequest request, String module) {
 		java.util.Calendar.getInstance();
 		// 按月、用户ID存放
 		Date date = new Date();
@@ -174,7 +180,7 @@ public class UploadDataUtils {
 			strPath = strPath.substring(0, strPath.length() - 1);
 		}
 
-		strPath = strPath + STORE_DIR;
+		strPath = strPath + STORE_DIR + File.separator + module;
 		if(!(new File(strPath )).isDirectory()) {
 			new File(strPath).mkdir();
 		}

@@ -1,7 +1,22 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
+<script type="text/javascript">
+<!--
+function customAjaxDone(json){
+	//alert(json.statusCode);
+    if (json.statusCode == DWZ.statusCode.ok){
+    	DWZ.ajaxDone(json);
+    	dialogReloadNavTab(json);
+    	$.pdialog.closeCurrent(); 
+    }
+    else{
+        DWZ.ajaxDone(json);
+    }
+}
+//-->
+</script>
 <div class="pageContent">
-<form method="post" action="${contextPath}/kfgl/inquire/update" id="inquireForm" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
+<form method="post" action="${contextPath}/kfgl/inquire/update" id="inquireForm" enctype="multipart/form-data" class="required-validate pageForm" onsubmit="return iframeCallback(this, customAjaxDone);">
 	<input type="hidden" name="id" value="${inquire.id}"/>
 	<div class="pageFormContent" layoutH="58">
 	<fieldset>
@@ -109,12 +124,24 @@ ${inquire.inquireRst }<c:if test="${empty inquire.inquireRst}">
 				<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 	</fieldset>
+	<fieldset>
+		<legend>附件</legend>
+		<p>
+			<label>附件：</label>
+			<a href="${inquire.attrLink}">${inquire.attrLink }</a>
+		</p>
+	<p>&nbsp;</p>
+		<p>
+			<label>附件</label>
+			<input type="file" name="file">
+		</p>
+	</fieldset>
 	</div>
 			
 	<div class="formBar">
 		<ul>
 			<li><div <c:if test='${inquire.inquireStatus eq "已结案" }'>class="buttonDisabled"</c:if> <c:if test='${inquire.inquireStatus ne "已结案" }'>class="button"</c:if>><div class="buttonContent"><button type="button" onclick="$('#dealMan').attr('class','');$('#dealTime').attr('class','');$('#inquireForm').attr('action', '/kfgl/inquire/toCity').submit();" <c:if test='${inquire.inquireStatus eq "已结案" }'>disabled=true</c:if>>转办地市</button></div></div></li>
-			<li><div <c:if test='${inquire.inquireStatus eq "已结案" }'>class="buttonDisabled"</c:if> <c:if test='${inquire.inquireStatus ne "已结案" }'>class="button"</c:if>><div class="buttonContent"><button type="submit" <c:if test='${inquire.inquireStatus eq "已结案" }'>disabled=true</c:if> onclick="javascript:return del()">确定</button></div></div></li>
+			<li><div <c:if test='${inquire.inquireStatus eq "已结案" }'>class="buttonDisabled"</c:if> <c:if test='${inquire.inquireStatus ne "已结案" }'>class="button"</c:if>><div class="buttonContent"><button type="submit" <c:if test='${inquire.inquireStatus eq "已结案" }'>disabled=true</c:if> onclick="javascript:return del()">确定回复</button></div></div></li>
 			<li><div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div></li>
 		</ul>
 	</div>
