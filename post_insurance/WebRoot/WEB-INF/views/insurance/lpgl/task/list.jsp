@@ -109,7 +109,7 @@
 				<td>${item.limitation }</td>
 				<td>${item.checker}</td>
 				<td>${item.checkFee}</td>
-				<td> <a href="${item.attrLink}">${item.attrLink}</a></td>
+				<td> <a href="${item.attrLink}" target="_blank">${item.attrLink}</a></td>
 			</tr>			
 			</c:forEach>
 		</tbody>

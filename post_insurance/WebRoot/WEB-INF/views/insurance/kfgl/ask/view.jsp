@@ -35,15 +35,15 @@
 		</p>
 		<p>
 			<label>客户姓名：</label>
-			<span class="unit">${inquire.policy.holder }</span>
+			<span class="unit">${empty inquire.gpolicyNo?inquire.policy.holder:inquire.client }</span>
 		</p>
 		<p>
 			<label>保单号：</label>
-			<span class="unit">${inquire.policy.policyNo }</span>
+			<span class="unit">${empty inquire.gpolicyNo?inquire.policyNos:inquire.gpolicyNo }</span>
 		</p>
 		<p>
 			<label>所属机构：</label>
-			<span class="unit">${inquire.policy.organization.shortName }</span>
+			<span class="unit">${empty inquire.gpolicyNo?inquire.policy.organization.shortName:inquire.gorganName }</span>
 		</p>
 		<p class="nowrap">
 			<label>出单网点：</label>
@@ -111,7 +111,7 @@
 		<legend>附件</legend>
 		<p>
 			<label>附件：</label>
-			<a href="${inquire.attrLink}">${inquire.attrLink }</a>
+			<a href="${inquire.attrLink}" target="_blank">${inquire.attrLink }</a>
 		</p>
 		</fieldset>
 	</div>

@@ -83,7 +83,7 @@
 				<td><fmt:formatDate value="${item.invalidDate}" pattern="yyyy-MM-dd"/></td>
 				<td>
 				<c:forEach var="subList" items="${item.noticeAtts}">
-		            <a href="${subList.attrLink}">${subList.attrLink}</a>
+		            <a href="${subList.attrLink}" target="_blank">${subList.attrLink}</a>
 		        </c:forEach>
 				</td>
 			</tr>			

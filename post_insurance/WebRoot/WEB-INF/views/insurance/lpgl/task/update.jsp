@@ -101,7 +101,7 @@ function customAjaxDone(json){
 		<p>&nbsp;</p><p>&nbsp;</p>
 		<p>
 			<label>附件：</label>
-			<a href="${task.attrLink}">${task.attrLink }</a>
+			<a href="${task.attrLink}" target="_blank">${task.attrLink }</a>
 		</p>
 		<p>&nbsp;</p><p>&nbsp;</p>
 		<p>

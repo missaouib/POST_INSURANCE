@@ -198,6 +198,7 @@ public class KfglController {
 		return PRINT_LIST;
 	}
 
+	@RequestMapping(value = "/issue/")
 	@ModelAttribute("preloadIssue")
 	public Issue preload(@RequestParam(value = "id", required = false) Long id) {
 		if (id != null) {
@@ -797,7 +798,7 @@ public class KfglController {
 		return ASK_VIEW;
 	}
 
-	@RequiresUser
+	@RequiresPermissions("Inquire:view")
 	@RequestMapping(value = "/inquire/print/{id}", method = RequestMethod.GET)
 	public String printAsk(@PathVariable Long id, Map<String, Object> map) {
 		Inquire inquire = kfglService.getInquire(id);
@@ -807,7 +808,7 @@ public class KfglController {
 		return ASK_PRINT;
 	}
 
-	@RequiresUser
+	@RequiresPermissions("Inquire:view")
 	@RequestMapping(value = "/inquires/print", method = { RequestMethod.POST, RequestMethod.GET })
 	public String printAsks(ServletRequest request, Page page, Map<String, Object> map) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
@@ -861,6 +862,7 @@ public class KfglController {
 		return ASK_PRINT_LIST;
 	}
 
+	@RequestMapping(value = "/inquire/*")
 	@ModelAttribute("preloadInquire")
 	public Inquire preloadAsk(@RequestParam(value = "id", required = false) Long id) {
 		if (id != null) {
@@ -892,8 +894,7 @@ public class KfglController {
 		String strNewFileName = null;
 		boolean hasFile = false;
         if(file != null && file.getOriginalFilename() != null && file.getOriginalFilename().trim().length()>0) {
-	        try
-	        {
+	        try {
 	        	hasFile = true;
 	        	String name = file.getOriginalFilename();
 	            Long lFileSize = file.getSize();
@@ -1035,7 +1036,7 @@ public class KfglController {
 		src.setInquireRst(inquire.getInquireRst());
 		//src.setCityReviewRst(inquire.getCityReviewRst());
 		//src.setCityReviewer(inquire.getCityReviewer());
-		src.setInquireStatus(StatusDefine.STATUS.IngStatus.getDesc());
+		src.setInquireStatus(StatusDefine.STATUS.IngStatus.name());
 		if(src.getAttrLink() != null && src.getAttrLink().trim().length() >0 ) {
 			UploadDataUtils.delateFile(request, src.getAttrLink());
 		}
@@ -1132,7 +1133,7 @@ public class KfglController {
 	public @ResponseBody String closeAsk(@Valid @ModelAttribute("preloadInquire") Inquire inquire) {
 		// ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		Inquire src = kfglService.getInquire(inquire.getId());
-		if (src.getInquireStatus() != STATUS.DealStatus.getDesc()) {
+		if (src.getInquireStatus() != STATUS.DealStatus.name()) {
 			return AjaxObject.newError("结案关闭咨询工单失败：未完成审核").setCallbackType("").toString();
 		}
 		src.setInquireStatus(STATUS.CloseStatus.name());
@@ -1148,7 +1149,7 @@ public class KfglController {
 	public @ResponseBody String closeSingleAsk(@PathVariable Long id) {
 		// ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		Inquire src = kfglService.getInquire(id);
-		if (src.getInquireStatus() != STATUS.DealStatus.getDesc()) {
+		if (src.getInquireStatus() != STATUS.DealStatus.name()) {
 			return AjaxObject.newError("结案关闭咨询工单失败：未完成审核").setCallbackType("").toString();
 		}
 		src.setInquireStatus(STATUS.CloseStatus.name());
@@ -1167,7 +1168,7 @@ public class KfglController {
 			Inquire inquire = null;
 			for (int i = 0; i < ids.length; i++) {
 				inquire = kfglService.getInquire(ids[i]);
-				if (inquire.getInquireStatus() != STATUS.DealStatus.getDesc()) {
+				if (inquire.getInquireStatus() != STATUS.DealStatus.name()) {
 					return AjaxObject.newError("部分结案关闭咨询工单失败：未完成审核").setCallbackType("").toString();
 				}
 				inquire.setInquireStatus(STATUS.CloseStatus.name());

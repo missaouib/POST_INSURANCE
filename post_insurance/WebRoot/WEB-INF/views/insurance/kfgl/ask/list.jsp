@@ -105,7 +105,7 @@
 			 -->
 			<shiro:hasPermission name="Inquire:view">
 				<li class="line">line</li>
-				<li><a class="icon" target="_blank" href="${contextPath }/kfgl/toXls?search_LIKE_inquireNo=${param.search_LIKE_inquireNo }&orgCode=${orgCode }&search_LTE_readyDate=${param.search_LTE_readyDate }&search_GTE_readyDate=${param.search_GTE_readyDate }&search_LTE_billBackDate=${param.search_LTE_billBackDate }&search_GTE_billBackDate=${param.search_GTE_billBackDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&inquireStatus=${inquireStatus }&inquireSubtype=${inquireSubtype}&kfstatus_flag=${kfstatus_flag}"><span>导出Excel</span></a></li>
+				<li><a class="icon" target="_blank" href="${contextPath }/kfgl/inquirelist/toXls?search_LIKE_inquireNo=${param.search_LIKE_inquireNo }&orgCode=${orgCode }&search_LTE_readyDate=${param.search_LTE_readyDate }&search_GTE_readyDate=${param.search_GTE_readyDate }&search_LTE_billBackDate=${param.search_LTE_billBackDate }&search_GTE_billBackDate=${param.search_GTE_billBackDate }&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&inquireStatus=${inquireStatus }&inquireSubtype=${inquireSubtype}&kfstatus_flag=${kfstatus_flag}"><span>导出Excel</span></a></li>
 			</shiro:hasPermission>
 			<li class="line">line</li>
 			<li><a class="icon" target="dialog" href="${contextPath }/kfgl/help" mask="true" width="530" height="430"><span>功能说明</span></a></li>
@@ -134,7 +134,7 @@
 			<c:forEach var="item" items="${inquires}">
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
-				<td>${item.policy.organization.shortName}</td>
+				<td>${empty inquire.gpolicyNo?item.policy.organization.shortName:inquire.gorganName}</td>
 				<td>
 					<c:choose>
                         <c:when test="${not empty item.policyNos}">
@@ -157,8 +157,8 @@
 				<td>${item.inquireNo}</td>
 				<td title="${item.inquireDesc}">${fn:substring(item.inquireDesc, 0, 35)}</td>
 				<td>${item.operateTime }</td>
-				<td>${item.policy.holder}</td>
-				<td>${item.policy.policyNo}</td>
+				<td>${empty inquire.gpolicyNo?item.policy.holder:inquire.client}</td>
+				<td>${empty item.gpolicyNo?item.policy.policyNo:item.gpolicyNo}</td>
 				<td>
 					<c:choose>
                         <c:when test="${item.inquireStatus eq 'NewStatus'}">

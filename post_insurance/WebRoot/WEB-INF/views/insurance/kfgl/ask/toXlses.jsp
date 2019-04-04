@@ -81,7 +81,7 @@ response.setHeader("Content-Disposition", "inline; filename=Inquires_xls.xls");
 				</td>
 			<td>${item.inquireNo}</td>
 			<td style="vnd.ms-excel.numberformat:@">${item.policy.policyNo}</td>
-			<td>${item.policy.holder}</td>
+			<td>${item.client}</td>
 			<td>${item.inquireSubtype}</td>
 			<td>${item.inquireDesc}</td>
 			<td>

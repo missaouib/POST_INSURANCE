@@ -10,7 +10,7 @@
 <div id="InquirePrintContent">
 <table width="95%" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
-    <td>&nbsp;&nbsp;${fn:substring(inquire.policy.organization.name, 0, 2)}-${inquire.inquireSubtype }-${inquire.inquireNo }</td>
+    <td>&nbsp;&nbsp;${fn:substring(inquire.organName, 0, 2)}-${inquire.inquireSubtype }-${inquire.inquireNo }</td>
     </tr>
   <tr>
     <td align="center"><p><span style="font-size:16px">中邮人寿呼入/咨询工单转办单 </span></p></td>
@@ -22,9 +22,9 @@
     <td><table width="100%" align="center" class="gridtable">
       <tr>
         <td>承办机构： </td>
-        <td>${inquire.policy.organization.name } </td>
+        <td>${empty inquire.gpolicyNo?inquire.policy.organization.name:inquire.gorganName } </td>
         <td>保险单号码： </td>
-        <td>${inquire.policyNos } </td>
+        <td>${empty inquire.policyNos?inquire.gpolicyNo:inquire.policyNos } </td>
       </tr>
       <tr>
         <td>销售网点： </td>
@@ -34,13 +34,13 @@
       </tr>
       <tr>
         <td>承保日期： </td>
-        <td>${inquire.policy.policyDate } </td>
+        <td>${empty inquire.gpolicyNo?inquire.policy.policyDate:"" } </td>
         <td>承保金额： </td>
-        <td>${inquire.policy.policyFee } </td>
+        <td>${empty inquire.gpolicyNo?inquire.policy.policyFee:"" } </td>
       </tr>
       <tr>
         <td>投保人姓名： </td>
-        <td>${inquire.policy.holder }</td>
+        <td>${empty inquire.gpolicyNo?inquire.policy.holder:inquire.client }</td>
         <td>联系电话： </td>
         <td>${inquire.clientPhone1 }</td>
       </tr>

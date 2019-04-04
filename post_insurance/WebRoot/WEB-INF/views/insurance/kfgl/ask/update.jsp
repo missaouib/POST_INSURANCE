@@ -128,7 +128,7 @@ ${inquire.inquireRst }<c:if test="${empty inquire.inquireRst}">
 		<legend>附件</legend>
 		<p>
 			<label>附件：</label>
-			<a href="${inquire.attrLink}">${inquire.attrLink }</a>
+			<a href="${inquire.attrLink}" target="_blank">${inquire.attrLink }</a>
 		</p>
 	<p>&nbsp;</p>
 		<p>

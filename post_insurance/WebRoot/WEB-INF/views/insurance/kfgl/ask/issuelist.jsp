@@ -44,8 +44,8 @@
 				<td>${item.inquireDesc}</td>
 				<td>${item.operateTime }</td>
 				<td><span style="color:red; height:50%; margin-bottom:-contentheight;">${item.shouldDate }</span></td>
-				<td>${item.policy.policyNo}</td>
-				<td>${item.policy.organization.shortName}</td>
+				<td>${empty inquire.gpolicyNo?item.policyNos:inquire.gpolicyNo?}</td>
+				<td>${empty inquire.gpolicyNo?item.policy.organization.shortName:inquire.organName}</td>
 				<td>${item.status}</td>
 			</tr>
 			</c:forEach>

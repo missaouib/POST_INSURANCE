@@ -34,7 +34,7 @@ response.setHeader("Content-Disposition", "inline; filename=Inquire_xls.xls");
 			<c:forEach var="item" items="${reqs}" varStatus="status">
 			<tr>
 				<td><c:out value="${status.index+1}"/></td>
-				<td>${item.policy.organization.shortName}</td>
+				<td>${item.organName}</td>
 				<td>
 					<c:choose>
                         <c:when test="${not empty item.policyNos}">
@@ -52,21 +52,21 @@ response.setHeader("Content-Disposition", "inline; filename=Inquire_xls.xls");
 				<td><fmt:formatDate value="${item.operateTime }" pattern="yyyy-MM-dd"/></td>
 				<td style="vnd.ms-excel.numberformat:@">${item.policy.policyNo}</td>
 				<td><fmt:formatDate value="${item.policy.policyDate }" pattern="yyyy-MM-dd"/></td>
-				<td>${item.policy.holder}</td>
+				<td>${item.client}</td>
 				<td>${item.clientPhone1 eq ""?item.clientPhone2:item.policy.policyDtl.holderMobile}</td>
-				<td>${item.policy.prodName}</td>
+				<td>${empty inquire.policyNos?"":item.policy.prodName}</td>
 				<td>
 					<c:choose>  
 					    <c:when test="${fn:length(item.netName) > 14}">  
 					        <c:out value="${fn:substring(item.netName, 14, 30)}" />  
 					    </c:when>  
 					   <c:otherwise>  
-					      <c:out value="${item.policy.bankName}" />  
+					      <c:out value="${empty inquire.policyNos?'':item.policy.bankName}" />  
 					    </c:otherwise>  
 					</c:choose>
 				</td>
 				<td>${item.inquireStatus}</td>
-				<td>${item.organization.shortName}</td>
+				<td>${item.organName}</td>
 				<td>${item.inquireRst}</td>
 				<td>${item.dealMan}</td>
 				<td>${item.dealTime}</td>

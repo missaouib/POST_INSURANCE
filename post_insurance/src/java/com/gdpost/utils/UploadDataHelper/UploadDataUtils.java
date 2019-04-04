@@ -43,10 +43,11 @@ public class UploadDataUtils {
 	private static final String STORE_DIR_TEMP = "uploaddatatemp";
 	private static final String STORE_DIR = "uploaddata";
 	
-	public static void delateFile(HttpServletRequest request, String file) {
+	public static boolean delateFile(HttpServletRequest request, String file) {
 		String strPath = request.getSession().getServletContext().getRealPath("/");
 		File dfile = new File(strPath + file);
-		dfile.deleteOnExit();
+		//log.info("----------ready to delete file :" + file + ":" + dfile.exists());
+		return dfile.delete();
 	}
 
 	public static String getFileStorePath(HttpServletRequest request, int iMonth, String module) {

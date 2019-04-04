@@ -125,8 +125,8 @@
 		<tr>
 			<td>${item.organName}</td>
 			<td>${item.inquireNo}</td>
-			<td>${item.policy.policyNo}</td>
-			<td>${item.policy.holder}</td>
+			<td>${item.policyNos}</td>
+			<td>${item.client}</td>
 			<td>${item.inquireSubtype}</td>
 			<td>${item.inquireDesc}</td>
 			<td>
