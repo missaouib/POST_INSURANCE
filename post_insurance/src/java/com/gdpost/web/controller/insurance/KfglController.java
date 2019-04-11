@@ -243,7 +243,7 @@ public class KfglController {
 	public @ResponseBody String reopen(@Valid @ModelAttribute("preloadIssue") Issue issue) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		Issue src = kfglService.get(issue.getId());
-		if (!src.getStatus().equals(STATUS.IngStatus.name())) {
+		if (!src.getStatus().equals(STATUS.IngStatus.getDesc())) {
 			return AjaxObject.newError("工单状态不足以操作审核：请核查工单状态。").setCallbackType("").toString();
 		}
 		src.setStatus(StatusDefine.STATUS.NewStatus.getDesc());
@@ -262,7 +262,7 @@ public class KfglController {
 	public @ResponseBody String dealIssue(@Valid @ModelAttribute("preloadIssue") Issue issue) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		Issue src = kfglService.get(issue.getId());
-		if (!src.getStatus().equals(STATUS.IngStatus.name())) {
+		if (!src.getStatus().equals(STATUS.IngStatus.getDesc())) {
 			return AjaxObject.newError("工单状态不足以操作审核：请核查工单状态。").setCallbackType("").toString();
 		}
 		src.setStatus(STATUS.DealStatus.getDesc());

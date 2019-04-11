@@ -266,10 +266,10 @@ public class LpglController {
 			src.setPayFee(settle.getPayFee());
 		}
 		
-		if(settle.getRecordDate()!=null && src.getCloseDate() != null && !DateUtils.isSameDay(src.getRecordDate(), settle.getRecordDate())) {
+		if(settle.getRecordDate()!=null && src.getRecordDate() != null && !DateUtils.isSameDay(src.getRecordDate(), settle.getRecordDate())) {
 			loginfo.append("改立案日期：" + StringUtil.date2Str(src.getRecordDate(), "yy-M-d") + "->" + StringUtil.date2Str(settle.getRecordDate(), "yy-M-d") + "；");
 			src.setRecordDate(settle.getRecordDate());
-		} else if(settle.getRecordDate()!=null && src.getCloseDate() == null ) {
+		} else if(settle.getRecordDate()!=null && src.getRecordDate() == null ) {
 			loginfo.append("改立案日期：" + "null ->" + StringUtil.date2Str(settle.getRecordDate(), "yy-M-d") + "；");
 			src.setRecordDate(settle.getRecordDate());
 		}
