@@ -118,6 +118,7 @@ public class KfglController {
 	private static final String ASK_TO_XLS = "insurance/kfgl/ask/toXls";
 	private static final String ASK_ISSUES_TO_XLS = "insurance/kfgl/ask/toXlses";
 	private static final String ASK_TO_DOWN = "insurance/kfgl/ask/download";
+	private static final String ASK_STATUS = "insurance/kfgl/ask/status";
 
 	@RequestMapping(value = "/help", method = RequestMethod.GET)
 	public String toHelp() {
@@ -278,11 +279,13 @@ public class KfglController {
 	@RequiresPermissions("Wtgd:edit")
 	@RequestMapping(value = "/issue/close", method = RequestMethod.POST)
 	public @ResponseBody String closeIssue(@Valid @ModelAttribute("preloadIssue") Issue issue) {
-		// ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		Issue src = kfglService.get(issue.getId());
 		if (src.getStatus() != STATUS.DealStatus.getDesc()) {
 			return AjaxObject.newError("结案关闭工单失败：未完成审核").setCallbackType("").toString();
 		}
+		src.setCloseUser(shiroUser.getUser().getRealname());
+		src.setFinishDate(new Date());
 		src.setStatus(STATUS.CloseStatus.getDesc());
 		kfglService.saveOrUpdate(src);
 
@@ -294,11 +297,13 @@ public class KfglController {
 	@RequiresPermissions("Wtgd:edit")
 	@RequestMapping(value = "/issue/close/{id}", method = RequestMethod.POST)
 	public @ResponseBody String closeSingleIssue(@PathVariable Long id) {
-		// ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		Issue src = kfglService.get(id);
 		if (src.getStatus() != STATUS.DealStatus.getDesc()) {
 			return AjaxObject.newError("结案关闭工单失败：未完成审核").setCallbackType("").toString();
 		}
+		src.setCloseUser(shiroUser.getUser().getRealname());
+		src.setFinishDate(new Date());
 		src.setStatus(STATUS.CloseStatus.getDesc());
 		kfglService.saveOrUpdate(src);
 
@@ -310,6 +315,7 @@ public class KfglController {
 	@RequiresPermissions("Wtgd:provEdit")
 	@RequestMapping(value = "/issue/CloseStatus", method = RequestMethod.POST)
 	public @ResponseBody String closeMany(Long[] ids) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		String[] policys = new String[ids.length];
 		try {
 			Issue issue = null;
@@ -318,6 +324,8 @@ public class KfglController {
 				if (issue.getStatus() != STATUS.DealStatus.getDesc()) {
 					return AjaxObject.newError("部分结案关闭工单失败：未完成审核").setCallbackType("").toString();
 				}
+				issue.setCloseUser(shiroUser.getUser().getRealname());
+				issue.setFinishDate(new Date());
 				issue.setStatus(STATUS.CloseStatus.getDesc());
 				kfglService.saveOrUpdate(issue);
 
@@ -799,6 +807,14 @@ public class KfglController {
 	}
 
 	@RequiresPermissions("Inquire:view")
+	@RequestMapping(value = "/inquire/status/{id}", method = RequestMethod.GET)
+	public String viewStatus(@PathVariable Long id, Map<String, Object> map) {
+		Inquire inquire = kfglService.getInquire(id);
+		map.put("inquire", inquire);
+		return ASK_STATUS;
+	}
+	
+	@RequiresPermissions("Inquire:view")
 	@RequestMapping(value = "/inquire/print/{id}", method = RequestMethod.GET)
 	public String printAsk(@PathVariable Long id, Map<String, Object> map) {
 		Inquire inquire = kfglService.getInquire(id);
@@ -1131,11 +1147,13 @@ public class KfglController {
 	@RequiresPermissions("Inquire:edit")
 	@RequestMapping(value = "/inquire/close", method = RequestMethod.POST)
 	public @ResponseBody String closeAsk(@Valid @ModelAttribute("preloadInquire") Inquire inquire) {
-		// ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		Inquire src = kfglService.getInquire(inquire.getId());
 		if (src.getInquireStatus() != STATUS.DealStatus.name()) {
 			return AjaxObject.newError("结案关闭咨询工单失败：未完成审核").setCallbackType("").toString();
 		}
+		src.setCloseUser(shiroUser.getUser().getRealname());
+		src.setFinishDate(new Date());
 		src.setInquireStatus(STATUS.CloseStatus.name());
 		kfglService.saveOrUpdateInquire(src);
 
@@ -1147,11 +1165,13 @@ public class KfglController {
 	@RequiresPermissions("Inquire:edit")
 	@RequestMapping(value = "/inquire/close/{id}", method = RequestMethod.POST)
 	public @ResponseBody String closeSingleAsk(@PathVariable Long id) {
-		// ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		Inquire src = kfglService.getInquire(id);
 		if (src.getInquireStatus() != STATUS.DealStatus.name()) {
 			return AjaxObject.newError("结案关闭咨询工单失败：未完成审核").setCallbackType("").toString();
 		}
+		src.setCloseUser(shiroUser.getUser().getRealname());
+		src.setFinishDate(new Date());
 		src.setInquireStatus(STATUS.CloseStatus.name());
 		kfglService.saveOrUpdateInquire(src);
 
@@ -1163,6 +1183,7 @@ public class KfglController {
 	@RequiresPermissions("Inquire:provEdit")
 	@RequestMapping(value = "/inquire/CloseStatus", method = RequestMethod.POST)
 	public @ResponseBody String closeManyAsk(Long[] ids) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		String[] policys = new String[ids.length];
 		try {
 			Inquire inquire = null;
@@ -1171,6 +1192,8 @@ public class KfglController {
 				if (inquire.getInquireStatus() != STATUS.DealStatus.name()) {
 					return AjaxObject.newError("部分结案关闭咨询工单失败：未完成审核").setCallbackType("").toString();
 				}
+				inquire.setCloseUser(shiroUser.getUser().getRealname());
+				inquire.setFinishDate(new Date());
 				inquire.setInquireStatus(STATUS.CloseStatus.name());
 				kfglService.saveOrUpdateInquire(inquire);
 
@@ -1473,7 +1496,7 @@ public class KfglController {
 				range.replaceText("${holder}", inquire.getPolicy().getHolder());
 				range.replaceText("${holderPhone}", inquire.getHolderPhone());
 				range.replaceText("${holderMobile}", inquire.getHolderMobile());
-				range.replaceText("${finishDate}", inquire.getFinishDate());
+				range.replaceText("${finishDate}", StringUtil.date2Str(inquire.getFinishDate(), "yyyy-MM-dd"));
 				range.replaceText("${inquireContent}", inquire.getInquireDesc());
 				range.replaceText("${inquireReq}", inquireReq);
 				range.replaceText("${userName}", operater);

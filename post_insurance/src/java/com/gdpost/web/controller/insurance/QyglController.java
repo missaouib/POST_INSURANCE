@@ -178,12 +178,14 @@ public class QyglController {
 	@RequiresPermissions("CheckWrite:edit")
 	@RequestMapping(value="/issue/write/close", method=RequestMethod.POST)
 	public @ResponseBody String closeCheckWrite(Long[] ids) {
-		//ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		String[] policys = new String[ids.length];
 		try {
 			for (int i = 0; i < ids.length; i++) {
 				CheckWrite src = qyglService.getCheckWrite(ids[i]);
 				src.setFixStatus(QY_STATUS.CloseStatus.name());
+				src.setCloseDate(new Date());
+				src.setCloseUser(shiroUser.getUser().getRealname());
 				qyglService.saveOrUpdateCheckWrite(src);
 				
 				policys[i] = src.getPolicy().getPolicyNo();
@@ -427,8 +429,10 @@ public class QyglController {
 	@RequiresPermissions("CheckRecord:edit")
 	@RequestMapping(value="/issue/record/close", method=RequestMethod.POST)
 	public @ResponseBody String closeCheckRecord(CheckRecord issue) {
-		//ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		CheckRecord src = qyglService.getCheckRecord(issue.getId());
+		src.setCloseDate(new Date());
+		src.setCloseUser(shiroUser.getUser().getRealname());
 		src.setFixStatus(QY_STATUS.CloseStatus.name());
 		qyglService.saveOrUpdateCheckRecord(src);
 		

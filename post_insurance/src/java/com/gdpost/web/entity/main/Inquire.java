@@ -47,7 +47,7 @@ public class Inquire implements java.io.Serializable {
 	private String dealDepart;
 	private String dealMan;
 	private String taskType;
-	private String finishDate;
+	private Date finishDate;
 	private Policy policy;
 	private String policyNos;
 	private String organName;
@@ -93,13 +93,36 @@ public class Inquire implements java.io.Serializable {
 	private Long operateId;
 	private Date operateTime;
 	private String attrLink;
+	private String closeUser;
 	
 	@Transient
 	private Date shouldDate;
 	
+	@Transient
+	private Integer lastDateNum = 0;
+	
 
 	// Constructors
 
+	@Transient
+	public Integer getLastDateNum() {
+		if(this.operateTime != null) {
+			int check = StringUtil.getBetweenDay(this.operateTime, this.finishDate==null?new Date():this.finishDate);
+			int c = 5-check;
+			if(c < 0) {
+				return 0;
+			} else {
+				return c;
+			}
+		}
+		return lastDateNum;
+	}
+	
+	@Transient
+	public void setLastDateNum(Integer lastDateNum) {
+		this.lastDateNum = lastDateNum;
+	}
+	
 	@Transient
 	public Date getShouldDate() {
 		return StringUtil.dateAdd(operateTime, 5);
@@ -122,7 +145,7 @@ public class Inquire implements java.io.Serializable {
 	/** full constructor */
 	public Inquire(String inquireNo, String inquireType, String inquireSubtype, String inquireStatus,
 			String inquireDesc, String inquireRemark, String inquireRst, String dealDepart, String dealMan,
-			String taskType, String finishDate, String policyNos, String organName, String netName,
+			String taskType, Date finishDate, String policyNos, String organName, String netName,
 			String holder, String holderPhone, String holderMobile, String policyDate, String gpolicyNo,
 			String gorganName, String gnetName, String ginsured, String ginsuredPhone, String ginsuredMobile,
 			String gpolicyDate, String client, String clientPhone1, String clientPhone2, String clientSexy,
@@ -296,12 +319,13 @@ public class Inquire implements java.io.Serializable {
 		this.taskType = taskType;
 	}
 
-	@Column(name = "finish_date", length = 10)
-	public String getFinishDate() {
+	@Temporal(TemporalType.DATE)
+	@Column(name = "finish_date")
+	public Date getFinishDate() {
 		return this.finishDate;
 	}
 
-	public void setFinishDate(String finishDate) {
+	public void setFinishDate(Date finishDate) {
 		this.finishDate = finishDate;
 	}
 
@@ -755,6 +779,15 @@ public class Inquire implements java.io.Serializable {
 
 	public void setAttrLink(String attrLink) {
 		this.attrLink = attrLink;
+	}
+
+	@Column(name = "close_user")
+	public String getCloseUser() {
+		return closeUser;
+	}
+
+	public void setCloseUser(String closeUser) {
+		this.closeUser = closeUser;
 	}
 
 }

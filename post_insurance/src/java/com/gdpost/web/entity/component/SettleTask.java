@@ -61,6 +61,7 @@ public class SettleTask implements Idable<Long> {
 
 	// Constructors
 
+
 	/** default constructor */
 	public SettleTask() {
 	}
@@ -197,7 +198,7 @@ public class SettleTask implements Idable<Long> {
 
 	@Column(name = "limitation")
 	public Integer getLimitation() {
-		this.limitation = StringUtil.getBetweenDay(checkStartDate, new Date());
+		this.limitation = StringUtil.getBetweenDay(checkStartDate, this.checkEndDate==null?new Date():this.checkEndDate);
 		return this.limitation;
 	}
 

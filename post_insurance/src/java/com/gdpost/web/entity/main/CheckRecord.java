@@ -19,6 +19,7 @@ import org.hibernate.annotations.JoinColumnOrFormula;
 import org.hibernate.annotations.JoinColumnsOrFormulas;
 import org.hibernate.annotations.JoinFormula;
 
+import com.gdpost.utils.StringUtil;
 import com.gdpost.web.entity.Idable;
 
 /**
@@ -61,10 +62,27 @@ public class CheckRecord implements Idable<Long> {
 	
 	private String fixType;
 	
+	private Date closeDate;
+	private String closeUser;
+	
+	@Transient
+	private Integer timeConsuming = 1;
+	
 	@Transient
 	private String tag = "录入错误";
 
+	
 	// Constructors
+
+	@Transient
+	public Integer getTimeConsuming() {
+		return StringUtil.getBetweenDay(this.operateTime, this.closeDate==null?new Date():this.closeDate);
+	}
+
+	@Transient
+	public void setTimeConsuming(Integer timeConsuming) {
+		this.timeConsuming = timeConsuming;
+	}
 
 	/** default constructor */
 	public CheckRecord() {
@@ -357,5 +375,24 @@ public class CheckRecord implements Idable<Long> {
 
 	public void setReplyTime(Date replyTime) {
 		this.replyTime = replyTime;
+	}
+	
+	@Column(name="close_date")
+	@Temporal(TemporalType.DATE)
+	public Date getCloseDate() {
+		return closeDate;
+	}
+
+	public void setCloseDate(Date closeDate) {
+		this.closeDate = closeDate;
+	}
+	
+	@Column(name="close_user")
+	public String getCloseUser() {
+		return closeUser;
+	}
+
+	public void setCloseUser(String closeUser) {
+		this.closeUser = closeUser;
 	}
 }

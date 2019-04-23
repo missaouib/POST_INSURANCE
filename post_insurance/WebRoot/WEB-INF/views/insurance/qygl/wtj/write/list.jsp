@@ -128,6 +128,7 @@
 				<th orderField=policy.holder class="${page.orderField eq 'policy.holder' ? page.orderDirection : ''}">投保人</th>
 				<th orderField=policy.policyDate class="${page.orderField eq 'policy.policyDate' ? page.orderDirection : ''}">承保日期</th>
 				<th orderField=fixStatus class="${page.orderField eq 'fixStatus' ? page.orderDirection : ''}">问题件状态</th>
+				<th>耗时</th>
 				<th orderField=docMiss class="${page.orderField eq 'docMiss' ? page.orderDirection : ''}">资料缺失</th>
 				<th orderField=keyInfo class="${page.orderField eq 'keyInfo' ? page.orderDirection : ''}">关键信息</th>
 				<th orderField=importanceInfo class="${page.orderField eq 'importanceInfo' ? page.orderDirection : ''}">重要信息</th>
@@ -165,6 +166,7 @@
 					</c:otherwise>
 				</c:choose>
 				</td>
+				<td>${item.timeConsuming}</td>
 				<td>${item.docMiss == "null"?"":item.docMiss}</td>
 				<td>${item.keyInfo=="null"?"":item.keyInfo}</td>
 				<td>${item.importanceInfo=="null"?"":item.importanceInfo}</td>

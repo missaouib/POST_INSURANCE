@@ -154,7 +154,7 @@ public class UnderWrite implements Idable<Long> {
 	@Transient
 	public int getHadSendDate() {
 		if(this.provSendDate != null) {
-			return StringUtil.getBetweenDay(this.provSendDate, new Date());
+			return StringUtil.getBetweenDay(this.provSendDate, this.billBackDate==null?new Date():this.billBackDate);
 		}
 		return -1;
 	}

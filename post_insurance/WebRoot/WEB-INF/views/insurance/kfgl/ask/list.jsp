@@ -159,7 +159,7 @@
 				<td>${item.operateTime }</td>
 				<td>${empty inquire.gpolicyNo?item.policy.holder:inquire.client}</td>
 				<td>${empty item.gpolicyNo?item.policy.policyNo:item.gpolicyNo}</td>
-				<td>
+				<td><a target="dialog" rel="lookup2inquire_edit" mask="true" width="520" height="520" href="${contextPath }/kfgl/inquire/status/${item.id}">
 					<c:choose>
                         <c:when test="${item.inquireStatus eq 'NewStatus'}">
                         	<div style="color: red;vertical-align:middle;font-weight:bold;">待处理</div>
@@ -177,6 +177,7 @@
                           已结案
                         </c:otherwise>
                     </c:choose>
+                    </a>
 				</td>
 				<td>${item.inquireRst}</td>
 				<td>${item.dealMan}</td>

@@ -94,6 +94,7 @@ public class Issue implements Idable<Long> {
 	private Date checkDate;
 	private String cityReviewer;
 	private String cityReviewRst;
+	private String closeUser;
 	
 	@Transient
 	private Date readyDate1;
@@ -123,11 +124,7 @@ public class Issue implements Idable<Long> {
 	@Transient
 	public Integer getLastDateNum() {
 		if(this.operateTime != null) {
-//			Calendar c1 = Calendar.getInstance();
-//			c1.setTime(this.shouldDate);
-//			Calendar now = Calendar.getInstance();
-//			now.setTime(new Date());
-			int check = StringUtil.getBetweenDay(this.operateTime, new Date());
+			int check = StringUtil.getBetweenDay(this.operateTime, this.finishDate==null?new Date():this.finishDate);
 			int c = 5-check;
 			if(c < 0) {
 				return 0;
@@ -762,6 +759,15 @@ public class Issue implements Idable<Long> {
 	}
 	public void setCityReviewRst(String cityReviewRst) {
 		this.cityReviewRst = cityReviewRst;
+	}
+	
+	@Column(name="close_user")
+	public String getCloseUser() {
+		return closeUser;
+	}
+	
+	public void setCloseUser(String closeUser) {
+		this.closeUser = closeUser;
 	}
 	
 }
