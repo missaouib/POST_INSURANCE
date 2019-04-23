@@ -644,6 +644,7 @@ public class LpglController {
 		User user = SecurityUtils.getShiroUser().getUser();
 		SettleTask task = lpglService.getSettleTask(id);
 		try {
+			task.setCheckEndDate(new Date());
 			task.setCheckStatus(SettleTask.STATUS_DONE);
 			lpglService.saveOrUpdateSettleTask(task);
 			
