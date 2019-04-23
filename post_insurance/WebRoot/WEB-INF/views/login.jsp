@@ -63,7 +63,7 @@
 					 -->
 					<p>
 						<label>用户名:</label>
-						<input type="text" name="username" style="width: 150px;" alt="可使用核心工号" class="validate[required] login_input" id="username" />
+						<input type="text" name="username" style="width: 150px;" title="可使用核心工号" class="validate[required] login_input" id="username" />
 					</p>
 					<p>
 						<label>密&nbsp;&nbsp;&nbsp;&nbsp;码:</label>
@@ -72,7 +72,7 @@
 					<p>
 						<label>验证码:</label>
 						<input type="text" id="captcha_key" style="width: 70px;float:left;" name="captcha_key" class="login_input validate[required,maxSize[4]]" size="6" />
-						<span><img src="${contextPath}/Captcha.jpg" alt="点击刷新验证码" width="80" height="29" id="captcha"/></span>
+						<span><img src="${contextPath}/Captcha.jpg" alt="点击刷新验证码" width="80" height="30" id="captcha"/></span>
 					</p>
 					<!-- 
 					<p>

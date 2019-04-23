@@ -109,7 +109,7 @@ $(document).ready(function () {
   	        <br />
   	        <label for="captcha_key" style=" vertical-align:middle; font-size:12px; color:#9D9AA3">验证码</label>
   	        <input type="text" name="captcha_key" id="captcha_key" class="validate[required,maxSize[4]]" style=" vertical-align:middle; width:62px; padding-left:5px; outline:none;color:#B3B3B3; padding-right:5px; height:28px; border:1px solid #DEDEDE;"/>
-  	        <img src="${contextPath}/Captcha.jpg" alt="点击刷新验证码" id="captcha" width="80" height="29" style=" vertical-align:middle;" />
+  	        <img src="${contextPath}/Captcha.jpg" alt="点击刷新验证码" id="captcha" width="80" height="30" style=" vertical-align:middle;" />
 			<br />
 			<br />
     	    <input type="submit" name="Submit" value="登  录" style=" width:288px; height:37px; color:#FFF; font-weight:bold; border:0; background:#9CB816; font-size:17px;" />

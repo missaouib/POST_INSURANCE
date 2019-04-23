@@ -40,7 +40,7 @@ public class PatchcaServlet extends HttpServlet {
 	private static final Logger LOGGER = LoggerFactory.getLogger(PatchcaServlet.class);
 	
 	private static int WIDTH = 110;
-	private static int HEIGHT = 40;
+	private static int HEIGHT = 35;
 	private static int MAX_LENGTH = 4;
 	private static int MIN_LENGTH = 4;
 	
@@ -67,6 +67,7 @@ public class PatchcaServlet extends HttpServlet {
 		RandomWordFactory wf = new RandomWordFactory();
 		wf.setMaxLength(maxLength);
 		wf.setMinLength(minLength);
+		wf.setCharacters("123456789");
 		
 		cs.setWordFactory(wf);
 		

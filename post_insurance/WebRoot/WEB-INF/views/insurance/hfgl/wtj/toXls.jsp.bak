@@ -104,7 +104,7 @@ response.setHeader("Content-Disposition", "inline; filename=call_fail_dtl.xls");
                 <td>${item.phoneEnd}</td>
                 <td>${item.phoneTime}</td>
 				</shiro:hasPermission>
-				<td>${not empty item.bankCode and not empty item.bankCode.netFlag and item.bankCode.netFlag==2?"银行":"邮政" }</td>
+				<td>${item.bankCode!=null && item.bankCode.netFlag==2?"银行":"邮政" }</td>
 			</tr>
 			</c:forEach>
 	</table>
