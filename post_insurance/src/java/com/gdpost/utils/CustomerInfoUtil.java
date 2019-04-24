@@ -156,6 +156,9 @@ public class CustomerInfoUtil {
 		List<String> youngerMale = Arrays.asList("儿子","孙子","外孙子","弟弟","女婿");
 		List<String> youngerFemale = Arrays.asList("女儿","孙女","外孙女","妹妹","儿媳");
 		if(insuredCardType.equals("身份证") || insuredCardType.equals("户口本") || insuredCardType.equals("0") || insuredCardType.equals("4")) {
+			if (insuredCardNum.length() != 18) {
+				return "客户证件号码不符合要求（非18位;";
+			}
 			Integer flag = new Integer(insuredCardNum.substring(16, 17));
 			if (flag % 2 ==0) { //女
 				if (holderAge > insuredAge) {
