@@ -167,61 +167,61 @@ alter table t_call_fail_list add column holder_phone varchar(256);
 alter table t_call_fail_list add column holder_mobile varchar(256);
 
 /* 2015-08-06*/
-alter table `t_call_fail_list` add column reset_phone VARCHAR(256);
+alter table t_call_fail_list add column reset_phone VARCHAR(256);
 --------------- SQL ---------------
 
-ALTER TABLE `t_call_fail_list` ADD COLUMN `org_deal_flag` TINYINT(4) DEFAULT 0;
-ALTER TABLE `t_call_fail_list` ADD COLUMN `hq_deal_flag` TINYINT(4) DEFAULT 0;
-ALTER TABLE `t_call_fail_list` ADD COLUMN `prov_deal_flag` TINYINT(4) DEFAULT 0;
+ALTER TABLE t_call_fail_list ADD COLUMN org_deal_flag TINYINT(4) DEFAULT 0;
+ALTER TABLE t_call_fail_list ADD COLUMN hq_deal_flag TINYINT(4) DEFAULT 0;
+ALTER TABLE t_call_fail_list ADD COLUMN prov_deal_flag TINYINT(4) DEFAULT 0;
 
 ===============20150810
-ALTER TABLE `t_call_fail_list` ADD COLUMN `hq_deal_date6` date DEFAULT NULL AFTER `hq_deal_rst5`;
-ALTER TABLE `t_call_fail_list` ADD COLUMN `hq_deal_rst6` VARCHAR(120) DEFAULT NULL AFTER `hq_deal_date6`;
+ALTER TABLE t_call_fail_list ADD COLUMN hq_deal_date6 date DEFAULT NULL AFTER hq_deal_rst5;
+ALTER TABLE t_call_fail_list ADD COLUMN hq_deal_rst6 VARCHAR(120) DEFAULT NULL AFTER hq_deal_date6;
 --------------- SQL ---------------
 
-ALTER TABLE `t_call_fail_list` ADD COLUMN `has_letter` VARCHAR(32) DEFAULT NULL;
-
---------------- SQL ---------------
-
-ALTER TABLE `t_call_fail_list` ADD COLUMN `letter_date` DATE DEFAULT NULL;
+ALTER TABLE t_call_fail_list ADD COLUMN has_letter VARCHAR(32) DEFAULT NULL;
 
 --------------- SQL ---------------
 
-CREATE OR REPLACE  ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `v_call_fail_list`
+ALTER TABLE t_call_fail_list ADD COLUMN letter_date DATE DEFAULT NULL;
+
+--------------- SQL ---------------
+
+CREATE OR REPLACE  ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW v_call_fail_list
 AS
 select
-  `a`.*,
-  (`b`.`policy_date` + interval 12 day) AS `check_date`,
-  (`b`.`policy_date` + interval 15 day) AS `end_date`,
-  (to_days((`b`.`policy_date` + interval 15 day)) - to_days(now())) AS `last_date_num`
+  a.*,
+  (b.policy_date + interval 12 day) AS check_date,
+  (b.policy_date + interval 15 day) AS end_date,
+  (to_days((b.policy_date + interval 15 day)) - to_days(now())) AS last_date_num
 from
-  (`t_call_fail_list` `a`
-  join `t_policy` `b`)
+  (t_call_fail_list a
+  join t_policy b)
 where
-  (`a`.`policy_no` = `b`.`policy_no`);
+  (a.policy_no = b.policy_no);
 
 ======20150817
-ALTER TABLE `t_call_fail_list` ADD COLUMN `hq_deal_type` varchar(20) DEFAULT NULL AFTER `hq_issue_type`;
-ALTER TABLE `t_call_fail_list` ADD COLUMN `hq_deal_man` varchar(20) DEFAULT NULL AFTER `hq_deal_type`;
-ALTER TABLE `t_call_fail_list` ADD COLUMN `hq_deal_type2` varchar(20) DEFAULT NULL AFTER `hq_deal_date2`;
-ALTER TABLE `t_call_fail_list` ADD COLUMN `hq_deal_man2` varchar(20) DEFAULT NULL AFTER `hq_deal_type2`;
-ALTER TABLE `t_call_fail_list` ADD COLUMN `hq_deal_type3` varchar(20) DEFAULT NULL AFTER `hq_deal_date3`;
-ALTER TABLE `t_call_fail_list` ADD COLUMN `hq_deal_man3` varchar(20) DEFAULT NULL AFTER `hq_deal_type3`;
-ALTER TABLE `t_call_fail_list` ADD COLUMN `hq_deal_type4` varchar(20) DEFAULT NULL AFTER `hq_deal_date4`;
-ALTER TABLE `t_call_fail_list` ADD COLUMN `hq_deal_man4` varchar(20) DEFAULT NULL AFTER `hq_deal_type4`;
-ALTER TABLE `t_call_fail_list` ADD COLUMN `hq_deal_type5` varchar(20) DEFAULT NULL AFTER `hq_deal_date5`;
-ALTER TABLE `t_call_fail_list` ADD COLUMN `hq_deal_man5` varchar(20) DEFAULT NULL AFTER `hq_deal_type5`;
-ALTER TABLE `t_call_fail_list` ADD COLUMN `hq_deal_type6` varchar(20) DEFAULT NULL AFTER `hq_deal_date6`;
-ALTER TABLE `t_call_fail_list` ADD COLUMN `hq_deal_man6` varchar(20) DEFAULT NULL AFTER `hq_deal_type6`;
+ALTER TABLE t_call_fail_list ADD COLUMN hq_deal_type varchar(20) DEFAULT NULL AFTER hq_issue_type;
+ALTER TABLE t_call_fail_list ADD COLUMN hq_deal_man varchar(20) DEFAULT NULL AFTER hq_deal_type;
+ALTER TABLE t_call_fail_list ADD COLUMN hq_deal_type2 varchar(20) DEFAULT NULL AFTER hq_deal_date2;
+ALTER TABLE t_call_fail_list ADD COLUMN hq_deal_man2 varchar(20) DEFAULT NULL AFTER hq_deal_type2;
+ALTER TABLE t_call_fail_list ADD COLUMN hq_deal_type3 varchar(20) DEFAULT NULL AFTER hq_deal_date3;
+ALTER TABLE t_call_fail_list ADD COLUMN hq_deal_man3 varchar(20) DEFAULT NULL AFTER hq_deal_type3;
+ALTER TABLE t_call_fail_list ADD COLUMN hq_deal_type4 varchar(20) DEFAULT NULL AFTER hq_deal_date4;
+ALTER TABLE t_call_fail_list ADD COLUMN hq_deal_man4 varchar(20) DEFAULT NULL AFTER hq_deal_type4;
+ALTER TABLE t_call_fail_list ADD COLUMN hq_deal_type5 varchar(20) DEFAULT NULL AFTER hq_deal_date5;
+ALTER TABLE t_call_fail_list ADD COLUMN hq_deal_man5 varchar(20) DEFAULT NULL AFTER hq_deal_type5;
+ALTER TABLE t_call_fail_list ADD COLUMN hq_deal_type6 varchar(20) DEFAULT NULL AFTER hq_deal_date6;
+ALTER TABLE t_call_fail_list ADD COLUMN hq_deal_man6 varchar(20) DEFAULT NULL AFTER hq_deal_type6;
 
 alter table t_call_deal_type add column flag int default 0;
 
 ====20050825
-alter table t_renewed_list add column hq_deal_man varchar(32) AFTER `hq_deal_date`;
+alter table t_renewed_list add column hq_deal_man varchar(32) AFTER hq_deal_date;
 alter table t_renewed_list add column prov_deal_man varchar(32);
-alter table t_renewed_list add column deal_type varchar(32) AFTER `fix_desc`;
+alter table t_renewed_list add column deal_type varchar(32) AFTER fix_desc;
 alter table t_renewal_type add column flag int default 0;
-ALTER TABLE `t_call_fail_list` ADD COLUMN `prov_deal_man` varchar(20) DEFAULT NULL AFTER `prov_issue_type`;
+ALTER TABLE t_call_fail_list ADD COLUMN prov_deal_man varchar(20) DEFAULT NULL AFTER prov_issue_type;
 
 use picodb;
 
@@ -309,7 +309,7 @@ alter table t_check_record add column fix_type varchar(64) after fix_status;
 
 --------------- SQL ---------------
 
-ALTER TABLE `t_pay_fail_list` MODIFY COLUMN `rel_no` VARCHAR(32) COLLATE utf8_general_ci NOT NULL UNIQUE;
+ALTER TABLE t_pay_fail_list MODIFY COLUMN rel_no VARCHAR(32) COLLATE utf8_general_ci NOT NULL UNIQUE;
 
 create table t_notice
 (
@@ -336,11 +336,11 @@ alter table t_notice_att add constraint fk_notice_attr foreign key (notice_id)
       references t_notice (id) on delete restrict on update restrict;
 
 
-ALTER TABLE `t_under_write` ADD COLUMN `has_record` TINYINT(1) DEFAULT 1 AFTER `error_desc`;
+ALTER TABLE t_under_write ADD COLUMN has_record TINYINT(1) DEFAULT 1 AFTER error_desc;
 
-ALTER TABLE `t_under_write` ADD COLUMN `record_desc` VARCHAR(254) DEFAULT 1 AFTER `has_record`;
+ALTER TABLE t_under_write ADD COLUMN record_desc VARCHAR(254) DEFAULT 1 AFTER has_record;
 
-ALTER TABLE `t_under_write` ADD COLUMN `status` VARCHAR(16) DEFAULT 1 AFTER `deal_man`;
+ALTER TABLE t_under_write ADD COLUMN status VARCHAR(16) DEFAULT 1 AFTER deal_man;
 
 
 create table t_offsite_conservation
@@ -382,28 +382,28 @@ create table t_conservation_type
 )
 engine=innodb auto_increment=4 default charset=utf8;
 
-ALTER TABLE `t_conservation_dtl` MODIFY COLUMN `type` VARCHAR(8) DEFAULT NULL;
+ALTER TABLE t_conservation_dtl MODIFY COLUMN type VARCHAR(8) DEFAULT NULL;
 
 update t_conservation_dtl set type=info;
 update t_conservation_dtl set info=cs_rst;
 update t_conservation_dtl set cs_rst=null;
 
-ALTER TABLE `t_call_fail_list` ADD COLUMN `addr` VARCHAR(256) DEFAULT NULL AFTER `result`;
-ALTER TABLE `t_issue` ADD COLUMN `addr` VARCHAR(256) DEFAULT NULL AFTER `issue_content`;
+ALTER TABLE t_call_fail_list ADD COLUMN addr VARCHAR(256) DEFAULT NULL AFTER result;
+ALTER TABLE t_issue ADD COLUMN addr VARCHAR(256) DEFAULT NULL AFTER issue_content;
 
-ALTER TABLE `t_call_fail_list` ADD COLUMN `id_card` VARCHAR(256) DEFAULT NULL AFTER `result`;
-ALTER TABLE `t_issue` ADD COLUMN `id_card` VARCHAR(256) DEFAULT NULL AFTER `issue_content`;
-
---------------- SQL ---------------
-
-ALTER TABLE `t_offsite_conservation` ADD COLUMN `status` VARCHAR(12) DEFAULT NULL AFTER `remark`;
+ALTER TABLE t_call_fail_list ADD COLUMN id_card VARCHAR(256) DEFAULT NULL AFTER result;
+ALTER TABLE t_issue ADD COLUMN id_card VARCHAR(256) DEFAULT NULL AFTER issue_content;
 
 --------------- SQL ---------------
 
-ALTER TABLE `t_conservation_dtl` CHANGE COLUMN `type` `conservation_code` VARCHAR(8) COLLATE utf8_general_ci DEFAULT NULL;
+ALTER TABLE t_offsite_conservation ADD COLUMN status VARCHAR(12) DEFAULT NULL AFTER remark;
+
 --------------- SQL ---------------
 
-ALTER TABLE `t_notice_att` MODIFY COLUMN `id` BIGINT(20) NOT NULL AUTO_INCREMENT;
+ALTER TABLE t_conservation_dtl CHANGE COLUMN type conservation_code VARCHAR(8) COLLATE utf8_general_ci DEFAULT NULL;
+--------------- SQL ---------------
+
+ALTER TABLE t_notice_att MODIFY COLUMN id BIGINT(20) NOT NULL AUTO_INCREMENT;
 
 
 alter table t_conservation_dtl  add column cs_sys_date date;
@@ -451,22 +451,22 @@ alter table t_call_fail_list  add column can_call_again_remark varchar(127);
 
 --------------- SQL ---------------
 
-ALTER TABLE `t_under_write` ADD COLUMN `holder_age` TINYINT(4) DEFAULT NULL AFTER `holder`;
-ALTER TABLE `t_log_info` MODIFY COLUMN `message` VARCHAR(1024) COLLATE utf8_general_ci DEFAULT NULL;
+ALTER TABLE t_under_write ADD COLUMN holder_age TINYINT(4) DEFAULT NULL AFTER holder;
+ALTER TABLE t_log_info MODIFY COLUMN message VARCHAR(1024) COLLATE utf8_general_ci DEFAULT NULL;
 
-ALTER TABLE `t_offsite_conservation` ADD COLUMN `deal_prov` VARCHAR(32) DEFAULT NULL;
-
---------------- SQL ---------------
-
-ALTER TABLE `t_notice_att` MODIFY COLUMN `id` BIGINT(20) NOT NULL AUTO_INCREMENT;
-
-ALTER TABLE `t_call_fail_list` ADD COLUMN `reset_date` DATE DEFAULT NULL;
+ALTER TABLE t_offsite_conservation ADD COLUMN deal_prov VARCHAR(32) DEFAULT NULL;
 
 --------------- SQL ---------------
 
-ALTER TABLE `t_policy` ADD COLUMN `bill_back_date` DATE DEFAULT NULL AFTER `policy_date`;
+ALTER TABLE t_notice_att MODIFY COLUMN id BIGINT(20) NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `t_offsite_conservation` ADD COLUMN `deal_prov` VARCHAR(32) DEFAULT NULL;
+ALTER TABLE t_call_fail_list ADD COLUMN reset_date DATE DEFAULT NULL;
+
+--------------- SQL ---------------
+
+ALTER TABLE t_policy ADD COLUMN bill_back_date DATE DEFAULT NULL AFTER policy_date;
+
+ALTER TABLE t_offsite_conservation ADD COLUMN deal_prov VARCHAR(32) DEFAULT NULL;
 
 -- alter table t_call_fail_list add column door_back_rst varchar(128) default null;
 
@@ -488,13 +488,13 @@ alter table t_call_fail_list add column mail_back_date date default null;
 
 alter table t_call_fail_list add column client_sign_date date default null;
 
-ALTER TABLE `t_log_info` ADD COLUMN `module` VARCHAR(32) DEFAULT NULL;
+ALTER TABLE t_log_info ADD COLUMN module VARCHAR(32) DEFAULT NULL;
 
-ALTER TABLE `t_call_fail_list` MODIFY COLUMN `finish_date` TIMESTAMP NULL;
+ALTER TABLE t_call_fail_list MODIFY COLUMN finish_date TIMESTAMP NULL;
 
 --------------- SQL ---------------
 
-ALTER TABLE `t_renewed_list` MODIFY COLUMN `policy_no` VARCHAR(18) COLLATE utf8_general_ci NOT NULL UNIQUE;
+ALTER TABLE t_renewed_list MODIFY COLUMN policy_no VARCHAR(18) COLLATE utf8_general_ci NOT NULL UNIQUE;
 
 update t_call_fail_list t1, t_call_fail_list t2
 set t1.status=t2.status
@@ -504,51 +504,51 @@ and t2.status="二访成功"
 alter table t_call_fail_list add column client_remark varchar(254) default null;
 alter table t_call_fail_list add column hq_deal_type_else varchar(254) default null;
 
-DELETE FROM `t_call_fail_list`
-USING `t_call_fail_list`,(
-  SELECT DISTINCT max(`id`) AS `id`,`policy_no`
-  FROM `t_call_fail_list`
-  GROUP BY `policy_no`
+DELETE FROM t_call_fail_list
+USING t_call_fail_list,(
+  SELECT DISTINCT max(id) AS id,policy_no
+  FROM t_call_fail_list
+  GROUP BY policy_no
   HAVING COUNT(1) > 1
-) AS `t2`
-WHERE `t_call_fail_list`.`policy_no` = `t2`.`policy_no`
-  AND `t_call_fail_list`.`id` <> `t2`.`id`;
+) AS t2
+WHERE t_call_fail_list.policy_no = t2.policy_no
+  AND t_call_fail_list.id <> t2.id;
   
 alter table t_call_fail_list add column phone_num varchar(23) default null;
 alter table t_call_fail_list add column phone_start varchar(23) default null;
 alter table t_call_fail_list add column phone_end varchar(23) default null;
 alter table t_call_fail_list add column phone_time varchar(23) default null;
 
-CREATE OR REPLACE  ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `v_call_fail_list`
+CREATE OR REPLACE  ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW v_call_fail_list
 AS
 select
-  `a`.*,
-  (`b`.`policy_date` + interval 12 day) AS `check_date`,
-  (`b`.`policy_date` + interval 15 day) AS `end_date`,
-  (to_days((`b`.`policy_date` + interval 15 day)) - to_days(now())) AS `last_date_num`
+  a.*,
+  (b.policy_date + interval 12 day) AS check_date,
+  (b.policy_date + interval 15 day) AS end_date,
+  (to_days((b.policy_date + interval 15 day)) - to_days(now())) AS last_date_num
 from
-  (`t_call_fail_list` `a`
-  join `t_policy` `b`)
+  (t_call_fail_list a
+  join t_policy b)
 where
-  (`a`.`policy_no` = `b`.`policy_no` and b.flag=0);
+  (a.policy_no = b.policy_no and b.flag=0);
 
-ALTER TABLE `t_policy` ADD INDEX `idx_policy_formno` (`form_no`);
+ALTER TABLE t_policy ADD INDEX idx_policy_formno (form_no);
 
 update t_policy set policy_fee=cast(aes_decrypt(unhex(policy_fee), 'GDPost') as char(100));
 
 update t_policy set holder=cast(aes_decrypt(unhex(holder), 'GDPost') as char(100));
 
-ALTER TABLE `t_policy` MODIFY COLUMN `policy_fee` DOUBLE(15,2) DEFAULT NULL;
+ALTER TABLE t_policy MODIFY COLUMN policy_fee DOUBLE(15,2) DEFAULT NULL;
 
-ALTER TABLE `t_prd` ADD COLUMN `prd_full_name` VARCHAR(36) DEFAULT NULL AFTER `prd_name`;
+ALTER TABLE t_prd ADD COLUMN prd_full_name VARCHAR(36) DEFAULT NULL AFTER prd_name;
 
-ALTER TABLE `t_settlement` ADD COLUMN `policy_no` VARCHAR(21) DEFAULT NULL AFTER `org_id`;
+ALTER TABLE t_settlement ADD COLUMN policy_no VARCHAR(21) DEFAULT NULL AFTER org_id;
 
-ALTER TABLE `t_settlement` ADD COLUMN `operate_id` BIGINT(20) DEFAULT NULL;
+ALTER TABLE t_settlement ADD COLUMN operate_id BIGINT(20) DEFAULT NULL;
 
-ALTER TABLE `t_settlement` ADD COLUMN `create_time` TIMESTAMP(6) NULL DEFAULT CURRENT_TIMESTAMP(6);
+ALTER TABLE t_settlement ADD COLUMN create_time TIMESTAMP(6) NULL DEFAULT CURRENT_TIMESTAMP(6);
 
-ALTER TABLE `t_settlement_dtl` ADD COLUMN `claims_no` VARCHAR(21) DEFAULT NULL AFTER `id`;
+ALTER TABLE t_settlement_dtl ADD COLUMN claims_no VARCHAR(21) DEFAULT NULL AFTER id;
 
 
 CREATE TABLE t_settlement_dtl (
@@ -582,18 +582,18 @@ ALTER TABLE t_invoice_req ADD COLUMN bill_addr varchar(18) DEFAULT NULL;
 
 drop table t_settlement_dtl;
 
-ALTER TABLE `t_settlement_log` MODIFY COLUMN `id` BIGINT(20) NOT NULL AUTO_INCREMENT;
+ALTER TABLE t_settlement_log MODIFY COLUMN id BIGINT(20) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE t_settle_task ADD COLUMN settleDtl_id BIGINT(20) NOT NULL;
 
 
-ALTER TABLE `t_settle_task` ADD COLUMN `prod_name` VARCHAR(32) DEFAULT NULL AFTER `insured`;
-ALTER TABLE `t_settle_task` ADD COLUMN `policy_fee` VARCHAR(32) DEFAULT NULL AFTER `prod_name`;
-ALTER TABLE `t_settle_task` ADD COLUMN `policy_date` VARCHAR(32) DEFAULT NULL AFTER `policy_fee`;
-ALTER TABLE `t_settle_task` ADD COLUMN `case_date` VARCHAR(32) DEFAULT NULL AFTER `policy_date`;
-ALTER TABLE `t_settle_task` ADD COLUMN `case_type` VARCHAR(32) DEFAULT NULL AFTER `case_date`;
+ALTER TABLE t_settle_task ADD COLUMN prod_name VARCHAR(32) DEFAULT NULL AFTER insured;
+ALTER TABLE t_settle_task ADD COLUMN policy_fee VARCHAR(32) DEFAULT NULL AFTER prod_name;
+ALTER TABLE t_settle_task ADD COLUMN policy_date VARCHAR(32) DEFAULT NULL AFTER policy_fee;
+ALTER TABLE t_settle_task ADD COLUMN case_date VARCHAR(32) DEFAULT NULL AFTER policy_date;
+ALTER TABLE t_settle_task ADD COLUMN case_type VARCHAR(32) DEFAULT NULL AFTER case_date;
 
-ALTER TABLE t_call_fail_list MODIFY COLUMN `door_stats_date` VARCHAR(12) DEFAULT NULL;
+ALTER TABLE t_call_fail_list MODIFY COLUMN door_stats_date VARCHAR(12) DEFAULT NULL;
 create table t_policy_reprint_dtl
 (
    id                   bigint not null auto_increment,
@@ -612,18 +612,18 @@ create table t_policy_reprint_dtl
 
 alter table t_policy add column flag int(1) not null default 0;
 
-CREATE OR REPLACE  ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `v_call_fail_list`
+CREATE OR REPLACE  ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW v_call_fail_list
 AS
 select
-  `a`.*,
-  (`b`.`policy_date` + interval 12 day) AS `check_date`,
-  (`b`.`policy_date` + interval 15 day) AS `end_date`,
-  (to_days((`b`.`policy_date` + interval 15 day)) - to_days(now())) AS `last_date_num`
+  a.*,
+  (b.policy_date + interval 12 day) AS check_date,
+  (b.policy_date + interval 15 day) AS end_date,
+  (to_days((b.policy_date + interval 15 day)) - to_days(now())) AS last_date_num
 from
-  (`t_call_fail_list` `a`
-  join `t_policy` `b`)
+  (t_call_fail_list a
+  join t_policy b)
 where
-  (`a`.`policy_no` = `b`.`policy_no` and b.flag=0);
+  (a.policy_no = b.policy_no and b.flag=0);
 
 alter table t_under_write add column to_net boolean not null default false after prov_send_date;
 update t_under_write set status="CloseStatus" where sign_input_date is not null;
@@ -724,18 +724,18 @@ alter table t_call_fail_list add column attr_year VARCHAR(32);
 alter table t_call_fail_list add column attr_type VARCHAR(32);
 alter table t_call_fail_list add column attr_fee_year VARCHAR(32);
 
-CREATE OR REPLACE  ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `v_call_fail_list`
+CREATE OR REPLACE  ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW v_call_fail_list
 AS
 select
-  `a`.*,
-  (`b`.`policy_date` + interval 12 day) AS `check_date`,
-  (`b`.`policy_date` + interval 15 day) AS `end_date`,
-  (to_days((`b`.`policy_date` + interval 15 day)) - to_days(now())) AS `last_date_num`
+  a.*,
+  (b.policy_date + interval 12 day) AS check_date,
+  (b.policy_date + interval 15 day) AS end_date,
+  (to_days((b.policy_date + interval 15 day)) - to_days(now())) AS last_date_num
 from
-  (`t_call_fail_list` `a`
-  join `t_policy` `b`)
+  (t_call_fail_list a
+  join t_policy b)
 where
-  (`a`.`policy_no` = `b`.`policy_no` and b.flag=0);
+  (a.policy_no = b.policy_no and b.flag=0);
   
 alter table t_issue modify column issue_no VARCHAR(21);
 alter table t_issue modify column status VARCHAR(16) not null default "待处理";
@@ -789,65 +789,65 @@ drop table t_remit_money_list;
 drop table t_renewal_dtl;
 drop table t_renewal_fee_dtl;
 
-CREATE OR REPLACE  ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `v_call_fail_list`
+CREATE OR REPLACE  ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW v_call_fail_list
 AS
 select
-  `a`.*,
-  (`b`.`policy_date` + interval 12 day) AS `check_date`,
-  (`b`.`policy_date` + interval 15 day) AS `end_date`,
-  (to_days((`b`.`policy_date` + interval 15 day)) - to_days(now())) AS `last_date_num`
+  a.*,
+  (b.policy_date + interval 12 day) AS check_date,
+  (b.policy_date + interval 15 day) AS end_date,
+  (to_days((b.policy_date + interval 15 day)) - to_days(now())) AS last_date_num
 from
-  (`t_call_fail_list` `a`
-  join `t_policy` `b`)
+  (t_call_fail_list a
+  join t_policy b)
 where
-  (`a`.`policy_no` = `b`.`policy_no` and b.attached_flag=0);
+  (a.policy_no = b.policy_no and b.attached_flag=0);
 
-ALTER TABLE t_bank_code ADD INDEX idx_bc(`cpi_code`,`net_flag`);
-ALTER TABLE t_cs_report ADD INDEX idx_cs_rt(`policy_no`,`cs_date`);
-alter table t_policy add index idx_p_date(`policy_date`);
-alter table t_policy add index idx_p_bc(`bank_code`);
-alter table t_conservation_req add index idx_req_d(`req_date`);
-alter table t_conservation_req add index idx_creq_s(`status`);
-alter table t_conservation_req add index idx_creq_bc(`bank_code`);
-alter table t_conservation_req add index idx_creq_m(`policy_no`,`form_no`,`bank_code`);
-alter table t_pay_success_list add index idx_psl_s(`status`);
-alter table t_pay_success_list add index idx_psl_bd(`back_date`);
-alter table t_pay_fail_list add index idx_psl_s(`status`);
-alter table t_pay_fail_list add index idx_psl_bd(`back_date`);
-alter table t_call_fail_list add index idx_cfl_oc(`organ_code`);
-alter table t_call_fail_list add index idx_cfl_rd(`ready_date`);
-alter table t_call_fail_list add index idx_cfl_in(`issue_no`);
-alter table t_renewed_list add index idx_rl_in(`fee_status`);
-alter table t_renewed_list add index idx_rl_ffr(`fee_fail_reason`);
-alter table t_renewed_list add index idx_rl_hit(`hq_issue_type`);
-alter table t_renewed_list add index idx_rl_dt(`deal_type`);
-alter table t_renewed_list add index idx_rl_fd(`fee_date`);
-alter table t_renewed_list add index idx_rl_pa(`prov_activity`);
-alter table t_renewed_list add index idx_rl_p(`policy_no`);
-alter table t_policy add index idx_p_p(`policy_no`);
-alter table t_policy add index idx_p_oc(`organ_code`);
-alter table t_policy add index idx_p_op(`organ_code`,`policy_no`);
-alter table t_policy add index idx_p_pa(`policy_no`,`attached_flag`);
-alter table t_call_fail_list add index idx_cfl_s(`status`);
-alter table t_call_fail_list add index idx_cfl_hl(`has_letter`);
-alter table t_call_fail_list add index idx_cfl_cca(`can_call_again`);
-alter table t_call_fail_list add index idx_cfl_dt(`deal_type`);
-alter table t_call_fail_list add index idx_cfl_hdt(`hq_deal_type`);
-alter table t_call_fail_list add index idx_cfl_odf(`org_deal_flag`);
-alter table t_call_fail_list add index idx_cfl_hdf(`hq_deal_flag`);
-alter table t_issue add index idx_i_p(`policy_no`);
-alter table t_issue add index idx_i_s(`status`);
-alter table t_issue add index idx_i_sd(`should_date`);
+ALTER TABLE t_bank_code ADD INDEX idx_bc(cpi_code,net_flag);
+ALTER TABLE t_cs_report ADD INDEX idx_cs_rt(policy_no,cs_date);
+alter table t_policy add index idx_p_date(policy_date);
+alter table t_policy add index idx_p_bc(bank_code);
+alter table t_conservation_req add index idx_req_d(req_date);
+alter table t_conservation_req add index idx_creq_s(status);
+alter table t_conservation_req add index idx_creq_bc(bank_code);
+alter table t_conservation_req add index idx_creq_m(policy_no,form_no,bank_code);
+alter table t_pay_success_list add index idx_psl_s(status);
+alter table t_pay_success_list add index idx_psl_bd(back_date);
+alter table t_pay_fail_list add index idx_psl_s(status);
+alter table t_pay_fail_list add index idx_psl_bd(back_date);
+alter table t_call_fail_list add index idx_cfl_oc(organ_code);
+alter table t_call_fail_list add index idx_cfl_rd(ready_date);
+alter table t_call_fail_list add index idx_cfl_in(issue_no);
+alter table t_renewed_list add index idx_rl_in(fee_status);
+alter table t_renewed_list add index idx_rl_ffr(fee_fail_reason);
+alter table t_renewed_list add index idx_rl_hit(hq_issue_type);
+alter table t_renewed_list add index idx_rl_dt(deal_type);
+alter table t_renewed_list add index idx_rl_fd(fee_date);
+alter table t_renewed_list add index idx_rl_pa(prov_activity);
+alter table t_renewed_list add index idx_rl_p(policy_no);
+alter table t_policy add index idx_p_p(policy_no);
+alter table t_policy add index idx_p_oc(organ_code);
+alter table t_policy add index idx_p_op(organ_code,policy_no);
+alter table t_policy add index idx_p_pa(policy_no,attached_flag);
+alter table t_call_fail_list add index idx_cfl_s(status);
+alter table t_call_fail_list add index idx_cfl_hl(has_letter);
+alter table t_call_fail_list add index idx_cfl_cca(can_call_again);
+alter table t_call_fail_list add index idx_cfl_dt(deal_type);
+alter table t_call_fail_list add index idx_cfl_hdt(hq_deal_type);
+alter table t_call_fail_list add index idx_cfl_odf(org_deal_flag);
+alter table t_call_fail_list add index idx_cfl_hdf(hq_deal_flag);
+alter table t_issue add index idx_i_p(policy_no);
+alter table t_issue add index idx_i_s(status);
+alter table t_issue add index idx_i_sd(should_date);
 alter table t_issue_type add column type_code varchar(12);
 
 CREATE UNIQUE INDEX idx_idcard ON t_staff(id_card); 
 
 alter table t_policy add column staff_flag boolean default false;
 alter table t_cs_report add column staff_flag boolean default false;
-alter table t_policy add index idx_tpsf(`staff_flag`);
+alter table t_policy add index idx_tpsf(staff_flag);
 alter table t_policy add column cs_flag tinyint default 0;
 
-alter table t_policy add fulltext index idx_p_pn(`prod_name`);
+alter table t_policy add fulltext index idx_p_pn(prod_name);
 alter table t_under_write add column plan_date date default NULL;
 alter table t_under_write add column plan_flag boolean default false;
 create table t_cs_addr
@@ -1040,18 +1040,18 @@ update t_policy set sale_type=2 where policy_no like "96%" or policy_no like "81
  update t_policy t1,t_under_write t2 set t1.bill_back_date=t2.bill_back_date where t1.policy_no=t2.policy_no;
  update t_policy set bill_back_date=client_receive_date where bill_back_date is null;
  
- CREATE OR REPLACE  ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `v_call_fail_list`
+ CREATE OR REPLACE  ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW v_call_fail_list
 AS
 select
-  `a`.*,
-  (`b`.`policy_date` + interval 12 day) AS `check_date`,
-  (`b`.`policy_date` + interval 15 day) AS `end_date`,
-  (to_days((`b`.`policy_date` + interval 15 day)) - to_days(now())) AS `last_date_num`
+  a.*,
+  (b.policy_date + interval 12 day) AS check_date,
+  (b.policy_date + interval 15 day) AS end_date,
+  (to_days((b.policy_date + interval 15 day)) - to_days(now())) AS last_date_num
 from
-  (`t_call_fail_list` `a`
-  join `t_policy` `b`)
+  (t_call_fail_list a
+  join t_policy b)
 where
-  (`a`.`policy_no` = `b`.`policy_no` and b.attached_flag=0);
+  (a.policy_no = b.policy_no and b.attached_flag=0);
   
 truncate table t_cs_reissue;
 alter table t_cs_reissue drop foreign key fk_reference_28;
@@ -1101,9 +1101,9 @@ operate_id	  bigint,
 )
 engine=innodb auto_increment=4 default charset=utf8;
 
-ALTER TABLE t_cs_expire ADD INDEX `idx_policy_no` (`policy_no`);
-ALTER TABLE t_cs_expire ADD INDEX `idx_policy_end_date` (`policy_end_date`);
-ALTER TABLE t_cs_expire ADD INDEX `idx_status` (`status`);
+ALTER TABLE t_cs_expire ADD INDEX idx_policy_no (policy_no);
+ALTER TABLE t_cs_expire ADD INDEX idx_policy_end_date (policy_end_date);
+ALTER TABLE t_cs_expire ADD INDEX idx_status (status);
 
 create table t_cs_expire_dtl
 (
@@ -1203,3 +1203,63 @@ alter table t_check_record add column close_user varchar(12);
 alter table t_settle_task_log add column to_deal_day int(4);
 alter table t_settle_task_log add column follow_date datetime;
 alter table t_settle_task_log add column is_follow boolean default false;
+
+
+CREATE TABLE t_gsettle (
+  id bigint(20) NOT NULL AUTO_INCREMENT,
+  org_id bigint(20) DEFAULT NULL,
+  policy_no varchar(21) DEFAULT NULL,
+  insured varchar(32) DEFAULT NULL,
+  reporter varchar(32) DEFAULT NULL,
+  reporter_phone varchar(32) DEFAULT NULL,
+  case_date date DEFAULT NULL,
+  case_type varchar(16) DEFAULT NULL,
+  reporte_date date DEFAULT NULL,
+  record_date date DEFAULT NULL,
+  close_date date DEFAULT NULL,
+  pay_fee double DEFAULT NULL,
+  case_status varchar(16) DEFAULT NULL,
+  remark varchar(1024) DEFAULT NULL,
+  operate_id bigint(20) DEFAULT NULL,
+  create_time timestamp(6) NULL DEFAULT CURRENT_TIMESTAMP(6),
+  PRIMARY KEY (id)
+) ENGINE=InnoDB AUTO_INCREMENT=565 DEFAULT CHARSET=utf8;
+
+CREATE TABLE t_gsettle_dtl (
+  id bigint(20) NOT NULL AUTO_INCREMENT,
+  claims_no varchar(21) DEFAULT NULL,
+  gsettle_id bigint(20) DEFAULT NULL,
+  policy_no varchar(18) DEFAULT NULL,
+  prod_name varchar(64) DEFAULT NULL,
+  policy_fee double DEFAULT NULL,
+  policy_date date DEFAULT NULL,
+  first_case_time date DEFAULT NULL,
+  case_man char(10) DEFAULT NULL,
+  first_file_date date DEFAULT NULL,
+  first_sign_man varchar(32) DEFAULT NULL,
+  all_file_date date DEFAULT NULL,
+  all_sign_man varchar(32) DEFAULT NULL,
+  check_date date DEFAULT NULL,
+  checker varchar(32) DEFAULT NULL,
+  check_done_date date DEFAULT NULL,
+  check_done_man varchar(32) DEFAULT NULL,
+  PRIMARY KEY (id),
+  KEY fk_settlegd_33 (gsettle_id) USING BTREE,
+  CONSTRAINT fk_settlegd_33 FOREIGN KEY (gsettle_id) REFERENCES t_gsettle (id)
+) ENGINE=InnoDB AUTO_INCREMENT=541 DEFAULT CHARSET=utf8;
+
+CREATE TABLE t_gsettle_log (
+  id bigint(20) NOT NULL AUTO_INCREMENT,
+  user_id bigint(20) DEFAULT NULL,
+  gsettle_id bigint(20) DEFAULT NULL,
+  deal_date datetime DEFAULT NULL,
+  info varchar(1024) DEFAULT NULL,
+  is_key_info tinyint(1) DEFAULT NULL,
+  ip varchar(24) DEFAULT NULL,
+  to_deal_day int(4) DEFAULT NULL,
+  follow_date datetime DEFAULT NULL,
+  is_follow tinyint(1) DEFAULT '0',
+  PRIMARY KEY (id),
+  KEY fk_settlegd_32 (gsettle_id),
+  CONSTRAINT fk_settlegd_32 FOREIGN KEY (gsettle_id) REFERENCES t_gsettle (id)
+) ENGINE=InnoDB AUTO_INCREMENT=2054 DEFAULT CHARSET=utf8;
