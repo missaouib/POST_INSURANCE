@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <%
 response.setContentType("application/vnd.ms-excel");  
-response.setHeader("Content-Disposition", "inline; filename=settles.xls");
+response.setHeader("Content-Disposition", "inline; filename=groupsettles.xls");
 %>
 	<table border="1" cellspacing="1" cellpadding="0">
 			<tr>

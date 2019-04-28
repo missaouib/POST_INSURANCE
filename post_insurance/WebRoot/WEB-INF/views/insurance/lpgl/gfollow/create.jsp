@@ -1,12 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 <div class="pageContent">
-<form method="post" action="${contextPath }/lpgl/create" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
+<form method="post" action="${contextPath }/lpgl/gfollow/create" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
 	<div class="pageFormContent" layoutH="58">
 		<p>
 			<label>机构：</label>
-			<input name="organization.id" id="uw_orgId" type="hidden" value=""/>
-					<input class="validate[required] required" name="organization.name" id="uw_orgName" type="text" readonly="readonly" style="width: 140px;" value=""/>
+			<input name="organization.id" id="gs_orgId" type="hidden" value=""/>
+					<input class="validate[required] required" name="organization.name" id="gs_orgName" type="text" readonly="readonly" style="width: 140px;" value=""/>
 					<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="organization" title="选择机构" width="400">查找带回</a>
 		</p>
 		<p>
@@ -29,7 +29,7 @@
 		
 		<p>
 			<label>理赔类型：</label>
-			<select name="caseType" id="caseType" class="combox validate[required] required">
+			<select name="caseType" id="gcaseType" class="combox validate[required] required">
 				<option value="意外身故">意外身故</option>
 				<option value="疾病身故">疾病身故</option>
 				<option value="重大疾病">重大疾病</option>
@@ -58,7 +58,7 @@
 		</p>
 		<p>
 			<label>案件状态：</label>
-			<select name="caseStatus" id="caseStatus" class="combox validate[required] required">
+			<select name="caseStatus" id="gcaseStatus" class="combox validate[required] required">
 				<option value="待报案">待报案</option>
 				<option value="待立案">待立案</option>
 				<option value="待调查">待调查</option>
@@ -70,7 +70,7 @@
 		</p>
 		<p>
 			<label>备注：</label>
-			<textarea name="remark" id="remark" cols="30" rows="3" class="input-medium"></textarea>
+			<textarea name="remark" id="gremark" cols="30" rows="3" class="input-medium"></textarea>
 		</p>
 	</div>
 			

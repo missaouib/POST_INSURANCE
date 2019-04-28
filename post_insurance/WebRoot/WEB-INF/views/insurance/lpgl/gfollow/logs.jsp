@@ -2,10 +2,10 @@
 <%@page import="java.util.Date"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 
-<dwz:paginationForm action="${contextPath }/lpgl/log/${settle_id}" page="${page }">
+<dwz:paginationForm action="${contextPath }/lpgl/gfollow/log/${settle_id}" page="${page }">
 </dwz:paginationForm>
 
-<form method="post" action="${contextPath }/lpgl/log/${settle_id}" onsubmit="return navTabSearch(this)">
+<form method="post" action="${contextPath }/lpgl/gfollow/log/${settle_id}" onsubmit="return navTabSearch(this)">
 </form>
 
 <div class="pageContent">

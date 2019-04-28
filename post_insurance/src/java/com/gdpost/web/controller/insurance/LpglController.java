@@ -54,6 +54,9 @@ import com.alibaba.fastjson.serializer.SimpleDateFormatSerializer;
 import com.gdpost.utils.SecurityUtils;
 import com.gdpost.utils.StringUtil;
 import com.gdpost.utils.UploadDataHelper.UploadDataUtils;
+import com.gdpost.web.entity.component.Gsettle;
+import com.gdpost.web.entity.component.GsettleDtl;
+import com.gdpost.web.entity.component.GsettleLog;
 import com.gdpost.web.entity.component.SettleTask;
 import com.gdpost.web.entity.component.SettleTaskLog;
 import com.gdpost.web.entity.component.Settlement;
@@ -1168,29 +1171,29 @@ public class LpglController {
 	 * 团险
 	 * ===========
 	 */
-	@RequiresPermissions("Settlement:save")
+	@RequiresPermissions("Gsettle:save")
 	@RequestMapping(value="/gfollow/create", method=RequestMethod.GET)
 	public String preCreateGFollow() {
-		return CREATE;
+		return G_CREATE;
 	}
 	
 	@Log(message="添加了{0}的理赔案件。", level=LogLevel.WARN, module=LogModule.LPGL)
-	@RequiresPermissions("Settlement:save")
+	@RequiresPermissions("Gsettle:save")
 	@RequestMapping(value="/gfollow/create", method=RequestMethod.POST)
-	public @ResponseBody String createGFollow(@Valid Settlement settle, HttpServletRequest request) {
+	public @ResponseBody String createGFollow(@Valid Gsettle settle, HttpServletRequest request) {
 		User user = SecurityUtils.getShiroUser().getUser();
 		try {
 			settle.setOperateId(user.getId());
 			settle.setCreateTime(new Date());
-			lpglService.saveOrUpdateSettle(settle);
-			SettlementLog settleLog = new SettlementLog();
-			settleLog.setSettlement(settle);
+			lpglService.saveOrUpdateGsettle(settle);
+			GsettleLog settleLog = new GsettleLog();
+			settleLog.setGsettle(settle);
 			settleLog.setDealDate(new Date());
 			settleLog.setUser(user);
 			settleLog.setInfo("添加了理赔案件信息；");
 			settleLog.setIp(request.getRemoteAddr());
 			settleLog.setIsKeyInfo(true);
-			lpglService.saveOrUpdateSettleLog(settleLog);
+			lpglService.saveOrUpdateGsettleLog(settleLog);
 		} catch (ExistedException e) {
 			return AjaxObject.newError("添加理赔案件失败：" + e.getMessage()).setCallbackType("").toString();
 		}
@@ -1199,14 +1202,14 @@ public class LpglController {
 		return AjaxObject.newOk("添加理赔案件成功！").toString();
 	}
 	
-	@RequiresPermissions("Settlement:save")
+	@RequiresPermissions("Gsettle:save")
 	@RequestMapping(value="/gfollow/detail/{id}", method=RequestMethod.GET)
 	public String preCreateGFollowDtl(@PathVariable Long id, HttpServletRequest request) {
-		Settlement settle = lpglService.getSettle(id);
+		Gsettle settle = lpglService.getGsettle(id);
 		request.setAttribute("settle", settle);
-		SettlementDtl settleDtl = lpglService.getDtlBySettlementId(id);
+		GsettleDtl settleDtl = lpglService.getDtlByGsettleId(id);
 		
-		List<SettlementLog> dealLogs = lpglService.findDealLogBySettleId(id);
+		List<GsettleLog> dealLogs = lpglService.findDealLogByGsettleId(id);
 		request.setAttribute("dealLogs", dealLogs);
 		
 		if(settleDtl != null && settleDtl.getId() != null) {
@@ -1215,34 +1218,34 @@ public class LpglController {
 		} else {
 			request.setAttribute("flag", "create");
 		}
-		return CREATE_DTL;
+		return G_CREATE_DTL;
 	}
 
 	@Log(message="登记了{0}的理赔案件详情。", level=LogLevel.WARN, module=LogModule.LPGL)
-	@RequiresPermissions("Settlement:save")
+	@RequiresPermissions("Gsettle:save")
 	@RequestMapping(value="/gfollow/detail", method=RequestMethod.POST)
-	public @ResponseBody String createGFollowDtl(SettlementDtl settleDtl, HttpServletRequest request) {
+	public @ResponseBody String createGFollowDtl(GsettleDtl settleDtl, HttpServletRequest request) {
 		try {
 			LOG.debug("----------- settle dtl id:" + settleDtl.getId());
 			String id = request.getParameter("settleDtlId");
-			SettlementDtl dtl = null;
+			GsettleDtl dtl = null;
 			if(id != null && id.trim().length() >0) {
-				dtl = lpglService.getSettleDtl(new Long(id));
+				dtl = lpglService.getGsettleDtl(new Long(id));
 				BeanUtils.copyProperties(settleDtl, dtl, "id");
 			} else {
 				dtl = settleDtl;
 			}
-			lpglService.saveOrUpdateSettleDtl(dtl);
+			lpglService.saveOrUpdateGsettleDtl(dtl);
 			
-			Settlement settle = lpglService.getSettle(settleDtl.getSettlement().getId());
+			Gsettle settle = lpglService.getGsettle(settleDtl.getGsettle().getId());
 			
 			User user = SecurityUtils.getShiroUser().getUser();
 			
 			String toDealDay = request.getParameter("toDealDay");
 			String followDate = request.getParameter("followDate");
 			String info = request.getParameter("info");
-			SettlementLog settleInfo = new SettlementLog();
-			settleInfo.setSettlement(settle);
+			GsettleLog settleInfo = new GsettleLog();
+			settleInfo.setGsettle(settle);
 			settleInfo.setDealDate(new Date());
 			if(followDate != null && followDate.trim().length()>0 && info != null && info.trim().length()>0) {
 				settleInfo.setFollowDate(StringUtil.str2Date(followDate, "yyyy-MM-dd"));
@@ -1257,7 +1260,7 @@ public class LpglController {
 			settleInfo.setUser(user);
 			settleInfo.setIp(request.getRemoteAddr());
 			settleInfo.setIsKeyInfo(true);
-			lpglService.saveOrUpdateSettleLog(settleInfo);
+			lpglService.saveOrUpdateGsettleLog(settleInfo);
 			
 		} catch (ExistedException e) {
 			return AjaxObject.newError("理赔案件详情登记失败：" + e.getMessage()).setCallbackType("").toString();
@@ -1267,20 +1270,20 @@ public class LpglController {
 		return AjaxObject.newOk("理赔案件详情登记成功！").toString();
 	}
 
-	@RequiresPermissions("Settlement:edit")
+	@RequiresPermissions("Gsettle:edit")
 	@RequestMapping(value="/gfollow/update/{id}", method=RequestMethod.GET)
 	public String preUpdateGFollow(@PathVariable Long id, Map<String, Object> map) {
-		Settlement settle = lpglService.getSettle(id);
+		Gsettle settle = lpglService.getGsettle(id);
 		
 		map.put("settle", settle);
-		return UPDATE;
+		return G_UPDATE;
 	}
 	
 	@Log(message="修改了出险人{0}的案件信息。", level=LogLevel.WARN, module=LogModule.LPGL)
-	@RequiresPermissions("Settlement:edit")
+	@RequiresPermissions("Gsettle:edit")
 	@RequestMapping(value="/gfollow/update", method=RequestMethod.POST)
-	public @ResponseBody String updateGFollow(@Valid Settlement settle, HttpServletRequest request) {
-		Settlement src = lpglService.getSettle(settle.getId());
+	public @ResponseBody String updateGFollow(@Valid Gsettle settle, HttpServletRequest request) {
+		Gsettle src = lpglService.getGsettle(settle.getId());
 		StringBuffer loginfo = new StringBuffer("");
 		if(settle.getCaseDate()!=null && src.getCaseDate() != null && !DateUtils.isSameDay(src.getCaseDate(), settle.getCaseDate())) {
 			loginfo.append("改出险日期：" + StringUtil.date2Str(src.getCaseDate(), "yy-M-d") + "->" + StringUtil.date2Str(settle.getCaseDate(), "yy-M-d") + "；");
@@ -1346,18 +1349,18 @@ public class LpglController {
 			src.setReporterPhone(settle.getReporterPhone());
 		}
 		
-		lpglService.saveOrUpdateSettle(src);
+		lpglService.saveOrUpdateGsettle(src);
 		
 		if(loginfo.length() > 0) {
 			User user = SecurityUtils.getShiroUser().getUser();
-			SettlementLog settleLog = new SettlementLog();
-			settleLog.setSettlement(src);
+			GsettleLog settleLog = new GsettleLog();
+			settleLog.setGsettle(src);
 			settleLog.setUser(user);
 			settleLog.setDealDate(new Date());
 			settleLog.setInfo(loginfo.toString());
 			settleLog.setIp(request.getRemoteAddr());
 			settleLog.setIsKeyInfo(true);
-			lpglService.saveOrUpdateSettleLog(settleLog);
+			lpglService.saveOrUpdateGsettleLog(settleLog);
 		}
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{settle.getInsured()}));
@@ -1365,25 +1368,25 @@ public class LpglController {
 	}
 	
 	@Log(message="删除了{0}的案件信息。", level=LogLevel.WARN, module=LogModule.LPGL)
-	@RequiresPermissions("Settlement:delete")
+	@RequiresPermissions("Gsettle:delete")
 	@RequestMapping(value="/gfollow/delete/{id}", method=RequestMethod.POST)
 	public @ResponseBody String deleteGFollow(@PathVariable Long id, HttpServletRequest request) {
-		Settlement settle = null;
+		Gsettle settle = null;
 		try {
-			settle = lpglService.getSettle(id);
+			settle = lpglService.getGsettle(id);
 			
 			User user = SecurityUtils.getShiroUser().getUser();
-			SettlementLog settleLog = new SettlementLog();
-			settleLog.setSettlement(settle);
+			GsettleLog settleLog = new GsettleLog();
+			settleLog.setGsettle(settle);
 			settleLog.setUser(user);
 			settleLog.setDealDate(new Date());
 			settleLog.setInfo("删除报案信息：" + settle.getInsured());
 			settleLog.setIp(request.getRemoteAddr());
 			settleLog.setIsKeyInfo(true);
-			lpglService.saveOrUpdateSettleLog(settleLog);
+			lpglService.saveOrUpdateGsettleLog(settleLog);
 			
 			
-			lpglService.deleteSettle(settle.getId());
+			lpglService.deleteGsettle(settle.getId());
 		} catch (ServiceException e) {
 			return AjaxObject.newError("删除案件失败：" + e.getMessage()).setCallbackType("").toString();
 		}
@@ -1393,25 +1396,25 @@ public class LpglController {
 	}
 	
 	@Log(message="删除了{0}案件。", level=LogLevel.WARN, module=LogModule.LPGL)
-	@RequiresPermissions("Settlement:delete")
+	@RequiresPermissions("Gsettle:delete")
 	@RequestMapping(value="/gfollow/delete", method=RequestMethod.POST)
 	public @ResponseBody String deleteManyGF(Long[] ids, HttpServletRequest request) {
 		String[] policys = new String[ids.length];
 		try {
 			for (int i = 0; i < ids.length; i++) {
-				Settlement settle = lpglService.getSettle(ids[i]);
+				Gsettle settle = lpglService.getGsettle(ids[i]);
 				
 				User user = SecurityUtils.getShiroUser().getUser();
-				SettlementLog settleLog = new SettlementLog();
-				settleLog.setSettlement(settle);
+				GsettleLog settleLog = new GsettleLog();
+				settleLog.setGsettle(settle);
 				settleLog.setUser(user);
 				settleLog.setDealDate(new Date());
 				settleLog.setInfo("删除报案信息：" + settle.getInsured());
 				settleLog.setIp(request.getRemoteAddr());
 				settleLog.setIsKeyInfo(true);
-				lpglService.saveOrUpdateSettleLog(settleLog);
+				lpglService.saveOrUpdateGsettleLog(settleLog);
 				
-				lpglService.deleteSettle(settle.getId());
+				lpglService.deleteGsettle(settle.getId());
 				
 				policys[i] = settle.getInsured();
 			}
@@ -1423,13 +1426,13 @@ public class LpglController {
 		return AjaxObject.newOk("删除案件成功！").setCallbackType("").toString();
 	}
 	
-	@RequiresPermissions("Settlement:view")
+	@RequiresPermissions("Gsettle:view")
 	@RequestMapping(value="/gfollow/list", method={RequestMethod.GET, RequestMethod.POST})
 	public String listGFollow(ServletRequest request, Page page, Map<String, Object> map) {
 		User user = SecurityUtils.getShiroUser().getUser();
 		String caseStatus = request.getParameter("caseStatus");
 		request.setAttribute("caseStatus", caseStatus);
-		Settlement settle = new Settlement();
+		Gsettle settle = new Gsettle();
 		settle.setCaseStatus(caseStatus);
 		request.setAttribute("settle", settle);
 		String orgCode = request.getParameter("organization.orgCode");
@@ -1453,15 +1456,15 @@ public class LpglController {
 			csf.add(new SearchFilter("caseStatus", Operator.LIKE, caseStatus));
 		}
 		
-		Specification<Settlement> specification = DynamicSpecifications.bySearchFilter(request, Settlement.class, csf);
-		List<Settlement> users = lpglService.findBySettleExample(specification, page);
+		Specification<Gsettle> specification = DynamicSpecifications.bySearchFilter(request, Gsettle.class, csf);
+		List<Gsettle> users = lpglService.findByGsettleExample(specification, page);
 
 		map.put("page", page);
 		map.put("users", users);
-		return LIST;
+		return G_LIST;
 	}
 	
-	@RequiresPermissions("Settlement:view")
+	@RequiresPermissions("Gsettle:view")
 	@RequestMapping(value="/gfollow/toXls", method=RequestMethod.GET)
 	public String gfollowToXls(ServletRequest request, Page page, Map<String, Object> map) {
 		User user = SecurityUtils.getShiroUser().getUser();
@@ -1476,22 +1479,22 @@ public class LpglController {
 			csf.add(new SearchFilter("caseStatus", Operator.EQ, caseStatus));
 		}
 		
-		Specification<Settlement> specification = DynamicSpecifications.bySearchFilter(request, Settlement.class, csf);
-		List<Settlement> reqs = lpglService.findBySettleExample(specification, page);
+		Specification<Gsettle> specification = DynamicSpecifications.bySearchFilter(request, Gsettle.class, csf);
+		List<Gsettle> reqs = lpglService.findByGsettleExample(specification, page);
 	
 		map.put("settles", reqs);
-		return TO_XLS;
+		return G_TO_XLS;
 	}
 	
-	@RequiresPermissions("Settlement:view")
+	@RequiresPermissions("Gsettle:view")
 	@RequestMapping(value="/gfollow/log/{id}", method=RequestMethod.GET)
 	public String viewGFollowLog(@PathVariable Long id, HttpServletRequest request, Page page, Map<String, Object> map) {
 		request.setAttribute("settle_id", id);
-		List<SettlementLog> logs = lpglService.findLogBySettleId(id);
+		List<GsettleLog> logs = lpglService.findLogByGsettleId(id);
 		
 		map.put("settleLog", logs);
 		map.put("page", page);
-		return LOG_DTL;
+		return G_LOG_DTL;
 	}
 	
 	@InitBinder

@@ -10,11 +10,17 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gdpost.web.dao.GsettleDAO;
+import com.gdpost.web.dao.GsettleDtlDAO;
+import com.gdpost.web.dao.GsettleLogDAO;
 import com.gdpost.web.dao.SettleTaskDAO;
 import com.gdpost.web.dao.SettleTaskLogDAO;
 import com.gdpost.web.dao.SettlementDAO;
 import com.gdpost.web.dao.SettlementDtlDAO;
 import com.gdpost.web.dao.SettlementLogDAO;
+import com.gdpost.web.entity.component.Gsettle;
+import com.gdpost.web.entity.component.GsettleDtl;
+import com.gdpost.web.entity.component.GsettleLog;
 import com.gdpost.web.entity.component.SettleTask;
 import com.gdpost.web.entity.component.SettleTaskLog;
 import com.gdpost.web.entity.component.Settlement;
@@ -44,6 +50,15 @@ public class LpglServiceImpl implements LpglService {
 	
 	@Autowired
 	private SettleTaskLogDAO settleTaskLogDAO;
+	
+	@Autowired
+	private GsettleDAO gsettleDAO;
+	
+	@Autowired
+	private GsettleDtlDAO gsettleDtlDAO;
+	
+	@Autowired
+	private GsettleLogDAO gsettleLogDAO;
 	
 	/*
 	 * (non-Javadoc)
@@ -256,5 +271,114 @@ public class LpglServiceImpl implements LpglService {
 	@Override
 	public List<SettleTaskLog> findDealLogByTaskId(Long id) {
 		return settleTaskLogDAO.findBySettleTaskIdAndIsFollowOrderByIdDesc(id,true);
+	}
+	
+	/*
+	 * ===============
+	 * group settle
+	 * ===============
+	 */
+	@Override
+	public Gsettle getGsettle(Long id) {
+		return gsettleDAO.findById(id).get();
+	}
+
+	@Override
+	public void saveOrUpdateGsettle(Gsettle settle) {
+		if (settle.getId() == null) {
+			if(settle.getCaseType() != null && !settle.getCaseType().equals("医疗")) {
+				if (gsettleDAO.getByInsuredAndCaseDate(settle.getInsured(), settle.getCaseDate()) != null) {
+					throw new ExistedException("出险人：" + settle.getInsured() + "已记录。");
+				}
+			}
+		}
+		
+		gsettleDAO.save(settle);
+	}
+
+	@Override
+	public void deleteGsettle(Long id) {
+		gsettleDAO.deleteById(id);
+	}
+	
+	@Override
+	public List<Gsettle> findAllGsettle(Page page) {
+		org.springframework.data.domain.Page<Gsettle> springDataPage = gsettleDAO.findAll(PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
+	}
+	
+	@Override
+	public List<Gsettle> findByGsettleExample(
+			Specification<Gsettle> specification, Page page) {
+		org.springframework.data.domain.Page<Gsettle> springDataPage = gsettleDAO.findAll(specification, PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
+	}
+	
+	@Override
+	public Gsettle getGsettleByPolicyNo(String policyNo) {
+		return gsettleDAO.getByPolicyPolicyNo(policyNo);
+	}
+	
+	@Override
+	public GsettleDtl getGsettleDtl(Long id) {
+		return gsettleDtlDAO.findById(id).get();
+	}
+
+	@Override
+	public void saveOrUpdateGsettleDtl(GsettleDtl gsettleDtl) {
+		gsettleDtlDAO.saveAndFlush(gsettleDtl);
+	}
+
+	@Override
+	public void deleteGsettleDtl(Long id) {
+		gsettleDtlDAO.deleteById(id);
+	}
+	
+	@Override
+	public List<GsettleDtl> findAllGsettleDtl(Page page) {
+		org.springframework.data.domain.Page<GsettleDtl> springDataPage = gsettleDtlDAO.findAll(PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
+	}
+	
+	@Override
+	public List<GsettleDtl> findByGsettleDtlExample(
+			Specification<GsettleDtl> specification, Page page) {
+		org.springframework.data.domain.Page<GsettleDtl> springDataPage = gsettleDtlDAO.findAll(specification, PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
+	}
+	
+	@Override
+	public GsettleDtl getDtlByGsettleId(Long id) {
+		return gsettleDtlDAO.getByGsettleId(id);
+	}
+	
+	@Override
+	public GsettleDtl getGsettleDtlByPolicyPolicyNo(String policyNo) {
+		return gsettleDtlDAO.getByPolicyNo(policyNo);
+	}
+
+	@Override
+	public GsettleLog getGsettleLog(Long id) {
+		return gsettleLogDAO.findById(id).get();
+	}
+
+	@Override
+	public void saveOrUpdateGsettleLog(GsettleLog log) {
+		gsettleLogDAO.save(log);
+		
+	}
+
+	@Override
+	public List<GsettleLog> findLogByGsettleId(Long id) {
+		return gsettleLogDAO.findByGsettleId(id);
+	}
+	
+	@Override
+	public List<GsettleLog> findDealLogByGsettleId(Long id) {
+		return gsettleLogDAO.findByGsettleIdAndIsFollowOrderByIdDesc(id,true);
 	}
 }

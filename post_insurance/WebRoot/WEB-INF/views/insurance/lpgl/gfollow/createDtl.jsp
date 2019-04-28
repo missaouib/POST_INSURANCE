@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 <div class="pageContent">
-<form method="post" action="${contextPath }/lpgl/detail" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
+<form method="post" action="${contextPath }/lpgl/gfollow/detail" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
 <input hidden="hidden" name="settlement.id" value="${settle.id }">
 <input hidden="hidden" name="settleDtlId" value="${settleDtl.id }">
 	<div class="pageFormContent" layoutH="58">
@@ -57,7 +57,7 @@
 		</p>
 		<p>
 			<label>跟进反馈：</label>
-			<select name="toDealDay" id="lptdd" class="combox">
+			<select name="toDealDay" id="lpgtdd" class="combox">
 				<option value="1">1日内反馈 </option>
 				<option value="3">3日内反馈 </option>
 				<option value="5">5日内反馈 </option>
@@ -74,35 +74,6 @@
 			<label>反馈内容：</label>
 			<textarea name="info" cols="50" rows="3"></textarea>
 		</p>
-		<!-- 
-		<p>
-			<label>首次接触赔案时间：</label>
-			<input type="text" name="firstCaseTime" class="date validate[maxSize[12]]" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value="${settleDtl.firstCaseTime }" pattern="yyyy-MM-dd"/>"/>
-			<a class="inputDateButton" href="javascript:;">选择</a>
-		</p>
-		<p>
-			<label>接案人：</label>
-			<input type="text" name="caseMan" class="input-medium validate[maxSize[32]]" maxlength="32" value="${settleDtl.caseMan }"/>
-		</p>
-		<p>
-			<label>首次接收理赔材料日期：</label>
-			<input type="text" name="firstFileDate" class="date validate[maxSize[12]]" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value="${settleDtl.firstFileDate }" pattern="yyyy-MM-dd"/>"/>
-			<a class="inputDateButton" href="javascript:;">选择</a>
-		</p>
-		<p>
-			<label>签收人：</label>
-			<input type="text" name="firstSignMan" class="input-medium validate[maxSize[32]]" maxlength="32" value="${settleDtl.firstSignMan }"/>
-		</p>
-		<p>
-			<label>接收齐全理赔材料日期：</label>
-			<input type="text" name="allFileDate" class="date validate[maxSize[12]]" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value="${settleDtl.allFileDate }" pattern="yyyy-MM-dd"/>"/>
-			<a class="inputDateButton" href="javascript:;">选择</a>
-		</p>
-		<p>
-			<label>签收人：</label>
-			<input type="text" name="allSignMan" class="input-medium validate[maxSize[32]]" maxlength="32" value="${settleDtl.allSignMan }"/>
-		</p>
-		 -->
 	</fieldset>
 	<fieldset>
 		<legend>调查进程</legend>

@@ -2,7 +2,7 @@
 <%@page import="java.util.Date"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 
-<dwz:paginationForm action="${contextPath }/lpgl/list" page="${page }">
+<dwz:paginationForm action="${contextPath }/lpgl/gfollow/list" page="${page }">
 	<input type="hidden" name="search_LIKE_insured" value="${param.search_LIKE_insured }"/>
 	<input type="hidden" name="organization.orgCode" value="${org_code }"/>
 	<input type="hidden" name="organization.name" value="${org_name }"/>
@@ -11,7 +11,7 @@
 	<input type="hidden" name="caseStatus" value="${caseStatus }"/>
 </dwz:paginationForm>
 
-<form method="post" action="${contextPath }/lpgl/list" onsubmit="return navTabSearch(this)">
+<form method="post" action="${contextPath }/lpgl/gfollow/list" onsubmit="return navTabSearch(this)">
 	<div class="pageHeader">
 		<div class="searchBar">
 			<table class="searchContent">
@@ -21,7 +21,7 @@
 					</td>
 					<td>
 						<label>状态：</label>
-						<form:select path="settle.caseStatus" id="list_caseStatus" class="combox">
+						<form:select path="settle.caseStatus" id="list_gcaseStatus" class="combox">
 							<form:option value=""> -- </form:option>
 							<form:option value="待报案">待报案</form:option>
 							<form:option value="待立案">待立案</form:option>
@@ -34,18 +34,18 @@
 					</td>
 					<td>
 						<label>所属机构：</label>
-						<input name="organization.orgCode" id="case_orgCode" type="hidden" value="${org_code }"/>
-					<input class="validate[required] required" name="organization.name" id="case_orgName" type="text" readonly="readonly" style="width: 140px;" value="${org_name }"/><a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="organization" title="选择机构" width="400">查找带回</a>
+						<input name="organization.orgCode" id="gcase_orgCode" type="hidden" value="${org_code }"/>
+					<input class="validate[required] required" name="organization.name" id="gcase_orgName" type="text" readonly="readonly" style="width: 140px;" value="${org_name }"/><a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="organization" title="选择机构" width="400">查找带回</a>
 					</td>
 				</tr>
 				<tr>
 					<td>
 						<label>工单日期：</label>
-						<input type="text" name="search_GTE_caseDate" id="caseDate1" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_caseDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+						<input type="text" name="search_GTE_caseDate" id="gcaseDate1" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_caseDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
 						<label>工单日期：</label>
-						<input type="text" name="search_LTE_caseDate" id="caseDate2" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_caseDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+						<input type="text" name="search_LTE_caseDate" id="gcaseDate2" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_caseDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
 						&nbsp;
@@ -66,17 +66,17 @@
 	<div class="panelBar">
 		<ul class="toolBar">
 			<shiro:hasPermission name="Settlement:save">
-				<li><a class="add" target="dialog" rel="lookup2organization_add" mask="true" width="530" height="450" href="${contextPath }/lpgl/create"><span>添加</span></a></li>
+				<li><a class="add" target="dialog" rel="lookup2organization_add" mask="true" width="530" height="450" href="${contextPath }/lpgl/gfollow/create"><span>添加</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Settlement:edit">
-				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="330" href="${contextPath }/lpgl/update/{slt_uid}"><span>编辑</span></a></li>
+				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="330" href="${contextPath }/lpgl/gfollow/update/{slt_uid}"><span>编辑</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Settlement:delete">
-				<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/lpgl/delete" title="确认要删除?"><span>删除</span></a></li>
+				<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/lpgl/gfollow/delete" title="确认要删除?"><span>删除</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Settlement:view">
 				<li class="line">line</li>
-				<li><a class="icon" target="_blank" href="${contextPath }/lpgl/toXls?search_LIKE_insured=${search_LIKE_insured }&search_LTE_caseDate=${param.search_LTE_caseDate}&search_GTE_caseDate=${param.search_GTE_caseDate}&caseStatus=${caseStatus}&organization.orgCode=${org_code}&organization.name=${org_name}"><span>导出Excel</span></a></li>
+				<li><a class="icon" target="_blank" href="${contextPath }/lpgl/gfollow/toXls?search_LIKE_insured=${search_LIKE_insured }&search_LTE_caseDate=${param.search_LTE_caseDate}&search_GTE_caseDate=${param.search_GTE_caseDate}&caseStatus=${caseStatus}&organization.orgCode=${org_code}&organization.name=${org_name}"><span>导出Excel</span></a></li>
 			</shiro:hasPermission>
 		</ul>
 	</div>
@@ -106,8 +106,8 @@
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
 				<td>
-					<a target="dialog" mask="true" width="650" height="530" href="${contextPath }/lpgl/detail/${item.id}">登记详情</a> &nbsp;&nbsp;
-					<a target="dialog" mask="true" width="750" height="430" href="${contextPath }/lpgl/log/${item.id}">操作日志</a>
+					<a target="dialog" mask="true" width="650" height="530" href="${contextPath }/lpgl/gfollow/detail/${item.id}">登记详情</a> &nbsp;&nbsp;
+					<a target="dialog" mask="true" width="750" height="430" href="${contextPath }/lpgl/gfollow/log/${item.id}">操作日志</a>
 				</td>	
 				<td>${item.organization.shortName}</td>
 				<td>${item.insured}</td>

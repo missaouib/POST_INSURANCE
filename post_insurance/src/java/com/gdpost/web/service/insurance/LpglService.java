@@ -11,6 +11,9 @@ import java.util.List;
 
 import org.springframework.data.jpa.domain.Specification;
 
+import com.gdpost.web.entity.component.Gsettle;
+import com.gdpost.web.entity.component.GsettleDtl;
+import com.gdpost.web.entity.component.GsettleLog;
 import com.gdpost.web.entity.component.SettleTask;
 import com.gdpost.web.entity.component.SettleTaskLog;
 import com.gdpost.web.entity.component.Settlement;
@@ -71,4 +74,44 @@ public interface LpglService {
 	List<SettleTaskLog> findDealLogByTaskId(Long id);
 
 	void saveOrUpdateSettleTaskLog(SettleTaskLog log);
+	
+	/*
+	 * ==========
+	 * group settle
+	 * ==========
+	 * 
+	 */
+	Gsettle getGsettle(Long id);
+
+	void saveOrUpdateGsettle(Gsettle settle);
+
+	void deleteGsettle(Long id);
+	
+	List<Gsettle> findAllGsettle(Page page);
+	
+	List<Gsettle> findByGsettleExample(Specification<Gsettle> specification, Page page);
+	
+	Gsettle getGsettleByPolicyNo(String name);
+	
+	GsettleDtl getGsettleDtl(Long id);
+
+	void saveOrUpdateGsettleDtl(GsettleDtl dtl);
+
+	void deleteGsettleDtl(Long id);
+	
+	List<GsettleDtl> findAllGsettleDtl(Page page);
+	
+	List<GsettleDtl> findByGsettleDtlExample(Specification<GsettleDtl> specification, Page page);
+	
+	GsettleDtl getDtlByGsettleId(Long id);
+	
+	GsettleDtl getGsettleDtlByPolicyPolicyNo(String policyNo);
+	
+	GsettleLog getGsettleLog(Long id);
+
+	void saveOrUpdateGsettleLog(GsettleLog log);
+	
+	List<GsettleLog> findLogByGsettleId(Long id);
+	
+	List<GsettleLog> findDealLogByGsettleId(Long id);
 }

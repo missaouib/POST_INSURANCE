@@ -1,13 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 <div class="pageContent">
-<form method="post" action="${contextPath }/lpgl/update" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
+<form method="post" action="${contextPath }/lpgl/gfollow/update" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
 <input type="hidden" name="id" value="${settle.id }" />
 	<div class="pageFormContent" layoutH="58">
 		<p>
 			<label>机构：</label>
-			<input name="organization.id" id="uw_orgId" type="hidden" value="${settle.organization.id }"/>
-					<input class="validate[required] required" name="organization.name" id="uw_orgName" type="text" readonly="readonly" style="width: 140px;" value="${settle.organization.name }"/>
+			<input name="organization.id" id="guw_orgId" type="hidden" value="${settle.organization.id }"/>
+					<input class="validate[required] required" name="organization.name" id="guw_orgName" type="text" readonly="readonly" style="width: 140px;" value="${settle.organization.name }"/>
 					<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="organization" title="选择机构" width="400">查找带回</a>
 		</p>
 		<p>
@@ -30,7 +30,7 @@
 		
 		<p>
 			<label>理赔类型：</label>
-			<form:select path="settle.caseType" id="caseType" class="combox validate[required] required">
+			<form:select path="settle.caseType" id="gcaseType" class="combox validate[required] required">
 				<form:option value="意外身故">意外身故</form:option>
 				<form:option value="疾病身故">疾病身故</form:option>
 				<form:option value="重大疾病">重大疾病</form:option>
@@ -59,7 +59,7 @@
 		</p>
 		<p>
 			<label>案件状态：</label>
-			<form:select path="settle.caseStatus" id="caseStatus" class="combox validate[required] required">
+			<form:select path="settle.caseStatus" id="gcaseStatus" class="combox validate[required] required">
 				<form:option value="待报案">待报案</form:option>
 				<form:option value="待立案">待立案</form:option>
 				<form:option value="待调查">待调查</form:option>
