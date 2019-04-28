@@ -184,6 +184,24 @@ public class XqglController {
 		return	AjaxObject.newOk("结案续期催收件成功！").toString(); 
 	}
 	
+	@Log(message="批量关闭了{0}续期催收清单。", level=LogLevel.WARN, module=LogModule.XQGL)
+	@RequiresPermissions(value={"Renewed:edit"}, logical=Logical.OR)
+	@RequestMapping(value="/issue/batchClose", method=RequestMethod.POST)
+	public @ResponseBody String batchCloseReneweds(Long[] ids) {
+		RenewedList renewed = null;
+		String[] policys = new String[ids.length];
+		for(int i = 0; i<ids.length; i++) {
+			renewed = xqglService.get(ids[i]);
+			renewed.setFeeStatus("收费成功");
+			renewed.setFixStatus(XQ_STATUS.CloseStatus.getDesc());
+			xqglService.saveOrUpdate(renewed);
+			policys[i] = renewed.getPolicy().getPolicyNo();
+		}
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{Arrays.toString(policys)}));
+		return	AjaxObject.newOk("批量关闭续期催收成功！").setCallbackType("").toString();
+	}
+	
 	@RequiresPermissions("Renewed:view")
 	@RequestMapping(value="/issue/list", method={RequestMethod.GET, RequestMethod.POST})
 	public String list(ServletRequest request, Page page, Map<String, Object> map) {

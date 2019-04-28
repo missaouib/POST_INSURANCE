@@ -293,15 +293,17 @@ public class LpglController {
 		
 		lpglService.saveOrUpdateSettle(src);
 		
-		User user = SecurityUtils.getShiroUser().getUser();
-		SettlementLog settleLog = new SettlementLog();
-		settleLog.setSettlement(src);
-		settleLog.setUser(user);
-		settleLog.setDealDate(new Date());
-		settleLog.setInfo(loginfo.toString());
-		settleLog.setIp(request.getRemoteAddr());
-		settleLog.setIsKeyInfo(true);
-		lpglService.saveOrUpdateSettleLog(settleLog);
+		if(loginfo.length() > 0) {
+			User user = SecurityUtils.getShiroUser().getUser();
+			SettlementLog settleLog = new SettlementLog();
+			settleLog.setSettlement(src);
+			settleLog.setUser(user);
+			settleLog.setDealDate(new Date());
+			settleLog.setInfo(loginfo.toString());
+			settleLog.setIp(request.getRemoteAddr());
+			settleLog.setIsKeyInfo(true);
+			lpglService.saveOrUpdateSettleLog(settleLog);
+		}
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{settle.getInsured()}));
 		return	AjaxObject.newOk("修改案件成功！").toString(); 
@@ -629,6 +631,27 @@ public class LpglController {
 			settleLog.setIsKeyInfo(true);
 			lpglService.saveOrUpdateSettleTaskLog(settleLog);
 			
+			String toDealDay = request.getParameter("toDealDay");
+			String followDate = request.getParameter("followDate");
+			String info = request.getParameter("info");
+			SettleTaskLog taskLog = new SettleTaskLog();
+			taskLog.setSettleTask(task);
+			taskLog.setDealDate(new Date());
+			if(followDate != null && followDate.trim().length()>0 && info != null && info.trim().length()>0) {
+				taskLog.setFollowDate(StringUtil.str2Date(followDate, "yyyy-MM-dd"));
+				taskLog.setInfo(info);
+				taskLog.setIsFollow(true);
+				taskLog.setToDealDay(null);
+			} else {
+				taskLog.setIsFollow(true);
+				taskLog.setToDealDay(Integer.valueOf(toDealDay));
+				taskLog.setInfo("设置了案件调查任务跟进要求->第" + toDealDay + "日内反馈。");
+			}
+			taskLog.setUser(user);
+			taskLog.setIp(request.getRemoteAddr());
+			taskLog.setIsKeyInfo(true);
+			lpglService.saveOrUpdateSettleTaskLog(taskLog);
+			
 		} catch (ExistedException e) {
 			return AjaxObject.newError("添加理赔案件失败：" + e.getMessage()).setCallbackType("").toString();
 		}
@@ -672,6 +695,9 @@ public class LpglController {
 		
 		SettlementDtl settleDtl = lpglService.getDtlByPolicyPolicyNo(task.getPolicyNo());
 		
+		List<SettleTaskLog> dealLogs = lpglService.findDealLogByTaskId(id);
+		map.put("dealLogs", dealLogs);
+		
 		Policy policy = policyService.getByPolicyNo(task.getPolicyNo());
 		
 		map.put("task", task);
@@ -693,10 +719,19 @@ public class LpglController {
         String updatePath = UploadDataUtils.getNoticeRelateFileStorePath(request, iNY, "LPGL");
 		String strNewFileName = null;
 		boolean hasFile = false;
+		
+		Policy policy = policyService.getByPolicyNo(policyNo);
+		SettleTask src = lpglService.getSettleTask(new Long(taskId));
+		
         if(file != null && file.getOriginalFilename() != null && file.getOriginalFilename().trim().length()>0) {
 	        try
 	        {
 	        	hasFile = true;
+	        	
+	        	if(src.getAttrLink() != null && src.getAttrLink().trim().length()>0) {
+					UploadDataUtils.delateFile(request, src.getAttrLink());
+				}
+	        	
 	        	String name = file.getOriginalFilename();
 	            Long lFileSize = file.getSize();
 	
@@ -833,13 +868,7 @@ public class LpglController {
 		User user = shiroUser.getUser();
 
         String attrLink = updatePath + "/" + strNewFileName;
-        
-		Policy policy = policyService.getByPolicyNo(policyNo);
-		SettleTask src = lpglService.getSettleTask(new Long(taskId));
 		
-		if(src.getAttrLink() != null && src.getAttrLink().trim().length()>0) {
-			UploadDataUtils.delateFile(request, src.getAttrLink());
-		}
 		if(hasFile) {
 			src.setAttrLink(attrLink);
 		}
@@ -877,14 +906,37 @@ public class LpglController {
 		src.setCheckStatus(SettleTask.STATUS_ING);
 		lpglService.saveOrUpdateSettleTask(src);
 		
-		SettleTaskLog settleLog = new SettleTaskLog();
-		settleLog.setSettleTask(src);
-		settleLog.setUser(user);
-		settleLog.setDealDate(new Date());
-		settleLog.setInfo(loginfo.toString());
-		settleLog.setIp(request.getRemoteAddr());
-		settleLog.setIsKeyInfo(true);
-		lpglService.saveOrUpdateSettleTaskLog(settleLog);
+		if(loginfo.length() > 0) {
+			SettleTaskLog settleLog = new SettleTaskLog();
+			settleLog.setSettleTask(src);
+			settleLog.setUser(user);
+			settleLog.setDealDate(new Date());
+			settleLog.setInfo(loginfo.toString());
+			settleLog.setIp(request.getRemoteAddr());
+			settleLog.setIsKeyInfo(true);
+			lpglService.saveOrUpdateSettleTaskLog(settleLog);
+		}
+		
+		String toDealDay = request.getParameter("toDealDay");
+		String followDate = request.getParameter("followDate");
+		String info = request.getParameter("info");
+		SettleTaskLog taskLog = new SettleTaskLog();
+		taskLog.setSettleTask(src);
+		taskLog.setDealDate(new Date());
+		if(followDate != null && followDate.trim().length()>0 && info != null && info.trim().length()>0) {
+			taskLog.setFollowDate(StringUtil.str2Date(followDate, "yyyy-MM-dd"));
+			taskLog.setInfo(info);
+			taskLog.setIsFollow(true);
+			taskLog.setToDealDay(null);
+		} else {
+			taskLog.setIsFollow(true);
+			taskLog.setToDealDay(Integer.valueOf(toDealDay));
+			taskLog.setInfo("设置了案件调查任务跟进要求->第" + toDealDay + "日内反馈。");
+		}
+		taskLog.setUser(user);
+		taskLog.setIp(request.getRemoteAddr());
+		taskLog.setIsKeyInfo(true);
+		lpglService.saveOrUpdateSettleTaskLog(taskLog);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{task.getInsured()}));
 		return	AjaxObject.newOk("修改案件调查任务成功！").setCallbackType("").toString(); 

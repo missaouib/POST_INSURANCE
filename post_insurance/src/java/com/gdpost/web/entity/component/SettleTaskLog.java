@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.gdpost.web.entity.Idable;
 import com.gdpost.web.entity.main.User;
@@ -32,6 +34,10 @@ public class SettleTaskLog implements Idable<Long> {
 	private Boolean isKeyInfo;
 	private String ip;
 
+	private Integer toDealDay;
+	private Date followDate;
+	private Boolean isFollow;
+	
 	// Constructors
 
 	/** default constructor */
@@ -113,6 +119,34 @@ public class SettleTaskLog implements Idable<Long> {
 
 	public void setIp(String ip) {
 		this.ip = ip;
+	}
+	
+	@Column(name = "to_deal_day")
+	public Integer getToDealDay() {
+		return toDealDay;
+	}
+
+	public void setToDealDay(Integer toDealDay) {
+		this.toDealDay = toDealDay;
+	}
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "follow_date")
+	public Date getFollowDate() {
+		return followDate;
+	}
+
+	public void setFollowDate(Date followDate) {
+		this.followDate = followDate;
+	}
+
+	@Column(name = "is_follow")
+	public Boolean getIsFollow() {
+		return isFollow;
+	}
+
+	public void setIsFollow(Boolean isFollow) {
+		this.isFollow = isFollow;
 	}
 
 }

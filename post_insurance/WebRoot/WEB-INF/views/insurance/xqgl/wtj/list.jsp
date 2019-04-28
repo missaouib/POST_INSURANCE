@@ -121,6 +121,7 @@
 			<shiro:hasPermission name="Renewed:provEdit">
 				<li class="line">line</li>
 				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/xqgl/issue/provUpdate/{slt_uid}"><span>省分续期催登记</span></a></li>
+				<li><a class="edit" target="selectedTodo" rel="ids" href="${contextPath }/xqgl/issue/batchClose" title="确认要批量置为收费成功并关闭?"><span>批量关闭</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Renewed:view">
 				<li class="line">line</li>

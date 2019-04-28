@@ -13,4 +13,6 @@ import com.gdpost.web.entity.component.SettleTaskLog;
 public interface SettleTaskLogDAO extends JpaRepository<SettleTaskLog, Long>, JpaSpecificationExecutor<SettleTaskLog> {
 
 	List<SettleTaskLog> findBySettleTaskId(Long id);
+	
+	List<SettleTaskLog> findBySettleTaskIdAndIsFollowOrderByIdDesc(Long id, Boolean isFollow);
 }

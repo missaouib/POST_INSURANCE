@@ -65,7 +65,7 @@ response.setHeader("Content-Disposition", "inline; filename=CSExpire_LIST.xls");
 				<td>${item.holderExpireYear}</td>
 				<td>${item.policy.insured}</td>
 				<td><fmt:formatDate value='${item.insuredBirthday}' pattern='yyyy-MM-dd'/></td>
-				<td>${item.insuredCardNum}</td>
+				<td style="vnd.ms-excel.numberformat:@">${item.insuredCardNum}</td>
 				<td>${item.insuredCardType}</td>
 				<td>${item.insuredYear}</td>
 				<td>${item.insuredExpireYear}</td>
@@ -88,11 +88,11 @@ response.setHeader("Content-Disposition", "inline; filename=CSExpire_LIST.xls");
 				<td>${item.finalLevel}</td>
 				<td>
 				<c:choose>
-					<c:when test="${item.status eq 'CloseStatus'}">
+					<c:when test="${item.status eq 'AGStatus'}">
 						 已给付关闭
 					</c:when>
-					<c:when test="${item.status eq 'DealStatus'}">
-						跟进中
+					<c:when test="${item.status eq 'CTStatus'}">
+						已退保
 					</c:when>
 					<c:when test="${item.status eq 'WarnStatus'}">
 						异常件

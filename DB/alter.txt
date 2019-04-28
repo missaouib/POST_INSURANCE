@@ -1199,3 +1199,7 @@ alter table t_inquire add column close_user varchar(12) after to_city_user_id;
 alter table t_issue add column close_user varchar(12);
 alter table t_check_write add column close_user varchar(12);
 alter table t_check_record add column close_user varchar(12);
+
+alter table t_settle_task_log add column to_deal_day int(4);
+alter table t_settle_task_log add column follow_date datetime;
+alter table t_settle_task_log add column is_follow boolean default false;

@@ -252,4 +252,9 @@ public class LpglServiceImpl implements LpglService {
 	public List<SettleTaskLog> findLogBySettleTaskId(Long id) {
 		return settleTaskLogDAO.findBySettleTaskId(id);
 	}
+	
+	@Override
+	public List<SettleTaskLog> findDealLogByTaskId(Long id) {
+		return settleTaskLogDAO.findBySettleTaskIdAndIsFollowOrderByIdDesc(id,true);
+	}
 }

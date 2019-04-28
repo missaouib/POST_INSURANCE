@@ -63,6 +63,33 @@ function customAjaxDone(json){
 		</p>
 	</fieldset>
 	<fieldset>
+		<legend>案件进度</legend>
+		<p class="nowrap">
+		<c:forEach var="item" items="${dealLogs}" varStatus="idx" end="2">
+		<fmt:formatDate value="${item.dealDate}" pattern="yyyy-MM-dd"/>：${item.user.username}:${empty item.followDate?"":"反馈日期"}${item.followDate }&nbsp;${item.info} <br/>
+		</c:forEach>
+		</p>
+		<p>
+			<label>跟进反馈：</label>
+			<select name="toDealDay" id="lptaskdd" class="combox">
+				<option value="1">1日内反馈 </option>
+				<option value="3">3日内反馈 </option>
+				<option value="5">5日内反馈 </option>
+				<option value="15">15日内反馈 </option>
+				<option value="30">择期反馈 </option>
+			</select>
+		</p>
+		<p>
+			<label>跟进日期：</label>
+			<input type="text" name="followDate" class="date validate[maxSize[12]]" dateFmt="yyyy-MM-dd" readonly="true" value="" pattern="yyyy-MM-dd"/>
+			<a class="inputDateButton" href="javascript:;">选择</a>
+		</p>
+		<p class="nowrap">
+			<label>反馈内容：</label>
+			<textarea name="info" cols="50" rows="3"></textarea>
+		</p>
+	</fieldset>
+	<fieldset>
 		<legend>调查进程</legend>
 		<p>
 			<label>调查起期：</label>

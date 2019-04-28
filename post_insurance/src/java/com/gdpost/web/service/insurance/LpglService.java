@@ -67,6 +67,8 @@ public interface LpglService {
 	List<SettleTask> findBySettleTaskExample(Specification<SettleTask> specification, Page page);
 	
 	List<SettleTaskLog> findLogBySettleTaskId(Long id);
+	
+	List<SettleTaskLog> findDealLogByTaskId(Long id);
 
 	void saveOrUpdateSettleTaskLog(SettleTaskLog log);
 }
