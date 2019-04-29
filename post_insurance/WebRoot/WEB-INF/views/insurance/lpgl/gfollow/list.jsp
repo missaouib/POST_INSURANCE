@@ -40,11 +40,11 @@
 				</tr>
 				<tr>
 					<td>
-						<label>工单日期：</label>
+						<label>出险日期：</label>
 						<input type="text" name="search_GTE_caseDate" id="gcaseDate1" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_caseDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
-						<label>工单日期：</label>
+						<label>出险日期：</label>
 						<input type="text" name="search_LTE_caseDate" id="gcaseDate2" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_caseDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
@@ -68,10 +68,9 @@
 			<shiro:hasPermission name="Settlement:save">
 				<li><a class="add" target="dialog" rel="lookup2organization_add" mask="true" width="530" height="450" href="${contextPath }/lpgl/gfollow/create"><span>添加</span></a></li>
 			</shiro:hasPermission>
-			<shiro:hasPermission name="Settlement:edit">
+			<shiro:hasPermission name="Settlement:prov">
+				<li class="line">line</li>
 				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="330" href="${contextPath }/lpgl/gfollow/update/{slt_uid}"><span>编辑</span></a></li>
-			</shiro:hasPermission>
-			<shiro:hasPermission name="Settlement:delete">
 				<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/lpgl/gfollow/delete" title="确认要删除?"><span>删除</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Settlement:view">
@@ -87,15 +86,11 @@
 				<th width="22"><input type="checkbox" group="ids" class="checkboxCtrl"></th>
 				<th>操作</th>	
 				<th orderField=organization.name class="${page.orderField eq 'organization.name' ? page.orderDirection : ''}">机构名称</th>
+				<th>保单号</th>
 				<th>出险人</th>
-				<th>报案人</th>
-				<th>报案人电话</th>
 				<th>反馈要求</th>
 				<th orderField=caseDate class="${page.orderField eq 'caseDate' ? page.orderDirection : ''}">出险日期</th>
 				<th orderField=caseType class="${page.orderField eq 'caseType' ? page.orderDirection : ''}">理赔类型</th>
-				<th orderField=reporteDate class="${page.orderField eq 'reporteDate' ? page.orderDirection : ''}">报案日期</th>
-				<th orderField=recordDate class="${page.orderField eq 'recordDate' ? page.orderDirection : ''}">立案日期</th>
-				<th orderField=closeDate class="${page.orderField eq 'closeDate' ? page.orderDirection : ''}">结案日期</th>
 				<th>赔付金额</th>
 				<th orderField="caseStatus" class="${page.orderField eq 'caseStatus' ? page.orderDirection : ''}">账户状态</th>
 				<th orderField="createTime" class="${page.orderField eq 'createTime' ? page.orderDirection : ''}">录入时间</th>
@@ -110,9 +105,8 @@
 					<a target="dialog" mask="true" width="750" height="430" href="${contextPath }/lpgl/gfollow/log/${item.id}">操作日志</a>
 				</td>	
 				<td>${item.organization.shortName}</td>
+				<td>${item.gpolicyNo}</td>
 				<td>${item.insured}</td>
-				<td>${item.reporter}</td>
-				<td>${item.reporterPhone}</td>
 				<td>
 				<c:choose>
 					<c:when test="${not empty item.needFeedBack and item.needFeedBack eq '待反馈'}">
@@ -128,9 +122,6 @@
 				</td>
 				<td><fmt:formatDate value="${item.caseDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.caseType}</td>
-				<td><fmt:formatDate value="${item.reporteDate }" pattern="yyyy-MM-dd"/></td>
-				<td><fmt:formatDate value="${item.recordDate }" pattern="yyyy-MM-dd"/></td>
-				<td><fmt:formatDate value="${item.closeDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.payFee}</td>
 				<td>${item.caseStatus}</td>
 				<td><fmt:formatDate value="${item.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>

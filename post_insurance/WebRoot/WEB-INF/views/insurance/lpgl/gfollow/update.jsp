@@ -11,16 +11,12 @@
 					<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="organization" title="选择机构" width="400">查找带回</a>
 		</p>
 		<p>
+			<label>保单号：</label>
+			<input name="gpolicyNo" type="text" class="input-medium validate[maxSize[32]]" value="${settle.gpolicyNo }"/>
+		</p>
+		<p>
 			<label>出险人：</label>
 			<input type="text" name="insured" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${settle.insured }"/>
-		</p>
-		<p>
-			<label>报案人：</label>
-			<input type="text" name="reporter" class="input-medium validate[maxSize[32]]" maxlength="32" value="${settle.reporter }"/>
-		</p>
-		<p>
-			<label>报案人电话 ：</label>
-			<input type="text" name="reporterPhone" class="input-medium validate[maxSize[32]]" maxlength="32" value="${settle.reporterPhone }"/>
 		</p>
 		<p>
 			<label>出险日期：</label>
@@ -36,37 +32,6 @@
 				<form:option value="重大疾病">重大疾病</form:option>
 				<form:option value="全残">全残</form:option>
 				<form:option value="医疗">医疗</form:option>
-			</form:select>
-		</p>
-		<p>
-			<label>报案日期：</label>
-			<input type="text" name="reporteDate" id="reporteDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" value="<fmt:formatDate value="${settle.reporteDate }" pattern="yyyy-MM-dd"/>"/>
-					<a class="inputDateButton" href="javascript:;">选择</a>
-		</p>
-		<p>
-			<label>立案日期：</label>
-			<input type="text" name="recordDate" id="recordDate" class="date" dateFmt="yyyy-MM-dd" value="<fmt:formatDate value="${settle.recordDate }" pattern="yyyy-MM-dd"/>"/>
-					<a class="inputDateButton" href="javascript:;">选择</a>
-		</p>
-		<p>
-			<label>结案日期：</label>
-			<input type="text" name="closeDate" id="closeDate" class="date" dateFmt="yyyy-MM-dd" value="<fmt:formatDate value="${settle.closeDate }" pattern="yyyy-MM-dd"/>"/>
-					<a class="inputDateButton" href="javascript:;">选择</a>
-		</p>
-		<p>
-			<label>赔付金额：</label>
-			<input type="text" name="payFee" class="input-medium validate[maxSize[32]]" maxlength="32" value="${settle.payFee }"/>
-		</p>
-		<p>
-			<label>案件状态：</label>
-			<form:select path="settle.caseStatus" id="gcaseStatus" class="combox validate[required] required">
-				<form:option value="待报案">待报案</form:option>
-				<form:option value="待立案">待立案</form:option>
-				<form:option value="待调查">待调查</form:option>
-				<form:option value="待结案">待结案</form:option>
-				<form:option value="拒付退费">拒付退费</form:option>
-				<form:option value="结案关闭">结案关闭</form:option>
-				<form:option value="不予立案">不予立案</form:option>
 			</form:select>
 		</p>
 		<p>

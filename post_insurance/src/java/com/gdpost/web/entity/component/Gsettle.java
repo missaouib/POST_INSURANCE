@@ -18,26 +18,21 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.hibernate.annotations.JoinColumnOrFormula;
-import org.hibernate.annotations.JoinColumnsOrFormulas;
-import org.hibernate.annotations.JoinFormula;
-
 import com.gdpost.web.entity.Idable;
 import com.gdpost.web.entity.main.Organization;
-import com.gdpost.web.entity.main.Policy;
 
 /**
  * settlement entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "t_settlement")
+@Table(name = "t_gsettle")
 public class Gsettle implements Idable<Long> {
 
 	// Fields
 
 	private Long id;
 	private Organization organization;
-	Policy policy;
+	private String gpolicyNo;
 	private String insured;
 	private String reporter;
 	private String reporterPhone;
@@ -80,9 +75,6 @@ public class Gsettle implements Idable<Long> {
 		this.payFee = payFee;
 		this.caseStatus = caseStatus;
 		this.remark = remark;
-//		this.settlementPolicies = settlementPolicies;
-//		this.settlementReports = settlementReports;
-//		this.settlementChecks = settlementChecks;
 	}
 
 	// Property accessors
@@ -107,17 +99,13 @@ public class Gsettle implements Idable<Long> {
 		this.organization = organization;
 	}
 	
-	@ManyToOne
-	@JoinColumnsOrFormulas(value={
-	@JoinColumnOrFormula(column=@JoinColumn(name ="policy_no", referencedColumnName ="policy_no", insertable =false, updatable = false)),
-	@JoinColumnOrFormula(formula=@JoinFormula(value="0", referencedColumnName = "attached_flag"))
-	})
-	public Policy getPolicy() {
-		return policy;
+	@Column(name = "gpolicy_no")
+	public String getGpolicyNo() {
+		return gpolicyNo;
 	}
 
-	public void setPolicy(Policy policy) {
-		this.policy = policy;
+	public void setGpolicyNo(String gpolicyNo) {
+		this.gpolicyNo = gpolicyNo;
 	}
 
 	@Column(name = "insured", length = 32)
@@ -237,45 +225,16 @@ public class Gsettle implements Idable<Long> {
 		this.createTime = createTime;
 	}
 
-	/*
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "settlement")
-	public List<SettlementPolicy> getSettlementPolicies() {
-		return this.settlementPolicies;
-	}
-
-	public void setSettlementPolicies(
-			List<SettlementPolicy> settlementPolicies) {
-		this.settlementPolicies = settlementPolicies;
-	}
-
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "settlement")
-	public List<SettlementReport> getSettlementReports() {
-		return this.settlementReports;
-	}
-
-	public void setSettlementReports(List<SettlementReport> settlementReports) {
-		this.settlementReports = settlementReports;
-	}
-
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "settlement")
-	public List<SettlementCheck> getSettlementChecks() {
-		return this.settlementChecks;
-	}
-
-	public void setSettlementChecks(List<SettlementCheck> settlementChecks) {
-		this.settlementChecks = settlementChecks;
-	}
-*/
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "settlement")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "gsettle")
 	public List<GsettleLog> getGsettleLogs() {
 		return gsettleLogs;
 	}
 
-	public void setSettlementLogs(List<GsettleLog> gsettleLogs) {
+	public void setGsettleLogs(List<GsettleLog> gsettleLogs) {
 		this.gsettleLogs = gsettleLogs;
 	}
 
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "settlement", orphanRemoval = true)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "gsettle", orphanRemoval = true)
 	public GsettleDtl getGsettleDtls() {
 		return gsettleDtls;
 	}

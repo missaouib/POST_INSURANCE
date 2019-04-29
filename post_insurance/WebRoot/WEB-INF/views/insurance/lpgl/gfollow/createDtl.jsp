@@ -2,8 +2,8 @@
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 <div class="pageContent">
 <form method="post" action="${contextPath }/lpgl/gfollow/detail" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
-<input hidden="hidden" name="settlement.id" value="${settle.id }">
-<input hidden="hidden" name="settleDtlId" value="${settleDtl.id }">
+<input hidden="hidden" name="gsettle.id" value="${settle.id }">
+<input hidden="hidden" name="gsettleDtlId" value="${settleDtl.id }">
 	<div class="pageFormContent" layoutH="58">
 		<p>
 			<label>赔案号：</label>
@@ -17,16 +17,11 @@
 		</p>
 		<p>
 			<label>保单号：</label>
-			<input name="policyNo" type="text" postField="search_LIKE_policyNo" suggestFields="policyNo" 
-					suggestUrl="/common/lookupPolicysuggest" lookupGroup="" class="input-medium validate[maxSize[32]]" value="${settleDtl.policyNo }"/>
+			<input name="gpolicyNo" type="text" class="input-medium validate[maxSize[32]]" value="${settle.gpolicyNo }"/>
 		</p>
 		<p>
 			<label>险种：</label>
 			<input type="text" name="prodName" class="input-medium validate[maxSize[32]]" maxlength="32" value="${settleDtl.prodName }"/>
-		</p>
-		<p>
-			<label>保费：</label>
-			<input type="text" name="policyFee" class="input-medium validate[maxSize[32]]" maxlength="32" value="${settleDtl.policyFee }"/>
 		</p>
 		<p>
 			<label>生效日期：</label>
@@ -98,22 +93,6 @@
 	</fieldset>
 	<fieldset>
 		<legend>立案进程</legend>
-		<p>
-			<label>报案日期：</label>
-			<span class="unit"><fmt:formatDate value="${settle.reporteDate }" pattern="yyyy-MM-dd"/></span>
-		</p>
-		<p>
-			<label>立案日期：</label>
-			<span class="unit"><fmt:formatDate value="${settle.recordDate }" pattern="yyyy-MM-dd"/></span>
-		</p>
-		<p>
-			<label>结案日期：</label>
-			<span class="unit"><fmt:formatDate value="${settle.closeDate }" pattern="yyyy-MM-dd"/></span>
-		</p>
-		<p>
-			<label>赔付金额：</label>
-			<span class="unit">${settle.payFee }</span>
-		</p>
 		<p>
 			<label>案件状态：</label>
 			<span class="unit">${settle.caseStatus }</span>

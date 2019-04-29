@@ -73,7 +73,7 @@ public class GsettleLog implements Idable<Long> {
 	}
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "settlement_id")
+	@JoinColumn(name = "gsettle_id")
 	public Gsettle getGsettle() {
 		return this.gsettle;
 	}

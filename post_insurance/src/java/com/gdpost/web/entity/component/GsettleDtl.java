@@ -19,7 +19,7 @@ import com.gdpost.web.entity.Idable;
  * SettlementDtl entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "t_settlement_dtl")
+@Table(name = "t_gsettle_dtl")
 public class GsettleDtl implements Idable<Long> {
 
 	// Fields
@@ -27,7 +27,7 @@ public class GsettleDtl implements Idable<Long> {
 	private Long id;
 	private String claimsNo;
 	private Gsettle gsettle;
-	private String policyNo;
+	private String gpolicyNo;
 	private String prodName;
 	private Double policyFee;
 	private Date policyDate;
@@ -94,13 +94,13 @@ public class GsettleDtl implements Idable<Long> {
 	}
 
 	/** full constructor */
-	public GsettleDtl(Gsettle gsettle, String policyNo,
+	public GsettleDtl(Gsettle gsettle, String gpolicyNo,
 			String prodName, Double policyFee, Date policyDate, Date firstCaseTime,
 			String caseMan, Date firstFileDate, String firstSignMan,
 			Date allFileDate, String allSignMan, Date checkDate,
 			String checker, Date checkDoneDate, String checkDoneMan) {
 		this.gsettle = gsettle;
-		this.policyNo = policyNo;
+		this.gpolicyNo = gpolicyNo;
 		this.prodName = prodName;
 		this.policyFee = policyFee;
 		this.policyDate = policyDate;
@@ -138,7 +138,7 @@ public class GsettleDtl implements Idable<Long> {
 	}
 
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "settlement_id", referencedColumnName="id")
+	@JoinColumn(name = "gsettle_id", referencedColumnName="id")
 	public Gsettle getGsettle() {
 		return this.gsettle;
 	}
@@ -147,13 +147,13 @@ public class GsettleDtl implements Idable<Long> {
 		this.gsettle = gsettle;
 	}
 
-	@Column(name = "policy_no", length = 18)
-	public String getPolicyNo() {
-		return this.policyNo;
+	@Column(name = "gpolicy_no")
+	public String getGpolicyNo() {
+		return this.gpolicyNo;
 	}
 
-	public void setPolicyNo(String policyNo) {
-		this.policyNo = policyNo;
+	public void setGpolicyNo(String gpolicyNo) {
+		this.gpolicyNo = gpolicyNo;
 	}
 
 	@Column(name = "prod_name", length = 64)
@@ -276,7 +276,7 @@ public class GsettleDtl implements Idable<Long> {
 	@Override
 	public String toString() {
 		return "SettlementDtl [id=" + id + ", claimsNo=" + claimsNo
-				+ ", Gsettle=" + gsettle + ", policyNo=" + policyNo
+				+ ", Gsettle=" + gsettle + ", gpolicyNo=" + gpolicyNo
 				+ ", prodName=" + prodName + ", policyFee=" + policyFee
 				+ ", policyDate=" + policyDate + ", firstCaseTime="
 				+ firstCaseTime + ", caseMan=" + caseMan + ", firstFileDate="

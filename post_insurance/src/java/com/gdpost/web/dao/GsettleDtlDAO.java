@@ -12,5 +12,5 @@ public interface GsettleDtlDAO extends JpaRepository<GsettleDtl, Long>, JpaSpeci
 
 	GsettleDtl getByGsettleId(Long id);
 
-	GsettleDtl getByPolicyNo(String policyNo);
+	GsettleDtl getByGpolicyNo(String gpolicyNo);
 }

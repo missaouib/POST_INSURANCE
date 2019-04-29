@@ -40,11 +40,11 @@
 				</tr>
 				<tr>
 					<td>
-						<label>工单日期：</label>
+						<label>出险日期：</label>
 						<input type="text" name="search_GTE_caseDate" id="caseDate1" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_caseDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
-						<label>工单日期：</label>
+						<label>出险日期：</label>
 						<input type="text" name="search_LTE_caseDate" id="caseDate2" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_caseDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>

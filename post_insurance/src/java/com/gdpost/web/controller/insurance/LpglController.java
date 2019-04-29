@@ -1177,7 +1177,7 @@ public class LpglController {
 		return G_CREATE;
 	}
 	
-	@Log(message="添加了{0}的理赔案件。", level=LogLevel.WARN, module=LogModule.LPGL)
+	@Log(message="添加了{0}的团险理赔案件。", level=LogLevel.WARN, module=LogModule.LPGL)
 	@RequiresPermissions("Gsettle:save")
 	@RequestMapping(value="/gfollow/create", method=RequestMethod.POST)
 	public @ResponseBody String createGFollow(@Valid Gsettle settle, HttpServletRequest request) {
@@ -1185,21 +1185,22 @@ public class LpglController {
 		try {
 			settle.setOperateId(user.getId());
 			settle.setCreateTime(new Date());
+			settle.setCaseStatus("客户首次提交资料");
 			lpglService.saveOrUpdateGsettle(settle);
 			GsettleLog settleLog = new GsettleLog();
 			settleLog.setGsettle(settle);
 			settleLog.setDealDate(new Date());
 			settleLog.setUser(user);
-			settleLog.setInfo("添加了理赔案件信息；");
+			settleLog.setInfo("添加了团险理赔案件信息；");
 			settleLog.setIp(request.getRemoteAddr());
 			settleLog.setIsKeyInfo(true);
 			lpglService.saveOrUpdateGsettleLog(settleLog);
 		} catch (ExistedException e) {
-			return AjaxObject.newError("添加理赔案件失败：" + e.getMessage()).setCallbackType("").toString();
+			return AjaxObject.newError("添加团险理赔案件失败：" + e.getMessage()).setCallbackType("").toString();
 		}
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{settle.getInsured()}));
-		return AjaxObject.newOk("添加理赔案件成功！").toString();
+		return AjaxObject.newOk("添加团险理赔案件成功！").toString();
 	}
 	
 	@RequiresPermissions("Gsettle:save")
@@ -1221,13 +1222,15 @@ public class LpglController {
 		return G_CREATE_DTL;
 	}
 
-	@Log(message="登记了{0}的理赔案件详情。", level=LogLevel.WARN, module=LogModule.LPGL)
+	@Log(message="登记了{0}的团险理赔案件详情。", level=LogLevel.WARN, module=LogModule.LPGL)
 	@RequiresPermissions("Gsettle:save")
 	@RequestMapping(value="/gfollow/detail", method=RequestMethod.POST)
 	public @ResponseBody String createGFollowDtl(GsettleDtl settleDtl, HttpServletRequest request) {
 		try {
 			LOG.debug("----------- settle dtl id:" + settleDtl.getId());
-			String id = request.getParameter("settleDtlId");
+			String id = request.getParameter("gsettleDtlId");
+			Long gsettleId = settleDtl.getGsettle().getId();
+			Gsettle gsettle = lpglService.getGsettle(gsettleId);
 			GsettleDtl dtl = null;
 			if(id != null && id.trim().length() >0) {
 				dtl = lpglService.getGsettleDtl(new Long(id));
@@ -1235,6 +1238,7 @@ public class LpglController {
 			} else {
 				dtl = settleDtl;
 			}
+			dtl.setGsettle(gsettle);
 			lpglService.saveOrUpdateGsettleDtl(dtl);
 			
 			Gsettle settle = lpglService.getGsettle(settleDtl.getGsettle().getId());
@@ -1255,7 +1259,7 @@ public class LpglController {
 			} else {
 				settleInfo.setIsFollow(true);
 				settleInfo.setToDealDay(Integer.valueOf(toDealDay));
-				settleInfo.setInfo("设置了案件进度跟进要求->第" + toDealDay + "日内反馈。");
+				settleInfo.setInfo("设置了团险案件进度跟进要求->第" + toDealDay + "日内反馈。");
 			}
 			settleInfo.setUser(user);
 			settleInfo.setIp(request.getRemoteAddr());
@@ -1263,11 +1267,11 @@ public class LpglController {
 			lpglService.saveOrUpdateGsettleLog(settleInfo);
 			
 		} catch (ExistedException e) {
-			return AjaxObject.newError("理赔案件详情登记失败：" + e.getMessage()).setCallbackType("").toString();
+			return AjaxObject.newError("团险理赔案件详情登记失败：" + e.getMessage()).setCallbackType("").toString();
 		}
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{settleDtl.getClaimsNo()}));
-		return AjaxObject.newOk("理赔案件详情登记成功！").toString();
+		return AjaxObject.newOk("团险理赔案件详情登记成功！").toString();
 	}
 
 	@RequiresPermissions("Gsettle:edit")
@@ -1279,7 +1283,7 @@ public class LpglController {
 		return G_UPDATE;
 	}
 	
-	@Log(message="修改了出险人{0}的案件信息。", level=LogLevel.WARN, module=LogModule.LPGL)
+	@Log(message="修改了出险人{0}的案件信息（团险）。", level=LogLevel.WARN, module=LogModule.LPGL)
 	@RequiresPermissions("Gsettle:edit")
 	@RequestMapping(value="/gfollow/update", method=RequestMethod.POST)
 	public @ResponseBody String updateGFollow(@Valid Gsettle settle, HttpServletRequest request) {
@@ -1364,11 +1368,11 @@ public class LpglController {
 		}
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{settle.getInsured()}));
-		return	AjaxObject.newOk("修改案件成功！").toString(); 
+		return	AjaxObject.newOk("修改团险案件成功！").toString(); 
 	}
 	
-	@Log(message="删除了{0}的案件信息。", level=LogLevel.WARN, module=LogModule.LPGL)
-	@RequiresPermissions("Gsettle:delete")
+	@Log(message="删除了{0}的团险案件信息。", level=LogLevel.WARN, module=LogModule.LPGL)
+	@RequiresPermissions("Gsettle:prov")
 	@RequestMapping(value="/gfollow/delete/{id}", method=RequestMethod.POST)
 	public @ResponseBody String deleteGFollow(@PathVariable Long id, HttpServletRequest request) {
 		Gsettle settle = null;
@@ -1380,7 +1384,7 @@ public class LpglController {
 			settleLog.setGsettle(settle);
 			settleLog.setUser(user);
 			settleLog.setDealDate(new Date());
-			settleLog.setInfo("删除报案信息：" + settle.getInsured());
+			settleLog.setInfo("删除团险报案信息：" + settle.getInsured());
 			settleLog.setIp(request.getRemoteAddr());
 			settleLog.setIsKeyInfo(true);
 			lpglService.saveOrUpdateGsettleLog(settleLog);
@@ -1388,14 +1392,14 @@ public class LpglController {
 			
 			lpglService.deleteGsettle(settle.getId());
 		} catch (ServiceException e) {
-			return AjaxObject.newError("删除案件失败：" + e.getMessage()).setCallbackType("").toString();
+			return AjaxObject.newError("删除团险案件失败：" + e.getMessage()).setCallbackType("").toString();
 		}
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{settle.getInsured()}));
-		return AjaxObject.newOk("删除案件成功！").setCallbackType("").toString();
+		return AjaxObject.newOk("删除团险案件成功！").setCallbackType("").toString();
 	}
 	
-	@Log(message="删除了{0}案件。", level=LogLevel.WARN, module=LogModule.LPGL)
+	@Log(message="删除了{0}团险案件。", level=LogLevel.WARN, module=LogModule.LPGL)
 	@RequiresPermissions("Gsettle:delete")
 	@RequestMapping(value="/gfollow/delete", method=RequestMethod.POST)
 	public @ResponseBody String deleteManyGF(Long[] ids, HttpServletRequest request) {
@@ -1409,7 +1413,7 @@ public class LpglController {
 				settleLog.setGsettle(settle);
 				settleLog.setUser(user);
 				settleLog.setDealDate(new Date());
-				settleLog.setInfo("删除报案信息：" + settle.getInsured());
+				settleLog.setInfo("删除团险报案信息：" + settle.getInsured());
 				settleLog.setIp(request.getRemoteAddr());
 				settleLog.setIsKeyInfo(true);
 				lpglService.saveOrUpdateGsettleLog(settleLog);
@@ -1419,11 +1423,11 @@ public class LpglController {
 				policys[i] = settle.getInsured();
 			}
 		} catch (ServiceException e) {
-			return AjaxObject.newError("删除案件失败：" + e.getMessage()).setCallbackType("").toString();
+			return AjaxObject.newError("删除团险案件失败：" + e.getMessage()).setCallbackType("").toString();
 		}
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{Arrays.toString(policys)}));
-		return AjaxObject.newOk("删除案件成功！").setCallbackType("").toString();
+		return AjaxObject.newOk("删除团险案件成功！").setCallbackType("").toString();
 	}
 	
 	@RequiresPermissions("Gsettle:view")

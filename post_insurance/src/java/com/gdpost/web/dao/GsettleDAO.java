@@ -12,7 +12,7 @@ import com.gdpost.web.entity.component.Gsettle;
 
 public interface GsettleDAO extends JpaRepository<Gsettle, Long>, JpaSpecificationExecutor<Gsettle> {
 
-	Gsettle getByPolicyPolicyNo(String policyNo);
+	Gsettle getByGpolicyNo(String gpolicyNo);
 	
 	Gsettle getByInsuredAndCaseDate(String insured, Date casedate);
 }

@@ -59,7 +59,7 @@ response.setHeader("Content-Disposition", "inline; filename=CSExpire_LIST.xls");
 				<td><fmt:formatDate value='${item.policyEndDate}' pattern='yyyy-MM-dd'/></td>
 				<td>${item.policy.holder}</td>
 				<td><fmt:formatDate value='${item.holderBirthday}' pattern='yyyy-MM-dd'/></td>
-				<td>${item.holderCardNum}</td>
+				<td style="vnd.ms-excel.numberformat:@">${item.holderCardNum}</td>
 				<td>${item.holderCardType}</td>
 				<td>${item.holderYear}</td>
 				<td>${item.holderExpireYear}</td>

@@ -105,7 +105,7 @@ public interface LpglService {
 	
 	GsettleDtl getDtlByGsettleId(Long id);
 	
-	GsettleDtl getGsettleDtlByPolicyPolicyNo(String policyNo);
+	GsettleDtl getGsettleDtlByGpolicyNo(String policyNo);
 	
 	GsettleLog getGsettleLog(Long id);
 

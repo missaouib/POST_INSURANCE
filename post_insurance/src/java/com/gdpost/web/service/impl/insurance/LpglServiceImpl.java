@@ -317,8 +317,8 @@ public class LpglServiceImpl implements LpglService {
 	}
 	
 	@Override
-	public Gsettle getGsettleByPolicyNo(String policyNo) {
-		return gsettleDAO.getByPolicyPolicyNo(policyNo);
+	public Gsettle getGsettleByPolicyNo(String gpolicyNo) {
+		return gsettleDAO.getByGpolicyNo(gpolicyNo);
 	}
 	
 	@Override
@@ -357,8 +357,8 @@ public class LpglServiceImpl implements LpglService {
 	}
 	
 	@Override
-	public GsettleDtl getGsettleDtlByPolicyPolicyNo(String policyNo) {
-		return gsettleDtlDAO.getByPolicyNo(policyNo);
+	public GsettleDtl getGsettleDtlByGpolicyNo(String gpolicyNo) {
+		return gsettleDtlDAO.getByGpolicyNo(gpolicyNo);
 	}
 
 	@Override
