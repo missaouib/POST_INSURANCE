@@ -107,6 +107,7 @@ $(document).ready(function(){
 				<li><a href="${contextPath}/management/index">主页</a></li>
 				<li><a href="${contextPath}/management/index/updateBase" target="dialog" mask="true" width="550" height="250">修改用户信息</a></li>
 				<li><a href="${contextPath}/management/index/updatePwd" target="dialog" mask="true" width="500" height="200">修改密码</a></li>
+				<li><a href="${contextPath}/management/index/updateLog" target="dialog" mask="true" width="500" height="500">更新日志</a></li>
 				<li><a href="${contextPath}/logout?userType=admin">退出</a></li>
 			</ul>
 			 
@@ -684,7 +685,7 @@ $(document).ready(function(){
 		</div>
 	</div>
 </div>
-<div id="footer">中邮保险广东分公司 运营管理部 Copyright &copy; 2013-2018, All Rights Reserve.</div>
+<div id="footer">中邮保险广东分公司 运营管理部 Copyright &copy; 2013-2019, All Rights Reserve.</div>
 <script src="${contextPath}/js/refresh.js" type="text/javascript"></script>
 </body>
 </html>

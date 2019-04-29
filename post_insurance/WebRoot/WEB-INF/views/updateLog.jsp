@@ -6,7 +6,8 @@
 		<legend>更新日志信息</legend>
 		<p>
 			<label>20190429 13:00:：</label>
-			1、团险理赔案件跟进RC；
+			1、团险理赔案件跟进RC；<br>
+			2、完善日志的查询
 			<label>20190428 23:00:：</label>
 			1、团险理赔案件跟进alpha；<br>
 			2、增加调查任务的反馈特性。
@@ -20,7 +21,6 @@
 		</p>
 	</fieldset>
 	</div>
-			
 	<div class="formBar">
 		<ul>
 			<li><div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div></li>

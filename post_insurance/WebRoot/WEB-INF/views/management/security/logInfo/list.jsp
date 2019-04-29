@@ -3,12 +3,13 @@
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 
 <dwz:paginationForm action="${contextPath }/management/security/logInfo/list" page="${page }">
-	<input type="hidden" name="search_EQ_username" value="${param.search_EQ_username }"/>
-	<input type="hidden" name="search_EQ_ipAddress" value="${param.search_EQ_ipAddress }"/>
+	<input type="hidden" name="search_EQ_username" value="${param.search_LIKE_username }"/>
+	<input type="hidden" name="search_EQ_ipAddress" value="${param.search_LIKE_ipAddress }"/>
 	<input type="hidden" name="search_EQ_logLevel" value="${param.search_EQ_logLevel }"/>
 	<input type="hidden" name="search_GTE_createTime" value="${param.search_GTE_createTime}"/>
 	<input type="hidden" name="search_LTE_createTime" value="${param.search_LTE_createTime}"/>
-	<input type="hidden" name="search_LIKE_module" value="${param.search_LIKE_module}"/>
+	<input type="hidden" name="search_LIKE_message" value="${param.search_LIKE_message}"/>
+	<input type="hidden" name="module" value="${module}"/>
 </dwz:paginationForm>
 
 <form method="post" action="${contextPath}/management/security/logInfo/list" onsubmit="return navTabSearch(this)">
@@ -17,11 +18,11 @@
 			<ul class="searchContent">
 				<li>
 					<label style="width: 100px;">登录名称：</label>
-					<input type="text" name="search_EQ_username" value="${param.search_EQ_username }"/>
+					<input type="text" name="search_EQ_username" value="${param.search_LIKE_username }"/>
 				</li>
 				<li>
 					<label style="width: 100px;">登录IP：</label>
-					<input type="text" name="search_EQ_ipAddress" value="${param.search_EQ_ipAddress }"/>
+					<input type="text" name="search_EQ_ipAddress" value="${param.search_LIKE_ipAddress }"/>
 				</li>
 				<li>
 					<label style="width: 100px;">日志等级：</label>
@@ -40,6 +41,10 @@
 						<form:option value=""> -- -- </form:option>
 						<form:options items="${modules }" itemLabel="desc" itemValue="desc"/>
 					</form:select>
+				</li>
+				<li>
+					<label style="width: 100px;">关键字：</label>
+					<input type="text" name="search_LIKE_message" value="${param.search_LIKE_message }"/>
 				</li>
 			</ul>
 			<ul class="searchContent">	

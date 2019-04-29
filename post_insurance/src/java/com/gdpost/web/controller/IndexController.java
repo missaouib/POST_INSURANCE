@@ -109,6 +109,8 @@ public class IndexController {
 	private static final String TODO_LIST = "insurance/todo/todolist";
 	private static final String PANEL_TODO_LIST = "insurance/todo/todopanel";
 	
+	private static final String VIEW_UPDATE_LOG = "updateLog";
+	
 	@Log(message="{0}登录了系统。", level=LogLevel.TRACE, module=LogModule.QTCZ)
 	@RequiresUser 
 	@RequestMapping(value="", method=RequestMethod.GET)
@@ -293,5 +295,10 @@ public class IndexController {
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{user.getUsername()}));
 		return AjaxObject.newOk("修改详细信息成功！").toString();
+	}
+	
+	@RequestMapping(value="/updateLog", method=RequestMethod.GET)
+	public String vewUpdateLog(Map<String, Object> map) {
+		return VIEW_UPDATE_LOG;
 	}
 }

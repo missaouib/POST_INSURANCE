@@ -234,7 +234,7 @@ public class KfglController {
 		src.setStatus(StatusDefine.STATUS.IngStatus.getDesc());
 		kfglService.saveOrUpdate(src);
 
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[] { issue.getIssueNo() }));
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[] { src.getIssueNo() }));
 		return AjaxObject.newOk("回复问题工单成功！").toString();
 	}
 
@@ -900,7 +900,7 @@ public class KfglController {
 		return ASK_UPDATE;
 	}
 
-	@Log(message = "回复了{0}问题工单的信息。", level = LogLevel.WARN, module = LogModule.KFGL)
+	@Log(message = "回复了{0}咨询工单的信息。", level = LogLevel.WARN, module = LogModule.KFGL)
 	@RequiresPermissions("Inquire:edit")
 	@RequestMapping(value = "/inquire/update", method = RequestMethod.POST)
 	public @ResponseBody String updateAsk(HttpServletRequest request, @RequestParam(value = "file", required = true) MultipartFile file, @Valid @ModelAttribute("preloadInquire") Inquire inquire) {
@@ -1061,11 +1061,11 @@ public class KfglController {
         }
 		kfglService.saveOrUpdateInquire(src);
 
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[] { inquire.getInquireNo() }));
-		return AjaxObject.newOk("回复问题工单成功！").toString();
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[] { src.getInquireNo() }));
+		return AjaxObject.newOk("回复咨询工单成功！").toString();
 	}
 
-	@Log(message = "重新打开了{0}问题工单的信息。", level = LogLevel.WARN, module = LogModule.KFGL)
+	@Log(message = "重新打开了{0}咨询工单的信息。", level = LogLevel.WARN, module = LogModule.KFGL)
 	@RequiresPermissions("Inquire:edit")
 	@RequestMapping(value = "/inquire/reopen", method = RequestMethod.POST)
 	public @ResponseBody String reopenAsk(@Valid @ModelAttribute("preloadInquire") Inquire inquire) {
@@ -1081,10 +1081,10 @@ public class KfglController {
 		kfglService.saveOrUpdateInquire(src);
 
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[] { inquire.getInquireNo() }));
-		return AjaxObject.newOk("重新打开问题工单成功！").toString();
+		return AjaxObject.newOk("重新打开咨询工单成功！").toString();
 	}
 
-	@Log(message = "审核了{0}问题工单的信息。", level = LogLevel.WARN, module = LogModule.KFGL)
+	@Log(message = "审核了{0}咨询工单的信息。", level = LogLevel.WARN, module = LogModule.KFGL)
 	@RequiresPermissions("Inquire:edit")
 	@RequestMapping(value = "/inquire/deal", method = RequestMethod.POST)
 	public @ResponseBody String dealAsk(@Valid @ModelAttribute("preloadInquire") Inquire inquire) {
@@ -1100,10 +1100,10 @@ public class KfglController {
 		kfglService.saveOrUpdateInquire(src);
 
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[] { inquire.getInquireNo() }));
-		return AjaxObject.newOk("审核问题工单成功！").toString();
+		return AjaxObject.newOk("审核咨询工单成功！").toString();
 	}
 	
-	@Log(message = "转办了{0}问题工单的信息。", level = LogLevel.WARN, module = LogModule.KFGL)
+	@Log(message = "转办了{0}咨询工单的信息。", level = LogLevel.WARN, module = LogModule.KFGL)
 	@RequiresPermissions("Inquire:edit")
 	@RequestMapping(value = "/inquire/toCity", method = RequestMethod.POST)
 	public @ResponseBody String toCity(@Valid @ModelAttribute("preloadInquire") Inquire inquire) {
@@ -1118,7 +1118,7 @@ public class KfglController {
 		return AjaxObject.newOk("咨询工单转办成功！").toString();
 	}
 	
-	@Log(message = "对{0}问题工单进行了批量转办。", level = LogLevel.WARN, module = LogModule.KFGL)
+	@Log(message = "对{0}咨询工单进行了批量转办。", level = LogLevel.WARN, module = LogModule.KFGL)
 	@RequiresPermissions("Inquire:provEdit")
 	@RequestMapping(value = "/inquire/batchToCity", method = RequestMethod.POST)
 	public @ResponseBody String batchToCity(Long[] ids) {
@@ -1136,14 +1136,14 @@ public class KfglController {
 				policys[i] = inquire.getInquireNo();
 			}
 		} catch (ServiceException e) {
-			return AjaxObject.newError("批量转办工单失败：" + e.getMessage()).setCallbackType("").toString();
+			return AjaxObject.newError("批量转办咨询工单失败：" + e.getMessage()).setCallbackType("").toString();
 		}
 
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[] { Arrays.toString(policys) }));
 		return AjaxObject.newOk("成功批量转办咨询工单！").setCallbackType("").toString();
 	}
 
-	@Log(message = "结案了{0}问题工单的信息。", level = LogLevel.WARN, module = LogModule.KFGL)
+	@Log(message = "结案了{0}咨询工单的信息。", level = LogLevel.WARN, module = LogModule.KFGL)
 	@RequiresPermissions("Inquire:edit")
 	@RequestMapping(value = "/inquire/close", method = RequestMethod.POST)
 	public @ResponseBody String closeAsk(@Valid @ModelAttribute("preloadInquire") Inquire inquire) {
@@ -1158,10 +1158,10 @@ public class KfglController {
 		kfglService.saveOrUpdateInquire(src);
 
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[] { inquire.getInquireNo() }));
-		return AjaxObject.newOk("结案问题工单成功！").toString();
+		return AjaxObject.newOk("结案咨询工单成功！").toString();
 	}
 
-	@Log(message = "结案了{0}问题工单的信息。", level = LogLevel.WARN, module = LogModule.KFGL)
+	@Log(message = "结案了{0}咨询工单的信息。", level = LogLevel.WARN, module = LogModule.KFGL)
 	@RequiresPermissions("Inquire:edit")
 	@RequestMapping(value = "/inquire/close/{id}", method = RequestMethod.POST)
 	public @ResponseBody String closeSingleAsk(@PathVariable Long id) {
@@ -1176,10 +1176,10 @@ public class KfglController {
 		kfglService.saveOrUpdateInquire(src);
 
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[] { src.getInquireNo() }));
-		return AjaxObject.newOk("结案问题工单成功！").setCallbackType("").toString();
+		return AjaxObject.newOk("结案咨询工单成功！").setCallbackType("").toString();
 	}
 
-	@Log(message = "对{0}问题工单进行了结案关闭。", level = LogLevel.WARN, module = LogModule.KFGL)
+	@Log(message = "对{0}咨询工单进行了结案关闭。", level = LogLevel.WARN, module = LogModule.KFGL)
 	@RequiresPermissions("Inquire:provEdit")
 	@RequestMapping(value = "/inquire/CloseStatus", method = RequestMethod.POST)
 	public @ResponseBody String closeManyAsk(Long[] ids) {
@@ -1207,7 +1207,7 @@ public class KfglController {
 		return AjaxObject.newOk("成功结案关闭！").setCallbackType("").toString();
 	}
 
-	@Log(message = "对{0}问题工单进行了批量审核通过。", level = LogLevel.WARN, module = LogModule.KFGL)
+	@Log(message = "对{0}咨询工单进行了批量审核通过。", level = LogLevel.WARN, module = LogModule.KFGL)
 	@RequiresPermissions("Inquire:provEdit")
 	@RequestMapping(value = "/inquire/batchDeal", method = RequestMethod.POST)
 	public @ResponseBody String batchDealAsk(Long[] ids) {

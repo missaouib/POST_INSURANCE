@@ -75,6 +75,7 @@ public class LogInfoController {
 		String module = request.getParameter("module");
 		if(module != null && module.trim().length()>0) {
 			csf.add(new SearchFilter("module", Operator.EQ, module));
+			request.setAttribute("module", module);
 		}
 		
 		Specification<LogInfo> specification = DynamicSpecifications.bySearchFilter(request, LogInfo.class, csf);
