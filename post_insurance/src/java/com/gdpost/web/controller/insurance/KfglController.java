@@ -119,6 +119,8 @@ public class KfglController {
 	private static final String ASK_ISSUES_TO_XLS = "insurance/kfgl/ask/toXlses";
 	private static final String ASK_TO_DOWN = "insurance/kfgl/ask/download";
 	private static final String ASK_STATUS = "insurance/kfgl/ask/status";
+	private static final String ASSIGN_LIST = "insurance/kfgl/ask/assignList";
+	private static final String ASSIGN = "insurance/kfgl/ask/assign";
 
 	@RequestMapping(value = "/help", method = RequestMethod.GET)
 	public String toHelp() {
@@ -1562,6 +1564,15 @@ public class KfglController {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	@RequiresPermissions("Inquire:provEdit")
+	@RequestMapping(value = "/inquire/assignList", method = RequestMethod.GET)
+	public String assignList(ServletRequest request, Page page, Map<String, Object> map) {
+		User user = SecurityUtils.getShiroUser().getUser();
+
+		map.put("reqs", user);
+		return ASSIGN;
 	}
 
 	/*

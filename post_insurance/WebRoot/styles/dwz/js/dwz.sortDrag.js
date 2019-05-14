@@ -23,11 +23,12 @@
 			var $placeholder = this._createPlaceholder($item);
 			var $helper = $item.clone();
 			var position = $item.position();
+			var scrollPosParents = $.scrollPosParents($sortBox);
 
 			$helper.data('$sortBox', $sortBox).data('op', op).data('$item', $item).data('$placeholder', $placeholder);
 			$helper.addClass('sortDragHelper').css({
 				position:'absolute',
-				top:position.top+$sortBox.scrollTop(),
+				top:position.top+scrollPosParents.top,
 				left:position.left,
 				zIndex:op.zIndex,
 				width:$item.width()+'px',
@@ -48,7 +49,7 @@
 			var helperPos = $helper.position(), firstPos = $items.eq(0).position();
 
 			var $overBox = DWZ.sortDrag._getOverSortBox($helper, event);
-			if ($overBox.length > 0 && $overBox[0] != $sortBox[0]){ //移动到其他容器
+			if ($sortBox.attr('data-over-sort') == 'true' && $overBox.length > 0 && $overBox[0] != $sortBox[0]){ //移动到其他容器
 				$placeholder.appendTo($overBox);
 				$helper.data('$sortBox', $overBox);
 			} else {
@@ -68,9 +69,10 @@
 			var $helper = $(arguments[0]), $sortBox = $helper.data('$sortBox'), $item = $helper.data('$item'), $placeholder = $helper.data('$placeholder');
 			var op = $.extend({}, _op, $helper.data('op'));
 
+			var scrollPosParents = $.scrollPosParents($sortBox);
 			var position = $placeholder.position();
 			$helper.animate({
-					top: (position.top+$sortBox.scrollTop()) + "px",
+					top: (position.top+scrollPosParents.top) + "px",
 					left: position.left + "px"
 				},
 				{
@@ -112,6 +114,7 @@
 			return $(op.sortBoxs).filter(':visible').filter(function(){
 				var $sortBox = $(this), sortBoxPos = $sortBox.position(),
 					sortBoxH = $sortBox.height(), sortBoxW = $sortBox.width();
+
 				return DWZ.isOver(y, x, sortBoxPos.top, sortBoxPos.left, sortBoxH, sortBoxW);
 			});
 		}
@@ -130,26 +133,29 @@
 					$selector = $item.find(op.selector).css({cursor:op.cursor});
 				}
 
-
 				if (op.refresh) {
 					$selector.unbind('mousedown');
 				}
 
-				if (! $sortBox.hasClass('disabled')) {
+				$selector.mousedown(function(event){
 
-					$selector.mousedown(function(event){
+					if (! $sortBox.hasClass('disabled')) {
 						DWZ.sortDrag.start($sortBox, $item, event, op);
 
 						event.preventDefault();
-					});
+					}
+				});
 
-				}
 			});
 
-			//$sortBox.find('.close').mousedown(function(event){
-			//	$(this).parent().remove();
-			//	return false;
-			//});
+			$sortBox.find('.close').mousedown(function(event){
+				$(this).parent().remove();
+				return false;
+			});
+			$sortBox.find('.ctl-label').mousedown(function(event){
+				return false;
+			});
 		});
 	}
+
 })(jQuery);

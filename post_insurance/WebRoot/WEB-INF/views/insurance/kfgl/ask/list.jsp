@@ -90,12 +90,10 @@
 			<shiro:hasPermission name="Inquire:provEdit">
 				<li class="line">line</li>
 				<li><a class="icon" target="myDialog" rel="ids" href="${contextPath }/kfgl/inquire/toWord"><span>批量word</span></a></li>
-				<li class="line">line</li>
 				<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/kfgl/inquire/batchToCity" title="确认转办地市?"><span>批量转办</span></a></li>
-				<li class="line">line</li>
 				<li><a class="icon" target="selectedTodo" rel="ids" href="${contextPath }/kfgl/inquire/batchDeal" title="确认要批量审核通过?"><span>批量审核</span></a></li>
-				<li class="line">line</li>
 				<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/kfgl/inquire/CloseStatus" title="确认要结案关闭?"><span>批量结案</span></a></li>
+				<li><a class="edit" target="dialog" rel="ask_list" mask="true" width="820" height="520" href="${contextPath }/kfgl/inquire/assignList"><span>处理授权</span></a></li>
 			</shiro:hasPermission>
 			<li class="line">line</li>
 			<li><a class="edit" target="navTab" rel="printInquire" mask="true" width="820" height="520" href="${contextPath }/kfgl/inquire/print/{slt_uid}"><span>打印工单</span></a></li>

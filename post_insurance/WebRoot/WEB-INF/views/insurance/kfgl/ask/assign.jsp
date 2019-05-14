@@ -3,32 +3,21 @@
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 
 <div class="pageContent">
-<table layoutH="60" width="100%">
-  <tr>
-    <td>
-    <table class="table" width="100%">
-      <tr>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        </tr>
-      <tr>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        </tr>
-    </table>
-    </td>
-    <td>
-    <table class="table" width="100%">
-      <tr>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-      </tr>
-      <tr>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-      </tr>
-    </table>
-    </td>
-  </tr>
-</table>
+	<div class="pageFormContent" layoutH="58">
+	<fieldset>
+		<legend>授权</legend>
+		<select class="selectpicker" multiple data-live-search="true">
+		    <option value="1">广东省</option>
+		    <option value="2">广西省</option>
+		    <option value="3">福建省</option>
+		    <option value="4">湖南省</option>
+		    <option value="5">山东省</option>                            
+		</select>
+	</fieldset>
+	</div>
+	<div class="formBar">
+		<ul>
+			<li><div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div></li>
+		</ul>
+	</div>
 </div>
