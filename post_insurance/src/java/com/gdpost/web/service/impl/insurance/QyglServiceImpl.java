@@ -103,6 +103,17 @@ public class QyglServiceImpl implements QyglService {
 		
 		checkRecordDAO.save(check);
 	}
+	
+	@Override
+	public void deleteCheckWrite(CheckWrite check) {
+		checkWriteDAO.deleteById(check.getId());
+	}
+	
+	@Override
+	public void deleteCheckRecord(Long id) {
+		CheckRecord cr = checkRecordDAO.findById(id).get();
+		checkRecordDAO.deleteById(cr.getId());
+	}
 
 	@Override
 	public List<CheckWrite> findAllCheckWrite(Page page) {

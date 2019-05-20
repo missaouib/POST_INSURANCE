@@ -36,6 +36,7 @@ response.setHeader("Content-Disposition", "inline; filename=policy_data.xls");
 				<th>是否犹撤</th>
 				<th>是否非实时</th>
 			</tr>
+			<shiro:hasPermission name="Callfail:provEdit">
 			<c:forEach var="item" items="${policies}" varStatus="idx">
 			<tr target="slt_uid" rel="${item.id}">
 				<td>${idx.index+1 }</td>
@@ -45,9 +46,7 @@ response.setHeader("Content-Disposition", "inline; filename=policy_data.xls");
 				<td>${item.holderPhone}</td>
 				<td>${item.holderMobile}</td>
 				<td>${item.holderCardType}</td>
-				<shiro:hasPermission name="Callfail:provEdit">
 				<td style="vnd.ms-excel.numberformat:@">${item.holderCardNum}</td>
-				</shiro:hasPermission>
 				<td>${item.insured}</td>
 				<td>${item.insuredCardNum}</td>
 				<td>${item.insuredPhone}</td>
@@ -68,4 +67,5 @@ response.setHeader("Content-Disposition", "inline; filename=policy_data.xls");
 				<td>${item.uwFlag}</td>
 			</tr>
 			</c:forEach>
+			</shiro:hasPermission>
 	</table>

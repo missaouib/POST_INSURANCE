@@ -29,6 +29,10 @@ public interface QyglService {
 	void saveOrUpdateCheckWrite(CheckWrite check);
 	
 	void saveOrUpdateCheckRecord(CheckRecord check);
+	
+	void deleteCheckWrite(CheckWrite check);
+	
+	void deleteCheckRecord(Long id);
 
 	//void delete(Long id);
 	

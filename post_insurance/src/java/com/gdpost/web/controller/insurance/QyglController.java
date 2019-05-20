@@ -158,6 +158,30 @@ public class QyglController {
 		return	AjaxObject.newOk("回复新契约填写不合格件成功！").toString(); 
 	}
 	
+	@Log(message="对{0}新契约填写不合格件的申诉了，改为登记问题置为已整改。", level=LogLevel.WARN, module=LogModule.QYGL)
+	@RequiresPermissions("CheckWrite:provEdit")
+	@RequestMapping(value="/issue/write/appeal/{id}", method=RequestMethod.POST)
+	public @ResponseBody String appealCheckWrite(@PathVariable Long id) {
+		CheckWrite src = qyglService.getCheckWrite(id);
+		src.setNeedFix("已整改");;
+		src.setFixStatus(QY_STATUS.CloseStatus.name());
+		qyglService.saveOrUpdateCheckWrite(src);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));
+		return	AjaxObject.newOk("申诉新契约填写不合格件成功！").setCallbackType("").toString();
+	}
+	
+	@Log(message="对{0}新契约填写不合格件进行了删除。", level=LogLevel.WARN, module=LogModule.QYGL)
+	@RequiresPermissions("CheckWrite:provEdit")
+	@RequestMapping(value="/issue/write/delete/{id}", method=RequestMethod.POST)
+	public @ResponseBody String delCheckWrite(@PathVariable Long id) {
+		CheckWrite src = qyglService.getCheckWrite(id);
+		qyglService.deleteCheckWrite(src);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));
+		return	AjaxObject.newOk("删除新契约填写不合格件成功！").setCallbackType("").toString();
+	}
+	
 	@Log(message="重新打开了{0}新契约填写不合格件的信息。", level=LogLevel.WARN, module=LogModule.QYGL)
 	@RequiresPermissions("CheckWrite:edit")
 	@RequestMapping(value="/issue/write/reopen", method=RequestMethod.POST)
@@ -400,9 +424,14 @@ public class QyglController {
 		CheckRecord src = qyglService.getCheckRecord(issue.getId());
 		src.setDealMan(issue.getDealMan());
 		src.setDealTime(issue.getDealTime());
-		src.setFixDesc(issue.getFixDesc());
 		src.setFixType(issue.getFixType());
-		src.setFixStatus(QY_STATUS.IngStatus.name());
+		src.setFixDesc(issue.getFixDesc());
+		if(issue.getFixType().contains("继续跟进") || issue.getFixDesc().contains("继续跟进")) {
+			//nothing
+		} else {
+			src.setFixStatus(QY_STATUS.IngStatus.name());
+		}
+		src.setReplyTime(new Date());
 		qyglService.saveOrUpdateCheckRecord(src);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));
@@ -459,25 +488,60 @@ public class QyglController {
 		request.setAttribute("orgCode", orgCode);
 		request.setAttribute("name", orgName);
 		log.debug("-------------- orgCode: " + orgCode);
-		CheckRecord issue = new CheckRecord();
+		CheckWrite issue = new CheckWrite();
 		if(status == null) {
 			status = QY_STATUS.NewStatus.name();
 		} else if(status.trim().length()>0) {
 			issue.setFixStatus(QY_STATUS.valueOf(status).name());
 		}
+		
+		String keyInfo = request.getParameter("keyInfo");
+		request.setAttribute("keyInfo", keyInfo);
+		issue.setKeyInfo(keyInfo);
+		
 		request.setAttribute("status", status);
 		issue.setFixStatus(status);
 		request.setAttribute("checker", checker);
 		issue.setChecker(checker);
 		
+		if(page.getOrderField() == null || page.getOrderField().trim().length() <= 0) {
+			page.setOrderField("id");
+			page.setOrderDirection("DESC");
+		}
+		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("needFix", Operator.EQ, "要整改"));
 		if(status.trim().length()>0) {
 			csf.add(new SearchFilter("fixStatus", Operator.EQ, status));
 		}
 		if(checker != null && checker.trim().length()>0) {
 			csf.add(new SearchFilter("checker", Operator.EQ, checker));
 		}
+		if(keyInfo != null && keyInfo.trim().length()>0) {
+			switch(keyInfo) {
+			case "Email":
+			case "销售人员":
+			case "号码有误":
+			case "关系不符逻辑要求":
+			case "联系方式":
+			case "姓名有误":
+				csf.add(new SearchFilter("keyInfo", Operator.LIKE, keyInfo));
+				break;
+			case "地址":
+				csf.add(new SearchFilter("keyInfo", Operator.OR_LIKE, "地址长度"));
+				csf.add(new SearchFilter("keyInfo", Operator.OR_LIKE, "地址含有邮政关键信息"));
+				csf.add(new SearchFilter("keyInfo", Operator.OR_LIKE, "地址疑似不够详细"));
+				csf.add(new SearchFilter("keyInfo", Operator.OR_LIKE, "地址不够详细"));
+				csf.add(new SearchFilter("keyInfo", Operator.OR_LIKE, "地址缺门牌号码"));
+				break;
+			case "证件":
+				csf.add(new SearchFilter("keyInfo", Operator.OR_LIKE, "证件号码"));
+				csf.add(new SearchFilter("keyInfo", Operator.OR_LIKE, "出生证号码"));
+				break;
+			}
+		}
+		
 		
 		Specification<CheckRecord> specification = DynamicSpecifications.bySearchFilter(request, CheckRecord.class, csf);
 		
@@ -505,18 +569,58 @@ public class QyglController {
 		} else if(!orgCode.contains(userOrg.getOrgCode())){
 			orgCode = userOrg.getOrgCode();
 		}
-		request.setAttribute("status", status);
+		String orgName = request.getParameter("name");
+		request.setAttribute("orgCode", orgCode);
+		request.setAttribute("name", orgName);
+		log.debug("-------------- orgCode: " + orgCode);
+		CheckWrite issue = new CheckWrite();
+		if(status == null) {
+			status = QY_STATUS.NewStatus.name();
+		} else if(status.trim().length()>0) {
+			issue.setFixStatus(QY_STATUS.valueOf(status).name());
+		}
+		
+		String keyInfo = request.getParameter("keyInfo");
 		
 		page.setPageNum(0);
 		page.setNumPerPage(Integer.MAX_VALUE);
 		
+		if(page.getOrderField() == null || page.getOrderField().trim().length() <= 0) {
+			page.setOrderField("id");
+			page.setOrderDirection("DESC");
+		}
+		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("needFix", Operator.EQ, "要整改"));
 		if(status.trim().length()>0) {
 			csf.add(new SearchFilter("fixStatus", Operator.EQ, status));
 		}
 		if(checker != null && checker.trim().length()>0) {
 			csf.add(new SearchFilter("checker", Operator.EQ, checker));
+		}
+		if(keyInfo != null && keyInfo.trim().length()>0) {
+			switch(keyInfo) {
+			case "Email":
+			case "销售人员":
+			case "号码有误":
+			case "关系不符逻辑要求":
+			case "联系方式":
+			case "姓名有误":
+				csf.add(new SearchFilter("keyInfo", Operator.LIKE, keyInfo));
+				break;
+			case "地址":
+				csf.add(new SearchFilter("keyInfo", Operator.OR_LIKE, "地址长度"));
+				csf.add(new SearchFilter("keyInfo", Operator.OR_LIKE, "地址含有邮政关键信息"));
+				csf.add(new SearchFilter("keyInfo", Operator.OR_LIKE, "地址疑似不够详细"));
+				csf.add(new SearchFilter("keyInfo", Operator.OR_LIKE, "地址不够详细"));
+				csf.add(new SearchFilter("keyInfo", Operator.OR_LIKE, "地址缺门牌号码"));
+				break;
+			case "证件":
+				csf.add(new SearchFilter("keyInfo", Operator.OR_LIKE, "证件号码"));
+				csf.add(new SearchFilter("keyInfo", Operator.OR_LIKE, "出生证号码"));
+				break;
+			}
 		}
 		
 		Specification<CheckRecord> specification = DynamicSpecifications.bySearchFilter(request, CheckRecord.class, csf);

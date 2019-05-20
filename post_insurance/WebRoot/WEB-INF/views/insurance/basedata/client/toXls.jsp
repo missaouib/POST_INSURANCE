@@ -14,6 +14,8 @@ response.setHeader("Content-Disposition", "inline; filename=policy_list.xls");
 				<th orderField=policyNo class="${page.orderField eq 'policyNo' ? page.orderDirection : ''}">保单号</th>
 				<th orderField=organization.name class="${page.orderField eq 'organization.name' ? page.orderDirection : ''}">机构</th>
 				<th>投保人</th>
+				<th>投保人性别</th>
+				<th>投保人年龄</th>
 				<th>被保人</th>
 				<th>关系</th>
 				<th>险种名称</th>
@@ -48,6 +50,8 @@ response.setHeader("Content-Disposition", "inline; filename=policy_list.xls");
 				<td style="vnd.ms-excel.numberformat:@">${item.policyNo}</td>
 				<td>${item.organization.shortName}</td>
 				<td>${item.holder}</td>
+				<td>${item.policyDtl.holderSexy}</td>
+				<td>${item.policyDtl.holderAge}</td>
 				<td>${item.insured}</td>
 				<td>${item.policyDtl.relation}</td>
 				<td>${item.prodName}</td>
