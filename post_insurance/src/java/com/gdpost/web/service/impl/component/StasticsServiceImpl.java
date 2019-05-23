@@ -6,14 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gdpost.web.dao.component.PolicyStatDAO;
-import com.gdpost.web.dao.component.StaffDtlModelDAO;
-import com.gdpost.web.dao.component.StaffModelDAO;
-import com.gdpost.web.dao.component.TuiBaoDtlModelDAO;
-import com.gdpost.web.dao.component.TuiBaoModelDAO;
-import com.gdpost.web.dao.component.UwDtlModelDAO;
-import com.gdpost.web.dao.component.UwModelDAO;
+import com.gdpost.web.dao.model.CheckStasticsDAO;
+import com.gdpost.web.dao.model.PolicyStatDAO;
+import com.gdpost.web.dao.model.StaffDtlModelDAO;
+import com.gdpost.web.dao.model.StaffModelDAO;
+import com.gdpost.web.dao.model.TuiBaoDtlModelDAO;
+import com.gdpost.web.dao.model.TuiBaoModelDAO;
+import com.gdpost.web.dao.model.UwDtlModelDAO;
+import com.gdpost.web.dao.model.UwModelDAO;
 import com.gdpost.web.entity.component.PolicyStatModel;
+import com.gdpost.web.entity.component.QyCheckModel;
 import com.gdpost.web.entity.component.StaffDtlModel;
 import com.gdpost.web.entity.component.StaffModel;
 import com.gdpost.web.entity.component.TuiBaoDtlModel;
@@ -47,6 +49,9 @@ public class StasticsServiceImpl implements StasticsService {
 	
 	@Autowired
 	private PolicyStatDAO policyDAO;
+	
+	@Autowired
+	private CheckStasticsDAO checkDAO;
 
 	@Override
 	public List<TuiBaoModel> getTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(String organCode, String d1, String d2, String d3, String d4, String prdCode, String toPerm, String staffFlag, Integer duration) {
@@ -226,5 +231,30 @@ public class StasticsServiceImpl implements StasticsService {
 	public List<PolicyStatModel> getPolicyFeeFrequencyStasticsWithBankCode(String organCode, String d1, String d2,
 			String flag, String prdCode, String toPerm, String staffFlag, String bankName, String csFlag, String saleType, String status, Integer duration) {
 		return policyDAO.getPolicyDateFeeTypeStatWithBankCode(organCode, d1, d2, flag, prdCode, toPerm, staffFlag, bankName, csFlag, saleType, status, duration);
+	}
+
+	/*
+	 * =========================================
+	 * Check Write , Check Record statsics
+	 * =========================================
+	 */
+	@Override
+	public List<QyCheckModel> getCheckWriteCityStastics(String d1, String d2) {
+		return checkDAO.getCheckWriteCityStat(d1, d2);
+	}
+
+	@Override
+	public List<QyCheckModel> getCheckRecordCityStastics(String d1, String d2) {
+		return checkDAO.getCheckRecordCityStat(d1, d2);
+	}
+
+	@Override
+	public List<QyCheckModel> getCheckWriteAreaStastics(String organCode, String d1, String d2) {
+		return checkDAO.getCheckWriteAreaStat(organCode, d1, d2);
+	}
+
+	@Override
+	public List<QyCheckModel> getCheckRecordAreaStastics(String organCode, String d1, String d2) {
+		return checkDAO.getCheckRecordAreaStat(organCode, d1, d2);
 	}
 }

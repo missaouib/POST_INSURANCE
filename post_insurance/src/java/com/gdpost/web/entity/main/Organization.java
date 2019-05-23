@@ -38,6 +38,7 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 
 import com.gdpost.web.entity.Idable;
+import com.gdpost.web.entity.insurance.Policy;
 
 /** 
  * 	

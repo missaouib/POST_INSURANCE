@@ -3,7 +3,7 @@ package com.gdpost.web.dao.component;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-import com.gdpost.web.entity.component.CsLoan;
+import com.gdpost.web.entity.insurance.CsLoan;
 
 /**
  * A data access object (DAO) providing persistence and search support for
@@ -12,7 +12,7 @@ import com.gdpost.web.entity.component.CsLoan;
  * must be manually added to each of these methods for data to be persisted to
  * the JPA datastore.
  * 
- * @see com.gdpost.web.entity.main.ConservationDtl
+ * @see com.gdpost.web.entity.insurance.ConservationDtl
  * @author MyEclipse Persistence Tools
  */
 public interface CsLoanDAO extends JpaRepository<CsLoan, Long>, JpaSpecificationExecutor<CsLoan> {

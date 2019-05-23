@@ -20,8 +20,8 @@ import org.hibernate.annotations.JoinFormula;
 
 import com.gdpost.utils.StringUtil;
 import com.gdpost.web.entity.Idable;
+import com.gdpost.web.entity.insurance.Policy;
 import com.gdpost.web.entity.main.Organization;
-import com.gdpost.web.entity.main.Policy;
 
 /**
  * VCallFailList entity. @author MyEclipse Persistence Tools

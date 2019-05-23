@@ -1263,3 +1263,7 @@ CREATE TABLE t_gsettle_log (
   KEY fk_settlegd_32 (gsettle_id),
   CONSTRAINT fk_settlegd_32 FOREIGN KEY (gsettle_id) REFERENCES t_gsettle (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=2054 DEFAULT CHARSET=utf8;
+
+
+
+alter table t_check_write add column is_truth boolean default false;

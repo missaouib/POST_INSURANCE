@@ -16,7 +16,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import com.gdpost.web.entity.Idable;
-import com.gdpost.web.entity.main.Issue;
+import com.gdpost.web.entity.insurance.Issue;
 
 /**
  * TIssueType entity. @author MyEclipse Persistence Tools

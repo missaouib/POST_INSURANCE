@@ -4,7 +4,10 @@
 package	com.gdpost.web.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.TreeMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gdpost.web.dao.OrganizationDAO;
 import com.gdpost.web.dao.UserDAO;
+import com.gdpost.web.entity.insurance.CheckWrite;
 import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.exception.NotDeletedException;
@@ -22,6 +26,9 @@ import com.gdpost.web.exception.NotExistedException;
 import com.gdpost.web.service.OrganizationService;
 import com.gdpost.web.util.dwz.Page;
 import com.gdpost.web.util.dwz.PageUtils;
+import com.gdpost.web.util.persistence.DynamicSpecifications;
+import com.gdpost.web.util.persistence.SearchFilter;
+import com.gdpost.web.util.persistence.SearchFilter.Operator;
 
 @Service
 @Transactional
@@ -243,5 +250,35 @@ public class OrganizationServiceImpl implements OrganizationService {
 		children.removeAll(tmp);
 		
 		makeChildren(tmp, children);
+	}
+
+	@Override
+	public List<TreeMap<String, String>> getOrgCodeAndNameMap(String orgCode) {
+		List<TreeMap<String, String>> rst = new ArrayList<TreeMap<String, String>>();
+		Page page = new Page();
+		page.setNumPerPage(500);
+		page.setOrderField("orgCode");
+		page.setOrderDirection("ASC");
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("orgCode", Operator.LIKE, orgCode));
+		
+		Specification<Organization> specification = DynamicSpecifications.bySearchFilter(null, csf);
+		
+		List<Organization> list = findByExample(specification, page);
+		TreeMap<String, String> citymap = new TreeMap<String, String>();
+		for(Organization org : list) {
+			if(org.getOrgCode().length()==6) {
+				citymap.put(org.getOrgCode(), org.getShortName());
+			}
+		}
+		TreeMap<String, String> areamap = new TreeMap<String, String>();
+		for(Organization org : list) {
+			if(org.getOrgCode().length()==8) {
+				areamap.put(org.getOrgCode(), org.getShortName());
+			}
+		}
+		rst.add(citymap);
+		rst.add(areamap);
+		return rst;
 	}
 }

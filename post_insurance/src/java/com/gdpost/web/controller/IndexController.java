@@ -33,8 +33,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gdpost.utils.SecurityUtils;
 import com.gdpost.web.SecurityConstants;
-import com.gdpost.web.entity.component.Notice;
 import com.gdpost.web.entity.main.Module;
+import com.gdpost.web.entity.main.Notice;
 import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.Permission;
 import com.gdpost.web.entity.main.Role;

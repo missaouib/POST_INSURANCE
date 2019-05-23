@@ -38,7 +38,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.gdpost.utils.SecurityUtils;
 import com.gdpost.web.entity.basedata.CallDealType;
 import com.gdpost.web.entity.component.VCallFailList;
-import com.gdpost.web.entity.main.CallFailList;
+import com.gdpost.web.entity.insurance.CallFailList;
 import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.exception.ServiceException;

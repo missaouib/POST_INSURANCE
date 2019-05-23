@@ -47,7 +47,7 @@
 						<input class="validate[required] required" name="name" id="qy_w_orgName" type="text" readonly="readonly" style="width: 100px;" value="${name }"/><a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="" title="选择机构" width="400">查</a>
 					</td>
 					<td>
-					<label>排查类型:</label>
+					<label>排查方式:</label>
 					<form:select path="issue.checker" id="qywchecker" class="combox">
 							<form:option value=""> -- -- </form:option>
 							<form:option value="System">真实性排查</form:option>
@@ -137,7 +137,8 @@
 				<th orderField=importanceInfo class="${page.orderField eq 'importanceInfo' ? page.orderDirection : ''}">重要信息</th>
 				<th orderField=elseInfo class="${page.orderField eq 'elseInfo' ? page.orderDirection : ''}">其他信息</th>
 				<th orderField=netName class="${page.orderField eq 'netName' ? page.orderDirection : ''}">网点名称</th>
-				<th orderField=payMethod class="${page.orderField eq 'payMethod' ? page.orderDirection : ''}">档案下发</th>
+				<th orderField=checker class="${page.orderField eq 'checker' ? page.orderDirection : ''}">档案下发</th>
+				<th orderField=isTruth class="${page.orderField eq 'isTruth' ? page.orderDirection : ''}">客真</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -154,6 +155,9 @@
 				<c:choose>
 					<c:when test="${item.fixStatus eq 'NewStatus'}">
 						<div style="color: red;vertical-align:middle;font-weight:normal;">待处理</div>
+					</c:when>
+					<c:when test="${item.fixStatus eq 'FollowStatus'}">
+						跟进中
 					</c:when>
 					<c:when test="${item.fixStatus eq 'IngStatus'}">
 						待审核
@@ -197,6 +201,7 @@
 					    </c:otherwise>  
 					</c:choose>
 				</td>
+				<td>${item.isTruth}</td>
 			</tr>
 			</c:forEach>
 		</tbody>

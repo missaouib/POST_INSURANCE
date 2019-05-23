@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gdpost.utils.SecurityUtils;
 import com.gdpost.utils.StringUtil;
-import com.gdpost.web.entity.main.Issue;
-import com.gdpost.web.entity.main.UnderWrite;
+import com.gdpost.web.entity.insurance.Issue;
+import com.gdpost.web.entity.insurance.UnderWrite;
 import com.gdpost.web.service.insurance.BqglService;
 import com.gdpost.web.service.insurance.HfglService;
 import com.gdpost.web.service.insurance.KfglService;

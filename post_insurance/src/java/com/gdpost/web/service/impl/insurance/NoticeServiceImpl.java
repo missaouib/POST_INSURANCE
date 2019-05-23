@@ -13,8 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gdpost.web.dao.NoticeAttDAO;
 import com.gdpost.web.dao.NoticeDAO;
-import com.gdpost.web.entity.component.Notice;
-import com.gdpost.web.entity.component.NoticeAtt;
+import com.gdpost.web.entity.main.Notice;
+import com.gdpost.web.entity.main.NoticeAtt;
 import com.gdpost.web.entity.main.Role;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.service.insurance.NoticeService;

@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.gdpost.web.entity.component.Notice;
+import com.gdpost.web.entity.main.Notice;
 import com.gdpost.web.entity.main.Role;
 import com.gdpost.web.entity.main.User;
 
@@ -21,7 +21,7 @@ import com.gdpost.web.entity.main.User;
  * manually added to each of these methods for data to be persisted to the JPA
  * datastore.
  * 
- * @see com.gdpost.web.entity.basedata.Notice
+ * @see com.gdpost.web.entity.main.Notice
  * @author MyEclipse Persistence Tools
  */
 public interface NoticeDAO extends JpaRepository<Notice, Long>, JpaSpecificationExecutor<Notice> {

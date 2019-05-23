@@ -6,8 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
-import com.gdpost.web.entity.main.Policy;
-import com.gdpost.web.entity.main.RenewedList;
+import com.gdpost.web.entity.insurance.Policy;
+import com.gdpost.web.entity.insurance.RenewedList;
 
 /**
  * A data access object (DAO) providing persistence and search support for
@@ -16,7 +16,7 @@ import com.gdpost.web.entity.main.RenewedList;
  * manually added to each of these methods for data to be persisted to the JPA
  * datastore.
  * 
- * @see com.gdpost.web.entity.main.Issue
+ * @see com.gdpost.web.entity.insurance.Issue
  * @author MyEclipse Persistence Tools
  */
 public interface RenewedListDAO extends JpaRepository<RenewedList, Long>, JpaSpecificationExecutor<RenewedList> {

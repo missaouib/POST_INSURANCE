@@ -11,14 +11,14 @@ import java.util.List;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.gdpost.web.entity.component.Gsettle;
-import com.gdpost.web.entity.component.GsettleDtl;
-import com.gdpost.web.entity.component.GsettleLog;
-import com.gdpost.web.entity.component.SettleTask;
-import com.gdpost.web.entity.component.SettleTaskLog;
-import com.gdpost.web.entity.component.Settlement;
-import com.gdpost.web.entity.component.SettlementDtl;
-import com.gdpost.web.entity.component.SettlementLog;
+import com.gdpost.web.entity.insurance.Gsettle;
+import com.gdpost.web.entity.insurance.GsettleDtl;
+import com.gdpost.web.entity.insurance.GsettleLog;
+import com.gdpost.web.entity.insurance.SettleTask;
+import com.gdpost.web.entity.insurance.SettleTaskLog;
+import com.gdpost.web.entity.insurance.Settlement;
+import com.gdpost.web.entity.insurance.SettlementDtl;
+import com.gdpost.web.entity.insurance.SettlementLog;
 import com.gdpost.web.util.dwz.Page;
 
 public interface LpglService {

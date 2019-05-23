@@ -10,6 +10,7 @@ package com.gdpost.web.service.component;
 import java.util.List;
 
 import com.gdpost.web.entity.component.PolicyStatModel;
+import com.gdpost.web.entity.component.QyCheckModel;
 import com.gdpost.web.entity.component.StaffDtlModel;
 import com.gdpost.web.entity.component.StaffModel;
 import com.gdpost.web.entity.component.TuiBaoDtlModel;
@@ -80,4 +81,12 @@ public interface StasticsService {
 	List<PolicyStatModel> getPolicyFeeFrequencyStastics(String organCode, String d1, String d2, String prdCode, String toPerm, String staffFlag, String csFlag, String saleType, String status, Integer duration);
 	
 	List<PolicyStatModel> getPolicyFeeFrequencyStasticsWithBankCode(String organCode, String d1, String d2, String flag, String prdCode, String toPerm, String staffFlag, String bankName, String csFlag, String saleType, String status, Integer duration);
+	
+	List<QyCheckModel> getCheckWriteCityStastics(String d1, String d2);
+	
+	List<QyCheckModel> getCheckRecordCityStastics(String d1, String d2);
+	
+	List<QyCheckModel> getCheckWriteAreaStastics(String organCode, String d1, String d2);
+	
+	List<QyCheckModel> getCheckRecordAreaStastics(String organCode, String d1, String d2);
 }

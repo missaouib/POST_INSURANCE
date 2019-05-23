@@ -3,7 +3,7 @@ package com.gdpost.web.dao;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-import com.gdpost.web.entity.main.CheckRecord;
+import com.gdpost.web.entity.insurance.CheckRecord;
 
 /**
  * A data access object (DAO) providing persistence and search support for
@@ -12,7 +12,7 @@ import com.gdpost.web.entity.main.CheckRecord;
  * manually added to each of these methods for data to be persisted to the JPA
  * datastore.
  * 
- * @see com.gdpost.web.entity.main.Issue
+ * @see com.gdpost.web.entity.insurance.Issue
  * @author MyEclipse Persistence Tools
  */
 public interface CheckRecordDAO extends JpaRepository<CheckRecord, Long>, JpaSpecificationExecutor<CheckRecord> {

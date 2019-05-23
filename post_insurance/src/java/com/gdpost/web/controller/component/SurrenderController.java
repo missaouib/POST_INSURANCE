@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.gdpost.utils.SecurityUtils;
 import com.gdpost.utils.StringUtil;
 import com.gdpost.web.entity.component.TuiBaoModel;
-import com.gdpost.web.entity.main.Policy;
+import com.gdpost.web.entity.insurance.Policy;
 import com.gdpost.web.service.component.StasticsService;
 import com.gdpost.web.service.insurance.PolicyService;
 import com.gdpost.web.shiro.ShiroUser;

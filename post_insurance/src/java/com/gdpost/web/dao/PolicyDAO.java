@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.gdpost.web.entity.main.Policy;
+import com.gdpost.web.entity.insurance.Policy;
 
 /**
  * A data access object (DAO) providing persistence and search support for
@@ -14,7 +14,7 @@ import com.gdpost.web.entity.main.Policy;
  * manually added to each of these methods for data to be persisted to the JPA
  * datastore.
  * 
- * @see com.gdpost.web.entity.main.Policy
+ * @see com.gdpost.web.entity.insurance.Policy
  * @author MyEclipse Persistence Tools
  */
 public interface PolicyDAO extends JpaRepository<Policy, Long>, JpaSpecificationExecutor<Policy> {

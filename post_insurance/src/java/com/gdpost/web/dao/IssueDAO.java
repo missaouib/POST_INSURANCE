@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
-import com.gdpost.web.entity.main.Issue;
+import com.gdpost.web.entity.insurance.Issue;
 
 /**
  * A data access object (DAO) providing persistence and search support for
@@ -15,7 +15,7 @@ import com.gdpost.web.entity.main.Issue;
  * manually added to each of these methods for data to be persisted to the JPA
  * datastore.
  * 
- * @see com.gdpost.web.entity.main.Issue
+ * @see com.gdpost.web.entity.insurance.Issue
  * @author MyEclipse Persistence Tools
  */
 public interface IssueDAO extends JpaRepository<Issue, Long>, JpaSpecificationExecutor<Issue> {

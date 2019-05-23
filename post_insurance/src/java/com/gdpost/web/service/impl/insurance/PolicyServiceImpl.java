@@ -12,10 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gdpost.web.dao.PolicyDAO;
 import com.gdpost.web.dao.PolicyReprintDtlDAO;
-import com.gdpost.web.dao.component.PolicyDataDAO;
+import com.gdpost.web.dao.model.PolicyDataDAO;
 import com.gdpost.web.entity.component.PolicyDataModel;
-import com.gdpost.web.entity.main.Policy;
-import com.gdpost.web.entity.main.PolicyReprintDtl;
+import com.gdpost.web.entity.insurance.Policy;
+import com.gdpost.web.entity.insurance.PolicyReprintDtl;
 import com.gdpost.web.service.insurance.PolicyService;
 import com.gdpost.web.util.dwz.Page;
 import com.gdpost.web.util.dwz.PageUtils;

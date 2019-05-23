@@ -3,8 +3,8 @@ package com.gdpost.web.dao;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-import com.gdpost.web.entity.main.CallFailList;
-import com.gdpost.web.entity.main.Policy;
+import com.gdpost.web.entity.insurance.CallFailList;
+import com.gdpost.web.entity.insurance.Policy;
 
 /**
  * A data access object (DAO) providing persistence and search support for

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gdpost.web.dao.PolicyDAO;
-import com.gdpost.web.entity.main.Policy;
+import com.gdpost.web.entity.insurance.Policy;
 import com.gdpost.web.service.insurance.CommonService;
 import com.gdpost.web.util.dwz.Page;
 import com.gdpost.web.util.dwz.PageUtils;

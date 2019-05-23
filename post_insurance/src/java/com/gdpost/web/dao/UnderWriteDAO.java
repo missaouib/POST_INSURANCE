@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.gdpost.web.entity.main.UnderWrite;
+import com.gdpost.web.entity.insurance.UnderWrite;
 
 /**
  * Interface for TUnderWriteDAO.

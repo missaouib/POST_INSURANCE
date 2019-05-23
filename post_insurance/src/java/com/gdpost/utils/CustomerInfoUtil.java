@@ -61,12 +61,16 @@ public class CustomerInfoUtil {
 		str.append(checkAddr(stat, policyNo, addr, isSales));
 		
 		//str.append(checkDateValid(holderCardValid));
+		
 		if( !checkMobile(mobile)) {
 			str.append("手机号码有误;");
 		}
-		if( !checkPhone(phone)) {
-			str.append("固定号码有误;");
-		}
+		
+		//close at 20190521
+//		if( !checkPhone(phone)) {
+//			str.append("固定号码有误;");
+//		}
+		
 		str.append(checkCardInfo(holderCardType, holderCardNum));
 		str.append(checkCardInfo(insuredCardType, insuredCardNum));
 		return str.toString();

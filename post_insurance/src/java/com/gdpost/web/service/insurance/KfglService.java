@@ -11,8 +11,8 @@ import java.util.List;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.gdpost.web.entity.main.Inquire;
-import com.gdpost.web.entity.main.Issue;
+import com.gdpost.web.entity.insurance.Inquire;
+import com.gdpost.web.entity.insurance.Issue;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.util.dwz.Page;
 

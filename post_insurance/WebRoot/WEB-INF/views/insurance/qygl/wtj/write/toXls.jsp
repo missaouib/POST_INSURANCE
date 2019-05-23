@@ -34,6 +34,7 @@ response.setHeader("Content-Disposition", "inline; filename=QY_Write_LIST.xls");
 				<th>回复日期</th>
 				<th>抽检人</th>
 				<th>档案下发</th>
+				<th>客真标记</th>
 			</tr>
 		</thead>
 		<c:forEach var="item" items="${issues}">
@@ -53,6 +54,9 @@ response.setHeader("Content-Disposition", "inline; filename=QY_Write_LIST.xls");
 				<c:choose>
 					<c:when test="${item.fixStatus eq 'NewStatus'}">
 						<span style="color:red; height:50%; margin-bottom:-contentheight;">待处理</span>
+					</c:when>
+					<c:when test="${item.fixStatus eq 'FollowStatus'}">
+						跟进中
 					</c:when>
 					<c:when test="${item.fixStatus eq 'IngStatus'}">
 						待审核
@@ -101,6 +105,7 @@ response.setHeader("Content-Disposition", "inline; filename=QY_Write_LIST.xls");
 					    </c:otherwise>  
 					</c:choose>
 					</td>
+				<td>${item.isTruth}</td>
 			</tr>
 			</c:forEach>
 	</table>

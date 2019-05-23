@@ -9,7 +9,7 @@ import org.springframework.data.jpa.domain.Specification;
 import System.Data.DataTable;
 
 import com.gdpost.utils.TemplateHelper.Template.FileTemplate;
-import com.gdpost.web.entity.main.Policy;
+import com.gdpost.web.entity.insurance.Policy;
 import com.gdpost.web.util.DoRst;
 
 public interface UploadDataService {

@@ -16,7 +16,7 @@ import com.gdpost.web.entity.component.TinyCsAddr;
  * must be manually added to each of these methods for data to be persisted to
  * the JPA datastore.
  * 
- * @see com.gdpost.web.entity.main.ConservationDtl
+ * @see com.gdpost.web.entity.insurance.ConservationDtl
  * @author MyEclipse Persistence Tools
  */
 public interface TinyCsAddrDAO extends JpaRepository<TinyCsAddr, String>, JpaSpecificationExecutor<TinyCsAddr> {

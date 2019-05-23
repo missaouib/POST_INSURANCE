@@ -5,7 +5,7 @@ import java.util.Date;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-import com.gdpost.web.entity.main.InvoiceReq;
+import com.gdpost.web.entity.insurance.InvoiceReq;
 
 /**
  * A data access object (DAO) providing persistence and search support for
@@ -14,7 +14,7 @@ import com.gdpost.web.entity.main.InvoiceReq;
  * manually added to each of these methods for data to be persisted to the JPA
  * datastore.
  * 
- * @see com.gdpost.web.entity.main.Issue
+ * @see com.gdpost.web.entity.insurance.Issue
  * @author MyEclipse Persistence Tools
  */
 public interface InvoiceReqDAO extends JpaRepository<InvoiceReq, Long>, JpaSpecificationExecutor<InvoiceReq> {

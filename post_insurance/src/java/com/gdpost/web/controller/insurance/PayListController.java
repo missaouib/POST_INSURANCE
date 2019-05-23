@@ -33,9 +33,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gdpost.utils.SecurityUtils;
+import com.gdpost.web.entity.insurance.PayFailList;
+import com.gdpost.web.entity.insurance.PaySuccessList;
 import com.gdpost.web.entity.main.Organization;
-import com.gdpost.web.entity.main.PayFailList;
-import com.gdpost.web.entity.main.PaySuccessList;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.exception.ServiceException;
 import com.gdpost.web.log.Log;

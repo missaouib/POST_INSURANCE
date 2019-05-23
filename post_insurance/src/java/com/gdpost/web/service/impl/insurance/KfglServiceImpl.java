@@ -12,8 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gdpost.web.dao.InquireDAO;
 import com.gdpost.web.dao.IssueDAO;
-import com.gdpost.web.entity.main.Inquire;
-import com.gdpost.web.entity.main.Issue;
+import com.gdpost.web.entity.insurance.Inquire;
+import com.gdpost.web.entity.insurance.Issue;
 import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.exception.ExistedException;

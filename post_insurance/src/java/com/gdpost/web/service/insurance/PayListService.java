@@ -11,8 +11,8 @@ import java.util.List;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.gdpost.web.entity.main.PayFailList;
-import com.gdpost.web.entity.main.PaySuccessList;
+import com.gdpost.web.entity.insurance.PayFailList;
+import com.gdpost.web.entity.insurance.PaySuccessList;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.util.dwz.Page;
 

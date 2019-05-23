@@ -364,6 +364,14 @@ public class TaskService {
 			log.info("------------ sql :" + sql);
 			statement.executeUpdate(sql);
 			
+			sql = "update t_check_write set is_truth=true where is_truth=false and checker='System'";
+			log.info("-----------客户信息真实性- sql :" + sql);
+			statement.executeUpdate(sql);
+			
+			sql = "update t_check_write set is_truth=true where is_truth=false and checker<>'System' and (key_info like '%地址%')";
+			log.info("------------ sql :" + sql);
+			statement.executeUpdate(sql);
+			
 			log.info("------------ task service update finish");
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -11,15 +11,15 @@ import java.util.List;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.gdpost.web.entity.component.CsExpire;
-import com.gdpost.web.entity.component.CsExpireDtl;
-import com.gdpost.web.entity.component.CsLoan;
-import com.gdpost.web.entity.component.CsReport;
 import com.gdpost.web.entity.component.TinyCsAddr;
-import com.gdpost.web.entity.main.ConservationDtl;
-import com.gdpost.web.entity.main.MtdReq;
-import com.gdpost.web.entity.main.CsReissue;
-import com.gdpost.web.entity.main.OffsiteConservation;
+import com.gdpost.web.entity.insurance.ConservationDtl;
+import com.gdpost.web.entity.insurance.CsExpire;
+import com.gdpost.web.entity.insurance.CsExpireDtl;
+import com.gdpost.web.entity.insurance.CsLoan;
+import com.gdpost.web.entity.insurance.CsReissue;
+import com.gdpost.web.entity.insurance.CsReport;
+import com.gdpost.web.entity.insurance.MtdReq;
+import com.gdpost.web.entity.insurance.OffsiteConservation;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.util.dwz.Page;
 

@@ -12,9 +12,9 @@ import java.util.List;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.gdpost.web.entity.basedata.RenewalType;
-import com.gdpost.web.entity.main.RenewedStay;
-import com.gdpost.web.entity.main.Policy;
-import com.gdpost.web.entity.main.RenewedList;
+import com.gdpost.web.entity.insurance.Policy;
+import com.gdpost.web.entity.insurance.RenewedList;
+import com.gdpost.web.entity.insurance.RenewedStay;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.util.dwz.Page;
 

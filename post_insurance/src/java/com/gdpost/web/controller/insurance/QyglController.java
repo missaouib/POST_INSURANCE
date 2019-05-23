@@ -41,10 +41,10 @@ import com.gdpost.utils.SecurityUtils;
 import com.gdpost.utils.StringUtil;
 import com.gdpost.web.entity.basedata.CheckFixType;
 import com.gdpost.web.entity.component.YbtPolicyModel;
-import com.gdpost.web.entity.main.CheckRecord;
-import com.gdpost.web.entity.main.CheckWrite;
+import com.gdpost.web.entity.insurance.CheckRecord;
+import com.gdpost.web.entity.insurance.CheckWrite;
+import com.gdpost.web.entity.insurance.UnderWrite;
 import com.gdpost.web.entity.main.Organization;
-import com.gdpost.web.entity.main.UnderWrite;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.exception.ExistedException;
 import com.gdpost.web.exception.ServiceException;
@@ -147,7 +147,7 @@ public class QyglController {
 		src.setFixType(issue.getFixType());
 		src.setFixDesc(issue.getFixDesc());
 		if(issue.getFixType().contains("继续跟进") || issue.getFixDesc().contains("继续跟进")) {
-			//nothing
+			src.setFixStatus(QY_STATUS.FollowStatus.name());
 		} else {
 			src.setFixStatus(QY_STATUS.IngStatus.name());
 		}
@@ -156,6 +156,18 @@ public class QyglController {
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));
 		return	AjaxObject.newOk("回复新契约填写不合格件成功！").toString(); 
+	}
+	
+	@Log(message="修改了{0}客户信息真实性标记。", level=LogLevel.WARN, module=LogModule.QYGL)
+	@RequiresPermissions("CheckWrite:edit")
+	@RequestMapping(value="/issue/write/isTruth", method=RequestMethod.POST)
+	public @ResponseBody String cwIsTruth(CheckWrite issue) {
+		CheckWrite src = qyglService.getCheckWrite(issue.getId());
+		src.setIsTruth(src.getIsTruth()?false:true);
+		qyglService.saveOrUpdateCheckWrite(src);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));
+		return	AjaxObject.newOk("成功修改记录的客户信息真实性标记！").setCallbackType("").toString();
 	}
 	
 	@Log(message="对{0}新契约填写不合格件的申诉了，改为登记问题置为已整改。", level=LogLevel.WARN, module=LogModule.QYGL)
@@ -270,7 +282,11 @@ public class QyglController {
 			csf.add(new SearchFilter("fixStatus", Operator.EQ, status));
 		}
 		if(checker != null && checker.trim().length()>0) {
-			csf.add(new SearchFilter("checker", Operator.EQ, checker));
+			if(checker.equals("zhaoyong")) {
+				csf.add(new SearchFilter("checker", Operator.EQ, checker));
+			} else {
+				csf.add(new SearchFilter("isTruth", Operator.EQ, true)); //客户信息真实性
+			}
 		}
 		if(keyInfo != null && keyInfo.trim().length()>0) {
 			switch(keyInfo) {

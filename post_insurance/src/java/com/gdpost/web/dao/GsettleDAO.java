@@ -8,7 +8,7 @@ import java.util.Date;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-import com.gdpost.web.entity.component.Gsettle;
+import com.gdpost.web.entity.insurance.Gsettle;
 
 public interface GsettleDAO extends JpaRepository<Gsettle, Long>, JpaSpecificationExecutor<Gsettle> {
 

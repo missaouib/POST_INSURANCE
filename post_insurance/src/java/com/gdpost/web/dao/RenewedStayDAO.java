@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-import com.gdpost.web.entity.main.RenewedStay;
+import com.gdpost.web.entity.insurance.RenewedStay;
 
 /**
  * A data access object (DAO) providing persistence and search support for
@@ -14,7 +14,7 @@ import com.gdpost.web.entity.main.RenewedStay;
  * must be manually added to each of these methods for data to be persisted to
  * the JPA datastore.
  * 
- * @see com.gdpost.web.entity.basedata.RenewedStay
+ * @see com.gdpost.web.entity.insurance.RenewedStay
  * @author MyEclipse Persistence Tools
  */
 public interface RenewedStayDAO extends JpaRepository<RenewedStay, Long>, JpaSpecificationExecutor<RenewedStay> {

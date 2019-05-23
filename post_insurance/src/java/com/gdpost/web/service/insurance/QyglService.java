@@ -15,9 +15,9 @@ import org.springframework.data.jpa.domain.Specification;
 
 import com.gdpost.web.entity.basedata.CheckFixType;
 import com.gdpost.web.entity.component.YbtPolicyModel;
-import com.gdpost.web.entity.main.CheckRecord;
-import com.gdpost.web.entity.main.CheckWrite;
-import com.gdpost.web.entity.main.UnderWrite;
+import com.gdpost.web.entity.insurance.CheckRecord;
+import com.gdpost.web.entity.insurance.CheckWrite;
+import com.gdpost.web.entity.insurance.UnderWrite;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.util.dwz.Page;
 

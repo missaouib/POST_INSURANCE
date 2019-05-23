@@ -4,6 +4,7 @@
 package com.gdpost.web.service;
 
 import java.util.List;
+import java.util.TreeMap;
 
 import org.springframework.data.jpa.domain.Specification;
 
@@ -29,4 +30,6 @@ public interface OrganizationService {
 	Organization getTree();
 	
 	Organization getTree(User user);
+	
+	List<TreeMap<String, String>> getOrgCodeAndNameMap(String orgCode);
 }

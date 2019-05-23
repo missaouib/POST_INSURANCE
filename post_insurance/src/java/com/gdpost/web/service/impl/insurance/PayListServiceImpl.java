@@ -13,9 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gdpost.web.dao.PayFailListDAO;
 import com.gdpost.web.dao.PaySuccessListDAO;
+import com.gdpost.web.entity.insurance.PayFailList;
+import com.gdpost.web.entity.insurance.PaySuccessList;
 import com.gdpost.web.entity.main.Organization;
-import com.gdpost.web.entity.main.PayFailList;
-import com.gdpost.web.entity.main.PaySuccessList;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.service.insurance.PayListService;
 import com.gdpost.web.util.StatusDefine.BQ_STATUS;
