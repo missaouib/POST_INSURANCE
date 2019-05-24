@@ -37,6 +37,9 @@ import com.gdpost.web.entity.insurance.Policy;
 import com.gdpost.web.entity.insurance.PolicyReprintDtl;
 import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.User;
+import com.gdpost.web.log.Log;
+import com.gdpost.web.log.LogLevel;
+import com.gdpost.web.log.LogModule;
 import com.gdpost.web.service.insurance.PolicyService;
 import com.gdpost.web.shiro.ShiroUser;
 import com.gdpost.web.util.dwz.Page;
@@ -226,6 +229,7 @@ public class ClientController {
 		return RE_PRINT_LIST;
 	}
 	
+	@Log(message="下载了保单打印数据", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequiresPermissions("PolicyReprintDtl:view")
 	@RequestMapping(value="/listPolicyReprintDtl/toXls", method={RequestMethod.GET, RequestMethod.POST})
 	public String reprintDtlToXls(ServletRequest request, Page page, Map<String, Object> map) {
@@ -274,6 +278,7 @@ public class ClientController {
 		return RE_PRINT_LIST_XLS;
 	}
 	
+	@Log(message="下载了保单数据！", level=LogLevel.WARN, module=LogModule.BaseDate)
 	@RequiresPermissions("Client:view")
 	@RequestMapping(value="/toXls", method=RequestMethod.GET)
 	public String toXls(ServletRequest request, Page page, Map<String, Object> map) {
@@ -348,6 +353,7 @@ public class ClientController {
 		return TO_XLS;
 	}
 	
+	@Log(message="下载了保单数据PD！", level=LogLevel.WARN, module=LogModule.BaseDate)
 	@RequiresPermissions("Client:prov")
 	@RequestMapping(value="/pdtoXls", method=RequestMethod.GET)
 	public String pdToXls(ServletRequest request, Page page, Map<String, Object> map) {

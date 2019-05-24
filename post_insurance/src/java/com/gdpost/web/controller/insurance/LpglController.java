@@ -426,6 +426,7 @@ public class LpglController {
 		return LIST;
 	}
 	
+	@Log(message="下载了理赔案件数据", level=LogLevel.INFO, module=LogModule.LPGL)
 	@RequiresPermissions("Settlement:view")
 	@RequestMapping(value="/toXls", method=RequestMethod.GET)
 	public String toXls(ServletRequest request, Page page, Map<String, Object> map) {
@@ -1072,6 +1073,7 @@ public class LpglController {
 		return LIST_TASK;
 	}
 	
+	@Log(message="下载了理赔调查任务数据", level=LogLevel.INFO, module=LogModule.LPGL)
 	@RequiresPermissions("SettleTask:view")
 	@RequestMapping(value="/task/toXls", method=RequestMethod.GET)
 	public String taskToXls(ServletRequest request, Page page, Map<String, Object> map) {
@@ -1468,6 +1470,7 @@ public class LpglController {
 		return G_LIST;
 	}
 	
+	@Log(message="下载了团险理赔案件数据", level=LogLevel.INFO, module=LogModule.LPGL)
 	@RequiresPermissions("Gsettle:view")
 	@RequestMapping(value="/gfollow/toXls", method=RequestMethod.GET)
 	public String gfollowToXls(ServletRequest request, Page page, Map<String, Object> map) {

@@ -264,6 +264,7 @@ public class FpglController {
 		return LIST;
 	}
 	
+	@Log(message="下载了发票申请数据", level=LogLevel.INFO, module=LogModule.FPGL)
 	@RequiresPermissions("InvoiceReq:view")
 	@RequestMapping(value="/toXls", method=RequestMethod.GET)
 	public String toXls(ServletRequest request, Page page, Map<String, Object> map) {

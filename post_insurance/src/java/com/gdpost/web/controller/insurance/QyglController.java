@@ -323,6 +323,7 @@ public class QyglController {
 		return LIST_WRITE;
 	}
 	
+	@Log(message="下载了填写不合格件列表", level=LogLevel.INFO, module=LogModule.QYGL)
 	@RequiresPermissions("CheckWrite:view")
 	@RequestMapping(value="/issue/write/toXls", method={RequestMethod.GET, RequestMethod.POST})
 	public String checkWriteToXls(ServletRequest request, Page page, Map<String, Object> map) {
@@ -570,6 +571,7 @@ public class QyglController {
 		return LIST_RECORD;
 	}
 	
+	@Log(message="下载了录入不合格件列表", level=LogLevel.INFO, module=LogModule.QYGL)
 	@RequiresPermissions("CheckRecord:view")
 	@RequestMapping(value="/issue/record/toXls", method={RequestMethod.GET, RequestMethod.POST})
 	public String checkRecordToXls(ServletRequest request, Page page, Map<String, Object> map) {
@@ -660,7 +662,7 @@ public class QyglController {
 	 * UNDER WRITE
 	 * =====================================
 	 */
-	
+	@Log(message="下载了人核件数据", level=LogLevel.INFO, module=LogModule.QYGL)
 	@RequiresPermissions("UnderWrite:view")
 	@RequestMapping(value="/underwrite/toXls", method=RequestMethod.GET)
 	public String toXls(ServletRequest request, Page page, Map<String, Object> map) {

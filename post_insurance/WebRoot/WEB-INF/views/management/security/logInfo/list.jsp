@@ -15,16 +15,17 @@
 <form method="post" action="${contextPath}/management/security/logInfo/list" onsubmit="return navTabSearch(this)">
 	<div class="pageHeader">
 		<div class="searchBar">
-			<ul class="searchContent">
-				<li>
+			<table class="searchContent">
+				<tr>
+				<td>
 					<label style="width: 100px;">登录名称：</label>
 					<input type="text" name="search_EQ_username" value="${param.search_LIKE_username }"/>
-				</li>
-				<li>
+					</td>
+				<td>
 					<label style="width: 100px;">登录IP：</label>
 					<input type="text" name="search_EQ_ipAddress" value="${param.search_LIKE_ipAddress }"/>
-				</li>
-				<li>
+				</td>
+				<td>
 					<label style="width: 100px;">日志等级：</label>
 					<select name="search_EQ_logLevel">
 						<option value="">所有</option>
@@ -32,33 +33,32 @@
 							<option value="${logLevel}" ${param.search_EQ_logLevel == logLevel ? 'selected="selected"':'' }>${logLevel}</option>
 						</c:forEach>
 					</select>
-				</li>																
-			</ul>
-			<ul>
-				<li>
-					<label style="width: 100px;">模块：</label>
+				</td>
+				<td><label style="width: 100px;">模块：</label>
 					<form:select path="logInfo.module" id="logModule" class="combox">
 						<form:option value=""> -- -- </form:option>
 						<form:options items="${modules }" itemLabel="desc" itemValue="desc"/>
 					</form:select>
-				</li>
-				<li>
+				</td>
+			</tr>
+			<tr>
+				<td>
 					<label style="width: 100px;">关键字：</label>
 					<input type="text" name="search_LIKE_message" value="${param.search_LIKE_message }"/>
-				</li>
-			</ul>
-			<ul class="searchContent">	
-				<li>
+				</td>
+				<td>
 					<label style="width: 100px;">日志开始时间：</label>
 					<input type="text" name="search_GTE_createTime" class="date" readonly="readonly" style="float:left;" value="${param.search_GTE_createTime}"/>
 					<a class="inputDateButton" href="javascript:;" style="float:left;">选择</a>
-				</li>			
-				<li>
+				</td>			
+				<td>
 					<label style="width: 100px;">日志结束时间：</label>
 					<input type="text" name="search_LTE_createTime" class="date" readonly="readonly" style="float:left;" value="${param.search_LTE_createTime}"/>
 					<a class="inputDateButton" href="javascript:;" style="float:left;">选择</a>
-				</li>							
-			</ul>			
+				</td>
+				<td>&nbsp;</td>							
+			</tr>
+			</table>
 			<div class="subBar">
 				<ul>						
 					<li><div class="button"><div class="buttonContent"><button type="submit">搜索</button></div></div></li>

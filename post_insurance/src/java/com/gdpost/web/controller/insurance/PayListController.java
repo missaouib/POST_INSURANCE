@@ -270,6 +270,7 @@ public class PayListController {
 		}
 	}
 	
+	@Log(message="下载了收付费成功数据", level=LogLevel.INFO, module=LogModule.FYGL)
 	@RequiresPermissions(value={"ToBQSuccessList:view","ToQYSuccessList:view","ToLPSuccessList:view","ToXQSuccessList:view"}, logical=Logical.OR)
 	@RequestMapping(value="/success/toXls", method={RequestMethod.GET, RequestMethod.POST})
 	public String successToXls(ServletRequest request, Page page, Map<String, Object> map) {
@@ -328,6 +329,7 @@ public class PayListController {
 		return SUCCESS_TOXLS;
 	}
 	
+	@Log(message="下载了付费失败数据", level=LogLevel.INFO, module=LogModule.FYGL)
 	@RequiresPermissions(value={"ToBQFailList:view","ToQYFailList:view","ToLPFailList:view","ToXQFailList:view"}, logical=Logical.OR)
 	@RequestMapping(value="/to/toXls", method={RequestMethod.GET, RequestMethod.POST})
 	public String failToXls(ServletRequest request, Page page, Map<String, Object> map) {
@@ -386,6 +388,7 @@ public class PayListController {
 		return TO_TOXLS;
 	}
 	
+	@Log(message="下载了收费失败数据", level=LogLevel.INFO, module=LogModule.FYGL)
 	@RequiresPermissions(value={"FromBQFailList:view","FromQYFailList:view","FromLPFailList:view","FromXQFailList:view"}, logical=Logical.OR)
 	@RequestMapping(value="/from/toXls", method={RequestMethod.GET, RequestMethod.POST})
 	public String failFromXls(ServletRequest request, Page page, Map<String, Object> map) {

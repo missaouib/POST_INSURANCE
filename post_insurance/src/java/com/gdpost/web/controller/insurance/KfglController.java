@@ -119,7 +119,7 @@ public class KfglController {
 	private static final String ASK_ISSUES_TO_XLS = "insurance/kfgl/ask/toXlses";
 	private static final String ASK_TO_DOWN = "insurance/kfgl/ask/download";
 	private static final String ASK_STATUS = "insurance/kfgl/ask/status";
-	private static final String ASSIGN_LIST = "insurance/kfgl/ask/assignList";
+	//private static final String ASSIGN_LIST = "insurance/kfgl/ask/assignList";
 	private static final String ASSIGN = "insurance/kfgl/ask/assign";
 
 	@RequestMapping(value = "/help", method = RequestMethod.GET)
@@ -547,6 +547,7 @@ public class KfglController {
 		return MAX_LIST;
 	}
 
+	@Log(message="下载了客服问题件数据", level=LogLevel.INFO, module=LogModule.KFGL)
 	@RequiresPermissions("Wtgd:view")
 	@RequestMapping(value = "/toXls", method = RequestMethod.GET)
 	public String toXls(ServletRequest request, Page page, Map<String, Object> map) {
@@ -608,6 +609,7 @@ public class KfglController {
 		return TO_XLS;
 	}
 
+	@Log(message="下载了客服问题件数据2", level=LogLevel.INFO, module=LogModule.KFGL)
 	@RequiresPermissions("Wtgd:view")
 	@RequestMapping(value = "/issuesToXls", method = RequestMethod.GET)
 	public String issuesToXls(ServletRequest request, Page page, Map<String, Object> map) {
@@ -670,6 +672,7 @@ public class KfglController {
 	}
 
 	@RequiresUser
+	@Log(message="生成客服问题工单word文件", level=LogLevel.INFO, module=LogModule.KFGL)
 	@RequiresPermissions("Wtgd:view")
 	@RequestMapping(value = "/issue/toWord", method = { RequestMethod.POST, RequestMethod.GET })
 	public String toWord(ServletRequest request, String ids) {
@@ -765,6 +768,7 @@ public class KfglController {
 	}
 
 	@RequiresUser
+	@Log(message="下载客服问题件word文件数据", level=LogLevel.INFO, module=LogModule.KFGL)
 	@RequiresPermissions("Wtgd:view")
 	@RequestMapping(value = "/issue/down/{zipfilename}", method = { RequestMethod.POST, RequestMethod.GET })
 	public ResponseEntity<byte[]> down(ServletRequest request, @PathVariable String zipfilename) {
@@ -816,6 +820,7 @@ public class KfglController {
 		return ASK_STATUS;
 	}
 	
+	@Log(message="打印客服问题件数据", level=LogLevel.INFO, module=LogModule.KFGL)
 	@RequiresPermissions("Inquire:view")
 	@RequestMapping(value = "/inquire/print/{id}", method = RequestMethod.GET)
 	public String printAsk(@PathVariable Long id, Map<String, Object> map) {
@@ -826,6 +831,7 @@ public class KfglController {
 		return ASK_PRINT;
 	}
 
+	@Log(message="打印客服问题件数据s", level=LogLevel.INFO, module=LogModule.KFGL)
 	@RequiresPermissions("Inquire:view")
 	@RequestMapping(value = "/inquires/print", method = { RequestMethod.POST, RequestMethod.GET })
 	public String printAsks(ServletRequest request, Page page, Map<String, Object> map) {
@@ -1326,6 +1332,7 @@ public class KfglController {
 		return ASK_LIST;
 	}
 
+	@Log(message="下载了客服咨询件数据", level=LogLevel.INFO, module=LogModule.KFGL)
 	@RequiresPermissions("Inquire:view")
 	@RequestMapping(value="/inquirelist/toXls", method=RequestMethod.GET)
 	public String toAskXls(ServletRequest request, Page page, Map<String, Object> map) {
@@ -1385,6 +1392,7 @@ public class KfglController {
 		return ASK_TO_XLS;
 	}
 
+	@Log(message="下载了客服咨询件数据2", level=LogLevel.INFO, module=LogModule.KFGL)
 	@RequiresPermissions("Inquire:view")
 	@RequestMapping(value = "/inquiresToXls", method = RequestMethod.GET)
 	public String askToXls(ServletRequest request, Page page, Map<String, Object> map) {
@@ -1444,6 +1452,7 @@ public class KfglController {
 	}
 
 	@RequiresUser
+	@Log(message="生成客服咨询件word数据", level=LogLevel.INFO, module=LogModule.KFGL)
 	@RequiresPermissions("Inquire:view")
 	@RequestMapping(value = "/inquire/toWord", method = { RequestMethod.POST, RequestMethod.GET })
 	public String askToWord(ServletRequest request, String ids) {
@@ -1539,6 +1548,7 @@ public class KfglController {
 	}
 
 	@RequiresUser
+	@Log(message="下载了客服咨询件word数据", level=LogLevel.INFO, module=LogModule.KFGL)
 	@RequiresPermissions("Inquire:view")
 	@RequestMapping(value = "/inquire/down/{zipfilename}", method = { RequestMethod.POST, RequestMethod.GET })
 	public ResponseEntity<byte[]> downAsk(ServletRequest request, @PathVariable String zipfilename) {

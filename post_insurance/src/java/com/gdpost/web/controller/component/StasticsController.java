@@ -34,6 +34,9 @@ import com.gdpost.web.entity.component.UwDtlModel;
 import com.gdpost.web.entity.component.UwModel;
 import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.User;
+import com.gdpost.web.log.Log;
+import com.gdpost.web.log.LogLevel;
+import com.gdpost.web.log.LogModule;
 import com.gdpost.web.service.OrganizationService;
 import com.gdpost.web.service.component.StasticsService;
 import com.gdpost.web.service.insurance.BaseDataService;
@@ -83,6 +86,7 @@ public class StasticsController {
 	 * 
 	 */
 	@RequiresUser
+	@Log(message="进行退保分析！", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequestMapping(value = "/stastics/tuibao", method = { RequestMethod.GET, RequestMethod.POST })
 	public String getTuiBaoStastics(ServletRequest request, Map<String, Object> map) {
 		LOG.debug("-------------------here----------");
@@ -273,6 +277,7 @@ public class StasticsController {
 	}
 
 	@RequiresUser
+	@Log(message="下载了退保分析结果！", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequestMapping(value = "/stastics/tuibao/toXls", method = { RequestMethod.GET, RequestMethod.POST })
 	public String tuibaoStasticsToXls(ServletRequest request, Map<String, Object> map) {
 		LOG.debug("-------------------here----------");
@@ -396,6 +401,7 @@ public class StasticsController {
 		return TUIBAO_TOXLS;
 	}
 
+	@Log(message="下载了退保分析明细数据！", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequiresUser
 	@RequestMapping(value = "/stastics/tuibao/dtlXls", method = { RequestMethod.GET, RequestMethod.POST })
 	public String tuibaoDtlToXls(ServletRequest request, Map<String, Object> map) {
@@ -473,6 +479,7 @@ public class StasticsController {
 	}
 
 	@RequiresUser
+	@Log(message="下载了退保分析数据犹撤数据！", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequestMapping(value = "/stastics/tuibao/csdtlXls", method = { RequestMethod.GET, RequestMethod.POST })
 	public String tuibaoCsDtlToXls(ServletRequest request, Map<String, Object> map) {
 		LOG.debug("-------------------here----------");
@@ -555,6 +562,7 @@ public class StasticsController {
 	 * 
 	 */
 	@RequiresUser
+	@Log(message="进行员工单分析！", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequestMapping(value = "/stastics/staff", method = { RequestMethod.GET, RequestMethod.POST })
 	public String getStaffStastics(ServletRequest request, Map<String, Object> map) {
 		LOG.debug("-------------------here----------");
@@ -707,6 +715,7 @@ public class StasticsController {
 	}
 
 	@RequiresUser
+	@Log(message="员工单分析结果导出！", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequestMapping(value = "/stastics/staff/toXls", method = { RequestMethod.GET, RequestMethod.POST })
 	public String staffStasticsToXls(ServletRequest request, Map<String, Object> map) {
 		LOG.debug("-------------------here----------");
@@ -802,6 +811,7 @@ public class StasticsController {
 	}
 
 	@RequiresUser
+	@Log(message="员工单分析明细数据导出！", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequestMapping(value = "/stastics/staff/dtlXls", method = { RequestMethod.GET, RequestMethod.POST })
 	public String staffDtlToXls(ServletRequest request, Map<String, Object> map) {
 		LOG.debug("-------------------here----------");
@@ -863,6 +873,7 @@ public class StasticsController {
 	 * 
 	 */
 	@RequiresUser
+	@Log(message="进行人核件分析！", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequestMapping(value = "/stastics/underwrite", method = { RequestMethod.GET, RequestMethod.POST })
 	public String getUWStastics(ServletRequest request, Map<String, Object> map) {
 		LOG.debug("-------------------here----------");
@@ -969,6 +980,7 @@ public class StasticsController {
 	}
 
 	@RequiresUser
+	@Log(message="人核件分析结果导出！", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequestMapping(value = "/stastics/underwrite/toXls", method = { RequestMethod.GET, RequestMethod.POST })
 	public String uwStasticsToXls(ServletRequest request, Map<String, Object> map) {
 		LOG.debug("-------------------here----------");
@@ -1049,6 +1061,7 @@ public class StasticsController {
 	}
 
 	@RequiresUser
+	@Log(message="人核件明细数据导出！", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequestMapping(value = "/stastics/underwrite/dtlXls", method = { RequestMethod.GET, RequestMethod.POST })
 	public String uwDtlToXls(ServletRequest request, Map<String, Object> map) {
 		LOG.debug("-------------------here----------");
@@ -1093,6 +1106,7 @@ public class StasticsController {
 	 * 
 	 */
 	@RequiresUser
+	@Log(message="进行保单分析！", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequestMapping(value = "/stastics/policy", method = { RequestMethod.GET, RequestMethod.POST })
 	public String policyStastics(ServletRequest request, Map<String, Object> map) {
 		LOG.debug("-------------------here----------");
@@ -1323,6 +1337,7 @@ public class StasticsController {
 	}
 
 	@RequiresUser
+	@Log(message="保单分析结果导出！", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequestMapping(value = "/stastics/policy/toXls", method = { RequestMethod.GET, RequestMethod.POST })
 	public String policyStasticsToXls(ServletRequest request, Map<String, Object> map) {
 		LOG.debug("-------------------here----------");
@@ -1489,6 +1504,7 @@ public class StasticsController {
 	 * 
 	 */
 	@RequiresUser
+	@Log(message="进行抽检分析！", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequestMapping(value = "/stastics/check", method = { RequestMethod.GET, RequestMethod.POST })
 	public String getCheckCityStastics(ServletRequest request, Map<String, Object> map) {
 		LOG.debug("-------------------here----------");
@@ -1627,6 +1643,7 @@ public class StasticsController {
 	}
 	
 	@RequiresUser
+	@Log(message="抽检结果导出！", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequestMapping(value = "/stastics/checkToXls", method = { RequestMethod.GET, RequestMethod.POST })
 	public String checkCityStasticsToXls(ServletRequest request, Map<String, Object> map) {
 		String organCode = request.getParameter("orgCode");
@@ -1773,6 +1790,7 @@ public class StasticsController {
 	 * 
 	 */
 	@RequiresUser
+	@Log(message="进行客户信息真实性分析！", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequestMapping(value = "/stastics/truth", method = { RequestMethod.GET, RequestMethod.POST })
 	public String truthStastics(ServletRequest request, Map<String, Object> map) {
 		LOG.debug("-------------------here----------");
@@ -1937,6 +1955,7 @@ public class StasticsController {
 	}
 	
 	@RequiresUser
+	@Log(message="客户信息真实性分析结果导出！", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequestMapping(value = "/stastics/truth/toXls", method = { RequestMethod.GET, RequestMethod.POST })
 	public String truthStasticsToXls(ServletRequest request, Map<String, Object> map) {
 		LOG.debug("-------------------here----------");
@@ -2040,6 +2059,7 @@ public class StasticsController {
 	 * 
 	 */
 	@RequiresUser
+	@Log(message="进行纸质保单使用率分析！", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequestMapping(value = "/stastics/policyPrint", method = { RequestMethod.GET, RequestMethod.POST })
 	public String printStastics(ServletRequest request, Map<String, Object> map) {
 		LOG.debug("-------------------here----------");
@@ -2196,6 +2216,7 @@ public class StasticsController {
 	}
 	
 	@RequiresUser
+	@Log(message="纸质保单使用率分析结果导出！", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequestMapping(value = "/stastics/policyPrint/toXls", method = { RequestMethod.GET, RequestMethod.POST })
 	public String printStasticsToXls(ServletRequest request, Map<String, Object> map) {
 		LOG.debug("-------------------here----------");

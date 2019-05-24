@@ -322,6 +322,7 @@ public class BqglController {
 		return LIST;
 	}
 	
+	@Log(message="下载了保全差错件数据！", level=LogLevel.INFO, module=LogModule.BQGL)
 	@RequiresPermissions("Cservice:view")
 	@RequestMapping(value="/toXls", method=RequestMethod.GET)
 	public String toXls(ServletRequest request, Page page, Map<String, Object> map) {
@@ -573,6 +574,7 @@ public class BqglController {
 		return LIST_OC;
 	}
 	
+	@Log(message="下载了异地保全数据！", level=LogLevel.INFO, module=LogModule.BQGL)
 	@RequiresPermissions("OffsiteConservation:view")
 	@RequestMapping(value="/offsite/toXls", method=RequestMethod.GET)
 	public String ocToXls(ServletRequest request, Page page, Map<String, Object> map) {
@@ -821,6 +823,7 @@ public class BqglController {
 		return	AjaxObject.newOk("更新合同补发成功！").toString(); 
 	}
 
+	@Log(message="下载了保全补发数据！", level=LogLevel.INFO, module=LogModule.BQGL)
 	@RequiresPermissions("CsReissue:view")
 	@RequestMapping(value="/reissue/toXls", method=RequestMethod.GET)
 	public String reissueToXls(ServletRequest request, Page page, Map<String, Object> map) {
@@ -949,6 +952,7 @@ public class BqglController {
 		return	AjaxObject.newOk("批量" + status + "免填单数据成功！").setCallbackType("").toString();
 	}
 	
+	@Log(message="下载了保全申请免填单数据！", level=LogLevel.INFO, module=LogModule.BQGL)
 	@RequiresPermissions("ConservationReq:view")
 	@RequestMapping(value="/req/toXls", method=RequestMethod.GET)
 	public String cReqtoXls(ServletRequest request, Page page, Map<String, Object> map) {
@@ -1029,6 +1033,7 @@ public class BqglController {
 		return CS_LIST;
 	}
 	
+	@Log(message="下载了保全月报数据！", level=LogLevel.INFO, module=LogModule.BQGL)
 	@RequiresPermissions("CsReport:view")
 	@RequestMapping(value="/report/list/toXls", method={RequestMethod.GET, RequestMethod.POST})
 	public String reportListToXls(ServletRequest request, Page page, Map<String, Object> map) {
@@ -1141,6 +1146,7 @@ public class BqglController {
 		return AjaxObject.newOk("成功关闭！").setCallbackType("").toString();
 	}
 	
+	@Log(message="下载了保全质押借款数据！", level=LogLevel.INFO, module=LogModule.BQGL)
 	@RequiresPermissions("CsLoan:view")
 	@RequestMapping(value="/loan/list/toXls", method={RequestMethod.GET, RequestMethod.POST})
 	public String loanListToXls(ServletRequest request, Page page, Map<String, Object> map) {
@@ -1318,6 +1324,7 @@ public class BqglController {
 		return	AjaxObject.newOk("批量" + bs.getDesc() + "满期给付保单！").setCallbackType("").toString();
 	}
 	
+	@Log(message="下载了保全满期数据！", level=LogLevel.INFO, module=LogModule.BQGL)
 	@RequiresPermissions("CsExpire:view")
 	@RequestMapping(value="/expire/toXls", method={RequestMethod.GET, RequestMethod.POST})
 	public String csExpireListToXls(ServletRequest request, Page page, Map<String, Object> map) {

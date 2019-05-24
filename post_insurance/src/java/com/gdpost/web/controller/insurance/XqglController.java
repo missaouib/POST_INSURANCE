@@ -790,6 +790,7 @@ public class XqglController {
 		return LIST_STAY;
 	}
 	
+	@Log(message="下载了退保挽留数据", level=LogLevel.INFO, module=LogModule.XQGL)
 	@RequiresPermissions("RenewedStay:view")
 	@RequestMapping(value="/stay/toXls", method=RequestMethod.GET)
 	public String ocToXls(ServletRequest request, Page page, Map<String, Object> map) {
