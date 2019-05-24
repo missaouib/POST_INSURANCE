@@ -105,7 +105,4 @@ public class QyCheckModel implements java.io.Serializable {
 	public void setErrCounts(Integer errCounts) {
 		this.errCounts = errCounts;
 	}
-	
-	
-
 }

@@ -89,4 +89,12 @@ public interface StasticsService {
 	List<QyCheckModel> getCheckWriteAreaStastics(String organCode, String d1, String d2);
 	
 	List<QyCheckModel> getCheckRecordAreaStastics(String organCode, String d1, String d2);
+	
+	List<QyCheckModel> getCheckTruthCityStastics(String d1, String d2);
+	
+	List<QyCheckModel> getCheckTruthAreaStastics(String organCode, String d1, String d2);
+	
+	List<QyCheckModel> getPrintCityStastics(String d1, String d2);
+	
+	List<QyCheckModel> getPrintAreaStastics(String organCode, String d1, String d2);
 }

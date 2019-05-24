@@ -69,7 +69,12 @@ public class StasticsController {
 	
 	private static final String CHECK_LIST = "insurance/stastics/check/stats";
 	private static final String CHECK_TOXLS = "insurance/stastics/check/check_stat_xls";
-	private static final String CHECK_DTL_TOXLS = "insurance/stastics/check/check_dtl_xls";
+	
+	private static final String TRUTH_LIST = "insurance/stastics/check/truthStat";
+	private static final String TRUTH_LIST_TOXLS = "insurance/stastics/check/truthStat_xls";
+	
+	private static final String PRINT_LIST = "insurance/stastics/check/printStat";
+	private static final String PRINT_LIST_TOXLS = "insurance/stastics/check/printStat_xls";
 
 	/*
 	 * =======================================
@@ -1759,5 +1764,530 @@ public class StasticsController {
 		request.setAttribute("cmRst", rst);
 
 		return CHECK_TOXLS;
+	}
+	
+	/*
+	 * =======================================
+	 *  truth check stastics
+	 * =======================================
+	 * 
+	 */
+	@RequiresUser
+	@RequestMapping(value = "/stastics/truth", method = { RequestMethod.GET, RequestMethod.POST })
+	public String truthStastics(ServletRequest request, Map<String, Object> map) {
+		LOG.debug("-------------------here----------");
+		String organCode = request.getParameter("orgCode");
+		String organName = request.getParameter("name");
+		String pd1 = request.getParameter("policyDate1");
+		String pd2 = request.getParameter("policyDate2");
+		String levelFlag = request.getParameter("levelFlag");
+		//String flag = request.getParameter("flag");
+
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();// userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
+		if (organCode == null || organCode.trim().length() <= 0) {
+			organCode = userOrg.getOrgCode();
+			organName = userOrg.getName();
+		}
+		/* close all user can view the hold province's stastics
+		 * 
+		else if (!organCode.contains(userOrg.getOrgCode())) {
+			organCode = userOrg.getOrgCode();
+			organName = userOrg.getName();
+		}*/
+
+		boolean isCity = false;
+		if (levelFlag == null) {
+			if (organCode.length() >= 8) {
+				levelFlag = "city";
+			} else if (organCode.length() > 4) {
+				levelFlag = "prov";
+			}
+		}
+
+		if (levelFlag != null && levelFlag.trim().equals("city")) {
+			isCity = true;
+		}
+
+		QyCheckModel cm = new QyCheckModel();
+		cm.setLevelFlag(levelFlag);
+		//cm.setStatFlag(flag);
+		request.setAttribute("CheckModel", cm);
+
+		request.setAttribute("levelFlag", levelFlag);
+		request.setAttribute("orgCode", organCode);
+		request.setAttribute("name", organName);
+		//request.setAttribute("flag", flag);
+
+		String fd = StringUtil.getMonthFirstDayOfMonth(Calendar.getInstance().get(Calendar.MONTH), "yyyy-MM-dd");
+		if (pd1 == null || pd1.trim().length() <= 0) {
+			pd1 = fd;
+		}
+		request.setAttribute("policyDate1", pd1);
+		request.setAttribute("policyDate2", pd2);
+		if (pd2 == null || pd2.trim().length() <= 0) {
+			pd2 = "9999-12-31";
+		}
+
+		List<TreeMap<String, String>> orgList = orgService.getOrgCodeAndNameMap(organCode);
+		
+		List<QyCheckModel> writes = null;
+		//將record寫到write model中
+		List<QyCheckModel> rst = new ArrayList<QyCheckModel>();
+		QyCheckModel qcm = null;
+		String orgCode = null;
+		
+		//if (flag == null || flag.trim().equals("write")) {
+		if (!isCity) {
+			TreeMap<String, String> cityMap = orgList.get(0);
+			writes = stasticsService.getCheckTruthCityStastics(pd1, pd2);
+			Iterator<String> keys = cityMap.keySet().iterator();
+			
+			while(keys.hasNext()) {
+				qcm = new QyCheckModel();
+				orgCode = keys.next();
+				qcm.setOrganCode(orgCode);
+				qcm.setOrgName(cityMap.get(orgCode));
+				
+				for (QyCheckModel write : writes) {
+					if(write.getOrganCode().equals(orgCode)) {
+						qcm.setPolicyCounts(write.getPolicyCounts());
+						qcm.setCheckCounts(write.getCheckCounts());
+						qcm.setErrCounts(write.getErrCounts());
+					}
+				}
+				rst.add(qcm);
+			}
+		} else {
+			TreeMap<String, String> areaMap = orgList.get(1);
+			writes = stasticsService.getCheckTruthAreaStastics(organCode + "%", pd1, pd2);
+			
+			Iterator<String> keys = areaMap.keySet().iterator();
+			
+			while(keys.hasNext()) {
+				qcm = new QyCheckModel();
+				orgCode = keys.next();
+				qcm.setOrganCode(orgCode);
+				qcm.setOrgName(areaMap.get(orgCode));
+				
+				for (QyCheckModel write : writes) {
+					if(write.getOrganCode().equals(orgCode)) {
+						qcm.setPolicyCounts(write.getPolicyCounts());
+						qcm.setCheckCounts(write.getCheckCounts());
+						qcm.setErrCounts(write.getErrCounts());
+					}
+				}
+				rst.add(qcm);
+			}
+		}
+		
+		request.setAttribute("cmRst", rst);
+		
+		String col = "";
+		String countStr = "";
+		String errsumStr = "";
+		String countPtStr = "";
+		double maxZB = 0;
+		int maxTB = 0;
+		double errsum = 0;
+		double count = 0;
+		List<Integer> countList = new ArrayList<Integer>();
+		List<Integer> errsumList = new ArrayList<Integer>();
+		DecimalFormat df = new DecimalFormat("#.#");
+		for (QyCheckModel tcm : rst) {
+			col += "'" + tcm.getOrgName() + "',";
+			countList.add(tcm.getPolicyCounts());
+			count += tcm.getPolicyCounts();
+			countStr += tcm.getPolicyCounts() + ",";
+			errsumList.add(tcm.getErrCounts());
+			errsumStr += tcm.getErrCounts() + ",";
+			errsum += tcm.getErrCounts() == null ? 0 : tcm.getErrCounts();
+			
+			Double err = (double) (tcm.getPolicyCounts()==0?1:tcm.getErrCounts());
+			Double p = (double) (tcm.getPolicyCounts()==0?1:tcm.getPolicyCounts());
+			countPtStr += (df.format((1-err/p)*100) + ",");
+			
+			if(tcm.getPolicyCounts() > maxTB) {
+				maxTB = tcm.getPolicyCounts();
+			}
+			if(maxZB<(1-tcm.getErrCounts()/(tcm.getPolicyCounts()==0?1:tcm.getPolicyCounts()))) {
+				maxZB = 1-tcm.getErrCounts()/(tcm.getPolicyCounts()==0?1:tcm.getPolicyCounts());
+			}
+		}
+		
+		int m = 1;
+		for (int i = 0; i < (int) Math.log10(maxTB); i++) {
+			m *= 10;
+		}
+		// 第一位
+		maxTB = (maxTB / m + 1) * m;
+		maxZB = maxZB*100;
+		request.setAttribute("col", col);
+		request.setAttribute("countStr", countStr);
+		request.setAttribute("sumStr", errsumStr);
+		request.setAttribute("countPtStr", countPtStr);
+		request.setAttribute("maxTB", maxTB);
+		request.setAttribute("maxZB", maxZB);
+		request.setAttribute("countPt", count);
+		request.setAttribute("sumPt", errsum);
+
+		LOG.debug(" ------------ result size:" + rst.size());
+		return TRUTH_LIST;
+	}
+	
+	@RequiresUser
+	@RequestMapping(value = "/stastics/truth/toXls", method = { RequestMethod.GET, RequestMethod.POST })
+	public String truthStasticsToXls(ServletRequest request, Map<String, Object> map) {
+		LOG.debug("-------------------here----------");
+		String organCode = request.getParameter("orgCode");
+		String pd1 = request.getParameter("policyDate1");
+		String pd2 = request.getParameter("policyDate2");
+		String levelFlag = request.getParameter("levelFlag");
+		//String flag = request.getParameter("flag");
+
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();// userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
+		if (organCode == null || organCode.trim().length() <= 0) {
+			organCode = userOrg.getOrgCode();
+		}
+
+		boolean isCity = false;
+		if (levelFlag == null) {
+			if (organCode.length() >= 8) {
+				levelFlag = "city";
+			} else if (organCode.length() > 4) {
+				levelFlag = "prov";
+			}
+		}
+
+		if (levelFlag != null && levelFlag.trim().equals("city")) {
+			isCity = true;
+		}
+
+		String fd = StringUtil.getMonthFirstDayOfMonth(Calendar.getInstance().get(Calendar.MONTH), "yyyy-MM-dd");
+		if (pd1 == null || pd1.trim().length() <= 0) {
+			pd1 = fd;
+		}
+		request.setAttribute("policyDate1", pd1);
+		request.setAttribute("policyDate2", pd2);
+		if (pd2 == null || pd2.trim().length() <= 0) {
+			pd2 = "9999-12-31";
+		}
+
+		List<TreeMap<String, String>> orgList = orgService.getOrgCodeAndNameMap(organCode);
+		
+		List<QyCheckModel> writes = null;
+		//將record寫到write model中
+		List<QyCheckModel> rst = new ArrayList<QyCheckModel>();
+		QyCheckModel qcm = null;
+		String orgCode = null;
+		
+		//if (flag == null || flag.trim().equals("write")) {
+		if (!isCity) {
+			TreeMap<String, String> cityMap = orgList.get(0);
+			writes = stasticsService.getCheckTruthCityStastics(pd1, pd2);
+			Iterator<String> keys = cityMap.keySet().iterator();
+			
+			while(keys.hasNext()) {
+				qcm = new QyCheckModel();
+				orgCode = keys.next();
+				qcm.setOrganCode(orgCode);
+				qcm.setOrgName(cityMap.get(orgCode));
+				
+				for (QyCheckModel write : writes) {
+					if(write.getOrganCode().equals(orgCode)) {
+						qcm.setPolicyCounts(write.getPolicyCounts());
+						qcm.setCheckCounts(write.getCheckCounts());
+						qcm.setErrCounts(write.getErrCounts());
+					}
+				}
+				rst.add(qcm);
+			}
+		} else {
+			TreeMap<String, String> areaMap = orgList.get(1);
+			writes = stasticsService.getCheckTruthAreaStastics(organCode + "%", pd1, pd2);
+			
+			Iterator<String> keys = areaMap.keySet().iterator();
+			
+			while(keys.hasNext()) {
+				qcm = new QyCheckModel();
+				orgCode = keys.next();
+				qcm.setOrganCode(orgCode);
+				qcm.setOrgName(areaMap.get(orgCode));
+				
+				for (QyCheckModel write : writes) {
+					if(write.getOrganCode().equals(orgCode)) {
+						qcm.setPolicyCounts(write.getPolicyCounts());
+						qcm.setCheckCounts(write.getCheckCounts());
+						qcm.setErrCounts(write.getErrCounts());
+					}
+				}
+				rst.add(qcm);
+			}
+		}
+		
+		request.setAttribute("cmRst", rst);
+		
+		return TRUTH_LIST_TOXLS;
+	}
+
+	/*
+	 * =======================================
+	 *  policy print stastics
+	 * =======================================
+	 * 
+	 */
+	@RequiresUser
+	@RequestMapping(value = "/stastics/policyPrint", method = { RequestMethod.GET, RequestMethod.POST })
+	public String printStastics(ServletRequest request, Map<String, Object> map) {
+		LOG.debug("-------------------here----------");
+		String organCode = request.getParameter("orgCode");
+		String organName = request.getParameter("name");
+		String pd1 = request.getParameter("policyDate1");
+		String pd2 = request.getParameter("policyDate2");
+		String levelFlag = request.getParameter("levelFlag");
+
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();
+		Organization userOrg = user.getOrganization();
+		if (organCode == null || organCode.trim().length() <= 0) {
+			organCode = userOrg.getOrgCode();
+			organName = userOrg.getName();
+		}
+
+		boolean isCity = false;
+		if (levelFlag == null) {
+			if (organCode.length() >= 8) {
+				levelFlag = "city";
+			} else if (organCode.length() > 4) {
+				levelFlag = "prov";
+			}
+		}
+
+		if (levelFlag != null && levelFlag.trim().equals("city")) {
+			isCity = true;
+		}
+
+		QyCheckModel cm = new QyCheckModel();
+		cm.setLevelFlag(levelFlag);
+		request.setAttribute("CheckModel", cm);
+
+		request.setAttribute("levelFlag", levelFlag);
+		request.setAttribute("orgCode", organCode);
+		request.setAttribute("name", organName);
+		//request.setAttribute("flag", flag);
+
+		String fd = StringUtil.getMonthFirstDayOfMonth(Calendar.getInstance().get(Calendar.MONTH), "yyyy-MM-dd");
+		if (pd1 == null || pd1.trim().length() <= 0) {
+			pd1 = fd;
+		}
+		request.setAttribute("policyDate1", pd1);
+		request.setAttribute("policyDate2", pd2);
+		if (pd2 == null || pd2.trim().length() <= 0) {
+			pd2 = "9999-12-31";
+		}
+
+		List<TreeMap<String, String>> orgList = orgService.getOrgCodeAndNameMap(organCode);
+		
+		List<QyCheckModel> writes = null;
+		//將record寫到write model中
+		List<QyCheckModel> rst = new ArrayList<QyCheckModel>();
+		QyCheckModel qcm = null;
+		String orgCode = null;
+		
+		//if (flag == null || flag.trim().equals("write")) {
+		if (!isCity) {
+			TreeMap<String, String> cityMap = orgList.get(0);
+			writes = stasticsService.getPrintCityStastics(pd1, pd2);
+			Iterator<String> keys = cityMap.keySet().iterator();
+			
+			while(keys.hasNext()) {
+				qcm = new QyCheckModel();
+				orgCode = keys.next();
+				qcm.setOrganCode(orgCode);
+				qcm.setOrgName(cityMap.get(orgCode));
+				
+				for (QyCheckModel write : writes) {
+					if(write.getOrganCode().equals(orgCode)) {
+						qcm.setPolicyCounts(write.getPolicyCounts());
+						qcm.setCheckCounts(write.getCheckCounts());
+						qcm.setErrCounts(write.getErrCounts());
+					}
+				}
+				rst.add(qcm);
+			}
+		} else {
+			TreeMap<String, String> areaMap = orgList.get(1);
+			writes = stasticsService.getPrintAreaStastics(organCode + "%", pd1, pd2);
+			
+			Iterator<String> keys = areaMap.keySet().iterator();
+			
+			while(keys.hasNext()) {
+				qcm = new QyCheckModel();
+				orgCode = keys.next();
+				qcm.setOrganCode(orgCode);
+				qcm.setOrgName(areaMap.get(orgCode));
+				
+				for (QyCheckModel write : writes) {
+					if(write.getOrganCode().equals(orgCode)) {
+						qcm.setPolicyCounts(write.getPolicyCounts());
+						qcm.setCheckCounts(write.getCheckCounts());
+						qcm.setErrCounts(write.getErrCounts());
+					}
+				}
+				rst.add(qcm);
+			}
+		}
+		
+		request.setAttribute("cmRst", rst);
+		
+		String col = "";
+		String countStr = "";
+		String errsumStr = "";
+		String countPtStr = "";
+		double maxZB = 0;
+		int maxTB = 0;
+		double errsum = 0;
+		double count = 0;
+		List<Integer> countList = new ArrayList<Integer>();
+		List<Integer> errsumList = new ArrayList<Integer>();
+		DecimalFormat df = new DecimalFormat("#.#");
+		for (QyCheckModel tcm : rst) {
+			col += "'" + tcm.getOrgName() + "',";
+			countList.add(tcm.getPolicyCounts());
+			count += tcm.getPolicyCounts();
+			countStr += tcm.getPolicyCounts() + ",";
+			errsumList.add(tcm.getErrCounts());
+			errsumStr += tcm.getErrCounts() + ",";
+			errsum += tcm.getErrCounts() == null ? 0 : tcm.getErrCounts();
+			
+			Double err = (double) (tcm.getPolicyCounts()==0?0:tcm.getErrCounts());
+			Double p = (double) (tcm.getPolicyCounts()==0?1:tcm.getPolicyCounts());
+			countPtStr += (df.format((err/p)*100) + ",");
+			
+			if(tcm.getPolicyCounts() > maxTB) {
+				maxTB = tcm.getPolicyCounts();
+			}
+			if(maxZB<(err/p)) {
+				maxZB = err/p;
+			}
+		}
+		
+		int m = 1;
+		for (int i = 0; i < (int) Math.log10(maxTB); i++) {
+			m *= 10;
+		}
+		// 第一位
+		maxTB = (maxTB / m + 1) * m;
+		maxZB = maxZB*100;
+		request.setAttribute("col", col);
+		request.setAttribute("countStr", countStr);
+		request.setAttribute("sumStr", errsumStr);
+		request.setAttribute("countPtStr", countPtStr);
+		request.setAttribute("maxTB", maxTB);
+		request.setAttribute("maxZB", maxZB);
+		request.setAttribute("countPt", count);
+		request.setAttribute("sumPt", errsum);
+
+		LOG.debug(" ------------ result size:" + rst.size());
+		return PRINT_LIST;
+	}
+	
+	@RequiresUser
+	@RequestMapping(value = "/stastics/policyPrint/toXls", method = { RequestMethod.GET, RequestMethod.POST })
+	public String printStasticsToXls(ServletRequest request, Map<String, Object> map) {
+		LOG.debug("-------------------here----------");
+		String organCode = request.getParameter("orgCode");
+		String pd1 = request.getParameter("policyDate1");
+		String pd2 = request.getParameter("policyDate2");
+		String levelFlag = request.getParameter("levelFlag");
+
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();
+		Organization userOrg = user.getOrganization();
+		if (organCode == null || organCode.trim().length() <= 0) {
+			organCode = userOrg.getOrgCode();
+		}
+
+		boolean isCity = false;
+		if (levelFlag == null) {
+			if (organCode.length() >= 8) {
+				levelFlag = "city";
+			} else if (organCode.length() > 4) {
+				levelFlag = "prov";
+			}
+		}
+
+		if (levelFlag != null && levelFlag.trim().equals("city")) {
+			isCity = true;
+		}
+
+
+		String fd = StringUtil.getMonthFirstDayOfMonth(Calendar.getInstance().get(Calendar.MONTH), "yyyy-MM-dd");
+		if (pd1 == null || pd1.trim().length() <= 0) {
+			pd1 = fd;
+		}
+		request.setAttribute("policyDate1", pd1);
+		request.setAttribute("policyDate2", pd2);
+		if (pd2 == null || pd2.trim().length() <= 0) {
+			pd2 = "9999-12-31";
+		}
+
+		List<TreeMap<String, String>> orgList = orgService.getOrgCodeAndNameMap(organCode);
+		
+		List<QyCheckModel> writes = null;
+		//將record寫到write model中
+		List<QyCheckModel> rst = new ArrayList<QyCheckModel>();
+		QyCheckModel qcm = null;
+		String orgCode = null;
+		
+		//if (flag == null || flag.trim().equals("write")) {
+		if (!isCity) {
+			TreeMap<String, String> cityMap = orgList.get(0);
+			writes = stasticsService.getPrintCityStastics(pd1, pd2);
+			Iterator<String> keys = cityMap.keySet().iterator();
+			
+			while(keys.hasNext()) {
+				qcm = new QyCheckModel();
+				orgCode = keys.next();
+				qcm.setOrganCode(orgCode);
+				qcm.setOrgName(cityMap.get(orgCode));
+				
+				for (QyCheckModel write : writes) {
+					if(write.getOrganCode().equals(orgCode)) {
+						qcm.setPolicyCounts(write.getPolicyCounts());
+						qcm.setCheckCounts(write.getCheckCounts());
+						qcm.setErrCounts(write.getErrCounts());
+					}
+				}
+				rst.add(qcm);
+			}
+		} else {
+			TreeMap<String, String> areaMap = orgList.get(1);
+			writes = stasticsService.getPrintAreaStastics(organCode + "%", pd1, pd2);
+			
+			Iterator<String> keys = areaMap.keySet().iterator();
+			
+			while(keys.hasNext()) {
+				qcm = new QyCheckModel();
+				orgCode = keys.next();
+				qcm.setOrganCode(orgCode);
+				qcm.setOrgName(areaMap.get(orgCode));
+				
+				for (QyCheckModel write : writes) {
+					if(write.getOrganCode().equals(orgCode)) {
+						qcm.setPolicyCounts(write.getPolicyCounts());
+						qcm.setCheckCounts(write.getCheckCounts());
+						qcm.setErrCounts(write.getErrCounts());
+					}
+				}
+				rst.add(qcm);
+			}
+		}
+		
+		request.setAttribute("cmRst", rst);
+		return PRINT_LIST_TOXLS;
 	}
 }

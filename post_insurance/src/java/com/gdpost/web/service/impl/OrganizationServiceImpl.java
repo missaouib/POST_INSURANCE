@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gdpost.web.dao.OrganizationDAO;
 import com.gdpost.web.dao.UserDAO;
-import com.gdpost.web.entity.insurance.CheckWrite;
 import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.exception.NotDeletedException;
@@ -268,7 +267,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 		TreeMap<String, String> citymap = new TreeMap<String, String>();
 		for(Organization org : list) {
 			if(org.getOrgCode().length()==6) {
-				citymap.put(org.getOrgCode(), org.getShortName());
+				citymap.put(org.getOrgCode(), org.getShortName().contains("营业部")?"营业部":org.getShortName().substring(0, 2));
 			}
 		}
 		TreeMap<String, String> areamap = new TreeMap<String, String>();
