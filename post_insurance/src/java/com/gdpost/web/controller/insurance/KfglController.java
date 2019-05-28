@@ -19,6 +19,7 @@ import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
@@ -61,7 +62,9 @@ import com.gdpost.utils.UploadDataHelper.UploadDataUtils;
 import com.gdpost.web.entity.insurance.Inquire;
 import com.gdpost.web.entity.insurance.Issue;
 import com.gdpost.web.entity.main.Organization;
+import com.gdpost.web.entity.main.Role;
 import com.gdpost.web.entity.main.User;
+import com.gdpost.web.entity.main.UserRole;
 import com.gdpost.web.exception.ServiceException;
 import com.gdpost.web.log.Log;
 import com.gdpost.web.log.LogLevel;
@@ -69,6 +72,8 @@ import com.gdpost.web.log.LogMessageObject;
 import com.gdpost.web.log.LogModule;
 import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.OrganizationService;
+import com.gdpost.web.service.RoleService;
+import com.gdpost.web.service.UserRoleService;
 import com.gdpost.web.service.UserService;
 import com.gdpost.web.service.insurance.KfglService;
 import com.gdpost.web.shiro.ShiroUser;
@@ -95,6 +100,12 @@ public class KfglController {
 
 	@Autowired
 	private OrganizationService orgService;
+	
+	@Autowired
+	private RoleService roleService;
+	
+	@Autowired
+	private UserRoleService userRoleService;
 
 	private static final String VIEW = "insurance/kfgl/wtj/view";
 	private static final String PRINT = "insurance/kfgl/wtj/issue";
@@ -120,7 +131,8 @@ public class KfglController {
 	private static final String ASK_TO_DOWN = "insurance/kfgl/ask/download";
 	private static final String ASK_STATUS = "insurance/kfgl/ask/status";
 	//private static final String ASSIGN_LIST = "insurance/kfgl/ask/assignList";
-	private static final String ASSIGN = "insurance/kfgl/ask/assign";
+	//private static final String ASSIGN = "insurance/kfgl/ask/assign";
+	private static final String LOOK_UP_ROLE = "insurance/kfgl/ask/assign_user_role";
 
 	@RequestMapping(value = "/help", method = RequestMethod.GET)
 	public String toHelp() {
@@ -1112,7 +1124,7 @@ public class KfglController {
 	}
 	
 	@Log(message = "转办了{0}咨询工单的信息。", level = LogLevel.WARN, module = LogModule.KFGL)
-	@RequiresPermissions("Inquire:edit")
+	@RequiresPermissions("Inquire:provEdit")
 	@RequestMapping(value = "/inquire/toCity", method = RequestMethod.POST)
 	public @ResponseBody String toCity(@Valid @ModelAttribute("preloadInquire") Inquire inquire) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
@@ -1124,6 +1136,73 @@ public class KfglController {
 
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[] { inquire.getInquireNo() }));
 		return AjaxObject.newOk("咨询工单转办成功！").toString();
+	}
+	
+	@Log(message="向咨询工单{0}分配了{1}的角色。", level=LogLevel.WARN, module=LogModule.PZGL)
+	@RequiresPermissions("Inquire:provAdmin")
+	@RequestMapping(value="/inquire/create/userRole", method={RequestMethod.POST})
+	public @ResponseBody void assignRole(HttpServletRequest request) {
+		String inquireId = request.getParameter("inquireId");
+		String roleId = request.getParameter("roleId");
+		Inquire inquire = kfglService.getInquire(new Long(inquireId));
+		String srcId = inquire.getRoleids();
+		if(srcId == null || srcId.length()<=0) {
+			srcId = "," + roleId + ",";
+		} else {
+			srcId += roleId + ",";
+		}
+		inquire.setRoleids(srcId);
+		kfglService.saveOrUpdateInquire(inquire);
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{inquire.getInquireNo(), roleId}));
+	}
+	
+	@RequiresPermissions("Inquire:provAdmin")
+	@RequestMapping(value="/inquire/userRole/{inquireId}", method={RequestMethod.GET, RequestMethod.POST})
+	public String listUnassignRole(Map<String, Object> map, @PathVariable Long inquireId) {
+		Page page = new Page();
+		page.setNumPerPage(Integer.MAX_VALUE);
+		
+		Inquire iqi = kfglService.getInquire(inquireId);
+		String roleids = iqi.getRoleids();
+		String[] idstr = null;
+		if(roleids != null && roleids.length()>0) {
+			idstr = roleids.split(",");
+		}
+		
+		String name = "省分%";
+		List<Role> roles = roleService.findByNameLike(name);
+		
+		List<Long> ids = new ArrayList<Long>();
+		List<Role> hasRoles = new ArrayList<Role> ();
+		if(idstr != null) {
+			for(String tmp : idstr) {
+				if(tmp != null && tmp.length()>0) {
+					ids.add(new Long(tmp));
+				}
+			}
+			hasRoles = roleService.findByIds(ids);
+		}
+		
+		List<Role> rentList = new ArrayList<Role>();
+		// 删除已分配roles
+		for (Role role : roles) {
+			boolean isHas = false;
+			for (Role or : hasRoles) {
+				if (or.getId().equals(role.getId())) {
+					isHas = true;
+					break;
+				} 
+			}
+			if (isHas == false) {
+				rentList.add(role);
+			}
+		}
+		
+		map.put("userRoles", hasRoles);
+		map.put("roles", rentList);
+		
+		map.put("inquireId", inquireId);
+		return LOOK_UP_ROLE;
 	}
 	
 	@Log(message = "对{0}咨询工单进行了批量转办。", level = LogLevel.WARN, module = LogModule.KFGL)
@@ -1152,7 +1231,7 @@ public class KfglController {
 	}
 
 	@Log(message = "结案了{0}咨询工单的信息。", level = LogLevel.WARN, module = LogModule.KFGL)
-	@RequiresPermissions("Inquire:edit")
+	@RequiresPermissions("Inquire:provAdmin")
 	@RequestMapping(value = "/inquire/close", method = RequestMethod.POST)
 	public @ResponseBody String closeAsk(@Valid @ModelAttribute("preloadInquire") Inquire inquire) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
@@ -1170,7 +1249,7 @@ public class KfglController {
 	}
 
 	@Log(message = "结案了{0}咨询工单的信息。", level = LogLevel.WARN, module = LogModule.KFGL)
-	@RequiresPermissions("Inquire:edit")
+	@RequiresPermissions("Inquire:provAdmin")
 	@RequestMapping(value = "/inquire/close/{id}", method = RequestMethod.POST)
 	public @ResponseBody String closeSingleAsk(@PathVariable Long id) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
@@ -1188,7 +1267,7 @@ public class KfglController {
 	}
 
 	@Log(message = "对{0}咨询工单进行了结案关闭。", level = LogLevel.WARN, module = LogModule.KFGL)
-	@RequiresPermissions("Inquire:provEdit")
+	@RequiresPermissions("Inquire:provAdmin")
 	@RequestMapping(value = "/inquire/CloseStatus", method = RequestMethod.POST)
 	public @ResponseBody String closeManyAsk(Long[] ids) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
@@ -1246,6 +1325,8 @@ public class KfglController {
 	public String listAsk(ServletRequest request, Page page, Map<String, Object> map) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		User user = userService.get(shiroUser.getId());
+		List<UserRole> urs = userRoleService.findByUserId(user.getId());
+		
 		Organization userOrg = user.getOrganization();
 		String orgCode = request.getParameter("orgCode");
 		boolean hasCon = true;
@@ -1255,13 +1336,24 @@ public class KfglController {
 		} else if (!orgCode.contains(user.getOrganization().getOrgCode())) {
 			orgCode = user.getOrganization().getOrgCode();
 		}
-
+		boolean isCity = false;
+		if(orgCode.length()>4) {
+			isCity = true;
+		}
 		if (hasCon) {
 			String orgName = request.getParameter("name");
 			request.setAttribute("orgCode", orgCode);
 			request.setAttribute("name", orgName);
 		}
 
+		List<Long> roleIds = new ArrayList<Long> (0);
+		boolean isAdmin = false; 
+		for(UserRole ur:urs) {
+			if(ur.getRole().getName().contains("管理员") || ur.getRole().getName().contains("省分客服")) {
+				isAdmin = true;
+			}
+			roleIds.add(ur.getRole().getId());
+		}
 		// 默认返回未处理工单
 		String inquireStatus = request.getParameter("inquireStatus");
 		String inquireSubtype = request.getParameter("inquireSubtype");
@@ -1291,7 +1383,11 @@ public class KfglController {
 
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
-
+		if(!isAdmin && !isCity) {
+			for(Long roleId:roleIds) {
+				csf.add(new SearchFilter("roleids", Operator.OR_LIKE, "%," + roleId + ",%"));
+			}
+		}
 		//只回显需要地市处理的
 		if(orgCode.length() >= 6) {
 			csf.add(new SearchFilter("cityDealFlag", Operator.EQ, 1));
@@ -1312,8 +1408,8 @@ public class KfglController {
 		} else {
 			if (isNull) {
 				LOG.debug("-------------- 333: ");
-				csf.add(new SearchFilter("inquireStatus", Operator.OR_EQ, STATUS.NewStatus.name()));
-				csf.add(new SearchFilter("inquireStatus", Operator.OR_EQ, STATUS.IngStatus.name()));
+				csf.add(new SearchFilter("inquireStatus", Operator.EQ, STATUS.NewStatus.name()));
+				//csf.add(new SearchFilter("inquireStatus", Operator.OR_EQ, STATUS.IngStatus.name()));
 			} else if (inquireStatus.trim().length() > 0) {
 				csf.add(new SearchFilter("inquireStatus", Operator.EQ, inquireStatus));
 			}
@@ -1576,6 +1672,7 @@ public class KfglController {
 		return null;
 	}
 	
+	/*
 	@RequiresPermissions("Inquire:provEdit")
 	@RequestMapping(value = "/inquire/assignList", method = RequestMethod.GET)
 	public String assignList(ServletRequest request, Page page, Map<String, Object> map) {
@@ -1583,7 +1680,7 @@ public class KfglController {
 
 		map.put("reqs", user);
 		return ASSIGN;
-	}
+	}*/
 
 	/*
 	 * ========================================================================

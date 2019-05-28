@@ -50,6 +50,17 @@ public class RoleServiceImpl implements RoleService {
 		roleDAO.deleteById(id);
 	}
 	
+	
+	@Override
+	public List<Role> findByIds(List<Long> ids) {
+		return roleDAO.findByIdIn(ids);
+	}
+	
+	@Override
+	public List<Role> findByNameLike(String name) {
+		return roleDAO.findByNameLike(name);
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see com.gdpost.web.service.RoleService#findAll(com.gdpost.web.util.dwz.Page)  

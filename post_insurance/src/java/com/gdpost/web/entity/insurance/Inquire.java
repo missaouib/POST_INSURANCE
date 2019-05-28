@@ -95,6 +95,7 @@ public class Inquire implements java.io.Serializable {
 	private Date operateTime;
 	private String attrLink;
 	private String closeUser;
+	private String roleids;
 	
 	@Transient
 	private Date shouldDate;
@@ -789,6 +790,15 @@ public class Inquire implements java.io.Serializable {
 
 	public void setCloseUser(String closeUser) {
 		this.closeUser = closeUser;
+	}
+
+	@Column(name = "roleids")
+	public String getRoleids() {
+		return roleids;
+	}
+
+	public void setRoleids(String roleids) {
+		this.roleids = roleids;
 	}
 
 }

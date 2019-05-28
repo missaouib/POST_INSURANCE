@@ -1267,3 +1267,4 @@ CREATE TABLE t_gsettle_log (
 
 
 alter table t_check_write add column is_truth boolean default false;
+alter table t_inquire add columns roleids varchar(12);

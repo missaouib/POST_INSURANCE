@@ -465,10 +465,17 @@ public class UploadDataServiceImpl implements UploadDataService{
         	            continue;
         			}
         		}
-        		if(ft.name().equals(FileTemplate.ConversationReport.name()) || ft.name().equals(FileTemplate.ConversationReport.name())) {
+        		if(ft.name().equals(FileTemplate.ConversationReport.name())) {
         			if(item.getDisplayName().equals("项目编码") && (cell != null && cell.length()>2)) {
         				log.debug("----------- 处理CT: " + cell);
         	            builder.append(cell.substring(0, 2) + "\t");
+        	            continue;
+        			}
+        		}
+        		if(ft.name().equals(FileTemplate.Inquire.name())) {
+        			if(item.getDisplayName().equals("完成时间") && cell != null && StringUtil.trimStr(cell).length()<=0) {
+        				log.debug("----------- 处理CT: " + cell);
+        				builder.append("NULL\t");
         	            continue;
         			}
         		}

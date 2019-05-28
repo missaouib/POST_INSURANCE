@@ -59,7 +59,7 @@
 						<input type="text" name="search_LTE_readyDate" id="kfDate2" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_readyDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
-						<label>工单类型：</label>
+						<label>工单类型（经办部门）：</label>
 						<form:select path="inquire.inquireSubtype" id="kfinquireSubtype" class="combox">
 							<form:option value=""> -- -- </form:option>
 							<form:options items="${inquireSubtypes }"/>
@@ -87,13 +87,15 @@
 				<li class="line">line</li>
 				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/kfgl/inquire/update/{slt_uid}"><span>回复</span></a></li>
 			</shiro:hasPermission>
-			<shiro:hasPermission name="Inquire:provEdit">
-				<li class="line">line</li>
+			<shiro:hasPermission name="Inquire:provAdmin">
 				<li><a class="icon" target="myDialog" rel="ids" href="${contextPath }/kfgl/inquire/toWord"><span>批量word</span></a></li>
-				<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/kfgl/inquire/batchToCity" title="确认转办地市?"><span>批量转办</span></a></li>
+				<li><a iconClass="shield_add" target="dialog" mask="true" width="400" height="500" href="${contextPath }/kfgl/inquire/userRole/{slt_uid}"><span>客服转办到</span></a></li>
 				<li><a class="icon" target="selectedTodo" rel="ids" href="${contextPath }/kfgl/inquire/batchDeal" title="确认要批量审核通过?"><span>批量审核</span></a></li>
 				<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/kfgl/inquire/CloseStatus" title="确认要结案关闭?"><span>批量结案</span></a></li>
-				<li><a class="edit" target="dialog" rel="ask_list" mask="true" width="820" height="520" href="${contextPath }/kfgl/inquire/assignList"><span>处理授权</span></a></li>
+			</shiro:hasPermission>
+			<shiro:hasPermission name="Inquire:provEdit">
+				<li class="line">line</li>
+				<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/kfgl/inquire/batchToCity" title="确认转办地市?"><span>批量转办地市</span></a></li>
 			</shiro:hasPermission>
 			<li class="line">line</li>
 			<li><a class="edit" target="navTab" rel="printInquire" mask="true" width="820" height="520" href="${contextPath }/kfgl/inquire/print/{slt_uid}"><span>打印工单</span></a></li>
@@ -116,6 +118,7 @@
 				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
 				<th orderField=policy.organization.name class="${page.orderField eq 'policy.organization.name' ? page.orderDirection : ''}">所属机构</th>
 				<th>工单标记</th>
+				<th>工单类型（经办部门）</th>
 				<th>地市办理</th>
 				<th orderField=inquireNo class="${page.orderField eq 'inquireNo' ? page.orderDirection : ''}">工单编号</th>
 				<th>工单内容</th>
@@ -144,6 +147,7 @@
                        <c:otherwise>个险团险 </c:otherwise>
                     </c:choose>
 				</td>
+				<td>${item.inquireSubtype}</td>
 				<td>
 					<c:choose>
                         <c:when test="${item.cityDealFlag}">
@@ -172,7 +176,7 @@
                         	<div style="color: blue;vertical-align:middle;font-weight:bold;">已退保</div>
                         </c:when>
                        <c:otherwise>
-                          已结案
+                         	 已结案
                         </c:otherwise>
                     </c:choose>
                     </a>

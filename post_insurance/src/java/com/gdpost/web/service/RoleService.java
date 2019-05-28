@@ -17,6 +17,10 @@ public interface RoleService {
 
 	void delete(Long id);
 	
+	List<Role> findByIds(List<Long> ids);
+	
+	List<Role> findByNameLike(String name);
+	
 	List<Role> findAll(Page page);
 	
 	List<Role> findByExample(Specification<Role> specification, Page page);

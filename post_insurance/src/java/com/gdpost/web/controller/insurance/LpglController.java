@@ -416,6 +416,8 @@ public class LpglController {
 		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
 		if(caseStatus != null && caseStatus.trim().length() >0) {
 			csf.add(new SearchFilter("caseStatus", Operator.LIKE, caseStatus));
+		} else {
+			csf.add(new SearchFilter("caseStatus", Operator.NEQ, "结案关闭"));
 		}
 		
 		Specification<Settlement> specification = DynamicSpecifications.bySearchFilter(request, Settlement.class, csf);
