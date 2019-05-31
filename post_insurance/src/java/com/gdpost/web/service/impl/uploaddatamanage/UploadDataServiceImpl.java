@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
@@ -474,16 +475,12 @@ public class UploadDataServiceImpl implements UploadDataService{
         		}
         		if(ft.name().equals(FileTemplate.Inquire.name())) {
         			if(item.getDisplayName().equals("完成时间") && cell != null && StringUtil.trimStr(cell).length()<=0) {
-        				log.debug("----------- 处理CT: " + cell);
-        				builder.append("NULL\t");
+        				log.debug("----------- 处理z咨询工单的完成时间: " + cell);
+        				Date d = StringUtil.dateAdd(new Date(), 5);
+        				builder.append(StringUtil.date2Str(d, "yyyy-MM-dd HH:mm:ss") + "\t");
         	            continue;
         			}
         		}
-//        		if(log.isDebugEnabled()) {
-//        			if(item.getDisplayName().equals("保险单号码")) {
-//        				log.debug("----------- 保险单号码: " + row.getValue(item.getDisplayName()));
-//        			}
-//        		}
         		builder.append(cell);
 	            builder.append('\t');
         	}
@@ -493,6 +490,8 @@ public class UploadDataServiceImpl implements UploadDataService{
         }
         
         log.debug("------111-----" + builder.toString());
+        
+        log.debug("------222-----" + strStatementText);
         
         InputStream is = null;
         try {

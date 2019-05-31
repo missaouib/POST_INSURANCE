@@ -206,6 +206,35 @@ public class KfglServiceImpl implements KfglService {
 		return inquireDAO.getInquireSubtypeList();
 	}
 	
+	@Override
+	public List<Inquire> getTODOInquireList(User user) {
+		Organization userOrg = user.getOrganization();
+		Page page = new Page();
+		page.setNumPerPage(100);
+		page.setOrderField("finishDate");
+		page.setOrderDirection("DESC");
+		//默认返回未处理工单
+		Specification<Inquire> specification = null;
+		
+		//如果是县区局登录的机构号为8位，需要根据保单的所在机构进行筛选
+		if (user.getOrganization().getOrgCode().length() > 4) {
+			specification = DynamicSpecifications.bySearchFilterWithoutRequest(Inquire.class,
+					new SearchFilter("inquireStatus", Operator.OR_EQ, STATUS.NewStatus.name()),
+					new SearchFilter("inquireStatus", Operator.OR_EQ, STATUS.IngStatus.name()),
+					new SearchFilter("organ.orgCode", Operator.OR_LIKE, userOrg.getOrgCode()),
+					new SearchFilter("gorgan.orgCode", Operator.OR_LIKE, userOrg.getOrgCode()));
+		} else {
+			specification = DynamicSpecifications.bySearchFilterWithoutRequest(Inquire.class,
+					new SearchFilter("inquireStatus", Operator.EQ, STATUS.DealStatus.name()),
+					new SearchFilter("organ.orgCode", Operator.OR_LIKE, userOrg.getOrgCode()),
+					new SearchFilter("gorgan.orgCode", Operator.OR_LIKE, userOrg.getOrgCode()));
+		}
+		
+		List<Inquire> issues = this.findByInquireExample(specification, page);
+		
+		return issues;
+	}
+	
 	/*
 	 * ============================================================
 	 * end of inquire

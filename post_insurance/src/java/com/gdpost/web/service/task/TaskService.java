@@ -351,11 +351,15 @@ public class TaskService {
 			statement.executeUpdate(updateSQL);
 			
 			//sql = "call procDealCardValid();";
-			sql = "update t_check_write set fix_status=\"CTStatus\",fix_desc=\"已退保\",deal_man=\"System\", deal_time=now() where fix_status<>\"CloseStatus\" and policy_no in (select policy_no from t_policy where cs_flag<>0);";
+			sql = "update t_check_write set fix_status=\"CTStatus\",fix_desc=\"已退保\",deal_man=\"System\", deal_time=now() where fix_status=\"NewStatus\" and policy_no in (select policy_no from t_policy where cs_flag<>0);";
 			log.info("------------ sql :" + sql);
 			statement.executeUpdate(sql);
 			
-			sql = "update t_check_write cw, t_staff ts set cw.fix_status=\"CloseStatus\",cw.fix_desc=\"员工单\",cw.deal_man=\"System\",cw.deal_time=current_timestamp where cw.fix_status<>\"CloseStatus\" and cw.key_info=\"含有邮政、邮储、邮局、支行、营业所等字样\" and cw.is_pass=cast(aes_decrypt(unhex(ts.id_card), 'GDPost') as char(100));";
+			sql = "update t_check_write set fix_status=\"CTStatus\",fix_desc=concat(fix_desc,\"：已退保\")  where fix_status<>\"NewStatus\" and fix_status<>\"CloseStatus\" and fix_status<>\"CTStatus\" and policy_no in (select policy_no from t_policy where cs_flag<>0);";
+			log.info("------------ sql :" + sql);
+			statement.executeUpdate(sql);
+			
+			sql = "update t_check_write cw, t_staff ts set cw.fix_status=\"CloseStatus\",cw.fix_desc=concat(cw.fix_desc,\"员工单\"),cw.deal_man=\"System\",cw.deal_time=current_timestamp where cw.fix_status<>\"CloseStatus\" and cw.key_info=\"含有邮政、邮储、邮局、支行、营业所等字样\" and cw.is_pass=cast(aes_decrypt(unhex(ts.id_card), 'GDPost') as char(100));";
 			log.info("------------ sql :" + sql);
 			statement.executeUpdate(sql);
 			

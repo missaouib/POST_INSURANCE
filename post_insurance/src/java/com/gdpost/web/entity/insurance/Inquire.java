@@ -21,6 +21,7 @@ import org.hibernate.annotations.JoinColumnsOrFormulas;
 import org.hibernate.annotations.JoinFormula;
 
 import com.gdpost.utils.StringUtil;
+import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.User;
 
 /**
@@ -51,14 +52,14 @@ public class Inquire implements java.io.Serializable {
 	private Date finishDate;
 	private Policy policy;
 	private String policyNos;
-	private String organName;
+	private Organization organ;
 	private String netName;
 	private String holder;
 	private String holderPhone;
 	private String holderMobile;
 	private String policyDate;
 	private String gpolicyNo;
-	private String gorganName;
+	private Organization gorgan;
 	private String gnetName;
 	private String ginsured;
 	private String ginsuredPhone;
@@ -103,13 +104,15 @@ public class Inquire implements java.io.Serializable {
 	@Transient
 	private Integer lastDateNum = 0;
 	
+	@Transient
+	private String assignTo;
 
 	// Constructors
 
 	@Transient
 	public Integer getLastDateNum() {
 		if(this.operateTime != null) {
-			int check = StringUtil.getBetweenDay(this.operateTime, this.finishDate==null?new Date():this.finishDate);
+			int check = StringUtil.getBetweenDay(this.operateTime, new Date());
 			int c = 5-check;
 			if(c < 0) {
 				return 0;
@@ -134,6 +137,14 @@ public class Inquire implements java.io.Serializable {
 	public void setShouldDate(Date shouldDate) {
 		this.shouldDate = shouldDate;
 	}
+	@Transient
+	public String getAssignTo() {
+		return assignTo;
+	}
+	@Transient
+	public void setAssignTo(String assignTo) {
+		this.assignTo = assignTo;
+	}
 
 	/** default constructor */
 	public Inquire() {
@@ -147,9 +158,9 @@ public class Inquire implements java.io.Serializable {
 	/** full constructor */
 	public Inquire(String inquireNo, String inquireType, String inquireSubtype, String inquireStatus,
 			String inquireDesc, String inquireRemark, String inquireRst, String dealDepart, String dealMan,
-			String taskType, Date finishDate, String policyNos, String organName, String netName,
+			String taskType, Date finishDate, String policyNos, String netName,
 			String holder, String holderPhone, String holderMobile, String policyDate, String gpolicyNo,
-			String gorganName, String gnetName, String ginsured, String ginsuredPhone, String ginsuredMobile,
+			String gnetName, String ginsured, String ginsuredPhone, String ginsuredMobile,
 			String gpolicyDate, String client, String clientPhone1, String clientPhone2, String clientSexy,
 			String clientBrd, Integer clientAge, String clientCardType, String clientCardNum, String clientStateless,
 			String clientMz, String clientFm, String clientProv, String clientCity, String clientArea,
@@ -168,14 +179,12 @@ public class Inquire implements java.io.Serializable {
 		this.taskType = taskType;
 		this.finishDate = finishDate;
 		this.policyNos = policyNos;
-		this.organName = organName;
 		this.netName = netName;
 		this.holder = holder;
 		this.holderPhone = holderPhone;
 		this.holderMobile = holderMobile;
 		this.policyDate = policyDate;
 		this.gpolicyNo = gpolicyNo;
-		this.gorganName = gorganName;
 		this.gnetName = gnetName;
 		this.ginsured = ginsured;
 		this.ginsuredPhone = ginsuredPhone;
@@ -353,14 +362,14 @@ public class Inquire implements java.io.Serializable {
 		this.policyNos = policyNos;
 	}
 
-	@Column(name = "organ_name")
-
-	public String getOrganName() {
-		return this.organName;
+	@ManyToOne(optional=true)
+	@JoinColumn(name="organ_name", referencedColumnName="name")
+	public Organization getOrgan() {
+		return this.organ;
 	}
 
-	public void setOrganName(String organName) {
-		this.organName = organName;
+	public void setOrgan(Organization organ) {
+		this.organ = organ;
 	}
 
 	@Column(name = "net_name", length = 128)
@@ -423,14 +432,14 @@ public class Inquire implements java.io.Serializable {
 		this.gpolicyNo = gpolicyNo;
 	}
 
-	@Column(name = "gorgan_name", length = 64)
-
-	public String getGorganName() {
-		return this.gorganName;
+	@ManyToOne(optional=true)
+	@JoinColumn(name="gorgan_name", referencedColumnName="name")
+	public Organization getGorgan() {
+		return this.gorgan;
 	}
 
-	public void setGorganName(String gorganName) {
-		this.gorganName = gorganName;
+	public void setGorgan(Organization gorgan) {
+		this.gorgan = gorgan;
 	}
 
 	@Column(name = "gnet_name", length = 64)

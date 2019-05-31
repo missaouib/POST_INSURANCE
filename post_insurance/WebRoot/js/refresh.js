@@ -16,6 +16,10 @@
 					flag = 1;
 					str = str + "您有超4天未回复的客服工单，";
 				}
+	        	if(data.indexOf("IQGD")>0) {
+					flag = 1;
+					str = str + "您有超4天未回复的客服咨询工单，";
+				}
 	        	
 	        	alert(str + "请及时处理");
         	}

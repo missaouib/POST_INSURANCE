@@ -55,6 +55,8 @@ function toTips(val) {
 </form>
 <h2 class="contentTitle"><label>统计结果</label>
 <a class="buttonActive" target="_blank" href="${contextPath }/component/stastics/truth/toXls?duration=${duration }&orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&levelFlag=${levelFlag}"><span>导出统计结果</span></a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<a class="buttonActive" target="_blank" href="${contextPath }/component/stastics/truth/dtlToXls?orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&levelFlag=${levelFlag}"><span>导出差错明细</span></a>
 </h2>
 <br>
 <div class="pageContent" layoutH="130" width="150%">

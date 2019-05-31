@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gdpost.utils.SecurityUtils;
 import com.gdpost.utils.StringUtil;
+import com.gdpost.web.entity.insurance.Inquire;
 import com.gdpost.web.entity.insurance.Issue;
 import com.gdpost.web.entity.insurance.UnderWrite;
 import com.gdpost.web.service.insurance.BqglService;
@@ -49,11 +50,13 @@ public class RefreshController {
 		Subject sub = SecurityUtils.getSubject();
 		boolean check = false;
 		boolean isIssue = false;
+		boolean isInquire = false;
 		if(sub.isPermitted("UnderWrite:view")) {
 			List<UnderWrite> list = qyglService.getTODOUnderWriteList(shiroUser.getUser());
 			for(UnderWrite uw:list) {
 				if(StringUtil.getBetweenDay(uw.getSysDate(), new Date()) > 15) {
 					check = true;
+					break;
 				}
 			}
 		}
@@ -62,6 +65,16 @@ public class RefreshController {
 			for(Issue issue:list) {
 				if(StringUtil.getBetweenDay(issue.getOperateTime(), new Date()) > 4) {
 					isIssue = true;
+					break;
+				}
+			}
+		}
+		if(sub.isPermitted("Inquire:view")) {
+			List<Inquire> list = kfglService.getTODOInquireList(shiroUser.getUser());
+			for(Inquire issue:list) {
+				if(StringUtil.getBetweenDay(issue.getOperateTime(), new Date()) > 4) {
+					isInquire = true;
+					break;
 				}
 			}
 		}
@@ -71,6 +84,9 @@ public class RefreshController {
 		}
 		if(check) {
 			rst += "|QYGD|";
+		}
+		if(isInquire) {
+			rst += "|IQGD|";
 		}
 		return rst;
 	}

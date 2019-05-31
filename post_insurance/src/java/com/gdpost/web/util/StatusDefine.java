@@ -16,7 +16,7 @@ public class StatusDefine {
 	};
 	
 	public enum QY_STATUS {
-		NewStatus("待处理"), FollowStatus("跟进中"), IngStatus("待审核"), CTStatus("已退保"), CloseStatus("已整改");
+		NewStatus("待处理"), FollowStatus("跟进中"), IngStatus("待审核"), CTStatus("已退保"), FailStatus("无法整改"), CloseStatus("已整改");
 		private String desc;
 
 		QY_STATUS(String desc) {

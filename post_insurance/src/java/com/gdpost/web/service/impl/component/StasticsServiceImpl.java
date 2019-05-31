@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gdpost.web.dao.model.CheckDtlDAO;
 import com.gdpost.web.dao.model.CheckStasticsDAO;
 import com.gdpost.web.dao.model.PolicyStatDAO;
 import com.gdpost.web.dao.model.StaffDtlModelDAO;
@@ -14,6 +15,7 @@ import com.gdpost.web.dao.model.TuiBaoDtlModelDAO;
 import com.gdpost.web.dao.model.TuiBaoModelDAO;
 import com.gdpost.web.dao.model.UwDtlModelDAO;
 import com.gdpost.web.dao.model.UwModelDAO;
+import com.gdpost.web.entity.component.CheckModel;
 import com.gdpost.web.entity.component.PolicyStatModel;
 import com.gdpost.web.entity.component.QyCheckModel;
 import com.gdpost.web.entity.component.StaffDtlModel;
@@ -52,6 +54,9 @@ public class StasticsServiceImpl implements StasticsService {
 	
 	@Autowired
 	private CheckStasticsDAO checkDAO;
+	
+	@Autowired
+	private CheckDtlDAO checDtlkDAO;
 
 	@Override
 	public List<TuiBaoModel> getTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(String organCode, String d1, String d2, String d3, String d4, String prdCode, String toPerm, String staffFlag, Integer duration) {
@@ -276,5 +281,20 @@ public class StasticsServiceImpl implements StasticsService {
 	@Override
 	public List<QyCheckModel> getPrintAreaStastics(String organCode, String d1, String d2) {
 		return checkDAO.getPrintAreaStat(organCode, d1, d2);
+	}
+
+	@Override
+	public List<CheckModel> getCheckWritetasticsDtl(String orgCode, String d1, String d2) {
+		return checDtlkDAO.getCheckWriteStatDtl(orgCode, d1, d2);
+	}
+
+	@Override
+	public List<CheckModel> getCheckRecordtasticsDtl(String orgCode, String d1, String d2) {
+		return checDtlkDAO.getCheckRecordStatDtl(orgCode, d1, d2);
+	}
+
+	@Override
+	public List<CheckModel> getCheckTruthStasticsDtl(String organCode, String d1, String d2) {
+		return checDtlkDAO.getCheckTruthStatDtl(organCode, d1, d2);
 	}
 }

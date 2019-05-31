@@ -183,6 +183,19 @@ public class QyglController {
 		return	AjaxObject.newOk("申诉新契约填写不合格件成功！").setCallbackType("").toString();
 	}
 	
+	@Log(message="{0}新契约填写不合格件确认无法整改。", level=LogLevel.WARN, module=LogModule.QYGL)
+	@RequiresPermissions("CheckWrite:provEdit")
+	@RequestMapping(value="/issue/write/fail/{id}", method=RequestMethod.POST)
+	public @ResponseBody String failCheckWrite(@PathVariable Long id) {
+		CheckWrite src = qyglService.getCheckWrite(id);
+		//src.setNeedFix("已整改");;
+		src.setFixStatus(QY_STATUS.FailStatus.name());
+		qyglService.saveOrUpdateCheckWrite(src);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));
+		return	AjaxObject.newOk("新契约填写不合格件无法整改确认完毕！").setCallbackType("").toString();
+	}
+	
 	@Log(message="对{0}新契约填写不合格件进行了删除。", level=LogLevel.WARN, module=LogModule.QYGL)
 	@RequiresPermissions("CheckWrite:provEdit")
 	@RequestMapping(value="/issue/write/delete/{id}", method=RequestMethod.POST)

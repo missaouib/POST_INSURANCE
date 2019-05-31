@@ -9,6 +9,7 @@ package com.gdpost.web.service.component;
 
 import java.util.List;
 
+import com.gdpost.web.entity.component.CheckModel;
 import com.gdpost.web.entity.component.PolicyStatModel;
 import com.gdpost.web.entity.component.QyCheckModel;
 import com.gdpost.web.entity.component.StaffDtlModel;
@@ -84,13 +85,19 @@ public interface StasticsService {
 	
 	List<QyCheckModel> getCheckWriteCityStastics(String d1, String d2);
 	
+	List<CheckModel> getCheckWritetasticsDtl(String orgCode, String d1, String d2);
+	
 	List<QyCheckModel> getCheckRecordCityStastics(String d1, String d2);
+	
+	List<CheckModel> getCheckRecordtasticsDtl(String orgCode, String d1, String d2);
 	
 	List<QyCheckModel> getCheckWriteAreaStastics(String organCode, String d1, String d2);
 	
 	List<QyCheckModel> getCheckRecordAreaStastics(String organCode, String d1, String d2);
 	
 	List<QyCheckModel> getCheckTruthCityStastics(String d1, String d2);
+	
+	List<CheckModel> getCheckTruthStasticsDtl(String organCode, String d1, String d2);
 	
 	List<QyCheckModel> getCheckTruthAreaStastics(String organCode, String d1, String d2);
 	

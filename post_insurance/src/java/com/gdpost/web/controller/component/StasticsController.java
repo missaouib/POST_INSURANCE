@@ -24,6 +24,7 @@ import com.gdpost.utils.SecurityUtils;
 import com.gdpost.utils.StringUtil;
 import com.gdpost.web.controller.insurance.BaseDataController;
 import com.gdpost.web.entity.basedata.Prd;
+import com.gdpost.web.entity.component.CheckModel;
 import com.gdpost.web.entity.component.PolicyStatModel;
 import com.gdpost.web.entity.component.QyCheckModel;
 import com.gdpost.web.entity.component.StaffDtlModel;
@@ -72,12 +73,17 @@ public class StasticsController {
 	
 	private static final String CHECK_LIST = "insurance/stastics/check/stats";
 	private static final String CHECK_TOXLS = "insurance/stastics/check/check_stat_xls";
+	//private static final String CHECK_WRITE_TOXLS = "insurance/stastics/check/check_write_dtl_xls";
+	//private static final String CHECK_RECORD_TOXLS = "insurance/stastics/check/check_record_dtl_xls";
 	
 	private static final String TRUTH_LIST = "insurance/stastics/check/truthStat";
 	private static final String TRUTH_LIST_TOXLS = "insurance/stastics/check/truthStat_xls";
+	//private static final String TRUTH_DTL_TOXLS = "insurance/stastics/check/truthStat_dtl_xls";
 	
 	private static final String PRINT_LIST = "insurance/stastics/check/printStat";
 	private static final String PRINT_LIST_TOXLS = "insurance/stastics/check/printStat_xls";
+	
+	private static final String CHECK_DTL_XLS = "insurance/stastics/check/check_dtl_xls";
 
 	/*
 	 * =======================================
@@ -1783,6 +1789,72 @@ public class StasticsController {
 		return CHECK_TOXLS;
 	}
 	
+	@RequiresUser
+	@Log(message="填写抽检明细导出！", level=LogLevel.INFO, module=LogModule.QTCZ)
+	@RequestMapping(value = "/stastics/checkWrite/dtlToXls", method = { RequestMethod.GET, RequestMethod.POST })
+	public String checkWriteStasticsDtlToXls(ServletRequest request, Map<String, Object> map) {
+		String organCode = request.getParameter("orgCode");
+		String pd1 = request.getParameter("policyDate1");
+		String pd2 = request.getParameter("policyDate2");
+		//String levelFlag = request.getParameter("levelFlag");
+
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();// userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
+		if (organCode == null || organCode.trim().length() <= 0) {
+			organCode = userOrg.getOrgCode();
+		} else if (!organCode.contains(userOrg.getOrgCode())) {
+			organCode = userOrg.getOrgCode();
+		}
+
+		String fd = StringUtil.getMonthFirstDayOfMonth(Calendar.getInstance().get(Calendar.MONTH), "yyyy-MM-dd");
+		if (pd1 == null || pd1.trim().length() <= 0) {
+			pd1 = fd;
+		}
+		if (pd2 == null || pd2.trim().length() <= 0) {
+			pd2 = "9999-12-31";
+		}
+
+		List<CheckModel> rst = stasticsService.getCheckWritetasticsDtl(organCode + "%", pd1, pd2);
+		
+		request.setAttribute("cmRst", rst);
+
+		return CHECK_DTL_XLS;
+	}
+	
+	@RequiresUser
+	@Log(message="抽检录入明细导出！", level=LogLevel.INFO, module=LogModule.QTCZ)
+	@RequestMapping(value = "/stastics/checkRecord/dtlToXls", method = { RequestMethod.GET, RequestMethod.POST })
+	public String checkRecordStasticsDtlToXls(ServletRequest request, Map<String, Object> map) {
+		String organCode = request.getParameter("orgCode");
+		String pd1 = request.getParameter("policyDate1");
+		String pd2 = request.getParameter("policyDate2");
+		//String levelFlag = request.getParameter("levelFlag");
+
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();// userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
+		if (organCode == null || organCode.trim().length() <= 0) {
+			organCode = userOrg.getOrgCode();
+		} else if (!organCode.contains(userOrg.getOrgCode())) {
+			organCode = userOrg.getOrgCode();
+		}
+
+		String fd = StringUtil.getMonthFirstDayOfMonth(Calendar.getInstance().get(Calendar.MONTH), "yyyy-MM-dd");
+		if (pd1 == null || pd1.trim().length() <= 0) {
+			pd1 = fd;
+		}
+		if (pd2 == null || pd2.trim().length() <= 0) {
+			pd2 = "9999-12-31";
+		}
+
+		List<CheckModel> rst = stasticsService.getCheckRecordtasticsDtl(organCode + "%", pd1, pd2);
+		
+		request.setAttribute("cmRst", rst);
+
+		return CHECK_DTL_XLS;
+	}
+	
 	/*
 	 * =======================================
 	 *  truth check stastics
@@ -2050,6 +2122,39 @@ public class StasticsController {
 		request.setAttribute("cmRst", rst);
 		
 		return TRUTH_LIST_TOXLS;
+	}
+	
+	@RequiresUser
+	@Log(message="抽检客户信息真实性排查差错明细导出！", level=LogLevel.INFO, module=LogModule.QTCZ)
+	@RequestMapping(value = "/stastics/truth/dtlToXls", method = { RequestMethod.GET, RequestMethod.POST })
+	public String truthStasticsDtlToXls(ServletRequest request, Map<String, Object> map) {
+		String organCode = request.getParameter("orgCode");
+		String pd1 = request.getParameter("policyDate1");
+		String pd2 = request.getParameter("policyDate2");
+		//String levelFlag = request.getParameter("levelFlag");
+
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();// userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
+		if (organCode == null || organCode.trim().length() <= 0) {
+			organCode = userOrg.getOrgCode();
+		} else if (!organCode.contains(userOrg.getOrgCode())) {
+			organCode = userOrg.getOrgCode();
+		}
+
+		String fd = StringUtil.getMonthFirstDayOfMonth(Calendar.getInstance().get(Calendar.MONTH), "yyyy-MM-dd");
+		if (pd1 == null || pd1.trim().length() <= 0) {
+			pd1 = fd;
+		}
+		if (pd2 == null || pd2.trim().length() <= 0) {
+			pd2 = "9999-12-31";
+		}
+
+		List<CheckModel> rst = stasticsService.getCheckTruthStasticsDtl(organCode + "%", pd1, pd2);
+		
+		request.setAttribute("cmRst", rst);
+
+		return CHECK_DTL_XLS;
 	}
 
 	/*

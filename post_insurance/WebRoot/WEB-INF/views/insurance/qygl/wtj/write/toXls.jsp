@@ -41,8 +41,8 @@ response.setHeader("Content-Disposition", "inline; filename=QY_Write_LIST.xls");
 			<tr>
 				<td>${item.checkBatch}</td>
 				<td>${item.policy.organization.shortName}</td>
-				<td>${item.policy.policyNo}</td>
-				<td>${item.policy.formNo}</td>
+				<td style="vnd.ms-excel.numberformat:@">${item.policy.policyNo}</td>
+				<td style="vnd.ms-excel.numberformat:@">${item.policy.formNo}</td>
 				<td>${item.policy.holder}</td>
 				<td>${item.policy.policyDtl.holderPhone}</td>
 				<td>${item.policy.policyDtl.holderMobile}</td>

@@ -47,4 +47,6 @@ public interface KfglService {
 	
 	List<String> getInquireSubtypeList();
 	
+	List<Inquire> getTODOInquireList(User user);
+	
 }

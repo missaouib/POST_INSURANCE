@@ -118,11 +118,12 @@
 				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
 				<th orderField=policy.organization.name class="${page.orderField eq 'policy.organization.name' ? page.orderDirection : ''}">所属机构</th>
 				<th>工单标记</th>
-				<th>工单类型（经办部门）</th>
+				<th>经办部门</th>
 				<th>地市办理</th>
 				<th orderField=inquireNo class="${page.orderField eq 'inquireNo' ? page.orderDirection : ''}">工单编号</th>
 				<th>工单内容</th>
 				<th orderField=operateTime class="${page.orderField eq 'operateTime' ? page.orderDirection : ''}">开始处理</th>
+				<th>还剩（天）</th>
 				<th>客户姓名</th>
 				<th orderField=policy.policyNo class="${page.orderField eq 'policy.policyNo' ? page.orderDirection : ''}">所属保单号</th>
 				<th orderField=inquireStatus class="${page.orderField eq 'inquireStatus' ? page.orderDirection : ''}">状态</th>
@@ -135,7 +136,7 @@
 			<c:forEach var="item" items="${inquires}">
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
-				<td>${empty inquire.gpolicyNo?item.policy.organization.shortName:inquire.gorganName}</td>
+				<td>${empty inquire.gpolicyNo?item.organ.shortName:inquire.gorgan.shortName}</td>
 				<td>
 					<c:choose>
                         <c:when test="${not empty item.policyNos}">
@@ -147,7 +148,7 @@
                        <c:otherwise>个险团险 </c:otherwise>
                     </c:choose>
 				</td>
-				<td>${item.inquireSubtype}</td>
+				<td>${item.assignTo}</td>
 				<td>
 					<c:choose>
                         <c:when test="${item.cityDealFlag}">
@@ -159,8 +160,9 @@
 				<td>${item.inquireNo}</td>
 				<td title="${item.inquireDesc}">${fn:substring(item.inquireDesc, 0, 35)}</td>
 				<td>${item.operateTime }</td>
-				<td>${empty inquire.gpolicyNo?item.policy.holder:inquire.client}</td>
-				<td>${empty item.gpolicyNo?item.policy.policyNo:item.gpolicyNo}</td>
+				<td><div style="color: red;vertical-align:middle;font-weight:bold;">${item.lastDateNum }</div></td>
+				<td>${item.client}</td>
+				<td>${empty item.gpolicyNo?item.policyNos:item.gpolicyNo}</td>
 				<td><a target="dialog" rel="lookup2inquire_edit" mask="true" width="520" height="520" href="${contextPath }/kfgl/inquire/status/${item.id}">
 					<c:choose>
                         <c:when test="${item.inquireStatus eq 'NewStatus'}">

@@ -50,6 +50,10 @@ function toTips(val) {
 		<ul class="toolBar">
 			<li class="line">line</li>
 			<li><a class="icon" target="_blank" href="${contextPath }/component/stastics/checkToXls?orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&levelFlag=${levelFlag}"><span>导出统计结果</span></a></li>
+			<li class="line">line</li>
+			<li><a class="icon" target="_blank" href="${contextPath }/component/stastics/checkWrite/dtlToXls?orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&levelFlag=${levelFlag}"><span>导出填写差错</span></a></li>
+			<li class="line">line</li>
+			<li><a class="icon" target="_blank" href="${contextPath }/component/stastics/checkRecord/dtlToXls?orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&levelFlag=${levelFlag}"><span>导出录入差错</span></a></li>
 		</ul>
 	</div>
 	<div id="w_list_print">

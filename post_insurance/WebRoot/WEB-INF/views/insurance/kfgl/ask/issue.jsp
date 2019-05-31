@@ -10,7 +10,7 @@
 <div id="InquirePrintContent">
 <table width="95%" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
-    <td>&nbsp;&nbsp;${fn:substring(inquire.organName, 0, 2)}-${inquire.inquireSubtype }-${inquire.inquireNo }</td>
+    <td>&nbsp;&nbsp;${fn:substring(inquire.organ.shortName, 0, 2)}-${inquire.inquireSubtype }-${inquire.inquireNo }</td>
     </tr>
   <tr>
     <td align="center"><p><span style="font-size:16px">中邮人寿呼入/咨询工单转办单 </span></p></td>
@@ -22,7 +22,7 @@
     <td><table width="100%" align="center" class="gridtable">
       <tr>
         <td>承办机构： </td>
-        <td>${empty inquire.gpolicyNo?inquire.policy.organization.name:inquire.gorganName } </td>
+        <td>${empty inquire.gpolicyNo?inquire.organ.name:inquire.gorganName } </td>
         <td>保险单号码： </td>
         <td>${empty inquire.policyNos?inquire.gpolicyNo:inquire.policyNos } </td>
       </tr>
@@ -40,7 +40,7 @@
       </tr>
       <tr>
         <td>投保人姓名： </td>
-        <td>${empty inquire.gpolicyNo?inquire.policy.holder:inquire.client }</td>
+        <td>${inquire.client }</td>
         <td>联系电话： </td>
         <td>${inquire.clientPhone1 }</td>
       </tr>
@@ -111,7 +111,7 @@
   <tr>
     <td><table width="100%" align="center" class="gridtable">
       <tr>
-        <td>处理结果：审核通过。 <br />
+        <td>处理结果： 需转办处理。<br />
           <br />
           <br />
           经办人签字：${inquire.checker }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

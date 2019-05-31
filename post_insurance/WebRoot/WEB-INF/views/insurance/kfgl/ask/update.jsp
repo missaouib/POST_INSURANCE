@@ -105,7 +105,7 @@ function customAjaxDone(json){
 		<legend>工单处理录入</legend>
 		<p class="nowrap">
 			<label>工单处理结果：</label>
-			<textarea name="result" cols="50" rows="5" class="required" style="font-size: 12">
+			<textarea name="inquireRst" cols="50" rows="5" class="required" style="font-size: 12">
 ${inquire.inquireRst }<c:if test="${empty inquire.inquireRst}">
 (1)问题处理情况：
 (2)是否已联系客户解释：是/否

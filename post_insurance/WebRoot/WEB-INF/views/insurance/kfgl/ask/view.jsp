@@ -35,15 +35,15 @@
 		</p>
 		<p>
 			<label>客户姓名：</label>
-			<span class="unit">${empty inquire.gpolicyNo?inquire.policy.holder:inquire.client }</span>
+			<span class="unit">${inquire.client }</span>
 		</p>
 		<p>
 			<label>保单号：</label>
-			<span class="unit">${empty inquire.gpolicyNo?inquire.policyNos:inquire.gpolicyNo }</span>
+			<span class="unit">${empty inquire.gpolicyNo?inquire.policyNos:inquire.gpolicyNo}</span>
 		</p>
 		<p>
 			<label>所属机构：</label>
-			<span class="unit">${empty inquire.gpolicyNo?inquire.policy.organization.shortName:inquire.gorganName }</span>
+			<span class="unit">${empty inquire.gpolicyNo?inquire.organ.shortName:inquire.gorgan.shortName }</span>
 		</p>
 		<p class="nowrap">
 			<label>出单网点：</label>
@@ -117,6 +117,10 @@
 	</div>
 	<div class="formBar">
 		<ul>
+			<shiro:hasPermission name="Inquire:provAdmin">
+			<li><div <c:if test='${inquire.inquireStatus eq "已结案" }'>class="buttonDisabled"</c:if> <c:if test='${inquire.inquireStatus ne "已结案" }'>class="button"</c:if>><div class="buttonContent"><button type="submit" <c:if test='${inquire.inquireStatus eq "已结案" }'>disabled=true</c:if>>重打开</button></div></div></li>
+			<li><div <c:if test='${inquire.inquireStatus eq "已结案" }'>class="buttonDisabled"</c:if> <c:if test='${inquire.inquireStatus ne "已结案" }'>class="button"</c:if>><div class="buttonContent"><button type="button" onclick="$('#inquireStatus').val('CloseStatus');$('#inquireForm').attr('action', '/kfgl/inquire/deal').submit();" <c:if test='${inquire.inquireStatus eq "已结案" }'>disabled=true</c:if>>结案关闭</button></div></div></li>
+			</shiro:hasPermission>
 			<shiro:hasPermission name="Inquire:provEdit">
 			<li><div <c:if test='${inquire.inquireStatus eq "已结案" }'>class="buttonDisabled"</c:if> <c:if test='${inquire.inquireStatus ne "已结案" }'>class="button"</c:if>><div class="buttonContent"><button type="button" onclick="$('#inquireForm').attr('action', '/kfgl/inquire/toCity').submit();" <c:if test='${inquire.inquireStatus eq "已结案" }'>disabled=true</c:if>>转办地市</button></div></div></li>
 			<li><div <c:if test='${inquire.inquireStatus eq "已结案" }'>class="buttonDisabled"</c:if> <c:if test='${inquire.inquireStatus ne "已结案" }'>class="button"</c:if>><div class="buttonContent"><button type="submit" <c:if test='${inquire.inquireStatus eq "已结案" }'>disabled=true</c:if>>重打开</button></div></div></li>

@@ -89,7 +89,7 @@ public class InquireColumn {
 		column.setDisplayName("完成时间");
 		column.setColumnName("finish_date");
 		column.setColumnType(ColumnType.string);
-		column.setNullable(false);
+		column.setNullable(true);
 		standardColumns.add(column);
 
 		column = new ColumnItem();

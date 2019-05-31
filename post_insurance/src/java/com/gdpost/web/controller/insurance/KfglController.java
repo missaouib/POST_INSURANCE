@@ -1091,9 +1091,9 @@ public class KfglController {
 	public @ResponseBody String reopenAsk(@Valid @ModelAttribute("preloadInquire") Inquire inquire) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		Inquire src = kfglService.getInquire(inquire.getId());
-		if (!src.getInquireStatus().equals(STATUS.IngStatus.name())) {
-			return AjaxObject.newError("工单状态不足以操作审核：请核查工单状态。").setCallbackType("").toString();
-		}
+		//if (!src.getInquireStatus().equals(STATUS.IngStatus.name())) {
+			//return AjaxObject.newError("工单状态不足以操作审核：请核查工单状态。").setCallbackType("").toString();
+		//}
 		src.setInquireStatus(StatusDefine.STATUS.NewStatus.name());
 		src.setReopenUser(shiroUser.getUser());
 		src.setReopenReason(inquire.getReopenReason());
@@ -1382,7 +1382,10 @@ public class KfglController {
 		}
 
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		if(!isAdmin) {
+			csf.add(new SearchFilter("organ", Operator.OR_LIKE, orgCode));
+			csf.add(new SearchFilter("gorgan", Operator.OR_LIKE, orgCode));
+		}
 		if(!isAdmin && !isCity) {
 			for(Long roleId:roleIds) {
 				csf.add(new SearchFilter("roleids", Operator.OR_LIKE, "%," + roleId + ",%"));
@@ -1417,6 +1420,33 @@ public class KfglController {
 		Specification<Inquire> specification = DynamicSpecifications.bySearchFilter(request, Inquire.class, csf);
 		List<Inquire> inquires = kfglService.findByInquireExample(specification, page);
 
+		//convert rolename
+		String name = "省分%";
+		List<Role> roles = roleService.findByNameLike(name);
+		List<Inquire> rst = new ArrayList<Inquire>();
+		String tmpIds = null;
+		String[] ids = null;
+		StringBuffer rname = null;
+		for(Inquire inq:inquires) {
+			rname = new StringBuffer("");
+			tmpIds = inq.getRoleids();
+			if(tmpIds != null) {
+				ids = tmpIds.split(",");
+				for(String rid:ids) {
+					if(rid != null && rid.length()>0) {
+						for(Role r:roles) {
+							if(rid.equals(r.getId().toString())) {
+								rname.append(r.getName()+ " ");
+								break;
+							}
+						}
+					}
+				}
+			}
+			inq.setAssignTo(rname.toString());
+			rst.add(inq);
+		}
+		
 		map.put("inquire", inquire);
 		map.put("statusList", STATUS.values());
 
@@ -1424,7 +1454,7 @@ public class KfglController {
 		map.put("inquireSubtypes", inquireSubtypes);
 
 		map.put("page", page);
-		map.put("inquires", inquires);
+		map.put("inquires", rst);
 		return ASK_LIST;
 	}
 
@@ -1594,7 +1624,7 @@ public class KfglController {
 				range.replaceText("${inquireType}", inquire.getInquireType());
 				range.replaceText("${inquireNo}", inquire.getInquireNo());
 				range.replaceText("${orgName}",
-						inquire.getOrganName() == null ? inquire.getPolicy().getOrganName() : inquire.getOrganName());
+						inquire.getOrgan() == null ? inquire.getPolicy().getOrganName() : inquire.getOrgan().getName());
 				range.replaceText("${policyNo}", policyNo);
 				range.replaceText("${bankName}", inquire.getNetName());
 				range.replaceText("${policyDate}",
