@@ -27,19 +27,14 @@ function customAjaxDone(json){
 		</p>
 		<p>
 			<label>工单状态：</label>
-			<span class="unit">
-			<c:choose>
-                <c:when test="${item.inquireStatus eq 'NewStatus'}">
-                	<div style="color: red;vertical-align:middle;font-weight:bold;">待处理</div>
+			<span class="unit"><c:choose>
+                <c:when test="${inquire.inquireStatus eq 'NewStatus'}">待处理
                 </c:when>
-                <c:when test="${item.inquireStatus eq 'IngStatus'}">
-                	<div style="color: blue;vertical-align:middle;font-weight:bold;">待审核</div>
+                <c:when test="${inquire.inquireStatus eq 'IngStatus'}">待审核
                 </c:when>
-                <c:when test="${item.inquireStatus eq 'DealStatus'}">
-                	<div style="color: blue;vertical-align:middle;font-weight:bold;">已审核</div>
+                <c:when test="${inquire.inquireStatus eq 'DealStatus'}">已审核
                 </c:when>
-                <c:when test="${item.inquireStatus eq 'CTStatus'}">
-                	<div style="color: blue;vertical-align:middle;font-weight:bold;">已退保</div>
+                <c:when test="${inquire.inquireStatus eq 'CTStatus'}">已退保
                 </c:when>
                <c:otherwise>
                  	 已结案
@@ -105,8 +100,7 @@ function customAjaxDone(json){
 		<legend>工单处理录入</legend>
 		<p class="nowrap">
 			<label>工单处理结果：</label>
-			<textarea name="inquireRst" cols="50" rows="5" class="required" style="font-size: 12">
-${inquire.inquireRst }<c:if test="${empty inquire.inquireRst}">
+			<textarea name="inquireRst" cols="50" rows="5" class="required" style="font-size: 12">${inquire.inquireRst }<c:if test="${empty inquire.inquireRst}">
 (1)问题处理情况：
 (2)是否已联系客户解释：是/否
 (3)联系客户解释方式：电话/面谈

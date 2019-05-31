@@ -220,14 +220,12 @@ public class KfglServiceImpl implements KfglService {
 		if (user.getOrganization().getOrgCode().length() > 4) {
 			specification = DynamicSpecifications.bySearchFilterWithoutRequest(Inquire.class,
 					new SearchFilter("inquireStatus", Operator.OR_EQ, STATUS.NewStatus.name()),
-					new SearchFilter("inquireStatus", Operator.OR_EQ, STATUS.IngStatus.name()),
-					new SearchFilter("organ.orgCode", Operator.OR_LIKE, userOrg.getOrgCode()),
-					new SearchFilter("gorgan.orgCode", Operator.OR_LIKE, userOrg.getOrgCode()));
+					new SearchFilter("organ.orgCode", Operator.LIKE_R, userOrg.getOrgCode()));
 		} else {
 			specification = DynamicSpecifications.bySearchFilterWithoutRequest(Inquire.class,
-					new SearchFilter("inquireStatus", Operator.EQ, STATUS.DealStatus.name()),
-					new SearchFilter("organ.orgCode", Operator.OR_LIKE, userOrg.getOrgCode()),
-					new SearchFilter("gorgan.orgCode", Operator.OR_LIKE, userOrg.getOrgCode()));
+					new SearchFilter("inquireStatus", Operator.OR_EQ, STATUS.NewStatus.name()),
+					new SearchFilter("inquireStatus", Operator.OR_EQ, STATUS.IngStatus.name()),
+					new SearchFilter("organ.orgCode", Operator.LIKE_R, userOrg.getOrgCode()));
 		}
 		
 		List<Inquire> issues = this.findByInquireExample(specification, page);

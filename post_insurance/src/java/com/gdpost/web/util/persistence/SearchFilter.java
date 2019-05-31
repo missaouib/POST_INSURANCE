@@ -133,6 +133,10 @@ public class SearchFilter {
 			return new SearchFilter(field, Operator.OR_NEQ, value);
 		} else if(OP.equalsIgnoreCase("or_isnull")) {
 			return new SearchFilter(field, Operator.OR_ISNULL, value);
+		} else if(OP.equalsIgnoreCase("like_l")) {
+			return new SearchFilter(field, Operator.LIKE_L, value);
+		} else if(OP.equalsIgnoreCase("like_r")) {
+			return new SearchFilter(field, Operator.LIKE_R, value);
 		}
 		
 		return null;

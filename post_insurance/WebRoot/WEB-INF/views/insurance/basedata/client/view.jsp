@@ -62,12 +62,28 @@
         <span class="unit">${policy.policyDtl.holderAge }</span>
     </p>
     <p>
-			<label>关系：</label>
+			<label>被保人是投保人的：</label>
 			<span class="unit">${policy.policyDtl.relation }</span>
 		</p>
 		<p>
 			<label>被保险人：</label>
 			<span class="unit">${policy.insured }</span>
+		</p>
+		<p>
+			<label>被保险人年龄：</label>
+			<span class="unit">${policy.policyDtl.insuredAge }</span>
+		</p>
+		<p>
+			<label>被保险人证件：</label>
+			<span class="unit">${policy.policyDtl.insuredCardType }</span>
+		</p>
+		<p>
+			<label>被保险人号码：</label>
+			<span class="unit">${policy.policyDtl.insuredCardNum }</span>
+		</p>
+		<p>
+			<label>证件有效期：</label>
+			<span class="unit">${policy.policyDtl.insuredCardValid }</span>
 		</p>
 		<p>
 			<label>险种名称：</label>

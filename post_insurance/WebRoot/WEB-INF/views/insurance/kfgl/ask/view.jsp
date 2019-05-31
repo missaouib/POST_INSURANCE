@@ -11,27 +11,15 @@
 			<label>工单编号：</label>
 			<span class="unit">${inquire.inquireNo }</span>
 		</p>
-		<p>
+		<p class="nowrap">
 			<label>工单状态：</label>
-			<span class="unit">
-			<c:choose>
-                <c:when test="${item.inquireStatus eq 'NewStatus'}">
-                	<div style="color: red;vertical-align:middle;font-weight:bold;">待处理</div>
-                </c:when>
-                <c:when test="${item.inquireStatus eq 'IngStatus'}">
-                	<div style="color: blue;vertical-align:middle;font-weight:bold;">待审核</div>
-                </c:when>
-                <c:when test="${item.inquireStatus eq 'DealStatus'}">
-                	<div style="color: blue;vertical-align:middle;font-weight:bold;">已审核</div>
-                </c:when>
-                <c:when test="${item.inquireStatus eq 'CTStatus'}">
-                	<div style="color: blue;vertical-align:middle;font-weight:bold;">已退保</div>
-                </c:when>
-               <c:otherwise>
-                 	 已结案
-                </c:otherwise>
-            </c:choose>
-			</span>
+			<span class="unit"><c:choose>
+                <c:when test="${inquire.inquireStatus eq 'NewStatus'}">待处理</c:when>
+                <c:when test="${inquire.inquireStatus eq 'IngStatus'}">待审核</c:when>
+                <c:when test="${inquire.inquireStatus eq 'DealStatus'}">已审核</c:when>
+                <c:when test="${inquire.inquireStatus eq 'CTStatus'}">已退保</c:when>
+               <c:otherwise>已结案</c:otherwise>
+            </c:choose></span>
 		</p>
 		<p>
 			<label>客户姓名：</label>
@@ -119,7 +107,7 @@
 		<ul>
 			<shiro:hasPermission name="Inquire:provAdmin">
 			<li><div <c:if test='${inquire.inquireStatus eq "已结案" }'>class="buttonDisabled"</c:if> <c:if test='${inquire.inquireStatus ne "已结案" }'>class="button"</c:if>><div class="buttonContent"><button type="submit" <c:if test='${inquire.inquireStatus eq "已结案" }'>disabled=true</c:if>>重打开</button></div></div></li>
-			<li><div <c:if test='${inquire.inquireStatus eq "已结案" }'>class="buttonDisabled"</c:if> <c:if test='${inquire.inquireStatus ne "已结案" }'>class="button"</c:if>><div class="buttonContent"><button type="button" onclick="$('#inquireStatus').val('CloseStatus');$('#inquireForm').attr('action', '/kfgl/inquire/deal').submit();" <c:if test='${inquire.inquireStatus eq "已结案" }'>disabled=true</c:if>>结案关闭</button></div></div></li>
+			<li><div <c:if test='${inquire.inquireStatus eq "已结案" }'>class="buttonDisabled"</c:if> <c:if test='${inquire.inquireStatus ne "已结案" }'>class="button"</c:if>><div class="buttonContent"><button type="button" onclick="$('#inquireStatus').val('CloseStatus');$('#inquireForm').attr('action', '/kfgl/inquire/close').submit();" <c:if test='${inquire.inquireStatus eq "已结案" }'>disabled=true</c:if>>结案关闭</button></div></div></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Inquire:provEdit">
 			<li><div <c:if test='${inquire.inquireStatus eq "已结案" }'>class="buttonDisabled"</c:if> <c:if test='${inquire.inquireStatus ne "已结案" }'>class="button"</c:if>><div class="buttonContent"><button type="button" onclick="$('#inquireForm').attr('action', '/kfgl/inquire/toCity').submit();" <c:if test='${inquire.inquireStatus eq "已结案" }'>disabled=true</c:if>>转办地市</button></div></div></li>

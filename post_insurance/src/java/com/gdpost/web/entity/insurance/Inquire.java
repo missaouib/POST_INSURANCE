@@ -59,7 +59,7 @@ public class Inquire implements java.io.Serializable {
 	private String holderMobile;
 	private String policyDate;
 	private String gpolicyNo;
-	private Organization gorgan;
+	private String gorganName;
 	private String gnetName;
 	private String ginsured;
 	private String ginsuredPhone;
@@ -343,7 +343,7 @@ public class Inquire implements java.io.Serializable {
 	@ManyToOne(optional=true )
 	@JoinColumnsOrFormulas(value={
 	@JoinColumnOrFormula(column=@JoinColumn(name ="policy_no", referencedColumnName ="policy_no", insertable =false, updatable = false)),
-	@JoinColumnOrFormula(formula=@JoinFormula(value="0", referencedColumnName = "attached_flag"))
+	@JoinColumnOrFormula(formula=@JoinFormula(value="0", referencedColumnName = "attached_flag")) 
 	})
 	public Policy getPolicy() {
 		return this.policy;
@@ -362,8 +362,9 @@ public class Inquire implements java.io.Serializable {
 		this.policyNos = policyNos;
 	}
 
-	@ManyToOne(optional=true)
-	@JoinColumn(name="organ_name", referencedColumnName="name")
+	
+	@ManyToOne(optional=true )
+	@JoinColumn(name="organ_name", referencedColumnName="name", nullable=true, insertable=false, updatable=false)
 	public Organization getOrgan() {
 		return this.organ;
 	}
@@ -432,14 +433,13 @@ public class Inquire implements java.io.Serializable {
 		this.gpolicyNo = gpolicyNo;
 	}
 
-	@ManyToOne(optional=true)
-	@JoinColumn(name="gorgan_name", referencedColumnName="name")
-	public Organization getGorgan() {
-		return this.gorgan;
+	@Column(name="gorgan_name", nullable=true)
+	public String getGorganName() {
+		return this.gorganName;
 	}
 
-	public void setGorgan(Organization gorgan) {
-		this.gorgan = gorgan;
+	public void setGorganName(String gorganName) {
+		this.gorganName = gorganName;
 	}
 
 	@Column(name = "gnet_name", length = 64)

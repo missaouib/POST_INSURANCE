@@ -267,7 +267,7 @@ public class KfglController {
 		src.setReopenDate(new Date());
 		kfglService.saveOrUpdate(src);
 
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[] { issue.getIssueNo() }));
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[] { src.getIssueNo() }));
 		return AjaxObject.newOk("重新打开问题工单成功！").toString();
 	}
 
@@ -285,7 +285,7 @@ public class KfglController {
 		src.setCheckDate(new Date());
 		kfglService.saveOrUpdate(src);
 
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[] { issue.getIssueNo() }));
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[] { src.getIssueNo() }));
 		return AjaxObject.newOk("审核问题工单成功！").toString();
 	}
 
@@ -295,7 +295,7 @@ public class KfglController {
 	public @ResponseBody String closeIssue(@Valid @ModelAttribute("preloadIssue") Issue issue) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		Issue src = kfglService.get(issue.getId());
-		if (src.getStatus() != STATUS.DealStatus.getDesc()) {
+		if (!src.getStatus().equals(STATUS.DealStatus.getDesc())) {
 			return AjaxObject.newError("结案关闭工单失败：未完成审核").setCallbackType("").toString();
 		}
 		src.setCloseUser(shiroUser.getUser().getRealname());
@@ -303,7 +303,7 @@ public class KfglController {
 		src.setStatus(STATUS.CloseStatus.getDesc());
 		kfglService.saveOrUpdate(src);
 
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[] { issue.getIssueNo() }));
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[] { src.getIssueNo() }));
 		return AjaxObject.newOk("结案问题工单成功！").toString();
 	}
 
@@ -313,7 +313,7 @@ public class KfglController {
 	public @ResponseBody String closeSingleIssue(@PathVariable Long id) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		Issue src = kfglService.get(id);
-		if (src.getStatus() != STATUS.DealStatus.getDesc()) {
+		if (!src.getStatus().equals(STATUS.DealStatus.getDesc())) {
 			return AjaxObject.newError("结案关闭工单失败：未完成审核").setCallbackType("").toString();
 		}
 		src.setCloseUser(shiroUser.getUser().getRealname());
@@ -335,7 +335,7 @@ public class KfglController {
 			Issue issue = null;
 			for (int i = 0; i < ids.length; i++) {
 				issue = kfglService.get(ids[i]);
-				if (issue.getStatus() != STATUS.DealStatus.getDesc()) {
+				if (!issue.getStatus().equals(STATUS.DealStatus.getDesc())) {
 					return AjaxObject.newError("部分结案关闭工单失败：未完成审核").setCallbackType("").toString();
 				}
 				issue.setCloseUser(shiroUser.getUser().getRealname());
@@ -1100,7 +1100,7 @@ public class KfglController {
 		src.setReopenDate(new Date());
 		kfglService.saveOrUpdateInquire(src);
 
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[] { inquire.getInquireNo() }));
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[] { src.getInquireNo() }));
 		return AjaxObject.newOk("重新打开咨询工单成功！").toString();
 	}
 
@@ -1119,7 +1119,7 @@ public class KfglController {
 		src.setCheckDate(new Date());
 		kfglService.saveOrUpdateInquire(src);
 
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[] { inquire.getInquireNo() }));
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[] { src.getInquireNo() }));
 		return AjaxObject.newOk("审核咨询工单成功！").toString();
 	}
 	
@@ -1134,7 +1134,7 @@ public class KfglController {
 		src.setToCityDate(new Date());
 		kfglService.saveOrUpdateInquire(src);
 
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[] { inquire.getInquireNo() }));
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[] { src.getInquireNo() }));
 		return AjaxObject.newOk("咨询工单转办成功！").toString();
 	}
 	
@@ -1236,7 +1236,9 @@ public class KfglController {
 	public @ResponseBody String closeAsk(@Valid @ModelAttribute("preloadInquire") Inquire inquire) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		Inquire src = kfglService.getInquire(inquire.getId());
-		if (src.getInquireStatus() != STATUS.DealStatus.name()) {
+		LOG.debug(src.getInquireStatus());
+		LOG.debug(STATUS.DealStatus.name());
+		if (!src.getInquireStatus().equals(STATUS.DealStatus.name())) {
 			return AjaxObject.newError("结案关闭咨询工单失败：未完成审核").setCallbackType("").toString();
 		}
 		src.setCloseUser(shiroUser.getUser().getRealname());
@@ -1244,7 +1246,7 @@ public class KfglController {
 		src.setInquireStatus(STATUS.CloseStatus.name());
 		kfglService.saveOrUpdateInquire(src);
 
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[] { inquire.getInquireNo() }));
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[] { src.getInquireNo() }));
 		return AjaxObject.newOk("结案咨询工单成功！").toString();
 	}
 
@@ -1254,7 +1256,7 @@ public class KfglController {
 	public @ResponseBody String closeSingleAsk(@PathVariable Long id) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		Inquire src = kfglService.getInquire(id);
-		if (src.getInquireStatus() != STATUS.DealStatus.name()) {
+		if (!src.getInquireStatus().equals(STATUS.DealStatus.name())) {
 			return AjaxObject.newError("结案关闭咨询工单失败：未完成审核").setCallbackType("").toString();
 		}
 		src.setCloseUser(shiroUser.getUser().getRealname());
@@ -1276,7 +1278,7 @@ public class KfglController {
 			Inquire inquire = null;
 			for (int i = 0; i < ids.length; i++) {
 				inquire = kfglService.getInquire(ids[i]);
-				if (inquire.getInquireStatus() != STATUS.DealStatus.name()) {
+				if (!inquire.getInquireStatus().equals( STATUS.DealStatus.name())) {
 					return AjaxObject.newError("部分结案关闭咨询工单失败：未完成审核").setCallbackType("").toString();
 				}
 				inquire.setCloseUser(shiroUser.getUser().getRealname());
@@ -1383,12 +1385,11 @@ public class KfglController {
 
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		if(!isAdmin) {
-			csf.add(new SearchFilter("organ", Operator.OR_LIKE, orgCode));
-			csf.add(new SearchFilter("gorgan", Operator.OR_LIKE, orgCode));
+			csf.add(new SearchFilter("organ.orgCode", Operator.LIKE_R, orgCode));
 		}
 		if(!isAdmin && !isCity) {
 			for(Long roleId:roleIds) {
-				csf.add(new SearchFilter("roleids", Operator.OR_LIKE, "%," + roleId + ",%"));
+				csf.add(new SearchFilter("roleids", Operator.LIKE, "," + roleId.toString() + ","));
 			}
 		}
 		//只回显需要地市处理的
@@ -1405,14 +1406,16 @@ public class KfglController {
 			if (isNull) {
 				LOG.debug("-------------- 111: ");
 				csf.add(new SearchFilter("inquireStatus", Operator.EQ, STATUS.NewStatus.name()));
+				inquire.setInquireStatus(STATUS.NewStatus.name());
 			} else if (inquireStatus.trim().length() > 0) {
 				csf.add(new SearchFilter("inquireStatus", Operator.EQ, inquireStatus));
 			}
 		} else {
 			if (isNull) {
 				LOG.debug("-------------- 333: ");
-				csf.add(new SearchFilter("inquireStatus", Operator.EQ, STATUS.NewStatus.name()));
-				//csf.add(new SearchFilter("inquireStatus", Operator.OR_EQ, STATUS.IngStatus.name()));
+				csf.add(new SearchFilter("inquireStatus", Operator.OR_EQ, STATUS.NewStatus.name()));
+				csf.add(new SearchFilter("inquireStatus", Operator.OR_EQ, STATUS.IngStatus.name()));
+				//inquire.setInquireStatus(STATUS.IngStatus.name());
 			} else if (inquireStatus.trim().length() > 0) {
 				csf.add(new SearchFilter("inquireStatus", Operator.EQ, inquireStatus));
 			}
@@ -1462,59 +1465,113 @@ public class KfglController {
 	@RequiresPermissions("Inquire:view")
 	@RequestMapping(value="/inquirelist/toXls", method=RequestMethod.GET)
 	public String toAskXls(ServletRequest request, Page page, Map<String, Object> map) {
-		User user = SecurityUtils.getShiroUser().getUser();
-		String inquireStatus = request.getParameter("inquireStatus");
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = userService.get(shiroUser.getId());
+		List<UserRole> urs = userRoleService.findByUserId(user.getId());
 		
+		Organization userOrg = user.getOrganization();
+		String orgCode = request.getParameter("orgCode");
+		if (orgCode == null || orgCode.trim().length() <= 0) {
+			orgCode = userOrg.getOrgCode();
+		} else if (!orgCode.contains(user.getOrganization().getOrgCode())) {
+			orgCode = user.getOrganization().getOrgCode();
+		}
+		boolean isCity = false;
+		if(orgCode.length()>4) {
+			isCity = true;
+		}
+
+		List<Long> roleIds = new ArrayList<Long> (0);
+		boolean isAdmin = false; 
+		for(UserRole ur:urs) {
+			if(ur.getRole().getName().contains("管理员") || ur.getRole().getName().contains("省分客服")) {
+				isAdmin = true;
+			}
+			roleIds.add(ur.getRole().getId());
+		}
+		// 默认返回未处理工单
+		String inquireStatus = request.getParameter("inquireStatus");
+		String inquireSubtype = request.getParameter("inquireSubtype");
 		String kfstatus_flag = request.getParameter("kfstatus_flag");
+		LOG.debug("-------------- inquireStatus: " + inquireStatus + ", user org code:" + userOrg.getOrgCode());
+		LOG.debug("==----==:" + kfstatus_flag == null ? "is null" : "equals 'null'");
 		boolean isNull = false;
-		if(inquireStatus == null || (inquireStatus != null && inquireStatus.trim().length()<=0 && kfstatus_flag!=null && kfstatus_flag.equals("null"))) {
+		if (inquireStatus == null || (inquireStatus != null && inquireStatus.trim().length() <= 0 && kfstatus_flag != null
+				&& kfstatus_flag.equals("null"))) {
 			isNull = true;
 		}
-		
-		page.setOrderField("policy.organization.orgCode");
-		page.setOrderDirection("ASC");
-		page.setNumPerPage(65564);
-		String orgCode = request.getParameter("orgCode");
-		String inquireType = request.getParameter("inquireType");
-		
-		if(orgCode == null || orgCode.trim().length()<=0) {
-			orgCode = user.getOrganization().getOrgCode();
-		} else if(!orgCode.contains(user.getOrganization().getOrgCode())){
-			orgCode = user.getOrganization().getOrgCode();
+
+		if (page.getOrderField() == null || page.getOrderField().trim().length() <= 0) {
+			page.setOrderField("operateTime");
+			page.setOrderDirection("ASC");
 		}
-		
+
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
-		
+		if(!isAdmin) {
+			csf.add(new SearchFilter("organ.orgCode", Operator.LIKE_R, orgCode));
+		}
+		if(!isAdmin && !isCity) {
+			for(Long roleId:roleIds) {
+				csf.add(new SearchFilter("roleids", Operator.LIKE, "," + roleId.toString() + ","));
+			}
+		}
 		//只回显需要地市处理的
 		if(orgCode.length() >= 6) {
 			csf.add(new SearchFilter("cityDealFlag", Operator.EQ, 1));
 		}
-				
-		if(inquireType != null && inquireType.trim().length()>0) {
-			csf.add(new SearchFilter("inquireType", Operator.EQ, inquireType));
-		}
 		
+		if (inquireSubtype != null && inquireSubtype.trim().length() > 0) {
+			csf.add(new SearchFilter("inquireSubtype", Operator.EQ, inquireSubtype));
+		}
+
+		// 如果是县区局登录的机构号为8位，需要根据保单的所在机构进行筛选
 		if (user.getOrganization().getOrgCode().length() > 4) {
-			if(isNull) {
-				LOG.debug("-------------- 111: " );
+			if (isNull) {
+				LOG.debug("-------------- 111: ");
 				csf.add(new SearchFilter("inquireStatus", Operator.EQ, STATUS.NewStatus.name()));
-			} else if(inquireStatus.trim().length() > 0) {
+			} else if (inquireStatus.trim().length() > 0) {
 				csf.add(new SearchFilter("inquireStatus", Operator.EQ, inquireStatus));
 			}
 		} else {
-			if(isNull) {
-				LOG.debug("-------------- 333: " );
+			if (isNull) {
+				LOG.debug("-------------- 333: ");
 				csf.add(new SearchFilter("inquireStatus", Operator.OR_EQ, STATUS.NewStatus.name()));
 				csf.add(new SearchFilter("inquireStatus", Operator.OR_EQ, STATUS.IngStatus.name()));
-			} else if(inquireStatus.trim().length() > 0) {
+			} else if (inquireStatus.trim().length() > 0) {
 				csf.add(new SearchFilter("inquireStatus", Operator.EQ, inquireStatus));
 			}
 		}
 		Specification<Inquire> specification = DynamicSpecifications.bySearchFilter(request, Inquire.class, csf);
-		List<Inquire> reqs = kfglService.findByInquireExample(specification, page);
+		List<Inquire> inquires = kfglService.findByInquireExample(specification, page);
+
+		//convert rolename
+		String name = "省分%";
+		List<Role> roles = roleService.findByNameLike(name);
+		List<Inquire> rst = new ArrayList<Inquire>();
+		String tmpIds = null;
+		String[] ids = null;
+		StringBuffer rname = null;
+		for(Inquire inq:inquires) {
+			rname = new StringBuffer("");
+			tmpIds = inq.getRoleids();
+			if(tmpIds != null) {
+				ids = tmpIds.split(",");
+				for(String rid:ids) {
+					if(rid != null && rid.length()>0) {
+						for(Role r:roles) {
+							if(rid.equals(r.getId().toString())) {
+								rname.append(r.getName()+ " ");
+								break;
+							}
+						}
+					}
+				}
+			}
+			inq.setAssignTo(rname.toString());
+			rst.add(inq);
+		}
 	
-		map.put("reqs", reqs);
+		map.put("reqs", rst);
 		return ASK_TO_XLS;
 	}
 

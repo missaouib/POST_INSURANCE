@@ -139,10 +139,10 @@
 		<ul class="toolBar">
 			<shiro:hasPermission name="Client:view">
 				<li><a iconClass="magnifier" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/client/view/{slt_uid}"><span>查看详情</span></a></li>
+			</shiro:hasPermission>
+			<shiro:hasPermission name="Client:provEdit">
 				<li class="line">line</li>
 				<li><a class="icon" target="_blank" href="${contextPath }/client/toXls?search_GTE_policyFee=${param.search_GTE_policyFee }&search_LTE_policyFee=${param.search_LTE_policyFee }&orgCode=${policy_orgCode }&search_LTE_policyDate=${param.search_LTE_policyDate }&search_GTE_policyDate=${param.search_GTE_policyDate }&feeFrequency=${param.feeFrequency }&prd.prdName=${prd_name }&search_LIKE_policyNo=${param.search_LIKE_policyNo }&search_LIKE_formNo=${param.search_LIKE_formNo }&duration=${duration }&encodeStatus=${encodeStatus == null?'null':encodeStatus }&staffFlag=${staffFlag}&attachedFlag=${attachedFlag}"><span>导出Excel</span></a></li>
-			</shiro:hasPermission>
-			<shiro:hasPermission name="Client:prov">
 				<li class="line">line</li>
 				<li><a class="icon" target="_blank" href="${contextPath }/client/pdtoXls?search_LTE_policyDate=${param.search_LTE_policyDate }&search_GTE_policyDate=${param.search_GTE_policyDate }"><span>导出给信息局的数据</span></a></li>
 			</shiro:hasPermission>
