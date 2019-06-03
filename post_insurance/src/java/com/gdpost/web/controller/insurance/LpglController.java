@@ -1093,6 +1093,8 @@ public class LpglController {
 			}
 		}
 		
+		page.setNumPerPage(65564);
+		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
 		if(checkStatus != null && checkStatus.trim().length() >0) {
