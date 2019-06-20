@@ -6,7 +6,7 @@ import java.util.List;
 public class PolicyColumn {
 
 	private static List<ColumnItem> standardColumns;
-	public static String KEY_ROW = "保单号码";
+	public static String KEY_ROW = "计划名称";
 	
 	public static List<ColumnItem> getStandardColumns() {
 		if(standardColumns != null) {

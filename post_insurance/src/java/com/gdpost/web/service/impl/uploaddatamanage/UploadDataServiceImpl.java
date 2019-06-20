@@ -189,6 +189,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_inquire character set utf8 (";
 			sql1 = "update t_inquire set policy_no=left(policy_nos,14) where policy_no is null;";
 			sql2 = "update t_inquire set organ_name=gorgan_name where organ_name is null or organ_name=\"\";";
+			sql3="update t_inquire set organ_name=deal_depart where (policy_no is null or policy_no=\"\") and (organ_name is null or organ_name=\"\");";
 			break;
 		case IssuePFR:
 			standardColumns = IssuePFRColumn.getStandardColumns();

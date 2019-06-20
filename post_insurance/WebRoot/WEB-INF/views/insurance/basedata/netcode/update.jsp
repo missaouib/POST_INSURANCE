@@ -23,8 +23,7 @@
 		<p>
 			<label>管理机构：</label>
 			<input name="organization.id" id="uw_orgId" type="hidden" value="${underwrite.organization.id }"/>
-			<input class="validate[required] required" name="organization.orgCode" id="uw_orgCode" type="text" readonly="readonly" style="width: 140px;" value="${basedata.organization.orgCode }"/>
-			<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="organization" title="选择机构" width="400">查找带回</a>
+			<input class="validate[required] required" name="organization.orgCode" id="uw_orgCode" type="text" readonly="readonly" style="width: 140px;" value="${basedata.organization.orgCode }"/><a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="organization" title="选择机构" width="400">查找带回</a>
 		</p>
 		<p>
 			<label>网点属性：</label>

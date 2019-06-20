@@ -84,6 +84,12 @@
 				<li class="line">line</li>
 				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/qygl/issue/record/update/{slt_uid}"><span>回复</span></a></li>
 			</shiro:hasPermission>
+			<shiro:hasPermission name="CheckWrite:provEdit">
+				<li><a class="edit" target="ajaxTodo" href="${contextPath }/qygl/issue/record/appeal/{slt_uid}" title="确认并核实可申诉?"><span>申诉</span></a></li>
+				<li><a class="edit" target="ajaxTodo" href="${contextPath }/qygl/issue/record/delete/{slt_uid}" title="确认要物理删除记录?"><span>删除</span></a></li>
+				<li><a class="edit" target="selectedTodo" rel="ids" href="${contextPath }/qygl/issue/record/close" title="确认已完成整改?"><span>确认整改完毕</span></a></li>
+				<li><a class="edit" target="ajaxTodo" href="${contextPath }/qygl/issue/record/fail/{slt_uid}" title="确认无法整改?"><span>无法整改</span></a></li>
+			</shiro:hasPermission>
 			<li><a class="icon" target="_blank" href="${contextPath }/qygl/issue/record/toXls?fixStatus=${status }&orgCode=${orgCode }&search_GTE_policy.policyDate=${search_GTE_policy_policyDate}&search_LTE_policy.policyDate=${search_LTE_policy_policyDate}&search_GTE_dealTime=${param.search_GTE_dealTime}&search_LTE_dealTime=${param.search_LTE_dealTime}"><span>导出Excel</span></a></li>
 			<li class="line">line</li>
 			<li><a class="icon" target="dialog" href="${contextPath }/qygl/help" mask="true" width="530" height="430"><span>功能说明</span></a></li>
@@ -122,8 +128,17 @@
 					<c:when test="${item.fixStatus eq 'NewStatus'}">
 						<div style="color: red;vertical-align:middle;font-weight:normal;">待处理</div>
 					</c:when>
+					<c:when test="${item.fixStatus eq 'FollowStatus'}">
+						跟进中
+					</c:when>
+					<c:when test="${item.fixStatus eq 'IngStatus'}">
+						待审核
+					</c:when>
 					<c:when test="${item.fixStatus eq 'CTStatus'}">
 						已退保
+					</c:when>
+					<c:when test="${item.fixStatus eq 'FailStatus'}">
+						无法整改
 					</c:when>
 					<c:when test="${item.fixStatus eq 'CloseStatus'}">
 						已整改

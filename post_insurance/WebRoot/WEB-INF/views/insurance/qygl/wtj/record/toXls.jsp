@@ -39,13 +39,19 @@ response.setHeader("Content-Disposition", "inline; filename=QY_Record_LIST.xls")
 				<td>
 				<c:choose>
 					<c:when test="${item.fixStatus eq 'NewStatus'}">
-						<span style="color:red; height:50%; margin-bottom:-contentheight;">待处理</span>
+						<div style="color: red;vertical-align:middle;font-weight:normal;">待处理</div>
+					</c:when>
+					<c:when test="${item.fixStatus eq 'FollowStatus'}">
+						跟进中
 					</c:when>
 					<c:when test="${item.fixStatus eq 'IngStatus'}">
 						待审核
 					</c:when>
 					<c:when test="${item.fixStatus eq 'CTStatus'}">
 						已退保
+					</c:when>
+					<c:when test="${item.fixStatus eq 'FailStatus'}">
+						无法整改
 					</c:when>
 					<c:when test="${item.fixStatus eq 'CloseStatus'}">
 						已整改

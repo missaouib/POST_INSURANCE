@@ -44,7 +44,7 @@ function customAjaxDone(json){
 		</p>
 		<p>
 			<label>客户姓名：</label>
-			<span class="unit">${inquire.policy.holder }</span>
+			<span class="unit">${inquire.client }</span>
 		</p>
 		<p>
 			<label>客户电话：</label>
@@ -60,11 +60,11 @@ function customAjaxDone(json){
 		</p>
 		<p>
 			<label>保单号：</label>
-			<span class="unit">${inquire.policy.policyNo }</span>
+			<span class="unit">${empty inquire.gpolicyNo?inquire.policyNos:inquire.gpolicyNo }</span>
 		</p>
 		<p>
 			<label>所属机构：</label>
-			<span class="unit">${inquire.policy.organization.shortName }</span>
+			<span class="unit">${empty inquire.gpolicyNo?inquire.organ.shortName:inquire.gorgan.shortName }</span>
 		</p>
 		<p class="nowrap">
 			<label>出单网点：</label>

@@ -286,31 +286,26 @@ public class ClientController {
 		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
 		//默认返回未处理工单
 		String status = request.getParameter("status");
+		
 		String attachedFlag = request.getParameter("attachedFlag");
 		String feeFrequency = request.getParameter("feeFrequency");
 		String staffFlag = request.getParameter("staffFlag");
 		String duration = request.getParameter("duration");
+		String saleChannel = request.getParameter("saleChannel");
 		Boolean staff = null;
 		if(staffFlag != null && staffFlag.trim().equals("0")) {
 			staff = false;
 		} else if(staffFlag != null && staffFlag.trim().equals("1")) {
 			staff = true;
 		}
-		String encodeStatus = request.getParameter("encodeStatus");
-		if(encodeStatus != null && encodeStatus.trim().equals("null")) {
-			status = "";
-		}
-		
-		if(encodeStatus != null && encodeStatus.trim().length() > 0 && !encodeStatus.trim().equals("null")) {
-			status = new String(Base64Utils.decodeFromString(encodeStatus));
+		if(request.getParameterMap().size()<=1) {
+			return LIST;
 		}
 		
 		if(page.getOrderField() == null || page.getOrderField().trim().length() <= 0) {
-			page.setOrderField("policyNo");
+			page.setOrderField("policyDate");
 			page.setOrderDirection("DESC");
 		}
-		
-		page.setNumPerPage(Integer.MAX_VALUE);
 		
 		String orgCode = request.getParameter("orgCode");
 		if(orgCode == null || orgCode.trim().length() <= 0) {
@@ -324,12 +319,14 @@ public class ClientController {
 			}
 		}
 		
+		page.setNumPerPage(Integer.MAX_VALUE);
+		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
 		if(status != null && status.trim().length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
 		}
-		String prdName = request.getParameter("prd.prdName");
+		String prdName = request.getParameter("prd.prdFullName");
 		if(prdName != null && prdName.trim().length()>0) {
 			csf.add(new SearchFilter("prodName", Operator.EQ, prdName));
 		}
@@ -342,13 +339,17 @@ public class ClientController {
 		if(staff != null) {
 			csf.add(new SearchFilter("staffFlag", Operator.EQ, staff));
 		}
-		if(duration != null && duration.trim().length()>0) {
+		if(duration != null && duration.trim().length()>0 && !duration.equals("0")) {
 			csf.add(new SearchFilter("duration", Operator.GTE, duration));
 		}
+		
+		if(saleChannel != null && saleChannel.trim().length()>0) {
+			csf.add(new SearchFilter("policyNo", Operator.LIKE_R, saleChannel));
+		}
+		
 		Specification<Policy> specification = DynamicSpecifications.bySearchFilter(request, Policy.class, csf);
 		List<Policy> policies = policyService.findByExample(specification, page);
 		
-		map.put("page", page);
 		map.put("policies", policies);
 		return TO_XLS;
 	}

@@ -89,6 +89,11 @@ public class UserController {
 	public @ResponseBody String create(@Valid User user) {	
 		user.setCreateTime(new Date());
 		try {
+			String p = "^(?=.*\\d)(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[\\da-zA-Z~_\\-!@#$%^&*]{8,16}$";
+			String pwd = user.getPlainPassword();
+			if(!pwd.matches(p)) {
+				return AjaxObject.newError("密码强度不够，须包含大小写字母和数字").setCallbackType("").toString();
+			}
 			userService.saveOrUpdate(user);
 		} catch (ExistedException e) {
 			return AjaxObject.newError("添加用户失败：" + e.getMessage()).setCallbackType("").toString();
@@ -193,6 +198,12 @@ public class UserController {
 		
 		if (type.equals("password")) {
 			String plainPassword = request.getParameter("plainPassword");
+			
+			String p = "^(?=.*\\d)(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[\\da-zA-Z~_\\-!@#$%^&*]{8,16}$";
+			if(!plainPassword.matches(p)) {
+				return AjaxObject.newError("密码强度不够，须包含大小写字母和数字").setCallbackType("").toString();
+			}
+			
 			//LOG.info("-----------password:" + plainPassword);
 			userService.resetPwd(user, plainPassword);
 			//userService.resetPwd(user, "123456");

@@ -64,6 +64,9 @@ response.setHeader("Content-Disposition", "inline; filename=QY_Write_LIST.xls");
 					<c:when test="${item.fixStatus eq 'CTStatus'}">
 						已退保
 					</c:when>
+					<c:when test="${item.fixStatus eq 'FailStatus'}">
+						无法整改
+					</c:when>
 					<c:when test="${item.fixStatus eq 'CloseStatus'}">
 						已整改
 					</c:when>

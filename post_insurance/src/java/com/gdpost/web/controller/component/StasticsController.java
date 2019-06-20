@@ -207,6 +207,9 @@ public class StasticsController {
 
 		List<TuiBaoModel> temp = null;
 		// List<TuiBaoModel> temp1 = null;
+		if(levelFlag != null && levelFlag.equals("prov")) {
+			organCode="8644";
+		}
 		if (isNet) {
 			if (hasNet) {
 				temp = stasticsService.getNetTuiBaoWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, csd1,
@@ -362,6 +365,11 @@ public class StasticsController {
 		}
 
 		List<TuiBaoModel> temp = null;
+		
+		if(levelFlag != null && levelFlag.equals("prov")) {
+			organCode="8644";
+		}
+		
 		if (isNet) {
 			if (hasNet) {
 				temp = stasticsService.getNetTuiBaoWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, csd1,
@@ -650,6 +658,9 @@ public class StasticsController {
 		}
 
 		List<StaffModel> temp = null;
+		if(levelFlag != null && levelFlag.equals("prov")) {
+			organCode="8644";
+		}
 		if (isCity) {
 			if (hasNet) {
 				temp = stasticsService.getStaffCountWithPolicyDate(organCode + "%", pd1, pd2, netFlag, prdCode, toPerm,
@@ -777,6 +788,9 @@ public class StasticsController {
 		}
 
 		List<StaffModel> temp = null;
+		if(levelFlag != null && levelFlag.equals("prov")) {
+			organCode="8644";
+		}
 		if (isCity) {
 			if (hasNet) {
 				temp = stasticsService.getStaffCountWithPolicyDate(organCode + "%", pd1, pd2, netFlag, prdCode, toPerm,
@@ -874,7 +888,7 @@ public class StasticsController {
 
 	/*
 	 * =======================================
-	 *  staff
+	 *  underwrite
 	 * =======================================
 	 * 
 	 */
@@ -1565,6 +1579,10 @@ public class StasticsController {
 			pd2 = "9999-12-31";
 		}
 
+		if(levelFlag != null && levelFlag.equals("prov")) {
+			organCode = "8644";
+		}
+		
 		List<TreeMap<String, String>> orgList = orgService.getOrgCodeAndNameMap(organCode);
 		
 		List<QyCheckModel> writes = null;
@@ -1706,6 +1724,10 @@ public class StasticsController {
 			pd2 = "9999-12-31";
 		}
 
+		if(levelFlag != null && levelFlag.equals("prov")) {
+			organCode = "8644";
+		}
+		
 		List<TreeMap<String, String>> orgList = orgService.getOrgCodeAndNameMap(organCode);
 		
 		List<QyCheckModel> writes = null;
@@ -1919,7 +1941,11 @@ public class StasticsController {
 		if (pd2 == null || pd2.trim().length() <= 0) {
 			pd2 = "9999-12-31";
 		}
-
+		
+		if(levelFlag != null && levelFlag.equals("prov")) {
+			organCode = "8644";
+		}
+		
 		List<TreeMap<String, String>> orgList = orgService.getOrgCodeAndNameMap(organCode);
 		
 		List<QyCheckModel> writes = null;
@@ -2067,6 +2093,10 @@ public class StasticsController {
 			pd2 = "9999-12-31";
 		}
 
+		if(levelFlag != null && levelFlag.equals("prov")) {
+			organCode = "8644";
+		}
+		
 		List<TreeMap<String, String>> orgList = orgService.getOrgCodeAndNameMap(organCode);
 		
 		List<QyCheckModel> writes = null;
@@ -2214,6 +2244,10 @@ public class StasticsController {
 			pd2 = "9999-12-31";
 		}
 
+		if(levelFlag != null && levelFlag.equals("prov")) {
+			organCode = "8644";
+		}
+		
 		List<TreeMap<String, String>> orgList = orgService.getOrgCodeAndNameMap(organCode);
 		
 		List<QyCheckModel> writes = null;
@@ -2361,6 +2395,10 @@ public class StasticsController {
 			pd2 = "9999-12-31";
 		}
 
+		if(levelFlag != null && levelFlag.equals("prov")) {
+			organCode = "8644";
+		}
+		
 		List<TreeMap<String, String>> orgList = orgService.getOrgCodeAndNameMap(organCode);
 		
 		List<QyCheckModel> writes = null;

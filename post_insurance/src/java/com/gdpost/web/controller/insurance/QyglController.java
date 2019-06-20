@@ -161,12 +161,17 @@ public class QyglController {
 	@Log(message="修改了{0}客户信息真实性标记。", level=LogLevel.WARN, module=LogModule.QYGL)
 	@RequiresPermissions("CheckWrite:edit")
 	@RequestMapping(value="/issue/write/isTruth", method=RequestMethod.POST)
-	public @ResponseBody String cwIsTruth(CheckWrite issue) {
-		CheckWrite src = qyglService.getCheckWrite(issue.getId());
-		src.setIsTruth(src.getIsTruth()?false:true);
-		qyglService.saveOrUpdateCheckWrite(src);
+	public @ResponseBody String cwIsTruth(Long[] ids) {
+		CheckWrite src = null;
+		List<String> info = new ArrayList<String>();
+		for(Long id:ids) {
+			src = qyglService.getCheckWrite(id);
+			src.setIsTruth(src.getIsTruth()?false:true);
+			qyglService.saveOrUpdateCheckWrite(src);
+			info.add(src.getPolicy().getPolicyNo());
+		}
 		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{Arrays.toString(info.toArray())}));
 		return	AjaxObject.newOk("成功修改记录的客户信息真实性标记！").setCallbackType("").toString();
 	}
 	
@@ -466,6 +471,43 @@ public class QyglController {
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));
 		return	AjaxObject.newOk("回复新契约录入不合格件成功！").toString(); 
+	}
+	
+	@Log(message="对{0}新契约录入不合格件的申诉了，改为登记问题置为已整改。", level=LogLevel.WARN, module=LogModule.QYGL)
+	@RequiresPermissions("CheckRecord:provEdit")
+	@RequestMapping(value="/issue/record/appeal/{id}", method=RequestMethod.POST)
+	public @ResponseBody String appealCheckRecord(@PathVariable Long id) {
+		CheckRecord src = qyglService.getCheckRecord(id);
+		src.setNeedFix("已整改");;
+		src.setFixStatus(QY_STATUS.CloseStatus.name());
+		qyglService.saveOrUpdateCheckRecord(src);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));
+		return	AjaxObject.newOk("申诉新契约录入不合格件成功！").setCallbackType("").toString();
+	}
+	
+	@Log(message="{0}新契约录入不合格件确认无法整改。", level=LogLevel.WARN, module=LogModule.QYGL)
+	@RequiresPermissions("CheckRecord:provEdit")
+	@RequestMapping(value="/issue/record/fail/{id}", method=RequestMethod.POST)
+	public @ResponseBody String failCheckRecord(@PathVariable Long id) {
+		CheckRecord src = qyglService.getCheckRecord(id);
+		//src.setNeedFix("已整改");;
+		src.setFixStatus(QY_STATUS.FailStatus.name());
+		qyglService.saveOrUpdateCheckRecord(src);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));
+		return	AjaxObject.newOk("新契约录入不合格件无法整改确认完毕！").setCallbackType("").toString();
+	}
+	
+	@Log(message="对{0}新契约录入不合格件进行了删除。", level=LogLevel.WARN, module=LogModule.QYGL)
+	@RequiresPermissions("CheckRecord:provEdit")
+	@RequestMapping(value="/issue/record/delete/{id}", method=RequestMethod.POST)
+	public @ResponseBody String delCheckRecord(@PathVariable Long id) {
+		CheckRecord src = qyglService.getCheckRecord(id);
+		qyglService.deleteCheckRecord(id);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));
+		return	AjaxObject.newOk("删除新契约录入不合格件成功！").setCallbackType("").toString();
 	}
 	
 	@Log(message="重新打开了{0}新契约录入不合格件的信息。", level=LogLevel.WARN, module=LogModule.QYGL)

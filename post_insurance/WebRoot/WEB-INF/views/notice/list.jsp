@@ -18,13 +18,11 @@
 				</td>
 				<td>
 					<label>开始日期：</label>
-					<input type="text" name="sendDate1" id="fqSendDate1" style="width: 80px;" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="${sendDate1 }"/>
-					<a class="inputDateButton" href="javascript:;">选择</a>
+					<input type="text" name="sendDate1" id="fqSendDate1" style="width: 80px;" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="${sendDate1 }"/><a class="inputDateButton" href="javascript:;">选择</a>
 				</td>
 				<td>
 					<label>结束日期：</label>
-					<input type="text" name="sendDate2" id="fqSendDate2" style="width: 80px;" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="${sendDate2 }"/>
-					<a class="inputDateButton" href="javascript:;">选择</a>
+					<input type="text" name="sendDate2" id="fqSendDate2" style="width: 80px;" class="date validate[required] required" dateFmt="yyyy-MM-dd" readonly="true" value="${sendDate2 }"/><a class="inputDateButton" href="javascript:;">选择</a>
 				</td>
 			</tr>
 			</table>

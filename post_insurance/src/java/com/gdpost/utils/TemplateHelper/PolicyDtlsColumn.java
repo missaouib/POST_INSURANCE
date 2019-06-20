@@ -13,7 +13,7 @@ public class PolicyDtlsColumn {
 
 	private static List<ColumnItem> standardColumns;
 	
-	public static String KEY_ROW = "保单号码";
+	public static String KEY_ROW = "投保人证件号码";
 	
 	public static List<ColumnItem> getStandardColumns() {
 		if(standardColumns != null) {

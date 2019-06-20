@@ -27,8 +27,7 @@
 				<td>
 					<label>机构：</label>
 					<input name="orgCode" id="uw_orgCode" type="hidden" value="${orgCode }"/>
-					<input class="validate[required] required" name="name" id="uw_orgName" type="text" readonly="readonly" style="width: 120px;" value="${name }"/>
-					<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="" title="选择机构" width="400">查</a>
+					<input class="validate[required] required" name="name" id="uw_orgName" type="text" readonly="readonly" style="width: 120px;" value="${name }"/><a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="" title="选择机构" width="400">查</a>
 				</td>
 			</tr>
 			<tr>
