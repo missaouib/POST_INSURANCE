@@ -83,23 +83,23 @@ public interface StasticsService {
 	
 	List<PolicyStatModel> getPolicyFeeFrequencyStasticsWithBankCode(String organCode, String d1, String d2, String flag, String prdCode, String toPerm, String staffFlag, String bankName, String csFlag, String saleType, String status, Integer duration);
 	
-	List<QyCheckModel> getCheckWriteCityStastics(String d1, String d2);
+	List<QyCheckModel> getCheckWriteCityStastics(String d1, String d2, Integer duration);
 	
-	List<CheckModel> getCheckWritetasticsDtl(String orgCode, String d1, String d2);
+	List<CheckModel> getCheckWritetasticsDtl(String orgCode, String d1, String d2, Integer duration);
 	
-	List<QyCheckModel> getCheckRecordCityStastics(String d1, String d2);
+	List<QyCheckModel> getCheckRecordCityStastics(String d1, String d2, Integer duration);
 	
-	List<CheckModel> getCheckRecordtasticsDtl(String orgCode, String d1, String d2);
+	List<CheckModel> getCheckRecordtasticsDtl(String orgCode, String d1, String d2, Integer duration);
 	
-	List<QyCheckModel> getCheckWriteAreaStastics(String organCode, String d1, String d2);
+	List<QyCheckModel> getCheckWriteAreaStastics(String organCode, String d1, String d2, Integer duration);
 	
-	List<QyCheckModel> getCheckRecordAreaStastics(String organCode, String d1, String d2);
+	List<QyCheckModel> getCheckRecordAreaStastics(String organCode, String d1, String d2, Integer duration);
 	
-	List<QyCheckModel> getCheckTruthCityStastics(String d1, String d2);
+	List<QyCheckModel> getCheckTruthCityStastics(String d1, String d2, Integer duration);
 	
-	List<CheckModel> getCheckTruthStasticsDtl(String organCode, String d1, String d2);
+	List<CheckModel> getCheckTruthStasticsDtl(String organCode, String d1, String d2, Integer duration);
 	
-	List<QyCheckModel> getCheckTruthAreaStastics(String organCode, String d1, String d2);
+	List<QyCheckModel> getCheckTruthAreaStastics(String organCode, String d1, String d2, Integer duration);
 	
 	List<QyCheckModel> getPrintCityStastics(String d1, String d2);
 	

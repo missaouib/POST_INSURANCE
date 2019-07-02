@@ -1534,6 +1534,9 @@ public class StasticsController {
 		String pd2 = request.getParameter("policyDate2");
 		String levelFlag = request.getParameter("levelFlag");
 		//String flag = request.getParameter("flag");
+		String durationStr = request.getParameter("duration");
+		Integer duration = (durationStr == null || !NumberUtils.isDigits(durationStr)) ? 0
+				: Integer.valueOf(durationStr);
 
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		User user = shiroUser.getUser();// userService.get(shiroUser.getId());
@@ -1561,6 +1564,8 @@ public class StasticsController {
 
 		QyCheckModel cm = new QyCheckModel();
 		cm.setLevelFlag(levelFlag);
+		cm.setDuration(duration);
+		
 		//cm.setStatFlag(flag);
 		request.setAttribute("CheckModel", cm);
 
@@ -1568,6 +1573,7 @@ public class StasticsController {
 		request.setAttribute("orgCode", organCode);
 		request.setAttribute("name", organName);
 		//request.setAttribute("flag", flag);
+		request.setAttribute("duration", duration);
 
 		String fd = StringUtil.getMonthFirstDayOfMonth(Calendar.getInstance().get(Calendar.MONTH), "yyyy-MM-dd");
 		if (pd1 == null || pd1.trim().length() <= 0) {
@@ -1595,8 +1601,8 @@ public class StasticsController {
 		//if (flag == null || flag.trim().equals("write")) {
 		if (!isCity) {
 			TreeMap<String, String> cityMap = orgList.get(0);
-			writes = stasticsService.getCheckWriteCityStastics(pd1, pd2);
-			records = stasticsService.getCheckRecordCityStastics(pd1, pd2);
+			writes = stasticsService.getCheckWriteCityStastics(pd1, pd2, duration);
+			records = stasticsService.getCheckRecordCityStastics(pd1, pd2, duration);
 			
 			Iterator<String> keys = cityMap.keySet().iterator();
 			
@@ -1628,8 +1634,8 @@ public class StasticsController {
 			
 		} else {
 			TreeMap<String, String> areaMap = orgList.get(1);
-			writes = stasticsService.getCheckWriteAreaStastics(organCode + "%", pd1, pd2);
-			records = stasticsService.getCheckRecordAreaStastics(organCode + "%", pd1, pd2);
+			writes = stasticsService.getCheckWriteAreaStastics(organCode + "%", pd1, pd2, duration);
+			records = stasticsService.getCheckRecordAreaStastics(organCode + "%", pd1, pd2, duration);
 			
 			Iterator<String> keys = areaMap.keySet().iterator();
 			
@@ -1677,6 +1683,10 @@ public class StasticsController {
 		String levelFlag = request.getParameter("levelFlag");
 		//String flag = request.getParameter("flag");
 
+		String durationStr = request.getParameter("duration");
+		Integer duration = (durationStr == null || !NumberUtils.isDigits(durationStr)) ? 0
+				: Integer.valueOf(durationStr);
+		
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		User user = shiroUser.getUser();// userService.get(shiroUser.getId());
 		Organization userOrg = user.getOrganization();
@@ -1712,6 +1722,7 @@ public class StasticsController {
 		request.setAttribute("levelFlag", levelFlag);
 		request.setAttribute("orgCode", organCode);
 		request.setAttribute("name", organName);
+		request.setAttribute("duration", duration);
 		//request.setAttribute("flag", flag);
 
 		String fd = StringUtil.getMonthFirstDayOfMonth(Calendar.getInstance().get(Calendar.MONTH), "yyyy-MM-dd");
@@ -1740,8 +1751,8 @@ public class StasticsController {
 		//if (flag == null || flag.trim().equals("write")) {
 		if (!isCity) {
 			TreeMap<String, String> cityMap = orgList.get(0);
-			writes = stasticsService.getCheckWriteCityStastics(pd1, pd2);
-			records = stasticsService.getCheckRecordCityStastics(pd1, pd2);
+			writes = stasticsService.getCheckWriteCityStastics(pd1, pd2, duration);
+			records = stasticsService.getCheckRecordCityStastics(pd1, pd2, duration);
 			
 			Iterator<String> keys = cityMap.keySet().iterator();
 			
@@ -1773,8 +1784,8 @@ public class StasticsController {
 			
 		} else {
 			TreeMap<String, String> areaMap = orgList.get(1);
-			writes = stasticsService.getCheckWriteAreaStastics(organCode + "%", pd1, pd2);
-			records = stasticsService.getCheckRecordAreaStastics(organCode + "%", pd1, pd2);
+			writes = stasticsService.getCheckWriteAreaStastics(organCode + "%", pd1, pd2, duration);
+			records = stasticsService.getCheckRecordAreaStastics(organCode + "%", pd1, pd2, duration);
 			
 			Iterator<String> keys = areaMap.keySet().iterator();
 			
@@ -1819,6 +1830,9 @@ public class StasticsController {
 		String pd1 = request.getParameter("policyDate1");
 		String pd2 = request.getParameter("policyDate2");
 		//String levelFlag = request.getParameter("levelFlag");
+		String durationStr = request.getParameter("duration");
+		Integer duration = (durationStr == null || !NumberUtils.isDigits(durationStr)) ? 0
+				: Integer.valueOf(durationStr);
 
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		User user = shiroUser.getUser();// userService.get(shiroUser.getId());
@@ -1837,7 +1851,7 @@ public class StasticsController {
 			pd2 = "9999-12-31";
 		}
 
-		List<CheckModel> rst = stasticsService.getCheckWritetasticsDtl(organCode + "%", pd1, pd2);
+		List<CheckModel> rst = stasticsService.getCheckWritetasticsDtl(organCode + "%", pd1, pd2, duration);
 		
 		request.setAttribute("cmRst", rst);
 
@@ -1852,6 +1866,9 @@ public class StasticsController {
 		String pd1 = request.getParameter("policyDate1");
 		String pd2 = request.getParameter("policyDate2");
 		//String levelFlag = request.getParameter("levelFlag");
+		String durationStr = request.getParameter("duration");
+		Integer duration = (durationStr == null || !NumberUtils.isDigits(durationStr)) ? 0
+				: Integer.valueOf(durationStr);
 
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		User user = shiroUser.getUser();// userService.get(shiroUser.getId());
@@ -1870,7 +1887,7 @@ public class StasticsController {
 			pd2 = "9999-12-31";
 		}
 
-		List<CheckModel> rst = stasticsService.getCheckRecordtasticsDtl(organCode + "%", pd1, pd2);
+		List<CheckModel> rst = stasticsService.getCheckRecordtasticsDtl(organCode + "%", pd1, pd2, duration);
 		
 		request.setAttribute("cmRst", rst);
 
@@ -1894,6 +1911,9 @@ public class StasticsController {
 		String pd2 = request.getParameter("policyDate2");
 		String levelFlag = request.getParameter("levelFlag");
 		//String flag = request.getParameter("flag");
+		String durationStr = request.getParameter("duration");
+		Integer duration = (durationStr == null || !NumberUtils.isDigits(durationStr)) ? 0
+				: Integer.valueOf(durationStr);
 
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		User user = shiroUser.getUser();// userService.get(shiroUser.getId());
@@ -1924,6 +1944,8 @@ public class StasticsController {
 
 		QyCheckModel cm = new QyCheckModel();
 		cm.setLevelFlag(levelFlag);
+		cm.setDuration(duration);
+		
 		//cm.setStatFlag(flag);
 		request.setAttribute("CheckModel", cm);
 
@@ -1931,6 +1953,7 @@ public class StasticsController {
 		request.setAttribute("orgCode", organCode);
 		request.setAttribute("name", organName);
 		//request.setAttribute("flag", flag);
+		request.setAttribute("duration", duration);
 
 		String fd = StringUtil.getMonthFirstDayOfMonth(Calendar.getInstance().get(Calendar.MONTH), "yyyy-MM-dd");
 		if (pd1 == null || pd1.trim().length() <= 0) {
@@ -1957,7 +1980,7 @@ public class StasticsController {
 		//if (flag == null || flag.trim().equals("write")) {
 		if (!isCity) {
 			TreeMap<String, String> cityMap = orgList.get(0);
-			writes = stasticsService.getCheckTruthCityStastics(pd1, pd2);
+			writes = stasticsService.getCheckTruthCityStastics(pd1, pd2, duration);
 			Iterator<String> keys = cityMap.keySet().iterator();
 			
 			while(keys.hasNext()) {
@@ -1977,7 +2000,7 @@ public class StasticsController {
 			}
 		} else {
 			TreeMap<String, String> areaMap = orgList.get(1);
-			writes = stasticsService.getCheckTruthAreaStastics(organCode + "%", pd1, pd2);
+			writes = stasticsService.getCheckTruthAreaStastics(organCode + "%", pd1, pd2, duration);
 			
 			Iterator<String> keys = areaMap.keySet().iterator();
 			
@@ -2062,6 +2085,9 @@ public class StasticsController {
 		String pd2 = request.getParameter("policyDate2");
 		String levelFlag = request.getParameter("levelFlag");
 		//String flag = request.getParameter("flag");
+		String durationStr = request.getParameter("duration");
+		Integer duration = (durationStr == null || !NumberUtils.isDigits(durationStr)) ? 0
+				: Integer.valueOf(durationStr);
 
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		User user = shiroUser.getUser();// userService.get(shiroUser.getId());
@@ -2108,7 +2134,7 @@ public class StasticsController {
 		//if (flag == null || flag.trim().equals("write")) {
 		if (!isCity) {
 			TreeMap<String, String> cityMap = orgList.get(0);
-			writes = stasticsService.getCheckTruthCityStastics(pd1, pd2);
+			writes = stasticsService.getCheckTruthCityStastics(pd1, pd2, duration);
 			Iterator<String> keys = cityMap.keySet().iterator();
 			
 			while(keys.hasNext()) {
@@ -2128,7 +2154,7 @@ public class StasticsController {
 			}
 		} else {
 			TreeMap<String, String> areaMap = orgList.get(1);
-			writes = stasticsService.getCheckTruthAreaStastics(organCode + "%", pd1, pd2);
+			writes = stasticsService.getCheckTruthAreaStastics(organCode + "%", pd1, pd2, duration);
 			
 			Iterator<String> keys = areaMap.keySet().iterator();
 			
@@ -2162,6 +2188,9 @@ public class StasticsController {
 		String pd1 = request.getParameter("policyDate1");
 		String pd2 = request.getParameter("policyDate2");
 		//String levelFlag = request.getParameter("levelFlag");
+		String durationStr = request.getParameter("duration");
+		Integer duration = (durationStr == null || !NumberUtils.isDigits(durationStr)) ? 0
+				: Integer.valueOf(durationStr);
 
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		User user = shiroUser.getUser();// userService.get(shiroUser.getId());
@@ -2180,7 +2209,7 @@ public class StasticsController {
 			pd2 = "9999-12-31";
 		}
 
-		List<CheckModel> rst = stasticsService.getCheckTruthStasticsDtl(organCode + "%", pd1, pd2);
+		List<CheckModel> rst = stasticsService.getCheckTruthStasticsDtl(organCode + "%", pd1, pd2, duration);
 		
 		request.setAttribute("cmRst", rst);
 

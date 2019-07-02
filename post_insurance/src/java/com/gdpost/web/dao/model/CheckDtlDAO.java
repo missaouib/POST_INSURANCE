@@ -28,9 +28,10 @@ public interface CheckDtlDAO extends JpaRepository<CheckModel, String>, JpaSpeci
 					"and it1.policy_date between :pd1 and :pd2  " + 
 					"and it1.policy_no like \"8644%\"  " + 
 					"and it1.organ_code like :orgCode  " + 
+					"and it1.duration >= :duration " + 
 					"and it1.attached_flag=0;",
 			nativeQuery=true)
-	List<CheckModel> getCheckWriteStatDtl(@Param("orgCode")String orgCode, @Param("pd1")String pd1, @Param("pd2")String pd2);
+	List<CheckModel> getCheckWriteStatDtl(@Param("orgCode")String orgCode, @Param("pd1")String pd1, @Param("pd2")String pd2, @Param("duration")Integer duration);
 	
 	@Query(name="getCheckRecordStatDtl",
 			value="select distinct it1.organ_code, it1.organ_name," + 
@@ -39,15 +40,16 @@ public interface CheckDtlDAO extends JpaRepository<CheckModel, String>, JpaSpeci
 					"and it1.policy_date between :pd1 and :pd2  " + 
 					"and it1.policy_no like \"8644%\"  " + 
 					"and it1.organ_code like :orgCode  " + 
+					"and it1.duration >= :duration " + 
 					"and it1.attached_flag=0;",
 			nativeQuery=true)
-	List<CheckModel> getCheckRecordStatDtl(@Param("orgCode")String orgCode, @Param("pd1")String pd1, @Param("pd2")String pd2);
+	List<CheckModel> getCheckRecordStatDtl(@Param("orgCode")String orgCode, @Param("pd1")String pd1, @Param("pd2")String pd2, @Param("duration")Integer duration);
 	
 	@Query(name="getCheckTruthStatDtl",
 			value="select distinct t1.organ_code, t1.organ_name,t1.policy_no, t2.check_batch,t2.need_fix,t2.checker,t2.key_info,t2.fix_status,t2.fix_desc, t1.holder, t1.bank_name, cast(aes_decrypt(unhex(tpd.holder_MOBILE), 'GDPost') as char(100)) as holder_mobile , cast(aes_decrypt(unhex(tpd.holder_phone), 'GDPost') as char(100)) as holder_phone " + 
 					"from t_policy t1, t_policy_dtl tpd, t_check_write t2 where t1.policy_no=tpd.policy_no and t1.policy_no=t2.policy_no and t2.is_truth=true and t2.need_fix=\"要整改\"  " + 
-					"and t1.attached_flag=0 and t1.organ_code like :orgCode and t1.policy_date between :pd1 and :pd2 ;",
+					"and t1.attached_flag=0 and t1.duration >= :duration and t1.organ_code like :orgCode and t1.policy_date between :pd1 and :pd2 ;",
 			nativeQuery=true)
-	List<CheckModel> getCheckTruthStatDtl(@Param("orgCode")String orgCode, @Param("pd1")String pd1, @Param("pd2")String pd2);
+	List<CheckModel> getCheckTruthStatDtl(@Param("orgCode")String orgCode, @Param("pd1")String pd1, @Param("pd2")String pd2, @Param("duration")Integer duration);
 	
 }

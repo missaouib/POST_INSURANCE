@@ -23,7 +23,6 @@ response.setHeader("Content-Disposition", "inline; filename=Inquire_xls.xls");
 				<th>险种名称</th>
 				<th>出单网点</th>
 				<th>工单状态</th>
-				<th>所属机构</th>
 				<th>处理情况</th>
 				<th>经办人</th>
 				<th>经办时间</th>
@@ -34,7 +33,7 @@ response.setHeader("Content-Disposition", "inline; filename=Inquire_xls.xls");
 			<c:forEach var="item" items="${reqs}" varStatus="status">
 			<tr>
 				<td><c:out value="${status.index+1}"/></td>
-				<td>${item.organName}</td>
+				<td>${empty inquire.gpolicyNo?item.organ.shortName:inquire.gorgan.shortName}</td>
 				<td>
 					<c:choose>
                         <c:when test="${not empty item.policyNos}">
@@ -50,10 +49,10 @@ response.setHeader("Content-Disposition", "inline; filename=Inquire_xls.xls");
 				<td>${item.inquireSubtype}</td>
 				<td>${item.inquireDesc}</td>
 				<td><fmt:formatDate value="${item.operateTime }" pattern="yyyy-MM-dd"/></td>
-				<td style="vnd.ms-excel.numberformat:@">${item.policy.policyNo}</td>
+				<td style="vnd.ms-excel.numberformat:@">${empty item.gpolicyNo?item.policyNos:item.gpolicyNo}</td>
 				<td><fmt:formatDate value="${item.policy.policyDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.client}</td>
-				<td>${item.clientPhone1 eq ""?item.clientPhone2:item.policy.policyDtl.holderMobile}</td>
+				<td>${item.clientPhone1 eq ""?item.clientPhone2:item.clientPhone1}</td>
 				<td>${empty inquire.policyNos?"":item.policy.prodName}</td>
 				<td>
 					<c:choose>  
@@ -66,13 +65,12 @@ response.setHeader("Content-Disposition", "inline; filename=Inquire_xls.xls");
 					</c:choose>
 				</td>
 				<td>${item.inquireStatus}</td>
-				<td>${item.organName}</td>
 				<td>${item.inquireRst}</td>
 				<td>${item.dealMan}</td>
 				<td>${item.dealTime}</td>
 				<td>${item.checker}</td>
 				<td><fmt:formatDate value="${item.checkDate }" pattern="yyyy-MM-dd"/></td>
-				<td>${item.policy.bankCode!=null && item.policy.bankCode.netFlag==2?"是":"否" }</td>
+				<td>${empty item.policy?"":item.policy.bankCode!=null && item.policy.bankCode.netFlag==2?"是":"否" }</td>
 			</tr>
 			</c:forEach>
 	</table>

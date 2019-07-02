@@ -20,6 +20,7 @@ import java.util.Map;
 
 import javax.servlet.ServletRequest;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -516,10 +517,16 @@ public class HfglController {
 		
 		String dealType = request.getParameter("dealType");
 		String hqDealType = request.getParameter("hqDealType");
+		String durationStr = request.getParameter("duration");
+		Integer duration = (durationStr == null || !NumberUtils.isDigits(durationStr)) ? 0
+				: Integer.valueOf(durationStr);
+		
 		issue.setDealType(dealType);
 		issue.setHqDealType(hqDealType);
+		issue.setDuration(duration);
 		request.setAttribute("dealType", dealType);
 		request.setAttribute("hqDealType", hqDealType);
+		request.setAttribute("duration", duration);
 		
 		//默认返回未处理工单
 		String status = request.getParameter("status");
@@ -623,6 +630,10 @@ public class HfglController {
 			issue.setHqDealFlag(new Integer(hqDealFlag));
 			request.setAttribute("hqDealFlag", hqDealFlag);
 			csf.add(new SearchFilter("hqDealFlag", Operator.EQ, hqDealFlag));
+		}
+		
+		if(duration >= 10) {
+			csf.add(new SearchFilter("policy.duration", Operator.GTE, duration));
 		}
 		
 		if(user.getOrganization().getOrgCode().contains("11185")) {
@@ -860,6 +871,10 @@ public class HfglController {
 		String dealType = request.getParameter("dealType");
 		String hqDealType = request.getParameter("hqDealType");
 		
+		String durationStr = request.getParameter("duration");
+		Integer duration = (durationStr == null || !NumberUtils.isDigits(durationStr)) ? 0
+				: Integer.valueOf(durationStr);
+		
 		//默认返回未处理工单
 		String status = request.getParameter("status");
 		
@@ -914,6 +929,10 @@ public class HfglController {
 		
 		if(hqDealFlag != null && hqDealFlag.trim().length()>0) {
 			csf.add(new SearchFilter("hqDealFlag", Operator.EQ, hqDealFlag));
+		}
+		
+		if(duration >= 10) {
+			csf.add(new SearchFilter("policy.duration", Operator.GTE, duration));
 		}
 		
 		if(user.getOrganization().getOrgCode().contains("11185")) {

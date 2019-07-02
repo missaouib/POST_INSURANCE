@@ -194,6 +194,17 @@ mail_success
 	@Transient
 	private String newStatus;
 	@Transient
+	private Integer duration;
+	@Transient
+	public Integer getDuration() {
+		return duration;
+	}
+	@Transient
+	public void setDuration(Integer duration) {
+		this.duration = duration;
+	}
+
+	@Transient
 	public String getNewStatus() {
 		return newStatus;
 	}

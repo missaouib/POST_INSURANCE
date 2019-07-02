@@ -27,12 +27,22 @@ function toTips(val) {
 					<td>承保日期止：
 					<input type="text" name="policyDate2" id="uwDate2" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" value="${policyDate2 }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
+				</tr>
+				<tr>
 					<td><label>标记：</label>
 					<form:select path="CheckModel.levelFlag" id="uwflag" class="combox" onchange="javascript:toTips(this.value);">
 						<form:option value="prov"> 省级 </form:option>
 						<form:option value="city"> 市级 </form:option>
 					</form:select>
 					</td>
+					<td>
+					<label>长期险：</label>
+						<form:select path="CheckModel.duration" id="statschckdurationFlag" class="combox">
+							<form:option value="0">全部</form:option>
+							<form:option value="10">长期险</form:option>
+						</form:select>
+					</td>
+					<td>&nbsp;</td>
 				</tr>
 			</table>
 			<div class="subBar">
@@ -48,11 +58,11 @@ function toTips(val) {
 	<div class="panelBar">
 		<ul class="toolBar">
 			<li class="line">line</li>
-			<li><a class="icon" target="_blank" href="${contextPath }/component/stastics/checkToXls?orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&levelFlag=${levelFlag}"><span>导出统计结果</span></a></li>
+			<li><a class="icon" target="_blank" href="${contextPath }/component/stastics/checkToXls?orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&levelFlag=${levelFlag}&duration=${duration}"><span>导出统计结果</span></a></li>
 			<li class="line">line</li>
-			<li><a class="icon" target="_blank" href="${contextPath }/component/stastics/checkWrite/dtlToXls?orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&levelFlag=${levelFlag}"><span>导出填写差错</span></a></li>
+			<li><a class="icon" target="_blank" href="${contextPath }/component/stastics/checkWrite/dtlToXls?orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&levelFlag=${levelFlag}&duration=${duration}"><span>导出填写差错</span></a></li>
 			<li class="line">line</li>
-			<li><a class="icon" target="_blank" href="${contextPath }/component/stastics/checkRecord/dtlToXls?orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&levelFlag=${levelFlag}"><span>导出录入差错</span></a></li>
+			<li><a class="icon" target="_blank" href="${contextPath }/component/stastics/checkRecord/dtlToXls?orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&levelFlag=${levelFlag}&duration=${duration}"><span>导出录入差错</span></a></li>
 		</ul>
 	</div>
 	<div id="w_list_print">

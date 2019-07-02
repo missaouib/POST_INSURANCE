@@ -37,7 +37,12 @@ function toTips(val) {
 						<%-- <form:option value="net"> 网点 </form:option> --%>
 					</form:select>
 					</td>
-					<td>&nbsp;
+					<td>
+					<label>长期险：</label>
+						<form:select path="CheckModel.duration" id="truthdurationFlag" class="combox">
+							<form:option value="0">全部</form:option>
+							<form:option value="10">长期险</form:option>
+						</form:select>
 					</td>
 					<td>
 					&nbsp;
@@ -53,9 +58,9 @@ function toTips(val) {
 	</div>
 </form>
 <h2 class="contentTitle"><label>统计结果</label>
-<a class="buttonActive" target="_blank" href="${contextPath }/component/stastics/truth/toXls?duration=${duration }&orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&levelFlag=${levelFlag}"><span>导出统计结果</span></a>
+<a class="buttonActive" target="_blank" href="${contextPath }/component/stastics/truth/toXls?duration=${duration }&orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&levelFlag=${levelFlag}&duration=${duration}"><span>导出统计结果</span></a>
 &nbsp;&nbsp;&nbsp;&nbsp;
-<a class="buttonActive" target="_blank" href="${contextPath }/component/stastics/truth/dtlToXls?orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&levelFlag=${levelFlag}"><span>导出差错明细</span></a>
+<a class="buttonActive" target="_blank" href="${contextPath }/component/stastics/truth/dtlToXls?orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&levelFlag=${levelFlag}&duration=${duration}"><span>导出差错明细</span></a>
 </h2>
 <br>
 <div class="pageContent" layoutH="130" width="150%">

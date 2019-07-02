@@ -81,7 +81,7 @@ public class XlsFileHandler extends AbstractFileHandler {
 					skipRow = sheet.getMergedRegion(sheetmergerCount-1).getLastRow();
 				}
 				lastRow = sheet.getLastRowNum();
-				if(realKeyRow.equals("保全受理号") || realKeyRow.equals("保单号码") || realKeyRow.equals("da保单号") || realKeyRow.equals("约定还款日期")) {
+				if(realKeyRow.equals("保全受理号") || realKeyRow.equals("保单号码") || realKeyRow.equals("计划名称") || realKeyRow.equals("投保人证件号码") || realKeyRow.equals("da保单号") || realKeyRow.equals("约定还款日期")) {
 					if(realKeyRow.equals("da保单号")) {
 						realKeyRow = "保单号";
 					}

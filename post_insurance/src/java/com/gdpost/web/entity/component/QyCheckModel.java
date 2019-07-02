@@ -33,6 +33,8 @@ public class QyCheckModel implements java.io.Serializable {
 	private String statFlag;
 	@Transient
 	private String orgName;
+	@Transient
+	private Integer duration;
 	
 	@Transient
 	public String getLevelFlag() {
@@ -75,6 +77,17 @@ public class QyCheckModel implements java.io.Serializable {
 	public void setOrgName(String orgName) {
 		this.orgName = orgName;
 	}
+	
+	@Transient
+	public Integer getDuration() {
+		return duration;
+	}
+	@Transient
+	public void setDuration(Integer duration) {
+		this.duration = duration;
+	}
+	
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="organ_code")
