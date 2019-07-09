@@ -9,6 +9,8 @@ package com.gdpost.web.service.component;
 
 import java.util.List;
 
+import org.springframework.data.jpa.domain.Specification;
+
 import com.gdpost.web.entity.component.CheckModel;
 import com.gdpost.web.entity.component.PolicyStatModel;
 import com.gdpost.web.entity.component.QyCheckModel;
@@ -18,6 +20,9 @@ import com.gdpost.web.entity.component.TuiBaoDtlModel;
 import com.gdpost.web.entity.component.TuiBaoModel;
 import com.gdpost.web.entity.component.UwDtlModel;
 import com.gdpost.web.entity.component.UwModel;
+import com.gdpost.web.entity.insurance.StasticsArea;
+import com.gdpost.web.entity.insurance.StasticsCity;
+import com.gdpost.web.util.dwz.Page;
 
 public interface StasticsService {
 	
@@ -104,4 +109,8 @@ public interface StasticsService {
 	List<QyCheckModel> getPrintCityStastics(String d1, String d2);
 	
 	List<QyCheckModel> getPrintAreaStastics(String organCode, String d1, String d2);
+	
+	List<StasticsCity> findByCityStatByExample(Specification<StasticsCity> specification, Page page);
+	
+	List<StasticsArea> findByAreaStatByExample(Specification<StasticsArea> specification, Page page);
 }

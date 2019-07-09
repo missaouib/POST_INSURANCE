@@ -18,9 +18,6 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import System.Data.DataRow;
-import System.Data.DataTable;
-
 import com.gdpost.utils.FileUtils;
 import com.gdpost.utils.MyException;
 import com.gdpost.utils.SecurityUtils;
@@ -34,8 +31,12 @@ import com.gdpost.utils.FileHandler.TextFileHandler;
 import com.gdpost.utils.FileHandler.TxtFileHandler;
 import com.gdpost.utils.FileHandler.XlsFileHandler;
 import com.gdpost.utils.FileHandler.XlsxFileHandler;
+import com.gdpost.utils.FileHandler.XlsxStatFileHandler;
 import com.gdpost.utils.TemplateHelper.ColumnItem;
 import com.gdpost.web.shiro.ShiroUser;
+
+import System.Data.DataRow;
+import System.Data.DataTable;
 
 public class UploadDataUtils {
 	public static Logger log = LoggerFactory.getLogger(UploadDataUtils.class);
@@ -240,6 +241,9 @@ public class UploadDataUtils {
 			//handler = new XlsFileHandler_Converter();
 		} else if(strExtension.equals(".xlsx")) {
 			handler = new XlsxFileHandler();
+			if(keyRow.equals("总分排名")) {
+				handler = new XlsxStatFileHandler();
+			}
 			//handler = new XlsxFileHandler_NoHeader();
 			//handler = new XlsxFileHandler_NoHeader_Stream();
 		}  else if(strExtension.equals(".dbf")) {

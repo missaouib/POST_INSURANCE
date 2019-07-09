@@ -113,7 +113,7 @@ public class UploadController {
 		if (type != null) {
 			switch(type) {
 			case "issue":
-				ft = FileTemplate.Issue;
+				//ft = FileTemplate.Issue;
 				break;
 			case "renewed":
 				ft = FileTemplate.Renewed;

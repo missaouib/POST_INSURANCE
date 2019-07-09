@@ -413,5 +413,9 @@ s = String.format("2%03d",counter.incrementAndGet());
 		int i = 1;
 		String newEmpNo = String.format("%" + 6 + "s", i).replace(' ', '0');
 		System.out.println(newEmpNo);
+		
+		System.out.println(StringUtil.date2Str(new Date(), "yyyyMM01"));
+		Double d = new Double("0.849380515");
+		System.out.println(d.shortValue());
 	}
 }

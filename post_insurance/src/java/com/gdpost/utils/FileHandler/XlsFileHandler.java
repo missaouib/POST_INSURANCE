@@ -236,8 +236,14 @@ public class XlsFileHandler extends AbstractFileHandler {
 							        Date date = cell.getDateCellValue();
 							        dataRow.setValue(j, StringUtil.trimStr(DateFormatUtils.format(date, "yyyy-MM-dd")));
 							    } else {
-							        DecimalFormat df = new DecimalFormat("0");
-							        dataRow.setValue(j, df.format(cell.getNumericCellValue()));
+							    	Double d = cell.getNumericCellValue();
+							    	if((d.toString().length() - d.toString().indexOf("."))>=5) {
+							    		DecimalFormat df = new DecimalFormat();
+							    		df.setMaximumFractionDigits(5);
+							    		dataRow.setValue(j, new DataColumn(df.format(cell.getNumericCellValue())));
+							    	} else {
+							    		dataRow.setValue(j, cell.getNumericCellValue());
+							    	}
 							    }
 								break;
 							case STRING:

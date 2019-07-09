@@ -28,7 +28,6 @@ import com.gdpost.utils.StringUtil;
 import com.gdpost.utils.TemplateHelper.CallFailCityMiniListColumn;
 import com.gdpost.utils.TemplateHelper.CallFailCloseListColumn;
 import com.gdpost.utils.TemplateHelper.CallFailDoorBackListColumn;
-import com.gdpost.utils.TemplateHelper.CallFailHQListColumn;
 import com.gdpost.utils.TemplateHelper.CallFailHQMiniListColumn;
 import com.gdpost.utils.TemplateHelper.CallFailMailBackListColumn;
 import com.gdpost.utils.TemplateHelper.CallFailMailListColumn;
@@ -50,7 +49,6 @@ import com.gdpost.utils.TemplateHelper.IssuePFRDealColumn;
 import com.gdpost.utils.TemplateHelper.PayFailListColumn;
 import com.gdpost.utils.TemplateHelper.PolicyBackDateColumn;
 import com.gdpost.utils.TemplateHelper.PolicyColumn;
-import com.gdpost.utils.TemplateHelper.PolicyDtlColumn;
 import com.gdpost.utils.TemplateHelper.PolicyDtlExtColumn;
 import com.gdpost.utils.TemplateHelper.PolicyDtlsColumn;
 import com.gdpost.utils.TemplateHelper.PolicySentDataColumn;
@@ -62,6 +60,8 @@ import com.gdpost.utils.TemplateHelper.RenewedFeeRstColumn;
 import com.gdpost.utils.TemplateHelper.RenewedHQListColumn;
 import com.gdpost.utils.TemplateHelper.RenewedProvListColumn;
 import com.gdpost.utils.TemplateHelper.RenewedStatusColumn;
+import com.gdpost.utils.TemplateHelper.StasticsAreaColumn;
+import com.gdpost.utils.TemplateHelper.StasticsCityColumn;
 import com.gdpost.utils.TemplateHelper.Template.FileTemplate;
 import com.gdpost.utils.TemplateHelper.UnderWriteColumn;
 import com.gdpost.utils.TemplateHelper.UnderWriteDtlColumn;
@@ -165,6 +165,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql10 = "update t_policy t1, t_bank_code t2 set t1.bank_name=t2.name where (t1.bank_name like '%邮政局%' or t1.bank_name='') and t1.prod_name not like '%禄禄通%' and t1.bank_code=t2.cpi_code;";
 			sql11 = "update t_policy tp, t_policy_dtl tpd set tp.duration=tpd.duration where tp.policy_no=tpd.policy_no and tp.duration<>tpd.duration and tp.attached_flag=0 and tpd.duration<>1 and tp.duration=1;";
 	        break;
+	        /*
 		case PolicyDtl:
 			standardColumns = PolicyDtlColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_policy_dtl character set utf8 (";
@@ -172,6 +173,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql3 = "update t_policy tp, t_policy_dtl tpd set tp.duration=tpd.duration where tp.policy_no=tpd.policy_no and tp.duration<>tpd.duration and tp.attached_flag=0 and tpd.duration<>1 and tp.duration=1;";
 			sql1 = "delete from t_policy_dtl where prod_name like \"%附加%\";";
 			break;
+			*/
 		case NewPolicyDtl:
 			standardColumns = PolicyDtlsColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_policy_dtl character set utf8 (";
@@ -179,17 +181,20 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql3 = "update t_policy tp, t_policy_dtl tpd set tp.duration=tpd.duration where tp.policy_no=tpd.policy_no and tp.duration<>tpd.duration and tp.attached_flag=0 and tpd.duration<>1 and tp.duration=1;";
 			sql1 = "delete from t_policy_dtl where prod_name like \"%附加%\";";
 			break;
+			/*
 		case Issue:
 			standardColumns = IssueColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_issue character set utf8 (";
 			sql1 = "update t_issue set issue_type=\"条款解释不清\" where issue_type like \"%条款解释不清%\";";
 			break;
+			*/
 		case Inquire:
 			standardColumns = InquireColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_inquire character set utf8 (";
 			sql1 = "update t_inquire set policy_no=left(policy_nos,14) where policy_no is null;";
 			sql2 = "update t_inquire set organ_name=gorgan_name where organ_name is null or organ_name=\"\";";
-			sql3="update t_inquire set organ_name=deal_depart where (policy_no is null or policy_no=\"\") and (organ_name is null or organ_name=\"\");";
+			sql3 = "update t_inquire set organ_name=deal_depart where (policy_no is null or policy_no=\"\") and (organ_name is null or organ_name=\"\");";
+			sql4 = "update t_inquire set organ_name=left(organ_name,locate(\",\",organ_name)-1) where locate(\",\",organ_name)>0;";
 			break;
 		case IssuePFR:
 			standardColumns = IssuePFRColumn.getStandardColumns();
@@ -210,9 +215,11 @@ public class UploadDataServiceImpl implements UploadDataService{
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_call_fail_list character set utf8 (";
 			//sql1 = "update t_call_fail_list set finish_date=\"2015-01-01 00:00:00\" where finish_date<\"2000-11-01 09:00:00\";";
 			break;
+			/*
 		case CallFailStatus:
 			standardColumns = CallFailHQListColumn.getStandardColumns();
 			return dr;
+			*/
 		case MiniCallFailStatus:
 			return dr;
 		case CallFailMailStatus:
@@ -389,6 +396,16 @@ public class UploadDataServiceImpl implements UploadDataService{
 			break;
 		case UnderWriteInsured:
 			break;
+		case StatCity:
+			standardColumns = StasticsCityColumn.getStandardColumns();
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_stastics_city character set utf8 (";
+			//sql1 = "update t_cs_loan set flag=case when DATEDIFF(NOW(),should_date)>1 then '2' when  DATEDIFF(NOW(),should_date)>-30 then '1' else '0' end;";
+			break;
+		case StatArea:
+			standardColumns = StasticsAreaColumn.getStandardColumns();
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_stastics_area character set utf8 (";
+			//sql1 = "update t_cs_loan set flag=case when DATEDIFF(NOW(),should_date)>1 then '2' when  DATEDIFF(NOW(),should_date)>-30 then '1' else '0' end;";
+			break;
 		}
 		
 		for(ColumnItem item : standardColumns) {
@@ -454,7 +471,7 @@ public class UploadDataServiceImpl implements UploadDataService{
     	            builder.append("NULL\t");
     	            continue;
         		}
-        		if(ft.name().equals(FileTemplate.CallFail.name()) || ft.name().equals(FileTemplate.Issue.name())) {
+        		if(ft.name().equals(FileTemplate.CallFail.name())/* || ft.name().equals(FileTemplate.Issue.name())*/) {
         			if(item.getDisplayName().equals("结案时间") && cell != null && StringUtil.trimStr(cell).length()<=0) {
         				log.debug("----------- 结案时间: " + cell);
         	            builder.append("2015-01-01 00:00:00\t");
@@ -629,12 +646,12 @@ public class UploadDataServiceImpl implements UploadDataService{
 		switch(ft) {
 		case Policy:
 			return dr;
-		case PolicyDtl:
-			return dr;
+		//case PolicyDtl:
+			//return dr;
 		case NewPolicyDtl:
 			return dr;
-		case Issue:
-			return dr;
+		//case Issue:
+			//return dr;
 		case Inquire:
 			return dr;
 		case IssuePFRDeal:
@@ -670,6 +687,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			break;
 		case CallFail:
 			return dr;
+			/*
 		case CallFailStatus:
 			standardColumns = CallFailHQListColumn.getStandardColumns();
 			sql = new StringBuffer("INSERT INTO t_call_fail_list(policy_no, issue_desc, status, issue_type, issue_content, "
@@ -721,6 +739,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			log.debug("----------------batch update : " + sql);
 			sql2 = "delete from t_call_fail_list where issue_no is null;";
 			break;
+			*/
 		case MiniCallFailStatus:
 			standardColumns = CallFailHQMiniListColumn.getStandardColumns();
 			sql = new StringBuffer("INSERT INTO t_call_fail_list(policy_no, status, "
@@ -1454,6 +1473,10 @@ public class UploadDataServiceImpl implements UploadDataService{
 			return dr;
 		case UnderWriteData:
 			return dr;
+		case StatCity:
+			return dr;
+		case StatArea:
+			return dr;
 		}
 
         try {
@@ -1524,11 +1547,13 @@ public class UploadDataServiceImpl implements UploadDataService{
 			standardColumns = PolicyColumn.getStandardColumns();
 			keyRow = PolicyColumn.KEY_ROW;
 			break;
+			/*
 		case PolicyDtl:
 			log.debug("----------get the dtl column");
 			standardColumns = PolicyDtlColumn.getStandardColumns();
 			keyRow = PolicyDtlColumn.KEY_ROW;
 			break;
+			*/
 		case NewPolicyDtl:
 			log.debug("----------get the dtl column");
 			standardColumns = PolicyDtlsColumn.getStandardColumns();
@@ -1539,11 +1564,13 @@ public class UploadDataServiceImpl implements UploadDataService{
 			standardColumns = PolicyUnderWriteColumn.getStandardColumns();
 			keyRow = PolicyUnderWriteColumn.KEY_ROW;
 			break;
+			/*
 		case Issue:
 			log.debug("----------get the issue column");
 			standardColumns = IssueColumn.getStandardColumns();
 			keyRow = IssueColumn.KEY_ROW;
 			break;
+			*/
 		case Inquire:
 			log.debug("----------get the inquire column");
 			standardColumns = InquireColumn.getStandardColumns();
@@ -1553,10 +1580,12 @@ public class UploadDataServiceImpl implements UploadDataService{
 			standardColumns = IssueColumn.getStandardColumns();
 			keyRow = IssueColumn.KEY_ROW;
 			break;
+			/*
 		case CallFailStatus:
 			standardColumns = CallFailHQListColumn.getStandardColumns();
 			keyRow = CallFailHQListColumn.KEY_ROW;
 			break;
+			*/
 		case MiniCallFailStatus:
 			standardColumns = CallFailHQMiniListColumn.getStandardColumns();
 			keyRow = CallFailHQMiniListColumn.KEY_ROW;
@@ -1705,6 +1734,14 @@ public class UploadDataServiceImpl implements UploadDataService{
 			standardColumns = CsExpireColumn.getStandardColumns();
 			keyRow = CsExpireColumn.KEY_ROW;
 			break;
+		case StatCity:
+			standardColumns = StasticsCityColumn.getStandardColumns();
+			keyRow = StasticsCityColumn.KEY_ROW;
+			break;
+		case StatArea:
+			standardColumns = StasticsAreaColumn.getStandardColumns();
+			keyRow = StasticsAreaColumn.KEY_ROW;
+			break;
 		}
 		
 	    boolean bFlag = true;
@@ -1765,7 +1802,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 				}
 				if(t.name().equals(FileTemplate.RenewedStatus.name())
 						|| t.name().equals((FileTemplate.RenewedHQList.name())) 
-						|| t.name().equals((FileTemplate.CallFailStatus.name()))
+						//|| t.name().equals((FileTemplate.CallFailStatus.name()))
 						|| t.name().equals(FileTemplate.MiniCallFailStatus.name())
 						|| t.name().equals(FileTemplate.CallFailCityStatus.name())
 						|| t.name().equals(FileTemplate.CallFailMailStatus.name())

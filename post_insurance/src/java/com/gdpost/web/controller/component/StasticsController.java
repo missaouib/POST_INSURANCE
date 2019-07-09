@@ -3,7 +3,9 @@ package com.gdpost.web.controller.component;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +18,7 @@ import org.apache.shiro.authz.annotation.RequiresUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,6 +36,8 @@ import com.gdpost.web.entity.component.TuiBaoDtlModel;
 import com.gdpost.web.entity.component.TuiBaoModel;
 import com.gdpost.web.entity.component.UwDtlModel;
 import com.gdpost.web.entity.component.UwModel;
+import com.gdpost.web.entity.insurance.StasticsArea;
+import com.gdpost.web.entity.insurance.StasticsCity;
 import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.log.Log;
@@ -43,6 +48,9 @@ import com.gdpost.web.service.component.StasticsService;
 import com.gdpost.web.service.insurance.BaseDataService;
 import com.gdpost.web.shiro.ShiroUser;
 import com.gdpost.web.util.dwz.Page;
+import com.gdpost.web.util.persistence.DynamicSpecifications;
+import com.gdpost.web.util.persistence.SearchFilter;
+import com.gdpost.web.util.persistence.SearchFilter.Operator;
 
 @Controller
 @RequestMapping("/component")
@@ -85,6 +93,10 @@ public class StasticsController {
 	
 	private static final String CHECK_DTL_XLS = "insurance/stastics/check/check_dtl_xls";
 
+	private static final String CITY_STAT_LIST = "insurance/stastics/check/cityStat";
+	private static final String CITY_STAT_TOXLS = "insurance/stastics/check/cityStat_xls";
+	private static final String AREA_STAT_LIST = "insurance/stastics/check/areaStat";
+	private static final String AREA_STAT_TOXLS = "insurance/stastics/check/areaStat_xls";
 	/*
 	 * =======================================
 	 *  tuibao
@@ -2482,5 +2494,245 @@ public class StasticsController {
 		
 		request.setAttribute("cmRst", rst);
 		return PRINT_LIST_TOXLS;
+	}
+
+	/*
+	 * =======================================
+	 *  total考核结果
+	 * =======================================
+	 * 
+	 */
+	@RequiresUser
+	@Log(message="查看了全省考核结果！", level=LogLevel.INFO, module=LogModule.QTCZ)
+	@RequestMapping(value = "/stastics/cityStat", method = { RequestMethod.GET, RequestMethod.POST })
+	public String cityStastics(ServletRequest request, Map<String, Object> map) {
+		LOG.debug("-------------------here----------");
+		String organCode = request.getParameter("orgCode");
+		String organName = request.getParameter("name");
+		String mth = request.getParameter("mth");
+		String flag = request.getParameter("flag");
+		String mthStr = mth;
+		if(flag == null) {
+			flag = "0";
+		}
+		if (mth == null) {
+			mthStr = StringUtil.date2Str(StringUtil.dateAdd(new Date(), -30), "yyyyMM");
+			if(flag.equals("0")) {
+				mth = StringUtil.date2Str(StringUtil.dateAdd(new Date(), -30), "yyyyMM01");
+			} else {
+				mth = mthStr;
+			}
+		} else {
+			if(flag.equals("0")) {
+				mth = mth + "01";
+			}
+		}
+		
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();
+		Organization userOrg = user.getOrganization();
+		if (organCode == null || organCode.trim().length() <= 0) {
+			organCode = userOrg.getOrgCode();
+			organName = userOrg.getName();
+		} else if (!organCode.contains(userOrg.getOrgCode())) {
+			organCode = userOrg.getOrgCode();
+			organName = userOrg.getName();
+		}
+	
+		request.setAttribute("orgCode", organCode);
+		request.setAttribute("name", organName);
+		request.setAttribute("flag", flag);
+		request.setAttribute("mthStr", mthStr);
+		request.setAttribute("mth", mth);
+	
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		if(mth!=null) {
+			csf.add(new SearchFilter("mth", Operator.EQ, mth));
+		}
+		Page page = new Page();
+		page.setNumPerPage(Integer.MAX_VALUE);
+		Specification<StasticsCity> specification = DynamicSpecifications.bySearchFilter(request, StasticsCity.class, csf);
+		List<StasticsCity> rst = stasticsService.findByCityStatByExample(specification, page);
+		
+		request.setAttribute("cmRst", rst);
+	
+		return CITY_STAT_LIST;
+	}
+
+	@RequiresUser
+	@Log(message="全省考核结果导出！", level=LogLevel.INFO, module=LogModule.QTCZ)
+	@RequestMapping(value = "/stastics/cityStat/toXls", method = { RequestMethod.GET, RequestMethod.POST })
+	public String cityStasticsToXls(ServletRequest request, Map<String, Object> map) {
+		LOG.debug("-------------------here----------");
+		String organCode = request.getParameter("orgCode");
+		String organName = request.getParameter("name");
+		String mth = request.getParameter("mth");
+		String flag = request.getParameter("flag");
+		String mthStr = mth;
+		if(flag == null) {
+			flag = "0";
+		}
+		if (mth == null) {
+			mthStr = StringUtil.date2Str(StringUtil.dateAdd(new Date(), -30), "yyyyMM");
+			if(flag.equals("0")) {
+				mth = StringUtil.date2Str(StringUtil.dateAdd(new Date(), -30), "yyyyMM01");
+			} else {
+				mth = mthStr;
+			}
+		} else {
+			if(flag.equals("0")) {
+				mth = mth + "01";
+			}
+		}
+		
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();
+		Organization userOrg = user.getOrganization();
+		if (organCode == null || organCode.trim().length() <= 0) {
+			organCode = userOrg.getOrgCode();
+			organName = userOrg.getName();
+		} else if (!organCode.contains(userOrg.getOrgCode())) {
+			organCode = userOrg.getOrgCode();
+			organName = userOrg.getName();
+		}
+	
+		request.setAttribute("orgCode", organCode);
+		request.setAttribute("name", organName);
+		request.setAttribute("flag", flag);
+		request.setAttribute("mthStr", mthStr);
+		request.setAttribute("mth", mth);
+	
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		if(mth!=null) {
+			csf.add(new SearchFilter("mth", Operator.EQ, mth));
+		}
+		Page page = new Page();
+		page.setNumPerPage(Integer.MAX_VALUE);
+		Specification<StasticsCity> specification = DynamicSpecifications.bySearchFilter(request, StasticsCity.class, csf);
+		List<StasticsCity> rst = stasticsService.findByCityStatByExample(specification, page);
+		
+		request.setAttribute("cmRst", rst);
+	
+		return CITY_STAT_TOXLS;
+	}
+
+	/*
+	 * =======================================
+	 *  total考核结果
+	 * =======================================
+	 * 
+	 */
+	@RequiresUser
+	@Log(message="查看了全省县区考核结果！", level=LogLevel.INFO, module=LogModule.QTCZ)
+	@RequestMapping(value = "/stastics/areaStat", method = { RequestMethod.GET, RequestMethod.POST })
+	public String areaStastics(ServletRequest request, Map<String, Object> map) {
+		LOG.debug("-------------------here----------");
+		String organCode = request.getParameter("orgCode");
+		String organName = request.getParameter("name");
+		String mth = request.getParameter("mth");
+		String flag = request.getParameter("flag");
+		String mthStr = mth;
+		if(flag == null) {
+			flag = "0";
+		}
+		if (mth == null) {
+			mthStr = StringUtil.date2Str(StringUtil.dateAdd(new Date(), -30), "yyyyMM");
+			if(flag.equals("0")) {
+				mth = StringUtil.date2Str(StringUtil.dateAdd(new Date(), -30), "yyyyMM01");
+			} else {
+				mth = mthStr;
+			}
+		} else {
+			if(flag.equals("0")) {
+				mth = mth + "01";
+			}
+		}
+		
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();
+		Organization userOrg = user.getOrganization();
+		if (organCode == null || organCode.trim().length() <= 0) {
+			organCode = userOrg.getOrgCode();
+			organName = userOrg.getName();
+		} else if (!organCode.contains(userOrg.getOrgCode())) {
+			organCode = userOrg.getOrgCode();
+			organName = userOrg.getName();
+		}
+	
+		request.setAttribute("orgCode", organCode);
+		request.setAttribute("name", organName);
+		request.setAttribute("flag", flag);
+		request.setAttribute("mthStr", mthStr);
+		request.setAttribute("mth", mth);
+	
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		if(mth!=null) {
+			csf.add(new SearchFilter("mth", Operator.EQ, mth));
+		}
+		Page page = new Page();
+		page.setNumPerPage(Integer.MAX_VALUE);
+		Specification<StasticsArea> specification = DynamicSpecifications.bySearchFilter(request, StasticsArea.class, csf);
+		List<StasticsArea> rst = stasticsService.findByAreaStatByExample(specification, page);
+		
+		request.setAttribute("cmRst", rst);
+	
+		return AREA_STAT_LIST;
+	}
+
+	@RequiresUser
+	@Log(message="全省县区考核结果导出！", level=LogLevel.INFO, module=LogModule.QTCZ)
+	@RequestMapping(value = "/stastics/areaStat/toXls", method = { RequestMethod.GET, RequestMethod.POST })
+	public String areaStasticsToXls(ServletRequest request, Map<String, Object> map) {
+		LOG.debug("-------------------here----------");
+		String organCode = request.getParameter("orgCode");
+		String organName = request.getParameter("name");
+		String mth = request.getParameter("mth");
+		String flag = request.getParameter("flag");
+		String mthStr = mth;
+		if(flag == null) {
+			flag = "0";
+		}
+		if (mth == null) {
+			mthStr = StringUtil.date2Str(StringUtil.dateAdd(new Date(), -30), "yyyyMM");
+			if(flag.equals("0")) {
+				mth = StringUtil.date2Str(StringUtil.dateAdd(new Date(), -30), "yyyyMM01");
+			} else {
+				mth = mthStr;
+			}
+		} else {
+			if(flag.equals("0")) {
+				mth = mth + "01";
+			}
+		}
+		
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();
+		Organization userOrg = user.getOrganization();
+		if (organCode == null || organCode.trim().length() <= 0) {
+			organCode = userOrg.getOrgCode();
+			organName = userOrg.getName();
+		} else if (!organCode.contains(userOrg.getOrgCode())) {
+			organCode = userOrg.getOrgCode();
+			organName = userOrg.getName();
+		}
+	
+		request.setAttribute("orgCode", organCode);
+		request.setAttribute("name", organName);
+		request.setAttribute("flag", flag);
+		request.setAttribute("mthStr", mthStr);
+		request.setAttribute("mth", mth);
+	
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		if(mth!=null) {
+			csf.add(new SearchFilter("mth", Operator.EQ, mth));
+		}
+		Page page = new Page();
+		page.setNumPerPage(Integer.MAX_VALUE);
+		Specification<StasticsArea> specification = DynamicSpecifications.bySearchFilter(request, StasticsArea.class, csf);
+		List<StasticsArea> rst = stasticsService.findByAreaStatByExample(specification, page);
+		
+		request.setAttribute("cmRst", rst);
+	
+		return AREA_STAT_TOXLS;
 	}
 }

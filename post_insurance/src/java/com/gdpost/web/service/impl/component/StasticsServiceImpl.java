@@ -3,9 +3,12 @@ package com.gdpost.web.service.impl.component;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gdpost.web.dao.StasticsAreaDAO;
+import com.gdpost.web.dao.StasticsCityDAO;
 import com.gdpost.web.dao.model.CheckDtlDAO;
 import com.gdpost.web.dao.model.CheckStasticsDAO;
 import com.gdpost.web.dao.model.PolicyStatDAO;
@@ -24,7 +27,11 @@ import com.gdpost.web.entity.component.TuiBaoDtlModel;
 import com.gdpost.web.entity.component.TuiBaoModel;
 import com.gdpost.web.entity.component.UwDtlModel;
 import com.gdpost.web.entity.component.UwModel;
+import com.gdpost.web.entity.insurance.StasticsArea;
+import com.gdpost.web.entity.insurance.StasticsCity;
 import com.gdpost.web.service.component.StasticsService;
+import com.gdpost.web.util.dwz.Page;
+import com.gdpost.web.util.dwz.PageUtils;
 
 @Service
 @Transactional
@@ -57,6 +64,12 @@ public class StasticsServiceImpl implements StasticsService {
 	
 	@Autowired
 	private CheckDtlDAO checDtlkDAO;
+
+	@Autowired
+	private StasticsCityDAO cityStatDAO;
+
+	@Autowired
+	private StasticsAreaDAO areaStatDAO;
 
 	@Override
 	public List<TuiBaoModel> getTuiBaoWarnningWithPolicyDateAndCsDateNoBankCode(String organCode, String d1, String d2, String d3, String d4, String prdCode, String toPerm, String staffFlag, Integer duration) {
@@ -296,5 +309,21 @@ public class StasticsServiceImpl implements StasticsService {
 	@Override
 	public List<CheckModel> getCheckTruthStasticsDtl(String organCode, String d1, String d2, Integer duration) {
 		return checDtlkDAO.getCheckTruthStatDtl(organCode, d1, d2, duration);
+	}
+	
+	@Override
+	public List<StasticsCity> findByCityStatByExample(
+			Specification<StasticsCity> specification, Page page) {
+		org.springframework.data.domain.Page<StasticsCity> springDataPage = cityStatDAO.findAll(specification, PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
+	}
+	
+	@Override
+	public List<StasticsArea> findByAreaStatByExample(
+			Specification<StasticsArea> specification, Page page) {
+		org.springframework.data.domain.Page<StasticsArea> springDataPage = areaStatDAO.findAll(specification, PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
 	}
 }
