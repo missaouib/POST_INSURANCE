@@ -1545,11 +1545,11 @@ public class StasticsController {
 		String pd1 = request.getParameter("policyDate1");
 		String pd2 = request.getParameter("policyDate2");
 		String levelFlag = request.getParameter("levelFlag");
-		//String flag = request.getParameter("flag");
+		String perm = request.getParameter("perm");
 		String durationStr = request.getParameter("duration");
 		Integer duration = (durationStr == null || !NumberUtils.isDigits(durationStr)) ? 0
 				: Integer.valueOf(durationStr);
-
+		
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		User user = shiroUser.getUser();// userService.get(shiroUser.getId());
 		Organization userOrg = user.getOrganization();
@@ -1561,6 +1561,15 @@ public class StasticsController {
 			organName = userOrg.getName();
 		}
 
+		String toPerm = perm;
+		if (perm == null || perm.trim().length() <= 0) {
+			toPerm = "%%";
+		} else if (perm.equals("1")) {
+			toPerm = "年交";
+		} else {
+			toPerm = "趸交";
+		}
+		
 		boolean isCity = false;
 		if (levelFlag == null) {
 			if (organCode.length() >= 8) {
@@ -1577,6 +1586,7 @@ public class StasticsController {
 		QyCheckModel cm = new QyCheckModel();
 		cm.setLevelFlag(levelFlag);
 		cm.setDuration(duration);
+		cm.setPerm(perm);
 		
 		//cm.setStatFlag(flag);
 		request.setAttribute("CheckModel", cm);
@@ -1584,7 +1594,7 @@ public class StasticsController {
 		request.setAttribute("levelFlag", levelFlag);
 		request.setAttribute("orgCode", organCode);
 		request.setAttribute("name", organName);
-		//request.setAttribute("flag", flag);
+		request.setAttribute("perm", perm);
 		request.setAttribute("duration", duration);
 
 		String fd = StringUtil.getMonthFirstDayOfMonth(Calendar.getInstance().get(Calendar.MONTH), "yyyy-MM-dd");
@@ -1613,8 +1623,8 @@ public class StasticsController {
 		//if (flag == null || flag.trim().equals("write")) {
 		if (!isCity) {
 			TreeMap<String, String> cityMap = orgList.get(0);
-			writes = stasticsService.getCheckWriteCityStastics(pd1, pd2, duration);
-			records = stasticsService.getCheckRecordCityStastics(pd1, pd2, duration);
+			writes = stasticsService.getCheckWriteCityStastics(pd1, pd2, duration, toPerm);
+			records = stasticsService.getCheckRecordCityStastics(pd1, pd2, duration, toPerm);
 			
 			Iterator<String> keys = cityMap.keySet().iterator();
 			
@@ -1646,8 +1656,8 @@ public class StasticsController {
 			
 		} else {
 			TreeMap<String, String> areaMap = orgList.get(1);
-			writes = stasticsService.getCheckWriteAreaStastics(organCode + "%", pd1, pd2, duration);
-			records = stasticsService.getCheckRecordAreaStastics(organCode + "%", pd1, pd2, duration);
+			writes = stasticsService.getCheckWriteAreaStastics(organCode + "%", pd1, pd2, duration, toPerm);
+			records = stasticsService.getCheckRecordAreaStastics(organCode + "%", pd1, pd2, duration, toPerm);
 			
 			Iterator<String> keys = areaMap.keySet().iterator();
 			
@@ -1693,7 +1703,7 @@ public class StasticsController {
 		String pd1 = request.getParameter("policyDate1");
 		String pd2 = request.getParameter("policyDate2");
 		String levelFlag = request.getParameter("levelFlag");
-		//String flag = request.getParameter("flag");
+		String perm = request.getParameter("perm");
 
 		String durationStr = request.getParameter("duration");
 		Integer duration = (durationStr == null || !NumberUtils.isDigits(durationStr)) ? 0
@@ -1713,6 +1723,15 @@ public class StasticsController {
 			organName = userOrg.getName();
 		}*/
 
+		String toPerm = perm;
+		if (perm == null || perm.trim().length() <= 0) {
+			toPerm = "%%";
+		} else if (perm.equals("1")) {
+			toPerm = "年交";
+		} else {
+			toPerm = "趸交";
+		}
+		
 		boolean isCity = false;
 		if (levelFlag == null) {
 			if (organCode.length() >= 8) {
@@ -1728,6 +1747,7 @@ public class StasticsController {
 
 		QyCheckModel cm = new QyCheckModel();
 		cm.setLevelFlag(levelFlag);
+		cm.setPerm(perm);
 		//cm.setStatFlag(flag);
 		request.setAttribute("CheckModel", cm);
 
@@ -1735,7 +1755,7 @@ public class StasticsController {
 		request.setAttribute("orgCode", organCode);
 		request.setAttribute("name", organName);
 		request.setAttribute("duration", duration);
-		//request.setAttribute("flag", flag);
+		request.setAttribute("perm", perm);
 
 		String fd = StringUtil.getMonthFirstDayOfMonth(Calendar.getInstance().get(Calendar.MONTH), "yyyy-MM-dd");
 		if (pd1 == null || pd1.trim().length() <= 0) {
@@ -1763,8 +1783,8 @@ public class StasticsController {
 		//if (flag == null || flag.trim().equals("write")) {
 		if (!isCity) {
 			TreeMap<String, String> cityMap = orgList.get(0);
-			writes = stasticsService.getCheckWriteCityStastics(pd1, pd2, duration);
-			records = stasticsService.getCheckRecordCityStastics(pd1, pd2, duration);
+			writes = stasticsService.getCheckWriteCityStastics(pd1, pd2, duration, toPerm);
+			records = stasticsService.getCheckRecordCityStastics(pd1, pd2, duration, toPerm);
 			
 			Iterator<String> keys = cityMap.keySet().iterator();
 			
@@ -1796,8 +1816,8 @@ public class StasticsController {
 			
 		} else {
 			TreeMap<String, String> areaMap = orgList.get(1);
-			writes = stasticsService.getCheckWriteAreaStastics(organCode + "%", pd1, pd2, duration);
-			records = stasticsService.getCheckRecordAreaStastics(organCode + "%", pd1, pd2, duration);
+			writes = stasticsService.getCheckWriteAreaStastics(organCode + "%", pd1, pd2, duration, toPerm);
+			records = stasticsService.getCheckRecordAreaStastics(organCode + "%", pd1, pd2, duration, toPerm);
 			
 			Iterator<String> keys = areaMap.keySet().iterator();
 			
@@ -1841,7 +1861,7 @@ public class StasticsController {
 		String organCode = request.getParameter("orgCode");
 		String pd1 = request.getParameter("policyDate1");
 		String pd2 = request.getParameter("policyDate2");
-		//String levelFlag = request.getParameter("levelFlag");
+		String perm = request.getParameter("perm");
 		String durationStr = request.getParameter("duration");
 		Integer duration = (durationStr == null || !NumberUtils.isDigits(durationStr)) ? 0
 				: Integer.valueOf(durationStr);
@@ -1855,6 +1875,15 @@ public class StasticsController {
 			organCode = userOrg.getOrgCode();
 		}
 
+		String toPerm = perm;
+		if (perm == null || perm.trim().length() <= 0) {
+			toPerm = "%%";
+		} else if (perm.equals("1")) {
+			toPerm = "年交";
+		} else {
+			toPerm = "趸交";
+		}
+		
 		String fd = StringUtil.getMonthFirstDayOfMonth(Calendar.getInstance().get(Calendar.MONTH), "yyyy-MM-dd");
 		if (pd1 == null || pd1.trim().length() <= 0) {
 			pd1 = fd;
@@ -1863,7 +1892,7 @@ public class StasticsController {
 			pd2 = "9999-12-31";
 		}
 
-		List<CheckModel> rst = stasticsService.getCheckWritetasticsDtl(organCode + "%", pd1, pd2, duration);
+		List<CheckModel> rst = stasticsService.getCheckWritetasticsDtl(organCode + "%", pd1, pd2, duration, toPerm);
 		
 		request.setAttribute("cmRst", rst);
 
@@ -1877,7 +1906,7 @@ public class StasticsController {
 		String organCode = request.getParameter("orgCode");
 		String pd1 = request.getParameter("policyDate1");
 		String pd2 = request.getParameter("policyDate2");
-		//String levelFlag = request.getParameter("levelFlag");
+		String perm = request.getParameter("perm");
 		String durationStr = request.getParameter("duration");
 		Integer duration = (durationStr == null || !NumberUtils.isDigits(durationStr)) ? 0
 				: Integer.valueOf(durationStr);
@@ -1891,6 +1920,15 @@ public class StasticsController {
 			organCode = userOrg.getOrgCode();
 		}
 
+		String toPerm = perm;
+		if (perm == null || perm.trim().length() <= 0) {
+			toPerm = "%%";
+		} else if (perm.equals("1")) {
+			toPerm = "年交";
+		} else {
+			toPerm = "趸交";
+		}
+		
 		String fd = StringUtil.getMonthFirstDayOfMonth(Calendar.getInstance().get(Calendar.MONTH), "yyyy-MM-dd");
 		if (pd1 == null || pd1.trim().length() <= 0) {
 			pd1 = fd;
@@ -1899,7 +1937,7 @@ public class StasticsController {
 			pd2 = "9999-12-31";
 		}
 
-		List<CheckModel> rst = stasticsService.getCheckRecordtasticsDtl(organCode + "%", pd1, pd2, duration);
+		List<CheckModel> rst = stasticsService.getCheckRecordtasticsDtl(organCode + "%", pd1, pd2, duration, toPerm);
 		
 		request.setAttribute("cmRst", rst);
 
@@ -1922,7 +1960,7 @@ public class StasticsController {
 		String pd1 = request.getParameter("policyDate1");
 		String pd2 = request.getParameter("policyDate2");
 		String levelFlag = request.getParameter("levelFlag");
-		//String flag = request.getParameter("flag");
+		String perm = request.getParameter("perm");
 		String durationStr = request.getParameter("duration");
 		Integer duration = (durationStr == null || !NumberUtils.isDigits(durationStr)) ? 0
 				: Integer.valueOf(durationStr);
@@ -1941,6 +1979,15 @@ public class StasticsController {
 			organName = userOrg.getName();
 		}*/
 
+		String toPerm = perm;
+		if (perm == null || perm.trim().length() <= 0) {
+			toPerm = "%%";
+		} else if (perm.equals("1")) {
+			toPerm = "年交";
+		} else {
+			toPerm = "趸交";
+		}
+		
 		boolean isCity = false;
 		if (levelFlag == null) {
 			if (organCode.length() >= 8) {
@@ -1957,14 +2004,14 @@ public class StasticsController {
 		QyCheckModel cm = new QyCheckModel();
 		cm.setLevelFlag(levelFlag);
 		cm.setDuration(duration);
-		
+		cm.setPerm(perm);
 		//cm.setStatFlag(flag);
 		request.setAttribute("CheckModel", cm);
 
 		request.setAttribute("levelFlag", levelFlag);
 		request.setAttribute("orgCode", organCode);
 		request.setAttribute("name", organName);
-		//request.setAttribute("flag", flag);
+		request.setAttribute("perm", perm);
 		request.setAttribute("duration", duration);
 
 		String fd = StringUtil.getMonthFirstDayOfMonth(Calendar.getInstance().get(Calendar.MONTH), "yyyy-MM-dd");
@@ -1992,7 +2039,7 @@ public class StasticsController {
 		//if (flag == null || flag.trim().equals("write")) {
 		if (!isCity) {
 			TreeMap<String, String> cityMap = orgList.get(0);
-			writes = stasticsService.getCheckTruthCityStastics(pd1, pd2, duration);
+			writes = stasticsService.getCheckTruthCityStastics(pd1, pd2, duration, toPerm);
 			Iterator<String> keys = cityMap.keySet().iterator();
 			
 			while(keys.hasNext()) {
@@ -2012,7 +2059,7 @@ public class StasticsController {
 			}
 		} else {
 			TreeMap<String, String> areaMap = orgList.get(1);
-			writes = stasticsService.getCheckTruthAreaStastics(organCode + "%", pd1, pd2, duration);
+			writes = stasticsService.getCheckTruthAreaStastics(organCode + "%", pd1, pd2, duration, toPerm);
 			
 			Iterator<String> keys = areaMap.keySet().iterator();
 			
@@ -2096,7 +2143,7 @@ public class StasticsController {
 		String pd1 = request.getParameter("policyDate1");
 		String pd2 = request.getParameter("policyDate2");
 		String levelFlag = request.getParameter("levelFlag");
-		//String flag = request.getParameter("flag");
+		String perm = request.getParameter("perm");
 		String durationStr = request.getParameter("duration");
 		Integer duration = (durationStr == null || !NumberUtils.isDigits(durationStr)) ? 0
 				: Integer.valueOf(durationStr);
@@ -2115,6 +2162,15 @@ public class StasticsController {
 			} else if (organCode.length() > 4) {
 				levelFlag = "prov";
 			}
+		}
+		
+		String toPerm = perm;
+		if (perm == null || perm.trim().length() <= 0) {
+			toPerm = "%%";
+		} else if (perm.equals("1")) {
+			toPerm = "年交";
+		} else {
+			toPerm = "趸交";
 		}
 
 		if (levelFlag != null && levelFlag.trim().equals("city")) {
@@ -2146,7 +2202,7 @@ public class StasticsController {
 		//if (flag == null || flag.trim().equals("write")) {
 		if (!isCity) {
 			TreeMap<String, String> cityMap = orgList.get(0);
-			writes = stasticsService.getCheckTruthCityStastics(pd1, pd2, duration);
+			writes = stasticsService.getCheckTruthCityStastics(pd1, pd2, duration, toPerm);
 			Iterator<String> keys = cityMap.keySet().iterator();
 			
 			while(keys.hasNext()) {
@@ -2166,7 +2222,7 @@ public class StasticsController {
 			}
 		} else {
 			TreeMap<String, String> areaMap = orgList.get(1);
-			writes = stasticsService.getCheckTruthAreaStastics(organCode + "%", pd1, pd2, duration);
+			writes = stasticsService.getCheckTruthAreaStastics(organCode + "%", pd1, pd2, duration, toPerm);
 			
 			Iterator<String> keys = areaMap.keySet().iterator();
 			
@@ -2199,7 +2255,7 @@ public class StasticsController {
 		String organCode = request.getParameter("orgCode");
 		String pd1 = request.getParameter("policyDate1");
 		String pd2 = request.getParameter("policyDate2");
-		//String levelFlag = request.getParameter("levelFlag");
+		String perm = request.getParameter("perm");
 		String durationStr = request.getParameter("duration");
 		Integer duration = (durationStr == null || !NumberUtils.isDigits(durationStr)) ? 0
 				: Integer.valueOf(durationStr);
@@ -2213,6 +2269,15 @@ public class StasticsController {
 			organCode = userOrg.getOrgCode();
 		}
 
+		String toPerm = perm;
+		if (perm == null || perm.trim().length() <= 0) {
+			toPerm = "%%";
+		} else if (perm.equals("1")) {
+			toPerm = "年交";
+		} else {
+			toPerm = "趸交";
+		}
+		
 		String fd = StringUtil.getMonthFirstDayOfMonth(Calendar.getInstance().get(Calendar.MONTH), "yyyy-MM-dd");
 		if (pd1 == null || pd1.trim().length() <= 0) {
 			pd1 = fd;
@@ -2221,7 +2286,7 @@ public class StasticsController {
 			pd2 = "9999-12-31";
 		}
 
-		List<CheckModel> rst = stasticsService.getCheckTruthStasticsDtl(organCode + "%", pd1, pd2, duration);
+		List<CheckModel> rst = stasticsService.getCheckTruthStasticsDtl(organCode + "%", pd1, pd2, duration, toPerm);
 		
 		request.setAttribute("cmRst", rst);
 
@@ -2509,32 +2574,42 @@ public class StasticsController {
 		LOG.debug("-------------------here----------");
 		String organCode = request.getParameter("orgCode");
 		String organName = request.getParameter("name");
-		String mth = request.getParameter("mth");
+		String mthYear = request.getParameter("mthYear");
+		String mthMonth = request.getParameter("mthMonth");
+		String mth = (mthYear==null?(StringUtil.date2Str(StringUtil.dateAdd(new Date(), -30),"yyyyMM")):(mthYear + mthMonth));
 		String flag = request.getParameter("flag");
 		String mthStr = mth;
-		if(flag == null) {
+		if(flag == null || flag.equals("0")) {
 			flag = "0";
+			mth = mth + "01";
 		}
-		if (mth == null) {
-			mthStr = StringUtil.date2Str(StringUtil.dateAdd(new Date(), -30), "yyyyMM");
-			if(flag.equals("0")) {
-				mth = StringUtil.date2Str(StringUtil.dateAdd(new Date(), -30), "yyyyMM01");
+		
+		StasticsCity sc = new StasticsCity();
+		sc.setMthYear(mthYear);
+		sc.setMthMonth(mthMonth);
+		request.setAttribute("StasticsCity", sc);
+		request.setAttribute("mthYear", mthYear);
+		request.setAttribute("mthMonth", mthMonth);
+		
+		List<Integer> yl = new ArrayList<Integer> ();
+		yl.add(Calendar.getInstance().get(Calendar.YEAR));
+		yl.add(Calendar.getInstance().get(Calendar.YEAR)-1);
+		
+		List<String> ml = new ArrayList<String> ();
+		for(int i=1; i<=12; i++) {
+			if(i<10) {
+				ml.add("0" + i);
 			} else {
-				mth = mthStr;
-			}
-		} else {
-			if(flag.equals("0")) {
-				mth = mth + "01";
+				ml.add("" + i);
 			}
 		}
+		request.setAttribute("yl", yl);
+		request.setAttribute("ml", ml);
 		
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		User user = shiroUser.getUser();
 		Organization userOrg = user.getOrganization();
 		if (organCode == null || organCode.trim().length() <= 0) {
-			organCode = userOrg.getOrgCode();
-			organName = userOrg.getName();
-		} else if (!organCode.contains(userOrg.getOrgCode())) {
 			organCode = userOrg.getOrgCode();
 			organName = userOrg.getName();
 		}
@@ -2548,6 +2623,9 @@ public class StasticsController {
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		if(mth!=null) {
 			csf.add(new SearchFilter("mth", Operator.EQ, mth));
+		}
+		if(organCode!=null) {
+			csf.add(new SearchFilter("organCode", Operator.LIKE_R, organCode));
 		}
 		Page page = new Page();
 		page.setNumPerPage(Integer.MAX_VALUE);
@@ -2591,9 +2669,6 @@ public class StasticsController {
 		if (organCode == null || organCode.trim().length() <= 0) {
 			organCode = userOrg.getOrgCode();
 			organName = userOrg.getName();
-		} else if (!organCode.contains(userOrg.getOrgCode())) {
-			organCode = userOrg.getOrgCode();
-			organName = userOrg.getName();
 		}
 	
 		request.setAttribute("orgCode", organCode);
@@ -2606,6 +2681,10 @@ public class StasticsController {
 		if(mth!=null) {
 			csf.add(new SearchFilter("mth", Operator.EQ, mth));
 		}
+		if(organCode!=null) {
+			csf.add(new SearchFilter("organCode", Operator.LIKE_R, organCode));
+		}
+		
 		Page page = new Page();
 		page.setNumPerPage(Integer.MAX_VALUE);
 		Specification<StasticsCity> specification = DynamicSpecifications.bySearchFilter(request, StasticsCity.class, csf);
@@ -2629,32 +2708,42 @@ public class StasticsController {
 		LOG.debug("-------------------here----------");
 		String organCode = request.getParameter("orgCode");
 		String organName = request.getParameter("name");
-		String mth = request.getParameter("mth");
+		String mthYear = request.getParameter("mthYear");
+		String mthMonth = request.getParameter("mthMonth");
+		String mth = (mthYear==null?(StringUtil.date2Str(StringUtil.dateAdd(new Date(), -30),"yyyyMM")):(mthYear + mthMonth));
 		String flag = request.getParameter("flag");
 		String mthStr = mth;
-		if(flag == null) {
+		if(flag == null || flag.equals("0")) {
 			flag = "0";
+			mth = mth + "01";
 		}
-		if (mth == null) {
-			mthStr = StringUtil.date2Str(StringUtil.dateAdd(new Date(), -30), "yyyyMM");
-			if(flag.equals("0")) {
-				mth = StringUtil.date2Str(StringUtil.dateAdd(new Date(), -30), "yyyyMM01");
+		
+		StasticsCity sc = new StasticsCity();
+		sc.setMthYear(mthYear);
+		sc.setMthMonth(mthMonth);
+		request.setAttribute("StasticsCity", sc);
+		request.setAttribute("mthYear", mthYear);
+		request.setAttribute("mthMonth", mthMonth);
+		
+		List<Integer> yl = new ArrayList<Integer> ();
+		yl.add(Calendar.getInstance().get(Calendar.YEAR));
+		yl.add(Calendar.getInstance().get(Calendar.YEAR)-1);
+		
+		List<String> ml = new ArrayList<String> ();
+		for(int i=1; i<=12; i++) {
+			if(i<10) {
+				ml.add("0" + i);
 			} else {
-				mth = mthStr;
-			}
-		} else {
-			if(flag.equals("0")) {
-				mth = mth + "01";
+				ml.add("" + i);
 			}
 		}
+		request.setAttribute("yl", yl);
+		request.setAttribute("ml", ml);
 		
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		User user = shiroUser.getUser();
 		Organization userOrg = user.getOrganization();
 		if (organCode == null || organCode.trim().length() <= 0) {
-			organCode = userOrg.getOrgCode();
-			organName = userOrg.getName();
-		} else if (!organCode.contains(userOrg.getOrgCode())) {
 			organCode = userOrg.getOrgCode();
 			organName = userOrg.getName();
 		}
@@ -2669,6 +2758,11 @@ public class StasticsController {
 		if(mth!=null) {
 			csf.add(new SearchFilter("mth", Operator.EQ, mth));
 		}
+		
+		if(organCode!=null) {
+			csf.add(new SearchFilter("organCode", Operator.LIKE_R, organCode));
+		}
+		
 		Page page = new Page();
 		page.setNumPerPage(Integer.MAX_VALUE);
 		Specification<StasticsArea> specification = DynamicSpecifications.bySearchFilter(request, StasticsArea.class, csf);
@@ -2711,9 +2805,6 @@ public class StasticsController {
 		if (organCode == null || organCode.trim().length() <= 0) {
 			organCode = userOrg.getOrgCode();
 			organName = userOrg.getName();
-		} else if (!organCode.contains(userOrg.getOrgCode())) {
-			organCode = userOrg.getOrgCode();
-			organName = userOrg.getName();
 		}
 	
 		request.setAttribute("orgCode", organCode);
@@ -2725,6 +2816,9 @@ public class StasticsController {
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		if(mth!=null) {
 			csf.add(new SearchFilter("mth", Operator.EQ, mth));
+		}
+		if(organCode!=null) {
+			csf.add(new SearchFilter("organCode", Operator.LIKE_R, organCode));
 		}
 		Page page = new Page();
 		page.setNumPerPage(Integer.MAX_VALUE);

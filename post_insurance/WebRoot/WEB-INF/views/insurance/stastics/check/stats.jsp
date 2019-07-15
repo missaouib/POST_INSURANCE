@@ -42,7 +42,14 @@ function toTips(val) {
 							<form:option value="10">长期险</form:option>
 						</form:select>
 					</td>
-					<td>&nbsp;</td>
+					<td>
+					<label>趸/期缴：</label>
+					<form:select path="CheckModel.perm" id="pperm" class="combox">
+						<form:option value="">  --  </form:option>
+						<form:option value="1"> 年交 </form:option>
+						<form:option value="0"> 趸交 </form:option>
+					</form:select>
+					</td>
 				</tr>
 			</table>
 			<div class="subBar">
@@ -58,11 +65,11 @@ function toTips(val) {
 	<div class="panelBar">
 		<ul class="toolBar">
 			<li class="line">line</li>
-			<li><a class="icon" target="_blank" href="${contextPath }/component/stastics/checkToXls?orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&levelFlag=${levelFlag}&duration=${duration}"><span>导出统计结果</span></a></li>
+			<li><a class="icon" target="_blank" href="${contextPath }/component/stastics/checkToXls?orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&levelFlag=${levelFlag}&duration=${duration}&perm=${perm}"><span>导出统计结果</span></a></li>
 			<li class="line">line</li>
-			<li><a class="icon" target="_blank" href="${contextPath }/component/stastics/checkWrite/dtlToXls?orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&levelFlag=${levelFlag}&duration=${duration}"><span>导出填写差错</span></a></li>
+			<li><a class="icon" target="_blank" href="${contextPath }/component/stastics/checkWrite/dtlToXls?orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&levelFlag=${levelFlag}&duration=${duration}&perm=${perm}"><span>导出填写差错</span></a></li>
 			<li class="line">line</li>
-			<li><a class="icon" target="_blank" href="${contextPath }/component/stastics/checkRecord/dtlToXls?orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&levelFlag=${levelFlag}&duration=${duration}"><span>导出录入差错</span></a></li>
+			<li><a class="icon" target="_blank" href="${contextPath }/component/stastics/checkRecord/dtlToXls?orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&levelFlag=${levelFlag}&duration=${duration}&perm=${perm}"><span>导出录入差错</span></a></li>
 		</ul>
 	</div>
 	<div id="w_list_print">

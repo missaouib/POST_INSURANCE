@@ -41,14 +41,19 @@ table.dataintable tr:nth-child(even) {
 					<td>
 					<label>所属机构：</label>
 					<input name="orgCode" id="uw_orgCode" type="hidden" value="${orgCode }"/>
-					<input class="validate[required] required" name="name" id="uw_orgName" type="text" readonly="readonly" style="width: 120px;" value="${name }"/><a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="" title="选择机构" width="400">查</a>
+					<input class="validate[required] required" name="name" id="uw_orgName" type="text" readonly="readonly" style="width: 120px;" value="${name }"/><a class="btnLook" href="${contextPath }/management/security/user/lookup2org?flag=prov" lookupGroup="" title="选择机构" width="400">查</a>
 					</td>
-					<td><label>月度：</label>
-					<input type="text" name="mth" id="cmth" class="validate[required] required" style="width: 80px;" value="${mthStr }"/>(yyyyMM)
+					<td><label>考核年月：</label>
+					<form:select path="StasticsCity.mthYear" id="asy" class="combox">
+						<form:options items="${yl }"/>
+					</form:select>
+					<form:select path="StasticsCity.mthMonth" id="asm" class="combox">
+						<form:options items="${ml }"/>
+					</form:select>
 					</td>
 					<td><label>标记：</label>
-					<label><input type="radio" name="flag" value="0" ${flag eq "0"?"checked":"" }/>当月</label>
-					<label><input type="radio" name="flag" value="1" ${flag eq "1"?"checked":"" }/>累计</label>
+					<label><input type="radio" name="flag" id="ary1" value="0" ${flag eq "0"?"checked":"" }/>当月</label>
+					<label><input type="radio" name="flag" id="ary2" value="1" ${flag eq "1"?"checked":"" }/>累计</label>
 					</td>
 				</tr>
 			</table>
@@ -65,7 +70,7 @@ table.dataintable tr:nth-child(even) {
 	<div class="panelBar">
 		<ul class="toolBar">
 			<li class="line">line</li>
-			<li><a class="icon" target="_blank" href="${contextPath }/component/stastics/areaStat/toXls?orgCode=${orgCode }&mth=${mth }&flag=${flag }&levelFlag=${levelFlag}"><span>导出统计结果</span></a></li>
+			<li><a class="icon" target="_blank" href="${contextPath }/component/stastics/areaStat/toXls?orgCode=${orgCode }&mth=${mthStr }&flag=${flag }&levelFlag=${levelFlag}"><span>导出统计结果</span></a></li>
 		</ul>
 	</div>
 	<div id="w_list_print">
@@ -232,7 +237,6 @@ table.dataintable tr:nth-child(even) {
       <td><c:choose><c:when test="${fn:contains(item.truthValue,'-')}">-</c:when><c:when test="${fn:contains(item.truthValue,'/')}">-</c:when><c:otherwise><fmt:formatNumber type="percent" minFractionDigits="2" value="${item.truthValue }"/></c:otherwise></c:choose></td>
       <td><fmt:formatNumber value="${item.truthScore}" pattern="#,###.#" /></td>
       <td><fmt:formatNumber value="${item.riskTotalScore}" pattern="#,###.#" /></td>
-      <td><fmt:formatNumber value="${item.importantjobTotalScore}" pattern="#,###.#" /></td>
       <td><fmt:formatNumber value="${item.totalScore}" pattern="#,###.#" /></td>
       <td>${item.citySort }</td>
     </tr>

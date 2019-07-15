@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import com.gdpost.web.entity.Idable;
 
@@ -71,7 +72,29 @@ public class StasticsArea  implements Idable<Long>,Serializable {
      private Date operateTime;
      private String operateName;
 
-
+     @Transient
+     private String mthYear;
+     @Transient
+     private String mthMonth;
+     
+    // Constructors
+    @Transient
+    public String getMthYear() {
+		return mthYear;
+	}
+    @Transient
+	public void setMthYear(String mthYear) {
+		this.mthYear = mthYear;
+	}
+    @Transient
+	public String getMthMonth() {
+		return mthMonth;
+	}
+    @Transient
+	public void setMthMonth(String mthMonth) {
+		this.mthMonth = mthMonth;
+	}
+    
     // Constructors
 
     /** default constructor */

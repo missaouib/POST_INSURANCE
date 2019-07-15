@@ -257,33 +257,33 @@ public class StasticsServiceImpl implements StasticsService {
 	 * =========================================
 	 */
 	@Override
-	public List<QyCheckModel> getCheckWriteCityStastics(String d1, String d2, Integer duration) {
-		return checkDAO.getCheckWriteCityStat(d1, d2, duration);
+	public List<QyCheckModel> getCheckWriteCityStastics(String d1, String d2, Integer duration, String toPerm) {
+		return checkDAO.getCheckWriteCityStat(d1, d2, duration, toPerm);
 	}
 
 	@Override
-	public List<QyCheckModel> getCheckRecordCityStastics(String d1, String d2, Integer duration) {
-		return checkDAO.getCheckRecordCityStat(d1, d2, duration);
+	public List<QyCheckModel> getCheckRecordCityStastics(String d1, String d2, Integer duration, String toPerm) {
+		return checkDAO.getCheckRecordCityStat(d1, d2, duration, toPerm);
 	}
 
 	@Override
-	public List<QyCheckModel> getCheckWriteAreaStastics(String organCode, String d1, String d2, Integer duration) {
-		return checkDAO.getCheckWriteAreaStat(organCode, d1, d2, duration);
+	public List<QyCheckModel> getCheckWriteAreaStastics(String organCode, String d1, String d2, Integer duration, String toPerm) {
+		return checkDAO.getCheckWriteAreaStat(organCode, d1, d2, duration, toPerm);
 	}
 
 	@Override
-	public List<QyCheckModel> getCheckRecordAreaStastics(String organCode, String d1, String d2, Integer duration) {
-		return checkDAO.getCheckRecordAreaStat(organCode, d1, d2, duration);
+	public List<QyCheckModel> getCheckRecordAreaStastics(String organCode, String d1, String d2, Integer duration, String toPerm) {
+		return checkDAO.getCheckRecordAreaStat(organCode, d1, d2, duration, toPerm);
 	}
 
 	@Override
-	public List<QyCheckModel> getCheckTruthCityStastics(String d1, String d2, Integer duration) {
-		return checkDAO.getCheckTruthCityStat(d1, d2, duration);
+	public List<QyCheckModel> getCheckTruthCityStastics(String d1, String d2, Integer duration, String toPerm) {
+		return checkDAO.getCheckTruthCityStat(d1, d2, duration, toPerm);
 	}
 
 	@Override
-	public List<QyCheckModel> getCheckTruthAreaStastics(String organCode, String d1, String d2, Integer duration) {
-		return checkDAO.getCheckTruthAreaStat(organCode, d1, d2, duration);
+	public List<QyCheckModel> getCheckTruthAreaStastics(String organCode, String d1, String d2, Integer duration, String toPerm) {
+		return checkDAO.getCheckTruthAreaStat(organCode, d1, d2, duration, toPerm);
 	}
 
 	@Override
@@ -297,18 +297,18 @@ public class StasticsServiceImpl implements StasticsService {
 	}
 
 	@Override
-	public List<CheckModel> getCheckWritetasticsDtl(String orgCode, String d1, String d2, Integer duration) {
-		return checDtlkDAO.getCheckWriteStatDtl(orgCode, d1, d2, duration);
+	public List<CheckModel> getCheckWritetasticsDtl(String orgCode, String d1, String d2, Integer duration, String toPerm) {
+		return checDtlkDAO.getCheckWriteStatDtl(orgCode, d1, d2, duration, toPerm);
 	}
 
 	@Override
-	public List<CheckModel> getCheckRecordtasticsDtl(String orgCode, String d1, String d2, Integer duration) {
-		return checDtlkDAO.getCheckRecordStatDtl(orgCode, d1, d2, duration);
+	public List<CheckModel> getCheckRecordtasticsDtl(String orgCode, String d1, String d2, Integer duration, String toPerm) {
+		return checDtlkDAO.getCheckRecordStatDtl(orgCode, d1, d2, duration, toPerm);
 	}
 
 	@Override
-	public List<CheckModel> getCheckTruthStasticsDtl(String organCode, String d1, String d2, Integer duration) {
-		return checDtlkDAO.getCheckTruthStatDtl(organCode, d1, d2, duration);
+	public List<CheckModel> getCheckTruthStasticsDtl(String organCode, String d1, String d2, Integer duration, String toPerm) {
+		return checDtlkDAO.getCheckTruthStatDtl(organCode, d1, d2, duration, toPerm);
 	}
 	
 	@Override

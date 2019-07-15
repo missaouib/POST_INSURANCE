@@ -35,7 +35,16 @@ public class QyCheckModel implements java.io.Serializable {
 	private String orgName;
 	@Transient
 	private Integer duration;
-	
+	@Transient
+	private String perm;
+	@Transient
+	public String getPerm() {
+		return perm;
+	}
+	@Transient
+	public void setPerm(String perm) {
+		this.perm = perm;
+	}
 	@Transient
 	public String getLevelFlag() {
 		return levelFlag;
