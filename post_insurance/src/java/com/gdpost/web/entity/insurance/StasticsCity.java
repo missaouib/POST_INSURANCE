@@ -82,6 +82,8 @@ public class StasticsCity implements Idable<Long>,Serializable {
      private Double bqmqScore;
      private String qyprintValue;
      private Double qyprintScore;
+     private String checkdealValue;
+     private Double checkdealScore;
      private Double importantjobTotalScore;
      private Double totalScore;
      private Integer citySort;
@@ -221,7 +223,7 @@ public class StasticsCity implements Idable<Long>,Serializable {
         this.mth = mth;
     }
     
-    @Column(name="qyhgl_value", length=7)
+    @Column(name="qyhgl_value", length=9)
 
     public String getQyhglValue() {
         return this.qyhglValue;
@@ -241,7 +243,7 @@ public class StasticsCity implements Idable<Long>,Serializable {
         this.qyhglScore = qyhglScore;
     }
     
-    @Column(name="kfhfcgl_value", length=7)
+    @Column(name="kfhfcgl_value", length=9)
 
     public String getKfhfcglValue() {
         return this.kfhfcglValue;
@@ -261,7 +263,7 @@ public class StasticsCity implements Idable<Long>,Serializable {
         this.kfhfcglScore = kfhfcglScore;
     }
     
-    @Column(name="wtj_value", length=7)
+    @Column(name="wtj_value", length=9)
 
     public String getWtjValue() {
         return this.wtjValue;
@@ -281,7 +283,7 @@ public class StasticsCity implements Idable<Long>,Serializable {
         this.wtjScore = wtjScore;
     }
     
-    @Column(name="xq13j_value", length=7)
+    @Column(name="xq13j_value", length=9)
 
     public String getXq13jValue() {
         return this.xq13jValue;
@@ -301,7 +303,7 @@ public class StasticsCity implements Idable<Long>,Serializable {
         this.xq13jScore = xq13jScore;
     }
     
-    @Column(name="xq25j_value", length=7)
+    @Column(name="xq25j_value", length=9)
 
     public String getXq25jValue() {
         return this.xq25jValue;
@@ -321,7 +323,7 @@ public class StasticsCity implements Idable<Long>,Serializable {
         this.xq25jScore = xq25jScore;
     }
     
-    @Column(name="qjxdtbl_value", length=7)
+    @Column(name="qjxdtbl_value", length=9)
 
     public String getQjxdtblValue() {
         return this.qjxdtblValue;
@@ -351,7 +353,7 @@ public class StasticsCity implements Idable<Long>,Serializable {
         this.billvalueTotalScore = billvalueTotalScore;
     }
     
-    @Column(name="uw_value", length=7)
+    @Column(name="uw_value", length=9)
 
     public String getUwValue() {
         return this.uwValue;
@@ -371,7 +373,7 @@ public class StasticsCity implements Idable<Long>,Serializable {
         this.uwScore = uwScore;
     }
     
-    @Column(name="lppay_value", length=7)
+    @Column(name="lppay_value", length=9)
 
     public String getLppayValue() {
         return this.lppayValue;
@@ -391,7 +393,7 @@ public class StasticsCity implements Idable<Long>,Serializable {
         this.lppayScore = lppayScore;
     }
     
-    @Column(name="lp7d_value", length=7)
+    @Column(name="lp7d_value", length=9)
 
     public String getLp7dValue() {
         return this.lp7dValue;
@@ -411,7 +413,7 @@ public class StasticsCity implements Idable<Long>,Serializable {
         this.lp7dScore = lp7dScore;
     }
     
-    @Column(name="invalid_value", length=7)
+    @Column(name="invalid_value", length=9)
 
     public String getInvalidValue() {
         return this.invalidValue;
@@ -441,7 +443,7 @@ public class StasticsCity implements Idable<Long>,Serializable {
         this.kfTotalScore = kfTotalScore;
     }
     
-    @Column(name="input_value", length=7)
+    @Column(name="input_value", length=9)
 
     public String getInputValue() {
         return this.inputValue;
@@ -461,7 +463,7 @@ public class StasticsCity implements Idable<Long>,Serializable {
         this.inputScore = inputScore;
     }
     
-    @Column(name="check_value", length=7)
+    @Column(name="check_value", length=9)
 
     public String getCheckValue() {
         return this.checkValue;
@@ -481,7 +483,7 @@ public class StasticsCity implements Idable<Long>,Serializable {
         this.checkScore = checkScore;
     }
     
-    @Column(name="gwtj_value", length=7)
+    @Column(name="gwtj_value", length=9)
 
     public String getGwtjValue() {
         return this.gwtjValue;
@@ -501,7 +503,7 @@ public class StasticsCity implements Idable<Long>,Serializable {
         this.gwtjScore = gwtjScore;
     }
     
-    @Column(name="lpjyx_value", length=7)
+    @Column(name="lpjyx_value", length=9)
 
     public String getLpjyxValue() {
         return this.lpjyxValue;
@@ -531,7 +533,7 @@ public class StasticsCity implements Idable<Long>,Serializable {
         this.jobTotalScore = jobTotalScore;
     }
     
-    @Column(name="bqjyjk_value", length=7)
+    @Column(name="bqjyjk_value", length=9)
 
     public String getBqjyjkValue() {
         return this.bqjyjkValue;
@@ -551,7 +553,7 @@ public class StasticsCity implements Idable<Long>,Serializable {
         this.bqjyjkScore = bqjyjkScore;
     }
     
-    @Column(name="dzzk_value", length=7)
+    @Column(name="dzzk_value", length=9)
 
     public String getDzzkValue() {
         return this.dzzkValue;
@@ -571,7 +573,7 @@ public class StasticsCity implements Idable<Long>,Serializable {
         this.dzzkScore = dzzkScore;
     }
     
-    @Column(name="truth_value", length=7)
+    @Column(name="truth_value", length=9)
 
     public String getTruthValue() {
         return this.truthValue;
@@ -601,7 +603,7 @@ public class StasticsCity implements Idable<Long>,Serializable {
         this.riskTotalScore = riskTotalScore;
     }
     
-    @Column(name="bqmqrisk_value", length=7)
+    @Column(name="bqmqrisk_value", length=9)
 
     public String getBqmqriskValue() {
         return this.bqmqriskValue;
@@ -621,7 +623,7 @@ public class StasticsCity implements Idable<Long>,Serializable {
         this.bqmqriskScore = bqmqriskScore;
     }
     
-    @Column(name="bqmqjob_value", length=7)
+    @Column(name="bqmqjob_value", length=9)
 
     public String getBqmqjobValue() {
         return this.bqmqjobValue;
@@ -641,7 +643,7 @@ public class StasticsCity implements Idable<Long>,Serializable {
         this.bqmqjobScore = bqmqjobScore;
     }
     
-    @Column(name="bqxt_value", length=7)
+    @Column(name="bqxt_value", length=9)
 
     public String getBqxtValue() {
         return this.bqxtValue;
@@ -661,7 +663,7 @@ public class StasticsCity implements Idable<Long>,Serializable {
         this.bqxtScore = bqxtScore;
     }
     
-    @Column(name="bqmq_value", length=7)
+    @Column(name="bqmq_value", length=9)
 
     public String getBqmqValue() {
         return this.bqmqValue;
@@ -681,7 +683,7 @@ public class StasticsCity implements Idable<Long>,Serializable {
         this.bqmqScore = bqmqScore;
     }
     
-    @Column(name="qyprint_value", length=7)
+    @Column(name="qyprint_value", length=9)
 
     public String getQyprintValue() {
         return this.qyprintValue;
@@ -692,7 +694,6 @@ public class StasticsCity implements Idable<Long>,Serializable {
     }
     
     @Column(name="qyprint_score", precision=22, scale=0)
-
     public Double getQyprintScore() {
         return this.qyprintScore;
     }
@@ -701,8 +702,21 @@ public class StasticsCity implements Idable<Long>,Serializable {
         this.qyprintScore = qyprintScore;
     }
     
-    @Column(name="importantjob_total_score", precision=22, scale=0)
-
+    @Column(name="checkdeal_value")
+    public String getCheckdealValue() {
+		return checkdealValue;
+	}
+	public void setCheckdealValue(String checkdealValue) {
+		this.checkdealValue = checkdealValue;
+	}
+	@Column(name="checkdeal_score", precision=22, scale=0)
+	public Double getCheckdealScore() {
+		return checkdealScore;
+	}
+	public void setCheckdealScore(Double checkdealScore) {
+		this.checkdealScore = checkdealScore;
+	}
+	@Column(name="importantjob_total_score", precision=22, scale=0)
     public Double getImportantjobTotalScore() {
         return this.importantjobTotalScore;
     }

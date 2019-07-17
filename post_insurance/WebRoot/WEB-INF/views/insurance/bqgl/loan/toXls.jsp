@@ -13,7 +13,7 @@ response.setHeader("Content-Disposition", "inline; filename=CS_REPORT_LIST.xls")
 			<th>序号</th>
 			<th>逾期标记</th>
 			<th>管理机构</th>
-			<th orderField=csNo class="${page.orderField eq 'csNo' ? page.orderDirection : ''}">保单号码</th>
+			<th>保单号码</th>
 			<th>投保人姓名</th>
 			<th>投保人性别</th>
 			<th>险种名称</th>
@@ -26,9 +26,9 @@ response.setHeader("Content-Disposition", "inline; filename=CS_REPORT_LIST.xls")
 		</tr>
 	</thead>
 	<tbody>
-		<c:forEach var="item" items="${issues}" varStatus="index">
+		<c:forEach var="item" items="${issues}" varStatus="idx">
 		<tr>
-			<td>${index+1 }</td>
+			<td>${idx.index+1 }</td>
 			<td>
               <c:choose>  
 			    <c:when test="${item.checkDate>1}">  

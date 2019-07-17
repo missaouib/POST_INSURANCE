@@ -371,6 +371,20 @@ public class StasticsCityColumn {
 		column.setColumnType(ColumnType.numeric);
 		column.setNullable(false);
 		standardColumns.add(column);
+		
+		column = new ColumnItem();
+		column.setDisplayName("客户信息真实性问题件整改进度");
+		column.setColumnName("checkdeal_value");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(false);
+		standardColumns.add(column);
+
+		column = new ColumnItem();
+		column.setDisplayName("客户信息真实性问题件整改进度得分");
+		column.setColumnName("checkdeal_score");
+		column.setColumnType(ColumnType.numeric);
+		column.setNullable(false);
+		standardColumns.add(column);
 
 		column = new ColumnItem();
 		column.setDisplayName("重点工作推动维度得分");

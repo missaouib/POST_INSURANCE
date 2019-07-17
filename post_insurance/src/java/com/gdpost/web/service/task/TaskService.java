@@ -244,7 +244,16 @@ public class TaskService {
 			statement.executeUpdate(sql);
 			log.info("------------ finish exec sql");
 			
+			sql = "insert IGNORE into t_cs_loan (organ_name,policy_no,holder,holder_sexy,prod_name,bank_name,loan_date,loan_fee,should_date,status,phone,operate_id) (select csr.organ_name,csr.policy_no,csr.holder,tpd.holder_sexy,tpd.prod_name,csr.net_name,csr.cs_date,csr.money,date_add(cs_date,INTERVAL '180' day),'借款',cast(aes_decrypt(unhex(holder_MOBILE), 'GDPost') as char(100)),tpd.operate_id from t_cs_report csr, t_policy_dtl tpd where csr.policy_no=tpd.policy_no and csr.cs_code='LN');";
+			log.info("------------ sql :" + sql);
+			statement.executeUpdate(sql);
+			
 			sql = "update t_cs_loan set flag=case when DATEDIFF(NOW(),should_date)>1 then '2' when  DATEDIFF(NOW(),should_date)>-30 then '1' else '0' end;";
+			log.info("------------ sql :" + sql);
+			statement.executeUpdate(sql);
+			log.info("------------ finish exec sql");
+			
+			sql = "update t_cs_loan csl, t_cs_report csr set csl.status=\"关闭\", csl.real_date=csr.cs_date where csl.policy_no=csr.policy_no and csr.cs_code in ('RF','CT','AG') and csr.cs_date>csl.loan_date and csl.status<>'关闭';";
 			log.info("------------ sql :" + sql);
 			statement.executeUpdate(sql);
 			log.info("------------ finish exec sql");

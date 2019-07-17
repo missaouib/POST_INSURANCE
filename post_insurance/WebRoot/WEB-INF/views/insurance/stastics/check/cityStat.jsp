@@ -82,7 +82,7 @@ table.dataintable tr:nth-child(even) {
       <td colspan="9">客户服务（19分）</td>
       <td colspan="9">作业质量（9分）</td>
       <td colspan="7">风险管控（8分）</td>
-      <td colspan="11">重点工作推动（10分）</td>
+      <td colspan="13">重点工作推动（10分）</td>
       <td colspan="2">总体情况</td>
     </tr>
     <tr>
@@ -113,6 +113,7 @@ table.dataintable tr:nth-child(even) {
       <td colspan="2">协议退保时效</td>
       <td colspan="2">协议满期处理时效</td>
       <td colspan="2">纸质保单申请率</td>
+      <td colspan="2">客户信息真实性问题件整改进度</td>
       <td>重点工作推动维度得分</td>
       <td>总分</td>
       <td rowspan="4">总分排名</td>
@@ -140,11 +141,12 @@ table.dataintable tr:nth-child(even) {
       <td colspan="2">[0,2]</td>
       <td colspan="2">[0,4]</td>
       <td>[0,8]</td>
-      <td colspan="2">[0,2]</td>
+      <td colspan="2">[0,1]</td>
       <td colspan="2">[0,1]</td>
       <td colspan="2">[0,2]</td>
       <td colspan="2">[0,1]</td>
-      <td colspan="2">[0,4]</td>
+      <td colspan="2">[0,2]</td>
+      <td colspan="2">[0,3]</td>
       <td>[0,10]</td>
       <td>[0,131]</td>
     </tr>
@@ -199,6 +201,8 @@ table.dataintable tr:nth-child(even) {
       <td>基准分</td>
       <td>基准值</td>
       <td>基准分</td>
+      <td>基准值</td>
+      <td>基准分</td>
       <td>合计</td>
       <td>合计</td>
     </tr>
@@ -242,7 +246,7 @@ table.dataintable tr:nth-child(even) {
       <td>4</td>
       <td>8</td>
       <td>0</td>
-      <td>2</td>
+      <td>1</td>
       <td>1</td>
       <td>1</td>
       <td>1</td>
@@ -250,7 +254,9 @@ table.dataintable tr:nth-child(even) {
       <td>1</td>
       <td>1</td>
       <td>40%</td>
-      <td>4</td>
+      <td>2</td>
+      <td>98%</td>
+      <td>3</td>
       <td>10</td>
       <td>100</td>
     </tr>
@@ -306,6 +312,8 @@ table.dataintable tr:nth-child(even) {
       <td><fmt:formatNumber value="${item.bqmqScore}" pattern="#,###.#" /></td>
       <td><c:choose><c:when test="${fn:contains(item.qyprintValue,'-')}">-</c:when><c:when test="${fn:contains(item.qyprintValue,'/')}">-</c:when><c:otherwise><fmt:formatNumber type="percent" minFractionDigits="2" value="${item.qyprintValue }"/></c:otherwise></c:choose></td>
       <td><fmt:formatNumber value="${item.qyprintScore}" pattern="#,###.#" /></td>
+      <td><c:choose><c:when test="${fn:contains(item.checkdealValue,'-')}">-</c:when><c:when test="${fn:contains(item.checkdealValue,'/')}">-</c:when><c:otherwise><fmt:formatNumber type="percent" minFractionDigits="2" value="${item.checkdealValue }"/></c:otherwise></c:choose></td>
+      <td><fmt:formatNumber value="${item.checkdealScore}" pattern="#,###.#" /></td>
       <td><fmt:formatNumber value="${item.importantjobTotalScore}" pattern="#,###.#" /></td>
       <td><fmt:formatNumber value="${item.totalScore}" pattern="#,###.#" /></td>
       <td>${item.citySort }</td>
