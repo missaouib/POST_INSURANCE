@@ -73,7 +73,7 @@ function toTips(val) {
 		</ul>
 	</div>
 	<div id="w_list_print">
-		<table class="table" layoutH="120" width="80%">
+		<table class="table" layoutH="135" width="80%">
 		<thead>
 			<tr>
 				<th>序号</th>
@@ -84,6 +84,7 @@ function toTips(val) {
 				<th>填写差错</th>
 				<th>抽检录入件数</th>
 				<th>录入差错</th>
+				<th>综合合规率</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -97,16 +98,19 @@ function toTips(val) {
 				<td style="text-align: right;font-weight:800;"><fmt:formatNumber value="${item.errCounts}" pattern="#,###" /></td>
 				<td style="text-align: right;font-weight:800;"><fmt:formatNumber value="${item.checkRecordCounts}" pattern="#,###" /></td>
 				<td style="text-align: right;font-weight:800;"><fmt:formatNumber value="${item.checkRecordErrCounts}" pattern="#,###.#" /></td>
+				<td style="text-align: center;"><fmt:formatNumber type="percent" maxFractionDigits="2" value="${(item.checkCounts-item.errCounts)/item.checkCounts*0.8+(item.checkRecordCounts-item.checkRecordErrCounts)/item.checkRecordCounts*0.1+0.1 }" /></td>
 			</tr>
 			</c:forEach>
 			<tr>
 				<td>&nbsp;</td>
+				<td>&nbsp;</td>
 				<td>合计：</td>
-				<td style="text-align: right;font-weight:800;"><fmt:formatNumber value="${tl10}" pattern="#,###.#" /></td>
-				<td style="text-align: right;font-weight:800;"><fmt:formatNumber value="${tl20}" pattern="#,###.#" /></td>
-				<td style="text-align: right;font-weight:800;"><fmt:formatNumber value="${tl30}" pattern="#,###.#" /></td>
-				<td style="text-align: right;font-weight:800;"><fmt:formatNumber value="${tl50}" pattern="#,###.#" /></td>
-				<td style="text-align: right;font-weight:800;"><fmt:formatNumber value="${tsc}" pattern="#,###.#" /></td>
+				<td style="text-align: right;font-weight:800;"><fmt:formatNumber value="${totalPolicyCount}" pattern="#,###.#" /></td>
+				<td style="text-align: right;font-weight:800;"><fmt:formatNumber value="${totalCheck}" pattern="#,###.#" /></td>
+				<td style="text-align: right;font-weight:800;"><fmt:formatNumber value="${totalErr}" pattern="#,###.#" /></td>
+				<td style="text-align: right;font-weight:800;"><fmt:formatNumber value="${totalRecordCheck}" pattern="#,###.#" /></td>
+				<td style="text-align: right;font-weight:800;"><fmt:formatNumber value="${totalRecordErr}" pattern="#,###.#" /></td>
+				<td style="text-align: center;"><fmt:formatNumber type="percent" maxFractionDigits="2" value="${(totalCheck-totalErr)/totalCheck*0.8+(totalRecordCheck-totalRecordErr)/totalRecordCheck*0.1+0.1 }" /></td>
 			</tr>
 		</tbody>
 	</table>

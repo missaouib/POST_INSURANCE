@@ -1620,6 +1620,12 @@ public class StasticsController {
 		QyCheckModel qcm = null;
 		String orgCode = null;
 		
+		int totalPolicyCount = 0;
+		int totalCheck = 0;
+		int totalErr = 0;
+		int totalRecordCheck = 0;
+		int totalRecordErr = 0;
+		
 		//if (flag == null || flag.trim().equals("write")) {
 		if (!isCity) {
 			TreeMap<String, String> cityMap = orgList.get(0);
@@ -1639,6 +1645,10 @@ public class StasticsController {
 						qcm.setPolicyCounts(write.getPolicyCounts());
 						qcm.setCheckCounts(write.getCheckCounts());
 						qcm.setErrCounts(write.getErrCounts());
+						
+						totalPolicyCount += write.getPolicyCounts();
+						totalCheck += write.getCheckCounts();
+						totalErr += write.getErrCounts();
 					}
 				}
 				rst.add(qcm);
@@ -1649,6 +1659,10 @@ public class StasticsController {
 					if (write.getOrganCode().equals(record.getOrganCode())) {
 						write.setCheckRecordCounts(record.getCheckCounts());
 						write.setCheckRecordErrCounts(record.getErrCounts());
+						
+						totalRecordCheck += record.getCheckCounts();
+						totalRecordErr += record.getErrCounts();
+						
 						break;
 					}
 				}
@@ -1672,6 +1686,9 @@ public class StasticsController {
 						qcm.setPolicyCounts(write.getPolicyCounts());
 						qcm.setCheckCounts(write.getCheckCounts());
 						qcm.setErrCounts(write.getErrCounts());
+
+						totalCheck += write.getCheckCounts();
+						totalErr += write.getErrCounts();
 					}
 				}
 				rst.add(qcm);
@@ -1682,6 +1699,10 @@ public class StasticsController {
 					if (write.getOrganCode().equals(record.getOrganCode())) {
 						write.setCheckRecordCounts(record.getCheckCounts());
 						write.setCheckRecordErrCounts(record.getErrCounts());
+						
+						totalRecordCheck += record.getCheckCounts();
+						totalRecordErr += record.getErrCounts();
+						
 						break;
 					}
 				}
@@ -1690,6 +1711,11 @@ public class StasticsController {
 		}
 		
 		request.setAttribute("cmRst", rst);
+		request.setAttribute("totalPolicyCount", totalPolicyCount);
+		request.setAttribute("totalCheck", totalCheck);
+		request.setAttribute("totalErr", totalErr);
+		request.setAttribute("totalRecordCheck", totalRecordCheck);
+		request.setAttribute("totalRecordErr", totalRecordErr);
 
 		return CHECK_LIST;
 	}
@@ -1780,6 +1806,12 @@ public class StasticsController {
 		QyCheckModel qcm = null;
 		String orgCode = null;
 		
+		int totalPolicyCount = 0;
+		int totalCheck = 0;
+		int totalErr = 0;
+		int totalRecordCheck = 0;
+		int totalRecordErr = 0;
+		
 		//if (flag == null || flag.trim().equals("write")) {
 		if (!isCity) {
 			TreeMap<String, String> cityMap = orgList.get(0);
@@ -1799,6 +1831,10 @@ public class StasticsController {
 						qcm.setPolicyCounts(write.getPolicyCounts());
 						qcm.setCheckCounts(write.getCheckCounts());
 						qcm.setErrCounts(write.getErrCounts());
+						
+						totalPolicyCount += write.getPolicyCounts();
+						totalCheck += write.getCheckCounts();
+						totalErr += write.getErrCounts();
 					}
 				}
 				rst.add(qcm);
@@ -1809,6 +1845,10 @@ public class StasticsController {
 					if (write.getOrganCode().equals(record.getOrganCode())) {
 						write.setCheckRecordCounts(record.getCheckCounts());
 						write.setCheckRecordErrCounts(record.getErrCounts());
+						
+						totalRecordCheck += record.getCheckCounts();
+						totalRecordErr += record.getErrCounts();
+						
 						break;
 					}
 				}
@@ -1832,6 +1872,9 @@ public class StasticsController {
 						qcm.setPolicyCounts(write.getPolicyCounts());
 						qcm.setCheckCounts(write.getCheckCounts());
 						qcm.setErrCounts(write.getErrCounts());
+
+						totalCheck += write.getCheckCounts();
+						totalErr += write.getErrCounts();
 					}
 				}
 				rst.add(qcm);
@@ -1842,6 +1885,10 @@ public class StasticsController {
 					if (write.getOrganCode().equals(record.getOrganCode())) {
 						write.setCheckRecordCounts(record.getCheckCounts());
 						write.setCheckRecordErrCounts(record.getErrCounts());
+						
+						totalRecordCheck += record.getCheckCounts();
+						totalRecordErr += record.getErrCounts();
+						
 						break;
 					}
 				}
@@ -1850,6 +1897,11 @@ public class StasticsController {
 		}
 		
 		request.setAttribute("cmRst", rst);
+		request.setAttribute("totalPolicyCount", totalPolicyCount);
+		request.setAttribute("totalCheck", totalCheck);
+		request.setAttribute("totalErr", totalErr);
+		request.setAttribute("totalRecordCheck", totalRecordCheck);
+		request.setAttribute("totalRecordErr", totalRecordErr);
 
 		return CHECK_TOXLS;
 	}
