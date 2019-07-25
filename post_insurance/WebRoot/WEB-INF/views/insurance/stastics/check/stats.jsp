@@ -84,7 +84,7 @@ function toTips(val) {
 				<th>填写差错</th>
 				<th>抽检录入件数</th>
 				<th>录入差错</th>
-				<th>综合合规率</th>
+				<th>综合合格率</th>
 			</tr>
 		</thead>
 		<tbody>
