@@ -64,7 +64,7 @@ function customAjaxDone(json){
 		</p>
 		<p>
 			<label>所属机构：</label>
-			<span class="unit">${empty inquire.gpolicyNo?inquire.organ.shortName:inquire.gorgan.shortName }</span>
+			<span class="unit">${empty inquire.gpolicyNo?inquire.organ.shortName:inquire.gorganName }</span>
 		</p>
 		<p class="nowrap">
 			<label>出单网点：</label>

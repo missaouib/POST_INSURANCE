@@ -157,6 +157,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql2 = "update t_policy set attached_flag = 1 where attached_flag=0 and prod_name like \"%附加%\";";
 			sql3 = "update t_policy set attached_flag = 2 where attached_flag=0 and prod_name like \"%禄禄通%\";";
 			sql4 = "update t_policy set attached_flag = 3 where attached_flag=0 and policy_no like \"5244%\";";
+			sql12 = "update t_policy set attached_flag = 7 where attached_flag=0 and policy_fee=1 and prod_code=\"125022\";";
 			sql8 = "update t_policy set plan_name=\"新百倍保自驾航空责任组合\" where plan_code is not null and plan_code=\"125012_B\" and plan_name is null;";
 			sql9 = "update t_policy set plan_name=\"新百倍保公共交通责任组合\" where plan_code is not null and plan_code=\"125012_A\" and plan_name is null;";
 			sql5 = "update t_policy tp inner join (select sum(policy_fee) as total_fee, policy_no from t_policy where total_fee=0 group by policy_no) as tp2 set tp.total_fee=tp2.total_fee where tp.total_fee=0 and tp.attached_flag=0 and tp.policy_no=tp2.policy_no;";
@@ -199,9 +200,10 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case IssuePFR:
 			standardColumns = IssuePFRColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_issue character set utf8 (";
-			sql1 = "update t_issue set should_date=ready_date where should_date is null or should_date<\"2000-11-01 09:00:00\";";
-			sql2 = "update t_issue set issue_type=\"条款解释不清\" where issue_type like \"%条款解释不清%\";";
-			sql3 = "update t_issue set issue_type=\"代签名\" where issue_type like \"%代签名%\";";
+			sql2 = "update t_issue set should_date=ready_date where should_date is null or should_date<\"2000-11-01 09:00:00\";";
+			sql3 = "update t_issue set issue_type=\"条款解释不清\" where issue_type like \"%条款解释不清%\";";
+			sql4 = "update t_issue set issue_type=\"代签名\" where issue_type like \"%代签名%\";";
+			sql1 = "delete from t_issue where bill_back_date<\"1900-01-01 00:00:01\";";
 			break;
 		case IssuePFRDeal:
 			return dr;

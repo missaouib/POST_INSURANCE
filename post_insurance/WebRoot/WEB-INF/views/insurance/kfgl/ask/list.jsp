@@ -136,14 +136,14 @@
 			<c:forEach var="item" items="${inquires}">
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
-				<td>${empty inquire.gpolicyNo?item.organ.shortName:inquire.gorgan.shortName}</td>
+				<td>${empty inquire.gpolicyNo?item.organ.shortName:inquire.gorganName}</td>
 				<td>
 					<c:choose>
-                        <c:when test="${not empty item.policyNos}">
-                        	<div style="color: blue;vertical-align:middle;">个险</div>
-                        </c:when>
                         <c:when test="${not empty item.gpolicyNo}">
                         	<div style="color: blue;vertical-align:middle;">团险</div>
+                        </c:when>
+                        <c:when test="${not empty item.policyNos}">
+                        	<div style="color: blue;vertical-align:middle;">个险</div>
                         </c:when>
                        <c:otherwise>个险团险 </c:otherwise>
                     </c:choose>
