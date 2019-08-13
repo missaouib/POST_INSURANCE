@@ -81,7 +81,7 @@ private static List<ColumnItem> standardColumns;
 		
 		column = new ColumnItem();
 		column.setDisplayName("项目编码");
-		column.setColumnName("cs_code");
+		column.setColumnName("full_cs_code");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);

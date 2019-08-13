@@ -90,7 +90,7 @@ public class QyglServiceImpl implements QyglService {
 			}
 		}
 		
-		checkWriteDAO.save(check);
+		checkWriteDAO.saveAndFlush(check);
 	}
 	
 	@Override
@@ -101,7 +101,7 @@ public class QyglServiceImpl implements QyglService {
 			}
 		}
 		
-		checkRecordDAO.save(check);
+		checkRecordDAO.saveAndFlush(check);
 	}
 	
 	@Override

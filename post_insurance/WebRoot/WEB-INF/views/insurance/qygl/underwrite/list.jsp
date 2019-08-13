@@ -12,6 +12,10 @@
 	<input type="hidden" name="status_flag" value="${status_flag }"/>
 	<input type="hidden" name="search_LTE_sysDate" value="${param.search_LTE_sysDate }"/>
 	<input type="hidden" name="search_GTE_sysDate" value="${param.search_GTE_sysDate }"/>
+	<input type="hidden" name="search_GTE_provSendDate" value="${param.search_GTE_provSendDate }"/>
+	<input type="hidden" name="search_LTE_provSendDate" value="${param.search_LTE_provSendDate }"/>
+	<input type="hidden" name="search_GTE_signDate" value="${param.search_GTE_signDate }"/>
+	<input type="hidden" name="search_LTE_signDate" value="${param.search_LTE_signDate }"/>
 </dwz:paginationForm>
 
 <form method="post" id="hfForm" action="${contextPath }/qygl/underwrite/list" onsubmit="return navTabSearch(this)">

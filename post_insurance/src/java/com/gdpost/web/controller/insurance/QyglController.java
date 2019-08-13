@@ -180,7 +180,7 @@ public class QyglController {
 	@RequestMapping(value="/issue/write/appeal/{id}", method=RequestMethod.POST)
 	public @ResponseBody String appealCheckWrite(@PathVariable Long id) {
 		CheckWrite src = qyglService.getCheckWrite(id);
-		src.setNeedFix("已整改");;
+		src.setNeedFix("申诉件");;
 		src.setFixStatus(QY_STATUS.CloseStatus.name());
 		qyglService.saveOrUpdateCheckWrite(src);
 		
@@ -478,7 +478,7 @@ public class QyglController {
 	@RequestMapping(value="/issue/record/appeal/{id}", method=RequestMethod.POST)
 	public @ResponseBody String appealCheckRecord(@PathVariable Long id) {
 		CheckRecord src = qyglService.getCheckRecord(id);
-		src.setNeedFix("已整改");;
+		src.setNeedFix("申诉件");;
 		src.setFixStatus(QY_STATUS.CloseStatus.name());
 		qyglService.saveOrUpdateCheckRecord(src);
 		
