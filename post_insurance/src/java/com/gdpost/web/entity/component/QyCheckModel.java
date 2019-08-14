@@ -38,6 +38,16 @@ public class QyCheckModel implements java.io.Serializable {
 	@Transient
 	private String perm;
 	@Transient
+	private String fixStatus;
+	@Transient
+	public String getFixStatus() {
+		return fixStatus;
+	}
+	@Transient
+	public void setFixStatus(String fixStatus) {
+		this.fixStatus = fixStatus;
+	}
+	@Transient
 	public String getPerm() {
 		return perm;
 	}

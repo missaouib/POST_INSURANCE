@@ -184,4 +184,23 @@ public interface CheckStasticsDAO extends JpaRepository<QyCheckModel, String>, J
 					"group by pd.organ_code;",
 			nativeQuery=true)
 	List<QyCheckModel> getPrintAreaStat(@Param("orgCode")String orgCode, @Param("pd1")String pd1, @Param("pd2")String pd2);
+	
+	@Query(name="getStatusCheckWriteCityStat",
+			value="select LEFT(tp.organ_name,2) as organ_code,0 as policy_counts,COUNT(cw.policy_no) as check_counts,COUNT(cwt.policy_no) as err_counts " + 
+					"from t_policy tp, t_check_write cw left join t_check_write cwt on cw.policy_no=cwt.policy_no and cwt.fix_status=:fixStatus " + 
+					"where cw.policy_no=tp.policy_no and tp.policy_date between :pd1 and :pd2  " + 
+					"group by left(tp.organ_name,2) order by tp.organ_code;",
+			nativeQuery=true)
+	List<QyCheckModel> getStatusCheckWriteCityStat(@Param("pd1")String pd1, @Param("pd2")String pd2, @Param("fixStatus")String fixStatus);
+	
+	@Query(name="getStatusCheckWriteAreaStat",
+			value="select org.short_name as organ_code,0 as policy_counts,COUNT(cw.policy_no) as check_counts,COUNT(cwt.policy_no) as err_counts " + 
+					"from t_policy tp, t_organization org, t_check_write cw left join t_check_write cwt on cw.policy_no=cwt.policy_no and cwt.fix_status=:fixStatus " + 
+					"where tp.organ_code=org.org_code and cw.policy_no=tp.policy_no and tp.policy_date between :pd1 and :pd2  " + 
+					"and tp.organ_code like :orgCode " +
+					"group by org.short_name order by tp.organ_code;",
+			nativeQuery=true)
+	List<QyCheckModel> getStatusCheckWriteAreaStat(@Param("orgCode")String orgCode, @Param("pd1")String pd1, @Param("pd2")String pd2, @Param("fixStatus")String fixStatus);
+	
+	
 }

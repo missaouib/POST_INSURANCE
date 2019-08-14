@@ -326,4 +326,14 @@ public class StasticsServiceImpl implements StasticsService {
 		page.setTotalCount(springDataPage.getTotalElements());
 		return springDataPage.getContent();
 	}
+	
+	@Override
+	public List<QyCheckModel> getStatusCheckWriteCityStastics(String d1, String d2, String fixStatus) {
+		return checkDAO.getStatusCheckWriteCityStat(d1, d2, fixStatus);
+	}
+	
+	@Override
+	public List<QyCheckModel> getStatusCheckWriteAreaStastics(String organCode, String d1, String d2, String fixStatus) {
+		return checkDAO.getStatusCheckWriteAreaStat(organCode, d1, d2, fixStatus);
+	}
 }

@@ -113,4 +113,8 @@ public interface StasticsService {
 	List<StasticsCity> findByCityStatByExample(Specification<StasticsCity> specification, Page page);
 	
 	List<StasticsArea> findByAreaStatByExample(Specification<StasticsArea> specification, Page page);
+	
+	List<QyCheckModel> getStatusCheckWriteCityStastics(String d1, String d2, String fixStatus);
+	
+	List<QyCheckModel> getStatusCheckWriteAreaStastics(String organCode, String d1, String d2, String fixStatus);
 }

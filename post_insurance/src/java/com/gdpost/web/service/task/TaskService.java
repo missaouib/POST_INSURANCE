@@ -396,7 +396,7 @@ public class TaskService {
 			log.info("-----------客户信息真实性- sql :" + sql);
 			statement.executeUpdate(sql);
 			
-			sql = "select * from t_check_write where is_truth=false and checker<>'System' and (key_info like '%地址%' or key_info like '%证件号%' or key_info like '%手机%')";
+			sql = "update t_check_write set is_truth=true where is_truth=false and checker<>'System' and (key_info like '%地址%' or key_info like '%证件号%' or key_info like '%手机%')";
 			log.info("------------ sql :" + sql);
 			statement.executeUpdate(sql);
 			

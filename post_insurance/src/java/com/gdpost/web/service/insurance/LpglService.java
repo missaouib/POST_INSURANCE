@@ -48,6 +48,8 @@ public interface LpglService {
 	
 	SettlementDtl getDtlByPolicyPolicyNo(String policyNo);
 	
+	SettlementDtl getDtlByClaimsNo(String cliaimsNo);
+	
 	SettlementLog getSettleLog(Long id);
 
 	void saveOrUpdateSettleLog(SettlementLog log);

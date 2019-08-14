@@ -182,7 +182,12 @@ public class LpglServiceImpl implements LpglService {
 	
 	@Override
 	public SettlementDtl getDtlByPolicyPolicyNo(String policyNo) {
-		return settlementDtlDAO.getByPolicyNo(policyNo);
+		return settlementDtlDAO.findFirstByPolicyNoOrderByIdAsc(policyNo);
+	}
+	
+	@Override
+	public SettlementDtl getDtlByClaimsNo(String claimsNo) {
+		return settlementDtlDAO.getByClaimsNo(claimsNo);
 	}
 
 	@Override

@@ -47,6 +47,7 @@ import com.gdpost.web.service.OrganizationService;
 import com.gdpost.web.service.component.StasticsService;
 import com.gdpost.web.service.insurance.BaseDataService;
 import com.gdpost.web.shiro.ShiroUser;
+import com.gdpost.web.util.StatusDefine.QY_STATUS;
 import com.gdpost.web.util.dwz.Page;
 import com.gdpost.web.util.persistence.DynamicSpecifications;
 import com.gdpost.web.util.persistence.SearchFilter;
@@ -97,6 +98,9 @@ public class StasticsController {
 	private static final String CITY_STAT_TOXLS = "insurance/stastics/check/cityStat_xls";
 	private static final String AREA_STAT_LIST = "insurance/stastics/check/areaStat";
 	private static final String AREA_STAT_TOXLS = "insurance/stastics/check/areaStat_xls";
+	
+	private static final String STATUS_STAT_LIST = "insurance/stastics/check/statusStat";
+	private static final String STATUS_STAT_TOXLS = "insurance/stastics/check/statusStat_xls";
 	/*
 	 * =======================================
 	 *  tuibao
@@ -2297,6 +2301,15 @@ public class StasticsController {
 		
 		request.setAttribute("cmRst", rst);
 		
+		double errsum = 0;
+		double count = 0;
+		for (QyCheckModel tcm : rst) {
+			count += tcm.getPolicyCounts();
+			errsum += tcm.getErrCounts() == null ? 0 : tcm.getErrCounts();
+		}
+		request.setAttribute("countPt", count);
+		request.setAttribute("sumPt", errsum);
+		
 		return TRUTH_LIST_TOXLS;
 	}
 	
@@ -2610,6 +2623,16 @@ public class StasticsController {
 		}
 		
 		request.setAttribute("cmRst", rst);
+		
+		double errsum = 0;
+		double count = 0;
+		for (QyCheckModel tcm : rst) {
+			count += tcm.getPolicyCounts();
+			errsum += tcm.getErrCounts() == null ? 0 : tcm.getErrCounts();
+		}
+		request.setAttribute("countPt", count);
+		request.setAttribute("sumPt", errsum);
+		
 		return PRINT_LIST_TOXLS;
 	}
 
@@ -2880,5 +2903,203 @@ public class StasticsController {
 		request.setAttribute("cmRst", rst);
 	
 		return AREA_STAT_TOXLS;
+	}
+
+	/*
+	 * =======================================
+	 *  total考核结果
+	 * =======================================
+	 * 
+	 */
+	@RequiresUser
+	@Log(message="查看了整改进度！", level=LogLevel.INFO, module=LogModule.QTCZ)
+	@RequestMapping(value = "/stastics/statusStat", method = { RequestMethod.GET, RequestMethod.POST })
+	public String statusStastics(ServletRequest request, Map<String, Object> map) {
+		LOG.debug("-------------------statusStastics----------");
+		String organCode = request.getParameter("orgCode");
+		String organName = request.getParameter("name");
+		String pd1 = request.getParameter("policyDate1");
+		String pd2 = request.getParameter("policyDate2");
+		String levelFlag = request.getParameter("levelFlag");
+		String fixStatus = request.getParameter("fixStatus");
+		if(fixStatus == null || fixStatus.trim().length()<=0) {
+			fixStatus = QY_STATUS.NewStatus.name();
+		}
+
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();// userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
+		if (organCode == null || organCode.trim().length() <= 0) {
+			organCode = userOrg.getOrgCode();
+			organName = userOrg.getName();
+		}
+
+		boolean isCity = false;
+		if (levelFlag == null) {
+			if (organCode.length() >= 8) {
+				levelFlag = "city";
+			} else if (organCode.length() > 4) {
+				levelFlag = "prov";
+			}
+		}
+
+		if (levelFlag != null && levelFlag.trim().equals("city")) {
+			isCity = true;
+		}
+
+		QyCheckModel cm = new QyCheckModel();
+		cm.setLevelFlag(levelFlag);
+		cm.setFixStatus(fixStatus);
+		//cm.setStatFlag(flag);
+		request.setAttribute("CheckModel", cm);
+
+		request.setAttribute("levelFlag", levelFlag);
+		request.setAttribute("orgCode", organCode);
+		request.setAttribute("name", organName);
+		request.setAttribute("fixStatus", fixStatus);
+
+		String fd = StringUtil.getMonthFirstDayOfMonth(Calendar.getInstance().get(Calendar.MONTH), "yyyy-MM-dd");
+		if (pd1 == null || pd1.trim().length() <= 0) {
+			pd1 = fd;
+		}
+		request.setAttribute("policyDate1", pd1);
+		request.setAttribute("policyDate2", pd2);
+		if (pd2 == null || pd2.trim().length() <= 0) {
+			pd2 = "9999-12-31";
+		}
+		
+		if(levelFlag != null && levelFlag.equals("prov")) {
+			organCode = "8644";
+		}
+		
+		List<QyCheckModel> rst = new ArrayList<QyCheckModel>();
+		if (!isCity) {
+			rst = stasticsService.getStatusCheckWriteCityStastics(pd1, pd2, fixStatus);
+		} else {
+			rst = stasticsService.getStatusCheckWriteAreaStastics(organCode + "%", pd1, pd2, fixStatus);
+		}
+		
+		request.setAttribute("cmRst", rst);
+		
+		String col = "";
+		String countStr = "";
+		String errsumStr = "";
+		String countPtStr = "";
+		double maxZB = 0;
+		int maxTB = 0;
+		double errsum = 0;
+		double count = 0;
+		List<Integer> countList = new ArrayList<Integer>();
+		List<Integer> errsumList = new ArrayList<Integer>();
+		DecimalFormat df = new DecimalFormat("#.#");
+		for (QyCheckModel tcm : rst) {
+			col += "'" + tcm.getOrganCode() + "',";
+			countList.add(tcm.getCheckCounts());
+			count += tcm.getCheckCounts();
+			countStr += tcm.getCheckCounts() + ",";
+			errsumList.add(tcm.getErrCounts());
+			errsumStr += tcm.getErrCounts() + ",";
+			errsum += tcm.getErrCounts() == null ? 0 : tcm.getErrCounts();
+			
+			Double err = (double) (tcm.getCheckCounts()==0?1:tcm.getErrCounts());
+			Double p = (double) (tcm.getCheckCounts()==0?1:tcm.getCheckCounts());
+			countPtStr += (df.format((1-err/p)*100) + ",");
+			
+			if(tcm.getCheckCounts() > maxTB) {
+				maxTB = tcm.getCheckCounts();
+			}
+			if(maxZB<(1-tcm.getErrCounts()/(tcm.getCheckCounts()==0?1:tcm.getCheckCounts()))) {
+				maxZB = 1-tcm.getErrCounts()/(tcm.getCheckCounts()==0?1:tcm.getCheckCounts());
+			}
+		}
+		
+		int m = 1;
+		for (int i = 0; i < (int) Math.log10(maxTB); i++) {
+			m *= 10;
+		}
+		// 第一位
+		maxTB = (maxTB / m + 1) * m;
+		maxZB = maxZB*100;
+		request.setAttribute("col", col);
+		request.setAttribute("countStr", countStr);
+		request.setAttribute("sumStr", errsumStr);
+		request.setAttribute("countPtStr", countPtStr);
+		request.setAttribute("maxTB", maxTB);
+		request.setAttribute("maxZB", maxZB);
+		request.setAttribute("countPt", count);
+		request.setAttribute("sumPt", errsum);
+
+		LOG.debug(" ------------ result size:" + rst.size());
+		map.put("qyWriteStatusList", QY_STATUS.values());
+	
+		return STATUS_STAT_LIST;
+	}
+
+	@RequiresUser
+	@Log(message="全省整改进度导出！", level=LogLevel.INFO, module=LogModule.QTCZ)
+	@RequestMapping(value = "/stastics/statusStat/toXls", method = { RequestMethod.GET, RequestMethod.POST })
+	public String statusStasticsToXls(ServletRequest request, Map<String, Object> map) {
+		LOG.debug("-------------------statusStastics----------");
+		String organCode = request.getParameter("orgCode");
+		String pd1 = request.getParameter("policyDate1");
+		String pd2 = request.getParameter("policyDate2");
+		String levelFlag = request.getParameter("levelFlag");
+		String fixStatus = request.getParameter("fixStatus");
+		if(fixStatus == null || fixStatus.trim().length()<=0) {
+			fixStatus = QY_STATUS.NewStatus.name();
+		}
+
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();// userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
+		if (organCode == null || organCode.trim().length() <= 0) {
+			organCode = userOrg.getOrgCode();
+		}
+
+		boolean isCity = false;
+		if (levelFlag == null) {
+			if (organCode.length() >= 8) {
+				levelFlag = "city";
+			} else if (organCode.length() > 4) {
+				levelFlag = "prov";
+			}
+		}
+
+		if (levelFlag != null && levelFlag.trim().equals("city")) {
+			isCity = true;
+		}
+
+		String fd = StringUtil.getMonthFirstDayOfMonth(Calendar.getInstance().get(Calendar.MONTH), "yyyy-MM-dd");
+		if (pd1 == null || pd1.trim().length() <= 0) {
+			pd1 = fd;
+		}
+		if (pd2 == null || pd2.trim().length() <= 0) {
+			pd2 = "9999-12-31";
+		}
+		
+		if(levelFlag != null && levelFlag.equals("prov")) {
+			organCode = "8644";
+		}
+		
+		List<QyCheckModel> rst = new ArrayList<QyCheckModel>();
+		if (!isCity) {
+			rst = stasticsService.getStatusCheckWriteCityStastics(pd1, pd2, fixStatus);
+		} else {
+			rst = stasticsService.getStatusCheckWriteAreaStastics(organCode + "%", pd1, pd2, fixStatus);
+		}
+		
+		request.setAttribute("cmRst", rst);
+	
+		double errsum = 0;
+		double count = 0;
+		for (QyCheckModel tcm : rst) {
+			count += tcm.getCheckCounts();
+			errsum += tcm.getErrCounts() == null ? 0 : tcm.getErrCounts();
+		}
+		
+		request.setAttribute("countPt", count);
+		request.setAttribute("sumPt", errsum);
+		
+		return STATUS_STAT_TOXLS;
 	}
 }

@@ -736,6 +736,7 @@ public class LpglController {
 		String taskId = request.getParameter("taskId");
 		String policyNo = request.getParameter("policyNo");
 		String realname = request.getParameter("user.realname");
+		String insured = request.getParameter("insured");
 		
 		int iNY = UploadDataUtils.getNianYue();
         String strPath = UploadDataUtils.getNoticeFileStorePath(request, iNY, "LPGL");
@@ -900,6 +901,10 @@ public class LpglController {
 		if(task.getAttrLink()!=null) {
 			loginfo.append("修改附件；");
 			src.setAttrLink(task.getAttrLink());
+		}
+		if(insured!=null && !src.getInsured().equals(insured)) {
+			loginfo.append("改出险人：" + src.getInsured() + "->" + task.getInsured() + "；");
+			src.setInsured(insured);
 		}
 		if(realname!=null && !src.getChecker().equals(realname)) {
 			loginfo.append("改调查人：" + src.getChecker() + "->" + task.getChecker() + "；");

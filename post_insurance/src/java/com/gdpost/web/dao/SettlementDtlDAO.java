@@ -12,5 +12,7 @@ public interface SettlementDtlDAO extends JpaRepository<SettlementDtl, Long>, Jp
 
 	SettlementDtl getBySettlementId(Long id);
 
-	SettlementDtl getByPolicyNo(String policyNo);
+	SettlementDtl findFirstByPolicyNoOrderByIdAsc(String policyNo);
+	
+	SettlementDtl getByClaimsNo(String claimsNo);
 }
