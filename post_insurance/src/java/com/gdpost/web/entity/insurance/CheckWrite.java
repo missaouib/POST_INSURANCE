@@ -15,7 +15,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.JoinColumnOrFormula;
 import org.hibernate.annotations.JoinColumnsOrFormulas;
@@ -122,7 +121,6 @@ public class CheckWrite implements Idable<Long> {
 	@JoinColumnOrFormula(column=@JoinColumn(name ="policy_no", referencedColumnName ="policy_no", insertable =false, updatable = false)),
 	@JoinColumnOrFormula(formula=@JoinFormula(value="0", referencedColumnName = "attached_flag"))
 	})
-	@Size(max=1)
 	public Policy getPolicy() {
 		return policy;
 	}
@@ -293,7 +291,7 @@ public class CheckWrite implements Idable<Long> {
 		this.dealTime = dealTime;
 	}
 
-	@Column(name = "reopen_reason", length = 256)
+	@Column(name = "reopen_reason")
 	public String getReopenReason() {
 		return this.reopenReason;
 	}
@@ -331,7 +329,7 @@ public class CheckWrite implements Idable<Long> {
 //	}
 
 	@Temporal(TemporalType.DATE)
-	@Column(name = "reopen_date", length = 10)
+	@Column(name = "reopen_date")
 	public Date getReopenDate() {
 		return this.reopenDate;
 	}

@@ -182,6 +182,8 @@ public class QyglController {
 		CheckWrite src = qyglService.getCheckWrite(id);
 		src.setNeedFix("申诉件");;
 		src.setFixStatus(QY_STATUS.CloseStatus.name());
+		src.setCloseDate(new Date());
+		src.setCloseUser(SecurityUtils.getShiroUser().getLoginName());
 		qyglService.saveOrUpdateCheckWrite(src);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));
@@ -195,6 +197,8 @@ public class QyglController {
 		CheckWrite src = qyglService.getCheckWrite(id);
 		//src.setNeedFix("已整改");;
 		src.setFixStatus(QY_STATUS.FailStatus.name());
+		src.setCloseDate(new Date());
+		src.setCloseUser(SecurityUtils.getShiroUser().getLoginName());
 		qyglService.saveOrUpdateCheckWrite(src);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));
@@ -480,6 +484,8 @@ public class QyglController {
 		CheckRecord src = qyglService.getCheckRecord(id);
 		src.setNeedFix("申诉件");;
 		src.setFixStatus(QY_STATUS.CloseStatus.name());
+		src.setCloseDate(new Date());
+		src.setCloseUser(SecurityUtils.getShiroUser().getLoginName());
 		qyglService.saveOrUpdateCheckRecord(src);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));
@@ -493,6 +499,8 @@ public class QyglController {
 		CheckRecord src = qyglService.getCheckRecord(id);
 		//src.setNeedFix("已整改");;
 		src.setFixStatus(QY_STATUS.FailStatus.name());
+		src.setCloseDate(new Date());
+		src.setCloseUser(SecurityUtils.getShiroUser().getLoginName());
 		qyglService.saveOrUpdateCheckRecord(src);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));
