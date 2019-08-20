@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.shiro.authz.annotation.RequiresUser;
@@ -42,7 +43,9 @@ import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.log.Log;
 import com.gdpost.web.log.LogLevel;
+import com.gdpost.web.log.LogMessageObject;
 import com.gdpost.web.log.LogModule;
+import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.OrganizationService;
 import com.gdpost.web.service.component.StasticsService;
 import com.gdpost.web.service.insurance.BaseDataService;
@@ -108,9 +111,9 @@ public class StasticsController {
 	 * 
 	 */
 	@RequiresUser
-	@Log(message="进行退保分析！", level=LogLevel.INFO, module=LogModule.QTCZ)
+	@Log(message="{0}进行退保分析！", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequestMapping(value = "/stastics/tuibao", method = { RequestMethod.GET, RequestMethod.POST })
-	public String getTuiBaoStastics(ServletRequest request, Map<String, Object> map) {
+	public String getTuiBaoStastics(HttpServletRequest request, Map<String, Object> map) {
 		LOG.debug("-------------------here----------");
 		String organCode = request.getParameter("orgCode");
 		String organName = request.getParameter("name");
@@ -298,11 +301,14 @@ public class StasticsController {
 		List<Prd> prds = prdService.findAllPrd(page);
 		request.setAttribute("prds", prds);
 		LOG.debug(" ------------ result size:" + temp.size());
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{userOrg.getShortName()}));
+		
 		return TUIBAO_LIST;
 	}
 
 	@RequiresUser
-	@Log(message="下载了退保分析结果！", level=LogLevel.INFO, module=LogModule.QTCZ)
+	@Log(message="{0}下载了退保分析结果！", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequestMapping(value = "/stastics/tuibao/toXls", method = { RequestMethod.GET, RequestMethod.POST })
 	public String tuibaoStasticsToXls(ServletRequest request, Map<String, Object> map) {
 		LOG.debug("-------------------here----------");
@@ -428,10 +434,12 @@ public class StasticsController {
 		request.setAttribute("totalTb", totalTb / 10000);
 
 		LOG.debug(" ------------ result size:" + temp.size());
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{userOrg.getShortName()}));
+		
 		return TUIBAO_TOXLS;
 	}
 
-	@Log(message="下载了退保分析明细数据！", level=LogLevel.INFO, module=LogModule.QTCZ)
+	@Log(message="{0}下载了退保分析明细数据！", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequiresUser
 	@RequestMapping(value = "/stastics/tuibao/dtlXls", method = { RequestMethod.GET, RequestMethod.POST })
 	public String tuibaoDtlToXls(ServletRequest request, Map<String, Object> map) {
@@ -505,11 +513,14 @@ public class StasticsController {
 
 		request.setAttribute("cmRst", temp);
 		LOG.debug(" ------------ result size:" + temp.size());
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{userOrg.getShortName()}));
+		
 		return TUIBAO_DTL_TOXLS;
 	}
 
 	@RequiresUser
-	@Log(message="下载了退保分析数据犹撤数据！", level=LogLevel.INFO, module=LogModule.QTCZ)
+	@Log(message="{0}下载了退保分析数据犹撤数据！", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequestMapping(value = "/stastics/tuibao/csdtlXls", method = { RequestMethod.GET, RequestMethod.POST })
 	public String tuibaoCsDtlToXls(ServletRequest request, Map<String, Object> map) {
 		LOG.debug("-------------------here----------");
@@ -582,6 +593,9 @@ public class StasticsController {
 
 		request.setAttribute("cmRst", temp);
 		LOG.debug(" ------------ result size:" + temp.size());
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{userOrg.getShortName()}));
+		
 		return TUIBAO_DTL_TOXLS;
 	}
 
@@ -592,7 +606,7 @@ public class StasticsController {
 	 * 
 	 */
 	@RequiresUser
-	@Log(message="进行员工单分析！", level=LogLevel.INFO, module=LogModule.QTCZ)
+	@Log(message="{0}进行员工单分析！", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequestMapping(value = "/stastics/staff", method = { RequestMethod.GET, RequestMethod.POST })
 	public String getStaffStastics(ServletRequest request, Map<String, Object> map) {
 		LOG.debug("-------------------here----------");
@@ -744,11 +758,14 @@ public class StasticsController {
 		List<Prd> prds = prdService.findAllPrd(page);
 		request.setAttribute("prds", prds);
 		LOG.debug(" ------------ result size:" + temp.size());
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{userOrg.getShortName()}));
+		
 		return STAFF_LIST;
 	}
 
 	@RequiresUser
-	@Log(message="员工单分析结果导出！", level=LogLevel.INFO, module=LogModule.QTCZ)
+	@Log(message="{0}员工单分析结果导出！", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequestMapping(value = "/stastics/staff/toXls", method = { RequestMethod.GET, RequestMethod.POST })
 	public String staffStasticsToXls(ServletRequest request, Map<String, Object> map) {
 		LOG.debug("-------------------here----------");
@@ -843,11 +860,13 @@ public class StasticsController {
 		request.setAttribute("stotalTb", stotalTb / 10000);
 
 		LOG.debug(" ------------ result size:" + temp.size());
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{userOrg.getShortName()}));
+		
 		return STAFF_TOXLS;
 	}
 
 	@RequiresUser
-	@Log(message="员工单分析明细数据导出！", level=LogLevel.INFO, module=LogModule.QTCZ)
+	@Log(message="{0}员工单分析明细数据导出！", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequestMapping(value = "/stastics/staff/dtlXls", method = { RequestMethod.GET, RequestMethod.POST })
 	public String staffDtlToXls(ServletRequest request, Map<String, Object> map) {
 		LOG.debug("-------------------here----------");
@@ -899,6 +918,8 @@ public class StasticsController {
 
 		request.setAttribute("cmRst", temp);
 		LOG.debug(" ------------ result size:" + temp.size());
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{userOrg.getShortName()}));
+		
 		return STAFF_DTL_TOXLS;
 	}
 
@@ -909,7 +930,7 @@ public class StasticsController {
 	 * 
 	 */
 	@RequiresUser
-	@Log(message="进行人核件分析！", level=LogLevel.INFO, module=LogModule.QTCZ)
+	@Log(message="{0}进行人核件分析！", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequestMapping(value = "/stastics/underwrite", method = { RequestMethod.GET, RequestMethod.POST })
 	public String getUWStastics(ServletRequest request, Map<String, Object> map) {
 		LOG.debug("-------------------here----------");
@@ -1012,11 +1033,14 @@ public class StasticsController {
 		List<Prd> prds = prdService.findAllPrd(page);
 		request.setAttribute("prds", prds);
 		LOG.debug(" ------------ result size:" + temp.size());
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{userOrg.getShortName()}));
+		
 		return UW_LIST;
 	}
 
 	@RequiresUser
-	@Log(message="人核件分析结果导出！", level=LogLevel.INFO, module=LogModule.QTCZ)
+	@Log(message="{0}人核件分析结果导出！", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequestMapping(value = "/stastics/underwrite/toXls", method = { RequestMethod.GET, RequestMethod.POST })
 	public String uwStasticsToXls(ServletRequest request, Map<String, Object> map) {
 		LOG.debug("-------------------here----------");
@@ -1093,11 +1117,14 @@ public class StasticsController {
 		request.setAttribute("tsc", tsc);
 
 		LOG.debug(" ------------ result size:" + temp.size());
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{userOrg.getShortName()}));
+		
 		return UW_TOXLS;
 	}
 
 	@RequiresUser
-	@Log(message="人核件明细数据导出！", level=LogLevel.INFO, module=LogModule.QTCZ)
+	@Log(message="{0}人核件明细数据导出！", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequestMapping(value = "/stastics/underwrite/dtlXls", method = { RequestMethod.GET, RequestMethod.POST })
 	public String uwDtlToXls(ServletRequest request, Map<String, Object> map) {
 		LOG.debug("-------------------here----------");
@@ -1132,6 +1159,9 @@ public class StasticsController {
 
 		request.setAttribute("cmRst", temp);
 		LOG.debug(" ------------ result size:" + temp.size());
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{userOrg.getShortName()}));
+		
 		return UW_DTL_TOXLS;
 	}
 
@@ -1142,7 +1172,7 @@ public class StasticsController {
 	 * 
 	 */
 	@RequiresUser
-	@Log(message="进行保单分析！", level=LogLevel.INFO, module=LogModule.QTCZ)
+	@Log(message="{0}进行保单分析！", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequestMapping(value = "/stastics/policy", method = { RequestMethod.GET, RequestMethod.POST })
 	public String policyStastics(ServletRequest request, Map<String, Object> map) {
 		LOG.debug("-------------------here----------");
@@ -1369,11 +1399,14 @@ public class StasticsController {
 		List<Prd> prds = prdService.findAllPrd(page);
 		request.setAttribute("prds", prds);
 		LOG.debug(" ------------ result size:" + temp.size());
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{userOrg.getShortName()}));
+		
 		return POLICY_LIST;
 	}
 
 	@RequiresUser
-	@Log(message="保单分析结果导出！", level=LogLevel.INFO, module=LogModule.QTCZ)
+	@Log(message="{0}保单分析结果导出！", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequestMapping(value = "/stastics/policy/toXls", method = { RequestMethod.GET, RequestMethod.POST })
 	public String policyStasticsToXls(ServletRequest request, Map<String, Object> map) {
 		LOG.debug("-------------------here----------");
@@ -1529,6 +1562,8 @@ public class StasticsController {
 		// 第一位
 		request.setAttribute("countPt", count);
 		request.setAttribute("sumPt", sum);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{userOrg.getShortName()}));
 
 		return POLICY_TOXLS;
 	}
@@ -1540,7 +1575,7 @@ public class StasticsController {
 	 * 
 	 */
 	@RequiresUser
-	@Log(message="进行抽检分析！", level=LogLevel.INFO, module=LogModule.QTCZ)
+	@Log(message="{0}进行抽检分析！", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequestMapping(value = "/stastics/check", method = { RequestMethod.GET, RequestMethod.POST })
 	public String getCheckCityStastics(ServletRequest request, Map<String, Object> map) {
 		LOG.debug("-------------------here----------");
@@ -1720,12 +1755,14 @@ public class StasticsController {
 		request.setAttribute("totalErr", totalErr);
 		request.setAttribute("totalRecordCheck", totalRecordCheck);
 		request.setAttribute("totalRecordErr", totalRecordErr);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{userOrg.getShortName()}));
 
 		return CHECK_LIST;
 	}
 	
 	@RequiresUser
-	@Log(message="抽检结果导出！", level=LogLevel.INFO, module=LogModule.QTCZ)
+	@Log(message="{0}抽检结果导出！", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequestMapping(value = "/stastics/checkToXls", method = { RequestMethod.GET, RequestMethod.POST })
 	public String checkCityStasticsToXls(ServletRequest request, Map<String, Object> map) {
 		String organCode = request.getParameter("orgCode");
@@ -1907,11 +1944,13 @@ public class StasticsController {
 		request.setAttribute("totalRecordCheck", totalRecordCheck);
 		request.setAttribute("totalRecordErr", totalRecordErr);
 
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{userOrg.getShortName()}));
+		
 		return CHECK_TOXLS;
 	}
 	
 	@RequiresUser
-	@Log(message="填写抽检明细导出！", level=LogLevel.INFO, module=LogModule.QTCZ)
+	@Log(message="{0}填写抽检明细导出！", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequestMapping(value = "/stastics/checkWrite/dtlToXls", method = { RequestMethod.GET, RequestMethod.POST })
 	public String checkWriteStasticsDtlToXls(ServletRequest request, Map<String, Object> map) {
 		String organCode = request.getParameter("orgCode");
@@ -1952,11 +1991,13 @@ public class StasticsController {
 		
 		request.setAttribute("cmRst", rst);
 
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{userOrg.getShortName()}));
+		
 		return CHECK_DTL_XLS;
 	}
 	
 	@RequiresUser
-	@Log(message="抽检录入明细导出！", level=LogLevel.INFO, module=LogModule.QTCZ)
+	@Log(message="{0}抽检录入明细导出！", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequestMapping(value = "/stastics/checkRecord/dtlToXls", method = { RequestMethod.GET, RequestMethod.POST })
 	public String checkRecordStasticsDtlToXls(ServletRequest request, Map<String, Object> map) {
 		String organCode = request.getParameter("orgCode");
@@ -1997,6 +2038,8 @@ public class StasticsController {
 		
 		request.setAttribute("cmRst", rst);
 
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{userOrg.getShortName()}));
+		
 		return CHECK_DTL_XLS;
 	}
 	
@@ -2007,7 +2050,7 @@ public class StasticsController {
 	 * 
 	 */
 	@RequiresUser
-	@Log(message="进行客户信息真实性分析！", level=LogLevel.INFO, module=LogModule.QTCZ)
+	@Log(message="{0}进行客户信息真实性分析！", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequestMapping(value = "/stastics/truth", method = { RequestMethod.GET, RequestMethod.POST })
 	public String truthStastics(ServletRequest request, Map<String, Object> map) {
 		LOG.debug("-------------------here----------");
@@ -2187,11 +2230,14 @@ public class StasticsController {
 		request.setAttribute("sumPt", errsum);
 
 		LOG.debug(" ------------ result size:" + rst.size());
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{userOrg.getShortName()}));
+		
 		return TRUTH_LIST;
 	}
 	
 	@RequiresUser
-	@Log(message="客户信息真实性分析结果导出！", level=LogLevel.INFO, module=LogModule.QTCZ)
+	@Log(message="{0}客户信息真实性分析结果导出！", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequestMapping(value = "/stastics/truth/toXls", method = { RequestMethod.GET, RequestMethod.POST })
 	public String truthStasticsToXls(ServletRequest request, Map<String, Object> map) {
 		LOG.debug("-------------------here----------");
@@ -2310,11 +2356,13 @@ public class StasticsController {
 		request.setAttribute("countPt", count);
 		request.setAttribute("sumPt", errsum);
 		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{userOrg.getShortName()}));
+		
 		return TRUTH_LIST_TOXLS;
 	}
 	
 	@RequiresUser
-	@Log(message="抽检客户信息真实性排查差错明细导出！", level=LogLevel.INFO, module=LogModule.QTCZ)
+	@Log(message="{0}抽检客户信息真实性排查差错明细导出！", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequestMapping(value = "/stastics/truth/dtlToXls", method = { RequestMethod.GET, RequestMethod.POST })
 	public String truthStasticsDtlToXls(ServletRequest request, Map<String, Object> map) {
 		String organCode = request.getParameter("orgCode");
@@ -2354,6 +2402,8 @@ public class StasticsController {
 		List<CheckModel> rst = stasticsService.getCheckTruthStasticsDtl(organCode + "%", pd1, pd2, duration, toPerm);
 		
 		request.setAttribute("cmRst", rst);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{userOrg.getShortName()}));
 
 		return CHECK_DTL_XLS;
 	}
@@ -2365,7 +2415,7 @@ public class StasticsController {
 	 * 
 	 */
 	@RequiresUser
-	@Log(message="进行纸质保单使用率分析！", level=LogLevel.INFO, module=LogModule.QTCZ)
+	@Log(message="{0}进行纸质保单使用率分析！", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequestMapping(value = "/stastics/policyPrint", method = { RequestMethod.GET, RequestMethod.POST })
 	public String printStastics(ServletRequest request, Map<String, Object> map) {
 		LOG.debug("-------------------here----------");
@@ -2522,11 +2572,14 @@ public class StasticsController {
 		request.setAttribute("sumPt", errsum);
 
 		LOG.debug(" ------------ result size:" + rst.size());
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{userOrg.getShortName()}));
+		
 		return PRINT_LIST;
 	}
 	
 	@RequiresUser
-	@Log(message="纸质保单使用率分析结果导出！", level=LogLevel.INFO, module=LogModule.QTCZ)
+	@Log(message="{0}纸质保单使用率分析结果导出！", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequestMapping(value = "/stastics/policyPrint/toXls", method = { RequestMethod.GET, RequestMethod.POST })
 	public String printStasticsToXls(ServletRequest request, Map<String, Object> map) {
 		LOG.debug("-------------------here----------");
@@ -2633,6 +2686,8 @@ public class StasticsController {
 		request.setAttribute("countPt", count);
 		request.setAttribute("sumPt", errsum);
 		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{userOrg.getShortName()}));
+		
 		return PRINT_LIST_TOXLS;
 	}
 
@@ -2642,8 +2697,8 @@ public class StasticsController {
 	 * =======================================
 	 * 
 	 */
+	@Log(message="{0}查看了全省考核结果！", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequiresUser
-	@Log(message="查看了全省考核结果！", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequestMapping(value = "/stastics/cityStat", method = { RequestMethod.GET, RequestMethod.POST })
 	public String cityStastics(ServletRequest request, Map<String, Object> map) {
 		LOG.debug("-------------------here----------");
@@ -2709,11 +2764,13 @@ public class StasticsController {
 		
 		request.setAttribute("cmRst", rst);
 	
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{userOrg.getShortName()}));
+		
 		return CITY_STAT_LIST;
 	}
 
 	@RequiresUser
-	@Log(message="全省考核结果导出！", level=LogLevel.INFO, module=LogModule.QTCZ)
+	@Log(message="{0}全省考核结果导出！", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequestMapping(value = "/stastics/cityStat/toXls", method = { RequestMethod.GET, RequestMethod.POST })
 	public String cityStasticsToXls(ServletRequest request, Map<String, Object> map) {
 		LOG.debug("-------------------here----------");
@@ -2767,6 +2824,8 @@ public class StasticsController {
 		
 		request.setAttribute("cmRst", rst);
 	
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{userOrg.getShortName()}));
+		
 		return CITY_STAT_TOXLS;
 	}
 
@@ -2777,7 +2836,7 @@ public class StasticsController {
 	 * 
 	 */
 	@RequiresUser
-	@Log(message="查看了全省县区考核结果！", level=LogLevel.INFO, module=LogModule.QTCZ)
+	@Log(message="{0}查看了全省县区考核结果！", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequestMapping(value = "/stastics/areaStat", method = { RequestMethod.GET, RequestMethod.POST })
 	public String areaStastics(ServletRequest request, Map<String, Object> map) {
 		LOG.debug("-------------------here----------");
@@ -2844,12 +2903,14 @@ public class StasticsController {
 		List<StasticsArea> rst = stasticsService.findByAreaStatByExample(specification, page);
 		
 		request.setAttribute("cmRst", rst);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{userOrg.getShortName()}));
 	
 		return AREA_STAT_LIST;
 	}
 
 	@RequiresUser
-	@Log(message="全省县区考核结果导出！", level=LogLevel.INFO, module=LogModule.QTCZ)
+	@Log(message="{0}全省县区考核结果导出！", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequestMapping(value = "/stastics/areaStat/toXls", method = { RequestMethod.GET, RequestMethod.POST })
 	public String areaStasticsToXls(ServletRequest request, Map<String, Object> map) {
 		LOG.debug("-------------------here----------");
@@ -2901,6 +2962,8 @@ public class StasticsController {
 		List<StasticsArea> rst = stasticsService.findByAreaStatByExample(specification, page);
 		
 		request.setAttribute("cmRst", rst);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{userOrg.getShortName()}));
 	
 		return AREA_STAT_TOXLS;
 	}
@@ -2912,7 +2975,7 @@ public class StasticsController {
 	 * 
 	 */
 	@RequiresUser
-	@Log(message="查看了整改进度！", level=LogLevel.INFO, module=LogModule.QTCZ)
+	@Log(message="{0}查看了整改进度！", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequestMapping(value = "/stastics/statusStat", method = { RequestMethod.GET, RequestMethod.POST })
 	public String statusStastics(ServletRequest request, Map<String, Object> map) {
 		LOG.debug("-------------------statusStastics----------");
@@ -3031,12 +3094,14 @@ public class StasticsController {
 
 		LOG.debug(" ------------ result size:" + rst.size());
 		map.put("qyWriteStatusList", QY_STATUS.values());
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{userOrg.getShortName()}));
 	
 		return STATUS_STAT_LIST;
 	}
 
 	@RequiresUser
-	@Log(message="全省整改进度导出！", level=LogLevel.INFO, module=LogModule.QTCZ)
+	@Log(message="{0}全省整改进度导出！", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequestMapping(value = "/stastics/statusStat/toXls", method = { RequestMethod.GET, RequestMethod.POST })
 	public String statusStasticsToXls(ServletRequest request, Map<String, Object> map) {
 		LOG.debug("-------------------statusStastics----------");
@@ -3099,6 +3164,8 @@ public class StasticsController {
 		
 		request.setAttribute("countPt", count);
 		request.setAttribute("sumPt", errsum);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{userOrg.getShortName()}));
 		
 		return STATUS_STAT_TOXLS;
 	}
