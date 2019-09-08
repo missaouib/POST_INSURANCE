@@ -157,36 +157,36 @@ public interface CheckStasticsDAO extends JpaRepository<QyCheckModel, String>, J
 	
 	@Query(name="getPrintCityStat",
 			value="select left(pd.organ_code,6) as organ_code, " + 
-					"COUNT(pd.policy_no) as policy_counts, " + 
-					"COUNT(pr.policy_no) as check_counts, " + 
+					"COUNT(distinct pd.policy_no) as policy_counts, " + 
+					"COUNT(distinct pr.policy_no) as check_counts, " + 
 					"sum(case when pr.policy_no is null then 0 else 1 end) as err_counts " + 
-					"from t_policy_dtl pd " + 
+					"from t_policy pd " + 
 					"left join t_policy_reprint_dtl pr on pd.policy_no = pr.policy_no " + 
 					"where pd.policy_date between :pd1 and :pd2 and " + 
 					"pd.policy_no not like \"5244%\" and " + 
 					"pd.policy_no not like \"8644%\" and " + 
-					"pd.holder_age is not null " + 
+					"pd.attached_flag=0 " + 
 					"group by left(pd.organ_code,6);",
 			nativeQuery=true)
 	List<QyCheckModel> getPrintCityStat(@Param("pd1")String pd1, @Param("pd2")String pd2);
 	
 	@Query(name="getPrintCityStat",
 			value="select pd.organ_code as organ_code, " + 
-					"COUNT(pd.policy_no) as policy_counts, " + 
-					"COUNT(pr.policy_no) as check_counts, " + 
+					"COUNT(distinct pd.policy_no) as policy_counts, " + 
+					"COUNT(distinct pr.policy_no) as check_counts, " + 
 					"sum(case when pr.policy_no is null then 0 else 1 end) as err_counts " + 
-					"from t_policy_dtl pd " + 
+					"from t_policy pd " + 
 					"left join t_policy_reprint_dtl pr on pd.policy_no = pr.policy_no " + 
 					"where pd.policy_date between :pd1 and :pd2 and pd.organ_code like :orgCode and " + 
 					"pd.policy_no not like \"5244%\" and " + 
 					"pd.policy_no not like \"8644%\" and " + 
-					"pd.holder_age is not null " + 
+					"pd.attached_flag=0 " + 
 					"group by pd.organ_code;",
 			nativeQuery=true)
 	List<QyCheckModel> getPrintAreaStat(@Param("orgCode")String orgCode, @Param("pd1")String pd1, @Param("pd2")String pd2);
 	
 	@Query(name="getStatusCheckWriteCityStat",
-			value="select LEFT(tp.organ_name,2) as organ_code,0 as policy_counts,COUNT(cw.policy_no) as check_counts,COUNT(cwt.policy_no) as err_counts " + 
+			value="select LEFT(tp.organ_name,2) as organ_code,0 as policy_counts,COUNT(distinct cw.policy_no) as check_counts,COUNT(distinct cwt.policy_no) as err_counts " + 
 					"from t_policy tp, t_check_write cw left join t_check_write cwt on cw.policy_no=cwt.policy_no and cwt.fix_status=:fixStatus " + 
 					"where cw.policy_no=tp.policy_no and tp.policy_date between :pd1 and :pd2  " + 
 					"group by left(tp.organ_name,2) order by tp.organ_code;",
@@ -194,7 +194,7 @@ public interface CheckStasticsDAO extends JpaRepository<QyCheckModel, String>, J
 	List<QyCheckModel> getStatusCheckWriteCityStat(@Param("pd1")String pd1, @Param("pd2")String pd2, @Param("fixStatus")String fixStatus);
 	
 	@Query(name="getStatusCheckWriteAreaStat",
-			value="select org.short_name as organ_code,0 as policy_counts,COUNT(cw.policy_no) as check_counts,COUNT(cwt.policy_no) as err_counts " + 
+			value="select org.short_name as organ_code,0 as policy_counts,COUNT(distinct cw.policy_no) as check_counts,COUNT(distinct cwt.policy_no) as err_counts " + 
 					"from t_policy tp, t_organization org, t_check_write cw left join t_check_write cwt on cw.policy_no=cwt.policy_no and cwt.fix_status=:fixStatus " + 
 					"where tp.organ_code=org.org_code and cw.policy_no=tp.policy_no and tp.policy_date between :pd1 and :pd2  " + 
 					"and tp.organ_code like :orgCode " +

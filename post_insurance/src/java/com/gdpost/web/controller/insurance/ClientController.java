@@ -185,8 +185,8 @@ public class ClientController {
 	@RequiresPermissions("PolicyReprintDtl:view")
 	@RequestMapping(value="/listPolicyReprintDtl", method={RequestMethod.GET, RequestMethod.POST})
 	public String listPolicyReprintDtl(ServletRequest request, Page page, Map<String, Object> map) {
-		ShiroUser shiroUser = SecurityUtils.getShiroUser();
-		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
+		//ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		//User user = shiroUser.getUser();//userService.get(shiroUser.getId());
 		
 		if(page.getOrderField() == null || page.getOrderField().trim().length() <= 0) {
 			page.setOrderField("printDate");
@@ -195,6 +195,7 @@ public class ClientController {
 		String plFlag = request.getParameter("plFlag");
 		if(plFlag == null) plFlag = "";
 		
+		/*
 		String orgCode = request.getParameter("orgCode");
 		if(orgCode == null || orgCode.trim().length() <= 0) {
 			orgCode = user.getOrganization().getOrgCode();
@@ -208,10 +209,10 @@ public class ClientController {
 			String orgName = request.getParameter("name");
 			request.setAttribute("orgCode", orgCode);
 			request.setAttribute("name", orgName);
-		}
+		}*/
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("orgCode", Operator.LIKE, orgCode));
+		//csf.add(new SearchFilter("orgCode", Operator.LIKE, orgCode));
 		
 		String prdName = request.getParameter("prd.prdFullName");
 		if(prdName != null && prdName.trim().length()>0) {
@@ -233,8 +234,8 @@ public class ClientController {
 	@RequiresPermissions("PolicyReprintDtl:view")
 	@RequestMapping(value="/listPolicyReprintDtl/toXls", method={RequestMethod.GET, RequestMethod.POST})
 	public String reprintDtlToXls(ServletRequest request, Page page, Map<String, Object> map) {
-		ShiroUser shiroUser = SecurityUtils.getShiroUser();
-		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
+		//ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		//User user = shiroUser.getUser();//userService.get(shiroUser.getId());
 		
 		if(page.getOrderField() == null || page.getOrderField().trim().length() <= 0) {
 			page.setOrderField("printDate");
@@ -245,7 +246,7 @@ public class ClientController {
 		
 		String plFlag = request.getParameter("plFlag");
 		if(plFlag == null) plFlag = "";
-		
+		/*
 		String orgCode = request.getParameter("orgCode");
 		if(orgCode == null || orgCode.trim().length() <= 0) {
 			orgCode = user.getOrganization().getOrgCode();
@@ -260,9 +261,9 @@ public class ClientController {
 			request.setAttribute("orgCode", orgCode);
 			request.setAttribute("name", orgName);
 		}
-		
+		*/
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("orgCode", Operator.LIKE, orgCode));
+		//csf.add(new SearchFilter("orgCode", Operator.LIKE, orgCode));
 		
 		String prdName = request.getParameter("prd.prdFullName");
 		if(prdName != null && prdName.trim().length()>0) {

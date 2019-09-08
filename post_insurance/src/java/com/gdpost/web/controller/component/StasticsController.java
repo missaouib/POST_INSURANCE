@@ -2493,7 +2493,7 @@ public class StasticsController {
 					if(write.getOrganCode().equals(orgCode)) {
 						qcm.setPolicyCounts(write.getPolicyCounts());
 						qcm.setCheckCounts(write.getCheckCounts());
-						qcm.setErrCounts(write.getErrCounts());
+						qcm.setErrCounts(write.getCheckCounts());
 					}
 				}
 				rst.add(qcm);
@@ -2514,7 +2514,7 @@ public class StasticsController {
 					if(write.getOrganCode().equals(orgCode)) {
 						qcm.setPolicyCounts(write.getPolicyCounts());
 						qcm.setCheckCounts(write.getCheckCounts());
-						qcm.setErrCounts(write.getErrCounts());
+						qcm.setErrCounts(write.getCheckCounts());
 					}
 				}
 				rst.add(qcm);
@@ -2539,11 +2539,11 @@ public class StasticsController {
 			countList.add(tcm.getPolicyCounts());
 			count += tcm.getPolicyCounts();
 			countStr += tcm.getPolicyCounts() + ",";
-			errsumList.add(tcm.getErrCounts());
-			errsumStr += tcm.getErrCounts() + ",";
-			errsum += tcm.getErrCounts() == null ? 0 : tcm.getErrCounts();
+			errsumList.add(tcm.getCheckCounts());
+			errsumStr += tcm.getCheckCounts() + ",";
+			errsum += tcm.getCheckCounts() == null ? 0 : tcm.getCheckCounts();
 			
-			Double err = (double) (tcm.getPolicyCounts()==0?0:tcm.getErrCounts());
+			Double err = (double) (tcm.getPolicyCounts()==0?0:tcm.getCheckCounts());
 			Double p = (double) (tcm.getPolicyCounts()==0?1:tcm.getPolicyCounts());
 			countPtStr += (df.format((err/p)*100) + ",");
 			
@@ -2647,7 +2647,7 @@ public class StasticsController {
 					if(write.getOrganCode().equals(orgCode)) {
 						qcm.setPolicyCounts(write.getPolicyCounts());
 						qcm.setCheckCounts(write.getCheckCounts());
-						qcm.setErrCounts(write.getErrCounts());
+						qcm.setErrCounts(write.getCheckCounts());
 					}
 				}
 				rst.add(qcm);
@@ -2668,7 +2668,7 @@ public class StasticsController {
 					if(write.getOrganCode().equals(orgCode)) {
 						qcm.setPolicyCounts(write.getPolicyCounts());
 						qcm.setCheckCounts(write.getCheckCounts());
-						qcm.setErrCounts(write.getErrCounts());
+						qcm.setErrCounts(write.getCheckCounts());
 					}
 				}
 				rst.add(qcm);
@@ -2681,7 +2681,7 @@ public class StasticsController {
 		double count = 0;
 		for (QyCheckModel tcm : rst) {
 			count += tcm.getPolicyCounts();
-			errsum += tcm.getErrCounts() == null ? 0 : tcm.getErrCounts();
+			errsum += tcm.getCheckCounts() == null ? 0 : tcm.getCheckCounts();
 		}
 		request.setAttribute("countPt", count);
 		request.setAttribute("sumPt", errsum);

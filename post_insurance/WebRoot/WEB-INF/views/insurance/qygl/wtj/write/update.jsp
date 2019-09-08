@@ -92,7 +92,7 @@
 		<legend>不合格件处理详情</legend>
 		<p class="nowrap">
 			<label>处理结果类型：</label>
-			<form:select path="issue.fixType" onchange="javascript:$('#fixDesc').val($('#fixType').val())" class="combox">
+			<form:select path="issue.fixType" class="combox">
 				<form:option value=""> -- </form:option>
 				<form:options items="${checkFixList }" itemLabel="typeName" itemValue="typeDesc"/>
 			</form:select>

@@ -23,8 +23,8 @@ response.setHeader("Content-Disposition", "inline; filename=print_stat.xls");
 				<td style="text-align: center;">${idx.index+1 }</td>
 				<td>${item.orgName }</td>
 				<td style="text-align: right;"><fmt:formatNumber value="${item.policyCounts}" pattern="#,###.#" /></td>
-				<td style="text-align: right;"><fmt:formatNumber value="${item.errCounts}" pattern="#,###.#" /></td>
-				<td style="text-align: right;"><fmt:formatNumber value="${(item.errCounts/item.policyCounts)*100}" pattern="#,###.#" />%</td>
+				<td style="text-align: right;"><fmt:formatNumber value="${item.checkCounts}" pattern="#,###.#" /></td>
+				<td style="text-align: right;"><fmt:formatNumber value="${(item.checkCounts/item.policyCounts)*100}" pattern="#,###.#" />%</td>
 			</tr>
 			</c:forEach>
 			<tr>
