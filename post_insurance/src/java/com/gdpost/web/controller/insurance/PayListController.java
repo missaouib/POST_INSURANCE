@@ -33,8 +33,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gdpost.utils.SecurityUtils;
-import com.gdpost.web.entity.insurance.PayFailList;
-import com.gdpost.web.entity.insurance.PaySuccessList;
+import com.gdpost.web.entity.insurance.PayList;
 import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.exception.ServiceException;
@@ -81,7 +80,7 @@ public class PayListController {
 	@RequiresPermissions(value={"ToBQFailList:edit","ToQYFailList:edit","ToLPFailList:edit","ToXQFailList:edit","FromBQFailList:edit","FromQYFailList:edit","FromLPFailList:edit","FromXQFailList:edit"}, logical=Logical.OR)
 	@RequestMapping(value="/close/{id}", method=RequestMethod.POST)
 	public @ResponseBody String updateStatus(ServletRequest request, @PathVariable("id") Long id) {
-		PayFailList req = payListService.get(id);
+		PayList req = payListService.get(id);
 		req.setStatus(FEE_FAIL_STATUS.CloseStatus.name());
 		payListService.saveOrUpdate(req);
 		
@@ -95,7 +94,7 @@ public class PayListController {
 		String[] policys = new String[ids.length];
 		try {
 			for (int i = 0; i < ids.length; i++) {
-				PaySuccessList pf = payListService.getSuccessDtl(ids[i]);
+				PayList pf = payListService.getSuccessDtl(ids[i]);
 				pf.setStatus(FEE_FAIL_STATUS.CloseStatus.name());
 				payListService.saveOrUpdateSuccessDtl(pf);
 				
@@ -116,7 +115,7 @@ public class PayListController {
 		String[] policys = new String[ids.length];
 		try {
 			for (int i = 0; i < ids.length; i++) {
-				PayFailList pf = payListService.get(ids[i]);
+				PayList pf = payListService.get(ids[i]);
 				pf.setStatus(FEE_FAIL_STATUS.CloseStatus.name());
 				payListService.saveOrUpdate(pf);
 				
@@ -145,7 +144,7 @@ public class PayListController {
 		String status = request.getParameter("status");
 		String flag = request.getParameter("flag");
 		LOG.debug("-----------------status:" + status);
-		PayFailList req = new PayFailList();
+		PayList req = new PayList();
 		if(status == null) {
 			req.setStatus(FEE_FAIL_STATUS.NewStatus.name());
 			status = FEE_FAIL_STATUS.NewStatus.name();
@@ -156,6 +155,7 @@ public class PayListController {
 		page.setOrderDirection("DESC");
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("failDesc", Operator.NOT_LIKE, "成功"));
 		
 		String feeType = "";
 		switch(flag) {
@@ -177,12 +177,12 @@ public class PayListController {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
 		}
 		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
-		csf.add(new SearchFilter("payType", Operator.EQ, PayFailList.PAY_TO));
+		csf.add(new SearchFilter("payType", Operator.EQ, PayList.PAY_TO));
 		
 		
-		Specification<PayFailList> specification = DynamicSpecifications.bySearchFilter(request, PayFailList.class, csf);
+		Specification<PayList> specification = DynamicSpecifications.bySearchFilter(request, PayList.class, csf);
 		
-		List<PayFailList> reqs = payListService.findByExample(specification, page);
+		List<PayList> reqs = payListService.findFailByExample(specification, page);
 
 		request.setAttribute("status", status);
 		map.put("pay", req);
@@ -216,7 +216,7 @@ public class PayListController {
 		String status = request.getParameter("status");
 		String flag = request.getParameter("flag");
 		LOG.debug("-----------------status:" + status);
-		PayFailList req = new PayFailList();
+		PayList req = new PayList();
 		if(status == null) {
 			req.setStatus(FEE_FAIL_STATUS.NewStatus.name());
 			status = FEE_FAIL_STATUS.NewStatus.name();
@@ -225,6 +225,8 @@ public class PayListController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("failDesc", Operator.EQ, "成功"));
+		
 		String feeType = "";
 		switch(flag) {
 		case "bq":
@@ -247,11 +249,11 @@ public class PayListController {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
 		}
 		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
-		csf.add(new SearchFilter("payType", Operator.EQ, PayFailList.PAY_TO));
+		csf.add(new SearchFilter("payType", Operator.EQ, PayList.PAY_TO));
 		
-		Specification<PaySuccessList> specification = DynamicSpecifications.bySearchFilter(request, PaySuccessList.class, csf);
+		Specification<PayList> specification = DynamicSpecifications.bySearchFilter(request, PayList.class, csf);
 		
-		List<PaySuccessList> reqs = payListService.findBySuccessDtlExample(specification, page);
+		List<PayList> reqs = payListService.findBySuccessDtlExample(specification, page);
 
 		request.setAttribute("status", status);
 		map.put("pay", req);
@@ -286,7 +288,7 @@ public class PayListController {
 		String status = request.getParameter("status");
 		String flag = request.getParameter("flag");
 		LOG.debug("-----------------status:" + status);
-		PaySuccessList req = new PaySuccessList();
+		PayList req = new PayList();
 		if(status == null) {
 			req.setStatus(FEE_FAIL_STATUS.NewStatus.name());
 			status = FEE_FAIL_STATUS.NewStatus.name();
@@ -295,6 +297,8 @@ public class PayListController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("failDesc", Operator.EQ, "成功"));
+		
 		String feeType = "";
 		switch(flag) {
 		case "bq":
@@ -314,14 +318,14 @@ public class PayListController {
 		page.setOrderDirection("DESC");
 		
 		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
-		csf.add(new SearchFilter("payType", Operator.EQ, PaySuccessList.PAY_TO));
+		csf.add(new SearchFilter("payType", Operator.EQ, PayList.PAY_TO));
 		if (status.length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
 		}
 		
-		Specification<PaySuccessList> specification = DynamicSpecifications.bySearchFilter(request, PaySuccessList.class, csf);
+		Specification<PayList> specification = DynamicSpecifications.bySearchFilter(request, PayList.class, csf);
 		
-		List<PaySuccessList> reqs = payListService.findBySuccessDtlExample(specification, page);
+		List<PayList> reqs = payListService.findBySuccessDtlExample(specification, page);
 
 		request.setAttribute("date",new Date());
 		map.put("paylists", reqs);
@@ -345,7 +349,7 @@ public class PayListController {
 		String status = request.getParameter("status");
 		String flag = request.getParameter("flag");
 		LOG.debug("-----------------status:" + status);
-		PayFailList req = new PayFailList();
+		PayList req = new PayList();
 		if(status == null) {
 			req.setStatus(FEE_FAIL_STATUS.NewStatus.name());
 			status = FEE_FAIL_STATUS.NewStatus.name();
@@ -354,6 +358,8 @@ public class PayListController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("failDesc", Operator.NOT_LIKE, "成功"));
+		
 		String feeType = "";
 		switch(flag) {
 		case "bq":
@@ -373,14 +379,14 @@ public class PayListController {
 		page.setOrderDirection("DESC");
 		
 		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
-		csf.add(new SearchFilter("payType", Operator.EQ, PayFailList.PAY_TO));
+		csf.add(new SearchFilter("payType", Operator.EQ, PayList.PAY_TO));
 		if (status != null && status.length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
 		}
 		
-		Specification<PayFailList> specification = DynamicSpecifications.bySearchFilter(request, PayFailList.class, csf);
+		Specification<PayList> specification = DynamicSpecifications.bySearchFilter(request, PayList.class, csf);
 		
-		List<PayFailList> reqs = payListService.findByExample(specification, page);
+		List<PayList> reqs = payListService.findFailByExample(specification, page);
 
 		request.setAttribute("date",new Date());
 		map.put("paylists", reqs);
@@ -404,7 +410,7 @@ public class PayListController {
 		String status = request.getParameter("status");
 		String flag = request.getParameter("flag");
 		LOG.debug("-----------------status:" + status);
-		PayFailList req = new PayFailList();
+		PayList req = new PayList();
 		if(status == null) {
 			req.setStatus(FEE_FAIL_STATUS.NewStatus.name());
 			status = FEE_FAIL_STATUS.NewStatus.name();
@@ -413,6 +419,7 @@ public class PayListController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("failDesc", Operator.NOT_LIKE, "成功"));
 		String feeType = "";
 		switch(flag) {
 		case "bq":
@@ -432,14 +439,14 @@ public class PayListController {
 		page.setOrderDirection("DESC");
 		
 		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
-		csf.add(new SearchFilter("payType", Operator.EQ, PayFailList.PAY_FROM));
+		csf.add(new SearchFilter("payType", Operator.EQ, PayList.PAY_FROM));
 		if (status != null && status.length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
 		}
 		
-		Specification<PayFailList> specification = DynamicSpecifications.bySearchFilter(request, PayFailList.class, csf);
+		Specification<PayList> specification = DynamicSpecifications.bySearchFilter(request, PayList.class, csf);
 		
-		List<PayFailList> reqs = payListService.findByExample(specification, page);
+		List<PayList> reqs = payListService.findFailByExample(specification, page);
 
 		request.setAttribute("date",new Date());
 		map.put("paylists", reqs);
@@ -462,7 +469,7 @@ public class PayListController {
 		String status = request.getParameter("status");
 		String flag = request.getParameter("flag");
 		LOG.debug("-----------------status:" + status);
-		PayFailList req = new PayFailList();
+		PayList req = new PayList();
 		if(status == null) {
 			req.setStatus(FEE_FAIL_STATUS.NewStatus.name());
 			status = FEE_FAIL_STATUS.NewStatus.name();
@@ -471,6 +478,7 @@ public class PayListController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("failDesc", Operator.NOT_LIKE, "成功"));
 		String feeType = "";
 		switch(flag) {
 		case "bq":
@@ -497,11 +505,11 @@ public class PayListController {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
 		}
 		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
-		csf.add(new SearchFilter("payType", Operator.EQ, PayFailList.PAY_FROM));
+		csf.add(new SearchFilter("payType", Operator.EQ, PayList.PAY_FROM));
 		
-		Specification<PayFailList> specification = DynamicSpecifications.bySearchFilter(request, PayFailList.class, csf);
+		Specification<PayList> specification = DynamicSpecifications.bySearchFilter(request, PayList.class, csf);
 		
-		List<PayFailList> reqs = payListService.findByExample(specification, page);
+		List<PayList> reqs = payListService.findFailByExample(specification, page);
 
 		request.setAttribute("status", status);
 		map.put("pay", req);

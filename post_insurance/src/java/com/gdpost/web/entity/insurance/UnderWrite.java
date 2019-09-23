@@ -83,7 +83,7 @@ public class UnderWrite implements Idable<Long> {
 	
 	private String feeType;
 	
-	private PayFailList payFailList;
+	private PayList payFailList;
 	@Transient
 	private boolean payFail;
 	@Transient
@@ -630,11 +630,11 @@ public class UnderWrite implements Idable<Long> {
 	
 	@OneToOne(optional=true, fetch=FetchType.EAGER)
 	@JoinColumn(name="form_no", referencedColumnName="rel_no", insertable=false, updatable=false, nullable=true)
-	public PayFailList getPayFailList() {
+	public PayList getPayFailList() {
 		return payFailList;
 	}
 	
-	public void setPayFailList(PayFailList payFailList) {
+	public void setPayFailList(PayList payFailList) {
 		this.payFailList = payFailList;
 	}
 	

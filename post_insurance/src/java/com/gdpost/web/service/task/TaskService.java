@@ -154,35 +154,35 @@ public class TaskService {
 			statement.executeUpdate(sql);
 			log.info("------------ finish exec sql");
 			
-			sql = "update t_pay_fail_list set status='CloseStatus' where status<>'CloseStatus' and rel_no in (select rel_no from t_pay_success_list);";
+			sql = "update t_pay_list t1,(select rel_no from t_pay_list where fail_desc=\"成功\") t2 set t1.status='CloseStatus' where t1.status<>'CloseStatus' and t1.status<>\"成功\" and t1.rel_no=t2.rel_no;";
 			log.info("------------ sql :" + sql);
 			statement.executeUpdate(sql);
 			log.info("------------ finish exec sql");
 			
-			sql = "update t_renewed_list set fee_status='交费成功', fee_fail_reason='' where fee_status<>\"交费成功\" and policy_no in (select rel_no from t_pay_success_list where pay_type=2 and fail_desc like '%成功' and datediff(back_date,fee_date)>=0);";
+			sql = "update t_renewed_list set fee_status='交费成功', fee_fail_reason='' where fee_status<>\"交费成功\" and policy_no in (select rel_no from t_pay_list where pay_type=2 and fail_desc like '%成功' and datediff(back_date,fee_date)>=0);";
 			log.info("------------ sql :" + sql);
 			statement.executeUpdate(sql);
 			log.info("------------ finish exec sql");
 			
 			sql = "update t_renewed_list t0 set t0.fee_status='交费成功', fee_fail_reason='' where t0.fee_status<>\"交费成功\" "
-					+ "and t0.policy_no in (select t2.policy_no from t_pay_success_list t1, t_cs_report t2 "
+					+ "and t0.policy_no in (select t2.policy_no from t_pay_list t1, t_cs_report t2 "
 					+ "where t1.back_date>t2.cs_date and t2.cs_date>t0.fee_date and t1.pay_type=2 and t1.fail_desc like '%成功' and t0.policy_fee=t1.money and t1.rel_no=t2.cs_no and t2.cs_code='RE');";
 			log.info("------------ sql :" + sql);
 			statement.executeUpdate(sql);
 			log.info("------------ finish exec sql");
 			
-			sql = "update t_policy tp, t_renewed_list rdl set tp.status=\"失效\" where tp.policy_no=rdl.policy_no and tp.status=\"有效\" and rdl.fee_status<>\"交费成功\" and TIMESTAMPDIFF(DAY,rdl.fee_date,now())>61 and rdl.policy_no not in (select psl.rel_no from t_pay_success_list psl where TIMESTAMPDIFF(DAY,psl.back_date,now())>60);";
+			sql = "update t_policy tp, t_renewed_list rdl set tp.status=\"失效\" where tp.policy_no=rdl.policy_no and tp.status=\"有效\" and rdl.fee_status<>\"交费成功\" and TIMESTAMPDIFF(DAY,rdl.fee_date,now())>61 and rdl.policy_no not in (select psl.rel_no from t_pay_list psl where TIMESTAMPDIFF(DAY,psl.back_date,now())>60);";
 			log.info("------------ sql :" + sql);
 			statement.executeUpdate(sql);
 			log.info("------------ finish exec sql");
 			
-			sql = "update t_policy t0 set t0.status='有效' where t0.status<>'有效' and t0.policy_no in (select t2.policy_no from t_pay_success_list t1, t_cs_report t2 where t1.pay_type=2 and t1.rel_no=t2.cs_no and t2.cs_code='RE');";
+			sql = "update t_policy t0 set t0.status='有效' where t0.status<>'有效' and t0.policy_no in (select t2.policy_no from t_pay_list t1, t_cs_report t2 where t1.pay_type=2 and t1.rel_no=t2.cs_no and t2.cs_code='RE' and t1.fail_desc='成功');";
 			log.info("------------ sql :" + sql);
 			statement.executeUpdate(sql);
 			log.info("------------ finish exec sql");
 			
 			sql = "update t_renewed_list t0 set t0.fee_status='交费成功', fee_fail_reason='' where t0.fee_status<>\"交费成功\" "
-					+ "and t0.policy_no in (select t2.policy_no from t_pay_success_list t1, t_cs_report t2 "
+					+ "and t0.policy_no in (select t2.policy_no from t_pay_list t1, t_cs_report t2 "
 					+ "where t1.back_date>t2.cs_date and t2.cs_date>t0.fee_date and t1.pay_type=2 and t1.fail_desc like '%成功' and t0.policy_fee=t1.money and t1.rel_no=t2.cs_no and t2.cs_code='RE');";
 			log.info("------------ sql :" + sql);
 			statement.executeUpdate(sql);
@@ -401,6 +401,10 @@ public class TaskService {
 			statement.executeUpdate(sql);
 			
 			sql = "update t_cs_report set cs_code=left(full_cs_code,2) where (cs_code is null or cs_code=\"\") and full_cs_code<>\"\";";
+			log.info("------------ sql :" + sql);
+			statement.executeUpdate(sql);
+			
+			sql = "update t_policy tp, t_organization org set tp.organ_name=org.name where tp.organ_name=org.old_name;";
 			log.info("------------ sql :" + sql);
 			statement.executeUpdate(sql);
 			

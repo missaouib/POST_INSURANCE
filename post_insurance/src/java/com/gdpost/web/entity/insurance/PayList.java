@@ -1,6 +1,7 @@
 package com.gdpost.web.entity.insurance;
 
-import java.sql.Date;
+import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,12 +18,17 @@ import com.gdpost.web.entity.Idable;
 import com.gdpost.web.entity.main.Organization;
 
 /**
- * TPaySuccessList entity. @author MyEclipse Persistence Tools
+ * AbstractTPayFailList entity provides the base persistence definition of the
+ * TPayFailList entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "t_pay_success_list")
-public class PaySuccessList implements Idable<Long> {
+@Table(name = "t_pay_list")
+public class PayList implements Idable<Long>, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2283160516619772095L;
 	public static final Integer PAY_TO = 1;
 	public static final Integer PAY_FROM = 2;
 	// Fields
@@ -44,13 +50,13 @@ public class PaySuccessList implements Idable<Long> {
 	// Constructors
 
 	/** default constructor */
-	public PaySuccessList() {
+	public PayList() {
 	}
 
 	/** full constructor */
-	public PaySuccessList(String accountName, String account, String money,
-			String failDesc, Date backDate, String feeType, String relNo,
-			Organization organization, Integer payType, String status, Long operateId,
+	public PayList(String accountName, String account,
+			String money, String failDesc, Date backDate, String feeType,
+			String relNo, Integer payType, Long operateId,
 			Date operateTime) {
 		this.accountName = accountName;
 		this.account = account;
@@ -59,9 +65,7 @@ public class PaySuccessList implements Idable<Long> {
 		this.backDate = backDate;
 		this.feeType = feeType;
 		this.relNo = relNo;
-		this.organization = organization;
 		this.payType = payType;
-		this.status = status;
 		this.operateId = operateId;
 		this.operateTime = operateTime;
 	}
@@ -100,7 +104,7 @@ public class PaySuccessList implements Idable<Long> {
 		this.account = account;
 	}
 
-	@Column(name = "money", length = 12)
+	@Column(name = "money", precision = 22, scale = 0)
 	public String getMoney() {
 		return this.money;
 	}
@@ -144,7 +148,7 @@ public class PaySuccessList implements Idable<Long> {
 	public void setRelNo(String relNo) {
 		this.relNo = relNo;
 	}
-
+	
 	@ManyToOne
 	@JoinColumn(name="org_name", referencedColumnName="name")
 	public Organization getOrganization() {
@@ -166,7 +170,7 @@ public class PaySuccessList implements Idable<Long> {
 
 	@Column(name = "status")
 	public String getStatus() {
-		return this.status;
+		return status;
 	}
 
 	public void setStatus(String status) {

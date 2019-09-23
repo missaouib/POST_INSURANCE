@@ -14,6 +14,8 @@ import org.apache.poi.hssf.record.crypto.Biff8EncryptionKey;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.CellValue;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -73,6 +75,8 @@ public class XlsxFileHandler extends AbstractFileHandler {
 					skipRow = sheet.getMergedRegion(sheetmergerCount-1).getLastRow();
 				}
 				
+				FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
+				
 				lastRow = sheet.getLastRowNum();
 				for (int i = skipRow+1; i < lastRow; i++) {
 					count = -1;
@@ -85,12 +89,18 @@ public class XlsxFileHandler extends AbstractFileHandler {
 					while(iter.hasNext()) {
 						count ++;
 						checkCell = iter.next();
+						CellValue cellValue = evaluator.evaluate(cell);
 						switch(checkCell.getCellType()) {
 						case BLANK:
 							break;
 						case FORMULA:
-							checkCell.setCellType(CellType.STRING);
-							check = checkCell.getStringCellValue();
+							if (checkCell.getCellFormula().indexOf("LINEST") >= 0) {
+					            check = Double.toString(checkCell.getNumericCellValue());
+					        } else {
+					            check = cellValue.getStringValue();
+					        }
+							//checkCell.setCellType(CellType.STRING);
+							//check = checkCell.getStringCellValue();
 							break;
 						case NUMERIC:
 							if (HSSFDateUtil.isCellDateFormatted(checkCell)) {

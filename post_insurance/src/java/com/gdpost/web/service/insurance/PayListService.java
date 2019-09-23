@@ -11,51 +11,49 @@ import java.util.List;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.gdpost.web.entity.insurance.PayFailList;
-import com.gdpost.web.entity.insurance.PaySuccessList;
+import com.gdpost.web.entity.insurance.PayList;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.util.dwz.Page;
 
 public interface PayListService {
-	PayFailList get(Long id);
+	PayList get(Long id);
 
-	void saveOrUpdate(PayFailList req);
+	void saveOrUpdate(PayList req);
 
 	void delete(Long id);
 	
-	List<PayFailList> findAll(Page page);
+	List<PayList> findFailAll(Page page);
 	
-	List<PayFailList> findByExample(Specification<PayFailList> specification, Page page);
+	List<PayList> findFailByExample(Specification<PayList> specification, Page page);
 
-	List<PayFailList> getBQToFailListTODOIssueList(User user);
+	List<PayList> getBQToFailListTODOIssueList(User user);
 
-	List<PayFailList> getBQFromFailListTODOIssueList(User user);
+	List<PayList> getBQFromFailListTODOIssueList(User user);
 
-	List<PayFailList> getQYFromFailListTODOIssueList(User user);
+	List<PayList> getQYFromFailListTODOIssueList(User user);
 
-	List<PayFailList> getLPToFailListTODOIssueList(User user);
+	List<PayList> getLPToFailListTODOIssueList(User user);
 
-	List<PayFailList> getXQFromFailListTODOIssueList(User user);
+	List<PayList> getXQFromFailListTODOIssueList(User user);
 
-	PaySuccessList getSuccessDtl(Long id);
+	PayList getSuccessDtl(Long id);
 
-	void saveOrUpdateSuccessDtl(PaySuccessList policy);
+	void saveOrUpdateSuccessDtl(PayList policy);
 
 	void deleteSuccessDtl(Long id);
 
-	List<PaySuccessList> findAllSuccessList(Page page);
+	List<PayList> findAllSuccessList(Page page);
 
-	List<PaySuccessList> findBySuccessDtlExample(
-			Specification<PaySuccessList> specification, Page page);
+	List<PayList> findBySuccessDtlExample(Specification<PayList> specification, Page page);
 
-	List<PaySuccessList> getBQToSuccessListTODOIssueList(User user);
+	List<PayList> getBQToSuccessListTODOIssueList(User user);
 
-	List<PaySuccessList> getBQFromSuccessListTODOIssueList(User user);
+	List<PayList> getBQFromSuccessListTODOIssueList(User user);
 
-	List<PaySuccessList> getXQFromSuccessListTODOIssueList(User user);
+	List<PayList> getXQFromSuccessListTODOIssueList(User user);
 
-	List<PaySuccessList> getQYFromSuccessListTODOIssueList(User user);
+	List<PayList> getQYFromSuccessListTODOIssueList(User user);
 
-	List<PaySuccessList> getLPToSuccessListTODOIssueList(User user);
+	List<PayList> getLPToSuccessListTODOIssueList(User user);
 
 }

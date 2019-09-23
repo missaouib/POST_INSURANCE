@@ -361,25 +361,18 @@ public class QyglController {
 		} else if(!orgCode.contains(userOrg.getOrgCode())){
 			orgCode = userOrg.getOrgCode();
 		}
-		String orgName = request.getParameter("name");
-		request.setAttribute("orgCode", orgCode);
-		request.setAttribute("name", orgName);
 		log.debug("-------------- orgCode: " + orgCode);
-		CheckWrite issue = new CheckWrite();
 		if(status == null) {
 			status = QY_STATUS.NewStatus.name();
-		} else if(status.trim().length()>0) {
-			issue.setFixStatus(QY_STATUS.valueOf(status).name());
 		}
 		
 		String keyInfo = request.getParameter("keyInfo");
 		
 		page.setPageNum(0);
 		page.setNumPerPage(Integer.MAX_VALUE);
-		
 		if(page.getOrderField() == null || page.getOrderField().trim().length() <= 0) {
 			page.setOrderField("id");
-			page.setOrderDirection("DESC");
+			page.setOrderDirection("ASC");
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
@@ -389,7 +382,11 @@ public class QyglController {
 			csf.add(new SearchFilter("fixStatus", Operator.EQ, status));
 		}
 		if(checker != null && checker.trim().length()>0) {
-			csf.add(new SearchFilter("checker", Operator.EQ, checker));
+			if(checker.equals("zhaoyong")) {
+				csf.add(new SearchFilter("checker", Operator.EQ, checker));
+			} else {
+				csf.add(new SearchFilter("isTruth", Operator.EQ, true)); //客户信息真实性
+			}
 		}
 		if(keyInfo != null && keyInfo.trim().length()>0) {
 			switch(keyInfo) {
