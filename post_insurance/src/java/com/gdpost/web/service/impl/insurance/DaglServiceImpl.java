@@ -20,13 +20,13 @@ public class DaglServiceImpl implements DaglService {
 	DocStatModelDAO dsm;
 	
 	@Override
-	public List<DocStatModel> getDocNotScanStat() {
-		return dsm.getDocNotScanStat();
+	public List<DocStatModel> getDocNotScanStat(String d1, String d2) {
+		return dsm.getDocNotScanStat(d1, d2);
 	}
 
 	@Override
-	public List<DocStatModel> getSubDocNotScanStat(String organName) {
-		return dsm.getSubDocNotScanStat(organName);
+	public List<DocStatModel> getSubDocNotScanStat(String organName, String d1, String d2) {
+		return dsm.getSubDocNotScanStat(organName, d1, d2);
 	}
 
 	@Override

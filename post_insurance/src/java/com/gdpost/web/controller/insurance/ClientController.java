@@ -103,6 +103,7 @@ public class ClientController {
 		String staffFlag = request.getParameter("staffFlag");
 		String duration = request.getParameter("duration");
 		String saleChannel = request.getParameter("saleChannel");
+		String isPhone = request.getParameter("search_LIKE_policyDtl.holderPhone");
 		Boolean staff = null;
 		if(staffFlag != null && staffFlag.trim().equals("0")) {
 			staff = false;
@@ -144,7 +145,9 @@ public class ClientController {
 		request.setAttribute("policy_name", orgName);
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		if(isPhone != null && isPhone.trim().length()>0) {
+			csf.add(new SearchFilter("organization.orgCode", Operator.LIKE_R, orgCode));
+		}
 		if(status != null && status.trim().length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
 		}
@@ -323,7 +326,7 @@ public class ClientController {
 		page.setNumPerPage(Integer.MAX_VALUE);
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE_R, orgCode));
 		if(status != null && status.trim().length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
 		}

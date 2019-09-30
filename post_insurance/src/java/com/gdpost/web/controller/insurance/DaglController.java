@@ -48,7 +48,16 @@ public class DaglController {
 		
 		request.setAttribute("months", monmap);
 		
-		List<DocStatModel> list = daglService.getDocNotScanStat();
+		String theMon = request.getParameter("month");
+		request.setAttribute("month", theMon);
+		DocStatModel docsm = new DocStatModel();
+		docsm.setMonth(new Integer(theMon==null?month+"":theMon));
+		request.setAttribute("dsm", docsm);
+		
+		String d1 = StringUtil.getMonthFirstDayOfMonth(new Integer(theMon==null?month+"":theMon), "yyyy-MM-dd");
+		String d2 = StringUtil.getMonthLastDayOfMonth(new Integer(theMon==null?month+"":theMon), "yyyy-MM-dd");
+		
+		List<DocStatModel> list = daglService.getDocNotScanStat(d1, d2);
 		if(list == null || list.isEmpty()) {
 			return DOC_NOT_SCAN;
 		}
@@ -60,14 +69,6 @@ public class DaglController {
 		List<DocStatModel> subList = null;
 		List<DocStatModel> sumList = null;
 		
-		String theMon = request.getParameter("month");
-		request.setAttribute("month", theMon);
-		DocStatModel docsm = new DocStatModel();
-		docsm.setMonth(new Integer(theMon==null?month+"":theMon));
-		request.setAttribute("dsm", docsm);
-		
-		String d1 = StringUtil.getMonthFirstDayOfMonth(new Integer(theMon==null?month+"":theMon), "yyyy-MM-dd");
-		String d2 = StringUtil.getMonthLastDayOfMonth(new Integer(theMon==null?month+"":theMon), "yyyy-MM-dd");
 		for(DocStatModel dsm:list) {
 			remark = new StringBuffer("");
 			organName = dsm.getOrgName();
@@ -82,7 +83,7 @@ public class DaglController {
 			p = (new Double(sumDocs)-new Double(noscan))/new Double(sumDocs)*100;
 			dsm.setPercent(p.toString());
 			
-			subList = daglService.getSubDocNotScanStat(organName);
+			subList = daglService.getSubDocNotScanStat(organName, d1, d2);
 			for(DocStatModel subDsm:subList) {
 				remark.append(subDsm.getOrgName().substring(2, 4) + ":" + subDsm.getSumDoc() + "，");
 			}

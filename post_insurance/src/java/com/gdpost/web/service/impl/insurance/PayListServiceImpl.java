@@ -110,8 +110,8 @@ public class PayListServiceImpl implements PayListService {
 				new SearchFilter("payType", Operator.EQ, PayList.PAY_TO),
 				new SearchFilter("feeType", Operator.EQ, "保全受理号"),
 				new SearchFilter("failDesc", Operator.NOT_LIKE, "成功"),
-				new SearchFilter("status", Operator.LIKE, BQ_STATUS.NewStatus.name()),
-				new SearchFilter("organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+				new SearchFilter("status", Operator.EQ, BQ_STATUS.NewStatus.name()),
+				new SearchFilter("organization.orgCode", Operator.LIKE_R, userOrg.getOrgCode()));
 		
 		Page page = new Page();
 		page.setNumPerPage(5);
@@ -131,8 +131,8 @@ public class PayListServiceImpl implements PayListService {
 				new SearchFilter("payType", Operator.EQ, PayList.PAY_FROM),
 				new SearchFilter("feeType", Operator.EQ, "保全受理号"),
 				new SearchFilter("failDesc", Operator.NOT_LIKE, "成功"),
-				new SearchFilter("status", Operator.LIKE, BQ_STATUS.NewStatus.name()),
-				new SearchFilter("organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+				new SearchFilter("status", Operator.EQ, BQ_STATUS.NewStatus.name()),
+				new SearchFilter("organization.orgCode", Operator.LIKE_R, userOrg.getOrgCode()));
 		
 		Page page = new Page();
 		page.setNumPerPage(5);
@@ -152,8 +152,8 @@ public class PayListServiceImpl implements PayListService {
 				new SearchFilter("payType", Operator.EQ, PayList.PAY_FROM),
 				new SearchFilter("feeType", Operator.EQ, "保单合同号"),
 				new SearchFilter("failDesc", Operator.NOT_LIKE, "成功"),
-				new SearchFilter("status", Operator.LIKE, BQ_STATUS.NewStatus.name()),
-				new SearchFilter("organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+				new SearchFilter("status", Operator.EQ, BQ_STATUS.NewStatus.name()),
+				new SearchFilter("organization.orgCode", Operator.LIKE_R, userOrg.getOrgCode()));
 		
 		Page page = new Page();
 		page.setNumPerPage(5);
@@ -173,8 +173,8 @@ public class PayListServiceImpl implements PayListService {
 				new SearchFilter("payType", Operator.EQ, PayList.PAY_FROM),
 				new SearchFilter("feeType", Operator.EQ, "投保单印刷号"),
 				new SearchFilter("failDesc", Operator.NOT_LIKE, "成功"),
-				new SearchFilter("status", Operator.LIKE, BQ_STATUS.NewStatus.name()),
-				new SearchFilter("organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+				new SearchFilter("status", Operator.EQ, BQ_STATUS.NewStatus.name()),
+				new SearchFilter("organization.orgCode", Operator.LIKE_R, userOrg.getOrgCode()));
 		
 		Page page = new Page();
 		page.setNumPerPage(5);
@@ -194,9 +194,9 @@ public class PayListServiceImpl implements PayListService {
 				new SearchFilter("payType", Operator.EQ, PayList.PAY_TO),
 				new SearchFilter("feeType", Operator.EQ, "案件号"),
 				new SearchFilter("failDesc", Operator.NOT_LIKE, "成功"),
-				new SearchFilter("status", Operator.LIKE, BQ_STATUS.NewStatus.name()),
-				new SearchFilter("relNo", Operator.OR_LIKE, userOrg.getOrgCode()),
-				new SearchFilter("organization.orgCode", Operator.OR_LIKE, userOrg.getOrgCode()));
+				new SearchFilter("status", Operator.EQ, BQ_STATUS.NewStatus.name()),
+				new SearchFilter("relNo", Operator.OR_LIKE_R, userOrg.getOrgCode()),
+				new SearchFilter("organization.orgCode", Operator.OR_LIKE_R, userOrg.getOrgCode()));
 		
 		Page page = new Page();
 		page.setNumPerPage(5);
@@ -253,8 +253,8 @@ public class PayListServiceImpl implements PayListService {
 				new SearchFilter("payType", Operator.EQ, PayList.PAY_TO),
 				new SearchFilter("feeType", Operator.EQ, "保全受理号"),
 				new SearchFilter("failDesc", Operator.EQ, "成功"),
-				new SearchFilter("status", Operator.LIKE, BQ_STATUS.NewStatus.name()),
-				new SearchFilter("organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+				new SearchFilter("status", Operator.EQ, BQ_STATUS.NewStatus.name()),
+				new SearchFilter("organization.orgCode", Operator.LIKE_R, userOrg.getOrgCode()));
 		
 		Page page = new Page();
 		page.setNumPerPage(5);
@@ -274,8 +274,8 @@ public class PayListServiceImpl implements PayListService {
 				new SearchFilter("payType", Operator.EQ, PayList.PAY_FROM),
 				new SearchFilter("feeType", Operator.EQ, "保全受理号"),
 				new SearchFilter("failDesc", Operator.EQ, "成功"),
-				new SearchFilter("status", Operator.LIKE, BQ_STATUS.NewStatus.name()),
-				new SearchFilter("organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+				new SearchFilter("status", Operator.EQ, BQ_STATUS.NewStatus.name()),
+				new SearchFilter("organization.orgCode", Operator.LIKE_R, userOrg.getOrgCode()));
 		
 		Page page = new Page();
 		page.setNumPerPage(5);
@@ -295,8 +295,8 @@ public class PayListServiceImpl implements PayListService {
 				new SearchFilter("payType", Operator.EQ, PayList.PAY_FROM),
 				new SearchFilter("feeType", Operator.EQ, "保单合同号"),
 				new SearchFilter("failDesc", Operator.EQ, "成功"),
-				new SearchFilter("status", Operator.LIKE, BQ_STATUS.NewStatus.name()),
-				new SearchFilter("organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+				new SearchFilter("status", Operator.EQ, BQ_STATUS.NewStatus.name()),
+				new SearchFilter("organization.orgCode", Operator.LIKE_R, userOrg.getOrgCode()));
 		
 		Page page = new Page();
 		page.setNumPerPage(5);
@@ -316,8 +316,8 @@ public class PayListServiceImpl implements PayListService {
 				new SearchFilter("payType", Operator.EQ, PayList.PAY_FROM),
 				new SearchFilter("feeType", Operator.EQ, "投保单印刷号"),
 				new SearchFilter("failDesc", Operator.EQ, "成功"),
-				new SearchFilter("status", Operator.LIKE, BQ_STATUS.NewStatus.name()),
-				new SearchFilter("organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+				new SearchFilter("status", Operator.EQ, BQ_STATUS.NewStatus.name()),
+				new SearchFilter("organization.orgCode", Operator.LIKE_R, userOrg.getOrgCode()));
 		
 		Page page = new Page();
 		page.setNumPerPage(5);
@@ -337,9 +337,9 @@ public class PayListServiceImpl implements PayListService {
 				new SearchFilter("payType", Operator.EQ, PayList.PAY_TO),
 				new SearchFilter("feeType", Operator.EQ, "案件号"),
 				new SearchFilter("failDesc", Operator.EQ, "成功"),
-				new SearchFilter("status", Operator.LIKE, BQ_STATUS.NewStatus.name()),
-				new SearchFilter("relNo", Operator.OR_LIKE, userOrg.getOrgCode()),
-				new SearchFilter("organization.orgCode", Operator.OR_LIKE, userOrg.getOrgCode()));
+				new SearchFilter("status", Operator.EQ, BQ_STATUS.NewStatus.name()),
+				new SearchFilter("relNo", Operator.OR_LIKE_R, userOrg.getOrgCode()),
+				new SearchFilter("organization.orgCode", Operator.OR_LIKE_R, userOrg.getOrgCode()));
 		
 		Page page = new Page();
 		page.setNumPerPage(5);

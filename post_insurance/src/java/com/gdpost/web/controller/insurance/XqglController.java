@@ -292,7 +292,7 @@ public class XqglController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, orgCode));
 		if (hqIssueType != null && hqIssueType.length() > 0) {
 			csf.add(new SearchFilter("hqIssueType", Operator.EQ, hqIssueType));
 		}
@@ -453,7 +453,7 @@ public class XqglController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, orgCode));
 		if (feeStatus != null && feeStatus.length() > 0) {
 			csf.add(new SearchFilter("feeStatus", Operator.EQ, feeStatus));
 		}
@@ -548,7 +548,7 @@ public class XqglController {
 		page.setNumPerPage(65564);
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, orgCode));
 		if (feeStatus != null && feeStatus.length() > 0) {
 			csf.add(new SearchFilter("feeStatus", Operator.EQ, feeStatus));
 		}
@@ -772,7 +772,7 @@ public class XqglController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, orgCode));
 		if (status.length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
 		} else {
@@ -822,7 +822,7 @@ public class XqglController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, orgCode));
 		if (status.length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
 		}

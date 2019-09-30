@@ -404,7 +404,11 @@ public class TaskService {
 			log.info("------------ sql :" + sql);
 			statement.executeUpdate(sql);
 			
-			sql = "update t_policy tp, t_organization org set tp.organ_name=org.name where tp.organ_name=org.old_name;";
+			sql = "update t_policy tp, t_organization org set tp.organ_name=org.short_name where tp.organ_name=org.old_name and TO_DAYS(NOW())-TO_DAYS(operate_time)<=2;";
+			log.info("------------ sql :" + sql);
+			statement.executeUpdate(sql);
+			
+			sql = "update t_policy tp, t_organization org set tp.organ_name=org.short_name where tp.organ_name=org.name and TO_DAYS(NOW())-TO_DAYS(operate_time)<=2;";
 			log.info("------------ sql :" + sql);
 			statement.executeUpdate(sql);
 			

@@ -298,7 +298,7 @@ public class QyglController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, orgCode));
 		csf.add(new SearchFilter("needFix", Operator.EQ, "要整改"));
 		if(status.trim().length()>0) {
 			csf.add(new SearchFilter("fixStatus", Operator.EQ, status));
@@ -376,7 +376,7 @@ public class QyglController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, orgCode));
 		csf.add(new SearchFilter("needFix", Operator.EQ, "要整改"));
 		if(status.trim().length()>0) {
 			csf.add(new SearchFilter("fixStatus", Operator.EQ, status));
@@ -587,7 +587,7 @@ public class QyglController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, orgCode));
 		csf.add(new SearchFilter("needFix", Operator.EQ, "要整改"));
 		if(status.trim().length()>0) {
 			csf.add(new SearchFilter("fixStatus", Operator.EQ, status));
@@ -669,7 +669,7 @@ public class QyglController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, orgCode));
 		csf.add(new SearchFilter("needFix", Operator.EQ, "要整改"));
 		if(status.trim().length()>0) {
 			csf.add(new SearchFilter("fixStatus", Operator.EQ, status));
@@ -744,7 +744,7 @@ public class QyglController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE_R, orgCode));
 		String status_flag = request.getParameter("status_flag");
 		String status = request.getParameter("status");
 		if(status_flag != null && status_flag.equals("null")) {
@@ -1093,7 +1093,7 @@ public class QyglController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE_R, orgCode));
 		if(isNull) {
 			csf.add(new SearchFilter("status", Operator.OR_EQ, UW_STATUS.NewStatus.name()));
 			csf.add(new SearchFilter("status", Operator.OR_EQ, UW_STATUS.SendStatus.name()));
@@ -1174,7 +1174,7 @@ public class QyglController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE_R, orgCode));
 		csf.add(new SearchFilter("status", Operator.OR_EQ, UW_STATUS.SendStatus.name()));
 		csf.add(new SearchFilter("status", Operator.OR_EQ, UW_STATUS.NewStatus.name()));
 		csf.add(new SearchFilter("planFlag", Operator.EQ, 1));

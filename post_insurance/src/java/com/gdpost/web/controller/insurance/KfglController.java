@@ -204,8 +204,8 @@ public class KfglController {
 		page.setNumPerPage(50);
 
 		Specification<Issue> specification = DynamicSpecifications.bySearchFilter(request, Issue.class,
-				new SearchFilter("status", Operator.LIKE, status),
-				new SearchFilter("policy.organization.orgCode", Operator.LIKE, searchOrg));
+				new SearchFilter("status", Operator.EQ, status),
+				new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, searchOrg));
 		List<Issue> issues = kfglService.findByExample(specification, page);
 		LOG.debug("-----------------" + issues);
 		map.put("issues", issues);
@@ -435,7 +435,7 @@ public class KfglController {
 		}
 
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, orgCode));
 
 		if (issueType != null && issueType.trim().length() > 0) {
 			csf.add(new SearchFilter("issueType", Operator.EQ, issueType));
@@ -530,7 +530,7 @@ public class KfglController {
 		}
 
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, orgCode));
 
 		// 如果是县区局登录的机构号为8位，需要根据保单的所在机构进行筛选
 		if (user.getOrganization().getOrgCode().length() > 4) {
@@ -586,7 +586,7 @@ public class KfglController {
 		}
 
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, orgCode));
 
 		if (issueType != null && issueType.trim().length() > 0) {
 			csf.add(new SearchFilter("issueType", Operator.EQ, issueType));
@@ -647,7 +647,7 @@ public class KfglController {
 		 * SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 		 */
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, orgCode));
 
 		// 如果是县区局登录的机构号为8位，需要根据保单的所在机构进行筛选
 		if (user.getOrganization().getOrgCode().length() > 4) {
@@ -1601,7 +1601,7 @@ public class KfglController {
 		 * SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
 		 */
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, orgCode));
 
 		//只回显需要地市处理的
 		if(orgCode.length() >= 6) {

@@ -155,17 +155,18 @@ public class UploadDataServiceImpl implements UploadDataService{
 			standardColumns = PolicyColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_policy character set utf8 (";
 			sql1 = "delete from t_policy where form_no is null;";
-			sql2 = "update t_policy set attached_flag = 1 where attached_flag=0 and prod_name like \"%附加%\";";
-			sql3 = "update t_policy set attached_flag = 2 where attached_flag=0 and prod_name like \"%禄禄通%\";";
-			sql4 = "update t_policy set attached_flag = 3 where attached_flag=0 and policy_no like \"5244%\";";
+			sql2 = "update t_policy set attached_flag = 1 where attached_flag=0 and TO_DAYS(NOW())=TO_DAYS(operate_time) and prod_name like \"%附加%\";";
+			sql3 = "update t_policy set attached_flag = 2 where attached_flag=0 and TO_DAYS(NOW())=TO_DAYS(operate_time) and prod_name like \"%禄禄通%\";";
+			sql4 = "update t_policy set attached_flag = 3 where attached_flag=0 and TO_DAYS(NOW())=TO_DAYS(operate_time) and policy_no like \"5244%\";";
 			sql12 = "update t_policy set attached_flag = 7 where attached_flag=0 and policy_fee=1 and prod_code=\"125022\";";
 			sql8 = "update t_policy set plan_name=\"新百倍保自驾航空责任组合\" where plan_code is not null and plan_code=\"125012_B\" and plan_name is null;";
 			sql9 = "update t_policy set plan_name=\"新百倍保公共交通责任组合\" where plan_code is not null and plan_code=\"125012_A\" and plan_name is null;";
-			sql5 = "update t_policy tp inner join (select sum(policy_fee) as total_fee, policy_no from t_policy where total_fee=0 group by policy_no) as tp2 set tp.total_fee=tp2.total_fee where tp.total_fee=0 and tp.attached_flag=0 and tp.policy_no=tp2.policy_no;";
-			sql6 = "update t_under_write uw,t_policy tp,t_bank_code bc set uw.net_name=bc.name where uw.policy_no is not null and uw.net_name is null and uw.policy_no=tp.policy_no and tp.bank_code=bc.cpi_code;";
-			sql7 = "update t_under_write as uw inner join t_policy tp on uw.form_no=tp.form_no set uw.policy_no=tp.policy_no,uw.sign_date=tp.policy_date where uw.policy_no is null;";
-			sql10 = "update t_policy t1, t_bank_code t2 set t1.bank_name=t2.name where (t1.bank_name like '%邮政局%' or t1.bank_name='') and t1.prod_name not like '%禄禄通%' and t1.bank_code=t2.cpi_code;";
-			sql11 = "update t_policy tp, t_policy_dtl tpd set tp.duration=tpd.duration where tp.policy_no=tpd.policy_no and tp.duration<>tpd.duration and tp.attached_flag=0 and tpd.duration<>1 and tp.duration=1;";
+			sql5 = "update t_policy tp inner join (select sum(policy_fee) as total_fee, policy_no from t_policy where total_fee=0 and TO_DAYS(NOW())=TO_DAYS(operate_time) group by policy_no) as tp2 set tp.total_fee=tp2.total_fee where tp.total_fee=0 and tp.attached_flag=0 and tp.policy_no=tp2.policy_no and TO_DAYS(NOW())=TO_DAYS(tp.operate_time);";
+			sql6 = "update t_under_write uw,t_policy tp,t_bank_code bc set uw.net_name=bc.name where uw.policy_no is not null and uw.net_name is null and uw.policy_no=tp.policy_no and tp.bank_code=bc.cpi_code and TO_DAYS(NOW())=TO_DAYS(tp.operate_time);";
+			sql7 = "update t_under_write as uw inner join t_policy tp on uw.form_no=tp.form_no set uw.policy_no=tp.policy_no,uw.sign_date=tp.policy_date where uw.policy_no is null and TO_DAYS(NOW())=TO_DAYS(tp.operate_time);";
+			sql10 = "update t_policy t1, t_bank_code t2 set t1.bank_name=t2.name where TO_DAYS(NOW())=TO_DAYS(t1.operate_time) and (t1.bank_name like '%邮政局%' or t1.bank_name='') and t1.prod_name not like '%禄禄通%' and t1.bank_code=t2.cpi_code;";
+			sql11 = "update t_policy tp, t_policy_dtl tpd set tp.duration=tpd.duration where tp.policy_no=tpd.policy_no and tp.duration<>tpd.duration and tp.attached_flag=0 and tpd.duration<>1 and tp.duration=1 and TO_DAYS(NOW())=TO_DAYS(tp.operate_time);";
+			sql12="update t_policy tp, t_organization org set tp.organ_name=org.short_name where tp.organ_name=org.name and TO_DAYS(NOW())=TO_DAYS(tp.operate_time);";
 	        break;
 	        /*
 		case PolicyDtl:
@@ -376,6 +377,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			firstsql = "delete from t_doc_not_scan_dtl where operate_time<CURRENT_DATE;";
 			standardColumns = DocNotScanDtlColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_doc_not_scan_dtl character set utf8 (";
+			sql1 = "update t_doc_not_scan_dtl t1, t_organization org set t1.organ_name=org.short_name where t1.organ_name=org.name;";
 			break;
 		case CallFailCloseStatus:
 			break;

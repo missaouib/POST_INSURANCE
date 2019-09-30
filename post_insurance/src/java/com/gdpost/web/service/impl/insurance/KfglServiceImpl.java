@@ -113,13 +113,13 @@ public class KfglServiceImpl implements KfglService {
 		//如果是县区局登录的机构号为8位，需要根据保单的所在机构进行筛选
 		if (user.getOrganization().getOrgCode().length() > 4) {
 			specification = DynamicSpecifications.bySearchFilterWithoutRequest(Issue.class,
-					new SearchFilter("status", Operator.OR_LIKE, STATUS.NewStatus.getDesc()),
-					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+					new SearchFilter("status", Operator.EQ, STATUS.NewStatus.getDesc()),
+					new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, userOrg.getOrgCode()));
 		} else {
 			specification = DynamicSpecifications.bySearchFilterWithoutRequest(Issue.class,
-					new SearchFilter("status", Operator.OR_LIKE, STATUS.NewStatus.getDesc()),
-					new SearchFilter("status", Operator.OR_LIKE, STATUS.DealStatus.getDesc()),
-					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+					new SearchFilter("status", Operator.OR_EQ, STATUS.NewStatus.getDesc()),
+					new SearchFilter("status", Operator.OR_EQ, STATUS.DealStatus.getDesc()),
+					new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, userOrg.getOrgCode()));
 		}
 		
 		List<Issue> issues = this.findByExample(specification, page);
@@ -219,7 +219,7 @@ public class KfglServiceImpl implements KfglService {
 		//如果是县区局登录的机构号为8位，需要根据保单的所在机构进行筛选
 		if (user.getOrganization().getOrgCode().length() > 4) {
 			specification = DynamicSpecifications.bySearchFilterWithoutRequest(Inquire.class,
-					new SearchFilter("inquireStatus", Operator.OR_EQ, STATUS.NewStatus.name()),
+					new SearchFilter("inquireStatus", Operator.EQ, STATUS.NewStatus.name()),
 					new SearchFilter("organ.orgCode", Operator.LIKE_R, userOrg.getOrgCode()));
 		} else {
 			specification = DynamicSpecifications.bySearchFilterWithoutRequest(Inquire.class,

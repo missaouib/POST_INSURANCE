@@ -303,7 +303,7 @@ public class BqglController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, orgCode));
 		if (status.length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
 		} else {
@@ -353,7 +353,7 @@ public class BqglController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, orgCode));
 		if (status.length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
 		}
@@ -556,7 +556,7 @@ public class BqglController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE_R, orgCode));
 		if (status.length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
 		} else {
@@ -606,7 +606,7 @@ public class BqglController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE_R, orgCode));
 		if (status.length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
 		}
@@ -749,7 +749,7 @@ public class BqglController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("csReport.policy.organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("csReport.policy.organization.orgCode", Operator.LIKE_R, orgCode));
 		if (status != null && status.length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
 		} else {
@@ -854,7 +854,7 @@ public class BqglController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("csReport.policy.organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("csReport.policy.organization.orgCode", Operator.LIKE_R, orgCode));
 		if (status.length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
 		}
@@ -903,7 +903,7 @@ public class BqglController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("bankCode.organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("bankCode.organization.orgCode", Operator.LIKE_R, orgCode));
 		csf.add(new SearchFilter("reqType", Operator.EQ, 1));
 		if (status.length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
@@ -979,7 +979,7 @@ public class BqglController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("bankCode.organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("bankCode.organization.orgCode", Operator.LIKE_R, orgCode));
 		if (status.length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
 		} else {
@@ -1022,7 +1022,7 @@ public class BqglController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, orgCode));
 		
 		Specification<CsReport> specification = DynamicSpecifications.bySearchFilter(request, CsReport.class, csf);
 		
@@ -1056,7 +1056,7 @@ public class BqglController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, orgCode));
 		
 		Specification<CsReport> specification = DynamicSpecifications.bySearchFilter(request, CsReport.class, csf);
 		
@@ -1106,7 +1106,7 @@ public class BqglController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, orgCode));
 		
 		if(status != null && status.trim().length()>0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
@@ -1177,7 +1177,7 @@ public class BqglController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, orgCode));
 		if(status != null && status.trim().length()>0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
 		}
@@ -1255,7 +1255,7 @@ public class BqglController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, orgCode));
 		
 		if(status != null && status.trim().length()>0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
@@ -1355,7 +1355,7 @@ public class BqglController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, orgCode));
 		if(status != null && status.trim().length()>0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
 		}

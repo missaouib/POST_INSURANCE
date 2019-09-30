@@ -27,6 +27,11 @@
     	});
     });
 
+function sform() {
+	alert("马上为你登录系统，可能需要十来秒~");
+	$("#loging").show();//style.display="block";
+	$("#formID").submit();
+}
 </script>
 </head>
 
@@ -54,6 +59,7 @@
 					<c:if test="${msg!=null }">
 						<p style="color: red; margin-left: 10px;">${msg }</p>
 					</c:if>
+					<p id="loging" style="display:none; color: red; margin-left: 10px; font-size:12px">正在登录，请稍候……</p>
 					<!-- 
 					<p>
 						<label>登录类型</label>
@@ -81,7 +87,7 @@
 					</p>
 					 -->					
 					<div class="login_bar" style="disply:block;float:left;">
-						<input class="sub" type="submit" value=""/>
+						<input class="sub" type="button" onclick="javascript:sform();" value=""/>
 					</div>
 				</form>
 			</div>

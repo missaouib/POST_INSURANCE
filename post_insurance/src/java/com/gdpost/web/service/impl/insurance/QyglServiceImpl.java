@@ -167,14 +167,14 @@ public class QyglServiceImpl implements QyglService {
 		Organization userOrg = user.getOrganization();
 		//默认返回未处理工单
 		Specification<CheckWrite> specification = DynamicSpecifications.bySearchFilterWithoutRequest(CheckWrite.class,
-				new SearchFilter("fixStatus", Operator.LIKE, STATUS.NewStatus.name()),
+				new SearchFilter("fixStatus", Operator.EQ, STATUS.NewStatus.name()),
 				//new SearchFilter("fixStatus", Operator.OR_LIKE, STATUS.ReopenStatus.getDesc()),
-				new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+				new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, userOrg.getOrgCode()));
 		
 		if (userOrg.getOrgCode().length() <= 4) { //如果是省分的，看已回复的。
 			specification = DynamicSpecifications.bySearchFilterWithoutRequest(CheckWrite.class,
-					new SearchFilter("fixStatus", Operator.LIKE, STATUS.DealStatus.name()),
-					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+					new SearchFilter("fixStatus", Operator.EQ, STATUS.DealStatus.name()),
+					new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, userOrg.getOrgCode()));
 		}
 		Page page = new Page();
 		page.setNumPerPage(10);
@@ -207,14 +207,14 @@ public class QyglServiceImpl implements QyglService {
 		Organization userOrg = user.getOrganization();
 		//默认返回未处理工单
 		Specification<CheckRecord> specification = DynamicSpecifications.bySearchFilterWithoutRequest(CheckRecord.class,
-				new SearchFilter("fixStatus", Operator.LIKE, STATUS.NewStatus.name()),
+				new SearchFilter("fixStatus", Operator.EQ, STATUS.NewStatus.name()),
 				//new SearchFilter("fixStatus", Operator.OR_LIKE, STATUS.ReopenStatus.getDesc()),
-				new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+				new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, userOrg.getOrgCode()));
 		
 		if (userOrg.getOrgCode().length() <= 4) { //如果是省分的，看已回复的。
 			specification = DynamicSpecifications.bySearchFilterWithoutRequest(CheckRecord.class,
-					new SearchFilter("fixStatus", Operator.LIKE, STATUS.DealStatus.name()),
-					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+					new SearchFilter("fixStatus", Operator.EQ, STATUS.DealStatus.name()),
+					new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, userOrg.getOrgCode()));
 		}
 		Page page = new Page();
 		page.setNumPerPage(10);
@@ -294,7 +294,7 @@ public class QyglServiceImpl implements QyglService {
 		specification = DynamicSpecifications.bySearchFilterWithoutRequest(UnderWrite.class,
 				new SearchFilter("billBackDate", Operator.ISNULL, new Date()),
 				new SearchFilter("status", Operator.NEQ, UW_STATUS.DelStatus.name()),
-				new SearchFilter("organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+				new SearchFilter("organization.orgCode", Operator.LIKE_R, userOrg.getOrgCode()));
 		Page page = new Page();
 		page.setNumPerPage(10);
 		page.setOrderField("ybtDate");

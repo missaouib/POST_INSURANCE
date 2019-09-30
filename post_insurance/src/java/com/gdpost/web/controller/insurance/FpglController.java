@@ -248,7 +248,7 @@ public class FpglController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, user.getOrganization().getOrgCode()));
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, user.getOrganization().getOrgCode()));
 		if(status.trim().length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
 		}
@@ -285,7 +285,7 @@ public class FpglController {
 		page.setOrders(orders);
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE, user.getOrganization().getOrgCode()));
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, user.getOrganization().getOrgCode()));
 		if(status != null && status.trim().length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
 		}

@@ -19,7 +19,8 @@
 	<input type="hidden" name="staffFlag" value="${staffFlag }"/>
 	<input type="hidden" name="duration" value="${duration }"/>
 	<input type="hidden" name="saleChannel" value="${saleChannel }"/>
-	<input type="hidden" name="search_LIKE_holder" value="${param.search_LIKE_holder}"/>
+	<input type="hidden" name="search_LIKE_holder" value="${param.search_LIKE_holder}"/>search_LIKE_policyDtl.holderPhone
+	<input type="hidden" name="search_LIKE_policyDtl.holderPhone" value="${search_LIKE_policyDtl_holderPhone}"/>
 </dwz:paginationForm>
 
 <form method="post" id="hfForm" action="${contextPath }/client/list" onsubmit="return navTabSearch(this)">

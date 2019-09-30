@@ -176,7 +176,7 @@ public class PayListController {
 		if(status != null && status.trim().length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
 		}
-		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE_R, orgCode));
 		csf.add(new SearchFilter("payType", Operator.EQ, PayList.PAY_TO));
 		
 		
@@ -248,7 +248,7 @@ public class PayListController {
 		if(status != null && status.trim().length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
 		}
-		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE_R, orgCode));
 		csf.add(new SearchFilter("payType", Operator.EQ, PayList.PAY_TO));
 		
 		Specification<PayList> specification = DynamicSpecifications.bySearchFilter(request, PayList.class, csf);
@@ -317,7 +317,7 @@ public class PayListController {
 		page.setOrderField("backDate");
 		page.setOrderDirection("DESC");
 		
-		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE_R, orgCode));
 		csf.add(new SearchFilter("payType", Operator.EQ, PayList.PAY_TO));
 		if (status.length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
@@ -378,7 +378,7 @@ public class PayListController {
 		page.setOrderField("backDate");
 		page.setOrderDirection("DESC");
 		
-		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE_R, orgCode));
 		csf.add(new SearchFilter("payType", Operator.EQ, PayList.PAY_TO));
 		if (status != null && status.length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
@@ -438,7 +438,7 @@ public class PayListController {
 		page.setOrderField("backDate");
 		page.setOrderDirection("DESC");
 		
-		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE_R, orgCode));
 		csf.add(new SearchFilter("payType", Operator.EQ, PayList.PAY_FROM));
 		if (status != null && status.length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
@@ -504,7 +504,7 @@ public class PayListController {
 		if(status != null && status.trim().length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
 		}
-		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE_R, orgCode));
 		csf.add(new SearchFilter("payType", Operator.EQ, PayList.PAY_FROM));
 		
 		Specification<PayList> specification = DynamicSpecifications.bySearchFilter(request, PayList.class, csf);

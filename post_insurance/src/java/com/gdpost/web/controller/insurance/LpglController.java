@@ -413,9 +413,9 @@ public class LpglController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE_R, orgCode));
 		if(caseStatus != null && caseStatus.trim().length() >0) {
-			csf.add(new SearchFilter("caseStatus", Operator.LIKE, caseStatus));
+			csf.add(new SearchFilter("caseStatus", Operator.EQ, caseStatus));
 		} else {
 			csf.add(new SearchFilter("caseStatus", Operator.NEQ, "结案关闭"));
 		}
@@ -439,7 +439,7 @@ public class LpglController {
 		page.setOrderDirection("ASC");
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, user.getOrganization().getOrgCode()));
+		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE_R, user.getOrganization().getOrgCode()));
 		if(caseStatus != null && caseStatus.trim().length() > 0) {
 			csf.add(new SearchFilter("caseStatus", Operator.EQ, caseStatus));
 		}
@@ -1065,7 +1065,7 @@ public class LpglController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("organization.orgCode", Operator.OR_LIKE, orgCode));
+		csf.add(new SearchFilter("organization.orgCode", Operator.OR_LIKE_R, orgCode));
 		csf.add(new SearchFilter("organization.orgCode", Operator.OR_ISNULL, null));
 		csf.add(new SearchFilter("checker", Operator.OR_EQ, user.getRealname()));
 		if(checkStatus != null && checkStatus.trim().length() >0) {
@@ -1101,7 +1101,7 @@ public class LpglController {
 		page.setNumPerPage(65564);
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, orgCode));
+		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE_R, orgCode));
 		if(checkStatus != null && checkStatus.trim().length() >0) {
 			csf.add(new SearchFilter("checkStatus", Operator.EQ, checkStatus));
 		}
@@ -1132,7 +1132,7 @@ public class LpglController {
 		Organization userOrg = user.getOrganization();
 		//boolean isOffsite = false;
 		Specification<SettlementDtl> specification = DynamicSpecifications.bySearchFilter(request, SettlementDtl.class, 
-				new SearchFilter("settlement.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+				new SearchFilter("settlement.organization.orgCode", Operator.LIKE_R, userOrg.getOrgCode()));
 		
 		String policyNo = request.getParameter("policyNo");
 		if(policyNo != null && policyNo.trim().length() <= 3) {
@@ -1490,7 +1490,7 @@ public class LpglController {
 		page.setOrderDirection("ASC");
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE, user.getOrganization().getOrgCode()));
+		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE_R, user.getOrganization().getOrgCode()));
 		if(caseStatus != null && caseStatus.trim().length() > 0) {
 			csf.add(new SearchFilter("caseStatus", Operator.EQ, caseStatus));
 		}

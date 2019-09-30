@@ -66,6 +66,12 @@ $(document).ready(function () {
 		return false;
 	});
 });
+
+function sform() {
+	alert("马上为你登录系统，可能需要十来秒~");
+	$("#loging").show();//style.display="block";
+	$("#formID").submit();
+}
 </script>
 </head>
 
@@ -112,10 +118,11 @@ $(document).ready(function () {
   	        <img src="${contextPath}/Captcha.jpg" alt="点击刷新验证码" id="captcha" width="80" height="30" style=" vertical-align:middle;" />
 			<br />
 			<br />
-    	    <input type="submit" name="Submit" value="登  录" style=" width:288px; height:37px; color:#FFF; font-weight:bold; border:0; background:#9CB816; font-size:17px;" />
+    	    <input type="button" onclick="javascript:sform();" name="Submit" value="登  录" style=" width:288px; height:37px; color:#FFF; font-weight:bold; border:0; background:#9CB816; font-size:17px;" />
 			<c:if test="${msg!=null}">
 				<p style="color: red; margin-left: 10px; font-size:12px">${msg }</p>
 			</c:if>
+			<p id="loging" style="display:none; color: red; margin-left: 10px; font-size:12px">正在登录，请稍候……</p>
     	  </form>
       </div>
       <div style=" color:#666; font-size:12px; width:510px; margin: 0 auto; margin-top:35px;">中邮保险广东分公司运营管理部提供技术支持。</div>

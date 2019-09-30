@@ -482,6 +482,11 @@ public class DynamicSpecifications {
 							//opredicates.add(builder.or(p));
 							opredicates.add(builder.or(p));
 							break;
+						case OR_LIKE_R:
+							hasOr = true;
+							p = builder.like(expression, filter.getValue() + "%");
+							opredicates.add(builder.or(p));
+							break;
 						case OR_ISNULL:
 							hasOr = true;
 							p = builder.isNull(expression);

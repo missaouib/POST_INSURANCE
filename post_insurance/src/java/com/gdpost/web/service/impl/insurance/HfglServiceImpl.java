@@ -107,8 +107,8 @@ public class HfglServiceImpl implements HfglService {
 		page.setOrderField("policy.policyDate");
 		page.setOrderDirection("DESC");
 		Specification<VCallFailList> spec = DynamicSpecifications.bySearchFilterWithoutRequest(VCallFailList.class,
-					new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.NewStatus.getDesc()),
-					new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.CallFailStatus.getDesc()),
+					new SearchFilter("status", Operator.OR_EQ, HF_STATUS.NewStatus.getDesc()),
+					new SearchFilter("status", Operator.OR_EQ, HF_STATUS.CallFailStatus.getDesc()),
 					new SearchFilter("lastDateNum", Operator.GTE, 3));
 		List<VCallFailList> issues = this.find11185List(spec, page);
 		if (issues == null || issues.isEmpty()) {
@@ -132,30 +132,30 @@ public class HfglServiceImpl implements HfglService {
 		//如果是县区局登录的机构号为8位，需要根据保单的所在机构进行筛选
 		if(user.getOrganization().getOrgCode().contains("11185")) {
 			specification = DynamicSpecifications.bySearchFilterWithoutRequest(VCallFailList.class,
-					new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.NewStatus.getDesc()),
-					new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.ResetStatus.getDesc()),
-					new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.CallFailStatus.getDesc()),
+					new SearchFilter("status", Operator.OR_EQ, HF_STATUS.NewStatus.getDesc()),
+					new SearchFilter("status", Operator.OR_EQ, HF_STATUS.ResetStatus.getDesc()),
+					new SearchFilter("status", Operator.OR_EQ, HF_STATUS.CallFailStatus.getDesc()),
 					new SearchFilter("policy.attachedFlag", Operator.EQ, "0"),
 					new SearchFilter("lastDateNum", Operator.GTE, 3));
 		} else if (userOrg.getOrgCode().length() > 4) {
 			specification = DynamicSpecifications.bySearchFilterWithoutRequest(VCallFailList.class,
-					new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.NewStatus.getDesc()),
-					new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.ResetStatus.getDesc()),
-					new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.CallFailStatus.getDesc()),
-					new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.NeedDoorStatus.getDesc()),
+					new SearchFilter("status", Operator.OR_EQ, HF_STATUS.NewStatus.getDesc()),
+					new SearchFilter("status", Operator.OR_EQ, HF_STATUS.ResetStatus.getDesc()),
+					new SearchFilter("status", Operator.OR_EQ, HF_STATUS.CallFailStatus.getDesc()),
+					new SearchFilter("status", Operator.OR_EQ, HF_STATUS.NeedDoorStatus.getDesc()),
 					new SearchFilter("policy.attachedFlag", Operator.EQ, "0"),
-					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+					new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, userOrg.getOrgCode()));
 		} else if (userOrg.getOrgCode().length() <= 4) { //如果是省分的，看已回复的。
 			specification = DynamicSpecifications.bySearchFilterWithoutRequest(VCallFailList.class,
-					new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.NewStatus.getDesc()),
-					new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.ResetStatus.getDesc()),
-					new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.NeedDoorStatus.getDesc()),
+					new SearchFilter("status", Operator.OR_EQ, HF_STATUS.NewStatus.getDesc()),
+					new SearchFilter("status", Operator.OR_EQ, HF_STATUS.ResetStatus.getDesc()),
+					new SearchFilter("status", Operator.OR_EQ, HF_STATUS.NeedDoorStatus.getDesc()),
 					//new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.DoorSuccessStatus.getDesc()),
 					//new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.DoorFailStatus.getDesc()),
 					//new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.CallSuccessStatus.getDesc()),
-					new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.CallFailStatus.getDesc()),
+					new SearchFilter("status", Operator.OR_EQ, HF_STATUS.CallFailStatus.getDesc()),
 					new SearchFilter("policy.attachedFlag", Operator.EQ, "0"),
-					new SearchFilter("policy.organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
+					new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, userOrg.getOrgCode()));
 		}
 		Page page = new Page();
 		page.setNumPerPage(5);
