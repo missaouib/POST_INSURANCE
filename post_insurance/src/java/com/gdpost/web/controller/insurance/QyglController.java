@@ -159,7 +159,7 @@ public class QyglController {
 	}
 	
 	@Log(message="修改了{0}客户信息真实性标记。", level=LogLevel.WARN, module=LogModule.QYGL)
-	@RequiresPermissions("CheckWrite:edit")
+	@RequiresPermissions("CheckWrite:provEdit")
 	@RequestMapping(value="/issue/write/isTruth", method=RequestMethod.POST)
 	public @ResponseBody String cwIsTruth(Long[] ids) {
 		CheckWrite src = null;
@@ -217,12 +217,12 @@ public class QyglController {
 	}
 	
 	@Log(message="重新打开了{0}新契约填写不合格件的信息。", level=LogLevel.WARN, module=LogModule.QYGL)
-	@RequiresPermissions("CheckWrite:edit")
+	@RequiresPermissions("CheckWrite:provEdit")
 	@RequestMapping(value="/issue/write/reopen", method=RequestMethod.POST)
 	public @ResponseBody String reopenCheckWrite(CheckWrite issue) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		CheckWrite src = qyglService.getCheckWrite(issue.getId());
-		src.setFixStatus(QY_STATUS.NewStatus.name());
+		src.setFixStatus(QY_STATUS.FollowStatus.name());
 		src.setReopenUser(shiroUser.getUser());
 		src.setReopenReason(issue.getReopenReason());
 		src.setReopenDate(new Date());
@@ -233,7 +233,7 @@ public class QyglController {
 	}
 	
 	@Log(message="结案了{0}新契约填写不合格件的信息。", level=LogLevel.WARN, module=LogModule.QYGL)
-	@RequiresPermissions("CheckWrite:edit")
+	@RequiresPermissions("CheckWrite:provEdit")
 	@RequestMapping(value="/issue/write/close", method=RequestMethod.POST)
 	public @ResponseBody String closeCheckWrite(Long[] ids) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
@@ -463,7 +463,7 @@ public class QyglController {
 		src.setFixType(issue.getFixType());
 		src.setFixDesc(issue.getFixDesc());
 		if(issue.getFixType().contains("继续跟进") || issue.getFixDesc().contains("继续跟进")) {
-			//nothing
+			src.setFixStatus(QY_STATUS.FollowStatus.name());
 		} else {
 			src.setFixStatus(QY_STATUS.IngStatus.name());
 		}
@@ -516,7 +516,7 @@ public class QyglController {
 	}
 	
 	@Log(message="重新打开了{0}新契约录入不合格件的信息。", level=LogLevel.WARN, module=LogModule.QYGL)
-	@RequiresPermissions("CheckRecord:edit")
+	@RequiresPermissions("CheckRecord:provEdit")
 	@RequestMapping(value="/issue/record/reopen", method=RequestMethod.POST)
 	public @ResponseBody String reopenCheckRecord(CheckRecord issue) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
@@ -532,7 +532,7 @@ public class QyglController {
 	}
 	
 	@Log(message="结案了{0}新契约录入不合格件的信息。", level=LogLevel.WARN, module=LogModule.QYGL)
-	@RequiresPermissions("CheckRecord:edit")
+	@RequiresPermissions("CheckRecord:provEdit")
 	@RequestMapping(value="/issue/record/close", method=RequestMethod.POST)
 	public @ResponseBody String closeCheckRecord(CheckRecord issue) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
