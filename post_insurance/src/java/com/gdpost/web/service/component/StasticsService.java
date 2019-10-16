@@ -100,11 +100,11 @@ public interface StasticsService {
 	
 	List<QyCheckModel> getCheckRecordAreaStastics(String organCode, String d1, String d2, Integer duration, String toPerm);
 	
-	List<QyCheckModel> getCheckTruthCityStastics(String d1, String d2, Integer duration, String toPerm);
+	List<QyCheckModel> getCheckTruthCityStastics(String d1, String d2, Integer duration, String toPerm, String netFlag);
 	
-	List<CheckModel> getCheckTruthStasticsDtl(String organCode, String d1, String d2, Integer duration, String toPerm);
+	List<CheckModel> getCheckTruthStasticsDtl(String organCode, String d1, String d2, Integer duration, String toPerm, String netFlag);
 	
-	List<QyCheckModel> getCheckTruthAreaStastics(String organCode, String d1, String d2, Integer duration, String toPerm);
+	List<QyCheckModel> getCheckTruthAreaStastics(String organCode, String d1, String d2, Integer duration, String toPerm, String netFlag);
 	
 	List<QyCheckModel> getPrintCityStastics(String d1, String d2);
 	
@@ -114,7 +114,7 @@ public interface StasticsService {
 	
 	List<StasticsArea> findByAreaStatByExample(Specification<StasticsArea> specification, Page page);
 	
-	List<QyCheckModel> getStatusCheckWriteCityStastics(String d1, String d2, String fixStatus);
+	List<QyCheckModel> getStatusCheckWriteCityStastics(String d1, String d2, String fixStatus, String netFlag);
 	
-	List<QyCheckModel> getStatusCheckWriteAreaStastics(String organCode, String d1, String d2, String fixStatus);
+	List<QyCheckModel> getStatusCheckWriteAreaStastics(String organCode, String d1, String d2, String fixStatus, String netFlag);
 }

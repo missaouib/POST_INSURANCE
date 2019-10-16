@@ -277,13 +277,13 @@ public class StasticsServiceImpl implements StasticsService {
 	}
 
 	@Override
-	public List<QyCheckModel> getCheckTruthCityStastics(String d1, String d2, Integer duration, String toPerm) {
-		return checkDAO.getCheckTruthCityStat(d1, d2, duration, toPerm);
+	public List<QyCheckModel> getCheckTruthCityStastics(String d1, String d2, Integer duration, String toPerm, String netFlag) {
+		return checkDAO.getCheckTruthCityStat(d1, d2, duration, toPerm, netFlag);
 	}
 
 	@Override
-	public List<QyCheckModel> getCheckTruthAreaStastics(String organCode, String d1, String d2, Integer duration, String toPerm) {
-		return checkDAO.getCheckTruthAreaStat(organCode, d1, d2, duration, toPerm);
+	public List<QyCheckModel> getCheckTruthAreaStastics(String organCode, String d1, String d2, Integer duration, String toPerm, String netFlag) {
+		return checkDAO.getCheckTruthAreaStat(organCode, d1, d2, duration, toPerm, netFlag);
 	}
 
 	@Override
@@ -307,7 +307,7 @@ public class StasticsServiceImpl implements StasticsService {
 	}
 
 	@Override
-	public List<CheckModel> getCheckTruthStasticsDtl(String organCode, String d1, String d2, Integer duration, String toPerm) {
+	public List<CheckModel> getCheckTruthStasticsDtl(String organCode, String d1, String d2, Integer duration, String toPerm, String netFlag) {
 		return checDtlkDAO.getCheckTruthStatDtl(organCode, d1, d2, duration, toPerm);
 	}
 	
@@ -328,12 +328,12 @@ public class StasticsServiceImpl implements StasticsService {
 	}
 	
 	@Override
-	public List<QyCheckModel> getStatusCheckWriteCityStastics(String d1, String d2, String fixStatus) {
-		return checkDAO.getStatusCheckWriteCityStat(d1, d2, fixStatus);
+	public List<QyCheckModel> getStatusCheckWriteCityStastics(String d1, String d2, String fixStatus, String netFlag) {
+		return checkDAO.getStatusCheckWriteCityStat(d1, d2, fixStatus, netFlag);
 	}
 	
 	@Override
-	public List<QyCheckModel> getStatusCheckWriteAreaStastics(String organCode, String d1, String d2, String fixStatus) {
-		return checkDAO.getStatusCheckWriteAreaStat(organCode, d1, d2, fixStatus);
+	public List<QyCheckModel> getStatusCheckWriteAreaStastics(String organCode, String d1, String d2, String fixStatus, String netFlag) {
+		return checkDAO.getStatusCheckWriteAreaStat(organCode, d1, d2, fixStatus, netFlag);
 	}
 }

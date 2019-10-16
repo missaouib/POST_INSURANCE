@@ -40,6 +40,16 @@ public class QyCheckModel implements java.io.Serializable {
 	@Transient
 	private String fixStatus;
 	@Transient
+	private String netFlag;
+	@Transient
+	public String getNetFlag() {
+		return netFlag;
+	}
+	@Transient
+	public void setNetFlag(String netFlag) {
+		this.netFlag = netFlag;
+	}
+	@Transient
 	public String getFixStatus() {
 		return fixStatus;
 	}

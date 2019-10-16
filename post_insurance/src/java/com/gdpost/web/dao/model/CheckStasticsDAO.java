@@ -138,8 +138,8 @@ public interface CheckStasticsDAO extends JpaRepository<QyCheckModel, String>, J
 					"where t1.bank_code=bc.cpi_code and t1.attached_flag=0 and t1.policy_date between :pd1 and :pd2  " + 
 					"and t1.duration >= :duration " + 
 					"and t1.fee_frequency like :toPerm " + 
-					"and bc.net_flag like :netFlag" + 
-					"group by left(t1.organ_code,6);",
+					"and bc.net_flag like :netFlag " + 
+					" group by left(t1.organ_code,6);",
 			nativeQuery=true)
 	List<QyCheckModel> getCheckTruthCityStat(@Param("pd1")String pd1, @Param("pd2")String pd2, @Param("duration")Integer duration, @Param("toPerm")String toPerm, @Param("netFlag")String netFlag);
 	
@@ -152,8 +152,8 @@ public interface CheckStasticsDAO extends JpaRepository<QyCheckModel, String>, J
 					"where t1.bank_code=bc.cpi_code and t1.attached_flag=0 and t1.organ_code like :orgCode and t1.policy_date between :pd1 and :pd2  " + 
 					"and t1.duration >= :duration " + 
 					"and t1.fee_frequency like :toPerm " + 
-					"and bc.net_flag like :netFlag" + 
-					"group by t1.organ_code;",
+					"and bc.net_flag like :netFlag " + 
+					" group by t1.organ_code;",
 			nativeQuery=true)
 	List<QyCheckModel> getCheckTruthAreaStat(@Param("orgCode")String orgCode, @Param("pd1")String pd1, @Param("pd2")String pd2, @Param("duration")Integer duration, @Param("toPerm")String toPerm, @Param("netFlag")String netFlag);
 	
@@ -191,7 +191,8 @@ public interface CheckStasticsDAO extends JpaRepository<QyCheckModel, String>, J
 			value="select LEFT(tp.organ_name,2) as organ_code,0 as policy_counts,COUNT(distinct cw.policy_no) as check_counts,COUNT(distinct cwt.policy_no) as err_counts " + 
 					"from t_bank_code bc, t_policy tp, t_check_write cw left join t_check_write cwt on cw.policy_no=cwt.policy_no and cwt.need_fix=\"要整改\" and cwt.fix_status=:fixStatus " + 
 					"where tp.bank_code=bc.cpi_code and cw.policy_no=tp.policy_no and tp.policy_date between :pd1 and :pd2 and cw.need_fix=\"要整改\" " + 
-					"group by left(tp.organ_name,2) order by tp.organ_code;",
+					"and bc.net_flag like :netFlag " + 
+					" group by left(tp.organ_name,2) order by tp.organ_code;",
 			nativeQuery=true)
 	List<QyCheckModel> getStatusCheckWriteCityStat(@Param("pd1")String pd1, @Param("pd2")String pd2, @Param("fixStatus")String fixStatus, @Param("netFlag")String netFlag);
 	
@@ -200,7 +201,8 @@ public interface CheckStasticsDAO extends JpaRepository<QyCheckModel, String>, J
 					"from t_bank_code bc, t_policy tp, t_organization org, t_check_write cw left join t_check_write cwt on cw.policy_no=cwt.policy_no and cwt.need_fix=\"要整改\" and cwt.fix_status=:fixStatus " + 
 					"where tp.bank_code=bc.cpi_code and tp.organ_code=org.org_code and cw.policy_no=tp.policy_no and tp.policy_date between :pd1 and :pd2  " + 
 					"and tp.organ_code like :orgCode and cw.need_fix=\"要整改\" " +
-					"group by org.short_name order by tp.organ_code;",
+					"and bc.net_flag like :netFlag " + 
+					" group by org.short_name order by tp.organ_code;",
 			nativeQuery=true)
 	List<QyCheckModel> getStatusCheckWriteAreaStat(@Param("orgCode")String orgCode, @Param("pd1")String pd1, @Param("pd2")String pd2, @Param("fixStatus")String fixStatus, @Param("netFlag")String netFlag);
 	

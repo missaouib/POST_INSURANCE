@@ -28,6 +28,14 @@ function toTips(val) {
 					<td>承保日期止：
 					<input type="text" name="policyDate2" id="uwDate2" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" value="${policyDate2 }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
+					<td>
+					<label>银邮：</label>
+					<form:select path="CheckModel.netFlag" id="tnetflag" class="combox">
+						<form:option value="">  --  </form:option>
+						<form:option value="1"> 邮政代理 </form:option>
+						<form:option value="2"> 银行自营 </form:option>
+					</form:select>
+					</td>
 				</tr>
 				<tr>
 					<td><label>标记：</label>
@@ -52,6 +60,7 @@ function toTips(val) {
 						<form:option value="0"> 趸交 </form:option>
 					</form:select>
 					</td>
+					<td>&nbsp;</td>
 				</tr>
 			</table>
 			<div class="subBar">
@@ -63,9 +72,9 @@ function toTips(val) {
 	</div>
 </form>
 <h2 class="contentTitle"><label>统计结果</label>
-<a class="buttonActive" target="_blank" href="${contextPath }/component/stastics/truth/toXls?duration=${duration }&orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&levelFlag=${levelFlag}&duration=${duration}&perm=${perm}"><span>导出统计结果</span></a>
+<a class="buttonActive" target="_blank" href="${contextPath }/component/stastics/truth/toXls?netFlag=${netFlag }&duration=${duration }&orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&levelFlag=${levelFlag}&duration=${duration}&perm=${perm}"><span>导出统计结果</span></a>
 &nbsp;&nbsp;&nbsp;&nbsp;
-<a class="buttonActive" target="_blank" href="${contextPath }/component/stastics/truth/dtlToXls?orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&levelFlag=${levelFlag}&duration=${duration}&perm=${perm}"><span>导出差错明细</span></a>
+<a class="buttonActive" target="_blank" href="${contextPath }/component/stastics/truth/dtlToXls?netFlag=${netFlag }&orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&levelFlag=${levelFlag}&duration=${duration}&perm=${perm}"><span>导出差错明细</span></a>
 </h2>
 <br>
 <div class="pageContent" layoutH="130" width="150%">

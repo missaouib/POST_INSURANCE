@@ -44,7 +44,12 @@ function toTips(val) {
 					</form:select>
 					</td>
 					<td>
-					&nbsp;
+					<label>银邮：</label>
+					<form:select path="CheckModel.netFlag" id="tsnetflag" class="combox">
+						<form:option value="">  --  </form:option>
+						<form:option value="1"> 邮政代理 </form:option>
+						<form:option value="2"> 银行自营 </form:option>
+					</form:select>
 					</td>
 				</tr>
 			</table>
@@ -57,7 +62,7 @@ function toTips(val) {
 	</div>
 </form>
 <h2 class="contentTitle"><label>统计结果</label>
-<a class="buttonActive" target="_blank" href="${contextPath }/component/stastics/statusStat/toXls?orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&levelFlag=${levelFlag}&fixStatus=${fixStatus}"><span>导出统计结果</span></a>
+<a class="buttonActive" target="_blank" href="${contextPath }/component/stastics/statusStat/toXls?netFlag=${netFlag }&orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&levelFlag=${levelFlag}&fixStatus=${fixStatus}"><span>导出统计结果</span></a>
 &nbsp;&nbsp;&nbsp;&nbsp;
 </h2>
 <br>

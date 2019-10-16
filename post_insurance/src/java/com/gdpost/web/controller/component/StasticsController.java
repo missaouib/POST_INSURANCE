@@ -2061,6 +2061,13 @@ public class StasticsController {
 		String levelFlag = request.getParameter("levelFlag");
 		String perm = request.getParameter("perm");
 		String durationStr = request.getParameter("duration");
+		String netFlag = request.getParameter("netFlag");
+		String netFlagStr = null;
+		if(netFlag == null || netFlag.trim().length()<=0) {
+			netFlagStr="%%";
+		} else {
+			netFlagStr = netFlag;
+		}
 		Integer duration = (durationStr == null || !NumberUtils.isDigits(durationStr)) ? 0
 				: Integer.valueOf(durationStr);
 
@@ -2104,6 +2111,7 @@ public class StasticsController {
 		cm.setLevelFlag(levelFlag);
 		cm.setDuration(duration);
 		cm.setPerm(perm);
+		cm.setNetFlag(netFlag);
 		//cm.setStatFlag(flag);
 		request.setAttribute("CheckModel", cm);
 
@@ -2112,6 +2120,7 @@ public class StasticsController {
 		request.setAttribute("name", organName);
 		request.setAttribute("perm", perm);
 		request.setAttribute("duration", duration);
+		request.setAttribute("netFlag", netFlag);
 
 		String fd = StringUtil.getMonthFirstDayOfMonth(Calendar.getInstance().get(Calendar.MONTH), "yyyy-MM-dd");
 		if (pd1 == null || pd1.trim().length() <= 0) {
@@ -2138,7 +2147,7 @@ public class StasticsController {
 		//if (flag == null || flag.trim().equals("write")) {
 		if (!isCity) {
 			TreeMap<String, String> cityMap = orgList.get(0);
-			writes = stasticsService.getCheckTruthCityStastics(pd1, pd2, duration, toPerm);
+			writes = stasticsService.getCheckTruthCityStastics(pd1, pd2, duration, toPerm, netFlagStr);
 			Iterator<String> keys = cityMap.keySet().iterator();
 			
 			while(keys.hasNext()) {
@@ -2158,7 +2167,7 @@ public class StasticsController {
 			}
 		} else {
 			TreeMap<String, String> areaMap = orgList.get(1);
-			writes = stasticsService.getCheckTruthAreaStastics(organCode + "%", pd1, pd2, duration, toPerm);
+			writes = stasticsService.getCheckTruthAreaStastics(organCode + "%", pd1, pd2, duration, toPerm, netFlagStr);
 			
 			Iterator<String> keys = areaMap.keySet().iterator();
 			
@@ -2247,6 +2256,13 @@ public class StasticsController {
 		String levelFlag = request.getParameter("levelFlag");
 		String perm = request.getParameter("perm");
 		String durationStr = request.getParameter("duration");
+		String netFlag = request.getParameter("netFlag");
+		String netFlagStr = null;
+		if(netFlag == null || netFlag.trim().length()<=0) {
+			netFlagStr="%%";
+		} else {
+			netFlagStr = netFlag;
+		}
 		Integer duration = (durationStr == null || !NumberUtils.isDigits(durationStr)) ? 0
 				: Integer.valueOf(durationStr);
 
@@ -2304,7 +2320,7 @@ public class StasticsController {
 		//if (flag == null || flag.trim().equals("write")) {
 		if (!isCity) {
 			TreeMap<String, String> cityMap = orgList.get(0);
-			writes = stasticsService.getCheckTruthCityStastics(pd1, pd2, duration, toPerm);
+			writes = stasticsService.getCheckTruthCityStastics(pd1, pd2, duration, toPerm, netFlagStr);
 			Iterator<String> keys = cityMap.keySet().iterator();
 			
 			while(keys.hasNext()) {
@@ -2324,7 +2340,7 @@ public class StasticsController {
 			}
 		} else {
 			TreeMap<String, String> areaMap = orgList.get(1);
-			writes = stasticsService.getCheckTruthAreaStastics(organCode + "%", pd1, pd2, duration, toPerm);
+			writes = stasticsService.getCheckTruthAreaStastics(organCode + "%", pd1, pd2, duration, toPerm, netFlagStr);
 			
 			Iterator<String> keys = areaMap.keySet().iterator();
 			
@@ -2370,6 +2386,13 @@ public class StasticsController {
 		String pd2 = request.getParameter("policyDate2");
 		String perm = request.getParameter("perm");
 		String durationStr = request.getParameter("duration");
+		String netFlag = request.getParameter("netFlag");
+		String netFlagStr = null;
+		if(netFlag == null || netFlag.trim().length()<=0) {
+			netFlagStr="%%";
+		} else {
+			netFlagStr = netFlag;
+		}
 		Integer duration = (durationStr == null || !NumberUtils.isDigits(durationStr)) ? 0
 				: Integer.valueOf(durationStr);
 
@@ -2399,7 +2422,7 @@ public class StasticsController {
 			pd2 = "9999-12-31";
 		}
 
-		List<CheckModel> rst = stasticsService.getCheckTruthStasticsDtl(organCode + "%", pd1, pd2, duration, toPerm);
+		List<CheckModel> rst = stasticsService.getCheckTruthStasticsDtl(organCode + "%", pd1, pd2, duration, toPerm, netFlagStr);
 		
 		request.setAttribute("cmRst", rst);
 		
@@ -2985,6 +3008,13 @@ public class StasticsController {
 		String pd2 = request.getParameter("policyDate2");
 		String levelFlag = request.getParameter("levelFlag");
 		String fixStatus = request.getParameter("fixStatus");
+		String netFlag = request.getParameter("netFlag");
+		String netFlagStr = null;
+		if(netFlag == null || netFlag.trim().length()<=0) {
+			netFlagStr="%%";
+		} else {
+			netFlagStr = netFlag;
+		}
 		if(fixStatus == null || fixStatus.trim().length()<=0) {
 			fixStatus = QY_STATUS.NewStatus.name();
 		}
@@ -3013,6 +3043,7 @@ public class StasticsController {
 		QyCheckModel cm = new QyCheckModel();
 		cm.setLevelFlag(levelFlag);
 		cm.setFixStatus(fixStatus);
+		cm.setNetFlag(netFlag);
 		//cm.setStatFlag(flag);
 		request.setAttribute("CheckModel", cm);
 
@@ -3020,6 +3051,7 @@ public class StasticsController {
 		request.setAttribute("orgCode", organCode);
 		request.setAttribute("name", organName);
 		request.setAttribute("fixStatus", fixStatus);
+		request.setAttribute("netFlag", netFlag);
 
 		String fd = StringUtil.getMonthFirstDayOfMonth(Calendar.getInstance().get(Calendar.MONTH), "yyyy-MM-dd");
 		if (pd1 == null || pd1.trim().length() <= 0) {
@@ -3037,9 +3069,9 @@ public class StasticsController {
 		
 		List<QyCheckModel> rst = new ArrayList<QyCheckModel>();
 		if (!isCity) {
-			rst = stasticsService.getStatusCheckWriteCityStastics(pd1, pd2, fixStatus);
+			rst = stasticsService.getStatusCheckWriteCityStastics(pd1, pd2, fixStatus, netFlagStr);
 		} else {
-			rst = stasticsService.getStatusCheckWriteAreaStastics(organCode + "%", pd1, pd2, fixStatus);
+			rst = stasticsService.getStatusCheckWriteAreaStastics(organCode + "%", pd1, pd2, fixStatus, netFlagStr);
 		}
 		
 		request.setAttribute("cmRst", rst);
@@ -3110,6 +3142,13 @@ public class StasticsController {
 		String pd2 = request.getParameter("policyDate2");
 		String levelFlag = request.getParameter("levelFlag");
 		String fixStatus = request.getParameter("fixStatus");
+		String netFlag = request.getParameter("netFlag");
+		String netFlagStr = null;
+		if(netFlag == null || netFlag.trim().length()<=0) {
+			netFlagStr="%%";
+		} else {
+			netFlagStr = netFlag;
+		}
 		if(fixStatus == null || fixStatus.trim().length()<=0) {
 			fixStatus = QY_STATUS.NewStatus.name();
 		}
@@ -3148,9 +3187,9 @@ public class StasticsController {
 		
 		List<QyCheckModel> rst = new ArrayList<QyCheckModel>();
 		if (!isCity) {
-			rst = stasticsService.getStatusCheckWriteCityStastics(pd1, pd2, fixStatus);
+			rst = stasticsService.getStatusCheckWriteCityStastics(pd1, pd2, fixStatus, netFlagStr);
 		} else {
-			rst = stasticsService.getStatusCheckWriteAreaStastics(organCode + "%", pd1, pd2, fixStatus);
+			rst = stasticsService.getStatusCheckWriteAreaStastics(organCode + "%", pd1, pd2, fixStatus, netFlagStr);
 		}
 		
 		request.setAttribute("cmRst", rst);

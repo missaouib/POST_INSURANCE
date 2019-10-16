@@ -412,6 +412,26 @@ public class TaskService {
 			log.info("------------ sql :" + sql);
 			statement.executeUpdate(sql);
 			
+			sql = "update t_policy set status=\"满期终止\" where TIMESTAMPDIFF(YEAR,policy_date,DATE_FORMAT(NOW(), '%Y-%m-%d'))>5 and prod_code in (\"125001\",\"122003\") and status=\"有效\";";
+			log.info("------------ sql :" + sql);
+			statement.executeUpdate(sql);
+			
+			sql = "update t_policy tp,t_policy_dtl tpd set tp.status=\"满期终止\" where tp.policy_no=tpd.policy_no and TIMESTAMPDIFF(YEAR,tp.policy_date,DATE_FORMAT(NOW(), '%Y-%m-%d'))>6 and tp.prod_code in (\"122001\",\"120009\",\"120015\",\"120017\",\"120019\") and tp.status=\"有效\";";
+			log.info("------------ sql :" + sql);
+			statement.executeUpdate(sql);
+			
+			sql = "update t_policy tp,t_policy_dtl tpd set tp.status=\"满期终止\" where tp.policy_no=tpd.policy_no and tpd.duration is not null and tpd.duration>=5 and TIMESTAMPDIFF(YEAR,tp.policy_date,DATE_FORMAT(NOW(), '%Y-%m-%d'))>tpd.duration and tp.status=\"有效\";";
+			log.info("------------ sql :" + sql);
+			statement.executeUpdate(sql);
+			
+			sql = "update t_policy set status=\"满期终止\" where TIMESTAMPDIFF(YEAR,policy_date,DATE_FORMAT(NOW(), '%Y-%m-%d'))>1 and prod_code=\"112004\" and status=\"有效\";";
+			log.info("------------ sql :" + sql);
+			statement.executeUpdate(sql);
+			
+			sql = "update t_policy tp, t_policy_dtl tpd set tpd.policy_status=\"满期终止\" where tp.policy_no=tpd.policy_no and tpd.policy_status=\"有效\" and tp.status=\"满期终止\";";
+			log.info("------------ sql :" + sql);
+			statement.executeUpdate(sql);
+			
 			log.info("------------ task service update finish");
 		} catch (SQLException e) {
 			e.printStackTrace();
