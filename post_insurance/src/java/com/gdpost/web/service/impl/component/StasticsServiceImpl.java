@@ -308,7 +308,7 @@ public class StasticsServiceImpl implements StasticsService {
 
 	@Override
 	public List<CheckModel> getCheckTruthStasticsDtl(String organCode, String d1, String d2, Integer duration, String toPerm, String netFlag) {
-		return checDtlkDAO.getCheckTruthStatDtl(organCode, d1, d2, duration, toPerm);
+		return checDtlkDAO.getCheckTruthStatDtl(organCode, d1, d2, duration, toPerm, netFlag);
 	}
 	
 	@Override

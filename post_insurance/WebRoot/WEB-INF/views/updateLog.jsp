@@ -1,10 +1,17 @@
-<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+﻿<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 <div class="pageContent">
 	<div class="pageFormContent" layoutH="58">
 	<fieldset>
 		<legend>更新日志信息</legend>
 		<textarea layoutH="80" style="width:98%">
+20191016:
+1，修复邮银渠道分析导出差错错误的bug。
+2、增加支撑市场部、个团部的监管台账下载功能。
+20191016:
+1，修复统计整改状态占比的bug。
+2、增强客真的区分邮银渠道分析。
+3、增加满期终止的判断，哪怕客户没有满期保全申请，仍然置为满期终止！
 20190930:
 1，更新员工单信息（2019年度）。
 2、优化登录提示、登录效率、查询效率。

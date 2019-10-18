@@ -38,6 +38,7 @@ public class PolicyDataModel implements java.io.Serializable {
 	private Date plicyValidDate;
 	private String status;
 	private String bankCode;
+	private String bankName;
 	private String feeType;
 	private String bankAccount;
 	private String csFlag;
@@ -231,6 +232,15 @@ public class PolicyDataModel implements java.io.Serializable {
 
 	public void setBankCode(String bankCode) {
 		this.bankCode = bankCode;
+	}
+
+	@Column(name="bank_name")
+	public String getBankName() {
+		return bankName;
+	}
+
+	public void setBankName(String bankName) {
+		this.bankName = bankName;
 	}
 
 	@Column(name="fee_type")

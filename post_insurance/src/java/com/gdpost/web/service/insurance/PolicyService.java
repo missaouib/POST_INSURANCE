@@ -37,7 +37,7 @@ public interface PolicyService {
 	
 	List<PolicyReprintDtl> findByPolicyReprintDtlExample(Specification<PolicyReprintDtl> specification, Page page);
 	
-	List<PolicyDataModel> getPolicyDate(String organCode, String pd1, String pd2);
+	List<PolicyDataModel> getPolicyDate(String organCode, String pd1, String pd2, String prodName);
 	
 	boolean isBankPolicy(String policyNo);
 }

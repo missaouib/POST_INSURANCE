@@ -119,8 +119,8 @@ public class PolicyServiceImpl implements PolicyService {
 	}
 
 	@Override
-	public List<PolicyDataModel> getPolicyDate(String organCode, String pd1, String pd2) {
-		return pdDAO.getPolicyDate(organCode, pd1, pd2);
+	public List<PolicyDataModel> getPolicyDate(String organCode, String pd1, String pd2, String prodName) {
+		return pdDAO.getPolicyDate(organCode, pd1, pd2, prodName);
 	}
 
 	@Override

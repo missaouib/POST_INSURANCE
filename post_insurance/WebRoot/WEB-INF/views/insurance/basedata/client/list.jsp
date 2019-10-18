@@ -19,7 +19,7 @@
 	<input type="hidden" name="staffFlag" value="${staffFlag }"/>
 	<input type="hidden" name="duration" value="${duration }"/>
 	<input type="hidden" name="saleChannel" value="${saleChannel }"/>
-	<input type="hidden" name="search_LIKE_holder" value="${param.search_LIKE_holder}"/>search_LIKE_policyDtl.holderPhone
+	<input type="hidden" name="search_LIKE_holder" value="${param.search_LIKE_holder}"/>
 	<input type="hidden" name="search_LIKE_policyDtl.holderPhone" value="${search_LIKE_policyDtl_holderPhone}"/>
 </dwz:paginationForm>
 
@@ -144,8 +144,10 @@
 				<li class="line">line</li>
 				<li><a class="icon" target="_blank" href="${contextPath }/client/toXls?search_GTE_policyFee=${param.search_GTE_policyFee }&search_LTE_policyFee=${param.search_LTE_policyFee }&orgCode=${policy_orgCode }&search_LTE_policyDate=${param.search_LTE_policyDate }&search_GTE_policyDate=${param.search_GTE_policyDate }&feeFrequency=${param.feeFrequency }&prd.prdName=${prd_name }&search_LIKE_policyNo=${param.search_LIKE_policyNo }&search_LIKE_formNo=${param.search_LIKE_formNo }&duration=${duration }&encodeStatus=${encodeStatus == null?'null':encodeStatus }&staffFlag=${staffFlag}&attachedFlag=${attachedFlag}&saleChannel=${saleChannel}"><span>导出Excel</span></a></li>
 				<li class="line">line</li>
-				<li><a class="icon" target="_blank" href="${contextPath }/client/pdtoXls?search_LTE_policyDate=${param.search_LTE_policyDate }&search_GTE_policyDate=${param.search_GTE_policyDate }"><span>导出给信息局的数据</span></a></li>
+				<li><a class="icon" target="_blank" href="${contextPath }/client/pdtoXls?prodName=${prodName }&search_LTE_policyDate=${param.search_LTE_policyDate }&search_GTE_policyDate=${param.search_GTE_policyDate }"><span>导出给信息局的数据</span></a></li>
 			</shiro:hasPermission>
+				<li class="line">line</li>
+				<li><a class="icon" target="_blank" href="${contextPath }/client/toJgXls?prodName=${prodName }&search_LTE_policyDate=${param.search_LTE_policyDate }&search_GTE_policyDate=${param.search_GTE_policyDate }"><span>导出监管台账</span></a></li>
 		</ul>
 	</div>
 	

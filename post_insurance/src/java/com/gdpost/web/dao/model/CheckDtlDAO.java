@@ -49,9 +49,9 @@ public interface CheckDtlDAO extends JpaRepository<CheckModel, String>, JpaSpeci
 	
 	@Query(name="getCheckTruthStatDtl",
 			value="select distinct t1.organ_code, t1.organ_name,t1.policy_no, t2.check_batch,t2.need_fix,t2.checker,t2.key_info,t2.fix_status,t2.fix_desc, t1.holder, t1.bank_name, cast(aes_decrypt(unhex(tpd.holder_MOBILE), 'GDPost') as char(100)) as holder_mobile , cast(aes_decrypt(unhex(tpd.holder_phone), 'GDPost') as char(100)) as holder_phone " + 
-					"from t_policy t1, t_policy_dtl tpd, t_check_write t2, t_bank_code bc where t1.policy_no=tpd.policy_no and t1.policy_no=t2.policy_no and tp.bank_code=bc.cpi_code and t2.is_truth=true and t2.need_fix=\"要整改\"  " + 
-					"and t1.attached_flag=0 and t1.duration >= :duration and t1.fee_frequency like :toPerm  and t1.organ_code like :orgCode and t1.policy_date between :pd1 and :pd2 ;",
+					"from t_policy t1, t_policy_dtl tpd, t_check_write t2, t_bank_code bc where t1.policy_no=tpd.policy_no and t1.policy_no=t2.policy_no and t1.bank_code=bc.cpi_code and t2.is_truth=true and t2.need_fix=\"要整改\"  " + 
+					"and t1.attached_flag=0 and t1.duration >= :duration and t1.fee_frequency like :toPerm  and t1.organ_code like :orgCode and t1.policy_date between :pd1 and :pd2 and bc.net_flag like :netFlag ;",
 			nativeQuery=true)
-	List<CheckModel> getCheckTruthStatDtl(@Param("orgCode")String orgCode, @Param("pd1")String pd1, @Param("pd2")String pd2, @Param("duration")Integer duration, @Param("toPerm")String toPerm);
+	List<CheckModel> getCheckTruthStatDtl(@Param("orgCode")String orgCode, @Param("pd1")String pd1, @Param("pd2")String pd2, @Param("duration")Integer duration, @Param("toPerm")String toPerm, @Param("netFlag")String netFlag);
 	
 }

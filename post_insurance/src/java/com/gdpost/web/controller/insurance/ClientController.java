@@ -7,6 +7,9 @@
  */
 package com.gdpost.web.controller.insurance;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
@@ -15,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletRequest;
-
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,6 +62,7 @@ public class ClientController {
 	private static final String TO_XLS = "insurance/basedata/client/toXls";
 	
 	private static final String PD_TO_XLS = "insurance/basedata/client/pdToXls";
+	private static final String JG_TO_XLS = "insurance/basedata/client/jgToXls";
 	
 	private static final String RE_PRINT_LIST = "insurance/search/reprint/list";
 	private static final String RE_PRINT_LIST_XLS = "insurance/search/reprint/toXls";
@@ -155,6 +158,11 @@ public class ClientController {
 		if(prdName != null && prdName.trim().length()>0) {
 			csf.add(new SearchFilter("prodName", Operator.EQ, prdName));
 			request.setAttribute("prd_name", prdName);
+			try {
+				request.setAttribute("prodName", URLEncoder.encode(prdName, "UTF8"));
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
 		}
 		if(attachedFlag != null && attachedFlag.trim().length()>0) {
 			csf.add(new SearchFilter("attachedFlag", Operator.EQ, attachedFlag));
@@ -359,7 +367,7 @@ public class ClientController {
 	}
 	
 	@Log(message="下载了保单数据PD！", level=LogLevel.WARN, module=LogModule.BaseDate)
-	@RequiresPermissions("Client:prov")
+	@RequiresPermissions("Client:provEdit")
 	@RequestMapping(value="/pdtoXls", method=RequestMethod.GET)
 	public String pdToXls(ServletRequest request, Page page, Map<String, Object> map) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
@@ -378,14 +386,60 @@ public class ClientController {
 		}
 		String pd1 = request.getParameter("search_GTE_policyDate");
 		String pd2 = request.getParameter("search_LTE_policyDate");
+		String prodName = request.getParameter("prodName");
+		
+		if(prodName ==null || prodName.trim().length()<=0) {
+			prodName = "%%";
+		}
 		if(pd1 == null || pd1.trim().length()<=0) {
 			pd1 = StringUtil.date2Str(new Date(), "yyyy-MM-dd");
 		}
 		
-		List<PolicyDataModel> policies = policyService.getPolicyDate(orgCode + "%", pd1, pd2);
+		List<PolicyDataModel> policies = policyService.getPolicyDate(orgCode + "%", pd1, pd2, prodName);
 		
 		map.put("policies", policies);
 		return PD_TO_XLS;
+	}
+	
+	@Log(message="下载了监管台账数据！", level=LogLevel.WARN, module=LogModule.BaseDate)
+	@RequiresPermissions("Client:jgList")
+	@RequestMapping(value="/toJgXls", method=RequestMethod.GET)
+	public String toJgXls(ServletRequest request, Page page, Map<String, Object> map) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
+		//默认返回未处理工单
+		String orgCode = request.getParameter("policy.orgCode");
+		if(orgCode == null || orgCode.trim().length() <= 0) {
+			orgCode = user.getOrganization().getOrgCode();
+			if(orgCode.contains("11185")) {
+				orgCode = "8644";
+			}
+		} else {
+			if(!orgCode.contains(user.getOrganization().getOrgCode())){
+				orgCode = user.getOrganization().getOrgCode();
+			}
+		}
+		String pd1 = request.getParameter("search_GTE_policyDate");
+		String pd2 = request.getParameter("search_LTE_policyDate");
+		String prodName = request.getParameter("prodName");
+		
+		if(prodName ==null || prodName.trim().length()<=0) {
+			prodName = "%%";
+		} else {
+			try {
+				prodName = URLDecoder.decode(prodName, "GBK");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+		}
+		if(pd1 == null || pd1.trim().length()<=0) {
+			pd1 = StringUtil.date2Str(new Date(), "yyyy-MM-dd");
+		}
+		
+		List<PolicyDataModel> policies = policyService.getPolicyDate(orgCode + "%", pd1, pd2, prodName);
+		
+		map.put("policies", policies);
+		return JG_TO_XLS;
 	}
 	
 	@InitBinder

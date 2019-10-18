@@ -30,14 +30,14 @@ public interface PolicyDataDAO extends JpaRepository<PolicyDataModel, Long>, Jpa
 					+ "cast(aes_decrypt(unhex(tpd.insured), 'GDPost') as char(100)) as insured, "
 					+ "'' as insured_phone,'' as insured_card_num, "
 					+ "tp.prod_code,tp.prod_name,tp.policy_fee,tp.insured_amount,tp.fee_frequency, "
-					+ "tp.perm,tp.policy_date,tp.plicy_valid_date,tp.status,tp.bank_code,'银行转账' as fee_type, "
+					+ "tp.perm,tp.policy_date,tp.plicy_valid_date,tp.status,tp.bank_code,tp.bank_name,'银行转账' as fee_type, "
 					+ "'' as bank_account, tp.cs_flag, case when uw.policy_no is null then 'N' else 'Y' end as uw_flag, tpd.duration "
 					+ "from t_policy tp "
 					+ "left join t_policy_dtl tpd on tp.policy_no=tpd.policy_no "
 					+ "left join t_under_write uw on tp.policy_no=uw.policy_no "
-					+ "where tp.policy_date between :pd1 and :pd2 and tp.organ_code like :orgCode "
+					+ "where tp.policy_date between :pd1 and :pd2 and tp.organ_code like :orgCode and tp.prod_name like :prodName "
 					+ "and tp.organ_code<>'86440001' "
 					+ "order by tp.organ_code, tp.policy_date; ",
 			nativeQuery=true)
-	List<PolicyDataModel> getPolicyDate(@Param("orgCode")String orgCode, @Param("pd1")String pd1, @Param("pd2")String pd2);
+	List<PolicyDataModel> getPolicyDate(@Param("orgCode")String orgCode, @Param("pd1")String pd1, @Param("pd2")String pd2, @Param("prodName")String prodName);
 }
