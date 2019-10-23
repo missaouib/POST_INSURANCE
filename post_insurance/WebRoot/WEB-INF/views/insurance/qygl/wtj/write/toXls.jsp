@@ -17,6 +17,7 @@ response.setHeader("Content-Disposition", "inline; filename=QY_Write_LIST.xls");
 				<th>投保人</th>
 				<th>电话</th>
 				<th>手机</th>
+				<th>Email电子邮箱</th>
 				<th>地址</th>
 				<th>被保险人</th>
 				<th>关系</th>
@@ -46,6 +47,7 @@ response.setHeader("Content-Disposition", "inline; filename=QY_Write_LIST.xls");
 				<td>${item.policy.holder}</td>
 				<td>${item.policy.policyDtl.holderPhone}</td>
 				<td>${item.policy.policyDtl.holderMobile}</td>
+				<td>${item.policy.policyDtl.holderEmail}</td>
 				<td>${item.policy.policyDtl.holderAddr}</td>
 				<td>${item.policy.insured}</td>
 				<td>${item.policy.policyDtl.relation}</td>

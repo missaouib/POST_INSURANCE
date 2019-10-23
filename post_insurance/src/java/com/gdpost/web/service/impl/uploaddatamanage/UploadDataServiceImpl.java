@@ -63,6 +63,7 @@ import com.gdpost.utils.TemplateHelper.RenewedStatusColumn;
 import com.gdpost.utils.TemplateHelper.StasticsAreaColumn;
 import com.gdpost.utils.TemplateHelper.StasticsCityColumn;
 import com.gdpost.utils.TemplateHelper.Template.FileTemplate;
+import com.gdpost.utils.TemplateHelper.UWDtlColumn;
 import com.gdpost.utils.TemplateHelper.UnderWriteColumn;
 import com.gdpost.utils.TemplateHelper.UnderWriteDtlColumn;
 import com.gdpost.utils.TemplateHelper.UnderWriteRemarkColumn;
@@ -327,6 +328,13 @@ public class UploadDataServiceImpl implements UploadDataService{
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_under_write character set utf8 (";
 			sql1 = "delete from t_under_write where form_no is null or ybt_date is null;";
 			break;
+		case UWDtlData:
+			standardColumns = UWDtlColumn.getStandardColumns();
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_under_write character set utf8 (";
+			sql1 = "delete from t_under_write where form_no is null or ybt_date is null;";
+			sql2 = "update t_under_write uw, t_prd prd set uw.product_id=prd.id where uw.product_id is null and uw.prd_name=prd.prd_full_name;";
+			sql3 = "update t_under_write uw, t_organization org set uw.organ_id=org.id where uw.organ_id is null and uw.organ_name=org.name;";
+			break;
 		case UnderWriteDtlData:
 			standardColumns = UnderWriteDtlColumn.getStandardColumns();
 			return dr;
@@ -392,6 +400,9 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case CallFailPhoneStatus:
 			break;
 		case PolicyBackDate:
+			standardColumns = PolicyBackDateColumn.getStandardColumns();
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_uw_back character set utf8 (";
+			//sql1 = "update t_cs_loan set flag=case when DATEDIFF(NOW(),should_date)>1 then '2' when  DATEDIFF(NOW(),should_date)>-30 then '1' else '0' end;";
 			break;
 		case PolicyUnderWrite:
 			break;
@@ -1410,6 +1421,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql4= "update t_under_write uw, t_policy tp, t_organization org set uw.organ_id=org.id where uw.policy_no=tp.policy_no and tp.organ_code=org.org_code and tp.attached_flag=0;";
 			sql5= "update t_under_write uw, t_policy tp set uw.holder=tp.holder,uw.insured=cast(aes_decrypt(unhex(tp.insured), 'GDPost') as char(100)),uw.relation=\"本人\" where uw.holder is null and uw.policy_no=tp.policy_no and tp.attached_flag=0;";
 			break;
+		case UWDtlData:
+			return dr;
 		case UnderWriteRemark:
 			standardColumns = UnderWriteRemarkColumn.getStandardColumns();
 			sql = new StringBuffer("INSERT INTO t_under_write(form_no, plan_date, remark) VALUES ");
@@ -1683,6 +1696,10 @@ public class UploadDataServiceImpl implements UploadDataService{
 			standardColumns = UnderWriteSentDataColumn.getStandardColumns();
 			keyRow = UnderWriteSentDataColumn.KEY_ROW;
 			break;
+		case UWDtlData:
+			standardColumns = UWDtlColumn.getStandardColumns();
+			keyRow = UWDtlColumn.KEY_ROW;
+			break;
 		case UnderWriteRemark:
 			standardColumns = UnderWriteRemarkColumn.getStandardColumns();
 			keyRow = UnderWriteRemarkColumn.KEY_ROW;
@@ -1828,18 +1845,21 @@ public class UploadDataServiceImpl implements UploadDataService{
 						|| t.name().equals(FileTemplate.UnderWriteInsured.name())
 						|| t.name().equals(FileTemplate.IssuePFRDeal.name())
 						|| t.name().equals(FileTemplate.CheckCityBack.name())) {
+						//|| t.name().equals(FileTemplate.UWDtlData.name())) {
 					
 					dr = updateStatusData(t, request, dt);
 					log.info("-------- finish update;");
 					//如果是保单打印数据，需要单独导入到打印明细中
-					if(t.name().equals(FileTemplate.UnderWriteSentData.name())) {
-						log.info("----------------ready to import underwrite sentdata");
+					if(t.name().equals(FileTemplate.UnderWriteSentData.name())) { // || t.name().equals(FileTemplate.UWDtlData.name())
+						log.info("----------------ready to import underwrite sentdata or dtl data");
 						importData(t, request, dt, member_id, currentNY);
 					}
 					
 					if(t.name().equals(FileTemplate.PolicyBackDate.name())) {
 						log.info("----------------ready to update underwrite PolicyUnderWrite data;");
 						dr = updateStatusData(FileTemplate.PolicyUnderWrite, request, dt);
+						log.info("----------------ready to import underwrite back date");
+						importData(t, request, dt, member_id, currentNY);
 					}
 					
 				} else {

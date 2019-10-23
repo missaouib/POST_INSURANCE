@@ -226,7 +226,8 @@ public class XlsFileHandler extends AbstractFileHandler {
 							if (mkeyRow.equals("underwrite") && j==org_idx) { //如果是人核件打印数据，且内容不是8644的，跳过。
 								switch(cell.getCellType()) {
 								case NUMERIC:
-									if (!Double.toString(cell.getNumericCellValue()).contains("8644") && !Double.toString(cell.getNumericCellValue()).contains("7644") && !Double.toString(cell.getNumericCellValue()).contains("9644") && !Double.toString(cell.getNumericCellValue()).contains("8144")) {
+									Double cv = cell.getNumericCellValue();
+									if (!Integer.toString(cv.intValue()).contains("8644") && !Integer.toString(cv.intValue()).contains("7644") && !Integer.toString(cv.intValue()).contains("9644") && !Integer.toString(cv.intValue()).contains("8144")) {
 										bFlag = false;
 										break;
 									}

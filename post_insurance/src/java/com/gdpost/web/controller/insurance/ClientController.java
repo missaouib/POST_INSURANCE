@@ -153,6 +153,11 @@ public class ClientController {
 		}
 		if(status != null && status.trim().length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
+			try {
+				request.setAttribute("jgStatus", URLEncoder.encode(status, "UTF8"));
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
 		}
 		String prdName = request.getParameter("prd.prdFullName");
 		if(prdName != null && prdName.trim().length()>0) {
@@ -422,7 +427,7 @@ public class ClientController {
 		String pd1 = request.getParameter("search_GTE_policyDate");
 		String pd2 = request.getParameter("search_LTE_policyDate");
 		String prodName = request.getParameter("prodName");
-		
+		//String status = request.getParameter("status");
 		if(prodName ==null || prodName.trim().length()<=0) {
 			prodName = "%%";
 		} else {

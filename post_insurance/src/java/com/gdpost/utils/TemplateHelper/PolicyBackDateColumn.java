@@ -32,7 +32,7 @@ public class PolicyBackDateColumn {
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("签收日期");
+		column.setDisplayName("回单日期");
 		column.setColumnName("bill_back_date");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);

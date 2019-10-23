@@ -24,6 +24,7 @@ response.setHeader("Content-Disposition", "inline; filename=policy_data_jg.xls")
 				<th>保险保额</th>
 				<th>保险费</th>
 				<th>佣金</th>
+				<th>保单状态</th>
 			</tr>
 			<c:forEach var="item" items="${policies}" varStatus="idx">
 			<tr>
@@ -42,6 +43,7 @@ response.setHeader("Content-Disposition", "inline; filename=policy_data_jg.xls")
 				<td>${item.insuredAmount}</td>
 				<td>${item.policyFee}</td>
 				<td>&nbsp;</td>
+				<td>${item.status}</td>
 			</tr>
 			</c:forEach>
 	</table>

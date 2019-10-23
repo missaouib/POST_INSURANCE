@@ -10,7 +10,7 @@ public class Template {
 	 *
 	 */
 	public enum FileTemplate {Policy("承保清单", "QY"), /*PolicyDtl("承保业务信息清单", "QY"),*/ NewPolicyDtl("承保业务清单（新）", "QY"), 
-		UnderWriteData("人核件登记数据", "QY"), UnderWriteSentData("人核件打印数据", "QY"), PolicyBackDate("保单回单数据", "QY"), UnderWriteDtlData("总部人核件详细数据", "QY"), UnderWriteRemark("市县人核件跟进数据", "QY"), UnderWriteInsured("被保险人身份数据", "QY"), DocNotScanDtl("未扫描档案明细", "QY"),
+		UnderWriteData("人核件登记数据", "QY"), UnderWriteSentData("人核件打印数据", "QY"), PolicyBackDate("保单回单数据", "QY"), UnderWriteDtlData("总部人核件详细数据", "QY"), UWDtlData("手工单时效数据", "QY"), UnderWriteRemark("市县人核件跟进数据", "QY"), UnderWriteInsured("被保险人身份数据", "QY"), DocNotScanDtl("未扫描档案明细", "QY"),
 		/*Issue("问题件工单", "KF"), */IssuePFR("问题件工单（新）", "KF"),Inquire("咨询件工单", "KF"),IssuePFRDeal("问题件工单处理数据", "KF"), CallFail("回访不成功清单", "HF"), 
 		CallFailPFR("回访不成功清单（新）", "HF"), /*CallFailStatus("11185回访数据", "HF"),*/ MiniCallFailStatus("简单二访数据", "HF"), 
 		CallFailMailStatus("已发信函数据", "HF"), CallFailMailBackStatus("退信信函数据", "HF"), CallFailMailSuccessStatus("信函成功回邮数据", "HF"), 
