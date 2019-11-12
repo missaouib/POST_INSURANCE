@@ -100,13 +100,6 @@ private static List<ColumnItem> standardColumns;
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("非实时保单录入日期");
-		column.setColumnName("ybt_date");
-		column.setColumnType(ColumnType.string);
-		column.setNullable(false);
-		standardColumns.add(column);
-		
-		column = new ColumnItem();
 		column.setDisplayName("核心业务录入日期");
 		column.setColumnName("sys_date");
 		column.setColumnType(ColumnType.string);

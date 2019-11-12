@@ -1252,6 +1252,13 @@ public class QyglController {
 			date2 = StringUtil.date2Str(new Date(), "yyyy-MM-dd");
 		}
 		request.setAttribute("date2", date2);
+		
+		List<Order> orders=new ArrayList<Order>();
+		orders.add(new Order(Direction.ASC, "policy_date"));
+		orders.add(new Order(Direction.ASC, "policy_no"));
+		
+		page.setOrders(orders);
+		
 		List<YbtPolicyModel> ybts = qyglService.listYBTPolicys(orgCode + "%", date1, date2, page);
 		
 		map.put("ybtPolicys", ybts);

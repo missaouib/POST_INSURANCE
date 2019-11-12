@@ -1480,6 +1480,10 @@ public class KfglController {
 		if(orgCode.length()>4) {
 			isCity = true;
 		}
+		
+		page.setOrderField("policy.organization.orgCode");
+		page.setOrderDirection("ASC");
+		page.setNumPerPage(65564);
 
 		List<Long> roleIds = new ArrayList<Long> (0);
 		boolean isAdmin = false; 
@@ -1594,6 +1598,11 @@ public class KfglController {
 		} else if (!orgCode.contains(user.getOrganization().getOrgCode())) {
 			orgCode = user.getOrganization().getOrgCode();
 		}
+		
+		page.setOrderField("policy.organization.orgCode");
+		page.setOrderDirection("ASC");
+		page.setNumPerPage(65564);
+		
 		/*
 		 * Specification<Inquire> specification =
 		 * DynamicSpecifications.bySearchFilter(request, Inquire.class, new

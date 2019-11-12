@@ -332,8 +332,12 @@ public class UploadDataServiceImpl implements UploadDataService{
 			standardColumns = UWDtlColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_under_write character set utf8 (";
 			sql1 = "delete from t_under_write where form_no is null or ybt_date is null;";
-			sql2 = "update t_under_write uw, t_prd prd set uw.product_id=prd.id where uw.product_id is null and uw.prd_name=prd.prd_full_name;";
-			sql3 = "update t_under_write uw, t_organization org set uw.organ_id=org.id where uw.organ_id is null and uw.organ_name=org.name;";
+			sql2 = "update t_under_write set sys_date=check_date where sys_date<\"1900-01-01\";";
+			sql3 = "update t_under_write set client_receive_date=null,bill_back_date=null where bill_back_date<\"1900-01-01\";";
+			sql4 = "update t_under_write set body_check_date1=null,body_check_date2=null,deal_check_date1=null,deal_check_date2=null where holder is null;";
+			sql5 = "update t_under_write uw, t_policy_dtl pd set uw.holder=cast(aes_decrypt(unhex(pd.holder), 'GDPost') as char(100)),uw.insured=cast(aes_decrypt(unhex(pd.insured), 'GDPost') as char(100)),uw.relation=pd.relation where uw.policy_no=pd.policy_no and uw.holder is null;";
+			sql6 = "update t_under_write uw, t_prd prd set uw.product_id=prd.id where uw.product_id is null and uw.prd_name=prd.prd_full_name;";
+			sql7 = "update t_under_write uw, t_organization org set uw.organ_id=org.id where uw.organ_id is null and uw.organ_name=org.name;";
 			break;
 		case UnderWriteDtlData:
 			standardColumns = UnderWriteDtlColumn.getStandardColumns();
@@ -1382,7 +1386,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			break;
 		case UnderWriteDtlData:
 			standardColumns = UnderWriteDtlColumn.getStandardColumns();
-			sql = new StringBuffer("INSERT INTO t_under_write(form_no, policy_no,prd_name,policy_fee,perm,fee_type,underwrite_reason,issue,insured_age,insured_sex,insured_job,ybt_date,sys_date,check_date,"
+			sql = new StringBuffer("INSERT INTO t_under_write(form_no, policy_no,prd_name,policy_fee,perm,fee_type,underwrite_reason,issue,insured_age,insured_sex,insured_job,sys_date,check_date,"
 					+ "body_check_date1,body_check_date2,deal_check_date1,deal_check_date2,hb_end_date,prov_send_date,sign_date,client_receive_date,bill_back_date,form_write_date) VALUES ");
 			line = null;
 			for (DataRow row : dt.Rows) {
@@ -1408,7 +1412,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql.append(" ON DUPLICATE KEY UPDATE form_no=VALUES(form_no), policy_no=VALUES(policy_no),prd_name=VALUES(prd_name), ");
 			sql.append("policy_fee=VALUES(policy_fee), perm=VALUES(perm), fee_type=VALUES(fee_type), ");
 			sql.append("underwrite_reason=VALUES(underwrite_reason), issue=VALUES(issue), insured_age=VALUES(insured_age), insured_sex=VALUES(insured_sex), insured_job=VALUES(insured_job), ");
-			sql.append("ybt_date=VALUES(ybt_date), sys_date=VALUES(sys_date), ");
+			sql.append("sys_date=VALUES(sys_date), ");
 			sql.append("check_date=VALUES(check_date), body_check_date1=VALUES(body_check_date1), ");
 			sql.append("body_check_date2=VALUES(body_check_date2), deal_check_date1=VALUES(deal_check_date1), deal_check_date2=VALUES(deal_check_date2), hb_end_date=VALUES(hb_end_date), ");
 			sql.append("prov_send_date=VALUES(prov_send_date), sign_date=VALUES(sign_date), ");

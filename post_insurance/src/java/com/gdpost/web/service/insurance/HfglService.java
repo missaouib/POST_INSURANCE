@@ -27,13 +27,17 @@ public interface HfglService {
 	
 	List<CallFailList> findAll(Page page);
 	
-	List<VCallFailList> findByExample(Specification<VCallFailList> specification, Page page);
+	List<VCallFailList> findByVExample(Specification<VCallFailList> specification, Page page);
+	
+	List<CallFailList> findByExample(Specification<CallFailList> specification, Page page);
 	
 	List<VCallFailList> find11185List(Specification<VCallFailList> specification, Page page);
 	
 	CallFailList getByPolicy(Policy policy);
 	
-	List<VCallFailList> getTODOIssueList(User user);
+	//List<VCallFailList> getTODOIssueList(User user);
+	
+	List<CallFailList> getTODOIssueList(User user);
 
 	List<VCallFailList> get11185TODOList();
 

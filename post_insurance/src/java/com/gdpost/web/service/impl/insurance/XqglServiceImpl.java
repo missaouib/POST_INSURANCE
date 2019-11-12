@@ -96,21 +96,11 @@ public class XqglServiceImpl implements XqglService {
 	public List<RenewedList> getTODOIssueList(User user) {
 		Organization userOrg = user.getOrganization();
 		//默认返回未处理工单
-		Specification<RenewedList> specification = null;
-		
-		if (user.getOrganization().getOrgCode().length() > 4) {
-			specification = DynamicSpecifications.bySearchFilterWithoutRequest(RenewedList.class,
-					new SearchFilter("feeStatus", Operator.OR_EQ, XQ_STATUS.NewStatus.getDesc()),
-					new SearchFilter("feeStatus", Operator.OR_EQ, XQ_STATUS.FeeFailStatus.getDesc()),
-					new SearchFilter("feeStatus", Operator.OR_EQ, XQ_STATUS.BqSuspendedStatus.getDesc()),
-					new SearchFilter("feeStatus", Operator.NEQ, XQ_STATUS.DeadStatus.getDesc()),
-					new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, userOrg.getOrgCode()));
-		} else {
-			specification = DynamicSpecifications.bySearchFilterWithoutRequest(RenewedList.class,
-					new SearchFilter("feeStatus", Operator.NEQ, XQ_STATUS.CloseStatus.getDesc()),
-					new SearchFilter("feeStatus", Operator.NEQ, XQ_STATUS.DeadStatus.getDesc()),
-					new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, userOrg.getOrgCode()));
-		}
+		Specification<RenewedList> specification = DynamicSpecifications.bySearchFilterWithoutRequest(RenewedList.class,
+				new SearchFilter("feeStatus", Operator.OR_EQ, XQ_STATUS.NewStatus.getDesc()),
+				new SearchFilter("feeStatus", Operator.OR_EQ, XQ_STATUS.FeeFailStatus.getDesc()),
+				new SearchFilter("feeStatus", Operator.OR_EQ, XQ_STATUS.BqSuspendedStatus.getDesc()),
+				new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, userOrg.getOrgCode()));
 		Page page = new Page();
 		page.setNumPerPage(5);
 		page.setOrderField("policy.policyDate");

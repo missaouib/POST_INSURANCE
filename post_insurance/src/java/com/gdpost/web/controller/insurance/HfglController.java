@@ -38,7 +38,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gdpost.utils.SecurityUtils;
 import com.gdpost.web.entity.basedata.CallDealType;
-import com.gdpost.web.entity.component.VCallFailList;
 import com.gdpost.web.entity.insurance.CallFailList;
 import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.User;
@@ -672,8 +671,8 @@ public class HfglController {
 				csf.add(new SearchFilter("status", Operator.EQ, status));
 			}
 		}
-		Specification<VCallFailList> specification = DynamicSpecifications.bySearchFilter(request, VCallFailList.class, csf);
-		List<VCallFailList> issues = hfglService.findByExample(specification, page);
+		Specification<CallFailList> specification = DynamicSpecifications.bySearchFilter(request, CallFailList.class, csf);
+		List<CallFailList> issues = hfglService.findByExample(specification, page);
 		
 		map.put("issue", issue);
 		map.put("hfStatusList", HF_STATUS.values());
@@ -843,8 +842,8 @@ public class HfglController {
 		if(hasLetter != null && hasLetter.trim().length() > 0) {
 			csf.add(new SearchFilter("hasLetter", Operator.EQ, hasLetter));
 		}
-		Specification<VCallFailList> specification = DynamicSpecifications.bySearchFilter(request, VCallFailList.class, csf);
-		List<VCallFailList> issues = hfglService.findByExample(specification, page);
+		Specification<CallFailList> specification = DynamicSpecifications.bySearchFilter(request, CallFailList.class, csf);
+		List<CallFailList> issues = hfglService.findByExample(specification, page);
 		
 		map.put("issue", issue);
 		map.put("hfStatusList", HF_STATUS.values());
@@ -971,8 +970,8 @@ public class HfglController {
 		if(hasLetter != null && hasLetter.trim().length() > 0) {
 			csf.add(new SearchFilter("hasLetter", Operator.EQ, hasLetter));
 		}
-		Specification<VCallFailList> specification = DynamicSpecifications.bySearchFilter(request, VCallFailList.class, csf);
-		List<VCallFailList> reqs = hfglService.findByExample(specification, page);
+		Specification<CallFailList> specification = DynamicSpecifications.bySearchFilter(request, CallFailList.class, csf);
+		List<CallFailList> reqs = hfglService.findByExample(specification, page);
 		
 		map.put("reqs", reqs);
 		return TO_XLS;

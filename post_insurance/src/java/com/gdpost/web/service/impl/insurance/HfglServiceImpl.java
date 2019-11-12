@@ -92,9 +92,17 @@ public class HfglServiceImpl implements HfglService {
 	 * @see com.gdpost.web.service.UserService#findByExample(org.springframework.data.jpa.domain.Specification, com.gdpost.web.util.dwz.Page)	
 	 */
 	@Override
-	public List<VCallFailList> findByExample(
+	public List<VCallFailList> findByVExample(
 			Specification<VCallFailList> specification, Page page) {
 		org.springframework.data.domain.Page<VCallFailList> springDataPage = vCFLDAO.findAll(specification, PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
+	}
+	
+	@Override
+	public List<CallFailList> findByExample(
+			Specification<CallFailList> specification, Page page) {
+		org.springframework.data.domain.Page<CallFailList> springDataPage = callFailListDAO.findAll(specification, PageUtils.createPageable(page));
 		page.setTotalCount(springDataPage.getTotalElements());
 		return springDataPage.getContent();
 	}
@@ -124,21 +132,21 @@ public class HfglServiceImpl implements HfglService {
 	}
 	
 	@Override
-	public List<VCallFailList> getTODOIssueList(User user) {
+	public List<CallFailList> getTODOIssueList(User user) {
 		Organization userOrg = user.getOrganization();
 		//默认返回未处理工单
-		Specification<VCallFailList> specification = null;
+		Specification<CallFailList> specification = null;
 		
 		//如果是县区局登录的机构号为8位，需要根据保单的所在机构进行筛选
 		if(user.getOrganization().getOrgCode().contains("11185")) {
-			specification = DynamicSpecifications.bySearchFilterWithoutRequest(VCallFailList.class,
+			specification = DynamicSpecifications.bySearchFilterWithoutRequest(CallFailList.class,
 					new SearchFilter("status", Operator.OR_EQ, HF_STATUS.NewStatus.getDesc()),
 					new SearchFilter("status", Operator.OR_EQ, HF_STATUS.ResetStatus.getDesc()),
 					new SearchFilter("status", Operator.OR_EQ, HF_STATUS.CallFailStatus.getDesc()),
 					new SearchFilter("policy.attachedFlag", Operator.EQ, "0"),
 					new SearchFilter("lastDateNum", Operator.GTE, 3));
 		} else if (userOrg.getOrgCode().length() > 4) {
-			specification = DynamicSpecifications.bySearchFilterWithoutRequest(VCallFailList.class,
+			specification = DynamicSpecifications.bySearchFilterWithoutRequest(CallFailList.class,
 					new SearchFilter("status", Operator.OR_EQ, HF_STATUS.NewStatus.getDesc()),
 					new SearchFilter("status", Operator.OR_EQ, HF_STATUS.ResetStatus.getDesc()),
 					new SearchFilter("status", Operator.OR_EQ, HF_STATUS.CallFailStatus.getDesc()),
@@ -146,13 +154,10 @@ public class HfglServiceImpl implements HfglService {
 					new SearchFilter("policy.attachedFlag", Operator.EQ, "0"),
 					new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, userOrg.getOrgCode()));
 		} else if (userOrg.getOrgCode().length() <= 4) { //如果是省分的，看已回复的。
-			specification = DynamicSpecifications.bySearchFilterWithoutRequest(VCallFailList.class,
+			specification = DynamicSpecifications.bySearchFilterWithoutRequest(CallFailList.class,
 					new SearchFilter("status", Operator.OR_EQ, HF_STATUS.NewStatus.getDesc()),
 					new SearchFilter("status", Operator.OR_EQ, HF_STATUS.ResetStatus.getDesc()),
 					new SearchFilter("status", Operator.OR_EQ, HF_STATUS.NeedDoorStatus.getDesc()),
-					//new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.DoorSuccessStatus.getDesc()),
-					//new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.DoorFailStatus.getDesc()),
-					//new SearchFilter("status", Operator.OR_LIKE, HF_STATUS.CallSuccessStatus.getDesc()),
 					new SearchFilter("status", Operator.OR_EQ, HF_STATUS.CallFailStatus.getDesc()),
 					new SearchFilter("policy.attachedFlag", Operator.EQ, "0"),
 					new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, userOrg.getOrgCode()));
@@ -163,11 +168,11 @@ public class HfglServiceImpl implements HfglService {
 		page.setOrderDirection("DESC");
 
 		//LOG.debug("------------ ready to search:");
-		List<VCallFailList> issues = new ArrayList<VCallFailList>();
+		List<CallFailList> issues = new ArrayList<CallFailList>();
 		try {
 			issues = this.findByExample(specification, page);
 			if (issues == null || issues.isEmpty()) {
-				issues = new ArrayList<VCallFailList>();
+				issues = new ArrayList<CallFailList>();
 			}
 		} catch(Exception ex) {
 			ex.printStackTrace();

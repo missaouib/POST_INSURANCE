@@ -465,7 +465,7 @@ public class QyglServiceImpl implements QyglService {
 	
 	@Override
 	public List<YbtPolicyModel> listYBTPolicys(String orgCode, String date1, String date2, Page page) {
-		org.springframework.data.domain.Page<YbtPolicyModel> springDataPage = ybtDAO.getYbtPolicyDateList(orgCode, date1, date2, PageUtils.createPageable(page));
+		org.springframework.data.domain.Page<YbtPolicyModel> springDataPage = ybtDAO.findByOrgCodePolicyDate1PolicyDate2(orgCode, date1, date2, PageUtils.createPageable(page));
 		page.setTotalCount(springDataPage.getTotalElements());
 		return springDataPage.getContent();
 	}

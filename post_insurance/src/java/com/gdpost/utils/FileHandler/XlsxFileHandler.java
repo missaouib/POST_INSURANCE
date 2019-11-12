@@ -16,6 +16,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.CellValue;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -32,6 +33,23 @@ import System.Data.DataTable;
 
 public class XlsxFileHandler extends AbstractFileHandler {
 	public static Logger log = LoggerFactory.getLogger(XlsxFileHandler.class);
+	
+	public static boolean isMergedRegion(XSSFSheet sheet, int row, int column) {
+	    int sheetMergeCount = sheet.getNumMergedRegions();
+	    for (int i = 0; i < sheetMergeCount; i++) {
+	        CellRangeAddress ca = sheet.getMergedRegion(i);
+	        int firstColumn = ca.getFirstColumn();
+	        int lastColumn = ca.getLastColumn();
+	        int firstRow = ca.getFirstRow();
+	        int lastRow = ca.getLastRow();
+	        if (row >= firstRow && row <= lastRow) {
+	            if (column >= firstColumn && column <= lastColumn) {
+	                return true;
+	            }
+	        }
+	    }
+	    return false;
+	}
 	
 	// 读取Excel 2007文件
 	public DataTable[] readFile(String strFilePath, String strFileName, String keyRow) throws MyException {
@@ -74,7 +92,14 @@ public class XlsxFileHandler extends AbstractFileHandler {
 				if(sheetmergerCount > 0) {
 					skipRow = sheet.getMergedRegion(sheetmergerCount-1).getLastRow();
 				}
-				
+				if(skipRow > 10) {
+					for (int i=0; i<10; i++) {
+						if(!isMergedRegion(sheet, i, 0)) {
+							skipRow = i-1;
+							break;
+						}
+					}
+				}
 				FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
 				
 				lastRow = sheet.getLastRowNum();
@@ -200,14 +225,8 @@ public class XlsxFileHandler extends AbstractFileHandler {
 							        Date date = cell.getDateCellValue();
 							        dataRow.setValue(j, StringUtil.trimStr(DateFormatUtils.format(date, "yyyy-MM-dd")));
 							    } else {
-							    	Double d = cell.getNumericCellValue();
-							    	if((d.toString().length() - d.toString().indexOf("."))>=5) {
-							    		DecimalFormat df = new DecimalFormat();
-							    		df.setMaximumFractionDigits(5);
-							    		dataRow.setValue(j, new DataColumn(df.format(cell.getNumericCellValue())));
-							    	} else {
-							    		dataRow.setValue(j, cell.getNumericCellValue());
-							    	}
+							    	cell.setCellType(CellType.STRING);
+						    		dataRow.setValue(j, cell.getStringCellValue());
 							    }
 								break;
 							case STRING:

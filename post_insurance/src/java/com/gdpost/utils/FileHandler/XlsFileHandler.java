@@ -30,6 +30,23 @@ import System.Data.DataTable;
 public class XlsFileHandler extends AbstractFileHandler {
 	public static Logger log = LoggerFactory.getLogger(XlsFileHandler.class);
 
+	public static boolean isMergedRegion(HSSFSheet sheet, int row, int column) {
+	    int sheetMergeCount = sheet.getNumMergedRegions();
+	    for (int i = 0; i < sheetMergeCount; i++) {
+	        CellRangeAddress ca = sheet.getMergedRegion(i);
+	        int firstColumn = ca.getFirstColumn();
+	        int lastColumn = ca.getLastColumn();
+	        int firstRow = ca.getFirstRow();
+	        int lastRow = ca.getLastRow();
+	        if (row >= firstRow && row <= lastRow) {
+	            if (column >= firstColumn && column <= lastColumn) {
+	                return true;
+	            }
+	        }
+	    }
+	    return false;
+	}
+	
 	// 读取Excel 2003文件
 	public DataTable[] readFile(String strFilePath, String strFileName, String mkeyRow) throws MyException{
 		List<DataTable> list = new ArrayList<DataTable>();
@@ -77,8 +94,17 @@ public class XlsFileHandler extends AbstractFileHandler {
 				sheet = (HSSFSheet) workbook.getSheetAt(iSheet);
 				int sheetmergerCount = sheet.getNumMergedRegions();
 				log.debug("--------------有这么多个合并单元格：" + sheetmergerCount);
+				
 				if(sheetmergerCount > 0) {
 					skipRow = sheet.getMergedRegion(sheetmergerCount-1).getLastRow();
+				}
+				if(skipRow > 10) {
+					for (int i=0; i<10; i++) {
+						if(!isMergedRegion(sheet, i, 0)) {
+							skipRow = i-1;
+							break;
+						}
+					}
 				}
 				lastRow = sheet.getLastRowNum();
 				if(realKeyRow.equals("保全受理号") || realKeyRow.equals("保单号码") || realKeyRow.equals("险种编码") || realKeyRow.equals("投保人证件号码") || realKeyRow.equals("da保单号") || realKeyRow.equals("约定还款日期")) {
@@ -246,14 +272,17 @@ public class XlsFileHandler extends AbstractFileHandler {
 							        Date date = cell.getDateCellValue();
 							        dataRow.setValue(j, StringUtil.trimStr(DateFormatUtils.format(date, "yyyy-MM-dd")));
 							    } else {
+							    	/*
 							    	Double d = cell.getNumericCellValue();
 							    	if((d.toString().length() - d.toString().indexOf("."))>=5) {
 							    		DecimalFormat df = new DecimalFormat();
 							    		df.setMaximumFractionDigits(5);
 							    		dataRow.setValue(j, new DataColumn(df.format(cell.getNumericCellValue())));
 							    	} else {
-							    		dataRow.setValue(j, cell.getNumericCellValue());
-							    	}
+							    	*/
+							    		cell.setCellType(CellType.STRING);
+							    		dataRow.setValue(j, cell.getStringCellValue());
+							    	//}
 							    }
 								break;
 							case STRING:

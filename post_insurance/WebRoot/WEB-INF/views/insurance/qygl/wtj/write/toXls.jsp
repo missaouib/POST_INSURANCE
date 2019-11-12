@@ -15,6 +15,8 @@ response.setHeader("Content-Disposition", "inline; filename=QY_Write_LIST.xls");
 				<th>保单号</th>
 				<th>投保单号</th>
 				<th>投保人</th>
+				<th>出生日期</th>
+				<th>保费</th>
 				<th>电话</th>
 				<th>手机</th>
 				<th>Email电子邮箱</th>
@@ -45,6 +47,8 @@ response.setHeader("Content-Disposition", "inline; filename=QY_Write_LIST.xls");
 				<td style="vnd.ms-excel.numberformat:@">${item.policy.policyNo}</td>
 				<td style="vnd.ms-excel.numberformat:@">${item.policy.formNo}</td>
 				<td>${item.policy.holder}</td>
+				<td>${fn:substring(item.policy.policyDtl.holderCardNum,6,14)}</td>
+				<td>${item.policy.policyFee}</td>
 				<td>${item.policy.policyDtl.holderPhone}</td>
 				<td>${item.policy.policyDtl.holderMobile}</td>
 				<td>${item.policy.policyDtl.holderEmail}</td>
