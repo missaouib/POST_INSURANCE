@@ -38,7 +38,7 @@ response.setHeader("Content-Disposition", "inline; filename=CS_REPORT_LIST.xls")
 		<td>${item.holder}</td>
 		<td>${item.insured}</td>
 		<td><fmt:formatDate value="${item.csDate }" pattern="yyyy-MM-dd"/></td>
-		<td>${item.csCode}</td>
+		<td>${item.fullCsCode}</td>
 		<td>${item.money}</td>
 		<td>${item.csDeal}</td>
 	</tr>

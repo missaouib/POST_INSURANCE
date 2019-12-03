@@ -17,6 +17,8 @@ response.setHeader("Content-Disposition", "inline; filename=QY_Write_LIST.xls");
 				<th>投保人</th>
 				<th>出生日期</th>
 				<th>保费</th>
+				<th>缴费期间</th>
+				<th>保险期间</th>
 				<th>电话</th>
 				<th>手机</th>
 				<th>Email电子邮箱</th>
@@ -49,6 +51,8 @@ response.setHeader("Content-Disposition", "inline; filename=QY_Write_LIST.xls");
 				<td>${item.policy.holder}</td>
 				<td>${fn:substring(item.policy.policyDtl.holderCardNum,6,14)}</td>
 				<td>${item.policy.policyFee}</td>
+				<td>${item.policy.policyDtl.feeNum}</td>
+				<td>${item.policy.policyDtl.duration}</td>
 				<td>${item.policy.policyDtl.holderPhone}</td>
 				<td>${item.policy.policyDtl.holderMobile}</td>
 				<td>${item.policy.policyDtl.holderEmail}</td>

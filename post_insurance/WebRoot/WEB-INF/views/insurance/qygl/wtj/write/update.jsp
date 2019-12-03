@@ -3,6 +3,7 @@
 <div class="pageContent">
 <form method="post" action="${contextPath}/qygl/issue/write/update" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
 	<input type="hidden" name="id" value="${issue.id}"/>
+	<input type="hidden" id="fixTypeVal" name="fixTypeVal" value=""/>
 	<div class="pageFormContent" layoutH="58">
 	<fieldset>
 		<legend>新契约填写不合格件基本信息</legend>
@@ -92,7 +93,7 @@
 		<legend>不合格件处理详情</legend>
 		<p class="nowrap">
 			<label>处理结果类型：</label>
-			<form:select path="issue.fixType" class="combox">
+			<form:select path="issue.fixType" onchange="javascript:$('#fixDesc').val($('#fixType').val());$('#fixTypeVal').val($('#fixType').find('option:selected').text());" class="combox">
 				<form:option value=""> -- </form:option>
 				<form:options items="${checkFixList }" itemLabel="typeName" itemValue="typeDesc"/>
 			</form:select>

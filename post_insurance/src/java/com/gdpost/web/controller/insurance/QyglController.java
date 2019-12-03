@@ -140,11 +140,12 @@ public class QyglController {
 	@Log(message="回复了{0}新契约填写不合格件的信息。", level=LogLevel.WARN, module=LogModule.QYGL)
 	@RequiresPermissions("CheckWrite:edit")
 	@RequestMapping(value="/issue/write/update", method=RequestMethod.POST)
-	public @ResponseBody String updateCheckWrite(CheckWrite issue) {
+	public @ResponseBody String updateCheckWrite(CheckWrite issue, ServletRequest request) {
 		CheckWrite src = qyglService.getCheckWrite(issue.getId());
+		String fixTypeVal = request.getParameter("fixTypeVal");
 		src.setDealMan(issue.getDealMan());
 		src.setDealTime(issue.getDealTime());
-		src.setFixType(issue.getFixType());
+		src.setFixType(fixTypeVal);
 		src.setFixDesc(issue.getFixDesc());
 		if(issue.getFixType().contains("继续跟进") || issue.getFixDesc().contains("继续跟进")) {
 			src.setFixStatus(QY_STATUS.FollowStatus.name());

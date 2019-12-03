@@ -23,6 +23,7 @@ response.setHeader("Content-Disposition", "inline; filename=CS_REPORT_LIST.xls")
 			<th>约定还款日期</th>
 			<th>保单状态</th>
 			<th>联系方式</th>
+			<th>备注</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -42,7 +43,7 @@ response.setHeader("Content-Disposition", "inline; filename=CS_REPORT_LIST.xls")
 			    </c:otherwise>  
 			</c:choose>
 			</td>
-			<td>${item.organName}</td>
+			<td>${item.policy.organization.shortName}</td>
 			<td>${item.policy.policyNo}</td>
 			<td>${item.holder}</td>
 			<td>${item.holderSexy}</td>
@@ -53,6 +54,7 @@ response.setHeader("Content-Disposition", "inline; filename=CS_REPORT_LIST.xls")
 			<td><fmt:formatDate value="${item.shouldDate }" pattern="yyyy-MM-dd"/></td>
 			<td>${item.status}</td>
 			<td>${item.phone}</td>
+			<td>${item.remark}</td>
 		</tr>
 		</c:forEach>
 	</tbody>

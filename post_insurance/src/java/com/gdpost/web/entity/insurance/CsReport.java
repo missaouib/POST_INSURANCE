@@ -47,7 +47,16 @@ public class CsReport implements Idable<Long> {
 	private String csDeal;
 	private Long operateId;
 	private Date operateTime;
+	private String fullCsCode;
 	
+	@Column(name = "full_cs_code")
+	public String getFullCsCode() {
+		return fullCsCode;
+	}
+	public void setFullCsCode(String fullCsCode) {
+		this.fullCsCode = fullCsCode;
+	}
+
 	private String staffFlag;
 	
 	//private Integer uniqueFlag;

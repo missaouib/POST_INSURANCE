@@ -52,7 +52,16 @@
 					<td>
 						保全编码：<input type="text" style="width: 100px;" id="csCode" name="search_LIKE_csCode" value="${param.search_LIKE_csCode }"/>
 					</td>
-					<td>&nbsp;</td>
+					<td>
+					<label>申请方式：</label>
+					<select name="search_LIKE_csDeal" class="combox">
+					  <option value=""> -- </option>
+					  <option value="微信">微信</option>
+					  <option value="柜面亲办">柜面亲办</option>
+					  <option value="部门转办">部门转办</option>
+					  <option value="邮保通">邮保通保全</option>
+					</select>
+					</td>
 				</tr>
 			</table>
 			<div class="subBar">
@@ -109,7 +118,7 @@
 				<td>${item.holder}</td>
 				<td>${item.insured}</td>
 				<td><fmt:formatDate value="${item.csDate }" pattern="yyyy-MM-dd"/></td>
-				<td>${item.csCode}</td>
+				<td>${item.fullCsCode}</td>
 				<td>${item.money}</td>
 				<td>${item.csDeal}</td>
 			</tr>

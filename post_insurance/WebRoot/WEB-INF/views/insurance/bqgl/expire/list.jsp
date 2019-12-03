@@ -130,6 +130,9 @@
 					<c:when test="${item.status eq 'CTStatus'}">
 						已退保
 					</c:when>
+					<c:when test="${item.status eq 'LPStatus'}">
+                         理赔终止
+                    </c:when>
 					<c:when test="${item.status eq 'WARNStatus'}">
 						异常件
 					</c:when>
