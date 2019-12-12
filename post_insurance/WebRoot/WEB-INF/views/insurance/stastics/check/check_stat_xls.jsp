@@ -31,7 +31,7 @@ response.setHeader("Content-Disposition", "inline; filename=check_stat.xls");
 				<td style="text-align: right;font-weight:800;"><fmt:formatNumber value="${item.checkCounts}" pattern="#,###" /></td>
 				<td style="text-align: right;font-weight:800;"><fmt:formatNumber value="${item.errCounts}" pattern="#,###" /></td>
 				<td style="text-align: right;font-weight:800;"><fmt:formatNumber value="${item.checkRecordCounts}" pattern="#,###" /></td>
-				<td style="text-align: right;font-weight:800;"><fmt:formatNumber value="${item.checkRecordErrCounts}" pattern="#,###.#" /></td>
+				<td style="text-align: right;font-weight:800;"><fmt:formatNumber value="${item.checkRecordErrCounts}" pattern="#,###" /></td>
 				<td style="vnd.ms-excel.numberformat: #0.00%">${(item.checkCounts-item.errCounts)/item.checkCounts*0.8+(item.checkRecordCounts-item.checkRecordErrCounts)/item.checkRecordCounts*0.1+0.1 }</td>
 			</tr>
 			</c:forEach>
@@ -44,7 +44,7 @@ response.setHeader("Content-Disposition", "inline; filename=check_stat.xls");
 				<td style="text-align: right;font-weight:800;"><fmt:formatNumber value="${totalErr}" pattern="#,###.#" /></td>
 				<td style="text-align: right;font-weight:800;"><fmt:formatNumber value="${totalRecordCheck}" pattern="#,###.#" /></td>
 				<td style="text-align: right;font-weight:800;"><fmt:formatNumber value="${totalRecordErr}" pattern="#,###.#" /></td>
-				<td style="vnd.ms-excel.numberformat: #0.00%">${(totalCheck-totalErr)/totalCheck*0.8+(totalRecordCheck-totalRecordErr)/totalRecordCheck*0.1+0.1}</td>
+				<td style="vnd.ms-excel.numberformat: #0.00%">${(totalCheck-totalErr)/totalCheck*0.80+(totalRecordCheck-totalRecordErr)/totalRecordCheck*0.10+0.10}</td>
 			</tr>
 		</tbody>
 	</table>

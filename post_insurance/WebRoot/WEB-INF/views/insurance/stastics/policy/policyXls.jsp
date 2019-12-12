@@ -29,9 +29,9 @@ response.setHeader("Content-Disposition", "inline; filename=policy_stat.xls");
 	<tr>
 		<td>&nbsp;</td>
 		<td>合计：</td>
-		<td style="text-align: right;"><fmt:formatNumber value="${countPt}" pattern="#,###.#" /></td>
+		<td style="text-align: right;"><fmt:formatNumber value="${countPt}" pattern="#,###.##" /></td>
 		<td>&nbsp;</td>
-		<td style="text-align: right;"><fmt:formatNumber value="${sumPt}" pattern="#,###.#" /></td>
+		<td style="text-align: right;"><fmt:formatNumber value="${sumPt}" pattern="#,###.##" /></td>
 		<td>&nbsp;</td>
 	</tr>
 </table>

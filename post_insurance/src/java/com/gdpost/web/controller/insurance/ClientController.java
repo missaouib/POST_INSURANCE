@@ -148,7 +148,7 @@ public class ClientController {
 		request.setAttribute("policy_name", orgName);
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		if(isPhone != null && isPhone.trim().length()>0) {
+		if(isPhone == null || isPhone.trim().length()<=0) {
 			csf.add(new SearchFilter("organization.orgCode", Operator.LIKE_R, orgCode));
 		}
 		if(status != null && status.trim().length() > 0) {
@@ -302,13 +302,13 @@ public class ClientController {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
 		//默认返回未处理工单
-		String status = request.getParameter("status");
 		
 		String attachedFlag = request.getParameter("attachedFlag");
 		String feeFrequency = request.getParameter("feeFrequency");
 		String staffFlag = request.getParameter("staffFlag");
 		String duration = request.getParameter("duration");
 		String saleChannel = request.getParameter("saleChannel");
+		String isPhone = request.getParameter("search_LIKE_policyDtl.holderPhone");
 		Boolean staff = null;
 		if(staffFlag != null && staffFlag.trim().equals("0")) {
 			staff = false;
@@ -324,6 +324,8 @@ public class ClientController {
 			page.setOrderDirection("DESC");
 		}
 		
+		page.setNumPerPage(Integer.MAX_VALUE);
+		
 		String orgCode = request.getParameter("orgCode");
 		if(orgCode == null || orgCode.trim().length() <= 0) {
 			orgCode = user.getOrganization().getOrgCode();
@@ -336,16 +338,19 @@ public class ClientController {
 			}
 		}
 		
-		page.setNumPerPage(Integer.MAX_VALUE);
-		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE_R, orgCode));
-		if(status != null && status.trim().length() > 0) {
-			csf.add(new SearchFilter("status", Operator.EQ, status));
+		if(isPhone == null || isPhone.trim().length()<=0) {
+			csf.add(new SearchFilter("organization.orgCode", Operator.LIKE_R, orgCode));
 		}
 		String prdName = request.getParameter("prd.prdFullName");
 		if(prdName != null && prdName.trim().length()>0) {
 			csf.add(new SearchFilter("prodName", Operator.EQ, prdName));
+			request.setAttribute("prd_name", prdName);
+			try {
+				request.setAttribute("prodName", URLEncoder.encode(prdName, "UTF8"));
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
 		}
 		if(attachedFlag != null && attachedFlag.trim().length()>0) {
 			csf.add(new SearchFilter("attachedFlag", Operator.EQ, attachedFlag));
