@@ -490,7 +490,7 @@ public class UploadDataServiceImpl implements UploadDataService{
         		cell = StringUtil.trimStr(row.getValue(item.getDisplayName()), true);
         		
         		if(item.getDisplayName().contains("日期") && cell != null && StringUtil.trimStr(cell).length()<=0) {
-    				log.warn(item.getDisplayName() + "----导入日期有问题， 重置为上传当日日期: " + cell);
+    				log.debug(item.getDisplayName() + "----导入日期有问题， 重置为上传当日日期: " + cell);
     	            builder.append("NULL\t");
     	            continue;
         		}

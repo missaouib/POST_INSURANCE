@@ -67,7 +67,7 @@ public class TaskInNightService {
 					+ "cast(aes_decrypt(unhex(holder_addr), 'GDPost') as char(100)) as holder_addr,"
 					+ "cast(aes_decrypt(unhex(holder_phone), 'GDPost') as char(100)) as holder_phone,"
 					+ "cast(aes_decrypt(unhex(holder_mobile), 'GDPost') as char(100)) as holder_mobile, prod_name, holder_email  "
-					+ "from t_policy_dtl where reuser_check=0 and attached_flag=0;";
+					+ "from t_policy_dtl where reuser_check=0 and policy_status=\"有效\" and attached_flag=0;";
 			
 			log.debug(" ----- sql:" + sql);
 			
@@ -120,7 +120,7 @@ public class TaskInNightService {
 			log.info(" -----------customer info reuser check, error: " + idx);
 			//"insert into t_check_write (check_batch,form_no,policy_no,prod_name,need_fix,key_info, checker) values";
 			
-			String updateSQL = "update t_policy_dtl set reuser_check=true where reuser_check=false and attached_flag=0;";
+			String updateSQL = "update t_policy_dtl set reuser_check=true where reuser_check=false and policy_status=\"有效\" and attached_flag=0;";
 			rstInt = statement.executeUpdate(updateSQL);
 			log.info("------------ finish exec sql" + rstInt);
 			
