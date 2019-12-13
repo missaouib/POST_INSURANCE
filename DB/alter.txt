@@ -1274,3 +1274,33 @@ ALTER TABLE t_cs_report ADD INDEX idx_cr_cscode (cs_code);
 ALTER TABLE t_cs_report ADD INDEX idx_cr_csdeal (cs_deal);
 ALTER TABLE t_cs_report ADD INDEX idx_cr_csorgan (organ_name);
 ALTER TABLE t_cs_report ADD INDEX idx_cr_policy (policy_no);
+
+CREATE TABLE t_reuser_risk (
+  id bigint NOT NULL AUTO_INCREMENT,
+  checker varchar(32) DEFAULT NULL,
+  check_batch varchar(15) DEFAULT NULL,
+  need_fix varchar(8) DEFAULT NULL,
+  policy_no varchar(18) NOT NULL,
+  form_no varchar(25) DEFAULT NULL,
+  net_type varchar(8) DEFAULT NULL,
+  prd_name varchar(120) DEFAULT NULL,
+  pay_method varchar(10) DEFAULT NULL,
+  key_info varchar(256) DEFAULT NULL,
+  net_name varchar(256) DEFAULT NULL,
+  operate_id bigint(20) DEFAULT NULL,
+  operate_time timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  fix_status varchar(12) DEFAULT 'NewStatus',
+  fix_type varchar(64) DEFAULT NULL,
+  fix_desc varchar(256) DEFAULT NULL,
+  deal_man varchar(12) DEFAULT NULL,
+  deal_time date DEFAULT NULL,
+  reply_time date DEFAULT NULL,
+  reopen_reason varchar(256) DEFAULT NULL,
+  reopen_id bigint(20) DEFAULT NULL,
+  reopen_date date DEFAULT NULL,
+  close_date datetime DEFAULT NULL,
+  close_user varchar(12) DEFAULT NULL,
+  PRIMARY KEY (id),
+  UNIQUE KEY policy_no (policy_no,check_batch),
+  UNIQUE KEY idx_pno_checker (policy_no,checker)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

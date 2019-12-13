@@ -150,6 +150,8 @@ public class ClientController {
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		if(isPhone == null || isPhone.trim().length()<=0) {
 			csf.add(new SearchFilter("organization.orgCode", Operator.LIKE_R, orgCode));
+		} else {
+			csf.add(new SearchFilter("policyDtl.holderMobile", Operator.EQ, isPhone));
 		}
 		if(status != null && status.trim().length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
@@ -341,6 +343,8 @@ public class ClientController {
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		if(isPhone == null || isPhone.trim().length()<=0) {
 			csf.add(new SearchFilter("organization.orgCode", Operator.LIKE_R, orgCode));
+		} else {
+			csf.add(new SearchFilter("policyDtl.holderMobile", Operator.EQ, isPhone));
 		}
 		String prdName = request.getParameter("prd.prdFullName");
 		if(prdName != null && prdName.trim().length()>0) {

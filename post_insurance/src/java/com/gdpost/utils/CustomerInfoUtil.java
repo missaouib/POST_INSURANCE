@@ -58,6 +58,8 @@ public class CustomerInfoUtil {
 			str.append("使用了销售人员电话出单;");
 		}
 		
+		//str.append(exceedPhoneNum(stat, holder, mobile));
+		
 		str.append(checkAddr(stat, policyNo, addr, isSales));
 		
 		//str.append(checkDateValid(holderCardValid));
@@ -73,6 +75,35 @@ public class CustomerInfoUtil {
 		
 		str.append(checkCardInfo(holderCardType, holderCardNum));
 		str.append(checkCardInfo(insuredCardType, insuredCardNum));
+		return str.toString();
+	}
+	
+	/**
+	 * 
+	 * @param stat
+	 * @param holder
+	 * @param mobile
+	 * @param addr
+	 * @return
+	 */
+	public static String reuseCheck(Statement stat, String holder, String mobile, String addr, String email) {
+		StringBuffer str = new StringBuffer("");
+		
+		String rst = reusePhoneNum(stat, holder, mobile);
+		if(rst != null && rst.length()>4) {
+			str.append(rst);
+		}
+		
+		rst = reuseAddrNum(stat, holder, addr);
+		if(rst != null && rst.length()>4) {
+			str.append(rst);
+		}
+		
+		rst = reuseEmailNum(stat, holder, email);
+		if(rst != null && rst.length()>4) {
+			str.append(rst);
+		}
+		
 		return str.toString();
 	}
 	
@@ -575,6 +606,87 @@ public class CustomerInfoUtil {
 			}
 		}
 		return false;
+	}
+	
+	public static String reusePhoneNum(Statement stat, String holder, String phone) {
+		if(phone == null || phone.trim().length()<=10 || !NumberUtils.isDigits(phone)) {
+			return null;
+		}
+		String sql = "select count(distinct holder) as countNum from t_policy_dtl where policy_status=\"有效\" and cast(aes_decrypt(unhex(holder_mobile), 'GDPost') as char(100))=\"" + phone + "\" and cast(aes_decrypt(unhex(holder), 'GDPost') as char(100))<>\"" + holder + "\";";
+		ResultSet rst = null;
+		int num = 0;
+		try {
+			rst = stat.executeQuery(sql);
+			while(rst != null && rst.next()) {
+				num = rst.getInt("countNum");
+				if(num>2) {
+					return "手机号码被" + num + "个不同投保人 使用";
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rst != null) rst.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+
+	public static String reuseAddrNum(Statement stat, String holder, String addr) {
+		if(addr == null || addr.trim().length()<=0) {
+			return null;
+		}
+		String sql = "select count(distinct holder) as countNum from t_policy_dtl where policy_status=\"有效\" and cast(aes_decrypt(unhex(holder_addr), 'GDPost') as char(100))=\"" + addr + "\" and cast(aes_decrypt(unhex(holder), 'GDPost') as char(100))<>\"" + holder + "\";";
+		ResultSet rst = null;
+		int num = 0;
+		try {
+			rst = stat.executeQuery(sql);
+			while(rst != null && rst.next()) {
+				num = rst.getInt("countNum");
+				if(num>2) {
+					return "地址被" + num + "个不同投保人 使用";
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rst != null) rst.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+	
+	public static String reuseEmailNum(Statement stat, String holder, String email) {
+		if(email == null || email.trim().length()<=0) {
+			return null;
+		}
+		String sql = "select count(distinct holder) as countNum from t_policy_dtl where policy_status=\"有效\" and holder_email=\"" + email + "\" and cast(aes_decrypt(unhex(holder), 'GDPost') as char(100))<>\"" + holder + "\";";
+		ResultSet rst = null;
+		int num = 0;
+		try {
+			rst = stat.executeQuery(sql);
+			while(rst != null && rst.next()) {
+				num = rst.getInt("countNum");
+				if(num>2) {
+					return "Email被" + num + "个不同投保人 使用";
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rst != null) rst.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
 	}
 
 	/**

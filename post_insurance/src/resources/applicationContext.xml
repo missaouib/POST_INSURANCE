@@ -34,6 +34,7 @@
      -->
     <task:scheduled-tasks>
         <task:scheduled ref="taskService" method="updateDB" cron="0 19 16 * * ?"/>
+        <task:scheduled ref="taskInNightService" method="updateDB" cron="0 24 17 * * ?"/>
     </task:scheduled-tasks>
 	
 	<!-- Spring Data Jpa配置 , 扫描base-package下所有继承于Repository<T,ID>的接口-->

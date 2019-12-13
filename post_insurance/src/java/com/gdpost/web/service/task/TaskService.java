@@ -299,6 +299,81 @@ public class TaskService {
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql" + rstInt);
 			
+			//sql = "call procDealCardValid();";
+			sql = "update t_check_write set fix_status=\"CTStatus\",fix_desc=\"已退保\",deal_man=\"System\", deal_time=now() where fix_status=\"NewStatus\" and policy_no in (select policy_no from t_policy where cs_flag<>0);";
+			log.info("------------ sql :" + sql);
+			rstInt = statement.executeUpdate(sql);
+			log.info("------------ finish exec sql" + rstInt);
+			
+			sql = "update t_check_write set fix_status=\"CTStatus\",fix_desc=concat(fix_desc,\"：已退保\")  where fix_status<>\"NewStatus\" and fix_status<>\"CloseStatus\" and fix_status<>\"CTStatus\" and policy_no in (select policy_no from t_policy where cs_flag<>0);";
+			log.info("------------ sql :" + sql);
+			rstInt = statement.executeUpdate(sql);
+			log.info("------------ finish exec sql" + rstInt);
+			
+			sql = "update t_check_write cw, t_staff ts set cw.fix_status=\"CloseStatus\",cw.fix_desc=concat(cw.fix_desc,\"员工单\"),cw.deal_man=\"System\",cw.deal_time=current_timestamp where cw.fix_status<>\"CloseStatus\" and cw.key_info=\"含有邮政、邮储、邮局、支行、营业所等字样\" and cw.is_pass=cast(aes_decrypt(unhex(ts.id_card), 'GDPost') as char(100));";
+			log.info("------------ sql :" + sql);
+			rstInt = statement.executeUpdate(sql);
+			log.info("------------ finish exec sql" + rstInt);
+			
+			sql = "update t_check_write set is_truth=true where is_truth=false and checker='System'";
+			log.info("-----------客户信息真实性- sql :" + sql);
+			rstInt = statement.executeUpdate(sql);
+			log.info("------------ finish exec sql" + rstInt);
+			
+			sql = "update t_check_write set is_truth=true where is_truth=false and checker<>'System' and (key_info like '%地址%' or key_info like '%证件号%' or key_info like '%手机%')";
+			log.info("------------ sql :" + sql);
+			rstInt = statement.executeUpdate(sql);
+			log.info("------------ finish exec sql" + rstInt);
+			
+			sql = "update t_cs_report set cs_code=left(full_cs_code,2) where (cs_code is null or cs_code=\"\") and full_cs_code<>\"\";";
+			log.info("------------ sql :" + sql);
+			rstInt = statement.executeUpdate(sql);
+			log.info("------------ finish exec sql" + rstInt);
+			
+			sql = "update t_policy tp, t_organization org set tp.organ_name=org.short_name where tp.organ_name=org.old_name and TO_DAYS(NOW())-TO_DAYS(operate_time)<=2;";
+			log.info("------------ sql :" + sql);
+			rstInt = statement.executeUpdate(sql);
+			
+			sql = "update t_policy tp, t_organization org set tp.organ_name=org.short_name where tp.organ_name=org.name and TO_DAYS(NOW())-TO_DAYS(operate_time)<=2;";
+			log.info("------------ sql :" + sql);
+			rstInt = statement.executeUpdate(sql);
+			log.info("------------ finish exec sql" + rstInt);
+			
+			sql = "update t_policy set status=\"满期终止\" where TIMESTAMPDIFF(YEAR,policy_date,DATE_FORMAT(NOW(), '%Y-%m-%d'))>5 and prod_code in (\"125001\",\"122003\") and status=\"有效\";";
+			log.info("------------ sql :" + sql);
+			rstInt = statement.executeUpdate(sql);
+			log.info("------------ finish exec sql" + rstInt);
+			
+			sql = "update t_policy tp,t_policy_dtl tpd set tp.status=\"满期终止\" where tp.policy_no=tpd.policy_no and TIMESTAMPDIFF(YEAR,tp.policy_date,DATE_FORMAT(NOW(), '%Y-%m-%d'))>6 and tp.prod_code in (\"122001\",\"120009\",\"120015\",\"120017\",\"120019\") and tp.status=\"有效\";";
+			log.info("------------ sql :" + sql);
+			rstInt = statement.executeUpdate(sql);
+			log.info("------------ finish exec sql" + rstInt);
+			
+			sql = "update t_policy tp,t_policy_dtl tpd set tp.status=\"满期终止\" where tp.policy_no=tpd.policy_no and tpd.duration is not null and tpd.duration>=5 and TIMESTAMPDIFF(YEAR,tp.policy_date,DATE_FORMAT(NOW(), '%Y-%m-%d'))>tpd.duration and tp.status=\"有效\";";
+			log.info("------------ sql :" + sql);
+			rstInt = statement.executeUpdate(sql);
+			log.info("------------ finish exec sql" + rstInt);
+			
+			sql = "update t_policy set status=\"满期终止\" where TIMESTAMPDIFF(YEAR,policy_date,DATE_FORMAT(NOW(), '%Y-%m-%d'))>1 and prod_code=\"112004\" and status=\"有效\";";
+			log.info("------------ sql :" + sql);
+			rstInt = statement.executeUpdate(sql);
+			log.info("------------ finish exec sql" + rstInt);
+			
+			sql = "update t_policy tp set tp.status=\"满期终止\" where tp.duration>1 and TIMESTAMPDIFF(YEAR,tp.policy_date,DATE_FORMAT(NOW(), '%Y-%m-%d'))>=tp.duration and tp.status=\"有效\"; ";
+			log.info("------------ sql :" + sql);
+			rstInt = statement.executeUpdate(sql);
+			log.info("------------ finish exec sql" + rstInt);
+			
+			sql = "update t_policy tp, t_policy_dtl tpd set tpd.policy_status=\"满期终止\" where tp.policy_no=tpd.policy_no and tpd.policy_status=\"有效\" and tp.status=\"满期终止\";";
+			log.info("------------ sql :" + sql);
+			rstInt = statement.executeUpdate(sql);
+			log.info("------------ finish exec sql" + rstInt);
+			
+			sql = "update t_under_write uw, t_policy t set uw.sign_date=t.policy_date where uw.policy_no=t.policy_no and uw.sign_date is null;";
+			log.info("------------ sql :" + sql);
+			rstInt = statement.executeUpdate(sql);
+			log.info("------------ finish exec sql" + rstInt);
+			
 			// 获取保单号、投保人（姓名、证件号码）、被保险人（证件号码），双方年龄、关系、地址、电话、email；进行判断
 			//剔除简易险
 			sql = "select form_no, policy_no, prod_name, cast(aes_decrypt(unhex(holder), 'GDPost') as char(100)) as holder,holder_age,"
@@ -384,83 +459,8 @@ public class TaskService {
 			rstInt = statement.executeUpdate(updateSQL);
 			log.info("------------ finish exec sql" + rstInt);
 			
-			//sql = "call procDealCardValid();";
-			sql = "update t_check_write set fix_status=\"CTStatus\",fix_desc=\"已退保\",deal_man=\"System\", deal_time=now() where fix_status=\"NewStatus\" and policy_no in (select policy_no from t_policy where cs_flag<>0);";
-			log.info("------------ sql :" + sql);
-			rstInt = statement.executeUpdate(sql);
-			log.info("------------ finish exec sql" + rstInt);
-			
-			sql = "update t_check_write set fix_status=\"CTStatus\",fix_desc=concat(fix_desc,\"：已退保\")  where fix_status<>\"NewStatus\" and fix_status<>\"CloseStatus\" and fix_status<>\"CTStatus\" and policy_no in (select policy_no from t_policy where cs_flag<>0);";
-			log.info("------------ sql :" + sql);
-			rstInt = statement.executeUpdate(sql);
-			log.info("------------ finish exec sql" + rstInt);
-			
-			sql = "update t_check_write cw, t_staff ts set cw.fix_status=\"CloseStatus\",cw.fix_desc=concat(cw.fix_desc,\"员工单\"),cw.deal_man=\"System\",cw.deal_time=current_timestamp where cw.fix_status<>\"CloseStatus\" and cw.key_info=\"含有邮政、邮储、邮局、支行、营业所等字样\" and cw.is_pass=cast(aes_decrypt(unhex(ts.id_card), 'GDPost') as char(100));";
-			log.info("------------ sql :" + sql);
-			rstInt = statement.executeUpdate(sql);
-			log.info("------------ finish exec sql" + rstInt);
-			
 			sql = "insert into t_log_info (username, message,ip_address,log_level,module) values "
 					+ "('admin','customer info check, error:" + idx + "','127.0.0.1','WARN','其他操作');";
-			log.info("------------ sql :" + sql);
-			rstInt = statement.executeUpdate(sql);
-			log.info("------------ finish exec sql" + rstInt);
-			
-			sql = "update t_check_write set is_truth=true where is_truth=false and checker='System'";
-			log.info("-----------客户信息真实性- sql :" + sql);
-			rstInt = statement.executeUpdate(sql);
-			log.info("------------ finish exec sql" + rstInt);
-			
-			sql = "update t_check_write set is_truth=true where is_truth=false and checker<>'System' and (key_info like '%地址%' or key_info like '%证件号%' or key_info like '%手机%')";
-			log.info("------------ sql :" + sql);
-			rstInt = statement.executeUpdate(sql);
-			log.info("------------ finish exec sql" + rstInt);
-			
-			sql = "update t_cs_report set cs_code=left(full_cs_code,2) where (cs_code is null or cs_code=\"\") and full_cs_code<>\"\";";
-			log.info("------------ sql :" + sql);
-			rstInt = statement.executeUpdate(sql);
-			log.info("------------ finish exec sql" + rstInt);
-			
-			sql = "update t_policy tp, t_organization org set tp.organ_name=org.short_name where tp.organ_name=org.old_name and TO_DAYS(NOW())-TO_DAYS(operate_time)<=2;";
-			log.info("------------ sql :" + sql);
-			rstInt = statement.executeUpdate(sql);
-			
-			sql = "update t_policy tp, t_organization org set tp.organ_name=org.short_name where tp.organ_name=org.name and TO_DAYS(NOW())-TO_DAYS(operate_time)<=2;";
-			log.info("------------ sql :" + sql);
-			rstInt = statement.executeUpdate(sql);
-			log.info("------------ finish exec sql" + rstInt);
-			
-			sql = "update t_policy set status=\"满期终止\" where TIMESTAMPDIFF(YEAR,policy_date,DATE_FORMAT(NOW(), '%Y-%m-%d'))>5 and prod_code in (\"125001\",\"122003\") and status=\"有效\";";
-			log.info("------------ sql :" + sql);
-			rstInt = statement.executeUpdate(sql);
-			log.info("------------ finish exec sql" + rstInt);
-			
-			sql = "update t_policy tp,t_policy_dtl tpd set tp.status=\"满期终止\" where tp.policy_no=tpd.policy_no and TIMESTAMPDIFF(YEAR,tp.policy_date,DATE_FORMAT(NOW(), '%Y-%m-%d'))>6 and tp.prod_code in (\"122001\",\"120009\",\"120015\",\"120017\",\"120019\") and tp.status=\"有效\";";
-			log.info("------------ sql :" + sql);
-			rstInt = statement.executeUpdate(sql);
-			log.info("------------ finish exec sql" + rstInt);
-			
-			sql = "update t_policy tp,t_policy_dtl tpd set tp.status=\"满期终止\" where tp.policy_no=tpd.policy_no and tpd.duration is not null and tpd.duration>=5 and TIMESTAMPDIFF(YEAR,tp.policy_date,DATE_FORMAT(NOW(), '%Y-%m-%d'))>tpd.duration and tp.status=\"有效\";";
-			log.info("------------ sql :" + sql);
-			rstInt = statement.executeUpdate(sql);
-			log.info("------------ finish exec sql" + rstInt);
-			
-			sql = "update t_policy set status=\"满期终止\" where TIMESTAMPDIFF(YEAR,policy_date,DATE_FORMAT(NOW(), '%Y-%m-%d'))>1 and prod_code=\"112004\" and status=\"有效\";";
-			log.info("------------ sql :" + sql);
-			rstInt = statement.executeUpdate(sql);
-			log.info("------------ finish exec sql" + rstInt);
-			
-			sql = "update t_policy tp set tp.status=\"满期终止\" where tp.duration>1 and TIMESTAMPDIFF(YEAR,tp.policy_date,DATE_FORMAT(NOW(), '%Y-%m-%d'))>=tp.duration and tp.status=\"有效\"; ";
-			log.info("------------ sql :" + sql);
-			rstInt = statement.executeUpdate(sql);
-			log.info("------------ finish exec sql" + rstInt);
-			
-			sql = "update t_policy tp, t_policy_dtl tpd set tpd.policy_status=\"满期终止\" where tp.policy_no=tpd.policy_no and tpd.policy_status=\"有效\" and tp.status=\"满期终止\";";
-			log.info("------------ sql :" + sql);
-			rstInt = statement.executeUpdate(sql);
-			log.info("------------ finish exec sql" + rstInt);
-			
-			sql = "update t_under_write uw, t_policy t set uw.sign_date=t.policy_date where uw.policy_no=t.policy_no and uw.sign_date is null;";
 			log.info("------------ sql :" + sql);
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql" + rstInt);
