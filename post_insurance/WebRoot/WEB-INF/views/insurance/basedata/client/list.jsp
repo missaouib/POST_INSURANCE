@@ -20,7 +20,7 @@
 	<input type="hidden" name="duration" value="${duration }"/>
 	<input type="hidden" name="saleChannel" value="${saleChannel }"/>
 	<input type="hidden" name="search_LIKE_holder" value="${param.search_LIKE_holder}"/>
-	<input type="hidden" name="search_LIKE_policyDtl.holderPhone" value="${search_LIKE_policyDtl_holderPhone}"/>
+	<input type="hidden" name="holderPhone" value="${holderPhone}"/>
 </dwz:paginationForm>
 
 <form method="post" id="hfForm" action="${contextPath }/client/list" onsubmit="return navTabSearch(this)">
@@ -100,7 +100,7 @@
 				</tr>
 				<tr>
 					<td>
-						手机：<input type="text" id="cl_hphone" style="width: 100px;" name="search_LIKE_policyDtl.holderPhone" value="${search_LIKE_policyDtl_holderPhone }"/>
+						手机：<input type="text" id="cl_hphone" style="width: 100px;" name="holderPhone" value="${holderPhone }"/>
 					</td>
 					<td>
 						<label>身份证：</label><input type="text" id="cl_card" style="width: 100px;" name="search_LIKE_policyDtl.holderCardNum" value="${search_LIKE_policyDtl_holderCardNum }"/>

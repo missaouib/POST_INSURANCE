@@ -639,7 +639,7 @@ public class CustomerInfoUtil {
 		if(addr == null || addr.trim().length()<=0) {
 			return null;
 		}
-		String sql = "select count(distinct holder) as countNum from t_policy_dtl where policy_status=\"有效\" and cast(aes_decrypt(unhex(holder_addr), 'GDPost') as char(100))=\"" + addr + "\" and cast(aes_decrypt(unhex(holder), 'GDPost') as char(100))<>\"" + holder + "\";";
+		String sql = "select count(distinct holder) as countNum from t_policy_dtl where policy_status=\"有效\" and attached_flag=0 and cast(aes_decrypt(unhex(holder_addr), 'GDPost') as char(100))=\"" + addr + "\" and cast(aes_decrypt(unhex(holder), 'GDPost') as char(100))<>\"" + holder + "\";";
 		ResultSet rst = null;
 		int num = 0;
 		try {

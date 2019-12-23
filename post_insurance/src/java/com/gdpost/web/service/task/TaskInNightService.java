@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,7 +68,7 @@ public class TaskInNightService {
 					+ "cast(aes_decrypt(unhex(holder_addr), 'GDPost') as char(100)) as holder_addr,"
 					+ "cast(aes_decrypt(unhex(holder_phone), 'GDPost') as char(100)) as holder_phone,"
 					+ "cast(aes_decrypt(unhex(holder_mobile), 'GDPost') as char(100)) as holder_mobile, prod_name, holder_email  "
-					+ "from t_policy_dtl where reuser_check=0 and policy_status=\"有效\" and attached_flag=0;";
+					+ "from t_policy_dtl where reuser_check=0 and policy_status=\"有效\" and attached_flag=0 order by policy_date;";
 			
 			log.debug(" ----- sql:" + sql);
 			
@@ -85,6 +86,8 @@ public class TaskInNightService {
 			
 			String checkBatch = StringUtil.date2Str(new java.util.Date(), "yyyyMMddHH");
 			String keySql = "insert IGNORE into t_reuser_risk (check_batch,form_no,policy_no,prd_name,need_fix,key_info, checker) values (?,?,?,?,?,?,?);";
+			
+			String startTime = StringUtil.date2Str(new Date(), "yyyy-MM-dd");
 			
 			preStat = connection.prepareStatement(keySql);
 			int idx = 0;
@@ -120,7 +123,7 @@ public class TaskInNightService {
 			log.info(" -----------customer info reuser check, error: " + idx);
 			//"insert into t_check_write (check_batch,form_no,policy_no,prod_name,need_fix,key_info, checker) values";
 			
-			String updateSQL = "update t_policy_dtl set reuser_check=true where reuser_check=false and policy_status=\"有效\" and attached_flag=0;";
+			String updateSQL = "update t_policy_dtl set reuser_check=true where reuser_check=false and policy_date<=\"" + startTime + "\" and attached_flag=0;";
 			rstInt = statement.executeUpdate(updateSQL);
 			log.info("------------ finish exec sql" + rstInt);
 			
@@ -130,7 +133,7 @@ public class TaskInNightService {
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql" + rstInt);
 			
-			log.info("------------ task service update finish");
+			log.info("------------ task reuse service update finish");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			sql = "insert into t_log_info (username, message,ip_address,log_level,module) values "

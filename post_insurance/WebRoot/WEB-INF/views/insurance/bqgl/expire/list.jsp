@@ -73,7 +73,7 @@
 
 	<div class="panelBar">
 		<ul class="toolBar">
-			<shiro:hasPermission name="CsReissue:provEdit">
+			<shiro:hasPermission name="CsExpire:update">
 				<li class="line">line</li>
 				<li><a class="add" target="dialog" rel="csexpire_edit" mask="true" width="530" height="330" href="${contextPath }/bqgl/expire/update/{slt_uid}"><span>登记跟进情况</span></a></li>
 				<li class="line">line</li>

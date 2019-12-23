@@ -106,7 +106,7 @@ public class ClientController {
 		String staffFlag = request.getParameter("staffFlag");
 		String duration = request.getParameter("duration");
 		String saleChannel = request.getParameter("saleChannel");
-		String isPhone = request.getParameter("search_LIKE_policyDtl.holderPhone");
+		String holderPhone = request.getParameter("holderPhone");
 		Boolean staff = null;
 		if(staffFlag != null && staffFlag.trim().equals("0")) {
 			staff = false;
@@ -148,10 +148,12 @@ public class ClientController {
 		request.setAttribute("policy_name", orgName);
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		if(isPhone == null || isPhone.trim().length()<=0) {
+		if(holderPhone == null || holderPhone.trim().length()<=0) {
 			csf.add(new SearchFilter("organization.orgCode", Operator.LIKE_R, orgCode));
 		} else {
-			csf.add(new SearchFilter("policyDtl.holderMobile", Operator.EQ, isPhone));
+			csf.add(new SearchFilter("policyDtl.holderMobile", Operator.OR_EQ, holderPhone));
+			csf.add(new SearchFilter("policyDtl.holderPhone", Operator.OR_EQ, holderPhone));
+			request.setAttribute("holderPhone", holderPhone);
 		}
 		if(status != null && status.trim().length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
@@ -310,7 +312,7 @@ public class ClientController {
 		String staffFlag = request.getParameter("staffFlag");
 		String duration = request.getParameter("duration");
 		String saleChannel = request.getParameter("saleChannel");
-		String isPhone = request.getParameter("search_LIKE_policyDtl.holderPhone");
+		String holderPhone = request.getParameter("holderPhone");
 		Boolean staff = null;
 		if(staffFlag != null && staffFlag.trim().equals("0")) {
 			staff = false;
@@ -341,10 +343,11 @@ public class ClientController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		if(isPhone == null || isPhone.trim().length()<=0) {
+		if(holderPhone == null || holderPhone.trim().length()<=0) {
 			csf.add(new SearchFilter("organization.orgCode", Operator.LIKE_R, orgCode));
 		} else {
-			csf.add(new SearchFilter("policyDtl.holderMobile", Operator.EQ, isPhone));
+			csf.add(new SearchFilter("policyDtl.holderMobile", Operator.OR_EQ, holderPhone));
+			csf.add(new SearchFilter("policyDtl.holderPhone", Operator.OR_EQ, holderPhone));
 		}
 		String prdName = request.getParameter("prd.prdFullName");
 		if(prdName != null && prdName.trim().length()>0) {
