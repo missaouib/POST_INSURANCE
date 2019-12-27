@@ -34,8 +34,8 @@ public class TaskInNightService {
 		this.dateSource = dateSource;
 	}
 
-	public void updateDB() {		
-		log.info("--------- reuse task to update data");
+	public void updateDBInNight() {		
+		log.info("************* reuse in night task to update data");
 		java.sql.Connection connection = null;
 		Connection conn2 = null;
 		JdbcStatement statement = null;
@@ -123,7 +123,7 @@ public class TaskInNightService {
 			log.info(" -----------customer info reuser check, error: " + idx);
 			//"insert into t_check_write (check_batch,form_no,policy_no,prod_name,need_fix,key_info, checker) values";
 			
-			String updateSQL = "update t_policy_dtl set reuser_check=true where reuser_check=false and policy_date<=\"" + startTime + "\" and attached_flag=0;";
+			String updateSQL = "update t_policy_dtl set reuser_check=true where reuser_check=false and policy_date<\"" + startTime + "\" and attached_flag=0;";
 			rstInt = statement.executeUpdate(updateSQL);
 			log.info("------------ finish exec sql" + rstInt);
 			

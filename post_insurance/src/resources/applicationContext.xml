@@ -32,9 +32,11 @@
         cron : cronExpression表达式
         cron="0/5 * * * * ?"  //表示五秒钟执行一次
      -->
-    <task:scheduled-tasks>
-        <task:scheduled ref="taskService" method="updateDB" cron="0 19 16 * * ?"/>
-        <task:scheduled ref="taskInNightService" method="updateDB" cron="0 24 17 * * ?"/>
+     <task:scheduler id="myScheduler" pool-size="2"/>
+     
+    <task:scheduled-tasks scheduler="myScheduler">
+        <task:scheduled ref="taskService" method="updateDB" cron="0 45 9 * * ?"/>
+        <task:scheduled ref="taskInNightService" method="updateDBInNight" cron="0 33 9 * * ?"/>
     </task:scheduled-tasks>
 	
 	<!-- Spring Data Jpa配置 , 扫描base-package下所有继承于Repository<T,ID>的接口-->
@@ -47,7 +49,7 @@
 		<property name="packagesToScan" value="com.gdpost"/>
 		<property name="jpaProperties">
 			<props>
-				<prop key="hibernate.current_session_context_class">thread</prop>
+				<prop key="hibernate.current_session_context_class·">thread</prop>
 				<prop key="hibernate.id.new_generator_mappings">false</prop>
 				<!-- 抓取策略 -->
 				<prop key="hibernate.max_fetch_depth">1</prop>
