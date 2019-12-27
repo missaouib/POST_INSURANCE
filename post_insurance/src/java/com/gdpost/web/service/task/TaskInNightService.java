@@ -56,7 +56,7 @@ public class TaskInNightService {
 		
         try {
         	sql = "insert into t_log_info (username, message,ip_address,log_level,module) values "
-					+ "('admin','spring task update batch job start.','127.0.0.1','WARN','其他操作');";
+					+ "('admin','spring task in night reuse update batch job start.','127.0.0.1','WARN','其他操作');";
         	log.info("------------ task service 1 :" + sql);
         	rstInt = statement.executeUpdate(sql);
         	log.info("------------ finish exec sql" + rstInt);
@@ -128,7 +128,7 @@ public class TaskInNightService {
 			log.info("------------ finish exec sql" + rstInt);
 			
 			sql = "insert into t_log_info (username, message,ip_address,log_level,module) values "
-					+ "('admin','customer info reuser check, error:" + idx + "','127.0.0.1','WARN','其他操作');";
+					+ "('admin','customer info reuse check in night task, error:" + idx + "','127.0.0.1','WARN','其他操作');";
 			log.info("------------ sql :" + sql);
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql" + rstInt);
@@ -137,7 +137,7 @@ public class TaskInNightService {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			sql = "insert into t_log_info (username, message,ip_address,log_level,module) values "
-					+ "('admin','spring task error:" + e.getMessage() + "','127.0.0.1','WARN','其他操作');";
+					+ "('admin','spring task in night reuse error:" + e.getMessage() + "','127.0.0.1','WARN','其他操作');";
 			try {
 				statement.executeUpdate(sql);
 			} catch (SQLException e1) {
