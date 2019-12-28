@@ -4,6 +4,8 @@
 package	com.gdpost.web.service.impl.insurance;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -145,22 +147,16 @@ public class HfglServiceImpl implements HfglService {
 					new SearchFilter("status", Operator.OR_EQ, HF_STATUS.CallFailStatus.getDesc()),
 					new SearchFilter("policy.attachedFlag", Operator.EQ, "0"),
 					new SearchFilter("lastDateNum", Operator.GTE, 3));
-		} else if (userOrg.getOrgCode().length() > 4) {
-			specification = DynamicSpecifications.bySearchFilterWithoutRequest(CallFailList.class,
-					new SearchFilter("status", Operator.OR_EQ, HF_STATUS.NewStatus.getDesc()),
-					new SearchFilter("status", Operator.OR_EQ, HF_STATUS.ResetStatus.getDesc()),
-					new SearchFilter("status", Operator.OR_EQ, HF_STATUS.CallFailStatus.getDesc()),
-					new SearchFilter("status", Operator.OR_EQ, HF_STATUS.NeedDoorStatus.getDesc()),
-					new SearchFilter("policy.attachedFlag", Operator.EQ, "0"),
-					new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, userOrg.getOrgCode()));
-		} else if (userOrg.getOrgCode().length() <= 4) { //如果是省分的，看已回复的。
-			specification = DynamicSpecifications.bySearchFilterWithoutRequest(CallFailList.class,
-					new SearchFilter("status", Operator.OR_EQ, HF_STATUS.NewStatus.getDesc()),
-					new SearchFilter("status", Operator.OR_EQ, HF_STATUS.ResetStatus.getDesc()),
-					new SearchFilter("status", Operator.OR_EQ, HF_STATUS.NeedDoorStatus.getDesc()),
-					new SearchFilter("status", Operator.OR_EQ, HF_STATUS.CallFailStatus.getDesc()),
-					new SearchFilter("policy.attachedFlag", Operator.EQ, "0"),
-					new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, userOrg.getOrgCode()));
+		} else if (userOrg.getOrgCode().length() >= 4) {
+			
+			Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+			//csf.add(new SearchFilter("policy.attachedFlag", Operator.EQ, "0"));
+			csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, userOrg.getOrgCode()));
+			csf.add(new SearchFilter("status", Operator.OR_EQ, HF_STATUS.NewStatus.getDesc()));
+			csf.add(new SearchFilter("status", Operator.OR_EQ, HF_STATUS.ResetStatus.getDesc()));
+			csf.add(new SearchFilter("status", Operator.OR_EQ, HF_STATUS.CallFailStatus.getDesc()));
+			csf.add(new SearchFilter("status", Operator.OR_EQ, HF_STATUS.NeedDoorStatus.getDesc()));
+			specification = DynamicSpecifications.bySearchFilter(CallFailList.class, csf);
 		}
 		Page page = new Page();
 		page.setNumPerPage(5);

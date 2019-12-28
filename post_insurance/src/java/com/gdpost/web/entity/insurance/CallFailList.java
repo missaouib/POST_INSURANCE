@@ -1,7 +1,5 @@
 package com.gdpost.web.entity.insurance;
 
-import static javax.persistence.GenerationType.IDENTITY;
-
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -9,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -16,6 +15,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.ColumnTransformer;
 import org.hibernate.annotations.JoinColumnOrFormula;
@@ -24,24 +24,32 @@ import org.hibernate.annotations.JoinFormula;
 
 import com.gdpost.utils.StringUtil;
 import com.gdpost.web.entity.Idable;
-import com.gdpost.web.entity.main.Organization;
 
+/**
+ * TCallFailList entity. @author MyEclipse Persistence Tools
+ */
 @Entity
-@Table(name="t_call_fail_list")
-public class CallFailList implements Idable<Long> {
+@Table(name = "t_call_fail_list", uniqueConstraints = @UniqueConstraint(columnNames = "policy_no"))
+public class CallFailList implements java.io.Serializable, Idable<Long> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5221839647252233993L;
 	// Fields
 
 	private Long id;
-	private Organization organization;
+	private String organCode;
 	private String callMan;
 	private String issueNo;
 	private Policy policy;
+	// private String policyNo;
 	private String issueDesc;
 	private String issueType;
 	private String issueContent;
-	private String addr;
 	private String result;
+	private String idCard;
+	private String addr;
 	private Date readyDate;
 	private Date finishDate;
 	private String bankCode;
@@ -61,144 +69,112 @@ public class CallFailList implements Idable<Long> {
 	private Boolean hasClientSigned;
 	private Date dealTime;
 	private String hqIssueType;
+	private String hqDealType;
+	private String hqDealMan;
 	private String hqDealRst;
 	private String hqDealRemark;
 	private Date hqDealDate;
 	private Date hqDealDate2;
-	private String hqDealRst2;
-	private Date hqDealDate3;
-	private String hqDealRst3;
-	private Date hqDealDate4;
-	private String hqDealRst4;
-	private Date hqDealDate5;
-	private String hqDealRst5;
-	private Date hqDealDate6;
-	private String hqDealRst6;
-	
-	private String hqDealType;
-	private String hqDealMan;
 	private String hqDealType2;
 	private String hqDealMan2;
+	private String hqDealRst2;
+	private Date hqDealDate3;
 	private String hqDealType3;
 	private String hqDealMan3;
+	private String hqDealRst3;
+	private Date hqDealDate4;
 	private String hqDealType4;
 	private String hqDealMan4;
+	private String hqDealRst4;
+	private Date hqDealDate5;
 	private String hqDealType5;
 	private String hqDealMan5;
+	private String hqDealRst5;
+	private Date hqDealDate6;
 	private String hqDealType6;
 	private String hqDealMan6;
-	
+	private String hqDealRst6;
 	private String provIssueType;
+	private String provDealMan;
 	private String provDealRst;
 	private String provDealRemark;
 	private Date provDealDate;
-
+	private Long operateId;
+	private Date operateTime;
+	private String organName;
 	private Integer hqDealNum;
 	private Integer provDealNum;
-	private String organName;
 	private String holderPhone;
 	private String holderMobile;
-	
-	private String resetPhone; 
 	private Integer orgDealFlag;
 	private Integer hqDealFlag;
 	private Integer provDealFlag;
-	private String provDealMan;
-	
+	private String resetPhone;
 	private String hasLetter;
 	private Date letterDate;
-	private String idCard;
-	
 	private Boolean canCallAgain;
 	private String canCallAgainRemark;
 	private Date resetDate;
-	
-	/*
-	 * mail_back_date
-mail_fail_date
-mail_fail_reason
-mail_success
-	 */
-	private Date mailBackDate;
-	private Date mailFailDate;
-	private String mailFailReason;
 	private Date doorBackDate;
 	private String doorStatsDate;
+	private String mailFailReason;
+	private Date mailFailDate;
 	private String mailSuccess;
+	private Date mailBackDate;
 	private Date clientSignDate;
-	
 	private String clientRemark;
 	private String hqDealTypeElse;
 	private String phoneNum;
 	private String phoneStart;
 	private String phoneEnd;
 	private String phoneTime;
-	
-	private Long operateId;
-	private Date operateTime;
-	
 	private String taskType;
-	private String clientSexy;
-	//private String issueRemark;
-	private String clientName;
 	private String issueOrg;
 	private String clientNo;
+	private String clientName;
+	private String clientSexy;
 	private String issueProv;
 	private String issueCity;
 	private String issueArea;
 	private String dealDep;
 	private String manualStatus;
 	private String callType;
+	private Date billBackDate;
+	private String policyTerm;
+	private String policyFeeType;
+	private String policyFeeYear;
 	private String fixCallRst;
 	private String attrProd;
 	private Double attrFee;
 	private String attrYear;
 	private String attrType;
 	private String attrFeeYear;
-	//private String autoStatus;
-	private Date billBackDate;
-	private String policyTerm;
-	private String policyFeeType;
-	private String policyFeeYear;
-	
-	@Column(name = "operate_id")
-	public Long getOperateId() {
-		return operateId;
-	}
 
-	public void setOperateId(Long operateId) {
-		this.operateId = operateId;
-	}
-
-	@Column(name = "operate_time")
-	public Date getOperateTime() {
-		return operateTime;
-	}
-
-	public void setOperateTime(Date operateTime) {
-		this.operateTime = operateTime;
-	}
-	
 	@Transient
 	private String search_LIKE_hasLetter;
+
 	@Transient
 	public String getSearch_LIKE_hasLetter() {
 		return search_LIKE_hasLetter;
 	}
+
 	@Transient
 	public void setSearch_LIKE_hasLetter(String search_LIKE_hasLetter) {
 		this.search_LIKE_hasLetter = search_LIKE_hasLetter;
 	}
+
 	@Transient
 	private Integer lastDateNum = 0;
 	@Transient
 	private String newStatus;
 	@Transient
 	private Integer duration;
+
 	@Transient
 	public Integer getDuration() {
 		return duration;
 	}
+
 	@Transient
 	public void setDuration(Integer duration) {
 		this.duration = duration;
@@ -206,8 +182,9 @@ mail_success
 
 	@Transient
 	public String getNewStatus() {
-		return newStatus;
+		return this.newStatus;
 	}
+
 	@Transient
 	public void setNewStatus(String newStatus) {
 		this.newStatus = newStatus;
@@ -215,26 +192,24 @@ mail_success
 
 	@Transient
 	public Integer getLastDateNum() {
-		if(this.policy != null) {
+		if (this.policy != null) {
 			try {
-//				Calendar c1 = Calendar.getInstance();
-//				c1.setTime(this.policy.getPolicyDate());
-//				Calendar now = Calendar.getInstance();
-//				now.setTime(new Date());
-				
-				int check = StringUtil.getBetweenDay(this.policy.getBillBackDate()==null?this.getBillBackDate():this.policy.getBillBackDate(), new Date());
-				return 15-check;
+				int check = StringUtil.getBetweenDay(
+						this.policy.getBillBackDate() == null ? this.getBillBackDate() : this.policy.getBillBackDate(),
+						new Date());
+				return 15 - check;
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 		return lastDateNum;
 	}
-	
+
 	@Transient
 	public void setLastDateNum(Integer lastDateNum) {
 		this.lastDateNum = lastDateNum;
 	}
+
 	// Constructors
 
 	/** default constructor */
@@ -242,60 +217,11 @@ mail_success
 	}
 
 	/** minimal constructor */
-	public CallFailList(Policy policy, Date readyDate) {
+	public CallFailList(Policy policy, Date readyDate, Date finishDate, String status) {
 		this.policy = policy;
-		this.readyDate = readyDate;
-	}
-
-	/** full constructor */
-	public CallFailList(Organization organization, String callMan, String issueNo, Policy policy, String issueDesc, String issueType, String issueContent,
-			String result, Date readyDate, Date finishDate, String bankCode, String bankName, Date shouldDate, Date callDate, Date issueDate,
-			Integer resetNum, String recallFlag, Date issueTime, String status, String dealMan, String dealStatus, String dealType, String dealDesc,
-			Integer dealNum, Boolean hasClientSigned, Date dealTime, String hqIssueType, String hqDealRst, String hqDealRemark, Date hqDealDate,
-			Date hqDealDate2, String hqDealRst2, Date hqDealDate3, String hqDealRst3, Date hqDealDate4, String hqDealRst4, Date hqDealDate5, String hqDealRst5,
-			String provIssueType, String provDealRst, String provDealRemark, Date provDealDate) {
-		this.organization = organization;
-		this.callMan = callMan;
-		this.issueNo = issueNo;
-		this.policy = policy;
-		this.issueDesc = issueDesc;
-		this.issueType = issueType;
-		this.issueContent = issueContent;
-		this.result = result;
 		this.readyDate = readyDate;
 		this.finishDate = finishDate;
-		this.bankCode = bankCode;
-		this.bankName = bankName;
-		this.shouldDate = shouldDate;
-		this.callDate = callDate;
-		this.issueDate = issueDate;
-		this.resetNum = resetNum;
-		this.recallFlag = recallFlag;
-		this.issueTime = issueTime;
 		this.status = status;
-		this.dealMan = dealMan;
-		this.dealStatus = dealStatus;
-		this.dealType = dealType;
-		this.dealDesc = dealDesc;
-		this.dealNum = dealNum;
-		this.hasClientSigned = hasClientSigned;
-		this.dealTime = dealTime;
-		this.hqIssueType = hqIssueType;
-		this.hqDealRst = hqDealRst;
-		this.hqDealRemark = hqDealRemark;
-		this.hqDealDate = hqDealDate;
-		this.hqDealDate2 = hqDealDate2;
-		this.hqDealRst2 = hqDealRst2;
-		this.hqDealDate3 = hqDealDate3;
-		this.hqDealRst3 = hqDealRst3;
-		this.hqDealDate4 = hqDealDate4;
-		this.hqDealRst4 = hqDealRst4;
-		this.hqDealDate5 = hqDealDate5;
-		this.hqDealRst5 = hqDealRst5;
-		this.provIssueType = provIssueType;
-		this.provDealRst = provDealRst;
-		this.provDealRemark = provDealRemark;
-		this.provDealDate = provDealDate;
 	}
 
 	// Property accessors
@@ -310,17 +236,18 @@ mail_success
 		this.id = id;
 	}
 
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="organ_code", referencedColumnName="org_code")
-	public Organization getOrganization() {
-		return organization;
+	@Column(name = "organ_code", length = 18, nullable=true)
+
+	public String getOrganCode() {
+		return this.organCode;
 	}
 
-	public void setOrganization(Organization organization) {
-		this.organization = organization;
+	public void setOrganCode(String organCode) {
+		this.organCode = organCode;
 	}
 
-	@Column(name = "call_man", length = 8)
+	@Column(name = "call_man", length = 8, nullable=true)
+
 	public String getCallMan() {
 		return this.callMan;
 	}
@@ -329,7 +256,8 @@ mail_success
 		this.callMan = callMan;
 	}
 
-	@Column(name = "issue_no", length = 12)
+	@Column(name = "issue_no", length = 21)
+
 	public String getIssueNo() {
 		return this.issueNo;
 	}
@@ -338,22 +266,21 @@ mail_success
 		this.issueNo = issueNo;
 	}
 
-//	@ManyToOne
-//	@JoinColumn(name="policy_no", referencedColumnName="policy_no")
 	@ManyToOne(cascade = CascadeType.REMOVE, targetEntity = Policy.class, fetch=FetchType.EAGER)
 	@JoinColumnsOrFormulas(value={
 	@JoinColumnOrFormula(column=@JoinColumn(name ="policy_no", referencedColumnName ="policy_no", insertable =false, updatable = false)),
 	@JoinColumnOrFormula(formula=@JoinFormula(value="0", referencedColumnName = "attached_flag"))
 	})
 	public Policy getPolicy() {
-		return this.policy;
+		return policy;
 	}
 
 	public void setPolicy(Policy policy) {
 		this.policy = policy;
 	}
 
-	@Column(name = "issue_desc", length = 6)
+	@Column(name = "issue_desc", length = 6, nullable=true)
+
 	public String getIssueDesc() {
 		return this.issueDesc;
 	}
@@ -362,7 +289,8 @@ mail_success
 		this.issueDesc = issueDesc;
 	}
 
-	@Column(name = "issue_type", length = 10)
+	@Column(name = "issue_type", length = 16, nullable=true)
+
 	public String getIssueType() {
 		return this.issueType;
 	}
@@ -371,7 +299,8 @@ mail_success
 		this.issueType = issueType;
 	}
 
-	@Column(name = "issue_content", length = 256)
+	@Column(name = "issue_content", length = 256, nullable=true)
+
 	public String getIssueContent() {
 		return this.issueContent;
 	}
@@ -380,7 +309,8 @@ mail_success
 		this.issueContent = issueContent;
 	}
 
-	@Column(name = "result", length = 256)
+	@Column(name = "result", length = 256, nullable=true)
+
 	public String getResult() {
 		return this.result;
 	}
@@ -389,7 +319,35 @@ mail_success
 		this.result = result;
 	}
 
-	@Column(name = "ready_date", nullable = false, length = 19)
+	@Column(name = "id_card")
+	@ColumnTransformer(
+			forColumn="id_card",
+			read="cast(aes_decrypt(unhex(id_card), '" + com.gdpost.web.MySQLAESKey.AESKey + "') as char(100))", 
+			write="hex(aes_encrypt(?,'" + com.gdpost.web.MySQLAESKey.AESKey + "'))")
+	public String getIdCard() {
+		return this.idCard;
+	}
+
+	public void setIdCard(String idCard) {
+		this.idCard = idCard;
+	}
+
+	@Column(name = "addr")
+	@ColumnTransformer(
+			forColumn="addr",
+			read="cast(aes_decrypt(unhex(addr), '" + com.gdpost.web.MySQLAESKey.AESKey + "') as char(100))", 
+			write="hex(aes_encrypt(?,'" + com.gdpost.web.MySQLAESKey.AESKey + "'))")
+	public String getAddr() {
+		return this.addr;
+	}
+
+	public void setAddr(String addr) {
+		this.addr = addr;
+	}
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "ready_date", nullable = false, length = 26)
+
 	public Date getReadyDate() {
 		return this.readyDate;
 	}
@@ -398,7 +356,9 @@ mail_success
 		this.readyDate = readyDate;
 	}
 
-	@Column(name = "finish_date", length = 19)
+	@Temporal(TemporalType.DATE)
+	@Column(name = "finish_date", nullable = false, length = 26)
+
 	public Date getFinishDate() {
 		return this.finishDate;
 	}
@@ -407,7 +367,8 @@ mail_success
 		this.finishDate = finishDate;
 	}
 
-	@Column(name = "bank_code", length = 20)
+	@Column(name = "bank_code", length = 20, nullable=true)
+
 	public String getBankCode() {
 		return this.bankCode;
 	}
@@ -416,7 +377,8 @@ mail_success
 		this.bankCode = bankCode;
 	}
 
-	@Column(name = "bank_name", length = 256)
+	@Column(name = "bank_name", length = 256, nullable=true)
+
 	public String getBankName() {
 		return this.bankName;
 	}
@@ -425,7 +387,9 @@ mail_success
 		this.bankName = bankName;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "should_date", length = 10)
+
 	public Date getShouldDate() {
 		return this.shouldDate;
 	}
@@ -434,7 +398,9 @@ mail_success
 		this.shouldDate = shouldDate;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "call_date", length = 10)
+
 	public Date getCallDate() {
 		return this.callDate;
 	}
@@ -443,7 +409,9 @@ mail_success
 		this.callDate = callDate;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "issue_date", length = 10)
+
 	public Date getIssueDate() {
 		return this.issueDate;
 	}
@@ -453,6 +421,7 @@ mail_success
 	}
 
 	@Column(name = "reset_num")
+
 	public Integer getResetNum() {
 		return this.resetNum;
 	}
@@ -462,6 +431,7 @@ mail_success
 	}
 
 	@Column(name = "recall_flag", length = 2)
+
 	public String getRecallFlag() {
 		return this.recallFlag;
 	}
@@ -470,7 +440,9 @@ mail_success
 		this.recallFlag = recallFlag;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "issue_time", length = 10)
+
 	public Date getIssueTime() {
 		return this.issueTime;
 	}
@@ -479,7 +451,8 @@ mail_success
 		this.issueTime = issueTime;
 	}
 
-	@Column(name = "status", length = 10)
+	@Column(name = "status", nullable = false, length = 16)
+
 	public String getStatus() {
 		return this.status;
 	}
@@ -489,6 +462,7 @@ mail_success
 	}
 
 	@Column(name = "deal_man", length = 32)
+
 	public String getDealMan() {
 		return this.dealMan;
 	}
@@ -498,6 +472,7 @@ mail_success
 	}
 
 	@Column(name = "deal_status", length = 12)
+
 	public String getDealStatus() {
 		return this.dealStatus;
 	}
@@ -507,6 +482,7 @@ mail_success
 	}
 
 	@Column(name = "deal_type", length = 20)
+
 	public String getDealType() {
 		return this.dealType;
 	}
@@ -516,6 +492,7 @@ mail_success
 	}
 
 	@Column(name = "deal_desc", length = 256)
+
 	public String getDealDesc() {
 		return this.dealDesc;
 	}
@@ -525,6 +502,7 @@ mail_success
 	}
 
 	@Column(name = "deal_num")
+
 	public Integer getDealNum() {
 		return this.dealNum;
 	}
@@ -534,6 +512,7 @@ mail_success
 	}
 
 	@Column(name = "has_client_signed")
+
 	public Boolean getHasClientSigned() {
 		return this.hasClientSigned;
 	}
@@ -542,7 +521,9 @@ mail_success
 		this.hasClientSigned = hasClientSigned;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "deal_time", length = 10)
+
 	public Date getDealTime() {
 		return this.dealTime;
 	}
@@ -552,6 +533,7 @@ mail_success
 	}
 
 	@Column(name = "hq_issue_type", length = 20)
+
 	public String getHqIssueType() {
 		return this.hqIssueType;
 	}
@@ -560,7 +542,28 @@ mail_success
 		this.hqIssueType = hqIssueType;
 	}
 
-	@Column(name = "hq_deal_rst", length = 250)
+	@Column(name = "hq_deal_type", length = 20)
+
+	public String getHqDealType() {
+		return this.hqDealType;
+	}
+
+	public void setHqDealType(String hqDealType) {
+		this.hqDealType = hqDealType;
+	}
+
+	@Column(name = "hq_deal_man", length = 20)
+
+	public String getHqDealMan() {
+		return this.hqDealMan;
+	}
+
+	public void setHqDealMan(String hqDealMan) {
+		this.hqDealMan = hqDealMan;
+	}
+
+	@Column(name = "hq_deal_rst", length = 1024)
+
 	public String getHqDealRst() {
 		return this.hqDealRst;
 	}
@@ -570,6 +573,7 @@ mail_success
 	}
 
 	@Column(name = "hq_deal_remark", length = 20)
+
 	public String getHqDealRemark() {
 		return this.hqDealRemark;
 	}
@@ -578,7 +582,9 @@ mail_success
 		this.hqDealRemark = hqDealRemark;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "hq_deal_date", length = 10)
+
 	public Date getHqDealDate() {
 		return this.hqDealDate;
 	}
@@ -587,7 +593,9 @@ mail_success
 		this.hqDealDate = hqDealDate;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "hq_deal_date2", length = 10)
+
 	public Date getHqDealDate2() {
 		return this.hqDealDate2;
 	}
@@ -596,7 +604,28 @@ mail_success
 		this.hqDealDate2 = hqDealDate2;
 	}
 
+	@Column(name = "hq_deal_type2", length = 20)
+
+	public String getHqDealType2() {
+		return this.hqDealType2;
+	}
+
+	public void setHqDealType2(String hqDealType2) {
+		this.hqDealType2 = hqDealType2;
+	}
+
+	@Column(name = "hq_deal_man2", length = 20)
+
+	public String getHqDealMan2() {
+		return this.hqDealMan2;
+	}
+
+	public void setHqDealMan2(String hqDealMan2) {
+		this.hqDealMan2 = hqDealMan2;
+	}
+
 	@Column(name = "hq_deal_rst2", length = 120)
+
 	public String getHqDealRst2() {
 		return this.hqDealRst2;
 	}
@@ -605,7 +634,9 @@ mail_success
 		this.hqDealRst2 = hqDealRst2;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "hq_deal_date3", length = 10)
+
 	public Date getHqDealDate3() {
 		return this.hqDealDate3;
 	}
@@ -614,7 +645,28 @@ mail_success
 		this.hqDealDate3 = hqDealDate3;
 	}
 
+	@Column(name = "hq_deal_type3", length = 20)
+
+	public String getHqDealType3() {
+		return this.hqDealType3;
+	}
+
+	public void setHqDealType3(String hqDealType3) {
+		this.hqDealType3 = hqDealType3;
+	}
+
+	@Column(name = "hq_deal_man3", length = 20)
+
+	public String getHqDealMan3() {
+		return this.hqDealMan3;
+	}
+
+	public void setHqDealMan3(String hqDealMan3) {
+		this.hqDealMan3 = hqDealMan3;
+	}
+
 	@Column(name = "hq_deal_rst3", length = 120)
+
 	public String getHqDealRst3() {
 		return this.hqDealRst3;
 	}
@@ -623,7 +675,9 @@ mail_success
 		this.hqDealRst3 = hqDealRst3;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "hq_deal_date4", length = 10)
+
 	public Date getHqDealDate4() {
 		return this.hqDealDate4;
 	}
@@ -632,7 +686,28 @@ mail_success
 		this.hqDealDate4 = hqDealDate4;
 	}
 
+	@Column(name = "hq_deal_type4", length = 20)
+
+	public String getHqDealType4() {
+		return this.hqDealType4;
+	}
+
+	public void setHqDealType4(String hqDealType4) {
+		this.hqDealType4 = hqDealType4;
+	}
+
+	@Column(name = "hq_deal_man4", length = 20)
+
+	public String getHqDealMan4() {
+		return this.hqDealMan4;
+	}
+
+	public void setHqDealMan4(String hqDealMan4) {
+		this.hqDealMan4 = hqDealMan4;
+	}
+
 	@Column(name = "hq_deal_rst4", length = 120)
+
 	public String getHqDealRst4() {
 		return this.hqDealRst4;
 	}
@@ -641,7 +716,9 @@ mail_success
 		this.hqDealRst4 = hqDealRst4;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "hq_deal_date5", length = 10)
+
 	public Date getHqDealDate5() {
 		return this.hqDealDate5;
 	}
@@ -650,7 +727,28 @@ mail_success
 		this.hqDealDate5 = hqDealDate5;
 	}
 
+	@Column(name = "hq_deal_type5", length = 20)
+
+	public String getHqDealType5() {
+		return this.hqDealType5;
+	}
+
+	public void setHqDealType5(String hqDealType5) {
+		this.hqDealType5 = hqDealType5;
+	}
+
+	@Column(name = "hq_deal_man5", length = 20)
+
+	public String getHqDealMan5() {
+		return this.hqDealMan5;
+	}
+
+	public void setHqDealMan5(String hqDealMan5) {
+		this.hqDealMan5 = hqDealMan5;
+	}
+
 	@Column(name = "hq_deal_rst5", length = 120)
+
 	public String getHqDealRst5() {
 		return this.hqDealRst5;
 	}
@@ -659,25 +757,49 @@ mail_success
 		this.hqDealRst5 = hqDealRst5;
 	}
 
-	@Column(name = "hq_deal_date6")
+	@Temporal(TemporalType.DATE)
+	@Column(name = "hq_deal_date6", length = 10)
+
 	public Date getHqDealDate6() {
-		return hqDealDate6;
+		return this.hqDealDate6;
 	}
-	
+
 	public void setHqDealDate6(Date hqDealDate6) {
 		this.hqDealDate6 = hqDealDate6;
 	}
-	
-	@Column(name = "hq_deal_rst6", length = 120)
-	public String getHqDealRst6() {
-		return hqDealRst6;
+
+	@Column(name = "hq_deal_type6", length = 20)
+
+	public String getHqDealType6() {
+		return this.hqDealType6;
 	}
-	
+
+	public void setHqDealType6(String hqDealType6) {
+		this.hqDealType6 = hqDealType6;
+	}
+
+	@Column(name = "hq_deal_man6", length = 20)
+
+	public String getHqDealMan6() {
+		return this.hqDealMan6;
+	}
+
+	public void setHqDealMan6(String hqDealMan6) {
+		this.hqDealMan6 = hqDealMan6;
+	}
+
+	@Column(name = "hq_deal_rst6", length = 120)
+
+	public String getHqDealRst6() {
+		return this.hqDealRst6;
+	}
+
 	public void setHqDealRst6(String hqDealRst6) {
 		this.hqDealRst6 = hqDealRst6;
 	}
-	
+
 	@Column(name = "prov_issue_type", length = 20)
+
 	public String getProvIssueType() {
 		return this.provIssueType;
 	}
@@ -686,7 +808,18 @@ mail_success
 		this.provIssueType = provIssueType;
 	}
 
+	@Column(name = "prov_deal_man", length = 20)
+
+	public String getProvDealMan() {
+		return this.provDealMan;
+	}
+
+	public void setProvDealMan(String provDealMan) {
+		this.provDealMan = provDealMan;
+	}
+
 	@Column(name = "prov_deal_rst", length = 250)
+
 	public String getProvDealRst() {
 		return this.provDealRst;
 	}
@@ -696,6 +829,7 @@ mail_success
 	}
 
 	@Column(name = "prov_deal_remark", length = 20)
+
 	public String getProvDealRemark() {
 		return this.provDealRemark;
 	}
@@ -704,7 +838,9 @@ mail_success
 		this.provDealRemark = provDealRemark;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "prov_deal_date", length = 10)
+
 	public Date getProvDealDate() {
 		return this.provDealDate;
 	}
@@ -713,31 +849,55 @@ mail_success
 		this.provDealDate = provDealDate;
 	}
 
-	@Column(name="hq_deal_num")
+	@Column(name = "operate_id")
+
+	public Long getOperateId() {
+		return this.operateId;
+	}
+
+	public void setOperateId(Long operateId) {
+		this.operateId = operateId;
+	}
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "operate_time", length = 26)
+
+	public Date getOperateTime() {
+		return this.operateTime;
+	}
+
+	public void setOperateTime(Date operateTime) {
+		this.operateTime = operateTime;
+	}
+
+	@Column(name = "organ_name", length = 20)
+
+	public String getOrganName() {
+		return this.organName;
+	}
+
+	public void setOrganName(String organName) {
+		this.organName = organName;
+	}
+
+	@Column(name = "hq_deal_num")
+
 	public Integer getHqDealNum() {
-		return hqDealNum;
+		return this.hqDealNum;
 	}
 
 	public void setHqDealNum(Integer hqDealNum) {
 		this.hqDealNum = hqDealNum;
 	}
 
-	@Column(name="prov_deal_num")
+	@Column(name = "prov_deal_num")
+
 	public Integer getProvDealNum() {
-		return provDealNum;
+		return this.provDealNum;
 	}
 
 	public void setProvDealNum(Integer provDealNum) {
 		this.provDealNum = provDealNum;
-	}
-
-	@Column(name="organ_name")
-	public String getOrganName() {
-		return organName;
-	}
-
-	public void setOrganName(String organName) {
-		this.organName = organName;
 	}
 
 	@Column(name = "holder_phone", length = 256)
@@ -746,7 +906,7 @@ mail_success
 			read="cast(aes_decrypt(unhex(holder_phone), '" + com.gdpost.web.MySQLAESKey.AESKey + "') as char(100))", 
 			write="hex(aes_encrypt(?,'" + com.gdpost.web.MySQLAESKey.AESKey + "'))")
 	public String getHolderPhone() {
-		return holderPhone;
+		return this.holderPhone;
 	}
 
 	public void setHolderPhone(String holderPhone) {
@@ -759,11 +919,41 @@ mail_success
 			read="cast(aes_decrypt(unhex(holder_mobile), '" + com.gdpost.web.MySQLAESKey.AESKey + "') as char(100))", 
 			write="hex(aes_encrypt(?,'" + com.gdpost.web.MySQLAESKey.AESKey + "'))")
 	public String getHolderMobile() {
-		return holderMobile;
+		return this.holderMobile;
 	}
 
 	public void setHolderMobile(String holderMobile) {
 		this.holderMobile = holderMobile;
+	}
+
+	@Column(name = "org_deal_flag")
+
+	public Integer getOrgDealFlag() {
+		return this.orgDealFlag;
+	}
+
+	public void setOrgDealFlag(Integer orgDealFlag) {
+		this.orgDealFlag = orgDealFlag;
+	}
+
+	@Column(name = "hq_deal_flag")
+
+	public Integer getHqDealFlag() {
+		return this.hqDealFlag;
+	}
+
+	public void setHqDealFlag(Integer hqDealFlag) {
+		this.hqDealFlag = hqDealFlag;
+	}
+
+	@Column(name = "prov_deal_flag")
+
+	public Integer getProvDealFlag() {
+		return this.provDealFlag;
+	}
+
+	public void setProvDealFlag(Integer provDealFlag) {
+		this.provDealFlag = provDealFlag;
 	}
 
 	@Column(name = "reset_phone", length = 256)
@@ -772,532 +962,408 @@ mail_success
 			read="cast(aes_decrypt(unhex(reset_phone), '" + com.gdpost.web.MySQLAESKey.AESKey + "') as char(100))", 
 			write="hex(aes_encrypt(?,'" + com.gdpost.web.MySQLAESKey.AESKey + "'))")
 	public String getResetPhone() {
-		return resetPhone;
+		return this.resetPhone;
 	}
 
 	public void setResetPhone(String resetPhone) {
 		this.resetPhone = resetPhone;
 	}
-	
-	@Column(name="org_deal_flag")
-	public Integer getOrgDealFlag() {
-		return orgDealFlag;
-	}
-	
-	public void setOrgDealFlag(Integer orgDealFlag) {
-		this.orgDealFlag = orgDealFlag;
-	}
-	
-	@Column(name="hq_deal_flag")
-	public Integer getHqDealFlag() {
-		return hqDealFlag;
-	}
-	
-	public void setHqDealFlag(Integer hqDealFlag) {
-		this.hqDealFlag = hqDealFlag;
-	}
-	
-	@Column(name="prov_deal_flag")
-	public Integer getProvDealFlag() {
-		return provDealFlag;
-	}
-	
-	public void setProvDealFlag(Integer provDealFlag) {
-		this.provDealFlag = provDealFlag;
-	}
-	@Column(name="prov_deal_man")
-	public String getProvDealMan() {
-		return provDealMan;
-	}
-	public void setProvDealMan(String provDealMan) {
-		this.provDealMan = provDealMan;
-	}
-	@Column(name="has_letter")
+
+	@Column(name = "has_letter", length = 32)
+
 	public String getHasLetter() {
-		return hasLetter;
+		return this.hasLetter;
 	}
-	
+
 	public void setHasLetter(String hasLetter) {
 		this.hasLetter = hasLetter;
 	}
-	
-	@Column(name="letter_date")
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "letter_date", length = 10)
+
 	public Date getLetterDate() {
-		return letterDate;
+		return this.letterDate;
 	}
-	
+
 	public void setLetterDate(Date letterDate) {
 		this.letterDate = letterDate;
 	}
-	
-	@Column(name="hq_deal_type")
-	public String getHqDealType() {
-		return hqDealType;
-	}
-	
-	public void setHqDealType(String hqDealType) {
-		this.hqDealType = hqDealType;
-	}
-	
-	@Column(name="hq_deal_man")
-	public String getHqDealMan() {
-		return hqDealMan;
-	}
-	
-	public void setHqDealMan(String hqDealMan) {
-		this.hqDealMan = hqDealMan;
-	}
-	
-	@Column(name="hq_deal_type2")
-	public String getHqDealType2() {
-		return hqDealType2;
-	}
-	
-	public void setHqDealType2(String hqDealType2) {
-		this.hqDealType2 = hqDealType2;
-	}
-	
-	@Column(name="hq_deal_man2")
-	public String getHqDealMan2() {
-		return hqDealMan2;
-	}
-	
-	public void setHqDealMan2(String hqDealMan2) {
-		this.hqDealMan2 = hqDealMan2;
-	}
-	
-	@Column(name="hq_deal_type3")
-	public String getHqDealType3() {
-		return hqDealType3;
-	}
-	
-	public void setHqDealType3(String hqDealType3) {
-		this.hqDealType3 = hqDealType3;
-	}
-	
-	@Column(name="hq_deal_man3")
-	public String getHqDealMan3() {
-		return hqDealMan3;
-	}
-	
-	public void setHqDealMan3(String hqDealMan3) {
-		this.hqDealMan3 = hqDealMan3;
-	}
-	
-	@Column(name="hq_deal_type4")
-	public String getHqDealType4() {
-		return hqDealType4;
-	}
-	
-	public void setHqDealType4(String hqDealType4) {
-		this.hqDealType4 = hqDealType4;
-	}
-	
-	@Column(name="hq_deal_man4")
-	public String getHqDealMan4() {
-		return hqDealMan4;
-	}
-	
-	public void setHqDealMan4(String hqDealMan4) {
-		this.hqDealMan4 = hqDealMan4;
-	}
-	
-	@Column(name="hq_deal_type5")
-	public String getHqDealType5() {
-		return hqDealType5;
-	}
-	
-	public void setHqDealType5(String hqDealType5) {
-		this.hqDealType5 = hqDealType5;
-	}
-	
-	@Column(name="hq_deal_man5")
-	public String getHqDealMan5() {
-		return hqDealMan5;
-	}
-	public void setHqDealMan5(String hqDealMan5) {
-		this.hqDealMan5 = hqDealMan5;
-	}
-	
-	@Column(name="hq_deal_type6")
-	public String getHqDealType6() {
-		return hqDealType6;
-	}
-	
-	public void setHqDealType6(String hqDealType6) {
-		this.hqDealType6 = hqDealType6;
-	}
-	
-	@Column(name="hq_deal_man6")
-	public String getHqDealMan6() {
-		return hqDealMan6;
-	}
-	
-	public void setHqDealMan6(String hqDealMan6) {
-		this.hqDealMan6 = hqDealMan6;
-	}
-	
-	@Column(name = "addr")
-	@ColumnTransformer(
-			forColumn="addr",
-			read="cast(aes_decrypt(unhex(addr), '" + com.gdpost.web.MySQLAESKey.AESKey + "') as char(100))", 
-			write="hex(aes_encrypt(?,'" + com.gdpost.web.MySQLAESKey.AESKey + "'))")
-	public String getAddr() {
-		return addr;
-	}
-	public void setAddr(String addr) {
-		this.addr = addr;
-	}
-	
-	@Column(name = "id_card")
-	@ColumnTransformer(
-			forColumn="id_card",
-			read="cast(aes_decrypt(unhex(id_card), '" + com.gdpost.web.MySQLAESKey.AESKey + "') as char(100))", 
-			write="hex(aes_encrypt(?,'" + com.gdpost.web.MySQLAESKey.AESKey + "'))")
-	public String getIdCard() {
-		return idCard;
-	}
-	public void setIdCard(String idCard) {
-		this.idCard = idCard;
-	}
-	@Column(name="can_call_again")
+
+	@Column(name = "can_call_again")
+
 	public Boolean getCanCallAgain() {
-		return canCallAgain;
+		return this.canCallAgain;
 	}
+
 	public void setCanCallAgain(Boolean canCallAgain) {
 		this.canCallAgain = canCallAgain;
 	}
-	@Column(name="can_call_again_remark")
+
+	@Column(name = "can_call_again_remark", length = 127)
+
 	public String getCanCallAgainRemark() {
-		return canCallAgainRemark;
+		return this.canCallAgainRemark;
 	}
+
 	public void setCanCallAgainRemark(String canCallAgainRemark) {
 		this.canCallAgainRemark = canCallAgainRemark;
 	}
+
 	@Temporal(TemporalType.DATE)
-	@Column(name="reset_date")
+	@Column(name = "reset_date", length = 10)
+
 	public Date getResetDate() {
-		return resetDate;
+		return this.resetDate;
 	}
+
 	public void setResetDate(Date resetDate) {
 		this.resetDate = resetDate;
 	}
-	
+
 	@Temporal(TemporalType.DATE)
-	@Column(name="mail_back_date")
-	public Date getMailBackDate() {
-		return mailBackDate;
-	}
-	public void setMailBackDate(Date mailBackDate) {
-		this.mailBackDate = mailBackDate;
-	}
-	
-	@Temporal(TemporalType.DATE)
-	@Column(name="mail_fail_date")
-	public Date getMailFailDate() {
-		return mailFailDate;
-	}
-	public void setMailFailDate(Date mailFailDate) {
-		this.mailFailDate = mailFailDate;
-	}
-	
-	@Column(name="mail_fail_reason")
-	public String getMailFailReason() {
-		return mailFailReason;
-	}
-	public void setMailFailReason(String mailFailReason) {
-		this.mailFailReason = mailFailReason;
-	}
-	
-	@Temporal(TemporalType.DATE)
-	@Column(name="door_back_date")
+	@Column(name = "door_back_date", length = 10)
+
 	public Date getDoorBackDate() {
-		return doorBackDate;
+		return this.doorBackDate;
 	}
+
 	public void setDoorBackDate(Date doorBackDate) {
 		this.doorBackDate = doorBackDate;
 	}
-	
-	//@Temporal(TemporalType.DATE)
-	@Column(name="door_stats_date")
+
+	@Column(name = "door_stats_date", length = 12)
+
 	public String getDoorStatsDate() {
-		return doorStatsDate;
+		return this.doorStatsDate;
 	}
+
 	public void setDoorStatsDate(String doorStatsDate) {
 		this.doorStatsDate = doorStatsDate;
 	}
-	
-	@Column(name="mail_success")
-	public String getMailSuccess() {
-		return mailSuccess;
+
+	@Column(name = "mail_fail_reason", length = 128)
+
+	public String getMailFailReason() {
+		return this.mailFailReason;
 	}
+
+	public void setMailFailReason(String mailFailReason) {
+		this.mailFailReason = mailFailReason;
+	}
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "mail_fail_date", length = 10)
+
+	public Date getMailFailDate() {
+		return this.mailFailDate;
+	}
+
+	public void setMailFailDate(Date mailFailDate) {
+		this.mailFailDate = mailFailDate;
+	}
+
+	@Column(name = "mail_success", length = 32)
+
+	public String getMailSuccess() {
+		return this.mailSuccess;
+	}
+
 	public void setMailSuccess(String mailSuccess) {
 		this.mailSuccess = mailSuccess;
 	}
-	
+
 	@Temporal(TemporalType.DATE)
-	@Column(name="client_sign_date")
-	public Date getClientSignDate() {
-		return clientSignDate;
+	@Column(name = "mail_back_date", length = 10)
+
+	public Date getMailBackDate() {
+		return this.mailBackDate;
 	}
+
+	public void setMailBackDate(Date mailBackDate) {
+		this.mailBackDate = mailBackDate;
+	}
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "client_sign_date", length = 10)
+
+	public Date getClientSignDate() {
+		return this.clientSignDate;
+	}
+
 	public void setClientSignDate(Date clientSignDate) {
 		this.clientSignDate = clientSignDate;
 	}
-	
-	@Column(name="client_remark")
+
+	@Column(name = "client_remark", length = 254)
+
 	public String getClientRemark() {
-		return clientRemark;
+		return this.clientRemark;
 	}
+
 	public void setClientRemark(String clientRemark) {
 		this.clientRemark = clientRemark;
 	}
-	
-	@Column(name="hq_deal_type_else")
+
+	@Column(name = "hq_deal_type_else", length = 254)
+
 	public String getHqDealTypeElse() {
-		return hqDealTypeElse;
+		return this.hqDealTypeElse;
 	}
+
 	public void setHqDealTypeElse(String hqDealTypeElse) {
 		this.hqDealTypeElse = hqDealTypeElse;
 	}
-	
-	@Column(name="phone_num")
+
+	@Column(name = "phone_num", length = 23)
+
 	public String getPhoneNum() {
-		return phoneNum;
+		return this.phoneNum;
 	}
+
 	public void setPhoneNum(String phoneNum) {
 		this.phoneNum = phoneNum;
 	}
-	
-	@Column(name="phone_start")
+
+	@Column(name = "phone_start", length = 23)
+
 	public String getPhoneStart() {
-		return phoneStart;
+		return this.phoneStart;
 	}
+
 	public void setPhoneStart(String phoneStart) {
 		this.phoneStart = phoneStart;
 	}
-	
-	@Column(name="phone_end")
+
+	@Column(name = "phone_end", length = 23)
+
 	public String getPhoneEnd() {
-		return phoneEnd;
+		return this.phoneEnd;
 	}
+
 	public void setPhoneEnd(String phoneEnd) {
 		this.phoneEnd = phoneEnd;
 	}
-	
-	@Column(name="phone_time")
+
+	@Column(name = "phone_time", length = 23)
+
 	public String getPhoneTime() {
-		return phoneTime;
+		return this.phoneTime;
 	}
+
 	public void setPhoneTime(String phoneTime) {
 		this.phoneTime = phoneTime;
 	}
 
-	@Column(name="task_type")
+	@Column(name = "task_type", length = 32)
+
 	public String getTaskType() {
-		return taskType;
+		return this.taskType;
 	}
 
 	public void setTaskType(String taskType) {
 		this.taskType = taskType;
 	}
-	/*
-	@Column(name="issue_remark")
-	public String getIssueRemark() {
-		return issueRemark;
-	}
 
-	public void setIssueRemark(String issueRemark) {
-		this.issueRemark = issueRemark;
-	}
-	*/
-	@Column(name="issue_org")
+	@Column(name = "issue_org", length = 32)
+
 	public String getIssueOrg() {
-		return issueOrg;
+		return this.issueOrg;
 	}
 
 	public void setIssueOrg(String issueOrg) {
 		this.issueOrg = issueOrg;
 	}
 
-	@Column(name="client_no")
+	@Column(name = "client_no", length = 16)
+
 	public String getClientNo() {
-		return clientNo;
+		return this.clientNo;
 	}
 
 	public void setClientNo(String clientNo) {
 		this.clientNo = clientNo;
 	}
 
-	@Column(name="issue_prov")
-	public String getIssueProv() {
-		return issueProv;
-	}
+	@Column(name = "client_name", length = 16)
 
-	public void setIssueProv(String issueProv) {
-		this.issueProv = issueProv;
-	}
-
-	@Column(name="issue_city")
-	public String getIssueCity() {
-		return issueCity;
-	}
-
-	public void setIssueCity(String issueCity) {
-		this.issueCity = issueCity;
-	}
-
-	@Column(name="issue_area")
-	public String getIssueArea() {
-		return issueArea;
-	}
-
-	public void setIssueArea(String issueArea) {
-		this.issueArea = issueArea;
-	}
-
-	@Column(name="deal_dep")
-	public String getDealDep() {
-		return dealDep;
-	}
-
-	public void setDealDep(String dealDep) {
-		this.dealDep = dealDep;
-	}
-
-	@Column(name="manual_status")
-	public String getManualStatus() {
-		return manualStatus;
-	}
-
-	public void setManualStatus(String manualStatus) {
-		this.manualStatus = manualStatus;
-	}
-
-	@Column(name="call_type")
-	public String getCallType() {
-		return callType;
-	}
-
-	public void setCallType(String callType) {
-		this.callType = callType;
-	}
-
-	@Column(name="fix_call_rst")
-	public String getFixCallRst() {
-		return fixCallRst;
-	}
-
-	public void setFixCallRst(String fixCallRst) {
-		this.fixCallRst = fixCallRst;
-	}
-
-	@Column(name="attr_prod")
-	public String getAttrProd() {
-		return attrProd;
-	}
-
-	public void setAttrProd(String attrProd) {
-		this.attrProd = attrProd;
-	}
-
-	@Column(name="attr_fee")
-	public Double getAttrFee() {
-		return attrFee;
-	}
-
-	public void setAttrFee(Double attrFee) {
-		this.attrFee = attrFee;
-	}
-
-	@Column(name="attr_year")
-	public String getAttrYear() {
-		return attrYear;
-	}
-
-	public void setAttrYear(String attrYear) {
-		this.attrYear = attrYear;
-	}
-
-	@Column(name="attr_type")
-	public String getAttrType() {
-		return attrType;
-	}
-
-	public void setAttrType(String attrType) {
-		this.attrType = attrType;
-	}
-
-	@Column(name="attr_fee_year")
-	public String getAttrFeeYear() {
-		return attrFeeYear;
-	}
-
-	public void setAttrFeeYear(String attrFeeYear) {
-		this.attrFeeYear = attrFeeYear;
-	}
-	/*
-	@Column(name="auto_status")
-	public String getAutoStatus() {
-		return autoStatus;
-	}
-
-	public void setAutoStatus(String autoStatus) {
-		this.autoStatus = autoStatus;
-	}
-	*/
-	@Column(name="client_name")
 	public String getClientName() {
-		return clientName;
+		return this.clientName;
 	}
 
 	public void setClientName(String clientName) {
 		this.clientName = clientName;
 	}
 
-	@Column(name="client_sexy")
+	@Column(name = "client_sexy", length = 6)
+
 	public String getClientSexy() {
-		return clientSexy;
+		return this.clientSexy;
 	}
 
 	public void setClientSexy(String clientSexy) {
 		this.clientSexy = clientSexy;
 	}
+
+	@Column(name = "issue_prov", length = 16)
+
+	public String getIssueProv() {
+		return this.issueProv;
+	}
+
+	public void setIssueProv(String issueProv) {
+		this.issueProv = issueProv;
+	}
+
+	@Column(name = "issue_city", length = 16)
+
+	public String getIssueCity() {
+		return this.issueCity;
+	}
+
+	public void setIssueCity(String issueCity) {
+		this.issueCity = issueCity;
+	}
+
+	@Column(name = "issue_area", length = 16)
+
+	public String getIssueArea() {
+		return this.issueArea;
+	}
+
+	public void setIssueArea(String issueArea) {
+		this.issueArea = issueArea;
+	}
+
+	@Column(name = "deal_dep", length = 64)
+
+	public String getDealDep() {
+		return this.dealDep;
+	}
+
+	public void setDealDep(String dealDep) {
+		this.dealDep = dealDep;
+	}
+
+	@Column(name = "manual_status", length = 32)
+
+	public String getManualStatus() {
+		return this.manualStatus;
+	}
+
+	public void setManualStatus(String manualStatus) {
+		this.manualStatus = manualStatus;
+	}
+
+	@Column(name = "call_type", length = 32)
+
+	public String getCallType() {
+		return this.callType;
+	}
+
+	public void setCallType(String callType) {
+		this.callType = callType;
+	}
+
 	@Temporal(TemporalType.DATE)
-	@Column(name="bill_back_date")
+	@Column(name = "bill_back_date", length = 10)
+
 	public Date getBillBackDate() {
-		return billBackDate;
+		return this.billBackDate;
 	}
 
 	public void setBillBackDate(Date billBackDate) {
 		this.billBackDate = billBackDate;
 	}
 
-	@Column(name="policy_term")
+	@Column(name = "policy_term", length = 6)
+
 	public String getPolicyTerm() {
-		return policyTerm;
+		return this.policyTerm;
 	}
 
 	public void setPolicyTerm(String policyTerm) {
 		this.policyTerm = policyTerm;
 	}
 
-	@Column(name="policy_fee_type")
+	@Column(name = "policy_fee_type", length = 6)
+
 	public String getPolicyFeeType() {
-		return policyFeeType;
+		return this.policyFeeType;
 	}
 
 	public void setPolicyFeeType(String policyFeeType) {
 		this.policyFeeType = policyFeeType;
 	}
 
-	@Column(name="policy_fee_year")
+	@Column(name = "policy_fee_year", length = 6)
+
 	public String getPolicyFeeYear() {
-		return policyFeeYear;
+		return this.policyFeeYear;
 	}
 
 	public void setPolicyFeeYear(String policyFeeYear) {
 		this.policyFeeYear = policyFeeYear;
 	}
-	
-	
+
+	@Column(name = "fix_call_rst", length = 32)
+
+	public String getFixCallRst() {
+		return this.fixCallRst;
+	}
+
+	public void setFixCallRst(String fixCallRst) {
+		this.fixCallRst = fixCallRst;
+	}
+
+	@Column(name = "attr_prod", length = 32)
+
+	public String getAttrProd() {
+		return this.attrProd;
+	}
+
+	public void setAttrProd(String attrProd) {
+		this.attrProd = attrProd;
+	}
+
+	@Column(name = "attr_fee", precision = 22, scale = 0)
+
+	public Double getAttrFee() {
+		return this.attrFee;
+	}
+
+	public void setAttrFee(Double attrFee) {
+		this.attrFee = attrFee;
+	}
+
+	@Column(name = "attr_year", length = 32)
+
+	public String getAttrYear() {
+		return this.attrYear;
+	}
+
+	public void setAttrYear(String attrYear) {
+		this.attrYear = attrYear;
+	}
+
+	@Column(name = "attr_type", length = 32)
+
+	public String getAttrType() {
+		return this.attrType;
+	}
+
+	public void setAttrType(String attrType) {
+		this.attrType = attrType;
+	}
+
+	@Column(name = "attr_fee_year", length = 32)
+
+	public String getAttrFeeYear() {
+		return this.attrFeeYear;
+	}
+
+	public void setAttrFeeYear(String attrFeeYear) {
+		this.attrFeeYear = attrFeeYear;
+	}
+
 }

@@ -5,6 +5,10 @@
 	<fieldset>
 		<legend>更新日志信息</legend>
 		<textarea layoutH="80" style="width:98%">
+20191228:
+1，增加对重复地址、电话和Email的校验。
+2、修复电话查询的bug。
+3、升级spring、hibernate等框架
 20191024:
 1，增加手工单时效详单导入，同步补充漏登记人核件数据。
 2、优化人核件回单数据，新增表记录回单信息。
