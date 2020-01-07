@@ -106,6 +106,7 @@ public class QyglController {
 	private static final String TO_HELP = "insurance/help/qygl";
 	
 	private static final String YBT_LIST = "insurance/qygl/ybt/list";
+	private static final String YBT_LIST_XLS = "insurance/qygl/ybt/toXls";
 	
 	@RequestMapping(value="/help", method=RequestMethod.GET)
 	public String toHelp() {
@@ -1156,6 +1157,26 @@ public class QyglController {
 		return	AjaxObject.newOk("成功设置人核件跟进信息！").toString(); 
 	}
 	
+	@Log(message="登记了{0}回执已补扫描。", level=LogLevel.WARN, module=LogModule.QYGL)
+	@RequiresPermissions("UnderWrite:provEdit")
+	@RequestMapping(value="/underwrite/scanReceipt", method=RequestMethod.POST)
+	public @ResponseBody String scanReceipt(Long[] ids) {
+		UnderWrite src = null;
+		List<String> info = new ArrayList<String>();
+		for(Long id:ids) {
+			src = qyglService.getUnderWrite(id);
+			if(src.getBillBackDate() == null || src.getClientReceiveDate() == null) {
+				continue;
+			}
+			src.setScanReceipt(src.getScanReceipt()?false:true);
+			qyglService.saveOrUpdateUnderWrite(src);
+			info.add(src.getFormNo());
+		}
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{Arrays.toString(info.toArray())}));
+		return	AjaxObject.newOk("成功修改记录的客户信息真实性标记！").setCallbackType("").toString();
+	}
+	
 	@RequiresPermissions("PlanList:view")
 	@RequestMapping(value="/underwrite/planList", method={RequestMethod.GET, RequestMethod.POST})
 	public String listUwPlan(ServletRequest request, Page page, Map<String, Object> map) {
@@ -1266,6 +1287,44 @@ public class QyglController {
 		map.put("page", page);
 		
 		return YBT_LIST;
+	}
+	
+	@RequiresPermissions("YBT:view")
+	@RequestMapping(value="/ybt/list/toXls", method={RequestMethod.GET, RequestMethod.POST})
+	public String ybtListToXls(ServletRequest request, Page page, Map<String, Object> map) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
+		String orgCode = request.getParameter("orgCode");
+		if(orgCode == null || orgCode.trim().length()<=0) {
+			orgCode = userOrg.getOrgCode();
+		} else if(!orgCode.contains(userOrg.getOrgCode())){
+			orgCode = userOrg.getOrgCode();
+		}
+		
+		String date1 = request.getParameter("date1");
+		String date2 = request.getParameter("date2");
+		if(date1 == null || date1.trim().length()<=0) {
+			date1 = StringUtil.date2Str(StringUtil.dateAdd(new Date(), -15), "yyyy-MM-dd");
+		}
+		if(date2 == null || date2.trim().length()<=0) {
+			date2 = StringUtil.date2Str(new Date(), "yyyy-MM-dd");
+		}
+		
+		List<Order> orders=new ArrayList<Order>();
+		orders.add(new Order(Direction.ASC, "policy_date"));
+		orders.add(new Order(Direction.ASC, "policy_no"));
+		
+		page.setOrders(orders);
+		
+		page.setPageNum(0);
+		page.setNumPerPage(Integer.MAX_VALUE);
+		
+		List<YbtPolicyModel> ybts = qyglService.listYBTPolicys(orgCode + "%", date1, date2, page);
+		
+		map.put("ybtPolicys", ybts);
+		
+		return YBT_LIST_XLS;
 	}
 	
 	// 使用初始化绑定器, 将参数自动转化为日期类型,即所有日期类型的数据都能自动转化为yyyy-MM-dd格式的Date类型

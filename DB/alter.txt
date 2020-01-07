@@ -1304,3 +1304,7 @@ CREATE TABLE t_reuser_risk (
   UNIQUE KEY policy_no (policy_no,check_batch),
   UNIQUE KEY idx_pno_checker (policy_no,checker)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+alter table t_pay_list add column success_flag boolean default false;
+update t_pay_list set success_flag=true where fail_desc="成功";
+alter table t_under_write add column scan_receipt boolean default false;

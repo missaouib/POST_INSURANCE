@@ -111,6 +111,8 @@
 				<shiro:hasPermission name="UnderWrite:delete">
 					<li class="line">line</li>
 					<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/qygl/underwrite/delete" title="确认要删除?"><span>删除</span></a></li>
+					<li class="line">line</li>
+					<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/qygl/underwrite/scanReceipt" title="确认已经扫描回执？"><span>扫描回执</span></a></li>
 				</shiro:hasPermission>
 			</shiro:hasPermission>
 			<li class="line">line</li>
@@ -143,8 +145,13 @@
 				<th>全流程</th>
 				<th>寄出</th>
 				<th>扣费</th>
+				<th>回执扫描</th>
+				<shiro:hasPermission name="UnderWrite:cityEdit">
 				<th>地市接收</th>
+				</shiro:hasPermission>
+				<shiro:hasPermission name="UnderWrite:areaEdit">
 				<th>县区接收</th>
+				</shiro:hasPermission>
 				<th>投保人</th>
 				<th orderField=prd.prdName class="${page.orderField eq 'prd.prdName' ? page.orderDirection : ''}">产品</th>
 				<th orderField=ybtDate class="${page.orderField eq 'ybtDate' ? page.orderDirection : ''}">邮保通录入</th>
@@ -166,8 +173,13 @@
 				<td>${item.longDate}</td>
 				<td>${item.hadSendDate}</td>
 				<td>${item.payFail?"失败":""}</td>
+				<td>${item.scanReceipt?"已扫描":""}</td>
+				<shiro:hasPermission name="UnderWrite:cityEdit">
 				<td><fmt:formatDate value="${item.cityReceiveDate }" pattern="yyyy-MM-dd"/></td>
+				</shiro:hasPermission>
+				<shiro:hasPermission name="UnderWrite:areaEdit">
 				<td><fmt:formatDate value="${item.areaReceiveDate }" pattern="yyyy-MM-dd"/></td>
+				</shiro:hasPermission>
 				<td title="${item.holder}">${fn:substring(item.holder, 0, 4)}</td>
 				<td>${item.prd.prdName}</td>
 				<td><fmt:formatDate value="${item.ybtDate }" pattern="yyyy-MM-dd"/></td>

@@ -165,8 +165,9 @@ public interface CheckStasticsDAO extends JpaRepository<QyCheckModel, String>, J
 					"from t_policy pd " + 
 					"left join t_policy_reprint_dtl pr on pd.policy_no = pr.policy_no " + 
 					"where pd.policy_date between :pd1 and :pd2 and " + 
-					"pd.policy_no not like \"5244%\" and " + 
+					//"pd.policy_no not like \"5244%\" and " + 
 					"pd.policy_no not like \"8644%\" and " + 
+					"pd.organ_code not like \"864400%\" and " + 
 					"pd.attached_flag=0 " + 
 					"group by left(pd.organ_code,6);",
 			nativeQuery=true)
@@ -180,8 +181,9 @@ public interface CheckStasticsDAO extends JpaRepository<QyCheckModel, String>, J
 					"from t_policy pd " + 
 					"left join t_policy_reprint_dtl pr on pd.policy_no = pr.policy_no " + 
 					"where pd.policy_date between :pd1 and :pd2 and pd.organ_code like :orgCode and " + 
-					"pd.policy_no not like \"5244%\" and " + 
+					//"pd.policy_no not like \"5244%\" and " + 
 					"pd.policy_no not like \"8644%\" and " + 
+					"pd.organ_code not like \"864400%\" and " + 
 					"pd.attached_flag=0 " + 
 					"group by pd.organ_code;",
 			nativeQuery=true)

@@ -46,8 +46,19 @@ public class PayList implements Idable<Long>, Serializable {
 	private String status;
 	private Long operateId;
 	private Date operateTime;
+	
+	private Boolean successFlag;
 
 	// Constructors
+
+	@Column(name="success_flag")
+	public Boolean getSuccessFlag() {
+		return successFlag;
+	}
+
+	public void setSuccessFlag(Boolean successFlag) {
+		this.successFlag = successFlag;
+	}
 
 	/** default constructor */
 	public PayList() {

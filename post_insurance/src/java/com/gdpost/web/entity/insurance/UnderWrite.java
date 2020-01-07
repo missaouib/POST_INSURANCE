@@ -15,6 +15,10 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
+import org.hibernate.annotations.JoinColumnOrFormula;
+import org.hibernate.annotations.JoinColumnsOrFormulas;
+import org.hibernate.annotations.JoinFormula;
+
 import com.gdpost.utils.StringUtil;
 import com.gdpost.web.entity.Idable;
 import com.gdpost.web.entity.basedata.Prd;
@@ -84,11 +88,12 @@ public class UnderWrite implements Idable<Long> {
 	private String feeType;
 	
 	private PayList payFailList;
+	
 	@Transient
 	private boolean payFail;
 	@Transient
 	public boolean getPayFail() {
-		if(this.getPayFailList() != null) {
+		if(this.getPayFailList() != null && this.getPayFailList().getRelNo().equals(this.formNo)) {
 			return true;
 		}
 		return false;
@@ -111,6 +116,15 @@ public class UnderWrite implements Idable<Long> {
 	
 	private String holderAge;
 	
+	private Boolean scanReceipt;
+	
+	@Column(name="scan_receipt")
+	public Boolean getScanReceipt() {
+		return scanReceipt;
+	}
+	public void setScanReceipt(Boolean scanReceipt) {
+		this.scanReceipt = scanReceipt;
+	}
 	// Constructors
 	@Transient
 	public Date getReceiveDate() {
@@ -629,7 +643,12 @@ public class UnderWrite implements Idable<Long> {
 	}
 	
 	@OneToOne(optional=true, fetch=FetchType.EAGER)
-	@JoinColumn(name="form_no", referencedColumnName="rel_no", insertable=false, updatable=false, nullable=true)
+	@JoinColumnsOrFormulas(value={
+	@JoinColumnOrFormula(column=@JoinColumn(name ="form_no", referencedColumnName ="rel_no", insertable =false, updatable = false)),
+	@JoinColumnOrFormula(formula=@JoinFormula(value="0", referencedColumnName = "success_flag"))
+	})
+	//@OneToOne(optional=true, fetch=FetchType.EAGER)
+	//@JoinColumn(name="form_no", referencedColumnName="rel_no", insertable=false, updatable=false, nullable=true)
 	public PayList getPayFailList() {
 		return payFailList;
 	}

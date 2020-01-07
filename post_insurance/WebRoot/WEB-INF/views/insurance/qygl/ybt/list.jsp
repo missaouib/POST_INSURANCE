@@ -58,7 +58,9 @@
 		<ul class="toolBar">
 			<shiro:hasPermission name="YBT:view">
 			<li class="line">line</li>
-				<li><a iconClass="magnifier" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/client/view/byPolicyNo/{slt_uid}"><span>查看保单</span></a></li>
+			<li><a iconClass="magnifier" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/client/view/byPolicyNo/{slt_uid}"><span>查看保单</span></a></li>
+			<li class="line">line</li>
+			<li><a class="icon" target="_blank" target="dwzExport" href="${contextPath }/qygl/ybt/list/toXls?orgCode=${orgCode }&date1=${date1 }&date2=${date2 }"><span>导出</span></a></li>
 			</shiro:hasPermission>
 		</ul>
 	</div>
@@ -102,7 +104,7 @@
 				<td>
 				<c:choose>  
 					    <c:when test="${item.hasScan}">  
-					        &nbsp;
+					      <div style="color: green;vertical-align:middle;font-weight:normal;">已扫描</div>
 					    </c:when>
 					    <c:otherwise>  
 					     <div style="color: red;vertical-align:middle;font-weight:normal;">未扫描</div>
