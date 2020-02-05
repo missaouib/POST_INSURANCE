@@ -36,7 +36,7 @@
 		</p>
 		<p>
 			<label>所属机构：</label>
-			<span class="unit">${issue.organization.shortName }</span>
+			<span class="unit">${issue.policy.organization.shortName }</span>
 		</p>
 		<p class="nowrap">
 			<label>出单网点：</label>
@@ -166,123 +166,6 @@
 		<p>
 			<label>通话时长：</label>
 			<span class="unit">${issue.phoneTime }</span>
-		</p>
-	</fieldset>
-	<!-- 
-	<fieldset>
-		<legend>省分二访中心第二次回访处理详情</legend>
-		<p>
-			<label>不成功类型：</label>
-			<span class="unit">${issue.hqDealType2 }</span>
-		</p>
-		<p>
-			<label>回访类型：</label>
-			<span class="unit">${issue.hqDealRst2 }</span>
-		</p>
-		<p>
-			<label>经办人：</label>
-			<span class="unit">${issue.hqDealMan2 }</span>
-		</p>
-		<p>
-			<label>回访日期：</label>
-			<span class="unit"><fmt:formatDate value='${issue.hqDealDate2 }' pattern='yyyy-MM-dd'/></span>
-		</p>
-	</fieldset>
-	<fieldset>
-		<legend>省分二访中心第三次回访处理详情</legend>
-		<p>
-			<label>不成功类型：</label>
-			<span class="unit">${issue.hqDealType3 }</span>
-		</p>
-		<p>
-			<label>回访类型：</label>
-			<span class="unit">${issue.hqDealRst3 }</span>
-		</p>
-		<p>
-			<label>经办人：</label>
-			<span class="unit">${issue.hqDealMan3 }</span>
-		</p>
-		<p>
-			<label>回访日期：</label>
-			<span class="unit"><fmt:formatDate value='${issue.hqDealDate3 }' pattern='yyyy-MM-dd'/></span>
-		</p>
-	</fieldset>
-	<fieldset>
-		<legend>省分二访中心第四次回访处理详情</legend>
-		<p>
-			<label>不成功类型：</label>
-			<span class="unit">${issue.hqDealType4 }</span>
-		</p>
-		<p>
-			<label>回访类型：</label>
-			<span class="unit">${issue.hqDealRst4 }</span>
-		</p>
-		<p>
-			<label>经办人：</label>
-			<span class="unit">${issue.hqDealMan4 }</span>
-		</p>
-		<p>
-			<label>回访日期：</label>
-			<span class="unit"><fmt:formatDate value='${issue.hqDealDate4 }' pattern='yyyy-MM-dd'/></span>
-		</p>
-	</fieldset>
-	<fieldset>
-		<legend>省分二访中心第五次回访处理详情</legend>
-		<p>
-			<label>不成功类型：</label>
-			<span class="unit">${issue.hqDealType5 }</span>
-		</p>
-		<p>
-			<label>回访类型：</label>
-			<span class="unit">${issue.hqDealRst5 }</span>
-		</p>
-		<p>
-			<label>经办人：</label>
-			<span class="unit">${issue.hqDealMan5 }</span>
-		</p>
-		<p>
-			<label>回访日期：</label>
-			<span class="unit"><fmt:formatDate value='${issue.hqDealDate5 }' pattern='yyyy-MM-dd'/></span>
-		</p>
-	</fieldset>
-	<fieldset>
-		<legend>省分二访中心第六次回访处理详情</legend>
-		<p>
-			<label>不成功类型：</label>
-			<span class="unit">${issue.hqDealType6 }</span>
-		</p>
-		<p>
-			<label>回访类型：</label>
-			<span class="unit">${issue.hqDealRst6 }</span>
-		</p>
-		<p>
-			<label>经办人：</label>
-			<span class="unit">${issue.hqDealMan6 }</span>
-		</p>
-		<p>
-			<label>回访日期：</label>
-			<span class="unit"><fmt:formatDate value='${issue.hqDealDate6 }' pattern='yyyy-MM-dd'/></span>
-		</p>
-	</fieldset>
-	 -->
-	<div class="divider"></div>
-	<fieldset>
-		<legend>分公司回访情况</legend>
-		<p class="nowrap">
-			<label>分公司回访产生问题记录：</label>
-			<span class="unit">${issue.provIssueType }</span>
-		</p>
-		<p class="nowrap">
-			<label>分公司回访结果：</label>
-			<span class="unit">${issue.provDealRst }</span>
-		</p>
-		<p class="nowrap">
-			<label>分公司回访日期：</label>
-			<span class="unit">${issue.provDealDate }</span>
-		</p>
-		<p class="nowrap">
-			<label>分公司回访备注：</label>
-			<span class="unit">${issue.provDealRemark }</span>
 		</p>
 	</fieldset>
 	</div>

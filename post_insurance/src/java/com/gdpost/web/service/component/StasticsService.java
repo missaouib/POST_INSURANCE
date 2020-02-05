@@ -117,4 +117,8 @@ public interface StasticsService {
 	List<QyCheckModel> getStatusCheckWriteCityStastics(String d1, String d2, String fixStatus, String netFlag);
 	
 	List<QyCheckModel> getStatusCheckWriteAreaStastics(String organCode, String d1, String d2, String fixStatus, String netFlag);
+	
+	List<QyCheckModel> getHfCityStastics(String d1, String d2, String netFlag);
+	
+	List<QyCheckModel> getHfAreaStastics(String organCode, String d1, String d2, String netFlag);
 }

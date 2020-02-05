@@ -17,41 +17,56 @@ import com.gdpost.web.entity.basedata.CheckFixType;
 import com.gdpost.web.entity.component.YbtPolicyModel;
 import com.gdpost.web.entity.insurance.CheckRecord;
 import com.gdpost.web.entity.insurance.CheckWrite;
+import com.gdpost.web.entity.insurance.ReuseRisk;
 import com.gdpost.web.entity.insurance.UnderWrite;
 import com.gdpost.web.entity.main.User;
 import com.gdpost.web.util.dwz.Page;
 
 public interface QyglService {
 	CheckWrite getCheckWrite(Long id);
-	
-	CheckRecord getCheckRecord(Long id);
 
 	void saveOrUpdateCheckWrite(CheckWrite check);
 	
-	void saveOrUpdateCheckRecord(CheckRecord check);
-	
 	void deleteCheckWrite(CheckWrite check);
-	
-	void deleteCheckRecord(Long id);
 
-	//void delete(Long id);
-	
 	List<CheckWrite> findAllCheckWrite(Page page);
-	
-	List<CheckRecord> findAllCheckRecord(Page page);
 	
 	List<CheckWrite> findByCheckWriteExample(Specification<CheckWrite> specification, Page page);
 	
-	List<CheckRecord> findByCheckRecordExample(Specification<CheckRecord> specification, Page page);
-	
 	CheckWrite getByCheckWritePolicyNo(String policyNo);
-	
-	CheckRecord getByCheckRecordPolicyNo(String policyNo);
 	
 	List<CheckWrite> getTODOWriteIssueList(User user);
 	
+	CheckRecord getCheckRecord(Long id);
+	
+	void deleteCheckRecord(Long id);
+	
+	void saveOrUpdateCheckRecord(CheckRecord check);
+	
+	List<CheckRecord> findAllCheckRecord(Page page);
+	
+	List<CheckRecord> findByCheckRecordExample(Specification<CheckRecord> specification, Page page);
+	
+	CheckRecord getByCheckRecordPolicyNo(String policyNo);
+	
 	List<CheckRecord> getTODORecordIssueList(User user);
 	
+	/*
+	 * ============================
+	 * reuse risk
+	 * ============================
+	 */
+	ReuseRisk getReuseRisk(Long id);
+
+	void saveOrUpdateReuseRisk(ReuseRisk check);
+	
+	void deleteReuseRisk(ReuseRisk check);
+
+	List<ReuseRisk> findAllReuseRisk(Page page);
+	
+	List<ReuseRisk> findByReuseRiskExample(Specification<ReuseRisk> specification, Page page);
+	
+	ReuseRisk getByReuseRiskPolicyNo(String policyNo);
 	/*
 	 * ================
 	 * 人核件

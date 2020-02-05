@@ -336,4 +336,14 @@ public class StasticsServiceImpl implements StasticsService {
 	public List<QyCheckModel> getStatusCheckWriteAreaStastics(String organCode, String d1, String d2, String fixStatus, String netFlag) {
 		return checkDAO.getStatusCheckWriteAreaStat(organCode, d1, d2, fixStatus, netFlag);
 	}
+	
+	@Override
+	public List<QyCheckModel> getHfCityStastics(String d1, String d2, String netFlag) {
+		return checkDAO.getHfCityStat(d1, d2, netFlag);
+	}
+	
+	@Override
+	public List<QyCheckModel> getHfAreaStastics(String organCode, String d1, String d2, String netFlag) {
+		return checkDAO.getHfAreaStat(organCode, d1, d2, netFlag);
+	}
 }

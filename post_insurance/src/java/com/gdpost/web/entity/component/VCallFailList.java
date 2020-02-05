@@ -76,20 +76,6 @@ public class VCallFailList implements Idable<Long>, java.io.Serializable {
 	private String hqDealRst;
 	private String hqDealRemark;
 	private Date hqDealDate;
-	private Date hqDealDate2;
-	private String hqDealRst2;
-	private Date hqDealDate3;
-	private String hqDealRst3;
-	private Date hqDealDate4;
-	private String hqDealRst4;
-	private Date hqDealDate5;
-	private String hqDealRst5;
-	private Date hqDealDate6;
-	private String hqDealRst6;
-	private String provIssueType;
-	private String provDealRst;
-	private String provDealRemark;
-	private Date provDealDate;
 	private Long operateId;
 	private Date operateTime;
 	private String resetPhone;
@@ -109,18 +95,6 @@ public class VCallFailList implements Idable<Long>, java.io.Serializable {
 	
 	private String hqDealType;
 	private String hqDealMan;
-	private String hqDealType2;
-	private String hqDealMan2;
-	private String hqDealType3;
-	private String hqDealMan3;
-	private String hqDealType4;
-	private String hqDealMan4;
-	private String hqDealType5;
-	private String hqDealMan5;
-	private String hqDealType6;
-	private String hqDealMan6;
-	
-	private String provDealMan;
 	private String addr;
 	private String idCard;
 	
@@ -463,132 +437,6 @@ public class VCallFailList implements Idable<Long>, java.io.Serializable {
 		this.hqDealDate = hqDealDate;
 	}
 
-	@Column(name = "hq_deal_date2", length = 10)
-	public Date getHqDealDate2() {
-		return this.hqDealDate2;
-	}
-
-	public void setHqDealDate2(Date hqDealDate2) {
-		this.hqDealDate2 = hqDealDate2;
-	}
-
-	@Column(name = "hq_deal_rst2", length = 120)
-	public String getHqDealRst2() {
-		return this.hqDealRst2;
-	}
-
-	public void setHqDealRst2(String hqDealRst2) {
-		this.hqDealRst2 = hqDealRst2;
-	}
-
-	@Column(name = "hq_deal_date3", length = 10)
-	public Date getHqDealDate3() {
-		return this.hqDealDate3;
-	}
-
-	public void setHqDealDate3(Date hqDealDate3) {
-		this.hqDealDate3 = hqDealDate3;
-	}
-
-	@Column(name = "hq_deal_rst3", length = 120)
-	public String getHqDealRst3() {
-		return this.hqDealRst3;
-	}
-
-	public void setHqDealRst3(String hqDealRst3) {
-		this.hqDealRst3 = hqDealRst3;
-	}
-
-	@Column(name = "hq_deal_date4", length = 10)
-	public Date getHqDealDate4() {
-		return this.hqDealDate4;
-	}
-
-	public void setHqDealDate4(Date hqDealDate4) {
-		this.hqDealDate4 = hqDealDate4;
-	}
-
-	@Column(name = "hq_deal_rst4", length = 120)
-	public String getHqDealRst4() {
-		return this.hqDealRst4;
-	}
-
-	public void setHqDealRst4(String hqDealRst4) {
-		this.hqDealRst4 = hqDealRst4;
-	}
-
-	@Column(name = "hq_deal_date5", length = 10)
-	public Date getHqDealDate5() {
-		return this.hqDealDate5;
-	}
-
-	public void setHqDealDate5(Date hqDealDate5) {
-		this.hqDealDate5 = hqDealDate5;
-	}
-
-	@Column(name = "hq_deal_rst5", length = 120)
-	public String getHqDealRst5() {
-		return this.hqDealRst5;
-	}
-
-	public void setHqDealRst5(String hqDealRst5) {
-		this.hqDealRst5 = hqDealRst5;
-	}
-
-	@Column(name = "hq_deal_date6", length = 10)
-	public Date getHqDealDate6() {
-		return this.hqDealDate6;
-	}
-
-	public void setHqDealDate6(Date hqDealDate6) {
-		this.hqDealDate6 = hqDealDate6;
-	}
-
-	@Column(name = "hq_deal_rst6", length = 120)
-	public String getHqDealRst6() {
-		return this.hqDealRst6;
-	}
-
-	public void setHqDealRst6(String hqDealRst6) {
-		this.hqDealRst6 = hqDealRst6;
-	}
-
-	@Column(name = "prov_issue_type", length = 20)
-	public String getProvIssueType() {
-		return this.provIssueType;
-	}
-
-	public void setProvIssueType(String provIssueType) {
-		this.provIssueType = provIssueType;
-	}
-
-	@Column(name = "prov_deal_rst", length = 250)
-	public String getProvDealRst() {
-		return this.provDealRst;
-	}
-
-	public void setProvDealRst(String provDealRst) {
-		this.provDealRst = provDealRst;
-	}
-
-	@Column(name = "prov_deal_remark", length = 20)
-	public String getProvDealRemark() {
-		return this.provDealRemark;
-	}
-
-	public void setProvDealRemark(String provDealRemark) {
-		this.provDealRemark = provDealRemark;
-	}
-
-	@Column(name = "prov_deal_date", length = 10)
-	public Date getProvDealDate() {
-		return this.provDealDate;
-	}
-
-	public void setProvDealDate(Date provDealDate) {
-		this.provDealDate = provDealDate;
-	}
-
 	@Column(name = "operate_id")
 	public Long getOperateId() {
 		return this.operateId;
@@ -770,103 +618,6 @@ public class VCallFailList implements Idable<Long>, java.io.Serializable {
 	
 	public void setHqDealMan(String hqDealMan) {
 		this.hqDealMan = hqDealMan;
-	}
-	
-	@Column(name="hq_deal_type2")
-	public String getHqDealType2() {
-		return hqDealType2;
-	}
-	
-	public void setHqDealType2(String hqDealType2) {
-		this.hqDealType2 = hqDealType2;
-	}
-	
-	@Column(name="hq_deal_man2")
-	public String getHqDealMan2() {
-		return hqDealMan2;
-	}
-	
-	public void setHqDealMan2(String hqDealMan2) {
-		this.hqDealMan2 = hqDealMan2;
-	}
-	
-	@Column(name="hq_deal_type3")
-	public String getHqDealType3() {
-		return hqDealType3;
-	}
-	
-	public void setHqDealType3(String hqDealType3) {
-		this.hqDealType3 = hqDealType3;
-	}
-	
-	@Column(name="hq_deal_man3")
-	public String getHqDealMan3() {
-		return hqDealMan3;
-	}
-	
-	public void setHqDealMan3(String hqDealMan3) {
-		this.hqDealMan3 = hqDealMan3;
-	}
-	
-	@Column(name="hq_deal_type4")
-	public String getHqDealType4() {
-		return hqDealType4;
-	}
-	
-	public void setHqDealType4(String hqDealType4) {
-		this.hqDealType4 = hqDealType4;
-	}
-	
-	@Column(name="hq_deal_man4")
-	public String getHqDealMan4() {
-		return hqDealMan4;
-	}
-	
-	public void setHqDealMan4(String hqDealMan4) {
-		this.hqDealMan4 = hqDealMan4;
-	}
-	
-	@Column(name="hq_deal_type5")
-	public String getHqDealType5() {
-		return hqDealType5;
-	}
-	
-	public void setHqDealType5(String hqDealType5) {
-		this.hqDealType5 = hqDealType5;
-	}
-	
-	@Column(name="hq_deal_man5")
-	public String getHqDealMan5() {
-		return hqDealMan5;
-	}
-	public void setHqDealMan5(String hqDealMan5) {
-		this.hqDealMan5 = hqDealMan5;
-	}
-	
-	@Column(name="hq_deal_type6")
-	public String getHqDealType6() {
-		return hqDealType6;
-	}
-	
-	public void setHqDealType6(String hqDealType6) {
-		this.hqDealType6 = hqDealType6;
-	}
-	
-	@Column(name="hq_deal_man6")
-	public String getHqDealMan6() {
-		return hqDealMan6;
-	}
-	
-	public void setHqDealMan6(String hqDealMan6) {
-		this.hqDealMan6 = hqDealMan6;
-	}
-	
-	@Column(name="prov_deal_man")
-	public String getProvDealMan() {
-		return provDealMan;
-	}
-	public void setProvDealMan(String provDealMan) {
-		this.provDealMan = provDealMan;
 	}
 	
 	@Column(name = "addr")

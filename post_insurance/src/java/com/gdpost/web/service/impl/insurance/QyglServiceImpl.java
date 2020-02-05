@@ -24,12 +24,14 @@ import com.alibaba.druid.pool.DruidDataSource;
 import com.gdpost.web.dao.CheckFixTypeDAO;
 import com.gdpost.web.dao.CheckRecordDAO;
 import com.gdpost.web.dao.CheckWriteDAO;
+import com.gdpost.web.dao.ReuseRiskDAO;
 import com.gdpost.web.dao.UnderWriteDAO;
 import com.gdpost.web.dao.model.YbtPolicyModelDAO;
 import com.gdpost.web.entity.basedata.CheckFixType;
 import com.gdpost.web.entity.component.YbtPolicyModel;
 import com.gdpost.web.entity.insurance.CheckRecord;
 import com.gdpost.web.entity.insurance.CheckWrite;
+import com.gdpost.web.entity.insurance.ReuseRisk;
 import com.gdpost.web.entity.insurance.UnderWrite;
 import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.User;
@@ -64,6 +66,9 @@ public class QyglServiceImpl implements QyglService {
 	@Autowired
 	private YbtPolicyModelDAO ybtDAO;
 	
+	@Autowired
+	private ReuseRiskDAO reuseDAO;
+	
 	/*
 	 * (non-Javadoc)
 	 * @see com.gdpost.web.service.UserService#get(java.lang.Long)  
@@ -73,11 +78,6 @@ public class QyglServiceImpl implements QyglService {
 		return checkWriteDAO.findById(id).get();
 	}
 	
-	@Override
-	public CheckRecord getCheckRecord(Long id) {
-		return checkRecordDAO.findById(id).get();
-	}
-
 	/*
 	 * (non-Javadoc) 
 	 * @see com.gdpost.web.service.UserService#saveOrUpdate(com.gdpost.web.entity.main.Policy)  
@@ -94,37 +94,13 @@ public class QyglServiceImpl implements QyglService {
 	}
 	
 	@Override
-	public void saveOrUpdateCheckRecord(CheckRecord check) {
-		if (check.getId() == null) {
-			if (checkRecordDAO.getByPolicyPolicyNo(check.getPolicy().getPolicyNo()) != null) {
-				throw new ExistedException("保单号：" + check.getPolicy().getPolicyNo() + "已存在。");
-			}
-		}
-		
-		checkRecordDAO.saveAndFlush(check);
-	}
-	
-	@Override
 	public void deleteCheckWrite(CheckWrite check) {
 		checkWriteDAO.deleteById(check.getId());
 	}
 	
 	@Override
-	public void deleteCheckRecord(Long id) {
-		CheckRecord cr = checkRecordDAO.findById(id).get();
-		checkRecordDAO.deleteById(cr.getId());
-	}
-
-	@Override
 	public List<CheckWrite> findAllCheckWrite(Page page) {
 		org.springframework.data.domain.Page<CheckWrite> springDataPage = checkWriteDAO.findAll(PageUtils.createPageable(page));
-		page.setTotalCount(springDataPage.getTotalElements());
-		return springDataPage.getContent();
-	}
-	
-	@Override
-	public List<CheckRecord> findAllCheckRecord(Page page) {
-		org.springframework.data.domain.Page<CheckRecord> springDataPage = checkRecordDAO.findAll(PageUtils.createPageable(page));
 		page.setTotalCount(springDataPage.getTotalElements());
 		return springDataPage.getContent();
 	}
@@ -141,14 +117,6 @@ public class QyglServiceImpl implements QyglService {
 		return springDataPage.getContent();
 	}
 	
-	@Override
-	public List<CheckRecord> findByCheckRecordExample(
-			Specification<CheckRecord> specification, Page page) {
-		org.springframework.data.domain.Page<CheckRecord> springDataPage = checkRecordDAO.findAll(specification, PageUtils.createPageable(page));
-		page.setTotalCount(springDataPage.getTotalElements());
-		return springDataPage.getContent();
-	}
-	
 	/* (non-Javadoc)
 	 * @see com.gdpost.web.service.UserService#getByPolicyNo(java.lang.String)
 	 */
@@ -157,11 +125,6 @@ public class QyglServiceImpl implements QyglService {
 		return checkWriteDAO.getByPolicyPolicyNo(policyNo);
 	}
 	
-	@Override
-	public CheckRecord getByCheckRecordPolicyNo(String policyNo) {
-		return checkRecordDAO.getByPolicyPolicyNo(policyNo);
-	}
-
 	@Override
 	public List<CheckWrite> getTODOWriteIssueList(User user) {
 		Organization userOrg = user.getOrganization();
@@ -202,6 +165,49 @@ public class QyglServiceImpl implements QyglService {
 		return issues;
 	}
 
+	@Override
+	public CheckRecord getByCheckRecordPolicyNo(String policyNo) {
+		return checkRecordDAO.getByPolicyPolicyNo(policyNo);
+	}
+
+	@Override
+	public List<CheckRecord> findByCheckRecordExample(
+			Specification<CheckRecord> specification, Page page) {
+		org.springframework.data.domain.Page<CheckRecord> springDataPage = checkRecordDAO.findAll(specification, PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
+	}
+
+	@Override
+	public List<CheckRecord> findAllCheckRecord(Page page) {
+		org.springframework.data.domain.Page<CheckRecord> springDataPage = checkRecordDAO.findAll(PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
+	}
+
+	@Override
+	public void deleteCheckRecord(Long id) {
+		CheckRecord cr = checkRecordDAO.findById(id).get();
+		checkRecordDAO.deleteById(cr.getId());
+	}
+
+	@Override
+	public void saveOrUpdateCheckRecord(CheckRecord check) {
+		if (check.getId() == null) {
+			if (checkRecordDAO.getByPolicyPolicyNo(check.getPolicy().getPolicyNo()) != null) {
+				throw new ExistedException("保单号：" + check.getPolicy().getPolicyNo() + "已存在。");
+			}
+		}
+		
+		checkRecordDAO.saveAndFlush(check);
+	}
+	
+	@Override
+	public CheckRecord getCheckRecord(Long id) {
+		return checkRecordDAO.findById(id).get();
+	}
+
+	
 	@Override
 	public List<CheckRecord> getTODORecordIssueList(User user) {
 		Organization userOrg = user.getOrganization();
@@ -468,5 +474,62 @@ public class QyglServiceImpl implements QyglService {
 		org.springframework.data.domain.Page<YbtPolicyModel> springDataPage = ybtDAO.findByOrgCodePolicyDate1PolicyDate2(orgCode, date1, date2, PageUtils.createPageable(page));
 		page.setTotalCount(springDataPage.getTotalElements());
 		return springDataPage.getContent();
+	}
+	
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.gdpost.web.service.UserService#get(java.lang.Long)  
+	 */ 
+	@Override
+	public ReuseRisk getReuseRisk(Long id) {
+		return reuseDAO.findById(id).get();
+	}
+	
+	/*
+	 * (non-Javadoc) 
+	 * @see com.gdpost.web.service.UserService#saveOrUpdate(com.gdpost.web.entity.main.Policy)  
+	 */
+	@Override
+	public void saveOrUpdateReuseRisk(ReuseRisk check) {
+		if (check.getId() == null) {
+			if (reuseDAO.getByPolicyPolicyNo(check.getPolicy().getPolicyNo()) != null) {
+				throw new ExistedException("保单号：" + check.getPolicy().getPolicyNo() + "已存在。");
+			}
+		}
+		
+		reuseDAO.saveAndFlush(check);
+	}
+	
+	@Override
+	public void deleteReuseRisk(ReuseRisk check) {
+		reuseDAO.deleteById(check.getId());
+	}
+	
+	@Override
+	public List<ReuseRisk> findAllReuseRisk(Page page) {
+		org.springframework.data.domain.Page<ReuseRisk> springDataPage = reuseDAO.findAll(PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see com.gdpost.web.service.UserService#findByExample(org.springframework.data.jpa.domain.Specification, com.gdpost.web.util.dwz.Page)	
+	 */
+	@Override
+	public List<ReuseRisk> findByReuseRiskExample(
+			Specification<ReuseRisk> specification, Page page) {
+		org.springframework.data.domain.Page<ReuseRisk> springDataPage = reuseDAO.findAll(specification, PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.gdpost.web.service.UserService#getByPolicyNo(java.lang.String)
+	 */
+	@Override
+	public ReuseRisk getByReuseRiskPolicyNo(String policyNo) {
+		return reuseDAO.getByPolicyPolicyNo(policyNo);
 	}
 }

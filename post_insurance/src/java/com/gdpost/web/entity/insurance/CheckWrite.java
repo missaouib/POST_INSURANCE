@@ -116,7 +116,7 @@ public class CheckWrite implements Idable<Long> {
 		this.needFix = needFix;
 	}
 	
-	@ManyToOne(cascade = CascadeType.REMOVE, targetEntity = Policy.class)
+	@ManyToOne(cascade = CascadeType.DETACH, targetEntity = Policy.class)
 	@JoinColumnsOrFormulas(value={
 	@JoinColumnOrFormula(column=@JoinColumn(name ="policy_no", referencedColumnName ="policy_no", insertable =false, updatable = false)),
 	@JoinColumnOrFormula(formula=@JoinFormula(value="0", referencedColumnName = "attached_flag"))

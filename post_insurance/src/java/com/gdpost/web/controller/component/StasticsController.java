@@ -104,6 +104,9 @@ public class StasticsController {
 	
 	private static final String STATUS_STAT_LIST = "insurance/stastics/check/statusStat";
 	private static final String STATUS_STAT_TOXLS = "insurance/stastics/check/statusStat_xls";
+	
+	private static final String HF_STAT_LIST = "insurance/stastics/huifang/statusStat";
+	private static final String HF_STAT_TOXLS = "insurance/stastics/huifang/statusStat_xls";
 	/*
 	 * =======================================
 	 *  tuibao
@@ -3207,5 +3210,221 @@ public class StasticsController {
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{userOrg.getShortName()}));
 		
 		return STATUS_STAT_TOXLS;
+	}
+	
+	/*
+	 * =======================================
+	 *  回访成功率
+	 * =======================================
+	 * 
+	 */
+	@RequiresUser
+	@Log(message="{0}查看了回访成功率情况！", level=LogLevel.INFO, module=LogModule.QTCZ)
+	@RequestMapping(value = "/stastics/hfStat", method = { RequestMethod.GET, RequestMethod.POST })
+	public String hfStastics(ServletRequest request, Map<String, Object> map) {
+		LOG.debug("-------------------statusStastics----------");
+		String organCode = request.getParameter("orgCode");
+		String organName = request.getParameter("name");
+		String pd1 = request.getParameter("policyDate1");
+		String pd2 = request.getParameter("policyDate2");
+		String levelFlag = request.getParameter("levelFlag");
+		String netFlag = request.getParameter("netFlag");
+		String netFlagStr = null;
+		if(netFlag == null || netFlag.trim().length()<=0) {
+			netFlagStr="%%";
+		} else {
+			netFlagStr = netFlag;
+		}
+
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();// userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
+		if (organCode == null || organCode.trim().length() <= 0) {
+			organCode = userOrg.getOrgCode();
+			organName = userOrg.getName();
+		}
+
+		boolean isCity = false;
+		if (levelFlag == null) {
+			if (organCode.length() >= 8) {
+				levelFlag = "city";
+			} else if (organCode.length() > 4) {
+				levelFlag = "prov";
+			}
+		}
+
+		if (levelFlag != null && levelFlag.trim().equals("city")) {
+			isCity = true;
+		}
+
+		QyCheckModel cm = new QyCheckModel();
+		cm.setLevelFlag(levelFlag);
+		cm.setNetFlag(netFlag);
+		//cm.setStatFlag(flag);
+		request.setAttribute("CheckModel", cm);
+
+		request.setAttribute("levelFlag", levelFlag);
+		request.setAttribute("orgCode", organCode);
+		request.setAttribute("name", organName);
+		request.setAttribute("netFlag", netFlag);
+
+		String fd = StringUtil.getMonthFirstDayOfMonth(Calendar.getInstance().get(Calendar.MONTH), "yyyy-MM-dd");
+		if (pd1 == null || pd1.trim().length() <= 0) {
+			pd1 = fd;
+		}
+		request.setAttribute("policyDate1", pd1);
+		request.setAttribute("policyDate2", pd2);
+		if (pd2 == null || pd2.trim().length() <= 0) {
+			pd2 = "9999-12-31";
+		}
+		
+		if(levelFlag != null && levelFlag.equals("prov")) {
+			organCode = "8644";
+		}
+		
+		List<QyCheckModel> rst = new ArrayList<QyCheckModel>();
+		if (!isCity) {
+			rst = stasticsService.getHfCityStastics(pd1, pd2, netFlagStr);
+		} else {
+			rst = stasticsService.getHfAreaStastics(organCode + "%", pd1, pd2, netFlagStr);
+		}
+		
+		request.setAttribute("cmRst", rst);
+		
+		String col = "";
+		String countStr = "";
+		String errsumStr = "";
+		String countPtStr = "";
+		double maxZB = 0;
+		double maxTB = 0;
+		double errsum = 0;
+		double count = 0;
+		
+		double cCounts = 0;
+		double sumCCounts =0;
+		//double eCounts = 0;
+		double pCounts = 0;
+		double sumPCounts = 0;
+		DecimalFormat df = new DecimalFormat("#.#");
+		for (QyCheckModel tcm : rst) {
+			//eCounts = tcm.getErrCounts();
+			pCounts = tcm.getPolicyCounts() - tcm.getErrCounts();
+			sumPCounts = sumPCounts +pCounts;
+			cCounts = tcm.getCheckCounts() - tcm.getErrCounts();
+			sumCCounts = sumCCounts + cCounts;
+			
+			col += "'" + tcm.getOrganCode() + "',";
+			count += pCounts;
+			countStr += pCounts + ",";
+			
+			errsumStr += cCounts + ",";
+			errsum += cCounts;
+			
+			countPtStr += (df.format((1-cCounts/pCounts)*100) + ",");
+			
+			if(pCounts > maxTB) {
+				maxTB = pCounts;
+			}
+			if(maxZB<(1-cCounts/pCounts)) {
+				maxZB = 1-cCounts/pCounts;
+			}
+		}
+		
+		int m = 1;
+		for (int i = 0; i < (int) Math.log10(maxTB); i++) {
+			m *= 10;
+		}
+		// 第一位
+		maxTB = (maxTB / m + 1) * m;
+		maxZB = maxZB*100;
+		request.setAttribute("col", col);
+		request.setAttribute("countStr", countStr);
+		request.setAttribute("sumStr", errsumStr);
+		request.setAttribute("countPtStr", countPtStr);
+		request.setAttribute("maxTB", maxTB);
+		request.setAttribute("maxZB", maxZB);
+		request.setAttribute("countPt", count);
+		request.setAttribute("sumPt", errsum);
+
+		LOG.debug(" ------------ result size:" + rst.size());
+		map.put("qyWriteStatusList", QY_STATUS.values());
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{userOrg.getShortName()}));
+	
+		return HF_STAT_LIST;
+	}
+
+	@RequiresUser
+	@Log(message="{0}回访不成功分析导出！", level=LogLevel.INFO, module=LogModule.QTCZ)
+	@RequestMapping(value = "/stastics/hfStat/toXls", method = { RequestMethod.GET, RequestMethod.POST })
+	public String hfStasticsToXls(ServletRequest request, Map<String, Object> map) {
+		LOG.debug("-------------------statusStastics----------");
+		String organCode = request.getParameter("orgCode");
+		String organName = request.getParameter("name");
+		String pd1 = request.getParameter("policyDate1");
+		String pd2 = request.getParameter("policyDate2");
+		String levelFlag = request.getParameter("levelFlag");
+		String netFlag = request.getParameter("netFlag");
+		String netFlagStr = null;
+		if(netFlag == null || netFlag.trim().length()<=0) {
+			netFlagStr="%%";
+		} else {
+			netFlagStr = netFlag;
+		}
+
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();// userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
+		if (organCode == null || organCode.trim().length() <= 0) {
+			organCode = userOrg.getOrgCode();
+			organName = userOrg.getName();
+		}
+
+		boolean isCity = false;
+		if (levelFlag == null) {
+			if (organCode.length() >= 8) {
+				levelFlag = "city";
+			} else if (organCode.length() > 4) {
+				levelFlag = "prov";
+			}
+		}
+
+		if (levelFlag != null && levelFlag.trim().equals("city")) {
+			isCity = true;
+		}
+
+		String fd = StringUtil.getMonthFirstDayOfMonth(Calendar.getInstance().get(Calendar.MONTH), "yyyy-MM-dd");
+		if (pd1 == null || pd1.trim().length() <= 0) {
+			pd1 = fd;
+		}
+		if (pd2 == null || pd2.trim().length() <= 0) {
+			pd2 = "9999-12-31";
+		}
+		
+		if(levelFlag != null && levelFlag.equals("prov")) {
+			organCode = "8644";
+		}
+		
+		List<QyCheckModel> rst = new ArrayList<QyCheckModel>();
+		if (!isCity) {
+			rst = stasticsService.getHfCityStastics(pd1, pd2, netFlagStr);
+		} else {
+			rst = stasticsService.getHfAreaStastics(organCode + "%", pd1, pd2, netFlagStr);
+		}
+		request.setAttribute("cmRst", rst);
+	
+		double errsum = 0;
+		double count = 0;
+		for (QyCheckModel tcm : rst) {
+			count += (tcm.getPolicyCounts()-tcm.getErrCounts());
+			errsum += (tcm.getCheckCounts()-tcm.getErrCounts());
+		}
+		
+		request.setAttribute("countPt", count);
+		request.setAttribute("sumPt", errsum);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{userOrg.getShortName()}));
+		
+		return HF_STAT_TOXLS;
 	}
 }

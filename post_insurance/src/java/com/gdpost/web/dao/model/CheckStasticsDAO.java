@@ -208,5 +208,26 @@ public interface CheckStasticsDAO extends JpaRepository<QyCheckModel, String>, J
 			nativeQuery=true)
 	List<QyCheckModel> getStatusCheckWriteAreaStat(@Param("orgCode")String orgCode, @Param("pd1")String pd1, @Param("pd2")String pd2, @Param("fixStatus")String fixStatus, @Param("netFlag")String netFlag);
 	
+	@Query(name="getHfCityStat",
+			value="select LEFT(tp.organ_name,2) as organ_code, COUNT(cfl2.issue_no) as err_counts,COUNT(cfl1.issue_no) as check_counts,count(distinct tp.policy_no) as policy_counts " + 
+					"from t_bank_code bc, t_organization org, t_policy tp " + 
+					"left join t_call_fail_list cfl1 on tp.policy_no=cfl1.policy_no and cfl1.status<>\"二访成功\"  " + 
+					"left join t_call_fail_list cfl2 on tp.policy_no=cfl2.policy_no and cfl2.status=\"已退保\"  " + 
+					"where bc.cpi_code=tp.bank_code and tp.organ_code=org.org_code and tp.attached_flag=0 " +
+					"and tp.policy_date between :pd1 and :pd2 and bc.net_flag like :netFlag " + 
+					" group by LEFT(tp.organ_name,2) order by tp.organ_code;",
+			nativeQuery=true)
+	List<QyCheckModel> getHfCityStat(@Param("pd1")String pd1, @Param("pd2")String pd2, @Param("netFlag")String netFlag);
 	
+	@Query(name="getHfAreaStat",
+			value="select org.short_name as organ_code, COUNT(cfl2.issue_no) as err_counts,COUNT(cfl1.issue_no) as check_counts,count(distinct tp.policy_no) as policy_counts " + 
+					"from t_bank_code bc, t_organization org,t_policy tp " + 
+					"left join t_call_fail_list cfl1 on tp.policy_no=cfl1.policy_no and cfl1.status<>\"二访成功\"  " + 
+					"left join t_call_fail_list cfl2 on tp.policy_no=cfl2.policy_no and cfl2.status=\"已退保\"  " + 
+					"where bc.cpi_code=tp.bank_code and tp.organ_code=org.org_code and tp.attached_flag=0 " +
+					"and tp.policy_date between :pd1 and :pd2 " + 
+					"and bc.net_flag like :netFlag and tp.organ_code like :orgCode " +
+					" group by org.short_name order by tp.organ_code;",
+			nativeQuery=true)
+	List<QyCheckModel> getHfAreaStat(@Param("orgCode")String orgCode, @Param("pd1")String pd1, @Param("pd2")String pd2, @Param("netFlag")String netFlag);
 }

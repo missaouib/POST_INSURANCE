@@ -144,8 +144,8 @@
 				<li><a class="delete" href="${contextPath}/hfgl/callReset/{slt_uid}" target="dialog" mask="true" width="550" height="250"><span>可再访</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Callfail:provEdit">
-			<li class="line">line</li>
-				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/hfgl/issue/provUpdate/{slt_uid}"><span>省分登记</span></a></li>
+			<%-- <li class="line">line</li>
+				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/hfgl/issue/provUpdate/{slt_uid}"><span>省分登记</span></a></li> --%>
 				<li><a target="myDialog" rel="ids" href="${contextPath }/hfgl/issue/toSetMailDate" class="edit"><span>批量已发信函</span></a></li>
 				<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/hfgl/issue/CloseStatus" title="确认要结案关闭?"><span>结案关闭</span></a></li>
 			</shiro:hasPermission>

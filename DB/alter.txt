@@ -1308,3 +1308,31 @@ CREATE TABLE t_reuser_risk (
 alter table t_pay_list add column success_flag boolean default false;
 update t_pay_list set success_flag=true where fail_desc="成功";
 alter table t_under_write add column scan_receipt boolean default false;
+
+ALTER TABLE t_policy ADD INDEX idx_ap_policy (attached_flag,prod_name);
+
+alter table t_call_fail_list drop column hq_deal_date2;
+alter table t_call_fail_list drop column hq_deal_type2;
+alter table t_call_fail_list drop column hq_deal_man2;
+alter table t_call_fail_list drop column hq_deal_rst2;
+alter table t_call_fail_list drop column hq_deal_date3;
+alter table t_call_fail_list drop column hq_deal_type3;
+alter table t_call_fail_list drop column hq_deal_man3;
+alter table t_call_fail_list drop column hq_deal_rst3;
+alter table t_call_fail_list drop column hq_deal_date4;
+alter table t_call_fail_list drop column hq_deal_type4;
+alter table t_call_fail_list drop column hq_deal_man4;
+alter table t_call_fail_list drop column hq_deal_rst4;
+alter table t_call_fail_list drop column hq_deal_date5;
+alter table t_call_fail_list drop column hq_deal_type5;
+alter table t_call_fail_list drop column hq_deal_man5;
+alter table t_call_fail_list drop column hq_deal_rst5;
+alter table t_call_fail_list drop column hq_deal_date6;
+alter table t_call_fail_list drop column hq_deal_type6;
+alter table t_call_fail_list drop column hq_deal_man6;
+alter table t_call_fail_list drop column hq_deal_rst6;
+alter table t_call_fail_list drop column prov_issue_type;
+alter table t_call_fail_list drop column prov_deal_man;
+alter table t_call_fail_list drop column prov_deal_rst;
+alter table t_call_fail_list drop column prov_deal_remark;
+alter table t_call_fail_list drop column prov_deal_date;

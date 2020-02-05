@@ -145,6 +145,7 @@
 				<th>全流程</th>
 				<th>寄出</th>
 				<th>扣费</th>
+				<th>回销</th>
 				<th>回执扫描</th>
 				<shiro:hasPermission name="UnderWrite:cityEdit">
 				<th>地市接收</th>
@@ -173,6 +174,7 @@
 				<td>${item.longDate}</td>
 				<td>${item.hadSendDate}</td>
 				<td>${item.payFail?"失败":""}</td>
+				<td><fmt:formatDate value="${item.billBackDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.scanReceipt?"已扫描":""}</td>
 				<shiro:hasPermission name="UnderWrite:cityEdit">
 				<td><fmt:formatDate value="${item.cityReceiveDate }" pattern="yyyy-MM-dd"/></td>

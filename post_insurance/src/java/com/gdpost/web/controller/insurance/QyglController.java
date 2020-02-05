@@ -43,6 +43,7 @@ import com.gdpost.web.entity.basedata.CheckFixType;
 import com.gdpost.web.entity.component.YbtPolicyModel;
 import com.gdpost.web.entity.insurance.CheckRecord;
 import com.gdpost.web.entity.insurance.CheckWrite;
+import com.gdpost.web.entity.insurance.ReuseRisk;
 import com.gdpost.web.entity.insurance.UnderWrite;
 import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.User;
@@ -107,6 +108,12 @@ public class QyglController {
 	
 	private static final String YBT_LIST = "insurance/qygl/ybt/list";
 	private static final String YBT_LIST_XLS = "insurance/qygl/ybt/toXls";
+	
+	private static final String VIEW_REUSE = "insurance/qygl/wtj/reuse/view";
+	private static final String UPDATE_REUSE = "insurance/qygl/wtj/reuse/update";
+	private static final String LIST_REUSE = "insurance/qygl/wtj/reuse/list";
+	private static final String ISSUE_REUSE_LIST = "insurance/qygl/wtj/reuse/issuelist";
+	private static final String REUSE_TO_XLS = "insurance/qygl/wtj/reuse/toXls";
 	
 	@RequestMapping(value="/help", method=RequestMethod.GET)
 	public String toHelp() {
@@ -1099,6 +1106,7 @@ public class QyglController {
 		if(isNull) {
 			csf.add(new SearchFilter("status", Operator.OR_EQ, UW_STATUS.NewStatus.name()));
 			csf.add(new SearchFilter("status", Operator.OR_EQ, UW_STATUS.SendStatus.name()));
+			csf.add(new SearchFilter("scanReceipt", Operator.OR_EQ, false));
 		} else if(isEmpty) {
 			csf.add(new SearchFilter("status", Operator.NEQ, UW_STATUS.DelStatus.name()));
 		} else {
@@ -1174,7 +1182,7 @@ public class QyglController {
 		}
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{Arrays.toString(info.toArray())}));
-		return	AjaxObject.newOk("成功修改记录的客户信息真实性标记！").setCallbackType("").toString();
+		return	AjaxObject.newOk("成功登记回执扫描情况！").setCallbackType("").toString();
 	}
 	
 	@RequiresPermissions("PlanList:view")
@@ -1325,6 +1333,252 @@ public class QyglController {
 		map.put("ybtPolicys", ybts);
 		
 		return YBT_LIST_XLS;
+	}
+	
+	/*
+	 * =====================================
+	 * REUSE
+	 * =====================================
+	 */
+	@RequiresPermissions("ReuseRisk:view")
+	@RequestMapping(value="/issue/reuseRisk/view/{id}", method=RequestMethod.GET)
+	public String viewReuseRisk(@PathVariable Long id, Map<String, Object> map) {
+		ReuseRisk issue = qyglService.getReuseRisk(id);
+		
+		map.put("issue", issue);
+		map.put("status", QY_STATUS.NewStatus);
+		return VIEW_REUSE;
+	}
+	
+	@RequiresPermissions("ReuseRisk:edit")
+	@RequestMapping(value="/issue/reuseRisk/update/{id}", method=RequestMethod.GET)
+	public String preUpdateReuseRisk(@PathVariable Long id, Map<String, Object> map) {
+		ReuseRisk issue = qyglService.getReuseRisk(id);
+		List<CheckFixType> cftList = qyglService.getCheckFixTypeList();
+		map.put("checkFixList", cftList);
+		map.put("issue", issue);
+		return UPDATE_REUSE;
+	}
+	
+	@Log(message="回复了{0}新契约客户信息多次重复件的信息。", level=LogLevel.WARN, module=LogModule.QYGL)
+	@RequiresPermissions("ReuseRisk:edit")
+	@RequestMapping(value="/issue/reuseRisk/update", method=RequestMethod.POST)
+	public @ResponseBody String updateReuseRisk(ReuseRisk issue, ServletRequest request) {
+		ReuseRisk src = qyglService.getReuseRisk(issue.getId());
+		String fixTypeVal = request.getParameter("fixTypeVal");
+		src.setDealMan(issue.getDealMan());
+		src.setDealTime(issue.getDealTime());
+		src.setFixType(fixTypeVal);
+		src.setFixDesc(issue.getFixDesc());
+		if(issue.getFixType().contains("继续跟进") || issue.getFixDesc().contains("继续跟进")) {
+			src.setFixStatus(QY_STATUS.FollowStatus.name());
+		} else {
+			src.setFixStatus(QY_STATUS.IngStatus.name());
+		}
+		src.setReplyTime(new Date());
+		qyglService.saveOrUpdateReuseRisk(src);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));
+		return	AjaxObject.newOk("回复新契约客户信息多次重复件成功！").toString(); 
+	}
+	
+	@Log(message="对{0}新契约客户信息多次重复件的申诉了，改为登记问题置为已整改。", level=LogLevel.WARN, module=LogModule.QYGL)
+	@RequiresPermissions("ReuseRisk:provEdit")
+	@RequestMapping(value="/issue/reuseRisk/appeal/{id}", method=RequestMethod.POST)
+	public @ResponseBody String appealReuseRisk(@PathVariable Long id) {
+		ReuseRisk src = qyglService.getReuseRisk(id);
+		src.setNeedFix("申诉件");;
+		src.setFixStatus(QY_STATUS.CloseStatus.name());
+		src.setCloseDate(new Date());
+		src.setCloseUser(SecurityUtils.getShiroUser().getLoginName());
+		qyglService.saveOrUpdateReuseRisk(src);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));
+		return	AjaxObject.newOk("申诉新契约客户信息多次重复件成功！").setCallbackType("").toString();
+	}
+	
+	@Log(message="{0}新契约客户信息多次重复件确认无法整改。", level=LogLevel.WARN, module=LogModule.QYGL)
+	@RequiresPermissions("ReuseRisk:provEdit")
+	@RequestMapping(value="/issue/reuseRisk/fail/{id}", method=RequestMethod.POST)
+	public @ResponseBody String failReuseRisk(@PathVariable Long id) {
+		ReuseRisk src = qyglService.getReuseRisk(id);
+		//src.setNeedFix("已整改");;
+		src.setFixStatus(QY_STATUS.FailStatus.name());
+		src.setCloseDate(new Date());
+		src.setCloseUser(SecurityUtils.getShiroUser().getLoginName());
+		qyglService.saveOrUpdateReuseRisk(src);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));
+		return	AjaxObject.newOk("新契约客户信息多次重复件无法整改确认完毕！").setCallbackType("").toString();
+	}
+	
+	@Log(message="对{0}新契约客户信息多次重复件进行了删除。", level=LogLevel.WARN, module=LogModule.QYGL)
+	@RequiresPermissions("ReuseRisk:provEdit")
+	@RequestMapping(value="/issue/reuseRisk/delete/{id}", method=RequestMethod.POST)
+	public @ResponseBody String delReuseRisk(@PathVariable Long id) {
+		ReuseRisk src = qyglService.getReuseRisk(id);
+		qyglService.deleteReuseRisk(src);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));
+		return	AjaxObject.newOk("删除新契约客户信息多次重复件成功！").setCallbackType("").toString();
+	}
+	
+	@Log(message="重新打开了{0}新契约客户信息多次重复件的信息。", level=LogLevel.WARN, module=LogModule.QYGL)
+	@RequiresPermissions("ReuseRisk:provEdit")
+	@RequestMapping(value="/issue/reuseRisk/reopen", method=RequestMethod.POST)
+	public @ResponseBody String reopenReuseRisk(ReuseRisk issue) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		ReuseRisk src = qyglService.getReuseRisk(issue.getId());
+		src.setFixStatus(QY_STATUS.FollowStatus.name());
+		src.setReopenUser(shiroUser.getUser());
+		src.setReopenReason(issue.getReopenReason());
+		src.setReopenDate(new Date());
+		qyglService.saveOrUpdateReuseRisk(src);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));
+		return	AjaxObject.newOk("重新打开新契约客户信息多次重复件成功！").toString(); 
+	}
+	
+	@Log(message="结案了{0}新契约客户信息多次重复件的信息。", level=LogLevel.WARN, module=LogModule.QYGL)
+	@RequiresPermissions("ReuseRisk:provEdit")
+	@RequestMapping(value="/issue/reuseRisk/close", method=RequestMethod.POST)
+	public @ResponseBody String closeReuseRisk(Long[] ids) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		String[] policys = new String[ids.length];
+		try {
+			for (int i = 0; i < ids.length; i++) {
+				ReuseRisk src = qyglService.getReuseRisk(ids[i]);
+				src.setFixStatus(QY_STATUS.CloseStatus.name());
+				src.setCloseDate(new Date());
+				src.setCloseUser(shiroUser.getUser().getRealname());
+				qyglService.saveOrUpdateReuseRisk(src);
+				
+				policys[i] = src.getPolicy().getPolicyNo();
+			}
+		} catch (ServiceException e) {
+			return AjaxObject.newError("结案失败：" + e.getMessage()).setCallbackType("").toString();
+		}
+		
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{Arrays.toString(policys)}));
+		return AjaxObject.newOk("结案新契约客户信息多次重复件成功！").setCallbackType("").toString();
+	}
+	
+	@RequiresPermissions("ReuseRisk:view")
+	@RequestMapping(value="/issue/reuseRisk/list", method={RequestMethod.GET, RequestMethod.POST})
+	public String listReuseRisk(ServletRequest request, Page page, Map<String, Object> map) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
+		//默认返回未处理工单
+		String status = request.getParameter("fixStatus");
+		String orgCode = request.getParameter("orgCode");
+		String checker = request.getParameter("checker");
+		if(orgCode == null || orgCode.trim().length()<=0) {
+			orgCode = userOrg.getOrgCode();
+		} else if(!orgCode.contains(userOrg.getOrgCode())){
+			orgCode = userOrg.getOrgCode();
+		}
+		String orgName = request.getParameter("name");
+		request.setAttribute("orgCode", orgCode);
+		request.setAttribute("name", orgName);
+		log.debug("-------------- orgCode: " + orgCode);
+		ReuseRisk issue = new ReuseRisk();
+		if(status == null) {
+			status = QY_STATUS.NewStatus.name();
+		} else if(status.trim().length()>0) {
+			issue.setFixStatus(QY_STATUS.valueOf(status).name());
+		}
+		
+		String keyInfo = request.getParameter("keyInfo");
+		request.setAttribute("keyInfo", keyInfo);
+		issue.setKeyInfo(keyInfo);
+		
+		request.setAttribute("status", status);
+		issue.setFixStatus(status);
+		request.setAttribute("checker", checker);
+		issue.setChecker(checker);
+		
+		if(page.getOrderField() == null || page.getOrderField().trim().length() <= 0) {
+			page.setOrderField("id");
+			page.setOrderDirection("DESC");
+		}
+		
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, orgCode));
+		csf.add(new SearchFilter("needFix", Operator.EQ, "要整改"));
+		if(status.trim().length()>0) {
+			csf.add(new SearchFilter("fixStatus", Operator.EQ, status));
+		}
+		if(keyInfo != null && keyInfo.trim().length()>0) {
+			csf.add(new SearchFilter("keyInfo", Operator.LIKE, keyInfo));
+		}
+		
+		Specification<ReuseRisk> specification = DynamicSpecifications.bySearchFilter(request, ReuseRisk.class, csf);
+		
+		List<ReuseRisk> issues = qyglService.findByReuseRiskExample(specification, page);
+		
+		map.put("issue", issue);
+		map.put("qyWriteStatusList", QY_STATUS.values());
+		map.put("page", page);
+		map.put("issues", issues);
+		return LIST_REUSE;
+	}
+	
+	@Log(message="下载了客户信息多次重复件列表", level=LogLevel.INFO, module=LogModule.QYGL)
+	@RequiresPermissions("ReuseRisk:view")
+	@RequestMapping(value="/issue/reuseRisk/toXls", method={RequestMethod.GET, RequestMethod.POST})
+	public String reuseRiskToXls(ServletRequest request, Page page, Map<String, Object> map) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
+		//默认返回未处理工单
+		String status = request.getParameter("fixStatus");
+		String orgCode = request.getParameter("orgCode");
+		if(orgCode == null || orgCode.trim().length()<=0) {
+			orgCode = userOrg.getOrgCode();
+		} else if(!orgCode.contains(userOrg.getOrgCode())){
+			orgCode = userOrg.getOrgCode();
+		}
+		log.debug("-------------- orgCode: " + orgCode);
+		if(status == null) {
+			status = QY_STATUS.NewStatus.name();
+		}
+		
+		String keyInfo = request.getParameter("keyInfo");
+		
+		List<Order> orders=new ArrayList<Order>();
+		orders.add(new Order(Direction.ASC, "policy.organization.orgCode"));
+		
+		page.setOrders(orders);
+		
+		page.setPageNum(0);
+		page.setNumPerPage(Integer.MAX_VALUE);
+		
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, orgCode));
+		//csf.add(new SearchFilter("needFix", Operator.EQ, "要整改"));
+		if(status.trim().length()>0) {
+			csf.add(new SearchFilter("fixStatus", Operator.EQ, status));
+		}
+		if(keyInfo != null && keyInfo.trim().length()>0) {
+			csf.add(new SearchFilter("keyInfo", Operator.LIKE, keyInfo));
+		}
+		
+		Specification<ReuseRisk> specification = DynamicSpecifications.bySearchFilter(request, ReuseRisk.class, csf);
+		
+		List<ReuseRisk> issues = qyglService.findByReuseRiskExample(specification, page);
+		
+		map.put("issues", issues);
+		return REUSE_TO_XLS;
+	}
+	
+	@RequiresPermissions("ReuseRisk:view")
+	@RequestMapping(value="/issue/reuseRisk/issuelist", method={RequestMethod.GET, RequestMethod.POST})
+	public String reuseRiskList(ServletRequest request, Page page, Map<String, Object> map) {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		map.put("issueList", qyglService.getTODOWriteIssueList(shiroUser.getUser()));
+		return ISSUE_REUSE_LIST;
 	}
 	
 	// 使用初始化绑定器, 将参数自动转化为日期类型,即所有日期类型的数据都能自动转化为yyyy-MM-dd格式的Date类型

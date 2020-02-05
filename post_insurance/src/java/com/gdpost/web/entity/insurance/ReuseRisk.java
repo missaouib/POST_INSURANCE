@@ -14,6 +14,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.JoinColumnOrFormula;
 import org.hibernate.annotations.JoinColumnsOrFormulas;
@@ -27,8 +28,8 @@ import com.gdpost.web.entity.main.User;
  * TCheckRecordDtl entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "t_check_record")
-public class CheckRecord implements Idable<Long> {
+@Table(name = "t_reuser_risk", uniqueConstraints={@UniqueConstraint(columnNames={"policy_no", "prd_name"})})
+public class ReuseRisk implements Idable<Long> {
 
 	// Fields
 
@@ -37,18 +38,12 @@ public class CheckRecord implements Idable<Long> {
 	private String checkBatch;
 	private String needFix;
 	private Policy policy;
-	private Boolean scanError;
 	private String formNo;
 	private String netType;
 	private String prdName;
 	private String payMethod;
 	private String keyInfo;
-	private String importanceInfo;
-	private String elseInfo;
-	private String docError;
-	private String docMiss;
 	private String netName;
-	private String remark;
 	private Long operateId;
 	private Date operateTime;
 	private String fixStatus;
@@ -58,35 +53,22 @@ public class CheckRecord implements Idable<Long> {
 	private String reopenReason;
 	private User reopenUser;
 	private Date reopenDate;
-	private String isPass;
-	private Date replyTime;
-	
 	private String fixType;
-	
+	private Date replyTime;
 	private Date closeDate;
 	private String closeUser;
+
+	
+	@Transient
+	private String tag = "填写错误";
 	
 	@Transient
 	private Integer timeConsuming = 1;
 	
-	@Transient
-	private String tag = "录入错误";
-
-	
 	// Constructors
 
-	@Transient
-	public Integer getTimeConsuming() {
-		return StringUtil.getBetweenDay(this.operateTime, this.closeDate==null?new Date():this.closeDate);
-	}
-
-	@Transient
-	public void setTimeConsuming(Integer timeConsuming) {
-		this.timeConsuming = timeConsuming;
-	}
-
 	/** default constructor */
-	public CheckRecord() {
+	public ReuseRisk() {
 	}
 
 	@Id
@@ -125,9 +107,7 @@ public class CheckRecord implements Idable<Long> {
 	public void setNeedFix(String needFix) {
 		this.needFix = needFix;
 	}
-
-//	@ManyToOne
-//	@JoinColumn(name = "policy_no", referencedColumnName="policy_no")
+	
 	@ManyToOne(cascade = CascadeType.DETACH, targetEntity = Policy.class)
 	@JoinColumnsOrFormulas(value={
 	@JoinColumnOrFormula(column=@JoinColumn(name ="policy_no", referencedColumnName ="policy_no", insertable =false, updatable = false)),
@@ -139,15 +119,6 @@ public class CheckRecord implements Idable<Long> {
 
 	public void setPolicy(Policy policy) {
 		this.policy = policy;
-	}
-
-	@Column(name="scan_error")
-	public Boolean getScanError() {
-		return scanError;
-	}
-
-	public void setScanError(Boolean scanError) {
-		this.scanError = scanError;
 	}
 
 	@Column(name="form_no")
@@ -195,42 +166,6 @@ public class CheckRecord implements Idable<Long> {
 		this.keyInfo = keyInfo;
 	}
 
-	@Column(name="importance_info")
-	public String getImportanceInfo() {
-		return importanceInfo;
-	}
-
-	public void setImportanceInfo(String importanceInfo) {
-		this.importanceInfo = importanceInfo;
-	}
-
-	@Column(name="else_info")
-	public String getElseInfo() {
-		return elseInfo;
-	}
-
-	public void setElseInfo(String elseInfo) {
-		this.elseInfo = elseInfo;
-	}
-
-	@Column(name="doc_error")
-	public String getDocError() {
-		return docError;
-	}
-
-	public void setDocError(String docError) {
-		this.docError = docError;
-	}
-
-	@Column(name="doc_miss")
-	public String getDocMiss() {
-		return docMiss;
-	}
-
-	public void setDocMiss(String docMiss) {
-		this.docMiss = docMiss;
-	}
-
 	@Column(name="net_name")
 	public String getNetName() {
 		return netName;
@@ -238,15 +173,6 @@ public class CheckRecord implements Idable<Long> {
 
 	public void setNetName(String netName) {
 		this.netName = netName;
-	}
-
-	@Column(name="remark")
-	public String getRemark() {
-		return remark;
-	}
-
-	public void setRemark(String remark) {
-		this.remark = remark;
 	}
 
 	@Column(name="operate_id")
@@ -284,7 +210,7 @@ public class CheckRecord implements Idable<Long> {
 	public void setFixDesc(String fixDesc) {
 		this.fixDesc = fixDesc;
 	}
-
+	
 	@Column(name="deal_man")
 	public String getDealMan() {
 		return dealMan;
@@ -302,14 +228,23 @@ public class CheckRecord implements Idable<Long> {
 	public void setDealTime(Date dealTime) {
 		this.dealTime = dealTime;
 	}
-	
-	@Column(name = "reopen_reason", length = 256)
+
+	@Column(name = "reopen_reason")
 	public String getReopenReason() {
 		return this.reopenReason;
 	}
 
 	public void setReopenReason(String reopenReason) {
 		this.reopenReason = reopenReason;
+	}
+	
+	@Column(name="fix_type")
+	public String getFixType() {
+		return fixType;
+	}
+
+	public void setFixType(String fixType) {
+		this.fixType = fixType;
 	}
 	
 	@ManyToOne(optional=true)
@@ -322,17 +257,8 @@ public class CheckRecord implements Idable<Long> {
 		this.reopenUser = reopenUser;
 	}
 
-//	@Column(name = "reopen_id")
-//	public Long getReopenId() {
-//		return this.reopenId;
-//	}
-//
-//	public void setReopenId(Long reopenId) {
-//		this.reopenId = reopenId;
-//	}
-
 	@Temporal(TemporalType.DATE)
-	@Column(name = "reopen_date", length = 10)
+	@Column(name = "reopen_date")
 	public Date getReopenDate() {
 		return this.reopenDate;
 	}
@@ -341,33 +267,16 @@ public class CheckRecord implements Idable<Long> {
 		this.reopenDate = reopenDate;
 	}
 
-	@Column(name="fix_type")
-	public String getFixType() {
-		return fixType;
-	}
-
-	public void setFixType(String fixType) {
-		this.fixType = fixType;
-	}
-
 	@Transient
 	public String getTag() {
 		return tag;
 	}
-
+	
 	@Transient
 	public void setTag(String tag) {
 		this.tag = tag;
 	}
-	@Column(name="is_pass")
-	public String getIsPass() {
-		return isPass;
-	}
 
-	public void setIsPass(String isPass) {
-		this.isPass = isPass;
-	}
-	
 	@Column(name="reply_time")
 	@Temporal(TemporalType.DATE)
 	public Date getReplyTime() {
@@ -377,7 +286,17 @@ public class CheckRecord implements Idable<Long> {
 	public void setReplyTime(Date replyTime) {
 		this.replyTime = replyTime;
 	}
-	
+
+	@Transient
+	public Integer getTimeConsuming() {
+		return StringUtil.getBetweenDay(this.operateTime, this.closeDate==null?new Date():this.closeDate);
+	}
+
+	@Transient
+	public void setTimeConsuming(Integer timeConsuming) {
+		this.timeConsuming = timeConsuming;
+	}
+
 	@Column(name="close_date")
 	@Temporal(TemporalType.DATE)
 	public Date getCloseDate() {
@@ -387,7 +306,7 @@ public class CheckRecord implements Idable<Long> {
 	public void setCloseDate(Date closeDate) {
 		this.closeDate = closeDate;
 	}
-	
+
 	@Column(name="close_user")
 	public String getCloseUser() {
 		return closeUser;
@@ -396,4 +315,5 @@ public class CheckRecord implements Idable<Long> {
 	public void setCloseUser(String closeUser) {
 		this.closeUser = closeUser;
 	}
+	
 }
