@@ -3360,7 +3360,6 @@ public class StasticsController {
 	public String hfStasticsToXls(ServletRequest request, Map<String, Object> map) {
 		LOG.debug("-------------------statusStastics----------");
 		String organCode = request.getParameter("orgCode");
-		String organName = request.getParameter("name");
 		String pd1 = request.getParameter("policyDate1");
 		String pd2 = request.getParameter("policyDate2");
 		String levelFlag = request.getParameter("levelFlag");
@@ -3377,7 +3376,6 @@ public class StasticsController {
 		Organization userOrg = user.getOrganization();
 		if (organCode == null || organCode.trim().length() <= 0) {
 			organCode = userOrg.getOrgCode();
-			organName = userOrg.getName();
 		}
 
 		boolean isCity = false;

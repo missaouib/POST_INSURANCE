@@ -15,9 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gdpost.web.dao.CallDealTypeDAO;
 import com.gdpost.web.dao.CallFailListDAO;
-import com.gdpost.web.dao.component.IVCallFailListDAO;
 import com.gdpost.web.entity.basedata.CallDealType;
-import com.gdpost.web.entity.component.VCallFailList;
 import com.gdpost.web.entity.insurance.CallFailList;
 import com.gdpost.web.entity.insurance.Policy;
 import com.gdpost.web.entity.main.Organization;
@@ -37,9 +35,6 @@ public class HfglServiceImpl implements HfglService {
 	
 	@Autowired
 	private CallFailListDAO callFailListDAO;
-	
-	@Autowired
-	private IVCallFailListDAO vCFLDAO;
 	
 	@Autowired
 	private CallDealTypeDAO cdtDAO;
@@ -82,24 +77,6 @@ public class HfglServiceImpl implements HfglService {
 		return springDataPage.getContent();
 	}
 	
-	@Override
-	public List<VCallFailList> find11185List(Specification<VCallFailList> specification, Page page) {
-		org.springframework.data.domain.Page<VCallFailList> springDataPage = vCFLDAO.findAll(specification, PageUtils.createPageable(page));
-		page.setTotalCount(springDataPage.getTotalElements());
-		return springDataPage.getContent();
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see com.gdpost.web.service.UserService#findByExample(org.springframework.data.jpa.domain.Specification, com.gdpost.web.util.dwz.Page)	
-	 */
-	@Override
-	public List<VCallFailList> findByVExample(
-			Specification<VCallFailList> specification, Page page) {
-		org.springframework.data.domain.Page<VCallFailList> springDataPage = vCFLDAO.findAll(specification, PageUtils.createPageable(page));
-		page.setTotalCount(springDataPage.getTotalElements());
-		return springDataPage.getContent();
-	}
 	
 	@Override
 	public List<CallFailList> findByExample(
@@ -109,24 +86,6 @@ public class HfglServiceImpl implements HfglService {
 		return springDataPage.getContent();
 	}
 	
-	@Deprecated
-	@Override
-	public List<VCallFailList> get11185TODOList() {
-		Page page = new Page();
-		page.setNumPerPage(100);
-		page.setOrderField("policy.policyDate");
-		page.setOrderDirection("DESC");
-		Specification<VCallFailList> spec = DynamicSpecifications.bySearchFilterWithoutRequest(VCallFailList.class,
-					new SearchFilter("status", Operator.OR_EQ, HF_STATUS.NewStatus.getDesc()),
-					new SearchFilter("status", Operator.OR_EQ, HF_STATUS.CallFailStatus.getDesc()),
-					new SearchFilter("lastDateNum", Operator.GTE, 3));
-		List<VCallFailList> issues = this.find11185List(spec, page);
-		if (issues == null || issues.isEmpty()) {
-			issues = new ArrayList<VCallFailList>();
-		}
-		
-		return issues;
-	}
 	
 	@Override
 	public List<CallFailList> batchMail(List<CallFailList> list) {

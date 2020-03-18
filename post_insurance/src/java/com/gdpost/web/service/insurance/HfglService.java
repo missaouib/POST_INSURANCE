@@ -12,7 +12,6 @@ import java.util.List;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.gdpost.web.entity.basedata.CallDealType;
-import com.gdpost.web.entity.component.VCallFailList;
 import com.gdpost.web.entity.insurance.CallFailList;
 import com.gdpost.web.entity.insurance.Policy;
 import com.gdpost.web.entity.main.User;
@@ -27,11 +26,9 @@ public interface HfglService {
 	
 	List<CallFailList> findAll(Page page);
 	
-	List<VCallFailList> findByVExample(Specification<VCallFailList> specification, Page page);
 	
 	List<CallFailList> findByExample(Specification<CallFailList> specification, Page page);
 	
-	List<VCallFailList> find11185List(Specification<VCallFailList> specification, Page page);
 	
 	CallFailList getByPolicy(Policy policy);
 	
@@ -39,7 +36,6 @@ public interface HfglService {
 	
 	List<CallFailList> getTODOIssueList(User user);
 
-	List<VCallFailList> get11185TODOList();
 
 	List<CallFailList> batchMail(List<CallFailList> list);
 	

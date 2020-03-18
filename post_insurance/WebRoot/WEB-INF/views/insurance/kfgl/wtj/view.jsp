@@ -20,6 +20,18 @@
 			<span class="unit">${issue.policy.holder }</span>
 		</p>
 		<p>
+			<label>客户电话：</label>
+			<span class="unit">${issue.holderPhone }</span>
+		</p>
+		<p>
+			<label>客户手机：</label>
+			<span class="unit">${issue.holderMobile }</span>
+		</p>
+		<p>
+			<label>证件号码：</label>
+			<span class="unit">${issue.idCard}</span>
+		</p>
+		<p>
 			<label>保单号：</label>
 			<span class="unit">${issue.policy.policyNo }</span>
 		</p>
@@ -52,6 +64,18 @@
 			<span class="unit">${issue.issueContent }</span>
 		</p>
 	</fieldset>
+	<c:if test="${not empty issue.reopenReason}">
+	<div class="divider"></div>
+	<fieldset>
+		<legend>重新打开情况</legend>
+		<p class="nowrap">
+			<label>退回原因：</label>${issue.reopenReason }
+		</p>
+		<p class="nowrap">
+			处理人：${issue.reopenUser.realname }；&nbsp;&nbsp;&nbsp;&nbsp;退回日期：${issue.reopenDate }
+		</p>
+	</fieldset>
+	</c:if>
 	<div class="divider"></div>
 	<fieldset>
 		<legend>工单处理详情</legend>
@@ -77,6 +101,7 @@
 			<span class="unit">${issue.cityReviewRst }</span>
 		</p>
 	</fieldset>
+	<c:if test="${empty issue.reopenReason}">
 	<div class="divider"></div>
 	<fieldset>
 		<legend>重新打开处理</legend>
@@ -93,6 +118,7 @@
 			<input type="text" name="reopenDate" disabled="true" class="input-medium" maxlength="32" value="${issue.reopenDate }"/>
 		</p>
 	</fieldset>
+	</c:if>
 	<div class="divider"></div>
 	<fieldset>
 		<legend>审核记录</legend>

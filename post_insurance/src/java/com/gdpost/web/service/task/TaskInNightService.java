@@ -61,6 +61,11 @@ public class TaskInNightService {
         	rstInt = statement.executeUpdate(sql);
         	log.info("------------ finish exec sql" + rstInt);
         	
+        	sql = "update t_policy_dtl tpd, t_policy tp set tpd.policy_status=tp.status where tp.policy_no=tpd.policy_no and tpd.policy_status=\"有效\" and tp.status<>\"有效\";";
+        	log.info("------------ task service 2 :" + sql);
+        	rstInt = statement.executeUpdate(sql);
+        	log.info("------------ finish exec sql：" + rstInt);
+        	
 			// 获取保单号、投保人（姓名、证件号码）、被保险人（证件号码），双方年龄、关系、地址、电话、email；进行判断
 			//剔除简易险
 			sql = "select form_no, policy_no, prod_name, cast(aes_decrypt(unhex(holder), 'GDPost') as char(100)) as holder,"

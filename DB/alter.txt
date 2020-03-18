@@ -1,4 +1,19 @@
-﻿CREATE DATABASE postinsurance DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+﻿alter table t_policy add column policy_end_date date;
+update t_policy tp, t_cs_expire ce set tp.status="满期终止",tp.policy_end_date=ce.policy_end_date where tp.policy_no=ce.policy_no;
+
+update t_policy tp set policy_end_date=date_add(DATE_ADD(plicy_valid_date,INTERVAL 5 YEAR),INTERVAL -1 DAY) where policy_end_date is null and duration=5;
+update t_policy tp set policy_end_date=date_add(DATE_ADD(plicy_valid_date,INTERVAL 6 YEAR),INTERVAL -1 DAY) where policy_end_date is null and duration=6;
+update t_policy tp set policy_end_date=date_add(DATE_ADD(plicy_valid_date,INTERVAL 15 YEAR),INTERVAL -1 DAY) where policy_end_date is null and duration=15;
+update t_policy tp set policy_end_date=date_add(DATE_ADD(plicy_valid_date,INTERVAL 1 YEAR),INTERVAL -1 DAY) where policy_end_date is null and duration=1;
+update t_policy tp set policy_end_date=date_add(DATE_ADD(plicy_valid_date,INTERVAL 10 YEAR),INTERVAL -1 DAY) where policy_end_date is null and duration=10;
+update t_policy tp set policy_end_date=date_add(DATE_ADD(plicy_valid_date,INTERVAL 30 YEAR),INTERVAL -1 DAY) where policy_end_date is null and duration=30;
+update t_policy tp set policy_end_date=date_add(DATE_ADD(plicy_valid_date,INTERVAL 105 YEAR),INTERVAL -1 DAY) where policy_end_date is null and duration=105;
+update t_policy tp set policy_end_date=date_add(DATE_ADD(plicy_valid_date,INTERVAL 25 YEAR),INTERVAL -1 DAY) where policy_end_date is null and duration=25;
+update t_policy tp set policy_end_date=date_add(DATE_ADD(plicy_valid_date,INTERVAL 20 YEAR),INTERVAL -1 DAY) where policy_end_date is null and duration=20;
+update t_policy tp set policy_end_date=date_add(DATE_ADD(plicy_valid_date,INTERVAL 12 YEAR),INTERVAL -1 DAY) where policy_end_date is null and duration=12;
+
+
+CREATE DATABASE postinsurance DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 exi
 

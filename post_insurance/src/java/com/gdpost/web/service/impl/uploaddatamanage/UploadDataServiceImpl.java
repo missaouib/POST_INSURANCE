@@ -160,8 +160,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql3 = "update t_policy set attached_flag = 2 where attached_flag=0 and prod_name like \"中邮禄禄通%\";";
 			sql4 = "update t_policy set attached_flag = 3 where attached_flag=0 and policy_no like \"5244%\";";
 			sql12 = "update t_policy set attached_flag = 7 where attached_flag=0 and policy_fee=1 and prod_code=\"125022\";";
-			sql8 = "update t_policy set plan_name=\"新百倍保自驾航空责任组合\" where plan_code=\"125012_B\" and plan_name is null;";
-			sql9 = "update t_policy set plan_name=\"新百倍保公共交通责任组合\" where plan_code=\"125012_A\" and plan_name is null;";
+			sql8 = "update t_policy set attached_flag = 8 where attached_flag=0 and prod_code=\"120022\";";
 			sql5 = "update t_policy tp inner join (select sum(policy_fee) as total_fee, policy_no from t_policy where total_fee=0 and TO_DAYS(NOW())=TO_DAYS(operate_time) group by policy_no) as tp2 set tp.total_fee=tp2.total_fee where tp.total_fee=0 and tp.attached_flag=0 and tp.policy_no=tp2.policy_no and TO_DAYS(NOW())=TO_DAYS(tp.operate_time);";
 			sql6 = "update t_under_write uw,t_policy tp,t_bank_code bc set uw.net_name=bc.name where uw.policy_no is not null and uw.net_name is null and uw.policy_no=tp.policy_no and tp.bank_code=bc.cpi_code and TO_DAYS(NOW())=TO_DAYS(tp.operate_time);";
 			sql7 = "update t_under_write as uw inner join t_policy tp on uw.form_no=tp.form_no set uw.policy_no=tp.policy_no,uw.sign_date=tp.policy_date where uw.policy_no is null and TO_DAYS(NOW())=TO_DAYS(tp.operate_time);";

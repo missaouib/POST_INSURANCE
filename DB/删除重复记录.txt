@@ -1,3 +1,0 @@
-delete from t_policy_reprint_dtl where 
-(policy_no,print_date) in (select a.policy_no,a.print_date from ( select policy_no,print_date from t_policy_reprint_dtl group by policy_no,print_date having count(*)>1) a) 
-and id not in ( select min(id) from (select min(id) as id from t_policy_reprint_dtl group by policy_no,print_date having count(*)>1 ) b)

@@ -32,7 +32,7 @@ response.setHeader("Content-Disposition", "inline; filename=check_stat.xls");
 				<td style="text-align: right;font-weight:800;"><fmt:formatNumber value="${item.errCounts}" pattern="#,###" /></td>
 				<td style="text-align: right;font-weight:800;"><fmt:formatNumber value="${item.checkRecordCounts}" pattern="#,###" /></td>
 				<td style="text-align: right;font-weight:800;"><fmt:formatNumber value="${item.checkRecordErrCounts}" pattern="#,###" /></td>
-				<td style="vnd.ms-excel.numberformat: #0.00%">${(item.checkCounts-item.errCounts)/item.checkCounts*0.8+(item.checkRecordCounts-item.checkRecordErrCounts)/item.checkRecordCounts*0.1+0.1 }</td>
+				<td style="vnd.ms-excel.numberformat: #0.00%">${tem.checkCounts==0?'/':((item.checkCounts-item.errCounts)/item.checkCounts*0.8+(item.checkRecordCounts==0?0.1:(item.checkRecordCounts-item.checkRecordErrCounts)/item.checkRecordCounts*0.1)+0.1) }</td>
 			</tr>
 			</c:forEach>
 			<tr>

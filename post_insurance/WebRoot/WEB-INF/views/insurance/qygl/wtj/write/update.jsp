@@ -88,6 +88,18 @@
 			<span class="unit">${empty issue.docMiss?"":issue.docMiss }</span>
 		</p>
 	</fieldset>
+	<c:if test="${not empty issue.reopenReason}">
+	<div class="divider"></div>
+	<fieldset>
+		<legend>重新打开情况</legend>
+		<p class="nowrap">
+			<label>退回原因：</label>${issue.reopenReason }
+		</p>
+		<p class="nowrap">
+			处理人：${issue.reopenUser.realname }；&nbsp;&nbsp;&nbsp;&nbsp;退回日期：${issue.reopenDate }
+		</p>
+	</fieldset>
+	</c:if>
 	<div class="divider"></div>
 	<fieldset>
 		<legend>不合格件处理详情</legend>

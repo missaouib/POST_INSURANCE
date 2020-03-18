@@ -29,7 +29,7 @@ response.setHeader("Content-Disposition", "inline; filename=policy_list.xls");
 				<th>承保时间</th>
 				<th>客户签收日期</th>
 				<th>回销日期</th>
-				<shiro:hasPermission name="Callfail:provEdit">
+				<shiro:hasPermission name="Client:provEdit">
                 <th>联系电话</th>
                 <th>手机号码</th>
                 <th>证件类型</th>
@@ -65,7 +65,7 @@ response.setHeader("Content-Disposition", "inline; filename=policy_list.xls");
 				<td><fmt:formatDate value="${item.policyDtl.policyTime }" pattern="HH:mm:ss"/></td>
 				<td><fmt:formatDate value="${item.clientReceiveDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.billBackDate }" pattern="yyyy-MM-dd"/></td>
-				<shiro:hasPermission name="Callfail:provEdit">
+				<shiro:hasPermission name="Client:provEdit">
                 <td>${item.policyDtl==null?"":item.policyDtl.holderPhone}</td>
                 <td>${item.policyDtl==null?"":item.policyDtl.holderMobile}</td>
                 <td>${item.policyDtl==null?"":item.policyDtl.holderCardType}</td>
