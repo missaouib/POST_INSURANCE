@@ -93,15 +93,15 @@ public class TaskService {
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
 			
-			sql = "update t_policy set attached_flag = 3 where attached_flag=0 and (prod_code=\"112004\" or prod_name=\"中邮综合意外伤害保险\" or policy_no like \"5244%\");";
+			sql = "update t_policy set attached_flag = 3 where attached_flag=0 and (prod_code=\"112004\" or policy_no like \"5244%\");";
 			log.info("------------ sql :" + sql);
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
 			
-			sql = "update t_policy set attached_flag = 8 where attached_flag=0 and prod_code=\"120022\";";
-			log.info("------------ sql :" + sql);
-			rstInt = statement.executeUpdate(sql);
-			log.info("------------ finish exec sql：" + rstInt);
+			//sql = "update t_policy set attached_flag = 8 where attached_flag=0 and prod_code=\"120022\";";
+			//log.info("------------ sql :" + sql);
+			//rstInt = statement.executeUpdate(sql);
+			//log.info("------------ finish exec sql：" + rstInt);
 			
 			sql = "update t_policy set plan_name=\"新百倍保自驾航空责任组合\" where plan_code=\"125012_B\" and plan_name is null;";
 			log.info("------------ sql :" + sql);
@@ -133,7 +133,7 @@ public class TaskService {
 			iRst3 = statement.executeUpdate(sql3);
 			log.info("------------ task service 3 rst :" + iRst3);
 			
-			sql = "update t_call_fail_list t1, t_cs_report t2 set t1.status=\"已退保\" where t1.status<>\"已退保\" and t1.policy_no=t2.policy_no and t2.cs_code=\"CT\";";
+			sql = "update t_call_fail_list t1, t_cs_report t2 set t1.status=\"已退保\" where t1.status<>\"已退保\"  and t1.status<>\"上门成功\" and t1.status<>\"二访成功\" and t1.policy_no=t2.policy_no and t2.cs_code=\"CT\";";
 			log.info("------------ sql :" + sql);
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
@@ -170,7 +170,7 @@ public class TaskService {
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
 			
-			sql = "update t_policy tp inner join (select sum(policy_fee) as total_fee, policy_no from t_policy where total_fee=0 group by policy_no) as tp2 set tp.total_fee=tp2.total_fee where tp.total_fee=0 and tp.attached_flag=0 and tp.policy_no=tp2.policy_no;";
+			sql = "update t_policy tp inner join (select sum(policy_fee) as total_fee, policy_no from t_policy where total_fee=0 group by policy_no) as tp2 set tp.total_fee=tp2.total_fee where tp.policy_no=tp2.policy_no and tp.total_fee=0 and tp.attached_flag=0;";
 			log.info("------------ sql :" + sql);
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
@@ -325,7 +325,7 @@ public class TaskService {
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
 			
-			sql = "update t_check_write cw, t_staff ts set cw.fix_status=\"CloseStatus\",cw.fix_desc=concat(cw.fix_desc,\"员工单\"),cw.deal_man=\"System\",cw.deal_time=current_timestamp where cw.fix_status<>\"CloseStatus\" and cw.key_info=\"含有邮政、邮储、邮局、支行、营业所等字样\" and cw.is_pass=cast(aes_decrypt(unhex(ts.id_card), 'GDPost') as char(100));";
+			sql = "update t_check_write cw, t_policy_dtl tpd set cw.fix_status=\"CloseStatus\",cw.fix_desc=concat(cw.fix_desc,\"员工单\"),cw.deal_man=\"System\",cw.deal_time=current_timestamp where cw.policy_no=tpd.policy_no and cw.key_info=\"地址含有邮政关键信息;\" and cw.fix_status<>\"CloseStatus\" and tpd.holder_card_num in (select id_card from `t_staff`);";
 			log.info("------------ sql :" + sql);
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
@@ -345,16 +345,17 @@ public class TaskService {
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
 			
-			sql = "update t_policy tp, t_organization org set tp.organ_name=org.short_name where tp.organ_name=org.old_name and TO_DAYS(NOW())-TO_DAYS(operate_time)<=2;";
-			log.info("------------ sql :" + sql);
-			rstInt = statement.executeUpdate(sql);
-			
-			sql = "update t_policy tp, t_organization org set tp.organ_name=org.short_name where tp.organ_name=org.name and TO_DAYS(NOW())-TO_DAYS(operate_time)<=2;";
+			sql = "update t_policy tp, t_organization org set tp.organ_name=org.short_name where length(tp.organ_name)>=30 and tp.organ_name=org.old_name and TO_DAYS(NOW())-TO_DAYS(operate_time)<=2;";
 			log.info("------------ sql :" + sql);
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
 			
-			sql = "update t_policy tp, t_cs_expire ce, t_policy_dtl tpd set tp.status=\"满期终止\", tpd.status=\"满期终止\", tp.policy_end_date=ce.policy_end_date where tp.policy_no=ce.policy_no and tp.policy_no=tpd.policy_no;";
+			sql = "update t_policy tp, t_organization org set tp.organ_name=org.short_name where length(tp.organ_name)>=30 and tp.organ_name=org.name and TO_DAYS(NOW())-TO_DAYS(operate_time)<=2;";
+			log.info("------------ sql :" + sql);
+			rstInt = statement.executeUpdate(sql);
+			log.info("------------ finish exec sql：" + rstInt);
+			
+			sql = "update t_policy tp, t_cs_expire ce, t_policy_dtl tpd set tp.status=\"满期终止\", tpd.policy_status=\"满期终止\", tp.policy_end_date=ce.policy_end_date where tp.policy_no=ce.policy_no and tp.policy_no=tpd.policy_no;";
 			log.info("------------ sql :" + sql);
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
@@ -527,6 +528,14 @@ public class TaskService {
 			
 			String updateSQL = "update t_policy_dtl set check_flag=true where check_flag=false and relation is not null and policy_no not like \"5244%\";";
 			rstInt = statement.executeUpdate(updateSQL);
+			log.info("------------ finish exec sql：" + rstInt);
+			
+			sql = "delete from t_check_write where policy_no in(select policy_no from t_policy where prod_code=\"120022\");";
+			rstInt = statement.executeUpdate(sql);
+			log.info("------------ finish exec sql：" + rstInt);
+			
+			sql = "delete from t_check_record where policy_no in(select policy_no from t_policy where prod_code=\"120022\");";
+			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
 			
 			sql = "insert into t_log_info (username, message,ip_address,log_level,module) values "

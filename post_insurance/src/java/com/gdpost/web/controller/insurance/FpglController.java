@@ -140,6 +140,9 @@ public class FpglController {
 	public @ResponseBody String update(InvoiceReq req) {
 		Policy p = policyService.get(req.getPolicy().getId());
 		req.setPolicy(p);
+		if(req.getReqDate() == null) {
+			req.setReqDate(new Date());
+		}
 		fpglService.saveOrUpdate(req);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{req.getPolicy().getPolicyNo()}));

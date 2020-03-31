@@ -20,6 +20,7 @@ public class PolicyStatModel implements java.io.Serializable {
 	private String statName;
 	private Double policyCount;
 	private Double policyFee;
+	private Double jzhCount;
 	@Transient
 	private String levelFlag;
 	@Transient
@@ -76,6 +77,15 @@ public class PolicyStatModel implements java.io.Serializable {
 
 	public void setPolicyFee(Double policyFee) {
 		this.policyFee = policyFee;
+	}
+	
+	@Column(name="jzh_count")
+	public Double getJzhCount() {
+		return jzhCount;
+	}
+
+	public void setJzhCount(Double jzhCount) {
+		this.jzhCount = jzhCount;
 	}
 
 	@Transient

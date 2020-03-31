@@ -10,7 +10,8 @@ response.setHeader("Content-Disposition", "inline; filename=policyScanDtl.xls");
 	<table border="1" cellspacing="1" cellpadding="0">
 			<tr>
 				<th>序号</th>
-				<th>市县机构</th>
+				<th>市机构</th>
+				<th>县区机构</th>
 				<th>网点</th>
 				<th>投保单号</th>
 				<th>保单号</th>
@@ -24,6 +25,7 @@ response.setHeader("Content-Disposition", "inline; filename=policyScanDtl.xls");
 			<c:forEach var="item" items="${ybtPolicys}" varStatus="idx">
 			<tr>
 				<td>${idx.index+1}</td>
+				<td>${fn:substring(item.orgName,0,2)}</td>
 				<td>${item.orgName}</td>
 				<td>${item.bankName}</td>
 				<td style="vnd.ms-excel.numberformat:@">${item.formNo}</td>

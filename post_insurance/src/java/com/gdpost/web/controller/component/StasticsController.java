@@ -1356,9 +1356,9 @@ public class StasticsController {
 		DecimalFormat df = new DecimalFormat("#.#");
 		for (PolicyStatModel tcm : temp) {// (isNet?temp1:temp)
 			col += "'" + tcm.getStatName() + "',";
-			countList.add(tcm.getPolicyCount());
-			count += tcm.getPolicyCount();
-			countStr += tcm.getPolicyCount() + ",";
+			countList.add((tcm.getPolicyCount()-tcm.getJzhCount()));
+			count += (tcm.getPolicyCount()-tcm.getJzhCount());
+			countStr += (tcm.getPolicyCount()-tcm.getJzhCount()) + ",";
 			sumList.add(tcm.getPolicyFee());
 			sumStr += tcm.getPolicyFee() + ",";
 			sum += tcm.getPolicyFee() == null ? 0 : tcm.getPolicyFee();
@@ -1559,7 +1559,7 @@ public class StasticsController {
 		double sum = 0;
 		double count = 0;
 		for (PolicyStatModel tcm : temp) {// (isNet?temp1:temp)
-			count += tcm.getPolicyCount();
+			count += (tcm.getPolicyCount()-tcm.getJzhCount());
 			sum += tcm.getPolicyFee() == null ? 0 : tcm.getPolicyFee();
 		}
 		// 第一位

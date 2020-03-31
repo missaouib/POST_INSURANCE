@@ -23,12 +23,12 @@ private static List<ColumnItem> standardColumns;
 		column.setNullable(true);
 		standardColumns.add(column);
 		
-//		column = new ColumnItem();
-//		column.setDisplayName("单证号1");//column.setDisplayName("投保单号");
-//		column.setColumnName("form_no");
-//		column.setColumnType(ColumnType.string);
-//		column.setNullable(false);
-//		standardColumns.add(column);
+		column = new ColumnItem();
+		column.setDisplayName("保险合同组号");//column.setDisplayName("投保单号");
+		column.setColumnName("form_no");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(false);
+		standardColumns.add(column);
 		
 		column = new ColumnItem();
 		column.setDisplayName("保单号");

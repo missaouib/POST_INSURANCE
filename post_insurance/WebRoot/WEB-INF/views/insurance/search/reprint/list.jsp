@@ -40,6 +40,9 @@
 				</tr>
 				<tr>
 				<td>
+					保险合同组号：<input type="text" style="width: 100px;" id="repno" name="search_LIKE_formNo" value="${param.search_LIKE_formNo }"/>
+				</td>
+				<td>
 				<label>打印日期：</label>
 				<input type="text" name="search_GTE_printDate" id="prDate1" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_printDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 				</td>
@@ -47,7 +50,6 @@
 				<label>打印日期：</label>
 				<input type="text" name="search_LTE_printDate" id="prDate2" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_printDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 				</td>
-				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 				</tr>
 			</table>
@@ -73,7 +75,7 @@
 			<tr>
 				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>
 				<th orderField=orgCode class="${page.orderField eq 'orgCode' ? page.orderDirection : ''}">机构号</th>
-				<th orderField=formNo class="${page.orderField eq 'formNo' ? page.orderDirection : ''}">投保单号</th>
+				<th orderField=formNo class="${page.orderField eq 'formNo' ? page.orderDirection : ''}">保险合同组号</th>
 				<th orderField=policyNo class="${page.orderField eq 'policyNo' ? page.orderDirection : ''}">保单号</th>
 				<th>状态</th>
 				<th>快递单号</th>
