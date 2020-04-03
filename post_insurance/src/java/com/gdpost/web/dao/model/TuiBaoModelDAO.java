@@ -23,7 +23,7 @@ public interface TuiBaoModelDAO extends JpaRepository<TuiBaoModel, String>, JpaS
 	
 	@Query(name="getProvAllCityTuiBaoWarning",
 			value="select left(tp.organ_name,2) as organ_name,sum(tp.total_fee) as sum_policy_fee, "
-        + "t2.policy_fee as policy_fee, "
+        + "t2.policy_fee as policy_fee, 0 as sum_fee, "
         + "t3.sum_cs_fee as sum_cs_fee "
         + "from t_policy tp "
         + "left JOIN "
@@ -63,7 +63,7 @@ public interface TuiBaoModelDAO extends JpaRepository<TuiBaoModel, String>, JpaS
 	List<TuiBaoModel> getProvAllCityTuiBaoWarning(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("duration")Integer duration);
 	
 	@Query(name="getProvAllCityTuiBaoWarningWithBankCode",
-			value="select left(tp.organ_name,2) as organ_name,sum(tp.total_fee) as sum_policy_fee, "
+			value="select left(tp.organ_name,2) as organ_name,sum(tp.total_fee) as sum_policy_fee, 0 as sum_fee, "
         + "t2.policy_fee as policy_fee, "
         + "t3.sum_cs_fee as sum_cs_fee "
         + "from t_bank_code tbc, t_policy tp "
@@ -106,7 +106,7 @@ public interface TuiBaoModelDAO extends JpaRepository<TuiBaoModel, String>, JpaS
 	List<TuiBaoModel> getProvAllCityTuiBaoWarningWithBankCode(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("duration")Integer duration);
 	
 	@Query(name="getTuiBaoWarningWithPolicyDateAndCsDateNoBankCode",
-			value="select tp.organ_name,sum(tp.total_fee) as sum_policy_fee, "
+			value="select tp.organ_name,sum(tp.total_fee) as sum_policy_fee, 0 as sum_fee, "
 			+ "(select sum(itp.total_fee) as policy_fee "
 			+ "from t_policy itp, t_cs_report itcr "
 			+ "where itp.policy_no=itcr.policy_no and itp.attached_flag=0 and itcr.cs_code=\"CT\" and itp.cs_flag<>1 "
@@ -141,7 +141,7 @@ public interface TuiBaoModelDAO extends JpaRepository<TuiBaoModel, String>, JpaS
 	List<TuiBaoModel> getTuiBaoWarningWithPolicyDateAndCsDateNoBankCode(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("duration")Integer duration);
 	
 	@Query(name="getTuiBaoWarningWithPolicyDateAndCsDate",
-			value="select tp.organ_name,sum(tp.total_fee) as sum_policy_fee, "
+			value="select tp.organ_name,sum(tp.total_fee) as sum_policy_fee, 0 as sum_fee, "
 			+ "(select sum(itp.total_fee) as policy_fee "
 			+ "from t_policy itp, t_cs_report itcr, t_bank_code itbc "
 			+ "where itp.policy_no=itcr.policy_no and itp.attached_flag=0 and itp.bank_code=itbc.cpi_code and itcr.cs_code=\"CT\" and itp.cs_flag<>1 "
@@ -179,7 +179,7 @@ public interface TuiBaoModelDAO extends JpaRepository<TuiBaoModel, String>, JpaS
 	List<TuiBaoModel> getTuiBaoWarningWithPolicyDateAndCsDate(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("duration")Integer duration);
 	
 	@Query(name="getNetTuiBaoWarningWithPolicyDateAndCsDate",
-			value="select tp.bank_name as organ_name,sum(tp.total_fee) as sum_policy_fee, "
+			value="select tp.bank_name as organ_name,sum(tp.total_fee) as sum_policy_fee, 0 as sum_fee, "
 					+ "(select sum(itp.total_fee) as policy_fee "
 					+ "from t_policy itp, t_cs_report itcr "
 					+ "where itp.policy_no=itcr.policy_no and itp.attached_flag=0 and itcr.cs_code=\"CT\" and itp.cs_flag<>1 "
@@ -216,7 +216,7 @@ public interface TuiBaoModelDAO extends JpaRepository<TuiBaoModel, String>, JpaS
 	
 	
 	@Query(name="getNetTuiBaoWarningWithPolicyDateAndCsDate",
-			value="select tp.bank_name as organ_name,sum(tp.total_fee) as sum_policy_fee, "
+			value="select tp.bank_name as organ_name,sum(tp.total_fee) as sum_policy_fee, 0 as sum_fee, "
 					+ "(select sum(itp.total_fee) as policy_fee "
 					+ "from t_policy itp, t_cs_report itcr, t_bank_code itbc "
 					+ "where itp.policy_no=itcr.policy_no and itp.bank_code=itbc.cpi_code and itp.attached_flag=0 and itcr.cs_code=\"CT\" and itp.cs_flag<>1 "
@@ -253,5 +253,112 @@ public interface TuiBaoModelDAO extends JpaRepository<TuiBaoModel, String>, JpaS
 					+ "order by tp.organ_code;",
 			nativeQuery=true)
 	List<TuiBaoModel> getNetTuiBaoWarningWithPolicyDateAndCsDate(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("bankName")String bankName, @Param("duration")Integer duration);
+
+	@Query(name="getProvAllCityAGWarning",
+			value="select left(tp.organ_name, 2) as organ_name,count(distinct tp.policy_no) as policy_fee, sum(tce.expire_profit) as sum_policy_fee,count(distinct cr.policy_no) as sum_cs_fee, abs(sum(cr.money)) as sum_fee "
+	    + "from t_cs_expire tce, t_policy tp "
+	    + "left join t_cs_report cr on tp.policy_no=cr.policy_no and cr.cs_code=\"AG\" and cr.cs_date between :c1 and :c2 "
+	    + "where tce.policy_no=tp.policy_no and tp.attached_flag=0 and tp.cs_flag<>1 "
+	    + "and tp.policy_date between :p1 and :p2 "
+	    + "and tp.policy_end_date between :e1 and :e2 "
+	    + "and tp.duration >= :duration "
+	    + "and tp.organ_code like :orgCode "
+	    + "and tp.prod_code like :prdCode "
+	    + "and tp.fee_frequency like :toPerm "
+	    + "and tp.staff_flag like :staffFlag "
+	    + "and tp.status=\"满期终止\" "
+	    + "group by left(tp.organ_name,2) "
+	    + "order by tp.organ_code;",
+			nativeQuery=true)
+	List<TuiBaoModel> getProvAllCityAGWarning(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("e1")String ed1, @Param("e2")String ed2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("duration")Integer duration);
+
+	@Query(name="getProvAllCityAGWarningWithBankCode",
+			value="select left(tp.organ_name, 2) as organ_name,count(distinct tp.policy_no) as policy_fee, sum(tce.expire_profit) as sum_policy_fee,count(distinct cr.policy_no) as sum_cs_fee, abs(sum(cr.money)) as sum_fee "
+	    + "from t_bank_code tbc, t_cs_expire tce, t_policy tp "
+	    + "left join t_cs_report cr on tp.policy_no=cr.policy_no and cr.cs_code=\"AG\" and cr.cs_date between :c1 and :c2 "
+	    + "where tce.policy_no=tp.policy_no and tp.bank_code=tbc.cpi_code and tp.attached_flag=0 and tbc.net_flag=:netFlag and tp.cs_flag<>1 "
+	    + "and tp.policy_date between :p1 and :p2 "
+	    + "and tp.policy_end_date between :e1 and :e2 "
+	    + "and tp.duration >= :duration "
+	    + "and tp.organ_code like :orgCode "
+	    + "and tp.prod_code like  :prdCode  "
+	    + "and tp.fee_frequency like :toPerm "
+	    + "and tp.staff_flag like :staffFlag "
+	    + "group by left(tp.organ_name,2) "
+	    + "order by tp.organ_code;",
+			nativeQuery=true)
+	List<TuiBaoModel> getProvAllCityAGWarningWithBankCode(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("e1")String ed1, @Param("e2")String ed2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("duration")Integer duration);
+
+	@Query(name="getAGWarningWithPolicyDateAndCsDateNoBankCode",
+			value="select tp.organ_name as organ_name,count(distinct tp.policy_no) as policy_fee, sum(tce.expire_profit) as sum_policy_fee,count(distinct cr.policy_no) as sum_cs_fee, abs(sum(cr.money)) as sum_fee "
+			+ "from t_cs_expire tce, t_policy tp "
+			+ "left join t_cs_report cr on tp.policy_no=cr.policy_no and cr.cs_code=\"AG\" and cr.cs_date between :c1 and :c2 "
+			+ "where tce.policy_no=tp.policy_no and tp.cs_flag<>1 and tp.attached_flag=0 "
+			+ "and tp.policy_date between :p1 and :p2 "
+			+ "and tp.policy_end_date between :e1 and :e2 "
+			+ "and tp.duration >= :duration "
+			+ "and tp.organ_code like :orgCode "
+			+ "and tp.prod_code like :prdCode "
+			+ "and tp.fee_frequency like :toPerm "
+			+ "and tp.staff_flag like :staffFlag "
+			+ "group by tp.organ_name "
+			+ "order by tp.organ_code;",
+			nativeQuery=true)
+	List<TuiBaoModel> getAGWarningWithPolicyDateAndCsDateNoBankCode(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("e1")String ed1, @Param("e2")String ed2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("duration")Integer duration);
+
+	@Query(name="getAGWarningWithPolicyDateAndCsDate",
+			value="select tp.organ_name as organ_name,count(distinct tp.policy_no) as policy_fee, sum(tce.expire_profit) as sum_policy_fee,count(distinct cr.policy_no) as sum_cs_fee, abs(sum(cr.money)) as sum_fee "
+			+ "from t_bank_code tbc, t_cs_expire tce, t_policy tp "
+			+ "left join t_cs_report cr on tp.policy_no=cr.policy_no and cr.cs_code=\"AG\" and cr.cs_date between :c1 and :c2 "
+			+ "where tce.policy_no=tp.policy_no and tp.bank_code=tbc.cpi_code and tp.attached_flag=0 and tp.cs_flag<>1 "
+			+ "and tp.policy_date between :p1 and :p2 "
+			+ "and tp.policy_end_date between :e1 and :e2 "
+			+ "and tp.duration >= :duration "
+			+ "and tp.organ_code like :orgCode "
+			+ "and tp.prod_code like :prdCode "
+			+ "and tbc.net_flag=:netFlag "
+			+ "and tp.fee_frequency like :toPerm "
+			+ "and tp.staff_flag like :staffFlag "
+			+ "group by tp.organ_name "
+			+ "order by tp.organ_code;",
+			nativeQuery=true)
+	List<TuiBaoModel> getAGWarningWithPolicyDateAndCsDate(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("e1")String ed1, @Param("e2")String ed2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("duration")Integer duration);
+
+	@Query(name="getNetAGWarningWithPolicyDateAndCsDate",
+			value="select tp.bank_name as organ_name,count(distinct tp.policy_no) as policy_fee, sum(tce.expire_profit) as sum_policy_fee,count(distinct cr.policy_no) as sum_cs_fee, abs(sum(cr.money)) as sum_fee "
+					+ "from t_cs_expire tce, t_policy tp "
+					+ "left join t_cs_report cr on tp.policy_no=cr.policy_no and cr.cs_code=\"AG\" and cr.cs_date between :c1 and :c2 "
+					+ "where tce.policy_no=tp.policy_no and tp.cs_flag<>1 and tp.attached_flag=0 "
+					+ "and tp.policy_date between :p1 and :p2 "
+					+ "and tp.policy_end_date between :e1 and :e2 "
+					+ "and tp.duration >= :duration "
+					+ "and tp.organ_code like :orgCode "
+					+ "and tp.bank_name like :bankName "
+					+ "and tp.prod_code like :prdCode "
+					+ "and tp.fee_frequency like :toPerm "
+					+ "and tp.staff_flag like :staffFlag "
+					+ "group by tp.bank_name "
+					+ "order by tp.organ_code;",
+			nativeQuery=true)
+	List<TuiBaoModel> getNetAGWarningWithPolicyDateAndCsDate(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("e1")String ed1, @Param("e2")String ed2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("bankName")String bankName, @Param("duration")Integer duration);
+
+	@Query(name="getNetAGWarningWithPolicyDateAndCsDate",
+			value="selecttp.bank_name as organ_name,count(distinct tp.policy_no) as policy_fee, sum(tce.expire_profit) as sum_policy_fee,count(distinct cr.policy_no) as sum_cs_fee, abs(sum(cr.money)) as sum_fee "
+					+ "from t_bank_code tbc, t_cs_expire tce, t_policy tp "
+					+ "left join t_cs_report cr on tp.policy_no=cr.policy_no and cr.cs_code=\"AG\" and cr.cs_date between :c1 and :c2 "
+					+ "where tce.policy_no=tp.policy_no and tp.bank_code=tbc.cpi_code and tp.cs_flag<>1 and tp.attached_flag=0 "
+					+ "and tp.policy_date between :p1 and :p2 "
+					+ "and tp.policy_end_date between :e1 and :e2 "
+					+ "and tp.duration >= :duration "
+					+ "and tp.organ_code like :orgCode "
+					+ "and tp.bank_name like :bankName "
+					+ "and tp.prod_code like :prdCode "
+					+ "and tbc.net_flag=:netFlag "
+					+ "and tp.fee_frequency like :toPerm "
+					+ "and tp.staff_flag like :staffFlag "
+					+ "group by tp.bank_name "
+					+ "order by tp.organ_code;",
+			nativeQuery=true)
+	List<TuiBaoModel> getNetAGWarningWithPolicyDateAndCsDate(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("e1")String ed1, @Param("e2")String ed2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("bankName")String bankName, @Param("duration")Integer duration);
 	
 }

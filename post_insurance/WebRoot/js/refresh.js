@@ -41,12 +41,18 @@ function checkMessage() {
 		data: "", 
 		success: function(data) {
 			if (data!="") {
+				/*
 				var str = "";
 				var flag = -1;
 				if(data.indexOf("KFGD")>0) {
 					flag = 1;
-					str = str + "问题工单、";
+					str = str + "问题工单、<br>";
 				}
+				if(data.indexOf("ZXGD")>0) {
+					flag = 1;
+					str = str + "咨询工单、<br>";
+				}
+				
 				if(data.indexOf("HFGD")>0) {
 					flag = 1;
 					str = str + "回访不成功件、";
@@ -55,6 +61,7 @@ function checkMessage() {
 					flag = 1;
 					str = str + "保全复核问题、";
 				}
+				
 				if(data.indexOf("TXGD")>0) {
 					flag = 1;
 					str = str + "新契约填写不合格件、";
@@ -67,12 +74,16 @@ function checkMessage() {
 					flag = 1;
 					str = str + "续期催收件";
 				}
-				var info = "您还有" + str + "等未完成处理，请及时跟进！"
+				*/
+				//alert(data);
+				var info = "请及时跟进：<br>" + data;
+				alertMsg.warn(info);
 				//alert(flag);
 				//alert(info);
 				if(flag == 1) {
 					//$.messager.anim('fade', 2000); 
-					$.messager.show('<font color=red>待办任务提醒</font>',info);
+					//$.messager.show('<font color=red>待办任务提醒</font>',info);
+					alertMsg.warn(info);
 				}
 			} 
 		} 

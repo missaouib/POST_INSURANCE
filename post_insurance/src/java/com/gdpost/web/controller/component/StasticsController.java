@@ -107,6 +107,9 @@ public class StasticsController {
 	
 	private static final String HF_STAT_LIST = "insurance/stastics/huifang/statusStat";
 	private static final String HF_STAT_TOXLS = "insurance/stastics/huifang/statusStat_xls";
+	
+	private static final String AG_LIST = "insurance/stastics/ag/stat";
+	private static final String AG_TOXLS = "insurance/stastics/ag/toXls";
 	/*
 	 * =======================================
 	 *  tuibao
@@ -3424,5 +3427,389 @@ public class StasticsController {
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{userOrg.getShortName()}));
 		
 		return HF_STAT_TOXLS;
+	}
+
+	/*
+	 * =======================================
+	 *  CS AG STASTICS
+	 * =======================================
+	 * 
+	 */
+	@RequiresUser
+	@Log(message="{0}进行满期进度分析！", level=LogLevel.INFO, module=LogModule.QTCZ)
+	@RequestMapping(value = "/stastics/csag", method = { RequestMethod.GET, RequestMethod.POST })
+	public String getAGStastics(HttpServletRequest request, Map<String, Object> map) {
+		LOG.debug("-------------------here----------");
+		String organCode = request.getParameter("orgCode");
+		String organName = request.getParameter("name");
+		String pd1 = request.getParameter("policyDate1");
+		String pd2 = request.getParameter("policyDate2");
+		String ed1 = request.getParameter("policyEndDate1");
+		String ed2 = request.getParameter("policyEndDate2");
+		String csd1 = request.getParameter("csDate1");
+		String csd2 = request.getParameter("csDate2");
+		String netFlag = request.getParameter("netFlag");
+		String levelFlag = request.getParameter("levelFlag");
+		String prdCode = request.getParameter("prdCode");
+		// String prdName = request.getParameter("prdName");
+		String perm = request.getParameter("perm");
+		String staffFlag = request.getParameter("staffFlag");
+		String bankName = request.getParameter("bankName");
+		String durationStr = request.getParameter("duration");
+		Integer duration = (durationStr == null || !NumberUtils.isDigits(durationStr)) ? 0
+				: Integer.valueOf(durationStr);
+	
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();// userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
+		if (organCode == null || organCode.trim().length() <= 0) {
+			organCode = userOrg.getOrgCode();
+			organName = userOrg.getName();
+		} else if (!organCode.contains(userOrg.getOrgCode())) {
+			organCode = userOrg.getOrgCode();
+			organName = userOrg.getName();
+		}
+	
+		if (prdCode == null || prdCode.trim().length() <= 0) {
+			prdCode = "%%";
+		}
+	
+		String toPerm = perm;
+		if (perm == null) {
+			toPerm = "%%";
+			perm = "";
+		} else if (perm.trim().length() <= 0) {
+			toPerm = "%%";
+		} else if (perm.equals("1")) {
+			toPerm = "年交";
+		} else {
+			toPerm = "趸交";
+		}
+		String isStaff = staffFlag;
+		if (staffFlag == null || staffFlag.trim().length() <= 0) {
+			isStaff = "%%";
+		}
+	
+		boolean isCity = false;
+		boolean isNet = false;
+		if (levelFlag == null) {
+			if (organCode.length() >= 8) {
+				levelFlag = "net";
+			} else if (organCode.length() > 4) {
+				levelFlag = "city";
+			}
+		}
+	
+		if (levelFlag != null && levelFlag.trim().equals("city")) {
+			isCity = true;
+		} else if (levelFlag != null && levelFlag.trim().equals("net")) {
+			isNet = true;
+		}
+	
+		request.setAttribute("orgCode", organCode);
+		request.setAttribute("name", organName);
+		request.setAttribute("netFlag", netFlag);
+		request.setAttribute("prdCode", prdCode);
+		request.setAttribute("levelFlag", levelFlag);
+		request.setAttribute("perm", perm);
+		request.setAttribute("staffFlag", staffFlag);
+		request.setAttribute("duration", duration);
+	
+		boolean hasNet = true;
+		if (netFlag == null || netFlag.trim().length() <= 0) {
+			hasNet = false;
+		}
+		TuiBaoModel cm = new TuiBaoModel();
+		cm.setNetFlag(netFlag);
+		cm.setPrdCode(prdCode);
+		cm.setLevelFlag(levelFlag);
+		cm.setPerm(perm);
+		cm.setStaffFlag(staffFlag);
+		cm.setDuration(duration);
+		request.setAttribute("TuiBaoModel", cm);
+	
+		String fd = StringUtil.getFirstDayOfYear("yyyy-MM-dd");
+		if (pd1 == null || pd1.trim().length() <= 0) {
+			pd1 = fd;
+		}
+		request.setAttribute("policyDate1", pd1);
+		if (pd2 == null || pd2.trim().length() <= 0) {
+			pd2 = "9999-12-31";
+		} else {
+			request.setAttribute("policyDate2", pd2);
+		}
+		
+		if (ed1 == null || ed1.trim().length() <= 0) {
+			ed1 = fd;
+		}
+		request.setAttribute("policyEndDate1", ed1);
+		if (ed2 == null || ed2.trim().length() <= 0) {
+			ed2 = "9999-12-31";
+		} else {
+			request.setAttribute("policyEndDate2", ed2);
+		}
+		
+		if (csd1 == null || csd1.trim().length() <= 0) {
+			csd1 = fd;
+		}
+		request.setAttribute("csDate1", csd1);
+		if (csd2 == null || csd2.trim().length() <= 0) {
+			csd2 = "9999-12-31";
+		} else {
+			request.setAttribute("csDate2", csd2);
+		}
+		if (bankName == null || bankName.trim().length() <= 0) {
+			bankName = "%%";
+		} else {
+			bankName = "&" + bankName + "%";
+		}
+	
+		List<TuiBaoModel> temp = null;
+		// List<TuiBaoModel> temp1 = null;
+		if(levelFlag != null && levelFlag.equals("prov")) {
+			organCode="8644";
+		}
+		if (isNet) {
+			if (hasNet) {
+				temp = stasticsService.getNetAGWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, ed1, ed2, csd1,
+						csd2, netFlag, prdCode, toPerm, isStaff, bankName, duration);
+			} else {
+				temp = stasticsService.getNetAGWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, ed1, ed2, csd1,
+						csd2, prdCode, toPerm, isStaff, bankName, duration);
+			}
+		} else if (isCity) {
+			if (hasNet) {
+				temp = stasticsService.getAGWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, ed1, ed2, csd1, csd2,
+						netFlag, prdCode, toPerm, isStaff, duration);
+			} else {
+				temp = stasticsService.getAGWarnningWithPolicyDateAndCsDateNoBankCode(organCode + "%", pd1, pd2, ed1, ed2, 
+						csd1, csd2, prdCode, toPerm, isStaff, duration);
+			}
+		} else {
+			if (hasNet) {
+				temp = stasticsService.getProvAGWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, ed1, ed2, csd1,
+						csd2, netFlag, prdCode, toPerm, isStaff, duration);
+			} else {
+				temp = stasticsService.getProvAGWarnningWithPolicyDateAndCsDateNoBankCode(organCode + "%", pd1, pd2, ed1, ed2, 
+						csd1, csd2, prdCode, toPerm, isStaff, duration);
+			}
+		}
+		/*
+		 * ${col} - 地市列表
+		 * ${countStr} - 满期件数
+		 * ${sumStr} - AG件数
+		 * ${countPtStr} - 进度
+		 */
+		request.setAttribute("cmRst", temp);
+		String col = "";
+		String countStr = "";
+		String errsumStr = "";
+		String countPtStr = "";
+		double maxZB = 0;
+		double maxTB = 0;
+		double errsum = 0;
+		double count = 0;
+		double csMoney = 0;
+		double csProfit = 0;
+		List<Double> countList = new ArrayList<Double>();
+		List<Double> errsumList = new ArrayList<Double>();
+		DecimalFormat df = new DecimalFormat("#.#");
+		for (TuiBaoModel tcm : temp) {
+			col += "'" + tcm.getOrganName() + "',";
+			countList.add(tcm.getPolicyFee());
+			count += tcm.getPolicyFee();
+			countStr += tcm.getPolicyFee() + ",";
+			errsumList.add(tcm.getSumCsFee());
+			errsumStr += tcm.getSumCsFee() + ",";
+			errsum += tcm.getSumCsFee() == null ? 0 : tcm.getSumCsFee();
+			csProfit += tcm.getSumPolicyFee();
+			csMoney += tcm.getSumFee()==null?0:tcm.getSumFee();
+			
+			Double err = (double) (tcm.getPolicyFee()==0?1:tcm.getSumCsFee());
+			Double p = (double) (tcm.getPolicyFee()==0?1:tcm.getPolicyFee());
+			countPtStr += (df.format((err/p)*100) + ",");
+			
+			if(tcm.getPolicyFee() > maxTB) {
+				maxTB = tcm.getPolicyFee();
+			}
+			if(maxZB<(tcm.getSumCsFee()/(tcm.getPolicyFee()==0?1:tcm.getPolicyFee()))) {
+				maxZB = tcm.getSumCsFee()/(tcm.getPolicyFee()==0?1:tcm.getPolicyFee());
+			}
+		}
+		
+		int m = 1;
+		for (int i = 0; i < (int) Math.log10(maxTB); i++) {
+			m *= 10;
+		}
+		// 第一位
+		maxTB = (maxTB / m + 1) * m;
+		maxZB = maxZB*100;
+		request.setAttribute("col", col);
+		request.setAttribute("countStr", countStr);
+		request.setAttribute("sumStr", errsumStr);
+		request.setAttribute("countPtStr", countPtStr);
+		request.setAttribute("maxTB", maxTB);
+		request.setAttribute("maxZB", maxZB);
+		request.setAttribute("countPt", count);
+		request.setAttribute("sumPt", errsum);
+		request.setAttribute("csProfit", csProfit);
+		request.setAttribute("csMoney", csMoney);
+		Page page = new Page();
+		page.setNumPerPage(50);
+		List<Prd> prds = prdService.findAllPrd(page);
+		request.setAttribute("prds", prds);
+		LOG.debug(" ------------ result size:" + temp.size());
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{userOrg.getShortName()}));
+		
+		return AG_LIST;
+	}
+
+	@RequiresUser
+	@Log(message="{0}下载了满期进度分析结果！", level=LogLevel.INFO, module=LogModule.QTCZ)
+	@RequestMapping(value = "/stastics/csag/toXls", method = { RequestMethod.GET, RequestMethod.POST })
+	public String getAGStasticsToXls(ServletRequest request, Map<String, Object> map) {
+		LOG.debug("-------------------here----------");
+		String organCode = request.getParameter("orgCode");
+		String pd1 = request.getParameter("policyDate1");
+		String pd2 = request.getParameter("policyDate2");
+		String ed1 = request.getParameter("policyEndDate1");
+		String ed2 = request.getParameter("policyEndDate2");
+		String csd1 = request.getParameter("csDate1");
+		String csd2 = request.getParameter("csDate2");
+		String netFlag = request.getParameter("netFlag");
+		String levelFlag = request.getParameter("levelFlag");
+		String prdCode = request.getParameter("prdCode");
+		String perm = request.getParameter("perm");
+		String staffFlag = request.getParameter("staffFlag");
+		String bankName = request.getParameter("bankName");
+		String durationStr = request.getParameter("duration");
+		Integer duration = (durationStr == null || !NumberUtils.isDigits(durationStr)) ? 0
+				: Integer.valueOf(durationStr);
+	
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();// userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
+		if (organCode == null || organCode.trim().length() <= 0) {
+			organCode = userOrg.getOrgCode();
+		} else if (!organCode.contains(userOrg.getOrgCode())) {
+			organCode = userOrg.getOrgCode();
+		}
+	
+		if (prdCode == null || prdCode.trim().length() <= 0) {
+			prdCode = "%%";
+		}
+		String toPerm = perm;
+		if (perm == null) {
+			toPerm = "年交";
+			perm = "1";
+		} else if (perm.trim().length() <= 0) {
+			toPerm = "%%";
+		} else if (perm.equals("1")) {
+			toPerm = "年交";
+		} else {
+			toPerm = "趸交";
+		}
+		String isStaff = staffFlag;
+		if (staffFlag == null || staffFlag.trim().length() <= 0) {
+			isStaff = "%%";
+		}
+		boolean isCity = false;
+		boolean isNet = false;
+		if (levelFlag != null && levelFlag.trim().equals("city")) {
+			isCity = true;
+		} else if (levelFlag != null && levelFlag.trim().equals("net")) {
+			isNet = true;
+		}
+	
+		boolean hasNet = true;
+		if (netFlag == null || netFlag.trim().length() <= 0) {
+			hasNet = false;
+		}
+	
+		String fd = StringUtil.getFirstDayOfYear("yyyy-MM-dd");
+		if (pd1 == null || pd1.trim().length() <= 0) {
+			pd1 = fd;
+		}
+		if (pd2 == null || pd2.trim().length() <= 0) {
+			pd2 = "9999-12-31";
+		}
+		
+		if (ed1 == null || ed1.trim().length() <= 0) {
+			ed1 = fd;
+		}
+		if (ed2 == null || ed2.trim().length() <= 0) {
+			ed2 = "9999-12-31";
+		}
+		
+		if (csd1 == null || csd1.trim().length() <= 0) {
+			csd1 = fd;
+		}
+		if (csd2 == null || csd2.trim().length() <= 0) {
+			csd2 = "9999-12-31";
+		}
+		if (bankName == null || bankName.trim().length() <= 0) {
+			bankName = "%%";
+		} else {
+			bankName = "&" + bankName + "%";
+		}
+	
+		List<TuiBaoModel> temp = null;
+		
+		if(levelFlag != null && levelFlag.equals("prov")) {
+			organCode="8644";
+		}
+		
+		if (isNet) {
+			if (hasNet) {
+				temp = stasticsService.getNetAGWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, ed1, ed2, csd1,
+						csd2, netFlag, prdCode, toPerm, isStaff, bankName, duration);
+			} else {
+				temp = stasticsService.getNetAGWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, ed1, ed2, csd1,
+						csd2, prdCode, toPerm, isStaff, bankName, duration);
+			}
+		} else if (isCity) {
+			if (hasNet) {
+				temp = stasticsService.getAGWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, ed1, ed2, csd1, csd2,
+						netFlag, prdCode, toPerm, isStaff, duration);
+			} else {
+				temp = stasticsService.getAGWarnningWithPolicyDateAndCsDateNoBankCode(organCode + "%", pd1, pd2, ed1, ed2, 
+						csd1, csd2, prdCode, toPerm, isStaff, duration);
+			}
+		} else {
+			if (hasNet) {
+				temp = stasticsService.getProvAGWarnningWithPolicyDateAndCsDate(organCode + "%", pd1, pd2, ed1, ed2, csd1,
+						csd2, netFlag, prdCode, toPerm, isStaff, duration);
+			} else {
+				temp = stasticsService.getProvAGWarnningWithPolicyDateAndCsDateNoBankCode(organCode + "%", pd1, pd2, ed1, ed2, 
+						csd1, csd2, prdCode, toPerm, isStaff, duration);
+			}
+		}
+	
+		request.setAttribute("cmRst", temp);
+	
+		double sumTb = 0;
+		double totalTb = 0;
+		double totalCS = 0;
+		double csMoney = 0;
+		double csProfit = 0;
+		for (TuiBaoModel tcm : temp) {// (isNet?temp1:temp)
+			sumTb += tcm.getPolicyFee() == null ? 0 : tcm.getPolicyFee();
+			totalTb += tcm.getPolicyFee();
+			totalCS += tcm.getSumCsFee() == null ? 0 : tcm.getSumCsFee();
+			csProfit += tcm.getSumPolicyFee();
+			csMoney += tcm.getSumFee();
+		}
+		// 第一位
+		request.setAttribute("sumTb", sumTb );
+		request.setAttribute("totalCS", totalCS );
+		request.setAttribute("totalTb", totalTb );
+		request.setAttribute("csProfit", csProfit);
+		request.setAttribute("csMoney", csMoney);
+	
+		LOG.debug(" ------------ result size:" + temp.size());
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{userOrg.getShortName()}));
+		
+		return AG_TOXLS;
 	}
 }

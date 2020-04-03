@@ -346,4 +346,34 @@ public class StasticsServiceImpl implements StasticsService {
 	public List<QyCheckModel> getHfAreaStastics(String organCode, String d1, String d2, String netFlag) {
 		return checkDAO.getHfAreaStat(organCode, d1, d2, netFlag);
 	}
+
+	@Override
+	public List<TuiBaoModel> getAGWarnningWithPolicyDateAndCsDateNoBankCode(String organCode, String d1, String d2, String e1, String e2, String c1, String c2, String prdCode, String toPerm, String staffFlag, Integer duration) {
+		return cmDAO.getAGWarningWithPolicyDateAndCsDateNoBankCode(organCode, d1, d2, e1, e2, c1, c2, prdCode, toPerm, staffFlag, duration);
+	}
+
+	@Override
+	public List<TuiBaoModel> getAGWarnningWithPolicyDateAndCsDate(String organCode, String d1, String d2, String e1, String e2, String c1, String c2, String flag, String prdCode, String toPerm, String staffFlag, Integer duration) {
+		return cmDAO.getAGWarningWithPolicyDateAndCsDate(organCode, d1, d2, e1, e2, c1, c2, flag, prdCode, toPerm, staffFlag, duration);
+	}
+
+	@Override
+	public List<TuiBaoModel> getNetAGWarnningWithPolicyDateAndCsDate(String organCode, String d1, String d2, String e1, String e2, String c1, String c2, String prdCode, String toPerm, String staffFlag, String bankNaem, Integer duration) {
+		return cmDAO.getNetAGWarningWithPolicyDateAndCsDate(organCode, d1, d2, e1, e2, c1, c2, prdCode, toPerm, staffFlag, bankNaem, duration);
+	}
+
+	@Override
+	public List<TuiBaoModel> getNetAGWarnningWithPolicyDateAndCsDate(String organCode, String d1, String d2, String e1, String e2, String c1, String c2, String flag, String prdCode, String toPerm, String staffFlag, String bankNaem, Integer duration) {
+		return cmDAO.getNetAGWarningWithPolicyDateAndCsDate(organCode, d1, d2, e1, e2, c1, c2, flag, prdCode, toPerm, staffFlag, bankNaem, duration);
+	}
+
+	@Override
+	public List<TuiBaoModel> getProvAGWarnningWithPolicyDateAndCsDateNoBankCode(String organCode, String d1, String d2, String e1, String e2, String c1, String c2, String prdCode, String toPerm, String staffFlag, Integer duration) {
+		return cmDAO.getProvAllCityAGWarning(organCode, d1, d2, e1, e2, c1, c2, prdCode, toPerm, staffFlag, duration);
+	}
+
+	@Override
+	public List<TuiBaoModel> getProvAGWarnningWithPolicyDateAndCsDate(String organCode, String d1, String d2, String e1, String e2, String c1, String c2, String flag, String prdCode, String toPerm, String staffFlag, Integer duration) {
+		return cmDAO.getProvAllCityAGWarningWithBankCode(organCode, d1, d2, e1, e2, c1, c2, flag, prdCode, toPerm, staffFlag, duration);
+	}
 }

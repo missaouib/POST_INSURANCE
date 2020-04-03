@@ -91,7 +91,7 @@ $(function(){
 $(document).ready(function(){
 	doRefresh();
 	//checkMessage();
-	//window.setInterval("checkMessage()",3000000);//1分钟刷新1次 
+	window.setInterval("checkMessage()",60 * 4 * 60 * 1000);//1分钟刷新1次 
 }); 
 </script>
 </head>

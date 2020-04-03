@@ -21,6 +21,7 @@ public class TuiBaoModel implements java.io.Serializable {
 	private Double policyFee;
 	private Double sumCsFee;
 	private Double sumPolicyFee;
+	private Double sumFee;
 	@Transient
 	private String levelFlag;
 	@Transient
@@ -78,6 +79,15 @@ public class TuiBaoModel implements java.io.Serializable {
 
 	public void setSumPolicyFee(Double sumPolicyFee) {
 		this.sumPolicyFee = sumPolicyFee;
+	}
+
+	@Column(name="sum_fee")
+	public Double getSumFee() {
+		return sumFee;
+	}
+
+	public void setSumFee(Double sumFee) {
+		this.sumFee = sumFee;
 	}
 
 	@Transient

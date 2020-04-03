@@ -121,4 +121,16 @@ public interface StasticsService {
 	List<QyCheckModel> getHfCityStastics(String d1, String d2, String netFlag);
 	
 	List<QyCheckModel> getHfAreaStastics(String organCode, String d1, String d2, String netFlag);
+
+	List<TuiBaoModel> getAGWarnningWithPolicyDateAndCsDateNoBankCode(String organCode, String d1, String d2, String e1, String e2, String c1, String c2, String prdCode, String toPerm, String staffFlag, Integer duration);
+
+	List<TuiBaoModel> getAGWarnningWithPolicyDateAndCsDate(String organCode, String d1, String d2, String e1, String e2, String c1, String c2, String flag, String prdCode, String toPerm, String staffFlag, Integer duration);
+
+	List<TuiBaoModel> getProvAGWarnningWithPolicyDateAndCsDateNoBankCode(String organCode, String d1, String d2, String e1, String e2, String c1, String c2, String prdCode, String toPerm, String staffFlag, Integer duration);
+
+	List<TuiBaoModel> getProvAGWarnningWithPolicyDateAndCsDate(String organCode, String d1, String d2, String e1, String e2, String c1, String c2, String flag, String prdCode, String toPerm, String staffFlag, Integer duration);
+
+	List<TuiBaoModel> getNetAGWarnningWithPolicyDateAndCsDate(String organCode, String d1, String d2, String e1, String e2, String c1, String c2, String prdCode, String toPerm, String staffFlag, String bankName, Integer duration);
+
+	List<TuiBaoModel> getNetAGWarnningWithPolicyDateAndCsDate(String organCode, String d1, String d2, String e1, String e2, String c1, String c2, String flag, String prdCode, String toPerm, String staffFlag, String bankName, Integer duration);
 }

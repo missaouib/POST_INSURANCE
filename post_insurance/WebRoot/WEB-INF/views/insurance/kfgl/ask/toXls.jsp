@@ -22,6 +22,10 @@ response.setHeader("Content-Disposition", "inline; filename=Inquire_xls.xls");
 				<th>联系电话</th>
 				<th>险种名称</th>
 				<th>出单网点</th>
+				<th>工单标记</th>
+				<th>经办部门</th>
+				<th>地市办理</th>
+				<th>专办地市日期</th>
 				<th>工单状态</th>
 				<th>处理情况</th>
 				<th>经办人</th>
@@ -64,6 +68,27 @@ response.setHeader("Content-Disposition", "inline; filename=Inquire_xls.xls");
 					    </c:otherwise>  
 					</c:choose>
 				</td>
+				<td>
+					<c:choose>
+                        <c:when test="${not empty item.gpolicyNo}">
+                        	<div style="color: blue;vertical-align:middle;">团险</div>
+                        </c:when>
+                        <c:when test="${not empty item.policyNos}">
+                        	<div style="color: blue;vertical-align:middle;">个险</div>
+                        </c:when>
+                       <c:otherwise>个险团险 </c:otherwise>
+                    </c:choose>
+				</td>
+				<td>${item.assignTo}</td>
+				<td>
+					<c:choose>
+                        <c:when test="${item.cityDealFlag}">
+                        	<div style="color: blue;vertical-align:middle;">已转办</div>
+                        </c:when>
+                        <c:otherwise>否 </c:otherwise>
+                    </c:choose>
+				</td>
+				<td><fmt:formatDate value="${item.toCityDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.inquireStatus}</td>
 				<td>${item.inquireRst}</td>
 				<td>${item.dealMan}</td>

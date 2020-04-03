@@ -98,10 +98,10 @@ public class TaskService {
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
 			
-			//sql = "update t_policy set attached_flag = 8 where attached_flag=0 and prod_code=\"120022\";";
-			//log.info("------------ sql :" + sql);
-			//rstInt = statement.executeUpdate(sql);
-			//log.info("------------ finish exec sql：" + rstInt);
+			sql = "update t_policy set attached_flag = 8 where attached_flag=0 and prod_code in(\"125019\",\"121001\",\"121002\");";
+			log.info("------------ sql :" + sql);
+			rstInt = statement.executeUpdate(sql);
+			log.info("------------ finish exec sql：" + rstInt);
 			
 			sql = "update t_policy set plan_name=\"新百倍保自驾航空责任组合\" where plan_code=\"125012_B\" and plan_name is null;";
 			log.info("------------ sql :" + sql);
@@ -270,6 +270,16 @@ public class TaskService {
 			log.info("------------ finish exec sql：" + rstInt);
 			
 			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=1,tp.status=\"终止\",tp.cs_date=tcr.cs_date where tp.cs_flag<>1 and tp.attached_flag=1 and tp.policy_no=tcr.policy_no and tcr.full_cs_code=\"CT犹撤\" and abs(tcr.money)<=500;";
+			log.info("------------ sql :" + sql);
+			rstInt = statement.executeUpdate(sql);
+			log.info("------------ finish exec sql：" + rstInt);
+			
+			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=1,tp.status=\"终止\",tp.cs_date=tcr.cs_date where tp.cs_flag<>1 and tp.attached_flag=0 and tp.policy_no=tcr.policy_no and tcr.full_cs_code=\"CT犹撤\" and tp.prod_code=\"120022\";";
+			log.info("------------ sql :" + sql);
+			rstInt = statement.executeUpdate(sql);
+			log.info("------------ finish exec sql：" + rstInt);
+			
+			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=2,tp.status=\"终止\",tp.cs_date=tcr.cs_date where tp.cs_flag<>2 and tp.attached_flag=0 and tp.policy_no=tcr.policy_no and tcr.full_cs_code=\"CT退保\" and tp.prod_code=\"120022\";";
 			log.info("------------ sql :" + sql);
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
@@ -527,14 +537,22 @@ public class TaskService {
 			//"insert into t_check_write (check_batch,form_no,policy_no,prod_name,need_fix,key_info, checker) values";
 			
 			String updateSQL = "update t_policy_dtl set check_flag=true where check_flag=false and relation is not null and policy_no not like \"5244%\";";
+			log.info("------------ finish exec sql：" + updateSQL);
 			rstInt = statement.executeUpdate(updateSQL);
 			log.info("------------ finish exec sql：" + rstInt);
 			
 			sql = "delete from t_check_write where policy_no in(select policy_no from t_policy where prod_code=\"120022\");";
+			log.info("------------ finish exec sql：" + sql);
+			rstInt = statement.executeUpdate(sql);
+			log.info("------------ finish exec sql：" + rstInt);
+			
+			sql = "update t_check_write set is_truth=true where checker=\"System\" and is_truth=false;";
+			log.info("------------ finish exec sql：" + sql);
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
 			
 			sql = "delete from t_check_record where policy_no in(select policy_no from t_policy where prod_code=\"120022\");";
+			log.info("------------ finish exec sql：" + sql);
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
 			

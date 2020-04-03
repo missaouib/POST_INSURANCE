@@ -98,10 +98,10 @@ function toTips(val) {
 	</table>
 	</div>
 	<div class="sortDrag" style="width:65%;border:1px solid #e66;margin:5px;float:left;min-height:10px">
-	<div id="statustatMain" style="width: 800px;height:400px;"></div>
+	<div id="huifangMain" style="width: 800px;height:400px;"></div>
 	    <script type="text/javascript">
 	        // 基于准备好的dom，初始化echarts实例
-	        var myChart = echarts.init(document.getElementById('statustatMain'));
+	        var myChart = echarts.init(document.getElementById('huifangMain'));
 			
 	        option = {
 	            tooltip: {

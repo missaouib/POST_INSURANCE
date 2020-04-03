@@ -16,11 +16,9 @@ import com.gdpost.utils.StringUtil;
 import com.gdpost.web.entity.insurance.Inquire;
 import com.gdpost.web.entity.insurance.Issue;
 import com.gdpost.web.entity.insurance.UnderWrite;
-import com.gdpost.web.service.insurance.BqglService;
 import com.gdpost.web.service.insurance.HfglService;
 import com.gdpost.web.service.insurance.KfglService;
 import com.gdpost.web.service.insurance.QyglService;
-import com.gdpost.web.service.insurance.XqglService;
 import com.gdpost.web.shiro.ShiroUser;
 
 @Controller
@@ -31,14 +29,14 @@ public class RefreshController {
 	@Autowired
 	private KfglService kfglService;
 	
-	@Autowired
-	private BqglService bqglService;
+//	@Autowired
+//	private BqglService bqglService;
 	
 	@Autowired
 	private QyglService qyglService;
 	
-	@Autowired
-	private XqglService xqglService;
+//	@Autowired
+//	private XqglService xqglService;
 	
 	@Autowired
 	private HfglService hfglService;
@@ -96,60 +94,84 @@ public class RefreshController {
 	public @ResponseBody String check() {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		boolean hasIssue = false;
+		boolean hasInquire = false;
 		boolean hasBqIssue = false;
 		boolean hasWriteCheck = false;
 		boolean hasRecordCheck = false;
 		boolean hasXqIssue = false;
 		boolean hasHfissue = false;
+		int zxnum = 0;
+		int gdnum = 0;
+		int wnum = 0;
+		int rnum = 0;
+		int hfnum = 0;
 		Subject sub = SecurityUtils.getSubject();
 		if(sub.isPermitted("Wtgd:view")) {
-			if(kfglService.getTODOIssueList(shiroUser.getUser()).size() > 0) {
+			gdnum = kfglService.getTODOIssueList(shiroUser.getUser()).size();
+			if(gdnum > 0) {
 				hasIssue = true;
 			}
 		}
-		if(sub.isPermitted("Cservice:view")) {
-			if (bqglService.getTODOIssueList(shiroUser.getUser()).size() > 0) {
-				hasBqIssue = true;
+		if(sub.isPermitted("Wtgd:view")) {
+			zxnum = kfglService.getTODOInquireList(shiroUser.getUser()).size();
+			if(zxnum > 0) {
+				hasInquire = true;
 			}
 		}
+//		if(sub.isPermitted("Cservice:view")) {
+//			if (bqglService.getTODOIssueList(shiroUser.getUser()).size() > 0) {
+//				hasBqIssue = true;
+//			}
+//		}
 		if(sub.isPermitted("CheckWrite:view")) {
-			if (qyglService.getTODOWriteIssueList(shiroUser.getUser()).size() > 0) {
+			wnum = qyglService.getTODOWriteIssueList(shiroUser.getUser()).size();
+			if (wnum > 0) {
 				hasWriteCheck = true;
 			}
 		}
 		if(sub.isPermitted("CheckRecord:view")) {
-			if (qyglService.getTODORecordIssueList(shiroUser.getUser()).size() > 0) {
+			rnum = qyglService.getTODORecordIssueList(shiroUser.getUser()).size();
+			if (rnum > 0) {
 				hasRecordCheck = true;
 			}
 		}
-		if(sub.isPermitted("Renewed:view")) {
-			if (xqglService.getTODOIssueList(shiroUser.getUser()).size() > 0) {
-				hasXqIssue = true;
-			}
-		}
+//		if(sub.isPermitted("Renewed:view")) {
+//			if (xqglService.getTODOIssueList(shiroUser.getUser()).size() > 0) {
+//				hasXqIssue = true;
+//			}
+//		}
 		if(sub.isPermitted("Callfail:view")) {
-			if (hfglService.getTODOIssueList(shiroUser.getUser()).size() > 0) {
+			hfnum = hfglService.getTODOIssueList(shiroUser.getUser()).size();
+			if (hfnum > 0) {
 				hasHfissue = true;
 			}
 		}
 		String rst = "";
 		if(hasIssue) {
-			rst += "|KFGD|";
+			//rst += "|KFGD" + gdnum + "|";
+			rst = "客服工单" + gdnum + "件<br>";
+		}
+		if(hasInquire) {
+			//rst += "|ZXGD" + zxnum + "|";
+			rst = "咨询工单" + zxnum + "件<br>";
 		}
 		if(hasBqIssue) {
-			rst += "|BQGD|";
+			//rst += "|BQGD|";
 		}
 		if(hasWriteCheck) {
-			rst += "|TXGD|";
+			//rst += "|TXGD" + wnum + "|";
+			rst = "客真工单" + wnum + "件<br>";
 		}
 		if(hasRecordCheck) {
-			rst += "|LRGD|";
+			//rst += "|LRGD" + rnum + "|";
+			rst = "抽检录入差错" + rnum + "件";
 		}
 		if(hasXqIssue) {
-			rst += "|XQGD|";
+			//rst += "|XQGD|";
 		}
 		if(hasHfissue) {
-			rst += "|HFGD|";
+			//rst += "|HFGD" + hfnum + "|";
+			//rst = "回访工单" + gdnum + "件<br>";
 		}
 		return rst;
 	}
