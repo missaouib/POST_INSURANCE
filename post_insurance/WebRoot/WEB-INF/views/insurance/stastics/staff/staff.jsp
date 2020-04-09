@@ -71,7 +71,7 @@
 <br>
 <div class="pageContent" layoutH="120">
 <div class="row" style="padding: 0 5px;">
-	<div class="sortDrag" style="width:30%;border:1px solid #e66;margin:5px;float:left;min-height:100px">
+	<div style="width:30%;border:1px solid #e66;margin:5px;float:left;min-height:100px">
 	<h2 class="contentTitle">列表展示（单位：万元）&nbsp;&nbsp;&nbsp;&nbsp;</h2>
 		<table class="table" layoutH="220" width="100%">
 		<thead>
@@ -112,7 +112,7 @@
 		</tbody>
 	</table>
 	</div>
-	<div class="sortDrag" style="width:65%;border:1px solid #e66;margin:5px;float:left;min-height:100px">
+	<div style="width:65%;border:1px solid #e66;margin:5px;float:left;min-height:100px">
 	<div id="staffMain" style="width: 800px;height:400px;"></div>
 	    <script type="text/javascript">
 	        // 基于准备好的dom，初始化echarts实例
@@ -120,7 +120,7 @@
 	
 	        option = {
         		title: {
-	                text: '员工单分析图表'
+	                text: '图表'
 	            },
 	            tooltip: {
 	                trigger: 'axis'
@@ -134,7 +134,7 @@
 	                }
 	            },
 	            legend: {
-	                data:['员工单保费','占比']
+	                data:['员工单保费金额','占比']
 	            },
 	            xAxis: [
 	                {

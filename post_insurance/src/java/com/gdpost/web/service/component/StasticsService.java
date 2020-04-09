@@ -106,6 +106,10 @@ public interface StasticsService {
 	
 	List<QyCheckModel> getCheckTruthAreaStastics(String organCode, String d1, String d2, Integer duration, String toPerm, String netFlag);
 	
+	List<QyCheckModel> getMultipleCheckTruthCityStastics(String d1, String d2, Integer duration, String toPerm, String netFlag);
+	
+	List<QyCheckModel> getMultipleCheckTruthAreaStastics(String organCode, String d1, String d2, Integer duration, String toPerm, String netFlag);
+	
 	List<QyCheckModel> getPrintCityStastics(String d1, String d2);
 	
 	List<QyCheckModel> getPrintAreaStastics(String organCode, String d1, String d2);

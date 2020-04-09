@@ -12,7 +12,7 @@ function toTips(val) {
 //-->
 </script>
 <script src="${contextPath}/js/echarts.min.js"></script>
-<form method="post" id="hfForm" action="${contextPath }/component/stastics/truth" onsubmit="return navTabSearch(this)">
+<form method="post" id="hfForm" action="${contextPath }/component/stastics/multipleTruth" onsubmit="return navTabSearch(this)">
 	<div class="pageHeader">
 		<div class="searchBar">
 			<table class="searchContent">
@@ -72,61 +72,61 @@ function toTips(val) {
 	</div>
 </form>
 <h2 class="contentTitle"><label>统计结果</label>
-<a class="buttonActive" target="_blank" href="${contextPath }/component/stastics/truth/toXls?netFlag=${netFlag }&duration=${duration }&orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&levelFlag=${levelFlag}&duration=${duration}&perm=${perm}"><span>导出统计结果</span></a>
+<a class="buttonActive" target="_blank" href="${contextPath }/component/stastics/truth/multipletoXls?netFlag=${netFlag }&duration=${duration }&orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&levelFlag=${levelFlag}&duration=${duration}&perm=${perm}"><span>导出统计结果</span></a>
 &nbsp;&nbsp;&nbsp;&nbsp;
-<a class="buttonActive" target="_blank" href="${contextPath }/component/stastics/truth/dtlToXls?netFlag=${netFlag }&orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&levelFlag=${levelFlag}&duration=${duration}&perm=${perm}"><span>导出差错明细</span></a>
 </h2>
 <br>
-<div class="pageContent" layoutH="130" width="150%">
+<div class="pageContent" layoutH="170" width="150%">
 <div class="row" style="padding: 0 3px;">
 	<div style="width:30%;border:1px solid #e66;margin:5px;float:left;min-height:100px">
 	<h2 class="contentTitle">列表展示（单位：件）注： &nbsp;&nbsp;&nbsp;&nbsp;</h2>
 		<table class="table" width="100%">
 		<thead>
 			<tr>
-				<th>序号</th>
 				<th>名称</th>
-				<th>件数</th>
+				<th>保单件数</th>
 				<th>差错件数</th>
-				<th>真实性合格率</th>
+				<th>整改件数</th>
+				<th>及时件数</th>
+				<th title="合格率50%及时30%整改20%">综合合格率</th>
+				<th title="合格率60%整改40%">条线合格率</th>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach var="item" items="${cmRst}" varStatus="idx">
 			<tr>
-				<td style="text-align: center;">${idx.index+1 }</td>
-				<td>${item.orgName }</td>
+				<td>${item.organCode }</td>
 				<td style="text-align: right;"><fmt:formatNumber value="${item.policyCounts}" pattern="#,###.#" /></td>
+				<td style="text-align: right;"><fmt:formatNumber value="${item.checkCounts}" pattern="#,###.#" /></td>
 				<td style="text-align: right;"><fmt:formatNumber value="${item.errCounts}" pattern="#,###.#" /></td>
-				<td style="text-align: right;"><fmt:formatNumber value="${(1-item.errCounts/item.policyCounts)*100}" pattern="#,###.#" />%</td>
+				<td style="text-align: right;"><fmt:formatNumber value="${item.ontimeCounts}" pattern="#,###.#" /></td>
+				<td style="text-align: right;"><fmt:formatNumber value="${item.statFlag}" pattern="#,###.##" />%</td>
+				<td style="text-align: right;"><fmt:formatNumber value="${((1-item.checkCounts/item.policyCounts)*0.6+item.errCounts/item.checkCounts*0.4)*100}" pattern="#,###.##" />%</td>
 			</tr>
 			</c:forEach>
 			<tr>
-				<td>&nbsp;</td>
 				<td>合计：</td>
-				<td style="text-align: right;"><fmt:formatNumber value="${countPt}" pattern="#,###.#" /></td>
-				<td style="text-align: right;"><fmt:formatNumber value="${sumPt}" pattern="#,###.#" /></td>
-				<td style="text-align: right;"><fmt:formatNumber value="${(1-sumPt/countPt)*100}" pattern="#,###.#" />%</td>
+				<td style="text-align: right;"><fmt:formatNumber value="${countSum}" pattern="#,###.#" /></td>
+				<td style="text-align: right;"><fmt:formatNumber value="${checkSum}" pattern="#,###.#" /></td>
+				<td style="text-align: right;"><fmt:formatNumber value="${errSum}" pattern="#,###.#" /></td>
+				<td style="text-align: right;"><fmt:formatNumber value="${ontimeSum}" pattern="#,###.#" /></td>
+				<td style="text-align: right;"><fmt:formatNumber value="${finalRatio}" pattern="#,###.##" />%</td>
+				<td>&nbsp;</td>
 			</tr>
 		</tbody>
 	</table>
 	</div>
-	<div style="width:65%;border:1px solid #e66;margin:5px;float:left;min-height:10px">
-	<div id="truthtatMain" style="width: 800px;height:500px;"></div>
+	<div style="width:65%;border:1px solid #e66;margin:5px;float:left">
+	<div id="multipletruthtatMain" style="width: 900px;height:520px;"></div>
 	    <script type="text/javascript">
 	        // 基于准备好的dom，初始化echarts实例
-	        var myChart = echarts.init(document.getElementById('truthtatMain'));
+	        var myChart = echarts.init(document.getElementById('multipletruthtatMain'));
 			
 	        option = {
-	            tooltip: {
-	                trigger: 'axis',
-	                axisPointer: {
-	                    type: 'cross',
-	                    crossStyle: {
-	                        color: '#999'
-	                    }
-	                }
+				title: {
+	                text: '图示'
 	            },
+	            tooltip: {},
 	            toolbox: {
 	                feature: {
 	                    dataView: {show: true, readOnly: false},
@@ -135,59 +135,70 @@ function toTips(val) {
 	                    saveAsImage: {show: true}
 	                }
 	            },
-	            legend: {
-	                data:['承保件','差错件','合格率']
-	            },
-	            xAxis: [
-	                {
-	                    type: 'category',
-	                    data: [${col}],
-	                    axisPointer: {
-	                        type: 'shadow'
-	                    }
-	                }
-	            ],
-	            yAxis: [
-	                {
-	                    type: 'value',
-	                    name: '数量',
-	                    min: 0,
-	                    max: ${maxTB},
-	                    interval: 100,
-	                    axisLabel: {
-	                        formatter: '{value}'
-	                    }
-	                },
-	                {
-	                    type: 'value',
-	                    name: '占比',
-	                    min: 0,
-	                    max: ${maxZB},
-	                    interval: 10,
-	                    axisLabel: {
-	                        formatter: '{value} %'
-	                    }
-	                }
-	            ],
-	            series: [
-	                {
-	                    name:'承保件',
-	                    type:'bar',
-	                    data:[${countStr}]
-	                },
-	                {
-	                    name:'差错件',
-	                    type:'bar',
-	                    data:[${sumStr}]
-	                },
-	                {
-	                    name:'合格率',
-	                    type:'line',
-	                    yAxisIndex: 1,
-	                    data:[${countPtStr}]
-	                }
-	            ]
-	        };
+			    legend: {
+			        data: ['出单量', '问题量', '整改量', '及时整改量','综合合格率']
+			    },
+			    xAxis: {
+			        type: 'category',
+			        boundaryGap: false,
+			        data: [${cityCol}]
+			    },
+			    yAxis: [
+			        {
+			            type: 'value',
+			            name: '总件数',
+			            min: 100,
+			            max: ${maxTB},
+			            interval: 300,
+			            axisLabel: {
+			                formatter: '{value}'
+			            }
+			        },
+			        {
+			            type: 'value',
+			            name: '综合合格率',
+			            min: 0,
+			            max: ${maxZB},
+			            interval: 10,
+			            axisLabel: {
+			                formatter: '{value}'
+			            }
+			        }
+			    ],
+			    series: [
+			        {
+			            name: '出单量',
+			            yAxisIndex: 0,
+			            type: 'line',
+			            data: [${countStr}]
+			        },
+			        {
+			            name: '问题量',
+			            yAxisIndex: 1,
+			            type: 'line',
+			            data: [${checkStr}]
+			        },
+			        {
+			            name: '整改量',
+			            yAxisIndex: 1,
+			            type: 'line',
+			            stack: '总量',
+			            data: [${errSumStr}]
+			        },
+			        {
+			            name: '及时整改量',
+			            yAxisIndex: 1,
+			            type: 'line',
+			            data: [${ontimeStr}]
+			        },
+			        {
+			            name: '综合合格率',
+			            yAxisIndex: 1,
+			            type: 'line',
+			            data: [${ratioStr}]
+			        }
+			    ]
+			};
 	
 	        // 使用刚指定的配置项和数据显示图表。
 	        myChart.setOption(option);

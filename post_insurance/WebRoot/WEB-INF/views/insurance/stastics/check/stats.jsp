@@ -85,6 +85,7 @@ function toTips(val) {
 				<th>抽检录入件数</th>
 				<th>录入差错</th>
 				<th>综合合格率</th>
+				<th>条线评比合格率</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -99,6 +100,7 @@ function toTips(val) {
 				<td style="text-align: right;font-weight:800;"><fmt:formatNumber value="${item.checkRecordCounts}" pattern="#,###" /></td>
 				<td style="text-align: right;font-weight:800;"><fmt:formatNumber value="${item.checkRecordErrCounts}" pattern="#,###.#" /></td>
 				<td style="text-align: center;"><fmt:formatNumber type="percent" maxFractionDigits="2" value="${(empty item.checkCounts or item.checkCounts==0)?'1':(((item.checkCounts-item.errCounts)/item.checkCounts*0.8)+(empty item.checkRecordCounts or item.checkRecordCounts==0?0.1:(item.checkRecordCounts-item.checkRecordErrCounts)/item.checkRecordCounts*0.2))  }" /></td>
+				<td style="text-align: center;"><fmt:formatNumber type="percent" maxFractionDigits="2" value="${(empty item.checkCounts or item.checkCounts==0)?'1':(((item.checkCounts-item.errCounts)/item.checkCounts*0.9)+(empty item.checkRecordCounts or item.checkRecordCounts==0?0.1:(item.checkRecordCounts-item.checkRecordErrCounts)/item.checkRecordCounts*0.1))  }" /></td>
 			</tr>
 			</c:forEach>
 			<tr>
@@ -111,6 +113,7 @@ function toTips(val) {
 				<td style="text-align: right;font-weight:800;"><fmt:formatNumber value="${totalRecordCheck}" pattern="#,###.#" /></td>
 				<td style="text-align: right;font-weight:800;"><fmt:formatNumber value="${totalRecordErr}" pattern="#,###.#" /></td>
 				<td style="text-align: center;"><fmt:formatNumber type="percent" maxFractionDigits="2" value="${((totalCheck-totalErr)/totalCheck*0.8)+((totalRecordCheck-totalRecordErr)/totalRecordCheck*0.2) }" /></td>
+				<td style="text-align: center;"><fmt:formatNumber type="percent" maxFractionDigits="2" value="${((totalCheck-totalErr)/totalCheck*0.9)+((totalRecordCheck-totalRecordErr)/totalRecordCheck*0.1) }" /></td>
 			</tr>
 		</tbody>
 	</table>

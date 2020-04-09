@@ -7,11 +7,12 @@
  */
 package com.gdpost.web.controller.insurance;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.ServletRequest;
@@ -22,7 +23,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.gdpost.utils.StringUtil;
 import com.gdpost.web.entity.component.DocStatModel;
 import com.gdpost.web.service.insurance.DaglService;
 
@@ -39,23 +39,41 @@ public class DaglController {
 	@RequiresUser
 	@RequestMapping(value="/scan/stat", method={RequestMethod.GET, RequestMethod.POST})
 	public String docNotScan(ServletRequest request, Map<String, Object> map) {
-		Calendar cal = GregorianCalendar.getInstance(Locale.CHINA);
-		int month = cal.get(Calendar.MONTH) + 1;
+		Calendar c = Calendar.getInstance();
+        c.add(Calendar.MONTH, -5);
+        String before_six = c.get(Calendar.YEAR) + "-" + (c.get(Calendar.MONTH)+1);//六个月前
+        ArrayList<String> result = new ArrayList<String>();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");// 格式化为年月
+        Calendar min = Calendar.getInstance();
+        Calendar max = Calendar.getInstance();
+        try {
+			min.setTime(sdf.parse(before_six));
+			min.set(min.get(Calendar.YEAR), min.get(Calendar.MONTH), 1);
+			max.setTime(sdf.parse(sdf.format(new Date())));
+			max.set(max.get(Calendar.YEAR), max.get(Calendar.MONTH), 2);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+        
+        Calendar curr = min;
+        while (curr.before(max)) {
+            result.add(sdf.format(curr.getTime()));
+            curr.add(Calendar.MONTH, 1);
+        }
 		
-		HashMap<Integer,String> monmap = new HashMap<Integer,String>();
-		monmap.put(month-1, (month-1)+"月");
-		monmap.put(month, month+"月");
+		request.setAttribute("months", result);
 		
-		request.setAttribute("months", monmap);
-		
-		String theMon = request.getParameter("month");
-		request.setAttribute("month", theMon);
+		String theMon = request.getParameter("monthStr");
+		if(theMon == null) {
+			theMon = sdf.format(max.getTime());
+		}
+		request.setAttribute("monthStr", theMon);
 		DocStatModel docsm = new DocStatModel();
-		docsm.setMonth(new Integer(theMon==null?month+"":theMon));
+		docsm.setMonthStr(theMon);
 		request.setAttribute("dsm", docsm);
 		
-		String d1 = StringUtil.getMonthFirstDayOfMonth(new Integer(theMon==null?month+"":theMon), "yyyy-MM-dd");
-		String d2 = StringUtil.getMonthLastDayOfMonth(new Integer(theMon==null?month+"":theMon), "yyyy-MM-dd");
+		String d1 = theMon + "-1";
+		String d2 = theMon + "-31";
 		
 		List<DocStatModel> list = daglService.getDocNotScanStat(d1, d2);
 		if(list == null || list.isEmpty()) {

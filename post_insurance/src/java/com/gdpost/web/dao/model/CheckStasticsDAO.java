@@ -24,7 +24,7 @@ public interface CheckStasticsDAO extends JpaRepository<QyCheckModel, String>, J
 	@Query(name="getCheckWriteCityStat",
 			value="select left(t1.organ_code,6) as organ_code," + 
 					"count(distinct t1.policy_no) as policy_counts," + 
-					"count(distinct t2.policy_no) as check_counts," + 
+					"count(distinct t2.policy_no) as check_counts, 0 as ontime_counts, " + 
 					"sum(distinct t3.errCounts) as err_counts " + 
 					"from t_policy t1 left join t_check_write t2 on t1.policy_no=t2.policy_no " + 
 					"left join ( " + 
@@ -51,7 +51,7 @@ public interface CheckStasticsDAO extends JpaRepository<QyCheckModel, String>, J
 	@Query(name="getCheckRecordCityStat",
 			value="select left(t1.organ_code,6) as organ_code," + 
 					"count(distinct t1.policy_no) as policy_counts," + 
-					"count(distinct t2.policy_no) as check_counts," + 
+					"count(distinct t2.policy_no) as check_counts, 0 as ontime_counts, " + 
 					"sum(distinct t3.errCounts) as err_counts " + 
 					"from t_policy t1 left join t_check_record t2 on t1.policy_no=t2.policy_no " + 
 					"left join ( " + 
@@ -78,7 +78,7 @@ public interface CheckStasticsDAO extends JpaRepository<QyCheckModel, String>, J
 	@Query(name="getCheckWriteAreaStat",
 			value="select t1.organ_code as organ_code," + 
 					"count(distinct t1.policy_no) as policy_counts," + 
-					"count(distinct t2.policy_no) as check_counts," + 
+					"count(distinct t2.policy_no) as check_counts, 0 as ontime_counts, " + 
 					"sum(distinct t3.errCounts) as err_counts " + 
 					"from t_policy t1 left join t_check_write t2 on t1.policy_no=t2.policy_no " + 
 					"left join ( " + 
@@ -105,7 +105,7 @@ public interface CheckStasticsDAO extends JpaRepository<QyCheckModel, String>, J
 	@Query(name="getCheckRecordAreaStat",
 			value="select t1.organ_code as organ_code," + 
 					"count(distinct t1.policy_no) as policy_counts," + 
-					"count(distinct t2.policy_no) as check_counts," + 
+					"count(distinct t2.policy_no) as check_counts, 0 as ontime_counts, " + 
 					"sum(distinct t3.errCounts) as err_counts " + 
 					"from t_policy t1 left join t_check_record t2 on t1.policy_no=t2.policy_no " + 
 					"left join ( " + 
@@ -132,7 +132,7 @@ public interface CheckStasticsDAO extends JpaRepository<QyCheckModel, String>, J
 	@Query(name="getCheckTruthCityStat",
 			value="select left(t1.organ_code,6) as organ_code," + 
 					"count(distinct t1.policy_no) as policy_counts," + 
-					"count(distinct t1.policy_no) as check_counts, " + 
+					"count(distinct t1.policy_no) as check_counts, 0 as ontime_counts, " + 
 					"count(distinct t2.policy_no) as err_counts " + 
 					"from t_bank_code bc, t_policy t1 left join t_check_write t2 on t1.policy_no=t2.policy_no and t2.is_truth=true and t2.need_fix=\"要整改\" " + 
 					"where t1.bank_code=bc.cpi_code and t1.attached_flag=0 and t1.policy_date between :pd1 and :pd2  " + 
@@ -146,7 +146,7 @@ public interface CheckStasticsDAO extends JpaRepository<QyCheckModel, String>, J
 	@Query(name="getCheckTruthAreaStat",
 			value="select t1.organ_code as organ_code," + 
 					"count(distinct t1.policy_no) as policy_counts," +
-					"count(distinct t1.policy_no) as check_counts, " + 
+					"count(distinct t1.policy_no) as check_counts, 0 as ontime_counts, " + 
 					"count(distinct t2.policy_no) as err_counts " + 
 					"from t_bank_code bc, t_policy t1 left join t_check_write t2 on t1.policy_no=t2.policy_no and t2.is_truth=true and t2.need_fix=\"要整改\" " + 
 					"where t1.bank_code=bc.cpi_code and t1.attached_flag=0 and t1.organ_code like :orgCode and t1.policy_date between :pd1 and :pd2  " + 
@@ -160,7 +160,7 @@ public interface CheckStasticsDAO extends JpaRepository<QyCheckModel, String>, J
 	@Query(name="getPrintCityStat",
 			value="select left(pd.organ_code,6) as organ_code, " + 
 					"COUNT(distinct pd.policy_no) as policy_counts, " + 
-					"COUNT(distinct pr.policy_no) as check_counts, " + 
+					"COUNT(distinct pr.policy_no) as check_counts, 0 as ontime_counts, " + 
 					"sum(case when pr.policy_no is null then 0 else 1 end) as err_counts " + 
 					"from t_policy pd " + 
 					"left join t_policy_reprint_dtl pr on pd.policy_no = pr.policy_no " + 
@@ -176,7 +176,7 @@ public interface CheckStasticsDAO extends JpaRepository<QyCheckModel, String>, J
 	@Query(name="getPrintCityStat",
 			value="select pd.organ_code as organ_code, " + 
 					"COUNT(distinct pd.policy_no) as policy_counts, " + 
-					"COUNT(distinct pr.policy_no) as check_counts, " + 
+					"COUNT(distinct pr.policy_no) as check_counts, 0 as ontime_counts, " + 
 					"sum(case when pr.policy_no is null then 0 else 1 end) as err_counts " + 
 					"from t_policy pd " + 
 					"left join t_policy_reprint_dtl pr on pd.policy_no = pr.policy_no " + 
@@ -190,7 +190,7 @@ public interface CheckStasticsDAO extends JpaRepository<QyCheckModel, String>, J
 	List<QyCheckModel> getPrintAreaStat(@Param("orgCode")String orgCode, @Param("pd1")String pd1, @Param("pd2")String pd2);
 	
 	@Query(name="getStatusCheckWriteCityStat",
-			value="select LEFT(tp.organ_name,2) as organ_code,0 as policy_counts,COUNT(distinct cw.policy_no) as check_counts,COUNT(distinct cwt.policy_no) as err_counts " + 
+			value="select LEFT(tp.organ_name,2) as organ_code,0 as policy_counts, 0 as ontime_counts, COUNT(distinct cw.policy_no) as check_counts,COUNT(distinct cwt.policy_no) as err_counts " + 
 					"from t_bank_code bc, t_policy tp, t_check_write cw left join t_check_write cwt on cw.policy_no=cwt.policy_no and cwt.need_fix=\"要整改\" and cwt.fix_status=:fixStatus " + 
 					"where tp.bank_code=bc.cpi_code and cw.policy_no=tp.policy_no and tp.policy_date between :pd1 and :pd2 and cw.need_fix=\"要整改\" " + 
 					"and bc.net_flag like :netFlag " + 
@@ -199,7 +199,7 @@ public interface CheckStasticsDAO extends JpaRepository<QyCheckModel, String>, J
 	List<QyCheckModel> getStatusCheckWriteCityStat(@Param("pd1")String pd1, @Param("pd2")String pd2, @Param("fixStatus")String fixStatus, @Param("netFlag")String netFlag);
 	
 	@Query(name="getStatusCheckWriteAreaStat",
-			value="select org.short_name as organ_code,0 as policy_counts,COUNT(distinct cw.policy_no) as check_counts,COUNT(distinct cwt.policy_no) as err_counts " + 
+			value="select org.short_name as organ_code,0 as policy_counts, 0 as ontime_counts, COUNT(distinct cw.policy_no) as check_counts,COUNT(distinct cwt.policy_no) as err_counts " + 
 					"from t_bank_code bc, t_policy tp, t_organization org, t_check_write cw left join t_check_write cwt on cw.policy_no=cwt.policy_no and cwt.need_fix=\"要整改\" and cwt.fix_status=:fixStatus " + 
 					"where tp.bank_code=bc.cpi_code and tp.organ_code=org.org_code and cw.policy_no=tp.policy_no and tp.policy_date between :pd1 and :pd2  " + 
 					"and tp.organ_code like :orgCode and cw.need_fix=\"要整改\" " +
@@ -209,7 +209,7 @@ public interface CheckStasticsDAO extends JpaRepository<QyCheckModel, String>, J
 	List<QyCheckModel> getStatusCheckWriteAreaStat(@Param("orgCode")String orgCode, @Param("pd1")String pd1, @Param("pd2")String pd2, @Param("fixStatus")String fixStatus, @Param("netFlag")String netFlag);
 	
 	@Query(name="getHfCityStat",
-			value="select LEFT(tp.organ_name,2) as organ_code, COUNT(cfl2.issue_no) as err_counts,COUNT(cfl1.issue_no) as check_counts,count(distinct tp.policy_no) as policy_counts " + 
+			value="select LEFT(tp.organ_name,2) as organ_code, 0 as ontime_counts, COUNT(cfl2.issue_no) as err_counts,COUNT(cfl1.issue_no) as check_counts,count(distinct tp.policy_no) as policy_counts " + 
 					"from t_bank_code bc, t_organization org, t_policy tp " + 
 					"left join t_call_fail_list cfl1 on tp.policy_no=cfl1.policy_no and cfl1.status<>\"二访成功\"  " + 
 					"left join t_call_fail_list cfl2 on tp.policy_no=cfl2.policy_no and cfl2.status=\"已退保\"  " + 
@@ -220,7 +220,7 @@ public interface CheckStasticsDAO extends JpaRepository<QyCheckModel, String>, J
 	List<QyCheckModel> getHfCityStat(@Param("pd1")String pd1, @Param("pd2")String pd2, @Param("netFlag")String netFlag);
 	
 	@Query(name="getHfAreaStat",
-			value="select org.short_name as organ_code, COUNT(cfl2.issue_no) as err_counts,COUNT(cfl1.issue_no) as check_counts,count(distinct tp.policy_no) as policy_counts " + 
+			value="select org.short_name as organ_code, 0 as ontime_counts, COUNT(cfl2.issue_no) as err_counts,COUNT(cfl1.issue_no) as check_counts,count(distinct tp.policy_no) as policy_counts " + 
 					"from t_bank_code bc, t_organization org,t_policy tp " + 
 					"left join t_call_fail_list cfl1 on tp.policy_no=cfl1.policy_no and cfl1.status<>\"二访成功\"  " + 
 					"left join t_call_fail_list cfl2 on tp.policy_no=cfl2.policy_no and cfl2.status=\"已退保\"  " + 
@@ -230,4 +230,36 @@ public interface CheckStasticsDAO extends JpaRepository<QyCheckModel, String>, J
 					" group by org.short_name order by tp.organ_code;",
 			nativeQuery=true)
 	List<QyCheckModel> getHfAreaStat(@Param("orgCode")String orgCode, @Param("pd1")String pd1, @Param("pd2")String pd2, @Param("netFlag")String netFlag);
+
+	@Query(name="getMultipleCheckTruthCityStat",
+			value="select left(t1.organ_name,2) as organ_code," + 
+					"count(distinct t1.policy_no) as policy_counts," + 
+					"count(distinct t2.policy_no) as check_counts," + 
+					"SUM(case when t2.fix_status=\"CloseStatus\" or t2.fix_status=\"CTStatus\" then 1 else 0 end) as err_counts," + 
+					"sum(case when t2.reply_time is not null and datediff(t2.reply_time,t2.operate_time)<=10 then 1 else 0 end) as ontime_counts " + 
+					"from t_bank_code bc, t_policy t1 left join t_check_write t2 on t1.policy_no=t2.policy_no and t2.is_truth=true and t2.need_fix=\"要整改\" " + 
+					"where t1.bank_code=bc.cpi_code and t1.attached_flag=0 and t1.policy_date between :pd1 and :pd2  " + 
+					"and t1.duration >= :duration " + 
+					"and t1.fee_frequency like :toPerm " + 
+					"and bc.net_flag like :netFlag " + 
+					" group by left(t1.organ_name,2) "
+					+ "order by t1.organ_code;",
+			nativeQuery=true)
+	List<QyCheckModel> getMultipleCheckTruthCityStat(@Param("pd1")String pd1, @Param("pd2")String pd2, @Param("duration")Integer duration, @Param("toPerm")String toPerm, @Param("netFlag")String netFlag);
+
+	@Query(name="getMultipleCheckTruthAreaStat",
+			value="select t1.organ_name as organ_code," + 
+					"count(distinct t1.policy_no) as policy_counts," + 
+					"count(distinct t2.policy_no) as check_counts," + 
+					"SUM(case when t2.fix_status=\"CloseStatus\" or t2.fix_status=\"CTStatus\" then 1 else 0 end) as err_counts," + 
+					"sum(case when t2.reply_time is not null and datediff(t2.reply_time,t2.operate_time)<=10 then 1 else 0 end) as ontime_counts " + 
+					"from t_bank_code bc, t_policy t1 left join t_check_write t2 on t1.policy_no=t2.policy_no and t2.is_truth=true and t2.need_fix=\"要整改\" " + 
+					"where t1.bank_code=bc.cpi_code and t1.attached_flag=0 and t1.organ_code like :orgCode and t1.policy_date between :pd1 and :pd2  " + 
+					"and t1.duration >= :duration " + 
+					"and t1.fee_frequency like :toPerm " + 
+					"and bc.net_flag like :netFlag " + 
+					"group by t1.organ_name "
+					+ "order by t1.organ_code;",
+			nativeQuery=true)
+	List<QyCheckModel> getMultipleCheckTruthAreaStat(@Param("orgCode")String orgCode, @Param("pd1")String pd1, @Param("pd2")String pd2, @Param("duration")Integer duration, @Param("toPerm")String toPerm, @Param("netFlag")String netFlag);
 }

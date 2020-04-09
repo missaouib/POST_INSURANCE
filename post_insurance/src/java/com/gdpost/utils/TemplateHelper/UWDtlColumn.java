@@ -118,7 +118,7 @@ private static List<ColumnItem> standardColumns;
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("契调通知书下发日期");
+		column.setDisplayName("契约调查下发日期");
 		column.setColumnName("deal_check_date1");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(false);
@@ -138,13 +138,15 @@ private static List<ColumnItem> standardColumns;
 		column.setNullable(false);
 		standardColumns.add(column);
 		
+		/*
+		 * 用东港数据，不用报表日期
 		column = new ColumnItem();
 		column.setDisplayName("保单打印日期");
 		column.setColumnName("prov_send_date");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(false);
 		standardColumns.add(column);
-		
+		*/
 		column = new ColumnItem();
 		column.setDisplayName("保单签单日期");
 		column.setColumnName("sign_date");

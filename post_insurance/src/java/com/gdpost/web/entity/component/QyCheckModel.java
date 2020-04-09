@@ -21,6 +21,7 @@ public class QyCheckModel implements java.io.Serializable {
 	private Integer policyCounts = 0;
 	private Integer checkCounts = 0;
 	private Integer errCounts = 0;
+	private Integer ontimeCounts = 0;
 	
 	@Transient
 	private Integer checkRecordCounts = 0;
@@ -75,6 +76,9 @@ public class QyCheckModel implements java.io.Serializable {
 	}
 	@Transient
 	public String getStatFlag() {
+		if(getOntimeCounts() != null) {
+			return Double.toString(((1-(double)((double)getCheckCounts()/(double)getPolicyCounts()))*0.5 + ((double)getOntimeCounts()/(double)getCheckCounts())*0.3 + ((double)getErrCounts()/(double)getCheckCounts())*0.2)*100);
+		}
 		return statFlag;
 	}
 	@Transient
@@ -147,4 +151,21 @@ public class QyCheckModel implements java.io.Serializable {
 	public void setErrCounts(Integer errCounts) {
 		this.errCounts = errCounts;
 	}
+	@Column(name="ontime_counts")
+	public Integer getOntimeCounts() {
+		return ontimeCounts;
+	}
+	public void setOntimeCounts(Integer ontimeCounts) {
+		this.ontimeCounts = ontimeCounts;
+	}
+	@Override
+	public String toString() {
+		return "QyCheckModel [organCode=" + organCode + ", policyCounts=" + policyCounts + ", checkCounts="
+				+ checkCounts + ", errCounts=" + errCounts + ", ontimeCounts=" + ontimeCounts + ", checkRecordCounts="
+				+ checkRecordCounts + ", checkRecordErrCounts=" + checkRecordErrCounts + ", levelFlag=" + levelFlag
+				+ ", statFlag=" + statFlag + ", orgName=" + orgName + ", duration=" + duration + ", perm=" + perm
+				+ ", fixStatus=" + fixStatus + ", netFlag=" + netFlag + "]";
+	}
+	
+	
 }

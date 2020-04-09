@@ -79,6 +79,8 @@ public class UnderWrite implements Idable<Long> {
 	private Integer issue;
 	private Date bodyCheckDate1;
 	private Date bodyCheckDate2;
+	private Date dealCheckDate1;
+	private Date dealCheckDate2;
 	private Date hbEndDate;
 	private Date formWriteDate;
 	
@@ -113,6 +115,153 @@ public class UnderWrite implements Idable<Long> {
 	private int longDate;
 	@Transient
 	private int hadSendDate;
+	/*
+	 * 			<td>${item.provSendDate-item.signDate-1 }</td>
+				<td>${item.clientReceiveDate-item.provSendDate }</td>
+				<td>${item.clientReceiveDate-item.sysDate }</td>
+				<td>${item.clientReceiveDate-item.ybtDate }</td>
+				<td>${item.clientReceiveDate-item.signDate }</td>
+				<td>${item.clientReceiveDate-item.signDate-(item.provSendDate-item.signDate-1) }</td>
+				<td>${item.clientReceiveDate-item.sysDate-(item.provSendDate-item.signDate-1) }</td>
+				<td>${(item.clientReceiveDate-item.ybtDate)<=15?"T":"F" }</td>
+				<td>${(item.signDate-item.sysDate)<=5?"T":"F" }</td>
+				<td>${(item.billBackDate-item.clientReceiveDate)<=5?"T":"F" }</td>
+	 */
+	@Transient
+	private int sendsign;
+	@Transient
+	private int clientprov;
+	@Transient
+	private int clientsys;
+	@Transient
+	private int clientybt;
+	@Transient
+	private int clientsign;
+	@Transient
+	private int clientsignprovsign;
+	@Transient
+	private int clientsysprovsign;
+	@Transient
+	private String allday15;
+	@Transient
+	private String dealday5;
+	@Transient
+	private String backday5;
+	
+	
+	//====================end 
+	@Transient
+	public int getSendsign() {
+		if(provSendDate != null) {
+			return StringUtil.getBetweenDay(signDate, provSendDate)-1;
+		}
+		return -1;
+	}
+	@Transient
+	public void setSendsign(int sendsign) {
+		this.sendsign = sendsign;
+	}
+	@Transient
+	public int getClientprov() {
+		if(clientReceiveDate != null) {
+			return StringUtil.getBetweenDay(provSendDate, clientReceiveDate);
+		}
+		return clientprov;
+	}
+	@Transient
+	public void setClientprov(int clientprov) {
+		this.clientprov = clientprov;
+	}
+	@Transient
+	public int getClientsys() {
+		if(clientReceiveDate != null && sysDate != null) {
+			return StringUtil.getBetweenDay(sysDate, clientReceiveDate);
+		}
+		return clientsys;
+	}
+	@Transient
+	public void setClientsys(int clientsys) {
+		this.clientsys = clientsys;
+	}
+	@Transient
+	public int getClientybt() {
+		if(clientReceiveDate != null) {
+			return StringUtil.getBetweenDay(ybtDate, clientReceiveDate);
+		}
+		return clientybt;
+	}
+	@Transient
+	public void setClientybt(int clientybt) {
+		this.clientybt = clientybt;
+	}
+	@Transient
+	public int getClientsign() {
+		if(clientReceiveDate != null) {
+			return StringUtil.getBetweenDay(signDate, clientReceiveDate);
+		}
+		return clientsign;
+	}
+	@Transient
+	public void setClientsign(int clientsign) {
+		this.clientsign = clientsign;
+	}
+	@Transient
+	public int getClientsignprovsign() {
+		if(clientReceiveDate != null) {
+			return StringUtil.getBetweenDay(signDate, clientReceiveDate) - getSendsign();
+		}
+		return clientsignprovsign;
+	}
+	@Transient
+	public void setClientsignprovsign(int clientsignprovsign) {
+		this.clientsignprovsign = clientsignprovsign;
+	}
+	@Transient
+	public int getClientsysprovsign() {
+		if(clientReceiveDate != null && sysDate != null) {
+			return StringUtil.getBetweenDay(sysDate, clientReceiveDate) - getSendsign();
+		}
+		return clientsysprovsign;
+	}
+	@Transient
+	public void setClientsysprovsign(int clientsysprovsign) {
+		this.clientsysprovsign = clientsysprovsign;
+	}
+	@Transient
+	public String getAllday15() {
+		if(clientReceiveDate != null) {
+			return StringUtil.getBetweenDay(ybtDate, clientReceiveDate)<=15?"T":"F";
+		}
+		return allday15;
+	}
+	@Transient
+	public void setAllday15(String allday15) {
+		this.allday15 = allday15;
+	}
+	@Transient
+	public String getDealday5() {
+		if(signDate != null && sysDate != null) {
+			return StringUtil.getBetweenDay(sysDate, signDate)<=5?"T":"F";
+		}
+		return dealday5;
+	}
+	@Transient
+	public void setDealday5(String dealday5) {
+		this.dealday5 = dealday5;
+	}
+	@Transient
+	public String getBackday5() {
+		if(billBackDate != null) {
+			return StringUtil.getBetweenDay(clientReceiveDate, billBackDate)<=5?"T":"F";
+		}
+		return backday5;
+	}
+	@Transient
+	public void setBackday5(String backday5) {
+		this.backday5 = backday5;
+	}
+
+	//======end
 	
 	private String holderAge;
 	
@@ -667,6 +816,22 @@ public class UnderWrite implements Idable<Long> {
 	}
 	public void setFeeType(String feeType) {
 		this.feeType = feeType;
+	}
+	
+	@Column(name="deal_check_date1")
+	public Date getDealCheckDate1() {
+		return dealCheckDate1;
+	}
+	public void setDealCheckDate1(Date dealCheckDate1) {
+		this.dealCheckDate1 = dealCheckDate1;
+	}
+	
+	@Column(name="deal_check_date2")
+	public Date getDealCheckDate2() {
+		return dealCheckDate2;
+	}
+	public void setDealCheckDate2(Date dealCheckDate2) {
+		this.dealCheckDate2 = dealCheckDate2;
 	}
 	
 	

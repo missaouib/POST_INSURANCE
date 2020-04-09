@@ -8,7 +8,7 @@
 			<table class="searchContent">
 			<tr>
 				<td><label>月份</label>
-					<form:select path="dsm.month" id="month" class="combox">
+					<form:select path="dsm.monthStr" id="month" class="combox">
 						<form:options items="${months }"/>
 					</form:select>
 				</td>

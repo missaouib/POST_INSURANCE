@@ -99,7 +99,7 @@ function toTips(val) {
 <br>
 <div class="pageContent" layoutH="130" width="150%">
 <div class="row" style="padding: 0 3px;">
-	<div class="sortDrag" style="width:30%;border:1px solid #e66;margin:5px;float:left;min-height:100px">
+	<div style="width:30%;border:1px solid #e66;margin:5px;float:left;min-height:100px">
 	<h2 class="contentTitle">列表展示（单位：万元）注：剔除了犹撤 &nbsp;&nbsp;&nbsp;&nbsp;</h2>
 		<table class="table" width="100%">
 		<thead>
@@ -134,7 +134,7 @@ function toTips(val) {
 		</tbody>
 	</table>
 	</div>
-	<div class="sortDrag" style="width:65%;border:1px solid #e66;margin:5px;float:left;min-height:10px">
+	<div style="width:65%;border:1px solid #e66;margin:5px;float:left;min-height:10px">
 	<div id="expiremain" style="width: 800px;height:400px;"></div>
 	    <script type="text/javascript">
 	        // 基于准备好的dom，初始化echarts实例
@@ -156,7 +156,7 @@ function toTips(val) {
 	                }
 	            },
 	            legend: {
-	                data:['退保保费','占比']
+	                data:['退保金额（万元）','占比']
 	            },
 	            xAxis: [
 	                {
@@ -188,7 +188,7 @@ function toTips(val) {
 	            ],
 	            series: [
 	                {
-	                    name:'退保金额',
+	                    name:'退保金额（万元）',
 	                    type:'bar',
 	                    label: {
 	                        normal: {

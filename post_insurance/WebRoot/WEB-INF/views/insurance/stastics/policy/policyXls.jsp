@@ -15,6 +15,7 @@ response.setHeader("Content-Disposition", "inline; filename=policy_stat.xls");
 		<th>件数占比</th>
 		<th>保费</th>
 		<th>保费占比</th>
+		<th>已交保费</th>
 	</tr>
 	<c:forEach var="item" items="${cmRst}" varStatus="idx">
 	<tr>
@@ -24,6 +25,7 @@ response.setHeader("Content-Disposition", "inline; filename=policy_stat.xls");
 		<td><fmt:formatNumber value="${item.policyCount/countPt*100}" pattern="#,###.##" />%</td>
 		<td>${item.policyFee}</td>
 		<td><fmt:formatNumber value="${item.policyFee/sumPt*100}" pattern="#,###.##" />%</td>
+		<td><fmt:formatNumber value="${item.hadPolicyFee}" pattern="#,###.##" /></td>
 	</tr>
 	</c:forEach>
 	<tr>
@@ -33,5 +35,6 @@ response.setHeader("Content-Disposition", "inline; filename=policy_stat.xls");
 		<td>&nbsp;</td>
 		<td style="text-align: right;"><fmt:formatNumber value="${sumPt}" pattern="#,###.##" /></td>
 		<td>&nbsp;</td>
+		<td style="text-align: right;"><fmt:formatNumber value="${sumHadPolicyFee}" pattern="#,###.##" /></td>
 	</tr>
 </table>

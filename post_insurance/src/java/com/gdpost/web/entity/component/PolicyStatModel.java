@@ -21,6 +21,7 @@ public class PolicyStatModel implements java.io.Serializable {
 	private Double policyCount;
 	private Double policyFee;
 	private Double jzhCount;
+	private Double hadPolicyFee;
 	@Transient
 	private String levelFlag;
 	@Transient
@@ -196,6 +197,15 @@ public class PolicyStatModel implements java.io.Serializable {
 	@Transient
 	public void setDuration(Integer duration) {
 		this.duration = duration;
+	}
+
+	@Column(name="had_policy_fee")
+	public Double getHadPolicyFee() {
+		return hadPolicyFee;
+	}
+
+	public void setHadPolicyFee(Double hadPolicyFee) {
+		this.hadPolicyFee = hadPolicyFee;
 	}
 
 	@Override

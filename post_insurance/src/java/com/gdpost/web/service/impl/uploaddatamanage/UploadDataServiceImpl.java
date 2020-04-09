@@ -1431,7 +1431,51 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql5= "update t_under_write uw, t_policy tp set uw.holder=tp.holder,uw.insured=cast(aes_decrypt(unhex(tp.insured), 'GDPost') as char(100)),uw.relation=\"本人\" where uw.holder is null and uw.policy_no=tp.policy_no and tp.attached_flag=0;";
 			break;
 		case UWDtlData:
-			return dr;
+			/*
+			 * 市县名称organ_name、投保单号form_no、保险单号policy_no、险种名称prd_name、保险费policy_fee、交费期数perm、交费方式fee_type、转核原因underwrite_reason、
+			 * 非实时保单录入日期ybt_date、核心业务系统录入日期sys_date、复核完成日期check_date、体检下发日期body_check_date1、体检回销日期body_check_date2、
+			 * 契约调查下发日期deal_check_date1、契调回销日期deal_check_date2、核保完成日期hb_end_date、保单打印日期prov_send_date、保单签单日期sign_date、客户签收日期client_receive_date、回执回销日期bill_back_date、客户填单日期form_write_date、
+			 */
+			standardColumns = UWDtlColumn.getStandardColumns();
+			sql = new StringBuffer("INSERT INTO t_under_write(organ_name,form_no, policy_no,prd_name,policy_fee,perm,fee_type,underwrite_reason,ybt_date,sys_date,check_date,"
+					+ "body_check_date1,body_check_date2,deal_check_date1,deal_check_date2,hb_end_date,sign_date,client_receive_date,bill_back_date,form_write_date) VALUES ");
+			line = null;
+			for (DataRow row : dt.Rows) {
+				line = new StringBuffer("(");
+	        	for(ColumnItem item : standardColumns) {
+	        		val = StringUtil.trimStr(row.getValue(item.getDisplayName()));
+        			
+	        		if(item.getDisplayName().contains("日期")) {
+	        			if(val == null || val.toString().trim().length() <= 0) {
+	        				line.append("null,");
+	        			} else {
+	        				line.append("\"" + StringUtil.trimStr(val, true) + "\",");
+	        			}
+	        		} else {
+	        			line.append("\"" + StringUtil.trimStr(val, true) + "\",");
+	        		}
+	        	}
+	        	line.deleteCharAt(line.length() - 1);
+	        	line.append("),");
+	        	sql.append(line);
+	        }
+			sql.deleteCharAt(sql.length() - 1);
+			sql.append(" ON DUPLICATE KEY UPDATE policy_no=VALUES(policy_no),prd_name=VALUES(prd_name),organ_name=VALUES(organ_name), ");
+			sql.append("perm=VALUES(perm), fee_type=VALUES(fee_type), ");
+			sql.append("underwrite_reason=VALUES(underwrite_reason), ");
+			sql.append("sys_date=VALUES(sys_date), ");
+			sql.append("check_date=VALUES(check_date), body_check_date1=VALUES(body_check_date1), ");
+			sql.append("body_check_date2=VALUES(body_check_date2), deal_check_date1=VALUES(deal_check_date1), deal_check_date2=VALUES(deal_check_date2), hb_end_date=VALUES(hb_end_date), ");
+			sql.append("sign_date=VALUES(sign_date), ");
+			sql.append("client_receive_date=VALUES(client_receive_date), bill_back_date=VALUES(bill_back_date), ");
+			sql.append("form_write_date=VALUES(form_write_date);");
+			log.debug("----------------batch update : " + sql);
+			sql2 = "delete from t_under_write where form_no is null;";
+			log.debug("----------------batch update2 : " + sql2);
+			sql3 = "update t_under_write uw,t_prd prd set uw.product_id=prd.id where uw.product_id is null and uw.prd_name=prd.prd_name;";
+			sql4= "update t_under_write uw, t_organization org set uw.organ_id=org.id where uw.organ_id is null and uw.organ_name=org.name;";
+			sql5= "update t_under_write uw, t_policy tp set uw.holder=tp.holder,uw.insured=cast(aes_decrypt(unhex(tp.insured), 'GDPost') as char(100)),uw.relation=\"本人\" where uw.holder is null and uw.policy_no=tp.policy_no and tp.attached_flag=0;";
+			break;
 		case UnderWriteRemark:
 			standardColumns = UnderWriteRemarkColumn.getStandardColumns();
 			sql = new StringBuffer("INSERT INTO t_under_write(form_no, plan_date, remark) VALUES ");
@@ -1853,13 +1897,13 @@ public class UploadDataServiceImpl implements UploadDataService{
 						|| t.name().equals(FileTemplate.UnderWriteRemark.name())
 						|| t.name().equals(FileTemplate.UnderWriteInsured.name())
 						|| t.name().equals(FileTemplate.IssuePFRDeal.name())
-						|| t.name().equals(FileTemplate.CheckCityBack.name())) {
-						//|| t.name().equals(FileTemplate.UWDtlData.name())) {
+						|| t.name().equals(FileTemplate.CheckCityBack.name())
+						|| t.name().equals(FileTemplate.UWDtlData.name())) {
 					
 					dr = updateStatusData(t, request, dt);
 					log.info("-------- finish update;");
 					//如果是保单打印数据，需要单独导入到打印明细中
-					if(t.name().equals(FileTemplate.UnderWriteSentData.name())) { // || t.name().equals(FileTemplate.UWDtlData.name())
+					if(t.name().equals(FileTemplate.UnderWriteSentData.name()) || t.name().equals(FileTemplate.UWDtlData.name())) {
 						log.info("----------------ready to import underwrite sentdata or dtl data");
 						importData(t, request, dt, member_id, currentNY);
 					}

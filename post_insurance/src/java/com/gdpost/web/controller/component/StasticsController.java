@@ -91,6 +91,8 @@ public class StasticsController {
 	private static final String TRUTH_LIST = "insurance/stastics/check/truthStat";
 	private static final String TRUTH_LIST_TOXLS = "insurance/stastics/check/truthStat_xls";
 	//private static final String TRUTH_DTL_TOXLS = "insurance/stastics/check/truthStat_dtl_xls";
+	private static final String MULTIPLE_TRUTH_LIST = "insurance/stastics/check/multipleTruthStat";
+	private static final String MULTIPLE_TRUTH_LIST_TOXLS = "insurance/stastics/check/multipleTruthStat_xls";
 	
 	private static final String PRINT_LIST = "insurance/stastics/check/printStat";
 	private static final String PRINT_LIST_TOXLS = "insurance/stastics/check/printStat_xls";
@@ -1354,9 +1356,10 @@ public class StasticsController {
 		int maxTB = 0;
 		double sum = 0;
 		double count = 0;
+		double sumHadPolicyFee = 0;
 		List<Double> countList = new ArrayList<Double>();
 		List<Double> sumList = new ArrayList<Double>();
-		DecimalFormat df = new DecimalFormat("#.#");
+		DecimalFormat df = new DecimalFormat("#.##");
 		for (PolicyStatModel tcm : temp) {// (isNet?temp1:temp)
 			col += "'" + tcm.getStatName() + "',";
 			countList.add((tcm.getPolicyCount()-tcm.getJzhCount()));
@@ -1365,6 +1368,7 @@ public class StasticsController {
 			sumList.add(tcm.getPolicyFee());
 			sumStr += tcm.getPolicyFee() + ",";
 			sum += tcm.getPolicyFee() == null ? 0 : tcm.getPolicyFee();
+			sumHadPolicyFee += tcm.getHadPolicyFee();
 		}
 		for (Double d : countList) {
 			countPtStr += df.format((d == null ? 0 : d) / count * 100) + ",";
@@ -1399,6 +1403,7 @@ public class StasticsController {
 		request.setAttribute("maxZB", maxZB);
 		request.setAttribute("countPt", count);
 		request.setAttribute("sumPt", sum);
+		request.setAttribute("sumHadPolicyFee", sumHadPolicyFee);
 
 		Page page = new Page();
 		page.setNumPerPage(50);
@@ -1561,13 +1566,16 @@ public class StasticsController {
 		LOG.debug(" ------------ result size:" + temp.size());
 		double sum = 0;
 		double count = 0;
+		double sumHadPolicyFee = 0;
 		for (PolicyStatModel tcm : temp) {// (isNet?temp1:temp)
 			count += (tcm.getPolicyCount()-tcm.getJzhCount());
 			sum += tcm.getPolicyFee() == null ? 0 : tcm.getPolicyFee();
+			sumHadPolicyFee += tcm.getHadPolicyFee();
 		}
 		// 第一位
 		request.setAttribute("countPt", count);
 		request.setAttribute("sumPt", sum);
+		request.setAttribute("sumHadPolicyFee", sumHadPolicyFee);
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{userOrg.getShortName()}));
 
@@ -2383,6 +2391,271 @@ public class StasticsController {
 		return TRUTH_LIST_TOXLS;
 	}
 	
+	/*
+	 * =======================================
+	 *  truth check stastics
+	 * =======================================
+	 * 
+	 */
+	@RequiresUser
+	@Log(message="{0}进行客户信息真实性综合合格率分析！", level=LogLevel.INFO, module=LogModule.QTCZ)
+	@RequestMapping(value = "/stastics/multipleTruth", method = { RequestMethod.GET, RequestMethod.POST })
+	public String multipleTruthStastics(ServletRequest request, Map<String, Object> map) {
+		LOG.debug("-------------------here----------");
+		String organCode = request.getParameter("orgCode");
+		String organName = request.getParameter("name");
+		String pd1 = request.getParameter("policyDate1");
+		String pd2 = request.getParameter("policyDate2");
+		String levelFlag = request.getParameter("levelFlag");
+		String perm = request.getParameter("perm");
+		String durationStr = request.getParameter("duration");
+		String netFlag = request.getParameter("netFlag");
+		String netFlagStr = null;
+		if(netFlag == null || netFlag.trim().length()<=0) {
+			netFlagStr="%%";
+		} else {
+			netFlagStr = netFlag;
+		}
+		Integer duration = (durationStr == null || !NumberUtils.isDigits(durationStr)) ? 0
+				: Integer.valueOf(durationStr);
+	
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();// userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
+		if (organCode == null || organCode.trim().length() <= 0) {
+			organCode = userOrg.getOrgCode();
+			organName = userOrg.getName();
+		}
+		/* close all user can view the hold province's stastics
+		 * 
+		else if (!organCode.contains(userOrg.getOrgCode())) {
+			organCode = userOrg.getOrgCode();
+			organName = userOrg.getName();
+		}*/
+	
+		String toPerm = perm;
+		if (perm == null || perm.trim().length() <= 0) {
+			toPerm = "%%";
+		} else if (perm.equals("1")) {
+			toPerm = "年交";
+		} else {
+			toPerm = "趸交";
+		}
+		
+		boolean isCity = false;
+		if (levelFlag == null) {
+			if (organCode.length() >= 8) {
+				levelFlag = "city";
+			} else if (organCode.length() > 4) {
+				levelFlag = "prov";
+			}
+		}
+	
+		if (levelFlag != null && levelFlag.trim().equals("city")) {
+			isCity = true;
+		}
+	
+		QyCheckModel cm = new QyCheckModel();
+		cm.setLevelFlag(levelFlag);
+		cm.setDuration(duration);
+		cm.setPerm(perm);
+		cm.setNetFlag(netFlag);
+		//cm.setStatFlag(flag);
+		request.setAttribute("CheckModel", cm);
+	
+		request.setAttribute("levelFlag", levelFlag);
+		request.setAttribute("orgCode", organCode);
+		request.setAttribute("name", organName);
+		request.setAttribute("perm", perm);
+		request.setAttribute("duration", duration);
+		request.setAttribute("netFlag", netFlag);
+	
+		String fd = StringUtil.getMonthFirstDayOfMonth(Calendar.getInstance().get(Calendar.MONTH), "yyyy-MM-dd");
+		if (pd1 == null || pd1.trim().length() <= 0) {
+			pd1 = fd;
+		}
+		request.setAttribute("policyDate1", pd1);
+		request.setAttribute("policyDate2", pd2);
+		if (pd2 == null || pd2.trim().length() <= 0) {
+			pd2 = "9999-12-31";
+		}
+		
+		if(levelFlag != null && levelFlag.equals("prov")) {
+			organCode = "8644";
+		}
+		
+		List<QyCheckModel> writes = null;
+		//將record寫到write model中
+		if (!isCity) {
+			writes = stasticsService.getMultipleCheckTruthCityStastics(pd1, pd2, duration, toPerm, netFlagStr);
+		} else {
+			writes = stasticsService.getMultipleCheckTruthAreaStastics(organCode + "%", pd1, pd2, duration, toPerm, netFlagStr);
+		}
+		
+		request.setAttribute("cmRst", writes);
+		
+		String cityCol = "";
+		String countStr = "";
+		String errsumStr = ""; //整改件数
+		String checkStr = ""; //差错件数
+		String ontimeStr = "";//及时整改件数
+		String ratioStr = "";//真实性合格率*50%+整改及时率*30%+整改完成率*20%
+		double maxZB = 0;
+		int maxTB = 0;
+		double errsum = 0;
+		double countSum = 0;
+		double checkSum = 0;
+		double ontimeSum = 0;
+		double ratio = 0;
+		double totalRatio = 0;
+		for (QyCheckModel tcm : writes) {
+			cityCol += "'" + tcm.getOrganCode() + "',";
+			countSum += tcm.getPolicyCounts();
+			countStr += tcm.getPolicyCounts() + ",";
+			errsumStr += tcm.getErrCounts() + ",";
+			errsum += tcm.getErrCounts() == null ? 0 : tcm.getErrCounts();
+			checkStr += tcm.getCheckCounts() + ",";
+			checkSum += tcm.getCheckCounts() == null ? 0 : tcm.getCheckCounts();
+			ontimeStr += tcm.getOntimeCounts() + ",";
+			ontimeSum += tcm.getOntimeCounts() == null ? 0 : tcm.getOntimeCounts();
+			
+			if(tcm.getPolicyCounts() > maxTB) {
+				maxTB = tcm.getPolicyCounts();
+			}
+			if(maxZB<tcm.getCheckCounts()) {
+				maxZB = tcm.getCheckCounts();
+			}
+			ratio = ((1-(new Double(tcm.getCheckCounts())/new Double(tcm.getPolicyCounts())))*0.5 + new Double(tcm.getOntimeCounts())/new Double(tcm.getCheckCounts())*0.3 + new Double(tcm.getErrCounts())/new Double(tcm.getCheckCounts())*0.2)*100;
+			ratioStr += Double.toString(ratio) + ",";
+		}
+		
+		totalRatio = ((1-new Double(checkSum)/new Double(countSum))*0.5 + (new Double(ontimeSum)/new Double(checkSum))*0.3 + new Double(errsum)/new Double(checkSum)*0.2)*100;
+		
+		int m = 1;
+		for (int i = 0; i < (int) Math.log10(maxTB); i++) {
+			m *= 10;
+		}
+		// 第一位
+		maxTB = (maxTB / m + 1) * m;
+		if(maxZB < 100) {
+			maxZB = 100;
+		}
+		request.setAttribute("cityCol", cityCol);
+		request.setAttribute("countStr", countStr);
+		request.setAttribute("errSumStr", errsumStr);
+		request.setAttribute("checkStr", checkStr);
+		request.setAttribute("ontimeStr", ontimeStr);
+		request.setAttribute("maxTB", maxTB);
+		request.setAttribute("maxZB", maxZB);
+		request.setAttribute("countSum", countSum);
+		request.setAttribute("errSum", errsum);
+		request.setAttribute("checkSum", checkSum);
+		request.setAttribute("ontimeSum", ontimeSum);
+		request.setAttribute("ratioStr", ratioStr);
+		request.setAttribute("finalRatio", Double.toString(totalRatio));
+	
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{userOrg.getShortName()}));
+		
+		return MULTIPLE_TRUTH_LIST;
+	}
+
+	@RequiresUser
+	@Log(message="{0}客户信息真实性综合合格率结果导出！", level=LogLevel.INFO, module=LogModule.QTCZ)
+	@RequestMapping(value = "/stastics/truth/multipletoXls", method = { RequestMethod.GET, RequestMethod.POST })
+	public String multipleTruthStasticsToXls(ServletRequest request, Map<String, Object> map) {
+		LOG.debug("-------------------here----------");
+		String organCode = request.getParameter("orgCode");
+		String pd1 = request.getParameter("policyDate1");
+		String pd2 = request.getParameter("policyDate2");
+		String levelFlag = request.getParameter("levelFlag");
+		String perm = request.getParameter("perm");
+		String durationStr = request.getParameter("duration");
+		String netFlag = request.getParameter("netFlag");
+		String netFlagStr = null;
+		if(netFlag == null || netFlag.trim().length()<=0) {
+			netFlagStr="%%";
+		} else {
+			netFlagStr = netFlag;
+		}
+		Integer duration = (durationStr == null || !NumberUtils.isDigits(durationStr)) ? 0
+				: Integer.valueOf(durationStr);
+	
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();// userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
+		if (organCode == null || organCode.trim().length() <= 0) {
+			organCode = userOrg.getOrgCode();
+		}
+	
+		boolean isCity = false;
+		if (levelFlag == null) {
+			if (organCode.length() >= 8) {
+				levelFlag = "city";
+			} else if (organCode.length() > 4) {
+				levelFlag = "prov";
+			}
+		}
+		
+		String toPerm = perm;
+		if (perm == null || perm.trim().length() <= 0) {
+			toPerm = "%%";
+		} else if (perm.equals("1")) {
+			toPerm = "年交";
+		} else {
+			toPerm = "趸交";
+		}
+	
+		if (levelFlag != null && levelFlag.trim().equals("city")) {
+			isCity = true;
+		}
+	
+		String fd = StringUtil.getMonthFirstDayOfMonth(Calendar.getInstance().get(Calendar.MONTH), "yyyy-MM-dd");
+		if (pd1 == null || pd1.trim().length() <= 0) {
+			pd1 = fd;
+		}
+		request.setAttribute("policyDate1", pd1);
+		request.setAttribute("policyDate2", pd2);
+		if (pd2 == null || pd2.trim().length() <= 0) {
+			pd2 = "9999-12-31";
+		}
+	
+		if(levelFlag != null && levelFlag.equals("prov")) {
+			organCode = "8644";
+		}
+		
+		List<QyCheckModel> writes = null;
+		//將record寫到write model中
+		if (!isCity) {
+			writes = stasticsService.getMultipleCheckTruthCityStastics(pd1, pd2, duration, toPerm, netFlagStr);
+		} else {
+			writes = stasticsService.getMultipleCheckTruthAreaStastics(organCode + "%", pd1, pd2, duration, toPerm, netFlagStr);
+		}
+		
+		request.setAttribute("cmRst", writes);
+		
+		double errsum = 0;
+		double countSum = 0;
+		double checkSum = 0;
+		double ontimeSum = 0;
+		for (QyCheckModel tcm : writes) {
+			countSum += tcm.getPolicyCounts();
+			errsum += tcm.getErrCounts() == null ? 0 : tcm.getErrCounts();
+			checkSum += tcm.getCheckCounts() == null ? 0 : tcm.getCheckCounts();
+			ontimeSum += tcm.getOntimeCounts() == null ? 0 : tcm.getOntimeCounts();
+		}
+		
+		//maxZB = maxZB;
+		request.setAttribute("countSum", countSum);
+		request.setAttribute("errSum", errsum);
+		request.setAttribute("checkSum", checkSum);
+		request.setAttribute("ontimeSum", ontimeSum);
+		request.setAttribute("finalRatio", ((1-(checkSum/countSum))*0.5 + (ontimeSum/checkSum)*0.3 + (errsum/checkSum)*0.2)*100);
+	
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{userOrg.getShortName()}));
+		
+		return MULTIPLE_TRUTH_LIST_TOXLS;
+	}
+
 	@RequiresUser
 	@Log(message="{0}抽检客户信息真实性排查差错明细导出！", level=LogLevel.INFO, module=LogModule.QTCZ)
 	@RequestMapping(value = "/stastics/truth/dtlToXls", method = { RequestMethod.GET, RequestMethod.POST })

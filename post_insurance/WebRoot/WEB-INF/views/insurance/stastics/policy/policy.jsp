@@ -126,23 +126,22 @@ function toTips(val) {
 <br>
 <div class="pageContent" layoutH="130" width="150%">
 <div class="row" style="padding: 0 3px;">
-	<div class="sortDrag" style="width:30%;border:1px solid #e66;margin:5px;float:left;min-height:100px">
+	<div style="width:30%;border:1px solid #e66;margin:5px;float:left;min-height:100px">
 	<h2 class="contentTitle">列表展示（单位：万元）注： &nbsp;&nbsp;&nbsp;&nbsp;</h2>
 		<table class="table" width="100%">
 		<thead>
 			<tr>
-				<th>序号</th>
 				<th>名称</th>
 				<th>件数</th>
 				<th>件数占比</th>
 				<th>保费</th>
 				<th>保费占比</th>
+				<th>已保费</th>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach var="item" items="${cmRst}" varStatus="idx">
 			<tr>
-				<td style="text-align: center;">${idx.index+1 }</td>
 				<td>
 					<c:choose>  
 					    <c:when test="${fn:contains(item.statName, '直属')}">  
@@ -160,6 +159,7 @@ function toTips(val) {
 				<td style="text-align: right;"><fmt:formatNumber value="${item.policyCount/countPt*100}" pattern="#,###.#" />%</td>
 				<td style="text-align: right;"><fmt:formatNumber value="${item.policyFee}" pattern="#,###.#" /></td>
 				<td style="text-align: right;"><fmt:formatNumber value="${item.policyFee/sumPt*100}" pattern="#,###.#" />%</td>
+				<td style="text-align: right;"><fmt:formatNumber value="${item.hadPolicyFee}" pattern="#,###.##" /></td>
 			</tr>
 			</c:forEach>
 			<tr>
@@ -168,13 +168,13 @@ function toTips(val) {
 				<td style="text-align: right;"><fmt:formatNumber value="${countPt}" pattern="#,###.#" /></td>
 				<td>&nbsp;</td>
 				<td style="text-align: right;"><fmt:formatNumber value="${sumPt}" pattern="#,###.#" /></td>
-				<td>&nbsp;</td>
+				<td style="text-align: right;"><fmt:formatNumber value="${sumHadPolicyFee}" pattern="#,###.##" /></td>
 			</tr>
 		</tbody>
 	</table>
 	</div>
-	<div class="sortDrag" style="width:65%;border:1px solid #e66;margin:5px;float:left;min-height:10px">
-	<div id="policyStatMain" style="width: 800px;height:400px;"></div>
+	<div style="width:65%;border:1px solid #e66;margin:5px;float:left;min-height:10px">
+	<div id="policyStatMain" style="width: 800px;height:500px;"></div>
 	    <script type="text/javascript">
 	        // 基于准备好的dom，初始化echarts实例
 	        var myChart = echarts.init(document.getElementById('policyStatMain'));

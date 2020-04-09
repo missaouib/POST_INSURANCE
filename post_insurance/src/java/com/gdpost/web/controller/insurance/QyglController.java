@@ -190,7 +190,7 @@ public class QyglController {
 	public @ResponseBody String appealCheckWrite(@PathVariable Long id) {
 		CheckWrite src = qyglService.getCheckWrite(id);
 		src.setNeedFix("申诉件");;
-		src.setFixStatus(QY_STATUS.CloseStatus.name());
+		src.setFixStatus("ElseStatus");
 		src.setCloseDate(new Date());
 		src.setCloseUser(SecurityUtils.getShiroUser().getLoginName());
 		qyglService.saveOrUpdateCheckWrite(src);
@@ -489,7 +489,7 @@ public class QyglController {
 	public @ResponseBody String appealCheckRecord(@PathVariable Long id) {
 		CheckRecord src = qyglService.getCheckRecord(id);
 		src.setNeedFix("申诉件");;
-		src.setFixStatus(QY_STATUS.CloseStatus.name());
+		src.setFixStatus("ElseStatus");
 		src.setCloseDate(new Date());
 		src.setCloseUser(SecurityUtils.getShiroUser().getLoginName());
 		qyglService.saveOrUpdateCheckRecord(src);
@@ -1176,7 +1176,7 @@ public class QyglController {
 			if(src.getBillBackDate() == null || src.getClientReceiveDate() == null) {
 				continue;
 			}
-			src.setScanReceipt(src.getScanReceipt()?false:true);
+			src.setScanReceipt(src.getScanReceipt()!=null && src.getScanReceipt()?false:true);
 			qyglService.saveOrUpdateUnderWrite(src);
 			info.add(src.getFormNo());
 		}
@@ -1388,7 +1388,7 @@ public class QyglController {
 	public @ResponseBody String appealReuseRisk(@PathVariable Long id) {
 		ReuseRisk src = qyglService.getReuseRisk(id);
 		src.setNeedFix("申诉件");;
-		src.setFixStatus(QY_STATUS.CloseStatus.name());
+		src.setFixStatus("ElseStatus");
 		src.setCloseDate(new Date());
 		src.setCloseUser(SecurityUtils.getShiroUser().getLoginName());
 		qyglService.saveOrUpdateReuseRisk(src);

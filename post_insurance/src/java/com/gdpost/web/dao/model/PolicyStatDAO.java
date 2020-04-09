@@ -22,7 +22,8 @@ import com.gdpost.web.entity.component.PolicyStatModel;
 public interface PolicyStatDAO extends JpaRepository<PolicyStatModel, Long>, JpaSpecificationExecutor<PolicyStatModel> {
 	
 	@Query(name="getPolicyDateProdStat",
-			value="select tp.prod_name as stat_name,count(tp.id) as policy_count, sum(tp.total_fee)/10000 as policy_fee, SUM(case when tp.prod_code=\"120022\" then 1 else 0 end) as jzh_count "
+			value="select tp.prod_name as stat_name,count(tp.id) as policy_count, sum(tp.total_fee)/10000 as policy_fee, SUM(case when tp.prod_code=\"120022\" then 1 else 0 end) as jzh_count, "
+			+ "sum(case when tp.perm<TIMESTAMPDIFF(YEAR,tp.policy_date,DATE_FORMAT(NOW(), '%Y-%m-%d')) then (tp.policy_fee*perm) else (tp.policy_fee*(TIMESTAMPDIFF(YEAR,tp.policy_date,DATE_FORMAT(NOW(), '%Y-%m-%d'))+1)) end)/10000 as had_policy_fee "
 			+ "from t_policy tp "
 			+ "where tp.cs_flag<>:csFlag and tp.attached_flag=0 "
 			+ "and tp.policy_date between :p1 and :p2 "
@@ -39,7 +40,8 @@ public interface PolicyStatDAO extends JpaRepository<PolicyStatModel, Long>, Jpa
 	List<PolicyStatModel> getPolicyDateProdStat(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("csFlag")String csFlag, @Param("saleType")String saleType, @Param("status")String status, @Param("duration")Integer duration);
 	
 	@Query(name="getPolicyDateProdStatWithBankCode",
-			value="select tp.prod_name as stat_name, count(tp.id) as policy_count, sum(tp.total_fee)/10000 as policy_fee, SUM(case when tp.prod_code=\"120022\" then 1 else 0 end) as jzh_count "
+			value="select tp.prod_name as stat_name, count(tp.id) as policy_count, sum(tp.total_fee)/10000 as policy_fee, SUM(case when tp.prod_code=\"120022\" then 1 else 0 end) as jzh_count, "
+					+ "sum(case when tp.perm<TIMESTAMPDIFF(YEAR,tp.policy_date,DATE_FORMAT(NOW(), '%Y-%m-%d')) then (tp.policy_fee*perm) else (tp.policy_fee*(TIMESTAMPDIFF(YEAR,tp.policy_date,DATE_FORMAT(NOW(), '%Y-%m-%d'))+1)) end)/10000 as had_policy_fee "
 			+ "from t_policy tp, t_bank_code tbc "
 			+ "where tp.bank_code=tbc.cpi_code and tp.attached_flag=0 and tp.cs_flag<>:csFlag "
 			+ "and tp.policy_date between :p1 and :p2 "
@@ -58,7 +60,8 @@ public interface PolicyStatDAO extends JpaRepository<PolicyStatModel, Long>, Jpa
 	List<PolicyStatModel> getPolicyDateProdStatWithBankCode(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("bankName")String bankName, @Param("csFlag")String csFlag, @Param("saleType")String saleType, @Param("status")String status, @Param("duration")Integer duration);
 	
 	@Query(name="getProvPolicyDateOrganStat",
-			value="select left(tp.organ_name, 2) as stat_name,count(tp.id) as policy_count, sum(tp.total_fee)/10000 as policy_fee, SUM(case when tp.prod_code=\"120022\" then 1 else 0 end) as jzh_count "
+			value="select left(tp.organ_name, 2) as stat_name,count(tp.id) as policy_count, sum(tp.total_fee)/10000 as policy_fee, SUM(case when tp.prod_code=\"120022\" then 1 else 0 end) as jzh_count, "
+					+ "sum(case when tp.perm<TIMESTAMPDIFF(YEAR,tp.policy_date,DATE_FORMAT(NOW(), '%Y-%m-%d')) then (tp.policy_fee*perm) else (tp.policy_fee*(TIMESTAMPDIFF(YEAR,tp.policy_date,DATE_FORMAT(NOW(), '%Y-%m-%d'))+1)) end)/10000 as had_policy_fee "
 			+ "from t_policy tp "
 			+ "where tp.cs_flag<>:csFlag and tp.attached_flag=0 "
 			+ "and tp.policy_date between :p1 and :p2 "
@@ -75,7 +78,8 @@ public interface PolicyStatDAO extends JpaRepository<PolicyStatModel, Long>, Jpa
 	List<PolicyStatModel> getProvPolicyDateOrganStat(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("csFlag")String csFlag, @Param("saleType")String saleType, @Param("status")String status, @Param("duration")Integer duration);
 	
 	@Query(name="getPolicyDateOrganStat",
-			value="select tp.organ_name as stat_name,count(tp.id) as policy_count, sum(tp.total_fee)/10000 as policy_fee, SUM(case when tp.prod_code=\"120022\" then 1 else 0 end) as jzh_count "
+			value="select tp.organ_name as stat_name,count(tp.id) as policy_count, sum(tp.total_fee)/10000 as policy_fee, SUM(case when tp.prod_code=\"120022\" then 1 else 0 end) as jzh_count, "
+					+ "sum(case when tp.perm<TIMESTAMPDIFF(YEAR,tp.policy_date,DATE_FORMAT(NOW(), '%Y-%m-%d')) then (tp.policy_fee*perm) else (tp.policy_fee*(TIMESTAMPDIFF(YEAR,tp.policy_date,DATE_FORMAT(NOW(), '%Y-%m-%d'))+1)) end)/10000 as had_policy_fee "
 			+ "from t_policy tp "
 			+ "where tp.cs_flag<>:csFlag and tp.attached_flag=0 "
 			+ "and tp.policy_date between :p1 and :p2 "
@@ -92,7 +96,8 @@ public interface PolicyStatDAO extends JpaRepository<PolicyStatModel, Long>, Jpa
 	List<PolicyStatModel> getPolicyDateOrganStat(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("csFlag")String csFlag, @Param("saleType")String saleType, @Param("status")String status, @Param("duration")Integer duration);
 	
 	@Query(name="getPolicyDateOrganNetStat",
-			value="select tbc.name as stat_name, count(tp.id) as policy_count, sum(tp.total_fee)/10000 as policy_fee, SUM(case when tp.prod_code=\"120022\" then 1 else 0 end) as jzh_count "
+			value="select tbc.name as stat_name, count(tp.id) as policy_count, sum(tp.total_fee)/10000 as policy_fee, SUM(case when tp.prod_code=\"120022\" then 1 else 0 end) as jzh_count, "
+					+ "sum(case when tp.perm<TIMESTAMPDIFF(YEAR,tp.policy_date,DATE_FORMAT(NOW(), '%Y-%m-%d')) then (tp.policy_fee*perm) else (tp.policy_fee*(TIMESTAMPDIFF(YEAR,tp.policy_date,DATE_FORMAT(NOW(), '%Y-%m-%d'))+1)) end)/10000 as had_policy_fee "
 			+ "from t_policy tp, t_bank_code tbc "
 			+ "where tp.bank_code=tbc.cpi_code and tp.attached_flag=0 and tp.cs_flag<>:csFlag "
 			+ "and tp.policy_date between :p1 and :p2 "
@@ -110,7 +115,8 @@ public interface PolicyStatDAO extends JpaRepository<PolicyStatModel, Long>, Jpa
 	List<PolicyStatModel> getPolicyDateOrganNetStat(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("bankName")String bankName, @Param("csFlag")String csFlag, @Param("saleType")String saleType, @Param("status")String status, @Param("duration")Integer duration);
 	
 	@Query(name="getProvPolicyDateOrganStatWithBankCode",
-			value="select left(tp.organ_name,2) as stat_name, count(tp.id) as policy_count, sum(tp.total_fee)/10000 as policy_fee, SUM(case when tp.prod_code=\"120022\" then 1 else 0 end) as jzh_count "
+			value="select left(tp.organ_name,2) as stat_name, count(tp.id) as policy_count, sum(tp.total_fee)/10000 as policy_fee, SUM(case when tp.prod_code=\"120022\" then 1 else 0 end) as jzh_count, "
+					+ "sum(case when tp.perm<TIMESTAMPDIFF(YEAR,tp.policy_date,DATE_FORMAT(NOW(), '%Y-%m-%d')) then (tp.policy_fee*perm) else (tp.policy_fee*(TIMESTAMPDIFF(YEAR,tp.policy_date,DATE_FORMAT(NOW(), '%Y-%m-%d'))+1)) end)/10000 as had_policy_fee "
 			+ "from t_policy tp, t_bank_code tbc "
 			+ "where tp.bank_code=tbc.cpi_code and tp.attached_flag=0 and tp.cs_flag<>:csFlag "
 			+ "and tp.policy_date between :p1 and :p2 "
@@ -129,7 +135,8 @@ public interface PolicyStatDAO extends JpaRepository<PolicyStatModel, Long>, Jpa
 	List<PolicyStatModel> getProvPolicyDateOrganStatWithBankCode(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("bankName")String bankName, @Param("csFlag")String csFlag, @Param("saleType")String saleType, @Param("status")String status, @Param("duration")Integer duration);
 	
 	@Query(name="getPolicyDateOrganStatWithBankCode",
-			value="select tp.organ_name as stat_name, count(tp.id) as policy_count, sum(tp.total_fee)/10000 as policy_fee, SUM(case when tp.prod_code=\"120022\" then 1 else 0 end) as jzh_count "
+			value="select tp.organ_name as stat_name, count(tp.id) as policy_count, sum(tp.total_fee)/10000 as policy_fee, SUM(case when tp.prod_code=\"120022\" then 1 else 0 end) as jzh_count, "
+					+ "sum(case when tp.perm<TIMESTAMPDIFF(YEAR,tp.policy_date,DATE_FORMAT(NOW(), '%Y-%m-%d')) then (tp.policy_fee*perm) else (tp.policy_fee*(TIMESTAMPDIFF(YEAR,tp.policy_date,DATE_FORMAT(NOW(), '%Y-%m-%d'))+1)) end)/10000 as had_policy_fee "
 			+ "from t_policy tp, t_bank_code tbc "
 			+ "where tp.bank_code=tbc.cpi_code and tp.attached_flag=0 and tp.cs_flag<>:csFlag "
 			+ "and tp.policy_date between :p1 and :p2 "
@@ -148,7 +155,8 @@ public interface PolicyStatDAO extends JpaRepository<PolicyStatModel, Long>, Jpa
 	List<PolicyStatModel> getPolicyDateOrganStatWithBankCode(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("bankName")String bankName, @Param("csFlag")String csFlag, @Param("saleType")String saleType, @Param("status")String status, @Param("duration")Integer duration);
 	
 	@Query(name="getPolicyDateOrganNetStatWithBankCode",
-			value="select tbc.name as stat_name, count(tp.id) as policy_count, sum(tp.total_fee)/10000 as policy_fee, SUM(case when tp.prod_code=\"120022\" then 1 else 0 end) as jzh_count "
+			value="select tbc.name as stat_name, count(tp.id) as policy_count, sum(tp.total_fee)/10000 as policy_fee, SUM(case when tp.prod_code=\"120022\" then 1 else 0 end) as jzh_count, "
+					+ "sum(case when tp.perm<TIMESTAMPDIFF(YEAR,tp.policy_date,DATE_FORMAT(NOW(), '%Y-%m-%d')) then (tp.policy_fee*perm) else (tp.policy_fee*(TIMESTAMPDIFF(YEAR,tp.policy_date,DATE_FORMAT(NOW(), '%Y-%m-%d'))+1)) end)/10000 as had_policy_fee "
 			+ "from t_policy tp, t_bank_code tbc "
 			+ "where tp.bank_code=tbc.cpi_code and tp.attached_flag=0 and tp.cs_flag<>:csFlag "
 			+ "and tp.policy_date between :p1 and :p2 "
@@ -168,7 +176,8 @@ public interface PolicyStatDAO extends JpaRepository<PolicyStatModel, Long>, Jpa
 	
 	
 	@Query(name="getPolicyDateFeeTypeStat",
-			value="select tp.fee_frequency as stat_name,count(tp.id) as policy_count, sum(tp.total_fee)/10000 as policy_fee, SUM(case when tp.prod_code=\"120022\" then 1 else 0 end) as jzh_count "
+			value="select tp.fee_frequency as stat_name,count(tp.id) as policy_count, sum(tp.total_fee)/10000 as policy_fee, SUM(case when tp.prod_code=\"120022\" then 1 else 0 end) as jzh_count, "
+					+ "sum(case when tp.perm<TIMESTAMPDIFF(YEAR,tp.policy_date,DATE_FORMAT(NOW(), '%Y-%m-%d')) then (tp.policy_fee*perm) else (tp.policy_fee*(TIMESTAMPDIFF(YEAR,tp.policy_date,DATE_FORMAT(NOW(), '%Y-%m-%d'))+1)) end)/10000 as had_policy_fee "
 			+ "from t_policy tp "
 			+ "where tp.cs_flag<>:csFlag and tp.attached_flag=0 "
 			+ "and tp.policy_date between :p1 and :p2 "
@@ -185,7 +194,8 @@ public interface PolicyStatDAO extends JpaRepository<PolicyStatModel, Long>, Jpa
 	List<PolicyStatModel> getPolicyDateFeeTypeStat(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("csFlag")String csFlag, @Param("saleType")String saleType, @Param("status")String status, @Param("duration")Integer duration);
 	
 	@Query(name="getPolicyDateFeeTypeStatWithBankCode",
-			value="select tp.fee_frequency as stat_name, count(tp.id) as policy_count, sum(tp.total_fee)/10000 as policy_fee, SUM(case when tp.prod_code=\"120022\" then 1 else 0 end) as jzh_count "
+			value="select tp.fee_frequency as stat_name, count(tp.id) as policy_count, sum(tp.total_fee)/10000 as policy_fee, SUM(case when tp.prod_code=\"120022\" then 1 else 0 end) as jzh_count, "
+					+ "sum(case when tp.perm<TIMESTAMPDIFF(YEAR,tp.policy_date,DATE_FORMAT(NOW(), '%Y-%m-%d')) then (tp.policy_fee*perm) else (tp.policy_fee*(TIMESTAMPDIFF(YEAR,tp.policy_date,DATE_FORMAT(NOW(), '%Y-%m-%d'))+1)) end)/10000 as had_policy_fee "
 			+ "from t_policy tp, t_bank_code tbc "
 			+ "where tp.bank_code=tbc.cpi_code and tp.attached_flag=0 and tp.cs_flag<>:csFlag "
 			+ "and tp.policy_date between :p1 and :p2 "

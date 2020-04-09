@@ -110,7 +110,7 @@ function toTips(val) {
 <br>
 <div class="pageContent" layoutH="170" width="150%">
 <div class="row" style="padding: 0 3px;">
-	<div class="sortDrag" style="width:30%;border:1px solid #e66;margin:5px;float:left;min-height:100px">
+	<div style="width:30%;border:1px solid #e66;margin:5px;float:left;min-height:100px">
 	<h2 class="contentTitle">列表展示 &nbsp;&nbsp;&nbsp;&nbsp;</h2>
 		<table class="table" width="100%">
 		<thead>
@@ -145,8 +145,8 @@ function toTips(val) {
 		</tbody>
 	</table>
 	</div>
-	<div class="sortDrag" style="width:65%;border:1px solid #e66;margin:5px;float:left;min-height:10px">
-	<div id="agmain" style="width: 800px;height:400px;"></div>
+	<div style="width:65%;border:1px solid #e66;margin:5px;float:left;min-height:10px">
+	<div id="agmain" style="width: 800px;height:500px;"></div>
 	    <script type="text/javascript">
 	        // 基于准备好的dom，初始化echarts实例
 	        var myChart = echarts.init(document.getElementById('agmain'));
@@ -169,7 +169,7 @@ function toTips(val) {
 			        }
 			    },
 			    legend: {
-			        data: ['满期件', 'AG件', '进度%']
+			        data: ['满期件数', 'AG件数', '进度%']
 			    },
 			    xAxis: [
 			        {

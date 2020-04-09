@@ -19,6 +19,7 @@ response.setHeader("Content-Disposition", "inline; filename=check_stat.xls");
 				<th>抽检录入件数</th>
 				<th>录入差错</th>
 				<th>综合合格率</th>
+				<th>条线评比合格率</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -32,7 +33,8 @@ response.setHeader("Content-Disposition", "inline; filename=check_stat.xls");
 				<td style="text-align: right;font-weight:800;"><fmt:formatNumber value="${item.errCounts}" pattern="#,###" /></td>
 				<td style="text-align: right;font-weight:800;"><fmt:formatNumber value="${item.checkRecordCounts}" pattern="#,###" /></td>
 				<td style="text-align: right;font-weight:800;"><fmt:formatNumber value="${item.checkRecordErrCounts}" pattern="#,###" /></td>
-				<td style="vnd.ms-excel.numberformat: #0.00%">${tem.checkCounts==0?'/':((item.checkCounts-item.errCounts)/item.checkCounts*0.8+(item.checkRecordCounts==0?0.1:(item.checkRecordCounts-item.checkRecordErrCounts)/item.checkRecordCounts*0.1)+0.1) }</td>
+				<td style="vnd.ms-excel.numberformat: #0.00%">${tem.checkCounts==0?'/':((item.checkCounts-item.errCounts)/item.checkCounts*0.8+(item.checkRecordCounts==0?0.2:(item.checkRecordCounts-item.checkRecordErrCounts)/item.checkRecordCounts*0.2)) }</td>
+				<td style="text-align: center;"><fmt:formatNumber type="percent" maxFractionDigits="2" value="${(empty item.checkCounts or item.checkCounts==0)?'1':(((item.checkCounts-item.errCounts)/item.checkCounts*0.9)+(empty item.checkRecordCounts or item.checkRecordCounts==0?0.1:(item.checkRecordCounts-item.checkRecordErrCounts)/item.checkRecordCounts*0.1))  }" /></td>
 			</tr>
 			</c:forEach>
 			<tr>
@@ -44,7 +46,8 @@ response.setHeader("Content-Disposition", "inline; filename=check_stat.xls");
 				<td style="text-align: right;font-weight:800;"><fmt:formatNumber value="${totalErr}" pattern="#,###.#" /></td>
 				<td style="text-align: right;font-weight:800;"><fmt:formatNumber value="${totalRecordCheck}" pattern="#,###.#" /></td>
 				<td style="text-align: right;font-weight:800;"><fmt:formatNumber value="${totalRecordErr}" pattern="#,###.#" /></td>
-				<td style="vnd.ms-excel.numberformat: #0.00%">${(totalCheck-totalErr)/totalCheck*0.80+(totalRecordCheck-totalRecordErr)/totalRecordCheck*0.10+0.10}</td>
+				<td style="vnd.ms-excel.numberformat: #0.00%">${(totalCheck-totalErr)/totalCheck*0.80+(totalRecordCheck-totalRecordErr)/totalRecordCheck*0.20}</td>
+				<td style="vnd.ms-excel.numberformat: #0.00%">${((totalCheck-totalErr)/totalCheck*0.9)+((totalRecordCheck-totalRecordErr)/totalRecordCheck*0.1) }</td>
 			</tr>
 		</tbody>
 	</table>

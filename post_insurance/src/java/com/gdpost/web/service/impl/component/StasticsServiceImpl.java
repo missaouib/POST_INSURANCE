@@ -287,6 +287,16 @@ public class StasticsServiceImpl implements StasticsService {
 	}
 
 	@Override
+	public List<QyCheckModel> getMultipleCheckTruthCityStastics(String d1, String d2, Integer duration, String toPerm, String netFlag) {
+		return checkDAO.getMultipleCheckTruthCityStat(d1, d2, duration, toPerm, netFlag);
+	}
+
+	@Override
+	public List<QyCheckModel> getMultipleCheckTruthAreaStastics(String organCode, String d1, String d2, Integer duration, String toPerm, String netFlag) {
+		return checkDAO.getMultipleCheckTruthAreaStat(organCode, d1, d2, duration, toPerm, netFlag);
+	}
+
+	@Override
 	public List<QyCheckModel> getPrintCityStastics(String d1, String d2) {
 		return checkDAO.getPrintCityStat(d1, d2);
 	}
