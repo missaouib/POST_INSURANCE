@@ -175,4 +175,18 @@ public class RefreshController {
 		}
 		return rst;
 	}
+	
+	@RequiresUser
+	@RequestMapping(value="/checkUrge", method=RequestMethod.GET)
+	public @ResponseBody String checkUrge() {
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		Subject sub = SecurityUtils.getSubject();
+		if(sub.isPermitted("Wtgd:view")) {
+			List<Inquire> rst = kfglService.getTODOInquireList(shiroUser.getUser(), true);
+			if(rst != null && rst.size() >0 ) {
+				return "您有" + rst + "件咨询工单被&nbsp;&nbsp;<font color=red size=\"14\">催办</font>&nbsp;&nbsp;处理！<br>需在一天内处理完成";
+			}
+		}
+		return "";
+	}
 }

@@ -100,8 +100,8 @@ function toTips(val) {
 				<td style="text-align: right;"><fmt:formatNumber value="${item.checkCounts}" pattern="#,###.#" /></td>
 				<td style="text-align: right;"><fmt:formatNumber value="${item.errCounts}" pattern="#,###.#" /></td>
 				<td style="text-align: right;"><fmt:formatNumber value="${item.ontimeCounts}" pattern="#,###.#" /></td>
-				<td style="text-align: right;"><fmt:formatNumber value="${item.statFlag}" pattern="#,###.##" />%</td>
-				<td style="text-align: right;"><fmt:formatNumber value="${((1-item.checkCounts/item.policyCounts)*0.6+item.errCounts/item.checkCounts*0.4)*100}" pattern="#,###.##" />%</td>
+				<td style="text-align: right;"><fmt:formatNumber value="${item.ratio}" pattern="#,###.##" />%</td>
+				<td style="text-align: right;"><fmt:formatNumber value="${((1-(item.policyCounts==0?0:item.checkCounts/item.policyCounts))*0.6+(item.checkCounts==0?0.4:(item.errCounts/item.checkCounts*0.4)))*100}" pattern="#,###.##" />%</td>
 			</tr>
 			</c:forEach>
 			<tr>

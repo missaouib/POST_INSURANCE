@@ -38,7 +38,8 @@ response.setHeader("Content-Disposition", "inline; filename=policy_list.xls");
 				<th>状态</th>
 				<th>退保日期</th>
 				<th>是否犹撤</th>
-				<th>网点编码</th>
+				<th>邮保通编码</th>
+				<th>核心编码</th>
 				<th>网点</th>
 				<th>员工单</th>
 				<th>银行单</th>
@@ -74,8 +75,9 @@ response.setHeader("Content-Disposition", "inline; filename=policy_list.xls");
 				<td>${item.status}</td>
 				<td>${item.csDate != null?item.csDate:""}</td>
 				<td>${item.csFlag != null && item.csFlag==1?"Y":"N"}</td>
-				<td>${item.bankCode.ybtCode}</td>
-				<td>${item.bankName}</td>
+				<td style="vnd.ms-excel.numberformat:@">${item.bankCode.ybtCode}</td>
+				<td style="vnd.ms-excel.numberformat:@">${item.bankCode.selBankCode}</td>
+				<td>${item.bankCode.fullName}</td>
 				<td>${item.isStaff}</td>
 				<td>${item.bankCode!=null && item.bankCode.netFlag==2?"是":"否" }</td>
 			</tr>

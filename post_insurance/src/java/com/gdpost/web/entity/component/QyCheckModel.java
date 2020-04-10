@@ -24,6 +24,9 @@ public class QyCheckModel implements java.io.Serializable {
 	private Integer ontimeCounts = 0;
 	
 	@Transient
+	private String ratio;
+	
+	@Transient
 	private Integer checkRecordCounts = 0;
 	@Transient
 	private Integer checkRecordErrCounts = 0;
@@ -76,9 +79,6 @@ public class QyCheckModel implements java.io.Serializable {
 	}
 	@Transient
 	public String getStatFlag() {
-		if(getOntimeCounts() != null) {
-			return Double.toString(((1-(double)((double)getCheckCounts()/(double)getPolicyCounts()))*0.5 + ((double)getOntimeCounts()/(double)getCheckCounts())*0.3 + ((double)getErrCounts()/(double)getCheckCounts())*0.2)*100);
-		}
 		return statFlag;
 	}
 	@Transient
@@ -120,7 +120,21 @@ public class QyCheckModel implements java.io.Serializable {
 		this.duration = duration;
 	}
 	
-	
+	@Transient
+	public Double getRatio() {
+		if(checkCounts ==0) {
+			return 100d;
+		}
+		Double hgl = (1-(getPolicyCounts()==0?0:new Double(getCheckCounts())/new Double(getPolicyCounts())));
+		Double jsl = (getCheckCounts()==0?1:new Double(getOntimeCounts())/new Double(getCheckCounts()));
+		Double zgl = (getCheckCounts()==0?1:new Double(getErrCounts())/new Double(getCheckCounts()));
+		return (hgl*0.5 + jsl*0.3 + zgl*0.2)*100;
+		
+	}
+	@Transient
+	public void setRatio(String ratio) {
+		this.ratio = ratio;
+	}
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="organ_code")
@@ -132,6 +146,9 @@ public class QyCheckModel implements java.io.Serializable {
 	}
 	@Column(name="policy_counts")
 	public Integer getPolicyCounts() {
+		if(this.policyCounts == null) {
+			return 0;
+		}
 		return policyCounts;
 	}
 	public void setPolicyCounts(Integer policyCounts) {
@@ -139,6 +156,9 @@ public class QyCheckModel implements java.io.Serializable {
 	}
 	@Column(name="check_counts")
 	public Integer getCheckCounts() {
+		if(this.checkCounts == null) {
+			return 0;
+		}
 		return checkCounts;
 	}
 	public void setCheckCounts(Integer checkCounts) {
@@ -146,6 +166,9 @@ public class QyCheckModel implements java.io.Serializable {
 	}
 	@Column(name="err_counts")
 	public Integer getErrCounts() {
+		if(this.errCounts == null) {
+			return 0;
+		}
 		return errCounts;
 	}
 	public void setErrCounts(Integer errCounts) {
@@ -153,6 +176,9 @@ public class QyCheckModel implements java.io.Serializable {
 	}
 	@Column(name="ontime_counts")
 	public Integer getOntimeCounts() {
+		if(this.ontimeCounts == null) {
+			return 0;
+		}
 		return ontimeCounts;
 	}
 	public void setOntimeCounts(Integer ontimeCounts) {

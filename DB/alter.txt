@@ -1,4 +1,12 @@
-﻿alter table t_policy add column policy_end_date date;
+﻿alter table t_inquire add urge boolean default false;
+alter table t_inquire add urge_time datetime default CURRENT_TIMESTAMP;
+
+alter table t_bank_code add full_name varchar(90);
+alter table t_bank_code change bank_code sel_bank_code varchar(20);
+delete from t_bank_code  where length(cpi_code)<=6;
+delete from t_bank_code where id in(3194,3195,3196,3245,3246,3265,3201,3202,3261,3204);
+
+alter table t_policy add column policy_end_date date;
 update t_policy tp, t_cs_expire ce set tp.status="满期终止",tp.policy_end_date=ce.policy_end_date where tp.policy_no=ce.policy_no;
 
 update t_policy tp set policy_end_date=date_add(DATE_ADD(plicy_valid_date,INTERVAL 5 YEAR),INTERVAL -1 DAY) where policy_end_date is null and duration=5;

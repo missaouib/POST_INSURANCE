@@ -34,11 +34,20 @@ public class BankCode implements Idable<Long>,Serializable {
 	private Long id;
 	private String ybtCode;
 	private String cpiCode;
-	private String bankCode;
+	private String selBankCode;
 	private String name;
 	private Organization organization;
 	private Integer netFlag;
 	private Integer status;
+	
+	private String fullName;
+	private String ranks;
+	private String attr;
+	private String city;
+	private String area;
+	private String addrAttr;
+	private String flag;
+	private String oldName;
 
 	// Constructors
 
@@ -47,11 +56,9 @@ public class BankCode implements Idable<Long>,Serializable {
 	}
 
 	/** full constructor */
-	public BankCode(String cpiCode, String bankCode, String name, Integer status) {
+	public BankCode(String cpiCode, String ybtCode) {
 		this.cpiCode = cpiCode;
-		this.bankCode = bankCode;
-		this.name = name;
-		this.status = status;
+		this.ybtCode = ybtCode;
 	}
 
 	// Property accessors
@@ -83,13 +90,13 @@ public class BankCode implements Idable<Long>,Serializable {
 		this.cpiCode = cpiCode;
 	}
 
-	@Column(name = "bank_code", length = 20)
-	public String getBankCode() {
-		return this.bankCode;
+	@Column(name = "sel_bank_code", length = 20)
+	public String getSelBankCode() {
+		return this.selBankCode;
 	}
 
-	public void setBankCode(String bankCode) {
-		this.bankCode = bankCode;
+	public void setSelBankCode(String bankCode) {
+		this.selBankCode = bankCode;
 	}
 
 	@Column(name = "name", length = 60)
@@ -127,6 +134,78 @@ public class BankCode implements Idable<Long>,Serializable {
 
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+
+	@Column(name = "full_name")
+	public String getFullName() {
+		return fullName;
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+
+	@Column(name = "ranks")
+	public String getRanks() {
+		return ranks;
+	}
+
+	public void setRanks(String ranks) {
+		this.ranks = ranks;
+	}
+
+	@Column(name = "attr")
+	public String getAttr() {
+		return attr;
+	}
+
+	public void setAttr(String attr) {
+		this.attr = attr;
+	}
+
+	@Column(name = "city")
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	@Column(name = "area")
+	public String getArea() {
+		return area;
+	}
+
+	public void setArea(String area) {
+		this.area = area;
+	}
+
+	@Column(name = "addr_attr")
+	public String getAddrAttr() {
+		return addrAttr;
+	}
+
+	public void setAddrAttr(String addrAttr) {
+		this.addrAttr = addrAttr;
+	}
+
+	@Column(name = "flag")
+	public String getFlag() {
+		return flag;
+	}
+
+	public void setFlag(String flag) {
+		this.flag = flag;
+	}
+
+	@Column(name = "old_name")
+	public String getOldName() {
+		return oldName;
+	}
+
+	public void setOldName(String oldName) {
+		this.oldName = oldName;
 	}
 
 }

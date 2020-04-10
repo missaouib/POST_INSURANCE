@@ -220,7 +220,7 @@ public class KfglServiceImpl implements KfglService {
 	}
 	
 	@Override
-	public List<Inquire> getTODOInquireList(User user) {
+	public List<Inquire> getTODOInquireList(User user, Boolean... urge) {
 		List<UserRole> urs = userRoleDAO.findByUserId(user.getId());
 		
 		Organization userOrg = user.getOrganization();
@@ -254,6 +254,9 @@ public class KfglServiceImpl implements KfglService {
 		}
 
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		if(urge != null && urge.length>0) {
+			csf.add(new SearchFilter("urge", Operator.EQ, true));
+		}
 		if(!isAdmin) {
 			csf.add(new SearchFilter("organ.orgCode", Operator.LIKE_R, orgCode));
 		}

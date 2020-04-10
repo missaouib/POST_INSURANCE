@@ -1070,6 +1070,7 @@ public class KfglController {
 		src.setDealMan(inquire.getDealMan());
 		src.setDealTime(inquire.getDealTime());
 		src.setInquireRst(inquire.getInquireRst());
+		src.setUrge(false);
 		//src.setCityReviewRst(inquire.getCityReviewRst());
 		//src.setCityReviewer(inquire.getCityReviewer());
 		src.setInquireStatus(StatusDefine.STATUS.IngStatus.name());
@@ -1117,10 +1118,37 @@ public class KfglController {
 		src.setChecker(inquire.getChecker());
 		src.setCheckRst(inquire.getCheckRst());
 		src.setCheckDate(new Date());
+		src.setUrge(false);
 		kfglService.saveOrUpdateInquire(src);
 
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[] { src.getInquireNo() }));
 		return AjaxObject.newOk("审核咨询工单成功！").toString();
+	}
+	
+	@Log(message = "催办了{0}咨询工单的处理。", level = LogLevel.WARN, module = LogModule.KFGL)
+	@RequiresPermissions("Inquire:edit")
+	@RequestMapping(value = "/inquire/urge", method = RequestMethod.POST)
+	public @ResponseBody String urgeAsk(Long[] ids) {
+		String[] policys = new String[ids.length];
+		try {
+			Inquire src = null;
+			for (int i = 0; i < ids.length; i++) {
+				src = kfglService.getInquire(ids[i]);
+				if (!src.getInquireStatus().equals(STATUS.NewStatus.name()) || src.isUrge()) {
+					return AjaxObject.newError("工单状态不足以操作审核或已经催办过。").setCallbackType("").toString();
+				}
+				src.setUrge(true);
+				src.setUrgeTime(new Date());
+				kfglService.saveOrUpdateInquire(src);
+
+				policys[i] = src.getInquireNo();
+			}
+		} catch (ServiceException e) {
+			return AjaxObject.newError("批量转办咨询工单失败：" + e.getMessage()).setCallbackType("").toString();
+		}
+
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[] { Arrays.toString(policys) }));
+		return AjaxObject.newOk("催办咨询工单成功！").setCallbackType("").toString();
 	}
 	
 	@Log(message = "转办了{0}咨询工单的信息。", level = LogLevel.WARN, module = LogModule.KFGL)
@@ -1132,6 +1160,7 @@ public class KfglController {
 		src.setCityDealFlag(true);
 		src.setToCityUser(shiroUser.getUser());
 		src.setToCityDate(new Date());
+		src.setUrge(false);
 		kfglService.saveOrUpdateInquire(src);
 
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[] { src.getInquireNo() }));
@@ -1218,6 +1247,7 @@ public class KfglController {
 				inquire.setCityDealFlag(true);
 				inquire.setToCityUser(shiroUser.getUser());
 				inquire.setToCityDate(new Date());
+				inquire.setUrge(false);
 				kfglService.saveOrUpdateInquire(inquire);
 
 				policys[i] = inquire.getInquireNo();
@@ -1243,6 +1273,7 @@ public class KfglController {
 		}
 		src.setCloseUser(shiroUser.getUser().getRealname());
 		src.setFinishDate(new Date());
+		src.setUrge(false);
 		src.setInquireStatus(STATUS.CloseStatus.name());
 		kfglService.saveOrUpdateInquire(src);
 
@@ -1262,6 +1293,7 @@ public class KfglController {
 		src.setCloseUser(shiroUser.getUser().getRealname());
 		src.setFinishDate(new Date());
 		src.setInquireStatus(STATUS.CloseStatus.name());
+		src.setUrge(false);
 		kfglService.saveOrUpdateInquire(src);
 
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[] { src.getInquireNo() }));
@@ -1284,6 +1316,7 @@ public class KfglController {
 				inquire.setCloseUser(shiroUser.getUser().getRealname());
 				inquire.setFinishDate(new Date());
 				inquire.setInquireStatus(STATUS.CloseStatus.name());
+				inquire.setUrge(false);
 				kfglService.saveOrUpdateInquire(inquire);
 
 				policys[i] = inquire.getInquireNo();
@@ -1310,6 +1343,7 @@ public class KfglController {
 				inquire.setChecker(shiroUser.getUser().getUsername() + "_" + shiroUser.getUser().getRealname());
 				inquire.setCheckRst("审核通过。");
 				inquire.setCheckDate(new Date());
+				inquire.setUrge(false);
 				kfglService.saveOrUpdateInquire(inquire);
 
 				policys[i] = inquire.getInquireNo();

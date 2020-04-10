@@ -32,6 +32,7 @@ public class TuiBaoDtlModel implements java.io.Serializable {
 	private String netFlag;
 	private String bankName;
 	private String staffFlag;
+	private String selBankCode;
 	// Constructors
 
 	/** default constructor */
@@ -164,4 +165,14 @@ public class TuiBaoDtlModel implements java.io.Serializable {
 	public void setStaffFlag(String staffFlag) {
 		this.staffFlag = staffFlag;
 	}
+
+	@Column(name="sel_bank_code")
+	public String getSelBankCode() {
+		return selBankCode;
+	}
+
+	public void setSelBankCode(String selBankCode) {
+		this.selBankCode = selBankCode;
+	}
+	
 }

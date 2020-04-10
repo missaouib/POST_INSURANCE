@@ -76,7 +76,7 @@ response.setHeader("Content-Disposition", "inline; filename=call_fail_dtl.xls");
                 <td><fmt:formatDate value="${item.policy.clientReceiveDate }" pattern="yyyy-MM-dd"/></td>
                 <td><fmt:formatDate value="${item.policy.billBackDate }" pattern="yyyy-MM-dd"/></td>
                 <td><fmt:formatDate value="${item.readyDate }" pattern="yyyy-MM-dd"/></td>
-                <td style="vnd.ms-excel.numberformat:@">${item.policy.bankCode.bankCode}</td>
+                <td style="vnd.ms-excel.numberformat:@">${item.policy.bankCode.selBankCode}</td>
                 <shiro:hasPermission name="Callfail:provEdit">
                 <td style="vnd.ms-excel.numberformat:@">${item.idCard}</td>
                 </shiro:hasPermission>

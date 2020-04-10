@@ -2506,8 +2506,9 @@ public class StasticsController {
 		double countSum = 0;
 		double checkSum = 0;
 		double ontimeSum = 0;
-		double ratio = 0;
+		//double ratio = 0;
 		double totalRatio = 0;
+		DecimalFormat df = new DecimalFormat("#.##");
 		for (QyCheckModel tcm : writes) {
 			cityCol += "'" + tcm.getOrganCode() + "',";
 			countSum += tcm.getPolicyCounts();
@@ -2525,8 +2526,8 @@ public class StasticsController {
 			if(maxZB<tcm.getCheckCounts()) {
 				maxZB = tcm.getCheckCounts();
 			}
-			ratio = ((1-(new Double(tcm.getCheckCounts())/new Double(tcm.getPolicyCounts())))*0.5 + new Double(tcm.getOntimeCounts())/new Double(tcm.getCheckCounts())*0.3 + new Double(tcm.getErrCounts())/new Double(tcm.getCheckCounts())*0.2)*100;
-			ratioStr += Double.toString(ratio) + ",";
+			//ratio = ((1-(new Double(tcm.getCheckCounts())/new Double(tcm.getPolicyCounts())))*0.5 + new Double(tcm.getOntimeCounts())/new Double(tcm.getCheckCounts())*0.3 + new Double(tcm.getErrCounts())/new Double(tcm.getCheckCounts())*0.2)*100;
+			ratioStr += (df.format(tcm.getRatio()) + ",");//Double.toString(ratio) + ",";
 		}
 		
 		totalRatio = ((1-new Double(checkSum)/new Double(countSum))*0.5 + (new Double(ontimeSum)/new Double(checkSum))*0.3 + new Double(errsum)/new Double(checkSum)*0.2)*100;

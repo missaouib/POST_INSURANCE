@@ -14,7 +14,7 @@
 		</p>
 		<p>
 			<label>银行网点名称：</label>
-			<input type="text" name="bankCode" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${basedata.bankCode }"/>
+			<input type="text" name="selBankCode" class="input-medium validate[required,maxSize[32]] required" maxlength="32" value="${basedata.selBankCode }"/>
 		</p>
 		<p>
 			<label>网点名称：</label>

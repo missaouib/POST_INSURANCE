@@ -97,6 +97,8 @@ public class Inquire implements java.io.Serializable {
 	private String attrLink;
 	private String closeUser;
 	private String roleids;
+	private boolean urge;
+	private Date urgeTime;
 	
 	@Transient
 	private Date shouldDate;
@@ -113,10 +115,13 @@ public class Inquire implements java.io.Serializable {
 	public Integer getLastDateNum() {
 		if(this.operateTime != null) {
 			int check = StringUtil.getBetweenDay(this.operateTime, new Date());
-			int c = 5-check;
+			int c = 3-check;
 			if(c < 0) {
 				return 0;
 			} else {
+				if(urge) {
+					return 1;
+				}
 				return c;
 			}
 		}
@@ -810,4 +815,23 @@ public class Inquire implements java.io.Serializable {
 		this.roleids = roleids;
 	}
 
+	@Column(name = "urge")
+	public boolean isUrge() {
+		return urge;
+	}
+
+	public void setUrge(boolean urge) {
+		this.urge = urge;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "urge_time")
+	public Date getUrgeTime() {
+		return urgeTime;
+	}
+
+	public void setUrgeTime(Date urgeTime) {
+		this.urgeTime = urgeTime;
+	}
+	
 }

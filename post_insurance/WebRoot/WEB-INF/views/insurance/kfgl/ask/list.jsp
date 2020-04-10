@@ -88,6 +88,7 @@
 				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/kfgl/inquire/update/{slt_uid}"><span>回复</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Inquire:provAdmin">
+				<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/kfgl/inquire/urge" title="确认要催办?"><span>批量催办</span></a></li>
 				<li><a class="icon" target="myDialog" rel="ids" href="${contextPath }/kfgl/inquire/toWord"><span>批量word</span></a></li>
 				<li><a iconClass="shield_add" target="dialog" mask="true" width="400" height="500" href="${contextPath }/kfgl/inquire/userRole/{slt_uid}"><span>客服转办到</span></a></li>
 				<li><a class="icon" target="selectedTodo" rel="ids" href="${contextPath }/kfgl/inquire/batchDeal" title="确认要批量审核通过?"><span>批量审核</span></a></li>
@@ -115,16 +116,17 @@
 	<table class="table" layoutH="160" width="100%">
 		<thead>
 			<tr>
-				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
+				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>	
+				<th>催办</th>
 				<th orderField=policy.organization.name class="${page.orderField eq 'policy.organization.name' ? page.orderDirection : ''}">所属机构</th>
-				<th>工单标记</th>
+				<th>标记</th>
 				<th>经办部门</th>
-				<th>地市办理</th>
+				<th>转地市</th>
 				<th orderField=inquireNo class="${page.orderField eq 'inquireNo' ? page.orderDirection : ''}">工单编号</th>
 				<th>工单内容</th>
 				<th orderField=operateTime class="${page.orderField eq 'operateTime' ? page.orderDirection : ''}">开始处理</th>
-				<th>还剩（天）</th>
-				<th>客户姓名</th>
+				<th>还剩(天)</th>
+				<th>客户</th>
 				<th orderField=policy.policyNo class="${page.orderField eq 'policy.policyNo' ? page.orderDirection : ''}">所属保单号</th>
 				<th orderField=inquireStatus class="${page.orderField eq 'inquireStatus' ? page.orderDirection : ''}">状态</th>
 				<th>处理情况</th>
@@ -136,6 +138,7 @@
 			<c:forEach var="item" items="${inquires}">
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
+				<td>${item.urge?"是":"否"}</td>
 				<td>${empty inquire.gpolicyNo?item.organ.shortName:inquire.gorganName}</td>
 				<td>
 					<c:choose>
@@ -158,7 +161,7 @@
                     </c:choose>
 				</td>
 				<td>${item.inquireNo}</td>
-				<td title="${item.inquireDesc}">${fn:substring(item.inquireDesc, 0, 35)}</td>
+				<td title="${item.inquireDesc}">${fn:substring(item.inquireDesc, 0, 25)}</td>
 				<td>${item.operateTime }</td>
 				<td><div style="color: red;vertical-align:middle;font-weight:bold;">${item.lastDateNum }</div></td>
 				<td>${item.client}</td>
@@ -183,7 +186,7 @@
                     </c:choose>
                     </a>
 				</td>
-				<td>${item.inquireRst}</td>
+				<td title="${item.inquireRst}">${fn:substring(item.inquireRst, 0, 25)}</td>
 				<td>${item.dealMan}</td>
 				<td><fmt:formatDate value="${item.dealTime }" pattern="yyyy-MM-dd"/></td>
 			</tr>

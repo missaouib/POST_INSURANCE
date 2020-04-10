@@ -21,6 +21,7 @@ response.setHeader("Content-Disposition", "inline; filename=tuibao_dtl.xls");
 		<th>保全代码</th>
 		<th>保全金额</th>
 		<th>渠道</th>
+		<th>网点编码</th>
 		<th>网点名称</th>
 		<th>员工单标记</th>
 	</tr>
@@ -38,6 +39,7 @@ response.setHeader("Content-Disposition", "inline; filename=tuibao_dtl.xls");
 		<td>${item.csCode}</td>
 		<td>${item.csFee}</td>
 		<td>${item.netFlag eq "1"?"邮政":"银行"}</td>
+		<td style="vnd.ms-excel.numberformat:@">${item.selBankCode}</td>
 		<td>${item.bankName}</td>
 		<td>${item.staffFlag eq "1"?"是":"否"}</td>
 	</tr>

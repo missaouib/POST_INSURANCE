@@ -53,12 +53,20 @@
 		<thead>
 			<tr>
 				<th width="22"><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
-				<th width="100">邮保通代码</th>
-				<th width="100">中邮网点代码</th>
-				<th width="100">银行网点代码</th>
-				<th width="100">网点名称</th>
-				<th width="100">管理机构</th>
-				<th width="100">网点属性</th>
+				<th>邮保通代码</th>
+				<th>中邮网点代码</th>
+				<th>银行网点代码</th>
+				<th>网点名称</th>
+				<th>管理机构</th>
+				<th>网点属性</th>
+				<th>行政级别</th>
+				<th>网点全称</th>
+				<th>城市</th>
+				<th>县区</th>
+				<th>机构属性</th>
+				<th>地域属性</th>
+				<th>入网情况</th>
+				<th>旧名称</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -67,7 +75,7 @@
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
 				<td>${item.ybtCode}</td>
 				<td>${item.cpiCode}</td>
-				<td>${item.bankCode}</td>
+				<td>${item.selBankCode}</td>
 				<td>${item.name}</td>
 				<td>${item.organization.shortName}</td>
 				<td>
@@ -80,6 +88,14 @@
 					    </c:otherwise>  
 					</c:choose>
 				</td>
+				<td>${item.ranks}</td>
+				<td>${item.fullName}</td>
+				<td>${item.city}</td>
+				<td>${item.area}</td>
+				<td>${item.attr}</td>
+				<td>${item.addrAttr}</td>
+				<td>${item.flag}</td>
+				<td>${item.oldName}</td>
 			</tr>			
 			</c:forEach>
 		</tbody>

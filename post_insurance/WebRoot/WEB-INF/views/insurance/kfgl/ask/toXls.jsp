@@ -24,6 +24,8 @@ response.setHeader("Content-Disposition", "inline; filename=Inquire_xls.xls");
 				<th>出单网点</th>
 				<th>工单标记</th>
 				<th>经办部门</th>
+				<th>催办</th>
+				<th>催办日期</th>
 				<th>地市办理</th>
 				<th>专办地市日期</th>
 				<th>工单状态</th>
@@ -80,6 +82,8 @@ response.setHeader("Content-Disposition", "inline; filename=Inquire_xls.xls");
                     </c:choose>
 				</td>
 				<td>${item.assignTo}</td>
+				<td>${item.urge?"是":"否"}</td>
+				<td><fmt:formatDate value="${item.urgeTime }" pattern="yyyy-MM-dd"/></td>
 				<td>
 					<c:choose>
                         <c:when test="${item.cityDealFlag}">

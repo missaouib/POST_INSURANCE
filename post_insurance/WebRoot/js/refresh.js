@@ -90,3 +90,20 @@ function checkMessage() {
 	});
 	$.ajaxSettings.global = true;
 }
+
+function checkUrge() {
+	$.ajaxSettings.global = false;
+	$.ajax({
+		type: "get", 
+		dataType: "html",
+		url: "/refresh/checkUrge?s=" + Math.random(),
+		data: "", 
+		success: function(data) {
+			if (data!="") {
+				var info = "提醒：" + data;
+				alertMsg.warn(info);
+			} 
+		} 
+	});
+	$.ajaxSettings.global = true;
+}

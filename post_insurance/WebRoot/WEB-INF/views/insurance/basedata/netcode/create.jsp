@@ -9,7 +9,7 @@
 		</p>
 		<p>
 			<label>中邮系统网点名称：</label>
-			<input type="text" name="bankCode" class="input-medium validate[required,maxSize[32]] required" maxlength="32"/>
+			<input type="text" name="selBankCode" class="input-medium validate[required,maxSize[32]] required" maxlength="32"/>
 		</p>
 		<p>
 			<label>中邮系统网点名称：</label>
