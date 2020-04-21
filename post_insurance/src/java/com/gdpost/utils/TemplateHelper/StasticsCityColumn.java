@@ -65,33 +65,34 @@ public class StasticsCityColumn {
 		standardColumns.add(column);
 
 		column = new ColumnItem();
-		column.setDisplayName("问题件占比");
+		column.setDisplayName("销售类问题件占比");
 		column.setColumnName("wtj_value");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(false);
 		standardColumns.add(column);
 
 		column = new ColumnItem();
-		column.setDisplayName("问题件占比得分");
+		column.setDisplayName("销售类问题件占比得分");
 		column.setColumnName("wtj_score");
 		column.setColumnType(ColumnType.numeric);
 		column.setNullable(false);
 		standardColumns.add(column);
 
 		column = new ColumnItem();
-		column.setDisplayName("13个月保费继续率");
-		column.setColumnName("xq13j_value");
+		column.setDisplayName("3年期交保费综合丢失率");
+		column.setColumnName("xq3ylost_value");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(false);
 		standardColumns.add(column);
 
 		column = new ColumnItem();
-		column.setDisplayName("13个月保费继续率得分");
-		column.setColumnName("xq13j_score");
+		column.setDisplayName("3年期交保费综合丢失率得分");
+		column.setColumnName("xq3ylost_score");
 		column.setColumnType(ColumnType.numeric);
 		column.setNullable(false);
 		standardColumns.add(column);
 
+		/*
 		column = new ColumnItem();
 		column.setDisplayName("25个月保费继续率");
 		column.setColumnName("xq25j_value");
@@ -119,7 +120,7 @@ public class StasticsCityColumn {
 		column.setColumnType(ColumnType.numeric);
 		column.setNullable(false);
 		standardColumns.add(column);
-
+		*/
 		column = new ColumnItem();
 		column.setDisplayName("保单品质维度得分");
 		column.setColumnName("billvalue_total_score");
@@ -168,6 +169,34 @@ public class StasticsCityColumn {
 		column.setColumnType(ColumnType.numeric);
 		column.setNullable(false);
 		standardColumns.add(column);
+		
+		column = new ColumnItem();
+		column.setDisplayName("7日调查完成率作业量加分");
+		column.setColumnName("lp7dnum_value");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(false);
+		standardColumns.add(column);
+
+		column = new ColumnItem();
+		column.setDisplayName("7日调查完成率作业量加分得分");
+		column.setColumnName("lp7dnum_score");
+		column.setColumnType(ColumnType.numeric);
+		column.setNullable(false);
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
+		column.setDisplayName("理赔回访成功率");
+		column.setColumnName("lpcall_value");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(false);
+		standardColumns.add(column);
+
+		column = new ColumnItem();
+		column.setDisplayName("理赔回访成功率得分");
+		column.setColumnName("lpcall_score");
+		column.setColumnType(ColumnType.numeric);
+		column.setNullable(false);
+		standardColumns.add(column);
 
 		column = new ColumnItem();
 		column.setDisplayName("失效保单件数清理率");
@@ -183,6 +212,20 @@ public class StasticsCityColumn {
 		column.setNullable(false);
 		standardColumns.add(column);
 
+		column = new ColumnItem();
+		column.setDisplayName("续期业务系统服务工单处理率");
+		column.setColumnName("xqissue_value");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(false);
+		standardColumns.add(column);
+
+		column = new ColumnItem();
+		column.setDisplayName("续期业务系统服务工单处理率得分");
+		column.setColumnName("xqissue_score");
+		column.setColumnType(ColumnType.numeric);
+		column.setNullable(false);
+		standardColumns.add(column);
+		
 		column = new ColumnItem();
 		column.setDisplayName("客户服务维度得分");
 		column.setColumnName("kf_total_score");
@@ -205,19 +248,33 @@ public class StasticsCityColumn {
 		standardColumns.add(column);
 
 		column = new ColumnItem();
-		column.setDisplayName("复核修改率");
+		column.setDisplayName("复核终止率");
 		column.setColumnName("check_value");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(false);
 		standardColumns.add(column);
 
 		column = new ColumnItem();
-		column.setDisplayName("复核修改率得分");
+		column.setDisplayName("复核终止率得分");
 		column.setColumnName("check_score");
 		column.setColumnType(ColumnType.numeric);
 		column.setNullable(false);
 		standardColumns.add(column);
 
+		column = new ColumnItem();
+		column.setDisplayName("理赔业务准确率");
+		column.setColumnName("lpjyx_value");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(false);
+		standardColumns.add(column);
+
+		column = new ColumnItem();
+		column.setDisplayName("理赔业务准确率得分");
+		column.setColumnName("lpjyx_score");
+		column.setColumnType(ColumnType.numeric);
+		column.setNullable(false);
+		standardColumns.add(column);
+		
 		column = new ColumnItem();
 		column.setDisplayName("团险契约问题件下发率");
 		column.setColumnName("gwtj_value");
@@ -233,20 +290,6 @@ public class StasticsCityColumn {
 		standardColumns.add(column);
 
 		column = new ColumnItem();
-		column.setDisplayName("简易险理赔资料准确率");
-		column.setColumnName("lpjyx_value");
-		column.setColumnType(ColumnType.string);
-		column.setNullable(false);
-		standardColumns.add(column);
-
-		column = new ColumnItem();
-		column.setDisplayName("简易险理赔资料准确率得分");
-		column.setColumnName("lpjyx_score");
-		column.setColumnType(ColumnType.numeric);
-		column.setNullable(false);
-		standardColumns.add(column);
-
-		column = new ColumnItem();
 		column.setDisplayName("作业质量维度得分");
 		column.setColumnName("job_total_score");
 		column.setColumnType(ColumnType.numeric);
@@ -254,19 +297,34 @@ public class StasticsCityColumn {
 		standardColumns.add(column);
 
 		column = new ColumnItem();
-		column.setDisplayName("质押借款逾期件数");
+		column.setDisplayName("质押借款逾期率");
 		column.setColumnName("bqjyjk_value");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(false);
 		standardColumns.add(column);
 
 		column = new ColumnItem();
-		column.setDisplayName("质押借款逾期件数得分");
+		column.setDisplayName("质押借款逾期率得分");
 		column.setColumnName("bqjyjk_score");
 		column.setColumnType(ColumnType.numeric);
 		column.setNullable(false);
 		standardColumns.add(column);
+		
+		column = new ColumnItem();
+		column.setDisplayName("档案系统上交率");
+		column.setColumnName("dasubmit_value");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(false);
+		standardColumns.add(column);
 
+		column = new ColumnItem();
+		column.setDisplayName("档案系统上交率得分");
+		column.setColumnName("dasubmit_score");
+		column.setColumnType(ColumnType.numeric);
+		column.setNullable(false);
+		standardColumns.add(column);
+
+		/*
 		column = new ColumnItem();
 		column.setDisplayName("重空单证超期核销率");
 		column.setColumnName("dzzk_value");
@@ -280,17 +338,32 @@ public class StasticsCityColumn {
 		column.setColumnType(ColumnType.numeric);
 		column.setNullable(false);
 		standardColumns.add(column);
-
+		 */
+		
 		column = new ColumnItem();
-		column.setDisplayName("客户信息真实性合格率");
+		column.setDisplayName("客户信息真实性综合合格率");
 		column.setColumnName("truth_value");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(false);
 		standardColumns.add(column);
 
 		column = new ColumnItem();
-		column.setDisplayName("客户信息真实性合格率得分");
+		column.setDisplayName("客户信息真实性综合合格率得分");
 		column.setColumnName("truth_score");
+		column.setColumnType(ColumnType.numeric);
+		column.setNullable(false);
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
+		column.setDisplayName("风险事件");
+		column.setColumnName("risk_value");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(false);
+		standardColumns.add(column);
+
+		column = new ColumnItem();
+		column.setDisplayName("风险事件得分");
+		column.setColumnName("risk_score");
 		column.setColumnType(ColumnType.numeric);
 		column.setNullable(false);
 		standardColumns.add(column);
@@ -303,14 +376,14 @@ public class StasticsCityColumn {
 		standardColumns.add(column);
 
 		column = new ColumnItem();
-		column.setDisplayName("满期给付及退保风险排查");
+		column.setDisplayName("满期给付风险排查");
 		column.setColumnName("bqmqrisk_value");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(false);
 		standardColumns.add(column);
 
 		column = new ColumnItem();
-		column.setDisplayName("满期给付及退保风险排查得分");
+		column.setDisplayName("满期给付风险排查得分");
 		column.setColumnName("bqmqrisk_score");
 		column.setColumnType(ColumnType.numeric);
 		column.setNullable(false);
@@ -343,7 +416,22 @@ public class StasticsCityColumn {
 		column.setColumnType(ColumnType.numeric);
 		column.setNullable(false);
 		standardColumns.add(column);
+		
+		column = new ColumnItem();
+		column.setDisplayName("满期领取序时进度");
+		column.setColumnName("bqmqsx_value");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(false);
+		standardColumns.add(column);
 
+		column = new ColumnItem();
+		column.setDisplayName("满期领取序时进度得分");
+		column.setColumnName("bqmqsx_score");
+		column.setColumnType(ColumnType.numeric);
+		column.setNullable(false);
+		standardColumns.add(column);
+
+		/*
 		column = new ColumnItem();
 		column.setDisplayName("协议满期处理时效");
 		column.setColumnName("bqmq_value");
@@ -357,21 +445,36 @@ public class StasticsCityColumn {
 		column.setColumnType(ColumnType.numeric);
 		column.setNullable(false);
 		standardColumns.add(column);
-
+		*/
 		column = new ColumnItem();
-		column.setDisplayName("纸质保单申请率");
+		column.setDisplayName("电子渠道纸质保单申请率");
 		column.setColumnName("qyprint_value");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(false);
 		standardColumns.add(column);
 
 		column = new ColumnItem();
-		column.setDisplayName("纸质保单申请率得分");
+		column.setDisplayName("电子渠道纸质保单申请率得分");
 		column.setColumnName("qyprint_score");
 		column.setColumnType(ColumnType.numeric);
 		column.setNullable(false);
 		standardColumns.add(column);
 		
+		column = new ColumnItem();
+		column.setDisplayName("微信回访占比");
+		column.setColumnName("wxcall_value");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(false);
+		standardColumns.add(column);
+
+		column = new ColumnItem();
+		column.setDisplayName("微信回访占比得分");
+		column.setColumnName("wxcall_score");
+		column.setColumnType(ColumnType.numeric);
+		column.setNullable(false);
+		standardColumns.add(column);
+		
+		/*
 		column = new ColumnItem();
 		column.setDisplayName("客户信息真实性问题件整改进度");
 		column.setColumnName("checkdeal_value");
@@ -385,7 +488,8 @@ public class StasticsCityColumn {
 		column.setColumnType(ColumnType.numeric);
 		column.setNullable(false);
 		standardColumns.add(column);
-
+		*/
+		
 		column = new ColumnItem();
 		column.setDisplayName("重点工作推动维度得分");
 		column.setColumnName("importantjob_total_score");

@@ -352,19 +352,25 @@ public class PolicyDtlsColumn {
 		column.setNullable(true);
 		standardColumns.add(column);
 
+		/*
+		 * 被征用，用作多次退保内容描述
 		column = new ColumnItem();
 		column.setDisplayName("寿险风险保额");
 		column.setColumnName("sxfx");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
-
+		*
+		*
+		 * 被征用，用作多次退保内容描述
+		 *
 		column = new ColumnItem();
 		column.setDisplayName("未成年人身故给付保额");
 		column.setColumnName("wcnjf");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
+		*/
 
 		column = new ColumnItem();
 		column.setDisplayName("承保日期");
@@ -401,12 +407,17 @@ public class PolicyDtlsColumn {
 		column.setNullable(true);
 		standardColumns.add(column);
 
+		/*
+		 * 被征用，用作多次退保内容描述
+		 *
 		column = new ColumnItem();
 		column.setDisplayName("赠送标志");
 		column.setColumnName("gift_flag");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
+		*
+		*/
 
 		column = new ColumnItem();
 		column.setDisplayName("保单寄送方式");

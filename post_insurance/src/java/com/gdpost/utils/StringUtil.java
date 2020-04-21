@@ -408,7 +408,7 @@ s = String.format("2%03d",counter.incrementAndGet());
 		System.out.println(s);
 s = String.format("2%03d",counter.incrementAndGet());
 		
-		System.out.println(s);
+		System.out.println(Calendar.getInstance().get(Calendar.YEAR)-1);
 		
 		int i = 1;
 		String newEmpNo = String.format("%" + 6 + "s", i).replace(' ', '0');

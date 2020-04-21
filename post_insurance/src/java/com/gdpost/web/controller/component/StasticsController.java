@@ -104,6 +104,11 @@ public class StasticsController {
 	private static final String AREA_STAT_LIST = "insurance/stastics/check/areaStat";
 	private static final String AREA_STAT_TOXLS = "insurance/stastics/check/areaStat_xls";
 	
+	private static final String CITY_STAT2020_LIST = "insurance/stastics/check/cityStat2020";
+	private static final String CITY_STAT2020_TOXLS = "insurance/stastics/check/cityStat2020_xls";
+	private static final String AREA_STAT2020_LIST = "insurance/stastics/check/areaStat2020";
+	private static final String AREA_STAT2020_TOXLS = "insurance/stastics/check/areaStat2020_xls";
+	
 	private static final String STATUS_STAT_LIST = "insurance/stastics/check/statusStat";
 	private static final String STATUS_STAT_TOXLS = "insurance/stastics/check/statusStat_xls";
 	
@@ -3009,6 +3014,7 @@ public class StasticsController {
 		String organName = request.getParameter("name");
 		String mthYear = request.getParameter("mthYear");
 		String mthMonth = request.getParameter("mthMonth");
+		String year = request.getParameter("year");
 		String mth = (mthYear==null?(StringUtil.date2Str(StringUtil.dateAdd(new Date(), -30),"yyyyMM")):(mthYear + mthMonth));
 		String flag = request.getParameter("flag");
 		String mthStr = mth;
@@ -3023,6 +3029,7 @@ public class StasticsController {
 		request.setAttribute("StasticsCity", sc);
 		request.setAttribute("mthYear", mthYear);
 		request.setAttribute("mthMonth", mthMonth);
+		request.setAttribute("year", year);
 		
 		List<Integer> yl = new ArrayList<Integer> ();
 		yl.add(Calendar.getInstance().get(Calendar.YEAR));
@@ -3069,6 +3076,9 @@ public class StasticsController {
 	
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{userOrg.getShortName()}));
 		
+		if(year != null && year.equals("2020")) {
+			return CITY_STAT2020_LIST;
+		}
 		return CITY_STAT_LIST;
 	}
 
@@ -3081,6 +3091,7 @@ public class StasticsController {
 		String organName = request.getParameter("name");
 		String mth = request.getParameter("mth");
 		String flag = request.getParameter("flag");
+		String year = request.getParameter("year");
 		String mthStr = mth;
 		if(flag == null) {
 			flag = "0";
@@ -3129,6 +3140,9 @@ public class StasticsController {
 	
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{userOrg.getShortName()}));
 		
+		if(year != null && year.equals("2020")) {
+			return CITY_STAT2020_TOXLS;
+		}
 		return CITY_STAT_TOXLS;
 	}
 
@@ -3149,6 +3163,8 @@ public class StasticsController {
 		String mthMonth = request.getParameter("mthMonth");
 		String mth = (mthYear==null?(StringUtil.date2Str(StringUtil.dateAdd(new Date(), -30),"yyyyMM")):(mthYear + mthMonth));
 		String flag = request.getParameter("flag");
+		String year = request.getParameter("year");
+		request.setAttribute("year", year);
 		String mthStr = mth;
 		if(flag == null || flag.equals("0")) {
 			flag = "0";
@@ -3209,6 +3225,9 @@ public class StasticsController {
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{userOrg.getShortName()}));
 	
+		if(year != null && year.equals("2020")) {
+			return AREA_STAT2020_LIST;
+		}
 		return AREA_STAT_LIST;
 	}
 
@@ -3221,6 +3240,7 @@ public class StasticsController {
 		String organName = request.getParameter("name");
 		String mth = request.getParameter("mth");
 		String flag = request.getParameter("flag");
+		String year = request.getParameter("year");
 		String mthStr = mth;
 		if(flag == null) {
 			flag = "0";
@@ -3268,6 +3288,9 @@ public class StasticsController {
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{userOrg.getShortName()}));
 	
+		if(year != null && year.equals("2020")) {
+			return AREA_STAT2020_TOXLS;
+		}
 		return AREA_STAT_TOXLS;
 	}
 

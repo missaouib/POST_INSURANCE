@@ -124,7 +124,7 @@ function toTips(val) {
 <a class="buttonActive" target="_blank" href="${contextPath }/component/stastics/policy/toXls?duration=${duration }&orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&csDate1=${csDate1 }&csDate2=${csDate2 }&prdCode=${prdCode}&levelFlag=${levelFlag}&netFlag=${netFlag}&perm=${perm}&staffFlag=${staffFlag}&csFlag=${csFlag}&statType=${statType}&saleType=${saleType2}&status=${status}"><span>导出统计结果</span></a>
 </h2>
 <br>
-<div class="pageContent" layoutH="130" width="150%">
+<div class="pageContent" layoutH="150" width="150%">
 <div class="row" style="padding: 0 3px;">
 	<div style="width:30%;border:1px solid #e66;margin:5px;float:left;min-height:100px">
 	<h2 class="contentTitle">列表展示（单位：万元）注： &nbsp;&nbsp;&nbsp;&nbsp;</h2>

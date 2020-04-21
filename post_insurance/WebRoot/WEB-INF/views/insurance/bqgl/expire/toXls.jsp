@@ -18,15 +18,19 @@ response.setHeader("Content-Disposition", "inline; filename=CSExpire_LIST.xls");
 				<th>保险止期</th>
 				<th>投保人姓名</th>
 				<th>投保人出生日期</th>
+				<shiro:hasPermission name="CsExpire:provEdit">
 				<th>投保人身份证号</th>
 				<th>投保人证件类型</th>
 				<th>投保人年龄</th>
+				</shiro:hasPermission>
 				<th>投保人期满年龄</th>
 				<th>被保险人姓名</th>
 				<th>被保人出生日期</th>
+				<shiro:hasPermission name="CsExpire:provEdit">
 				<th>被保人身份证号</th>
 				<th>被保人证件类型</th>
 				<th>被保人年龄</th>
+				</shiro:hasPermission>
 				<th>被保人期满年龄</th>
 				<th>已交保费</th>
 				<th>投保人手机</th>
@@ -36,7 +40,6 @@ response.setHeader("Content-Disposition", "inline; filename=CSExpire_LIST.xls");
 				<th>满期收益</th>
 				<th>投被保人关系</th>
 				<th>问题件</th>
-				<th>公众号信息匹配</th>
 				<th>满期客户账户匹配结果</th>
 				<th>付费金额排查</th>
 				<th>投保时年龄达60岁</th>
@@ -47,6 +50,7 @@ response.setHeader("Content-Disposition", "inline; filename=CSExpire_LIST.xls");
 				<th>评级</th>
 				<th>状态</th>
 				<th>网点名称</th>
+				<th>跟进情况</th>
 			</tr>
 			<c:forEach var="item" items="${expires}" varStatus="status">
 			<tr>
@@ -59,15 +63,19 @@ response.setHeader("Content-Disposition", "inline; filename=CSExpire_LIST.xls");
 				<td><fmt:formatDate value='${item.policyEndDate}' pattern='yyyy-MM-dd'/></td>
 				<td>${item.policy.holder}</td>
 				<td><fmt:formatDate value='${item.holderBirthday}' pattern='yyyy-MM-dd'/></td>
+				<shiro:hasPermission name="CsExpire:provEdit">
 				<td style="vnd.ms-excel.numberformat:@">${item.holderCardNum}</td>
 				<td>${item.holderCardType}</td>
 				<td>${item.holderYear}</td>
+				</shiro:hasPermission>
 				<td>${item.holderExpireYear}</td>
 				<td>${item.policy.insured}</td>
 				<td><fmt:formatDate value='${item.insuredBirthday}' pattern='yyyy-MM-dd'/></td>
+				<shiro:hasPermission name="CsExpire:provEdit">
 				<td style="vnd.ms-excel.numberformat:@">${item.insuredCardNum}</td>
 				<td>${item.insuredCardType}</td>
 				<td>${item.insuredYear}</td>
+				</shiro:hasPermission>
 				<td>${item.insuredExpireYear}</td>
 				<td>${item.policyMoney}</td>
 				<td>${item.holderMobile}</td>
@@ -77,7 +85,6 @@ response.setHeader("Content-Disposition", "inline; filename=CSExpire_LIST.xls");
 				<td>${item.expireRate}</td>
 				<td>${item.relation}</td>
 				<td>${item.issueFlag}</td>
-				<td>${item.subFlag}</td>
 				<td>${item.balMatch}</td>
 				<td>${item.payLevel}</td>
 				<td>${item.holderAgeLevel}</td>
@@ -103,6 +110,11 @@ response.setHeader("Content-Disposition", "inline; filename=CSExpire_LIST.xls");
 				</c:choose>
 				</td>
 				<td>${item.policy.bankName}</td>
+				<td>
+				<c:forEach var="dtl" items="${item.csExpireDtls}">
+				${dtl.dealDesc}（${dtl.dealMan}/<fmt:formatDate value='${dtl.dealTime}' pattern='yyyy-MM-dd'/>）<br>
+				</c:forEach>
+				</td>
 			</tr>
 			</c:forEach>
 	</table>

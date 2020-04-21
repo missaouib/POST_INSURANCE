@@ -1,4 +1,58 @@
-﻿alter table t_inquire add urge boolean default false;
+﻿alter table t_stastics_city add column xq3ylost_value varchar(7) after wtj_score;
+alter table t_stastics_city add column xq3ylost_score double after xq3ylost_value;
+
+alter table t_stastics_city add column lp7dnum_value varchar(7) after lp7d_score;
+alter table t_stastics_city add column lp7dnum_score double after lp7dnum_value;
+
+alter table t_stastics_city add column lpcall_value varchar(7) after lp7dnum_score;
+alter table t_stastics_city add column lpcall_score double after lpcall_value;
+
+alter table t_stastics_city add column xqissue_value varchar(7) after invalid_score;
+alter table t_stastics_city add column xqissue_score double after xqissue_value;
+
+alter table t_stastics_city add column dasubmit_value varchar(7) after bqjyjk_score;
+alter table t_stastics_city add column dasubmit_score double after dasubmit_value;
+
+alter table t_stastics_city add column risk_value varchar(7) after truth_score;
+alter table t_stastics_city add column risk_score double after risk_value;
+
+alter table t_stastics_city add column bqmqsx_value varchar(7) after bqxt_score;
+alter table t_stastics_city add column bqmqsx_score double after bqmqsx_value;
+
+alter table t_stastics_city add column wxcall_value varchar(7) after qyprint_score;
+alter table t_stastics_city add column wxcall_score double after wxcall_value;
+
+alter table t_stastics_area add column xq3ylost_value varchar(7) after wtj_score;
+alter table t_stastics_area add column xq3ylost_score double after xq3ylost_value;
+
+alter table t_stastics_area add column xqissue_value varchar(7) after lppay_score;
+alter table t_stastics_area add column xqissue_score double after xqissue_value;
+
+alter table t_stastics_area add column issuetime_value varchar(7) after xqissue_score;
+alter table t_stastics_area add column issuetime_score double after issuetime_value;
+
+alter table t_stastics_area add column risk_value varchar(7) after truth_score;
+alter table t_stastics_area add column risk_score double after risk_value;
+
+update t_policy_dtl set wcnjf="0",gift_flag=null,sxfx="0";
+alter table t_policy_dtl change column wcnjf ct_num int(4);
+alter table t_policy_dtl change column sxfx ct_money double;
+alter table t_policy_dtl change column gift_flag ct_desc varchar(191);
+
+update t_policy_dtl tpd,
+(select count(distinct cr.policy_no) as cs_count, abs(sum(cr.money)) as csmoney, tpd.holder_card_num as holder,
+group_concat(cr.policy_no SEPARATOR ",") policy_nos, group_concat(cr.money SEPARATOR ",") cs_moneys
+from t_policy_dtl tpd, t_cs_report cr
+where tpd.policy_no=cr.policy_no and cr.cs_code="CT" and abs(cr.money)>500
+and tpd.attached_flag=0
+and tpd.prod_code<>"120022"
+and tpd.policy_date between "2019-01-01" and "2019-12-31"
+group by tpd.holder_card_num) as t1
+where t1.cs_count>1) as t1 
+set tpd.ct_num=t1.cs_count, tpd.ct_money=t1.csmoney,tpd.ct_desc=CONCAT(t1.policy_nos,",",cs_moneys) 
+where tpd.holder_card_num=t1.holder and t1.cs_count>1;
+
+alter table t_inquire add urge boolean default false;
 alter table t_inquire add urge_time datetime default CURRENT_TIMESTAMP;
 
 alter table t_bank_code add full_name varchar(90);

@@ -86,13 +86,13 @@ public class PolicyDtl implements Idable<Long>,Serializable {
 	private String zdjb;//重大疾病风险保额
 	private String zjc;//自驾车意外保险金额
 	private String jtyw;//交通工具意外险保额
-	private String sxfx;//寿险风险保额
-	private String wcnjf;//未成年人身故给付保额
+	private Double ctMoney;//寿险风险保额
+	private Integer ctNum;//未成年人身故给付保额
 	private Date policyTime;//承保时间
 	private Date policyValidDate;//生效日期
 	private Date policyInvalidDate;//终止日期
 	private String policyStatus;//保单状态
-	private String giftFlag;//赠送标志
+	private String ctDesc;//赠送标志
 	private String policySendType;//保单寄送方式
 	private Date printDate;//打印日期
 	private String SalesCode;//销售人员工号
@@ -618,22 +618,22 @@ public class PolicyDtl implements Idable<Long>,Serializable {
 		this.jtyw = jtyw;
 	}
 
-	@Column(name = "sxfx")
-	public String getSxfx() {
-		return sxfx;
+	@Column(name = "ct_money")
+	public Double getCtMoney() {
+		return ctMoney;
 	}
 
-	public void setSxfx(String sxfx) {
-		this.sxfx = sxfx;
+	public void setCtMoney(Double ctMoney) {
+		this.ctMoney = ctMoney;
 	}
 
-	@Column(name = "wcnjf")
-	public String getWcnjf() {
-		return wcnjf;
+	@Column(name = "ct_num")
+	public Integer getCtNum() {
+		return ctNum;
 	}
 
-	public void setWcnjf(String wcnjf) {
-		this.wcnjf = wcnjf;
+	public void setCtNum(Integer ctNum) {
+		this.ctNum = ctNum;
 	}
 
 	@Temporal(TemporalType.TIME)
@@ -675,13 +675,13 @@ public class PolicyDtl implements Idable<Long>,Serializable {
 		this.policyStatus = policyStatus;
 	}
 
-	@Column(name = "gift_flag")
-	public String getGiftFlag() {
-		return giftFlag;
+	@Column(name = "ct_desc")
+	public String getCtDesc() {
+		return ctDesc;
 	}
 
-	public void setGiftFlag(String giftFlag) {
-		this.giftFlag = giftFlag;
+	public void setCtDesc(String ctDesc) {
+		this.ctDesc = ctDesc;
 	}
 
 	@Column(name = "policy_send_type")

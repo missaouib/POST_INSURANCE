@@ -300,6 +300,7 @@ public class QyglServiceImpl implements QyglService {
 		specification = DynamicSpecifications.bySearchFilterWithoutRequest(UnderWrite.class,
 				new SearchFilter("billBackDate", Operator.ISNULL, new Date()),
 				new SearchFilter("status", Operator.NEQ, UW_STATUS.DelStatus.name()),
+				new SearchFilter("status", Operator.NEQ, UW_STATUS.CloseStatus.name()),
 				new SearchFilter("organization.orgCode", Operator.LIKE_R, userOrg.getOrgCode()));
 		Page page = new Page();
 		page.setNumPerPage(10);

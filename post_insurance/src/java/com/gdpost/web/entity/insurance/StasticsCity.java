@@ -91,6 +91,23 @@ public class StasticsCity implements Idable<Long>,Serializable {
      private Date operateTime;
      private String operateName;
      
+     private String xq3ylostValue;
+     private Double xq3ylostScore;
+     private String lp7dnumValue;
+     private Double lp7dnumScore;
+     private String lpcallValue;
+     private Double lpcallScore;
+     private String xqissueValue;
+     private Double xqissueScore;
+     private String dasubmitValue;
+     private Double dasubmitScore;
+     private String riskValue;
+     private Double riskScore;
+     private String bqmqsxValue;
+     private Double bqmqsxScore;
+     private String wxcallValue;
+     private Double wxcallScore;
+     
      @Transient
      private String mthYear;
      @Transient
@@ -774,13 +791,133 @@ public class StasticsCity implements Idable<Long>,Serializable {
     public void setOperateName(String operateName) {
         this.operateName = operateName;
     }
-   
-
-
-
-
-
-
-
-
+    
+    @Column(name="xq3ylost_value")
+	public String getXq3ylostValue() {
+		return xq3ylostValue;
+	}
+	public void setXq3ylostValue(String xq3ylostValue) {
+		this.xq3ylostValue = xq3ylostValue;
+	}
+	
+	@Column(name="xq3ylost_score")
+	public Double getXq3ylostScore() {
+		return xq3ylostScore;
+	}
+	public void setXq3ylostScore(Double xq3ylostScore) {
+		this.xq3ylostScore = xq3ylostScore;
+	}
+	
+	@Column(name="lp7dnum_value")
+	public String getLp7dnumValue() {
+		return lp7dnumValue;
+	}
+	public void setLp7dnumValue(String lp7dnumValue) {
+		this.lp7dnumValue = lp7dnumValue;
+	}
+	
+	@Column(name="lp7dnum_score")
+	public Double getLp7dnumScore() {
+		return lp7dnumScore;
+	}
+	public void setLp7dnumScore(Double lp7dnumScore) {
+		this.lp7dnumScore = lp7dnumScore;
+	}
+	
+	@Column(name="lpcall_value")
+	public String getLpcallValue() {
+		return lpcallValue;
+	}
+	public void setLpcallValue(String lpcallValue) {
+		this.lpcallValue = lpcallValue;
+	}
+	
+	@Column(name="lpcall_score")
+	public Double getLpcallScore() {
+		return lpcallScore;
+	}
+	public void setLpcallScore(Double lpcallScore) {
+		this.lpcallScore = lpcallScore;
+	}
+	
+	@Column(name="xqissue_value")
+	public String getXqissueValue() {
+		return xqissueValue;
+	}
+	public void setXqissueValue(String xqissueValue) {
+		this.xqissueValue = xqissueValue;
+	}
+	
+	@Column(name="xqissue_score")
+	public Double getXqissueScore() {
+		return xqissueScore;
+	}
+	public void setXqissueScore(Double xqissueScore) {
+		this.xqissueScore = xqissueScore;
+	}
+	
+	@Column(name="dasubmit_value")
+	public String getDasubmitValue() {
+		return dasubmitValue;
+	}
+	public void setDasubmitValue(String dasubmitValue) {
+		this.dasubmitValue = dasubmitValue;
+	}
+	
+	@Column(name="dasubmit_score")
+	public Double getDasubmitScore() {
+		return dasubmitScore;
+	}
+	public void setDasubmitScore(Double dasubmitScore) {
+		this.dasubmitScore = dasubmitScore;
+	}
+	
+	@Column(name="risk_value")
+	public String getRiskValue() {
+		return riskValue;
+	}
+	public void setRiskValue(String riskValue) {
+		this.riskValue = riskValue;
+	}
+	
+	@Column(name="risk_score")
+	public Double getRiskScore() {
+		return riskScore;
+	}
+	public void setRiskScore(Double riskScore) {
+		this.riskScore = riskScore;
+	}
+	
+	@Column(name="bqmqsx_value")
+	public String getBqmqsxValue() {
+		return bqmqsxValue;
+	}
+	public void setBqmqsxValue(String bqmqsxValue) {
+		this.bqmqsxValue = bqmqsxValue;
+	}
+	
+	@Column(name="bqmqsx_score")
+	public Double getBqmqsxScore() {
+		return bqmqsxScore;
+	}
+	public void setBqmqsxScore(Double bqmqsxScore) {
+		this.bqmqsxScore = bqmqsxScore;
+	}
+	
+	@Column(name="wxcall_value")
+	public String getWxcallValue() {
+		return wxcallValue;
+	}
+	public void setWxcallValue(String wxcallValue) {
+		this.wxcallValue = wxcallValue;
+	}
+	
+	@Column(name="wxcall_score")
+	public Double getWxcallScore() {
+		return wxcallScore;
+	}
+	public void setWxcallScore(Double wxcallScore) {
+		this.wxcallScore = wxcallScore;
+	}
+    
 }

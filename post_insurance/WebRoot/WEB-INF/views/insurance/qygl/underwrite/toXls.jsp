@@ -31,8 +31,8 @@ response.setHeader("Content-Disposition", "inline; filename=underwrite.xls");
 				<th>契约调查下发日期</th>
 				<th>契调回销日期</th>
 				<th>核保完成日期</th>
-				<th>保单寄出日期</th>
 				<th>签单日期</th>
+				<th>保单寄出日期</th>
 				<th>客户签收日期</th>
 				<th>回执回销日期</th>
 				<th>快递单号</th>
@@ -83,8 +83,8 @@ response.setHeader("Content-Disposition", "inline; filename=underwrite.xls");
 				<td>${item.dealCheckDate1 }</td>
 				<td>${item.dealCheckDate1 }</td>
 				<td><fmt:formatDate value="${item.hbEndDate }" pattern="yyyy-MM-dd"/></td>
-				<td><fmt:formatDate value="${item.provSendDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.signDate }" pattern="yyyy-MM-dd"/></td>
+				<td><fmt:formatDate value="${item.provSendDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.clientReceiveDate }" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.billBackDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.provEmsNo }</td>

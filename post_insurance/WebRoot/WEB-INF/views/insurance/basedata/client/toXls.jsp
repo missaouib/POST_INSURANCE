@@ -18,6 +18,7 @@ response.setHeader("Content-Disposition", "inline; filename=policy_list.xls");
 				<th>投保人年龄</th>
 				<th>被保人</th>
 				<th>关系</th>
+				<th>计划名称</th>
 				<th>险种名称</th>
 				<th>保费</th>
 				<th>合计保费</th>
@@ -43,6 +44,10 @@ response.setHeader("Content-Disposition", "inline; filename=policy_list.xls");
 				<th>网点</th>
 				<th>员工单</th>
 				<th>银行单</th>
+				<th>是否申请纸质保单</th>
+				<th>退保次数</th>
+				<th>退保总金额</th>
+				<th>退保明细</th>
 			</tr>
 			<c:forEach var="item" items="${policies}" varStatus="idx">
 			<tr>
@@ -55,6 +60,7 @@ response.setHeader("Content-Disposition", "inline; filename=policy_list.xls");
 				<td>${item.policyDtl.holderAge}</td>
 				<td>${item.insured}</td>
 				<td>${item.policyDtl.relation}</td>
+				<td>${item.planName}</td>
 				<td>${item.prodName}</td>
 				<td>${item.policyFee}</td>
 				<td>${item.totalFee}</td>
@@ -80,6 +86,10 @@ response.setHeader("Content-Disposition", "inline; filename=policy_list.xls");
 				<td>${item.bankCode.fullName}</td>
 				<td>${item.isStaff}</td>
 				<td>${item.bankCode!=null && item.bankCode.netFlag==2?"是":"否" }</td>
+				<td>${item.policyDtl==null?"":item.policyDtl.policySendType}</td>
+				<td>${item.policyDtl==null?"":item.policyDtl.ctNum}</td>
+				<td>${item.policyDtl==null?"":item.policyDtl.ctMoney}</td>
+				<td>${item.policyDtl==null?"":item.policyDtl.ctDesc}</td>
 			</tr>
 			</c:forEach>
 	</table>

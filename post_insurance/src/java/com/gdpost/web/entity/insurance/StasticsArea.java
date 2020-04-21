@@ -71,6 +71,15 @@ public class StasticsArea  implements Idable<Long>,Serializable {
      private Long operateId;
      private Date operateTime;
      private String operateName;
+     
+     private String xq3ylostValue;
+     private Double xq3ylostScore;
+     private String xqissueValue;
+     private Double xqissueScore;
+     private String issuetimeValue;
+     private Double issuetimeScore;
+     private String riskValue;
+     private Double riskScore;
 
      @Transient
      private String mthYear;
@@ -559,4 +568,70 @@ public class StasticsArea  implements Idable<Long>,Serializable {
     public void setOperateName(String operateName) {
         this.operateName = operateName;
     }
+    
+    @Column(name="xq3ylost_value")
+	public String getXq3ylostValue() {
+		return xq3ylostValue;
+	}
+	public void setXq3ylostValue(String xq3ylostValue) {
+		this.xq3ylostValue = xq3ylostValue;
+	}
+	
+	@Column(name="xq3ylost_score")
+	public Double getXq3ylostScore() {
+		return xq3ylostScore;
+	}
+	public void setXq3ylostScore(Double xq3ylostScore) {
+		this.xq3ylostScore = xq3ylostScore;
+	}
+	
+	@Column(name="xqissue_value")
+	public String getXqissueValue() {
+		return xqissueValue;
+	}
+	public void setXqissueValue(String xqissueValue) {
+		this.xqissueValue = xqissueValue;
+	}
+	
+	@Column(name="xqissue_score")
+	public Double getXqissueScore() {
+		return xqissueScore;
+	}
+	public void setXqissueScore(Double xqissueScore) {
+		this.xqissueScore = xqissueScore;
+	}
+	
+	@Column(name="issuetime_value")
+	public String getIssuetimeValue() {
+		return issuetimeValue;
+	}
+	public void setIssuetimeValue(String issuetimeValue) {
+		this.issuetimeValue = issuetimeValue;
+	}
+	
+	@Column(name="issuetime_score")
+	public Double getIssuetimeScore() {
+		return issuetimeScore;
+	}
+	public void setIssuetimeScore(Double issuetimeScore) {
+		this.issuetimeScore = issuetimeScore;
+	}
+	
+	@Column(name="risk_value")
+	public String getRiskValue() {
+		return riskValue;
+	}
+	public void setRiskValue(String riskValue) {
+		this.riskValue = riskValue;
+	}
+	
+	@Column(name="risk_score")
+	public Double getRiskScore() {
+		return riskScore;
+	}
+	public void setRiskScore(Double riskScore) {
+		this.riskScore = riskScore;
+	}
+    
+    
 }

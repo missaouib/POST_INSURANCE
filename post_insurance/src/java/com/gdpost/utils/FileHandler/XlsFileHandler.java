@@ -84,6 +84,8 @@ public class XlsFileHandler extends AbstractFileHandler {
 			int count = -1;
 			Cell checkCell = null;
 			int org_idx = -1;
+			String sDate = null;
+			String eDate = null;
 			//boolean isNum = false;
 			//List<CellRangeAddress> calist = new ArrayList<CellRangeAddress>();
 			// 如果是合并单元表格，略过
@@ -94,6 +96,13 @@ public class XlsFileHandler extends AbstractFileHandler {
 				sheet = (HSSFSheet) workbook.getSheetAt(iSheet);
 				int sheetmergerCount = sheet.getNumMergedRegions();
 				log.debug("--------------有这么多个合并单元格：" + sheetmergerCount);
+				
+				//如果是回访合格率数据，获取时间点
+				if(keyRow.equals("成功率")) {
+					headerRow = (HSSFRow) sheet.getRow(2);
+					sDate = headerRow.getCell(1).getStringCellValue();
+					eDate = headerRow.getCell(3).getStringCellValue();
+				}
 				
 				if(sheetmergerCount > 0) {
 					skipRow = sheet.getMergedRegion(sheetmergerCount-1).getLastRow();
@@ -217,6 +226,11 @@ public class XlsFileHandler extends AbstractFileHandler {
 					}
 					dt.Columns.Add(column);
 				}
+				
+				if(keyRow.equals("成功率")) {
+					dt.Columns.Add("开始时间");
+					dt.Columns.Add("结束时间");
+				}
 
 				String val = null;
 				
@@ -311,7 +325,11 @@ public class XlsFileHandler extends AbstractFileHandler {
 							}
 						}
 					}
-
+					
+					if(keyRow.equals("成功率")) {
+						dataRow.setValue(cellCount,sDate);
+						dataRow.setValue(cellCount+1,eDate);
+					}
 					if (!bFlag) { // 每个cell　都为空，跳过
 						continue;
 					}

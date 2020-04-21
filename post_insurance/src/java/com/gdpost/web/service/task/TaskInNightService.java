@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.Date;
 
 import org.slf4j.Logger;
@@ -153,6 +154,71 @@ public class TaskInNightService {
 				try {
 					rst.close();
 					preStat.close();
+					statement.close();
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	public void updateCTInfo() {		
+		log.info("************* ct info in night task to update data");
+		java.sql.Connection connection = null;
+		JdbcStatement statement = null;
+		try {
+			DruidDataSource dataSource = (DruidDataSource)this.getDateSource();
+			connection = DriverManager.getConnection(dataSource.getUrl(), dataSource.getUsername(), dataSource.getPassword());
+			statement = (JdbcStatement)connection.createStatement();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		String sql = null;
+		int rstInt = 0;
+		
+        try {
+        	sql = "insert into t_log_info (username, message,ip_address,log_level,module) values "
+					+ "('admin','spring task in night reuse update batch job start.','127.0.0.1','WARN','其他操作');";
+        	log.info("------------ task service 1 :" + sql);
+        	rstInt = statement.executeUpdate(sql);
+        	log.info("------------ finish exec sql" + rstInt);
+        	String dateStr = (Calendar.getInstance().get(Calendar.YEAR)-1) + "-01-01";
+        	
+        	String updateSQL = "update t_policy_dtl tpd, " + 
+        			"(select count(distinct cr.policy_no) as cs_count, abs(sum(cr.money)) as csmoney, tpd.holder_card_num as holder, " + 
+        			"group_concat(cr.policy_no SEPARATOR \",\") policy_nos, group_concat(cr.money SEPARATOR \",\") cs_moneys " + 
+        			"from t_policy_dtl tpd, t_cs_report cr " + 
+        			"where tpd.policy_no=cr.policy_no and cr.full_cs_code=\"CT退保\" and abs(cr.money)>500 " + 
+        			"and tpd.attached_flag=0 " + 
+        			"and tpd.prod_code<>\"120022\" " + 
+        			"and tpd.policy_date >= \"" + dateStr + "\" " + 
+        			"group by tpd.holder_card_num) as t1 " + 
+        			"set tpd.ct_num=t1.cs_count, tpd.ct_money=t1.csmoney,tpd.ct_desc=CONCAT(t1.policy_nos,\",\",cs_moneys)  " + 
+        			"where tpd.holder_card_num=t1.holder and t1.cs_count>1;";
+        	log.info("------------ task service 1 :" + updateSQL);
+			rstInt = statement.executeUpdate(updateSQL);
+			log.info("------------ finish exec sql" + rstInt);
+			
+			sql = "insert into t_log_info (username, message,ip_address,log_level,module) values "
+					+ "('admin','ct info stat in night task, total policy:" + rstInt + "','127.0.0.1','WARN','其他操作');";
+			log.info("------------ sql :" + sql);
+			rstInt = statement.executeUpdate(sql);
+			log.info("------------ finish exec sql" + rstInt);
+			
+			log.info("------------ task reuse service update finish");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			sql = "insert into t_log_info (username, message,ip_address,log_level,module) values "
+					+ "('admin','spring task in night reuse error:" + e.getMessage() + "','127.0.0.1','WARN','其他操作');";
+			try {
+				statement.executeUpdate(sql);
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		} finally {
+			if(statement != null) {
+				try {
 					statement.close();
 					connection.close();
 				} catch (SQLException e) {

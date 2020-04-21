@@ -33,6 +33,7 @@ import com.gdpost.utils.TemplateHelper.CallFailMailBackListColumn;
 import com.gdpost.utils.TemplateHelper.CallFailMailListColumn;
 import com.gdpost.utils.TemplateHelper.CallFailMailSuccessListColumn;
 import com.gdpost.utils.TemplateHelper.CallFailNeedDoorListColumn;
+import com.gdpost.utils.TemplateHelper.CallRatioColumn;
 import com.gdpost.utils.TemplateHelper.CheckCityBackColumn;
 import com.gdpost.utils.TemplateHelper.CheckColumn;
 import com.gdpost.utils.TemplateHelper.ColumnItem;
@@ -233,6 +234,12 @@ public class UploadDataServiceImpl implements UploadDataService{
 			return dr;
 		case CallFailCityStatus:
 			return dr;
+		case CallRatio:
+			//TODO: call Ratio
+			//firstsql = "delete from t_call_ratio where operate_time<CURRENT_DATE;";
+			standardColumns = CallRatioColumn.getStandardColumns();
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_call_ratio character set utf8 (";
+			break;
 		case Renewed:
 			standardColumns = RenewedColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_renewed_list character set utf8 (";
@@ -454,6 +461,8 @@ public class UploadDataServiceImpl implements UploadDataService{
         
         StringBuilder builder = new StringBuilder();
         String cell = null;
+        String sDate = null;
+        String eDate = null;
         dr.setNum(dt.Rows.size());
         for (DataRow row : dt.Rows) {
         	// 从处理后的行中，取出标准列数据
@@ -521,6 +530,16 @@ public class UploadDataServiceImpl implements UploadDataService{
         	            continue;
         			}
         		}
+        		
+        		if(ft.name().equals(FileTemplate.CallRatio.name()) && (sDate==null || eDate == null)) {
+        			if(item.getDisplayName().equals("开始时间")) {
+        				sDate = cell;
+        			}
+        			if(item.getDisplayName().equals("结束时间")) {
+        				eDate = cell;
+        				firstsql = "delete from t_call_ratio where s_date>=\"" + sDate + "\" and e_date<=\"" + eDate + "\";";
+        			}
+        		}
         		builder.append(cell);
 	            builder.append('\t');
         	}
@@ -544,6 +563,7 @@ public class UploadDataServiceImpl implements UploadDataService{
         
         //再执行
         try {
+        	log.debug("----------first import ready to execute sql1：" + firstsql);
         	if(firstsql != null) {
         		statement.execute(firstsql);
         	}
@@ -1065,6 +1085,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 			log.debug("----------------batch update : " + sql);
 			sql2 = "delete from t_call_fail_list where issue_no is null";
 			break;
+		case CallRatio:
+			return dr;
 		case Renewed:
 			return dr;
 		case RenewedFeeRst:
@@ -1744,6 +1766,10 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case CallFailPhoneStatus:
 			standardColumns = CallFailMailSuccessListColumn.getStandardColumns();
 			keyRow = CallFailMailSuccessListColumn.KEY_ROW;
+			break;
+		case CallRatio:
+			standardColumns = CallRatioColumn.getStandardColumns();
+			keyRow = CallRatioColumn.KEY_ROW;
 			break;
 		case UnderWriteSentData:
 			standardColumns = UnderWriteSentDataColumn.getStandardColumns();

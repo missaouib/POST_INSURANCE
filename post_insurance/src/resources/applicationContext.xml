@@ -32,11 +32,12 @@
         cron : cronExpression表达式
         cron="0/5 * * * * ?"  //表示五秒钟执行一次
      -->
-     <task:scheduler id="myScheduler" pool-size="2"/>
+     <task:scheduler id="myScheduler" pool-size="3"/>
      
     <task:scheduled-tasks scheduler="myScheduler">
         <task:scheduled ref="taskService" method="updateDB" cron="0 45 23 * * ?"/>
-        <task:scheduled ref="taskInNightService" method="updateDBInNight" cron="0 33 9 * * ?"/>
+        <task:scheduled ref="taskInNightService" method="updateDBInNight" cron="0 40 9 * * ?"/>
+        <task:scheduled ref="taskInNightService" method="updateCTInfo" cron="0 0 20 * * ?"/>
     </task:scheduled-tasks>
 	
 	<!-- Spring Data Jpa配置 , 扫描base-package下所有继承于Repository<T,ID>的接口-->

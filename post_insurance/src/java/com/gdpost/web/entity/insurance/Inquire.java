@@ -115,7 +115,7 @@ public class Inquire implements java.io.Serializable {
 	public Integer getLastDateNum() {
 		if(this.operateTime != null) {
 			int check = StringUtil.getBetweenDay(this.operateTime, new Date());
-			int c = 3-check;
+			int c = 4-check;
 			if(c < 0) {
 				return 0;
 			} else {

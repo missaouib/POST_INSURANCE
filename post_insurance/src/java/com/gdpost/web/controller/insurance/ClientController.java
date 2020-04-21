@@ -107,6 +107,8 @@ public class ClientController {
 		String duration = request.getParameter("duration");
 		String saleChannel = request.getParameter("saleChannel");
 		String holderPhone = request.getParameter("holderPhone");
+		String ctNum = request.getParameter("ctNum");
+		
 		Boolean staff = null;
 		if(staffFlag != null && staffFlag.trim().equals("0")) {
 			staff = false;
@@ -148,13 +150,12 @@ public class ClientController {
 		request.setAttribute("policy_name", orgName);
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		if(holderPhone == null || holderPhone.trim().length()<=0) {
-			csf.add(new SearchFilter("organization.orgCode", Operator.LIKE_R, orgCode));
-		} else {
-			csf.add(new SearchFilter("policyDtl.holderMobile", Operator.OR_EQ, holderPhone));
-			csf.add(new SearchFilter("policyDtl.holderPhone", Operator.OR_EQ, holderPhone));
-			request.setAttribute("holderPhone", holderPhone);
+		
+		if(ctNum != null && ctNum.trim().length()>0) {
+			csf.add(new SearchFilter("policyDtl.ctNum", Operator.GTE, ctNum));
+			request.setAttribute("ctNum", ctNum);
 		}
+		
 		if(status != null && status.trim().length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
 			try {
@@ -193,6 +194,14 @@ public class ClientController {
 		if(saleChannel != null && saleChannel.trim().length()>0) {
 			csf.add(new SearchFilter("policyNo", Operator.LIKE_R, saleChannel));
 			request.setAttribute("saleChannel", saleChannel);
+		}
+		
+		if(holderPhone == null || holderPhone.trim().length()<=0) {
+			csf.add(new SearchFilter("organization.orgCode", Operator.LIKE_R, orgCode));
+		} else {
+			csf.add(new SearchFilter("policyDtl.holderMobile", Operator.OR_EQ, holderPhone));
+			csf.add(new SearchFilter("policyDtl.holderPhone", Operator.OR_EQ, holderPhone));
+			request.setAttribute("holderPhone", holderPhone);
 		}
 		
 		Specification<Policy> specification = DynamicSpecifications.bySearchFilter(request, Policy.class, csf);
@@ -343,12 +352,11 @@ public class ClientController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		if(holderPhone == null || holderPhone.trim().length()<=0) {
-			csf.add(new SearchFilter("organization.orgCode", Operator.LIKE_R, orgCode));
-		} else {
-			csf.add(new SearchFilter("policyDtl.holderMobile", Operator.OR_EQ, holderPhone));
-			csf.add(new SearchFilter("policyDtl.holderPhone", Operator.OR_EQ, holderPhone));
+		String ctNum = request.getParameter("ctNum");
+		if(ctNum != null && ctNum.trim().length()>0) {
+			csf.add(new SearchFilter("policyDtl.ctNum", Operator.GTE, ctNum));
 		}
+		
 		String prdName = request.getParameter("prd.prdFullName");
 		if(prdName != null && prdName.trim().length()>0) {
 			csf.add(new SearchFilter("prodName", Operator.EQ, prdName));
@@ -374,6 +382,13 @@ public class ClientController {
 		
 		if(saleChannel != null && saleChannel.trim().length()>0) {
 			csf.add(new SearchFilter("policyNo", Operator.LIKE_R, saleChannel));
+		}
+		
+		if(holderPhone == null || holderPhone.trim().length()<=0) {
+			csf.add(new SearchFilter("organization.orgCode", Operator.LIKE_R, orgCode));
+		} else {
+			csf.add(new SearchFilter("policyDtl.holderMobile", Operator.OR_EQ, holderPhone));
+			csf.add(new SearchFilter("policyDtl.holderPhone", Operator.OR_EQ, holderPhone));
 		}
 		
 		Specification<Policy> specification = DynamicSpecifications.bySearchFilter(request, Policy.class, csf);

@@ -47,7 +47,10 @@
 						<input class="validate[required] required" name="name" id="uw_orgName" type="text" readonly="readonly" style="width: 120px;" value="${policy_name }"/><a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="" title="选择机构" width="400">查</a>
 					</td>
 					<td>
-					投保人：<input type="text" id="policy_holder" style="width: 100px;" name="search_LIKE_holder" value="${param.search_LIKE_holder }"/>
+					<label>投保人：</label><input type="text" id="policy_holder" style="width: 100px;" name="search_LIKE_holder" value="${param.search_LIKE_holder }"/>
+					</td>
+					<td>
+					<label>退保次数：</label><input type="text" id="ctNum" style="width: 20px;" name="ctNum" value="${ctNum }"/>
 					</td>
 				</tr>
 				<tr>
@@ -67,6 +70,7 @@
 						<input name="prd.prdFullName" type="text" postField="search_LIKE_prdName" suggestFields="prdFullName" class="input-medium validate[required,maxSize[32]] required"
 					suggestUrl="/common/lookupPrdSuggest" lookupGroup="prd" value="${prd_name }"/>
 					</td>
+					<td>&nbsp;</td>
 				</tr>
 				<tr>
 					<td>
@@ -97,6 +101,7 @@
 							<form:option value="1">是</form:option>
 						</form:select>
 					</td>
+					<td>&nbsp;</td>
 				</tr>
 				<tr>
 					<td>
@@ -122,6 +127,7 @@
 						<form:option value="9644">老手机</form:option>
 					</form:select>
 					</td>
+					<td>&nbsp;</td>
 				</tr>
 			</table>
 			<div class="subBar">
@@ -141,7 +147,7 @@
 				<li><a iconClass="magnifier" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/client/view/{slt_uid}"><span>查看详情</span></a></li>
 			</shiro:hasPermission>
 				<li class="line">line</li>
-				<li><a class="icon" target="_blank" href="${contextPath }/client/toXls?search_GTE_policyFee=${param.search_GTE_policyFee }&search_LTE_policyFee=${param.search_LTE_policyFee }&orgCode=${policy_orgCode }&search_LTE_policyDate=${param.search_LTE_policyDate }&search_GTE_policyDate=${param.search_GTE_policyDate }&feeFrequency=${param.feeFrequency }&prd.prdFullName=${prd_name }&search_LIKE_policyNo=${param.search_LIKE_policyNo }&search_LIKE_formNo=${param.search_LIKE_formNo }&duration=${duration }&encodeStatus=${encodeStatus == null?'null':encodeStatus }&staffFlag=${staffFlag}&attachedFlag=${attachedFlag}&saleChannel=${saleChannel}"><span>导出Excel</span></a></li>
+				<li><a class="icon" target="_blank" href="${contextPath }/client/toXls?search_GTE_policyFee=${param.search_GTE_policyFee }&search_LTE_policyFee=${param.search_LTE_policyFee }&orgCode=${policy_orgCode }&search_LTE_policyDate=${param.search_LTE_policyDate }&search_GTE_policyDate=${param.search_GTE_policyDate }&feeFrequency=${param.feeFrequency }&prd.prdFullName=${prd_name }&search_LIKE_policyNo=${param.search_LIKE_policyNo }&search_LIKE_formNo=${param.search_LIKE_formNo }&duration=${duration }&encodeStatus=${encodeStatus == null?'null':encodeStatus }&staffFlag=${staffFlag}&attachedFlag=${attachedFlag}&saleChannel=${saleChannel}&ctNum=${ctNum}"><span>导出Excel</span></a></li>
 				<li class="line">line</li>
 			<shiro:hasPermission name="Client:provEdit">
 				<li><a class="icon" target="_blank" href="${contextPath }/client/pdtoXls?prodName=${prodName }&search_LTE_policyDate=${param.search_LTE_policyDate }&search_GTE_policyDate=${param.search_GTE_policyDate }"><span>导出给信息局的数据</span></a></li>
