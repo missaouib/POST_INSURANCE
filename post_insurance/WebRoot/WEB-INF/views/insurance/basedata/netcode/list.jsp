@@ -4,7 +4,7 @@
 
 <dwz:paginationForm action="${contextPath }/basedata/bankCode/list" page="${page }">
 	<input type="hidden" name="search_LIKE_ybtCode" value="${param.search_LIKE_ybtCode }"/>
-	<input type="hidden" name="search_LIKE_selfBankCode" value="${param.search_LIKE_selfBankCode }"/>
+	<input type="hidden" name="search_LIKE_selBankCode" value="${param.search_LIKE_selBankCode }"/>
 	<input type="hidden" name="search_LIKE_name" value="${param.search_LIKE_name }"/>
 </dwz:paginationForm>
 
@@ -17,7 +17,7 @@
 					<input type="text" name="search_LIKE_ybtCode" value="${param.search_LIKE_ybtCode }"/>
 				</td>
 				<td>银行网点编码：
-					<input type="text" name="search_LIKE_selfBankCode" value="${param.search_LIKE_selfBankCode }"/>
+					<input type="text" name="search_LIKE_selBankCode" value="${param.search_LIKE_selBankCode }"/>
 				</td>
 				<td>网点名称：
 					<input type="text" name="search_LIKE_name" value="${param.search_LIKE_name }"/>

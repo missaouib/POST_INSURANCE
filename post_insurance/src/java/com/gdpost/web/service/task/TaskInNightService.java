@@ -189,13 +189,12 @@ public class TaskInNightService {
         			"(select count(distinct cr.policy_no) as cs_count, abs(sum(cr.money)) as csmoney, tpd.holder_card_num as holder, " + 
         			"group_concat(cr.policy_no SEPARATOR \",\") policy_nos, group_concat(cr.money SEPARATOR \",\") cs_moneys " + 
         			"from t_policy_dtl tpd, t_cs_report cr " + 
-        			"where tpd.policy_no=cr.policy_no and cr.full_cs_code=\"CT退保\" and abs(cr.money)>500 " + 
-        			"and tpd.attached_flag=0 " + 
+        			"where tpd.policy_no=cr.policy_no and tpd.fee_num>1 and tpd.attached_flag=0 and cr.full_cs_code=\"CT退保\" and abs(cr.money)>500 " + 
         			"and tpd.prod_code<>\"120022\" " + 
         			"and tpd.policy_date >= \"" + dateStr + "\" " + 
         			"group by tpd.holder_card_num) as t1 " + 
         			"set tpd.ct_num=t1.cs_count, tpd.ct_money=t1.csmoney,tpd.ct_desc=CONCAT(t1.policy_nos,\",\",cs_moneys)  " + 
-        			"where tpd.holder_card_num=t1.holder and t1.cs_count>1;";
+        			"where tpd.holder_card_num=t1.holder and t1.cs_count>0;";
         	log.info("------------ task service 1 :" + updateSQL);
 			rstInt = statement.executeUpdate(updateSQL);
 			log.info("------------ finish exec sql" + rstInt);

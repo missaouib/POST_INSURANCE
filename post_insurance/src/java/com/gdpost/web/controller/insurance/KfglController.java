@@ -712,7 +712,7 @@ public class KfglController {
 			issue = kfglService.get(new Long(id));
 			policyNo = issue.getPolicy().getPolicyNo();
 			operater = userService.get(issue.getOperateId()).getRealname();
-			newPath = issuePath + File.separator + policyNo + "_" + issue.getIssueNo() + ".doc";
+			newPath = issuePath + File.separator + policyNo + "_ZBD_" + issue.getIssueType() + ".doc";
 			try {
 				is = new FileInputStream(templatePath);
 				doc = new HWPFDocument(is);

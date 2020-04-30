@@ -131,7 +131,7 @@ public class PayListController {
 	
 	@RequiresPermissions(value={"ToBQFailList:view","ToQYFailList:view","ToLPFailList:view","ToXQFailList:view"}, logical=Logical.OR)
 	@RequestMapping(value="/to/list", method={RequestMethod.GET, RequestMethod.POST})
-	public String list(ServletRequest request, Page page, Map<String, Object> map) {
+	public String toFailList(ServletRequest request, Page page, Map<String, Object> map) {
 		User user = SecurityUtils.getShiroUser().getUser();
 		Organization userOrg = user.getOrganization();
 		String orgCode = request.getParameter("orgCode");
@@ -224,8 +224,17 @@ public class PayListController {
 			req.setStatus(status);
 		}
 		
+		String type = request.getParameter("type");
+		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("failDesc", Operator.EQ, "成功"));
+		
+		if(type != null && type.trim().equals("from")) {
+			csf.add(new SearchFilter("payType", Operator.EQ, PayList.PAY_FROM));
+			request.setAttribute("type", type);
+		} else {
+			csf.add(new SearchFilter("payType", Operator.EQ, PayList.PAY_TO));
+		}
 		
 		String feeType = "";
 		switch(flag) {
@@ -249,7 +258,6 @@ public class PayListController {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
 		}
 		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE_R, orgCode));
-		csf.add(new SearchFilter("payType", Operator.EQ, PayList.PAY_TO));
 		
 		Specification<PayList> specification = DynamicSpecifications.bySearchFilter(request, PayList.class, csf);
 		
@@ -299,6 +307,13 @@ public class PayListController {
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("failDesc", Operator.EQ, "成功"));
 		
+		String type = request.getParameter("type");
+		if(type != null && type.trim().equals("from")) {
+			csf.add(new SearchFilter("payType", Operator.EQ, PayList.PAY_FROM));
+		} else {
+			csf.add(new SearchFilter("payType", Operator.EQ, PayList.PAY_TO));
+		}
+		
 		String feeType = "";
 		switch(flag) {
 		case "bq":
@@ -318,7 +333,7 @@ public class PayListController {
 		page.setOrderDirection("DESC");
 		
 		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE_R, orgCode));
-		csf.add(new SearchFilter("payType", Operator.EQ, PayList.PAY_TO));
+		
 		if (status.length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
 		}
@@ -360,6 +375,14 @@ public class PayListController {
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("failDesc", Operator.NOT_LIKE, "成功"));
 		
+		String type = request.getParameter("type");
+		if(type != null && type.trim().equals("from")) {
+			csf.add(new SearchFilter("payType", Operator.EQ, PayList.PAY_FROM));
+			request.setAttribute("type", type);
+		} else {
+			csf.add(new SearchFilter("payType", Operator.EQ, PayList.PAY_TO));
+		}
+		
 		String feeType = "";
 		switch(flag) {
 		case "bq":
@@ -379,7 +402,7 @@ public class PayListController {
 		page.setOrderDirection("DESC");
 		
 		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE_R, orgCode));
-		csf.add(new SearchFilter("payType", Operator.EQ, PayList.PAY_TO));
+		
 		if (status != null && status.length() > 0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
 		}
@@ -419,6 +442,13 @@ public class PayListController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		
+		csf.add(new SearchFilter("payType", Operator.EQ, PayList.PAY_FROM));
+		
+		if (status != null && status.length() > 0) {
+			csf.add(new SearchFilter("status", Operator.EQ, status));
+		}
+		
 		csf.add(new SearchFilter("failDesc", Operator.NOT_LIKE, "成功"));
 		String feeType = "";
 		switch(flag) {
@@ -435,14 +465,11 @@ public class PayListController {
 			default:
 				csf.add(new SearchFilter("feeType", Operator.EQ, feeType));
 		}
-		page.setOrderField("backDate");
-		page.setOrderDirection("DESC");
 		
 		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE_R, orgCode));
-		csf.add(new SearchFilter("payType", Operator.EQ, PayList.PAY_FROM));
-		if (status != null && status.length() > 0) {
-			csf.add(new SearchFilter("status", Operator.EQ, status));
-		}
+		
+		page.setOrderField("backDate");
+		page.setOrderDirection("DESC");
 		
 		Specification<PayList> specification = DynamicSpecifications.bySearchFilter(request, PayList.class, csf);
 		
@@ -478,6 +505,11 @@ public class PayListController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		csf.add(new SearchFilter("payType", Operator.EQ, PayList.PAY_FROM));
+		if(status != null && status.trim().length() > 0) {
+			csf.add(new SearchFilter("status", Operator.EQ, status));
+		}
+		
 		csf.add(new SearchFilter("failDesc", Operator.NOT_LIKE, "成功"));
 		String feeType = "";
 		switch(flag) {
@@ -498,14 +530,11 @@ public class PayListController {
 			default:
 				csf.add(new SearchFilter("feeType", Operator.EQ, feeType));
 		}
+		
+		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE_R, orgCode));
+		
 		page.setOrderField("backDate");
 		page.setOrderDirection("DESC");
-		
-		if(status != null && status.trim().length() > 0) {
-			csf.add(new SearchFilter("status", Operator.EQ, status));
-		}
-		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE_R, orgCode));
-		csf.add(new SearchFilter("payType", Operator.EQ, PayList.PAY_FROM));
 		
 		Specification<PayList> specification = DynamicSpecifications.bySearchFilter(request, PayList.class, csf);
 		
