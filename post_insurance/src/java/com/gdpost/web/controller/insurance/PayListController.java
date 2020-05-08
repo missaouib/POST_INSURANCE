@@ -218,8 +218,8 @@ public class PayListController {
 		LOG.debug("-----------------status:" + status);
 		PayList req = new PayList();
 		if(status == null) {
-			req.setStatus(FEE_FAIL_STATUS.NewStatus.name());
-			status = FEE_FAIL_STATUS.NewStatus.name();
+			//req.setStatus(FEE_FAIL_STATUS.NewStatus.name());
+			//status = FEE_FAIL_STATUS.NewStatus.name();
 		} else if(status.trim().length()>0) {
 			req.setStatus(status);
 		}
@@ -298,8 +298,8 @@ public class PayListController {
 		LOG.debug("-----------------status:" + status);
 		PayList req = new PayList();
 		if(status == null) {
-			req.setStatus(FEE_FAIL_STATUS.NewStatus.name());
-			status = FEE_FAIL_STATUS.NewStatus.name();
+			//req.setStatus(FEE_FAIL_STATUS.NewStatus.name());
+			//status = FEE_FAIL_STATUS.NewStatus.name();
 		} else if(status.trim().length()>0) {
 			req.setStatus(status);
 		}

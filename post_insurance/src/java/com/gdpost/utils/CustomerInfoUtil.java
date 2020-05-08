@@ -145,7 +145,7 @@ public class CustomerInfoUtil {
 		case "163.com":
 		case "126.com":
 		case "yeah.com":
-			if (name.length()<6) return false;
+			if (name.length()<5) return false;
 			break;
 		case "qq.com":
 			if (NumberUtils.isDigits(name) && name.length()<5) return false;
@@ -153,7 +153,7 @@ public class CustomerInfoUtil {
 		case "139.com":
 		case "wo.com":
 		case "189.com":
-			if (NumberUtils.isDigits(name) && name.length()<11) return false;
+			if (NumberUtils.isDigits(name) && name.length()!=11) return false;
 			break;
 		case "sina.com":
 			if (name.length()<4) return false;
@@ -612,7 +612,7 @@ public class CustomerInfoUtil {
 		if(phone == null || phone.trim().length()<=10 || !NumberUtils.isDigits(phone)) {
 			return null;
 		}
-		String sql = "select count(distinct holder) as countNum from t_policy_dtl where policy_status=\"有效\" and cast(aes_decrypt(unhex(holder_mobile), 'GDPost') as char(100))=\"" + phone + "\" and cast(aes_decrypt(unhex(holder), 'GDPost') as char(100))<>\"" + holder + "\";";
+		String sql = "select count(distinct holder) as countNum from t_policy_dtl where attached_flag=0 and policy_status=\"有效\" and cast(aes_decrypt(unhex(holder_mobile), 'GDPost') as char(100))=\"" + phone + "\" and cast(aes_decrypt(unhex(holder), 'GDPost') as char(100))<>\"" + holder + "\";";
 		ResultSet rst = null;
 		int num = 0;
 		try {
@@ -639,7 +639,7 @@ public class CustomerInfoUtil {
 		if(addr == null || addr.trim().length()<=0) {
 			return null;
 		}
-		String sql = "select count(distinct holder) as countNum from t_policy_dtl where policy_status=\"有效\" and attached_flag=0 and cast(aes_decrypt(unhex(holder_addr), 'GDPost') as char(100))=\"" + addr + "\" and cast(aes_decrypt(unhex(holder), 'GDPost') as char(100))<>\"" + holder + "\";";
+		String sql = "select count(distinct holder) as countNum from t_policy_dtl where attached_flag=0 and policy_status=\"有效\" and attached_flag=0 and cast(aes_decrypt(unhex(holder_addr), 'GDPost') as char(100))=\"" + addr + "\" and cast(aes_decrypt(unhex(holder), 'GDPost') as char(100))<>\"" + holder + "\";";
 		ResultSet rst = null;
 		int num = 0;
 		try {
@@ -666,7 +666,7 @@ public class CustomerInfoUtil {
 		if(email == null || email.trim().length()<=0) {
 			return null;
 		}
-		String sql = "select count(distinct holder) as countNum from t_policy_dtl where policy_status=\"有效\" and holder_email=\"" + email + "\" and cast(aes_decrypt(unhex(holder), 'GDPost') as char(100))<>\"" + holder + "\";";
+		String sql = "select count(distinct holder) as countNum from t_policy_dtl where attached_flag=0 and policy_status=\"有效\" and holder_email=\"" + email + "\" and cast(aes_decrypt(unhex(holder), 'GDPost') as char(100))<>\"" + holder + "\";";
 		ResultSet rst = null;
 		int num = 0;
 		try {
@@ -718,7 +718,7 @@ public class CustomerInfoUtil {
 		if (mobile == null || mobile.trim().length() <= 0) {
 			return true;
 		}
-		String check = "^((13[0-9])|(14[5,7,9])|(15([0-3]|[5-9]))|(166)|(17[0,1,2,3,5,6,7,8])|(18[0-9])|(19[0-9]))\\d{8}$";
+		String check = "^((13[0-9])|(14[5,7,9])|(15([0-3]|[5-9]))|(16)|(17[0,1,2,3,5,6,7,8])|(18[0-9])|(19[0-9]))\\d{8}$";
 		Pattern regex = Pattern.compile(check);
 		Matcher matcher = regex.matcher(mobile);
 		return matcher.matches();

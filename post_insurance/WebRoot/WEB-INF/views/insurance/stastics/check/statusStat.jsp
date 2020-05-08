@@ -39,7 +39,7 @@ function toTips(val) {
 					</td>
 					<td>
 					<label>状态：</label>
-					<form:select path="CheckModel.fixStatus" id="qy_w_status" class="combox">
+					<form:select path="CheckModel.fixStatus" id="qy_ssw_status" class="combox">
 						<form:options items="${qyWriteStatusList }" itemLabel="desc"/>
 					</form:select>
 					</td>

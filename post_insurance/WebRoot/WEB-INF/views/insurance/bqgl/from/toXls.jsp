@@ -58,7 +58,7 @@ response.setHeader("Content-Disposition", "inline; filename=FROM_FEE_FAL_LIST.xl
 			<tr target="slt_uid" rel="${item.id}">
 				<td>${item.organization.shortName}</td>
 				<td>${item.accountName}</td>
-				<td style="vnd.ms-excel.numberformat:@">${item.account}</td>
+				<td>******${fn:substring(item.account,6,20)}</td>
 				<td>${item.money}</td>
 				<td>${item.failDesc}</td>
 				<td><fmt:formatDate value="${item.backDate }" pattern="yyyy-MM-dd"/></td>

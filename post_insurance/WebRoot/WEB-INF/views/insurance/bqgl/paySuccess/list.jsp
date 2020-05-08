@@ -92,7 +92,7 @@
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
 				<td>${item.organization.name}</td>
 				<td>${item.accountName}</td>
-				<td>${item.account}</td>
+				<td>******${fn:substring(item.account,6,20)}</td>
 				<td>${item.money}</td>
 				<td>${item.failDesc}</td>
 				<td><fmt:formatDate value="${item.backDate }" pattern="yyyy-MM-dd"/></td>

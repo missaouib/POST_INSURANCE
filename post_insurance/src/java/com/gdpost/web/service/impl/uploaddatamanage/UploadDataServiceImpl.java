@@ -1414,7 +1414,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case UnderWriteDtlData:
 			standardColumns = UnderWriteDtlColumn.getStandardColumns();
 			sql = new StringBuffer("INSERT INTO t_under_write(form_no, policy_no,prd_name,policy_fee,perm,fee_type,underwrite_reason,issue,insured_age,insured_sex,insured_job,sys_date,check_date,"
-					+ "body_check_date1,body_check_date2,deal_check_date1,deal_check_date2,hb_end_date,prov_send_date,sign_date,client_receive_date,bill_back_date,form_write_date) VALUES ");
+					+ "body_check_date1,body_check_date2,deal_check_date1,deal_check_date2,hb_end_date,sign_date,client_receive_date,bill_back_date,form_write_date) VALUES ");
 			line = null;
 			for (DataRow row : dt.Rows) {
 				line = new StringBuffer("(");
@@ -1442,7 +1442,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql.append("sys_date=VALUES(sys_date), ");
 			sql.append("check_date=VALUES(check_date), body_check_date1=VALUES(body_check_date1), ");
 			sql.append("body_check_date2=VALUES(body_check_date2), deal_check_date1=VALUES(deal_check_date1), deal_check_date2=VALUES(deal_check_date2), hb_end_date=VALUES(hb_end_date), ");
-			sql.append("prov_send_date=VALUES(prov_send_date), sign_date=VALUES(sign_date), ");
+			sql.append("sign_date=VALUES(sign_date), ");
 			sql.append("client_receive_date=VALUES(client_receive_date), bill_back_date=VALUES(bill_back_date), ");
 			sql.append("form_write_date=VALUES(form_write_date);");
 			log.debug("----------------batch update : " + sql);

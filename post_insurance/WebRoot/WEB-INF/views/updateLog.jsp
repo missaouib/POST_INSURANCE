@@ -5,6 +5,9 @@
 	<fieldset>
 		<legend>更新日志信息</legend>
 		<textarea layoutH="80" style="width:98%">
+20200508:
+1，脱敏账号显示。
+2、修复其他bug。
 20200417:
 1，员工数据更新。
 2、更新2020年运营质量考核指标导入，显示。

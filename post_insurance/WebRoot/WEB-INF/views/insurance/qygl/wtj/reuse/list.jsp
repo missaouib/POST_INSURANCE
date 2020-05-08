@@ -36,7 +36,7 @@
 					</td>
 					<td>
 						<label>状态：</label>
-						<form:select path="issue.fixStatus" id="qy_w_status" class="combox">
+						<form:select path="issue.fixStatus" id="qy_ru_status" class="combox">
 						<form:option value=""> -- -- </form:option>
 						<form:options items="${qyWriteStatusList }" itemLabel="desc"/>
 					</form:select>

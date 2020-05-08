@@ -148,6 +148,7 @@ private static List<ColumnItem> standardColumns;
 		column.setNullable(false);
 		standardColumns.add(column);
 		
+		/*
 		column = new ColumnItem();
 		column.setDisplayName("保单打印日期");
 		column.setColumnName("prov_send_date");
@@ -155,6 +156,7 @@ private static List<ColumnItem> standardColumns;
 		column.setNullable(false);
 		standardColumns.add(column);
 		
+		*/
 		column = new ColumnItem();
 		column.setDisplayName("保单签单日期");
 		column.setColumnName("sign_date");
