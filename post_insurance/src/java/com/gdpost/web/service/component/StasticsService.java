@@ -14,6 +14,7 @@ import org.springframework.data.jpa.domain.Specification;
 import com.gdpost.web.entity.component.CheckModel;
 import com.gdpost.web.entity.component.PolicyStatModel;
 import com.gdpost.web.entity.component.QyCheckModel;
+import com.gdpost.web.entity.component.QyStatModel;
 import com.gdpost.web.entity.component.StaffDtlModel;
 import com.gdpost.web.entity.component.StaffModel;
 import com.gdpost.web.entity.component.TuiBaoDtlModel;
@@ -137,4 +138,26 @@ public interface StasticsService {
 	List<TuiBaoModel> getNetAGWarnningWithPolicyDateAndCsDate(String organCode, String d1, String d2, String e1, String e2, String c1, String c2, String prdCode, String toPerm, String staffFlag, String bankName, Integer duration);
 
 	List<TuiBaoModel> getNetAGWarnningWithPolicyDateAndCsDate(String organCode, String d1, String d2, String e1, String e2, String c1, String c2, String flag, String prdCode, String toPerm, String staffFlag, String bankName, Integer duration);
+	
+	//QYHB
+	List<QyStatModel> getQyStatHbPrdRatio(String organCode, String d1, String d2, String prdCode, String toPerm, String staffFlag, String csFlag, String saleType, String status, Integer duration);
+	
+	List<QyStatModel> getQYHBProdStatWithBankCode(String organCode, String d1, String d2, String flag, String prdCode, String toPerm, String staffFlag, String bankName, String csFlag, String saleType, String status, Integer duration);
+	
+	List<QyStatModel> getProvQYHBOrganStat(String organCode, String d1, String d2, String prdCode, String toPerm, String staffFlag, String csFlag, String saleType, String status, Integer duration);
+	
+	List<QyStatModel> getQYHBOrganStat(String organCode, String d1, String d2, String prdCode, String toPerm, String staffFlag, String csFlag, String saleType, String status, Integer duration);
+	
+	List<QyStatModel> getQYHBOrganNetStat(String organCode, String d1, String d2, String prdCode, String toPerm, String staffFlag, String bankName, String csFlag, String saleType, String status, Integer duration);
+	
+	List<QyStatModel> getProvQYHBOrganStatWithBankCode(String organCode, String d1, String d2, String flag, String prdCode, String toPerm, String staffFlag, String bankName, String csFlag, String saleType, String status, Integer duration);
+	
+	List<QyStatModel> getQYHBOrganStatWithBankCode(String organCode, String d1, String d2, String flag, String prdCode, String toPerm, String staffFlag, String bankName, String csFlag, String saleType, String status, Integer duration);
+	
+	List<QyStatModel> getQYHBOrganNetStatWithBankCode(String organCode, String d1, String d2, String flag, String prdCode, String toPerm, String staffFlag, String bankName, String csFlag, String saleType, String status, Integer duration);
+	
+	List<QyStatModel> getQYHBFeeTypeStat(String organCode, String d1, String d2, String prdCode, String toPerm, String staffFlag, String csFlag, String saleType, String status, Integer duration);
+	
+	List<QyStatModel> getQYHBFeeTypeStatWithBankCode(String organCode, String d1, String d2, String flag, String prdCode, String toPerm, String staffFlag, String bankName, String csFlag, String saleType, String status, Integer duration);
+	
 }

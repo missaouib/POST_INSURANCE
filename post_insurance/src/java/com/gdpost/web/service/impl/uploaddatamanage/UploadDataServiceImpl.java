@@ -182,9 +182,9 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case NewPolicyDtl:
 			standardColumns = PolicyDtlsColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_policy_dtl character set utf8 (";
-			sql2 = "update t_policy tp, t_policy_dtl tpd, t_staff ts set tp.staff_flag=true,tp.duration=tpd.duration where tp.staff_flag=0 and tp.policy_no=tpd.policy_no and tpd.holder_card_num=ts.id_card;";
+			sql2 = "update t_policy tp, t_policy_dtl tpd, t_staff ts set tp.staff_flag=true,tp.duration=tpd.duration where tp.staff_flag=0 and tp.policy_no=tpd.policy_no and tpd.holder_card_num=ts.id_card and year(tp.policy_date)=year(now()) and year(tp.policy_date)=ts.year;";
 			sql3 = "update t_policy tp, t_policy_dtl tpd set tp.duration=tpd.duration where tp.policy_no=tpd.policy_no and tp.duration<>tpd.duration and tp.attached_flag=0 and tpd.duration<>1 and tp.duration=1;";
-			sql1 = "delete from t_policy_dtl where prod_name like \"中邮附加%\";";
+			sql5 = "delete from t_policy_dtl where prod_name like \"中邮附加%\";";
 			sql4 = "update t_policy_dtl set attached_flag=1 where policy_no like \"5244%\";";
 			break;
 			/*
@@ -370,7 +370,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 					+ "where t1.pay_type=2 and t0.policy_fee=t1.money and t1.rel_no=t2.cs_no and t2.cs_code='RE' and datediff(now(),t2.operate_time)=0);";*/
 			sql1 = "update t_cs_report set cs_code=left(full_cs_code,2) where (cs_code is null or cs_code=\"\") and full_cs_code<>\"\";";
 			sql2 = "update t_call_fail_list t1, t_cs_report t2, t_policy t3 set t1.status=\"已退保\" where t1.policy_no=t2.policy_no and t2.policy_no=t3.policy_no and t3.attached_flag=0 and t2.cs_code=\"CT\" and abs(t2.money)>(t3.total_fee*0.1);";
-			sql3 = "update t_cs_report tsr, t_policy_dtl tpd, t_staff ts set tsr.staff_flag=true where tsr.staff_flag=0 and tsr.policy_no=tpd.policy_no and tpd.holder_card_num=ts.id_card;";
+			sql3 = "update t_cs_report tsr, t_policy_dtl tpd, t_staff ts set tsr.staff_flag=true where tsr.staff_flag=0 and tsr.policy_no=tpd.policy_no and tpd.holder_card_num=ts.id_card and year(tpd.policy_date)=year(now()) and year(tpd.policy_date)=ts.year;";
 			sql4 = "update t_policy tp, t_cs_report tcr set tp.cs_flag=2,tp.status=\"终止\" where tp.status<>\"终止\" and tp.policy_no=tcr.policy_no and tp.cs_flag=0 and tp.attached_flag=0 and tcr.full_cs_code=\"CT退保\" and abs(tcr.money)>500;";
 			sql5 = "update t_issue t1, t_cs_report t2, t_policy t3 set t1.status=\"已退保\" where t1.status<>\"已结案\" and t1.policy_no=t2.policy_no and t2.policy_no=t3.policy_no and t3.attached_flag=0 and t2.cs_code=\"CT\" and abs(t2.money)>(t3.total_fee*0.1);";
 			sql6 = "update t_renewed_list t1, t_cs_report t2, t_policy t3 set t1.fee_status=\"已终止\" where t1.policy_no=t2.policy_no and t2.policy_no=t3.policy_no and t3.attached_flag=0 and t2.cs_code=\"CT\" and abs(t2.money)>(t3.total_fee*0.1);";

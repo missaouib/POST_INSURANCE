@@ -5,6 +5,10 @@
 	<fieldset>
 		<legend>更新日志信息</legend>
 		<textarea layoutH="80" style="width:98%">
+20200513:
+1，优化客真重复查询效率。
+2、优化员工单检测，增加年份对应。
+3、修复其他bug。
 20200508:
 1，脱敏账号显示。
 2、修复其他bug。

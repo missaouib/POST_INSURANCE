@@ -74,7 +74,7 @@ public class TaskInNightService {
 					+ "cast(aes_decrypt(unhex(holder_addr), 'GDPost') as char(100)) as holder_addr,"
 					+ "cast(aes_decrypt(unhex(holder_phone), 'GDPost') as char(100)) as holder_phone,"
 					+ "cast(aes_decrypt(unhex(holder_mobile), 'GDPost') as char(100)) as holder_mobile, prod_name, holder_email  "
-					+ "from t_policy_dtl where reuser_check=0 and policy_status=\"有效\" and attached_flag=0 order by policy_date;";
+					+ "from t_policy_dtl where reuser_check=0 and policy_status=\"有效\" and attached_flag=0 and prod_code<>\"120022\" order by policy_date;";
 			
 			log.debug(" ----- sql:" + sql);
 			

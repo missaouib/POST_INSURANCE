@@ -31,6 +31,7 @@ import com.gdpost.web.entity.basedata.Prd;
 import com.gdpost.web.entity.component.CheckModel;
 import com.gdpost.web.entity.component.PolicyStatModel;
 import com.gdpost.web.entity.component.QyCheckModel;
+import com.gdpost.web.entity.component.QyStatModel;
 import com.gdpost.web.entity.component.StaffDtlModel;
 import com.gdpost.web.entity.component.StaffModel;
 import com.gdpost.web.entity.component.TuiBaoDtlModel;
@@ -82,6 +83,9 @@ public class StasticsController {
 
 	private static final String POLICY_LIST = "insurance/stastics/policy/policy";
 	private static final String POLICY_TOXLS = "insurance/stastics/policy/policyXls";
+	
+	private static final String QYHB_RATIO_LIST = "insurance/stastics/policy/policy";
+	private static final String QYHB_RATIO_TOXLS = "insurance/stastics/policy/policyXls";
 	
 	private static final String CHECK_LIST = "insurance/stastics/check/stats";
 	private static final String CHECK_TOXLS = "insurance/stastics/check/check_stat_xls";
@@ -1180,7 +1184,7 @@ public class StasticsController {
 
 	/*
 	 * =======================================
-	 *  tuibao
+	 *  policy stastics
 	 * =======================================
 	 * 
 	 */
@@ -4108,5 +4112,436 @@ public class StasticsController {
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{userOrg.getShortName()}));
 		
 		return AG_TOXLS;
+	}
+	
+	
+	/*
+	 * =======================================
+	 *  QYHB STASTICS
+	 * =======================================
+	 * 
+	 */
+	@RequiresUser
+	@Log(message="{0}进行人核件指标分析！", level=LogLevel.INFO, module=LogModule.QTCZ)
+	@RequestMapping(value = "/stastics/uwRatio", method = { RequestMethod.GET, RequestMethod.POST })
+	public String qyhbStastics(ServletRequest request, Map<String, Object> map) {
+		LOG.debug("-------------------here----------");
+		String organCode = request.getParameter("orgCode");
+		String organName = request.getParameter("name");
+		String pd1 = request.getParameter("policyDate1");
+		String pd2 = request.getParameter("policyDate2");
+		String netFlag = request.getParameter("netFlag");
+		String levelFlag = request.getParameter("levelFlag");
+		String prdCode = request.getParameter("prdCode");
+		String statType = request.getParameter("statType");
+		String perm = request.getParameter("perm");
+		String staffFlag = request.getParameter("staffFlag");
+		String bankName = request.getParameter("bankName");
+		String csFlag = request.getParameter("csFlag");
+		String saleType = request.getParameter("saleType");
+		String status = request.getParameter("status");
+		String durationStr = request.getParameter("duration");
+		Integer duration = (durationStr == null || !NumberUtils.isDigits(durationStr)) ? 0
+				: Integer.valueOf(durationStr);
+
+		if (statType == null || statType.trim().length() <= 0) {
+			statType = "Organ";
+		}
+		if (csFlag == null || csFlag.trim().length() <= 0) {
+			csFlag = "1";
+		}
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();// userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
+		if (organCode == null || organCode.trim().length() <= 0) {
+			organCode = userOrg.getOrgCode();
+			organName = userOrg.getName();
+		} else if (!organCode.contains(userOrg.getOrgCode())) {
+			organCode = userOrg.getOrgCode();
+			organName = userOrg.getName();
+		}
+		if (prdCode == null || prdCode.trim().length() <= 0) {
+			prdCode = "%%";
+		}
+
+		String toPerm = perm;
+		if (perm == null) {
+			toPerm = "年交";
+			perm = "1";
+		} else if (perm.trim().length() <= 0) {
+			toPerm = "%%";
+		} else if (perm.equals("1")) {
+			toPerm = "年交";
+		} else {
+			toPerm = "趸交";
+		}
+		String isStaff = staffFlag;
+		if (staffFlag == null || staffFlag.trim().length() <= 0) {
+			isStaff = "%%";
+		}
+
+		boolean isCity = false;
+		boolean isNet = false;
+		if (levelFlag == null) {
+			if (organCode.length() >= 8) {
+				levelFlag = "net";
+			} else if (organCode.length() > 4) {
+				levelFlag = "city";
+			}
+		}
+
+		if (levelFlag != null && levelFlag.trim().equals("city")) {
+			isCity = true;
+		} else if (levelFlag != null && levelFlag.trim().equals("net")) {
+			isNet = true;
+		}
+
+		request.setAttribute("orgCode", organCode);
+		request.setAttribute("name", organName);
+		request.setAttribute("netFlag", netFlag);
+		request.setAttribute("prdCode", prdCode);
+		request.setAttribute("levelFlag", levelFlag);
+		request.setAttribute("perm", perm);
+		request.setAttribute("staffFlag", staffFlag);
+		request.setAttribute("statType", statType);
+		request.setAttribute("csFlag", csFlag);
+		request.setAttribute("saleType", saleType);
+		request.setAttribute("saleType2", saleType == null || saleType.length() < 4 ? "" : saleType.substring(0, 4));
+		request.setAttribute("status", status);
+		request.setAttribute("duration", duration);
+
+		boolean hasNet = true;
+		if (netFlag == null || netFlag.trim().length() <= 0) {
+			hasNet = false;
+		}
+		QyStatModel cm = new QyStatModel();
+		cm.setNetFlag(netFlag);
+		cm.setPrdCode(prdCode);
+		cm.setLevelFlag(levelFlag);
+		cm.setPerm(perm);
+		cm.setStaffFlag(staffFlag);
+		cm.setStatType(statType);
+		cm.setCsFlag(csFlag);
+		cm.setSaleType(saleType);
+		cm.setStatus(status);
+		cm.setDuration(duration);
+		request.setAttribute("QyStatModel", cm);
+
+		String fd = StringUtil.getFirstDayOfMonth("yyyy-MM-dd");
+		if (pd1 == null || pd1.trim().length() <= 0) {
+			pd1 = fd;
+		}
+		request.setAttribute("policyDate1", pd1);
+		request.setAttribute("policyDate2", pd2);
+		if (pd2 == null || pd2.trim().length() <= 0) {
+			pd2 = "9999-12-31";
+		}
+		if (bankName == null || bankName.trim().length() <= 0) {
+			bankName = "%%";
+		} else {
+			bankName = "%" + bankName + "%";
+		}
+
+		List<QyStatModel> temp = null;
+		// List<TuiBaoModel> temp1 = null;
+		if (statType.equals("Organ")) {
+			if (isNet) {
+				if (hasNet) {
+					temp = stasticsService.getQYHBOrganNetStatWithBankCode(organCode + "%", pd1, pd2, netFlag,
+							prdCode, toPerm, isStaff, bankName, csFlag, saleType, status, duration);
+				} else {
+					temp = stasticsService.getQYHBOrganNetStat(organCode + "%", pd1, pd2, prdCode, toPerm,
+							isStaff, bankName, csFlag, saleType, status, duration);
+				}
+			} else if (isCity) {
+				if (hasNet) {
+					temp = stasticsService.getQYHBOrganStatWithBankCode(organCode + "%", pd1, pd2, netFlag,
+							prdCode, toPerm, isStaff, bankName, csFlag, saleType, status, duration);
+				} else {
+					temp = stasticsService.getQYHBOrganStat(organCode + "%", pd1, pd2, prdCode, toPerm, isStaff,
+							csFlag, saleType, status, duration);
+				}
+			} else {
+				if (hasNet) {
+					temp = stasticsService.getProvQYHBOrganStatWithBankCode(organCode + "%", pd1, pd2, netFlag,
+							prdCode, toPerm, isStaff, bankName, csFlag, saleType, status, duration);
+				} else {
+					temp = stasticsService.getProvQYHBOrganStat(organCode + "%", pd1, pd2, prdCode, toPerm,
+							isStaff, csFlag, saleType, status, duration);
+				}
+			}
+		} else if (statType.equals("Prod")) {
+			if (hasNet) {
+				temp = stasticsService.getQYHBProdStatWithBankCode(organCode + "%", pd1, pd2, netFlag, prdCode,
+						toPerm, isStaff, bankName, csFlag, saleType, status, duration);
+			} else {
+				temp = stasticsService.getQyStatHbPrdRatio(organCode + "%", pd1, pd2, prdCode, toPerm, isStaff,
+						csFlag, saleType, status, duration);
+			}
+		} else {
+			if (hasNet) {
+				temp = stasticsService.getQYHBFeeTypeStatWithBankCode(organCode + "%", pd1, pd2, netFlag,
+						prdCode, toPerm, isStaff, bankName, csFlag, saleType, status, duration);
+			} else {
+				temp = stasticsService.getQYHBFeeTypeStat(organCode + "%", pd1, pd2, prdCode, toPerm,
+						isStaff, csFlag, saleType, status, duration);
+			}
+		}
+
+		request.setAttribute("cmRst", temp);
+		String col = "";
+		String countStr = "";
+		String sumStr = "";
+		String countPtStr = "";
+		String sumPtStr = "";
+		double maxZB = 0;
+		int maxTB = 0;
+		double sum = 0;
+		double count = 0;
+		double sumHadPolicyFee = 0;
+		List<Double> countList = new ArrayList<Double>();
+		List<Double> sumList = new ArrayList<Double>();
+		DecimalFormat df = new DecimalFormat("#.##");
+		for (QyStatModel tcm : temp) {// (isNet?temp1:temp)
+			col += "'" + tcm.getStatName() + "',";
+			countList.add((tcm.getPolicyCount()-tcm.getJzhCount()));
+			count += (tcm.getPolicyCount()-tcm.getJzhCount());
+			countStr += (tcm.getPolicyCount()-tcm.getJzhCount()) + ",";
+			sumList.add(tcm.getPolicyFee());
+			sumStr += tcm.getPolicyFee() + ",";
+			sum += tcm.getPolicyFee() == null ? 0 : tcm.getPolicyFee();
+			sumHadPolicyFee += tcm.getHadPolicyFee();
+		}
+		for (Double d : countList) {
+			countPtStr += df.format((d == null ? 0 : d) / count * 100) + ",";
+			if ((d == null ? 0 : d) / count * 100 > maxZB) {
+				maxZB = (d == null ? 0 : d) / count * 100;
+			}
+			if (d != null && d > maxTB) {
+				maxTB = d.intValue();
+			}
+		}
+		for (Double d : sumList) {
+			sumPtStr += df.format((d == null ? 0 : d) / sum * 100) + ",";
+			if ((d == null ? 0 : d) / count * 100 > maxZB) {
+				maxZB = (d == null ? 0 : d) / count * 100;
+			}
+			if (d != null && d > maxTB) {
+				maxTB = d.intValue();
+			}
+		}
+		int m = 1;
+		for (int i = 0; i < (int) Math.log10(maxTB); i++) {
+			m *= 10;
+		}
+		// 第一位
+		maxTB = (maxTB / m + 1) * m;
+		request.setAttribute("col", col);
+		request.setAttribute("countStr", countStr);
+		request.setAttribute("sumStr", sumStr);
+		request.setAttribute("countPtStr", countPtStr);
+		request.setAttribute("sumPtStr", sumPtStr);
+		request.setAttribute("maxTB", maxTB);
+		request.setAttribute("maxZB", maxZB);
+		request.setAttribute("countPt", count);
+		request.setAttribute("sumPt", sum);
+		request.setAttribute("sumHadPolicyFee", sumHadPolicyFee);
+
+		Page page = new Page();
+		page.setNumPerPage(50);
+		List<Prd> prds = prdService.findAllPrd(page);
+		request.setAttribute("prds", prds);
+		LOG.debug(" ------------ result size:" + temp.size());
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{userOrg.getShortName()}));
+		
+		return QYHB_RATIO_LIST;
+	}
+
+	@RequiresUser
+	@Log(message="{0}人核件指标分析结果导出！", level=LogLevel.INFO, module=LogModule.QTCZ)
+	@RequestMapping(value = "/stastics/uwRatio/toXls", method = { RequestMethod.GET, RequestMethod.POST })
+	public String qyhbStasticsToXls(ServletRequest request, Map<String, Object> map) {
+		LOG.debug("-------------------here----------");
+		String organCode = request.getParameter("orgCode");
+		String organName = request.getParameter("name");
+		String pd1 = request.getParameter("policyDate1");
+		String pd2 = request.getParameter("policyDate2");
+		String netFlag = request.getParameter("netFlag");
+		String levelFlag = request.getParameter("levelFlag");
+		String prdCode = request.getParameter("prdCode");
+		String statType = request.getParameter("statType");
+		String perm = request.getParameter("perm");
+		String staffFlag = request.getParameter("staffFlag");
+		String bankName = request.getParameter("bankName");
+		String csFlag = request.getParameter("csFlag");
+		String saleType = request.getParameter("saleType");
+		String status = request.getParameter("status");
+		String durationStr = request.getParameter("duration");
+		Integer duration = (durationStr == null || !NumberUtils.isDigits(durationStr)) ? 0
+				: Integer.valueOf(durationStr);
+
+		if (statType == null || statType.trim().length() <= 0) {
+			statType = "Organ";
+		}
+		if (csFlag == null || csFlag.trim().length() <= 0) {
+			csFlag = "1";
+		}
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();// userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
+		if (organCode == null || organCode.trim().length() <= 0) {
+			organCode = userOrg.getOrgCode();
+			organName = userOrg.getName();
+		} else if (!organCode.contains(userOrg.getOrgCode())) {
+			organCode = userOrg.getOrgCode();
+			organName = userOrg.getName();
+		}
+		if (prdCode == null || prdCode.trim().length() <= 0) {
+			prdCode = "%%";
+		}
+
+		String toPerm = perm;
+		if (perm == null) {
+			toPerm = "年交";
+			perm = "1";
+		} else if (perm.trim().length() <= 0) {
+			toPerm = "%%";
+		} else if (perm.equals("1")) {
+			toPerm = "年交";
+		} else {
+			toPerm = "趸交";
+		}
+		String isStaff = staffFlag;
+		if (staffFlag == null || staffFlag.trim().length() <= 0) {
+			isStaff = "%%";
+		}
+
+		boolean isCity = false;
+		boolean isNet = false;
+		if (levelFlag == null) {
+			if (organCode.length() >= 8) {
+				levelFlag = "net";
+			} else if (organCode.length() > 4) {
+				levelFlag = "city";
+			}
+		}
+
+		if (levelFlag != null && levelFlag.trim().equals("city")) {
+			isCity = true;
+		} else if (levelFlag != null && levelFlag.trim().equals("net")) {
+			isNet = true;
+		}
+
+		request.setAttribute("orgCode", organCode);
+		request.setAttribute("name", organName);
+		request.setAttribute("netFlag", netFlag);
+		request.setAttribute("prdCode", prdCode);
+		request.setAttribute("levelFlag", levelFlag);
+		request.setAttribute("perm", perm);
+		request.setAttribute("staffFlag", staffFlag);
+		request.setAttribute("statType", statType);
+		request.setAttribute("csFlag", csFlag);
+		request.setAttribute("saleType", saleType);
+		request.setAttribute("saleType2", saleType == null || saleType.length() < 4 ? "" : saleType.substring(0, 4));
+		request.setAttribute("status", status);
+		request.setAttribute("duration", duration);
+
+		boolean hasNet = true;
+		if (netFlag == null || netFlag.trim().length() <= 0) {
+			hasNet = false;
+		}
+		QyStatModel cm = new QyStatModel();
+		cm.setNetFlag(netFlag);
+		cm.setPrdCode(prdCode);
+		cm.setLevelFlag(levelFlag);
+		cm.setPerm(perm);
+		cm.setStaffFlag(staffFlag);
+		cm.setStatType(statType);
+		cm.setCsFlag(csFlag);
+		cm.setSaleType(saleType);
+		cm.setStatus(status);
+		cm.setDuration(duration);
+		request.setAttribute("QyStatModel", cm);
+
+		String fd = StringUtil.getFirstDayOfMonth("yyyy-MM-dd");
+		if (pd1 == null || pd1.trim().length() <= 0) {
+			pd1 = fd;
+		}
+		request.setAttribute("policyDate1", pd1);
+		request.setAttribute("policyDate2", pd2);
+		if (pd2 == null || pd2.trim().length() <= 0) {
+			pd2 = "9999-12-31";
+		}
+		if (bankName == null || bankName.trim().length() <= 0) {
+			bankName = "%%";
+		} else {
+			bankName = "%" + bankName + "%";
+		}
+
+		List<QyStatModel> temp = null;
+		// List<TuiBaoModel> temp1 = null;
+		if (statType.equals("Organ")) {
+			if (isNet) {
+				if (hasNet) {
+					temp = stasticsService.getQYHBOrganNetStatWithBankCode(organCode + "%", pd1, pd2, netFlag,
+							prdCode, toPerm, isStaff, bankName, csFlag, saleType, status, duration);
+				} else {
+					temp = stasticsService.getQYHBOrganNetStat(organCode + "%", pd1, pd2, prdCode, toPerm,
+							isStaff, bankName, csFlag, saleType, status, duration);
+				}
+			} else if (isCity) {
+				if (hasNet) {
+					temp = stasticsService.getQYHBOrganStatWithBankCode(organCode + "%", pd1, pd2, netFlag,
+							prdCode, toPerm, isStaff, bankName, csFlag, saleType, status, duration);
+				} else {
+					temp = stasticsService.getQYHBOrganStat(organCode + "%", pd1, pd2, prdCode, toPerm, isStaff,
+							csFlag, saleType, status, duration);
+				}
+			} else {
+				if (hasNet) {
+					temp = stasticsService.getProvQYHBOrganStatWithBankCode(organCode + "%", pd1, pd2, netFlag,
+							prdCode, toPerm, isStaff, bankName, csFlag, saleType, status, duration);
+				} else {
+					temp = stasticsService.getProvQYHBOrganStat(organCode + "%", pd1, pd2, prdCode, toPerm,
+							isStaff, csFlag, saleType, status, duration);
+				}
+			}
+		} else if (statType.equals("Prod")) {
+			if (hasNet) {
+				temp = stasticsService.getQYHBProdStatWithBankCode(organCode + "%", pd1, pd2, netFlag, prdCode,
+						toPerm, isStaff, bankName, csFlag, saleType, status, duration);
+			} else {
+				temp = stasticsService.getQyStatHbPrdRatio(organCode + "%", pd1, pd2, prdCode, toPerm, isStaff,
+						csFlag, saleType, status, duration);
+			}
+		} else {
+			if (hasNet) {
+				temp = stasticsService.getQYHBFeeTypeStatWithBankCode(organCode + "%", pd1, pd2, netFlag,
+						prdCode, toPerm, isStaff, bankName, csFlag, saleType, status, duration);
+			} else {
+				temp = stasticsService.getQYHBFeeTypeStat(organCode + "%", pd1, pd2, prdCode, toPerm,
+						isStaff, csFlag, saleType, status, duration);
+			}
+		}
+
+		request.setAttribute("cmRst", temp);
+		LOG.debug(" ------------ result size:" + temp.size());
+		double sum = 0;
+		double count = 0;
+		double sumHadPolicyFee = 0;
+		for (QyStatModel tcm : temp) {// (isNet?temp1:temp)
+			count += (tcm.getPolicyCount()-tcm.getJzhCount());
+			sum += tcm.getPolicyFee() == null ? 0 : tcm.getPolicyFee();
+			sumHadPolicyFee += tcm.getHadPolicyFee();
+		}
+		// 第一位
+		request.setAttribute("countPt", count);
+		request.setAttribute("sumPt", sum);
+		request.setAttribute("sumHadPolicyFee", sumHadPolicyFee);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{userOrg.getShortName()}));
+
+		return QYHB_RATIO_TOXLS;
 	}
 }

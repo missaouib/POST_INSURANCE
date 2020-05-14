@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -89,7 +90,8 @@ public class XlsFileHandler extends AbstractFileHandler {
 			//boolean isNum = false;
 			//List<CellRangeAddress> calist = new ArrayList<CellRangeAddress>();
 			// 如果是合并单元表格，略过
-			
+			Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$"); 
+	        
 			for (int iSheet = 0; iSheet < iSheets; iSheet++) {
 				markIdx = 0;
 				log.debug("---------sheet:" + iSheet);
@@ -234,6 +236,13 @@ public class XlsFileHandler extends AbstractFileHandler {
 
 				String val = null;
 				
+				boolean isPolicyBackDate = false;
+				if(mkeyRow.equals("签收日期")) {
+					isPolicyBackDate = true;
+					if(markRow!=1) {
+						markRow = 3;
+					}
+				}
 				for (int i = markRow + 1; i <= rowCount; i++) {
 					markIdx ++;
 					row = (HSSFRow) sheet.getRow(i);
@@ -277,6 +286,12 @@ public class XlsFileHandler extends AbstractFileHandler {
 										bFlag = false;
 										break;
 									}
+								}
+							}
+							if(isPolicyBackDate && j==row.getFirstCellNum()) {
+								if(cell.getStringCellValue() == null || cell.getStringCellValue().length()==0 || !pattern.matcher(cell.getStringCellValue()).matches()) {
+									bFlag = false;
+									break;
 								}
 							}
 							//log.debug("-----------" + cell.getCellType());

@@ -180,7 +180,7 @@ public class TaskService {
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
 			
-			sql = "update t_policy tp, t_policy_dtl tpd, t_staff ts set tp.staff_flag=true where tp.staff_flag=0 and tp.policy_no=tpd.policy_no and tpd.holder_card_num=ts.id_card";
+			sql = "update t_policy tp, t_policy_dtl tpd, t_staff ts set tp.staff_flag=true,tp.duration=tpd.duration where tp.staff_flag=0 and tp.policy_no=tpd.policy_no and tpd.holder_card_num=ts.id_card and year(tp.policy_date)=year(now()) and year(tp.policy_date)=ts.year;";
 			log.info("------------ sql :" + sql);
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
@@ -219,7 +219,7 @@ public class TaskService {
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
 			
-			sql = "update t_cs_report tsr, t_policy_dtl tpd, t_staff ts set tsr.staff_flag=true where tsr.staff_flag=0 and tsr.policy_no=tpd.policy_no and tpd.holder_card_num=ts.id_card;";
+			sql = "update t_cs_report tsr, t_policy_dtl tpd, t_staff ts set tsr.staff_flag=true where tsr.staff_flag=0 and tsr.policy_no=tpd.policy_no and tpd.holder_card_num=ts.id_card and year(tpd.policy_date)=year(now()) and year(tpd.policy_date)=ts.year;";
 			log.info("------------ sql :" + sql);
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
@@ -305,7 +305,7 @@ public class TaskService {
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
 			
-			sql = "update t_check_write cw, t_policy_dtl tpd set cw.fix_status=\"CloseStatus\",cw.fix_desc=concat(cw.fix_desc,\"员工单\"),cw.deal_man=\"System\",cw.deal_time=current_timestamp where cw.policy_no=tpd.policy_no and cw.key_info=\"地址含有邮政关键信息;\" and cw.fix_status<>\"CloseStatus\" and tpd.holder_card_num in (select id_card from `t_staff`);";
+			sql = "update t_check_write cw, t_policy_dtl tpd set cw.fix_status=\"CloseStatus\",cw.fix_desc=concat(cw.fix_desc,\"员工单\"),cw.deal_man=\"System\",cw.deal_time=current_timestamp where cw.policy_no=tpd.policy_no and cw.key_info=\"地址含有邮政关键信息;\" and cw.fix_status<>\"CloseStatus\" and tpd.holder_card_num in (select id_card from t_staff where year=year(now()));";
 			log.info("------------ sql :" + sql);
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);

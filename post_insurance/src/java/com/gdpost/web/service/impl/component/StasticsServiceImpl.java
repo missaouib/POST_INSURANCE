@@ -12,6 +12,7 @@ import com.gdpost.web.dao.StasticsCityDAO;
 import com.gdpost.web.dao.model.CheckDtlDAO;
 import com.gdpost.web.dao.model.CheckStasticsDAO;
 import com.gdpost.web.dao.model.PolicyStatDAO;
+import com.gdpost.web.dao.model.QyStatDAO;
 import com.gdpost.web.dao.model.StaffDtlModelDAO;
 import com.gdpost.web.dao.model.StaffModelDAO;
 import com.gdpost.web.dao.model.TuiBaoDtlModelDAO;
@@ -21,6 +22,7 @@ import com.gdpost.web.dao.model.UwModelDAO;
 import com.gdpost.web.entity.component.CheckModel;
 import com.gdpost.web.entity.component.PolicyStatModel;
 import com.gdpost.web.entity.component.QyCheckModel;
+import com.gdpost.web.entity.component.QyStatModel;
 import com.gdpost.web.entity.component.StaffDtlModel;
 import com.gdpost.web.entity.component.StaffModel;
 import com.gdpost.web.entity.component.TuiBaoDtlModel;
@@ -58,6 +60,9 @@ public class StasticsServiceImpl implements StasticsService {
 	
 	@Autowired
 	private PolicyStatDAO policyDAO;
+	
+	@Autowired
+	private QyStatDAO qyStatDAO;
 	
 	@Autowired
 	private CheckStasticsDAO checkDAO;
@@ -386,4 +391,72 @@ public class StasticsServiceImpl implements StasticsService {
 	public List<TuiBaoModel> getProvAGWarnningWithPolicyDateAndCsDate(String organCode, String d1, String d2, String e1, String e2, String c1, String c2, String flag, String prdCode, String toPerm, String staffFlag, Integer duration) {
 		return cmDAO.getProvAllCityAGWarningWithBankCode(organCode, d1, d2, e1, e2, c1, c2, flag, prdCode, toPerm, staffFlag, duration);
 	}
+
+	
+	//QYHB
+	@Override
+	public List<QyStatModel> getQyStatHbPrdRatio(String organCode, String d1, String d2, String prdCode, String toPerm,
+			String staffFlag, String csFlag, String saleType, String status, Integer duration) {
+		return qyStatDAO.getQyStatHbPrdRatio(organCode, d1, d2, prdCode, toPerm, staffFlag, csFlag, saleType, status, duration);
+	}
+
+	@Override
+	public List<QyStatModel> getQYHBProdStatWithBankCode(String organCode, String d1, String d2, String flag,
+			String prdCode, String toPerm, String staffFlag, String bankName, String csFlag, String saleType,
+			String status, Integer duration) {
+		return qyStatDAO.getQYHBProdStatWithBankCode(organCode, d1, d2, flag, prdCode, toPerm, staffFlag, bankName, csFlag, saleType, status, duration);
+	}
+
+	@Override
+	public List<QyStatModel> getProvQYHBOrganStat(String organCode, String d1, String d2, String prdCode, String toPerm,
+			String staffFlag, String csFlag, String saleType, String status, Integer duration) {
+		return qyStatDAO.getProvQYHBOrganStat(organCode, d1, d2, prdCode, toPerm, staffFlag, csFlag, saleType, status, duration);
+	}
+
+	@Override
+	public List<QyStatModel> getQYHBOrganStat(String organCode, String d1, String d2, String prdCode, String toPerm,
+			String staffFlag, String csFlag, String saleType, String status, Integer duration) {
+		return qyStatDAO.getQYHBOrganStat(organCode, d1, d2, prdCode, toPerm, staffFlag, csFlag, saleType, status, duration);
+	}
+
+	@Override
+	public List<QyStatModel> getQYHBOrganNetStat(String organCode, String d1, String d2, String prdCode, String toPerm,
+			String staffFlag, String bankName, String csFlag, String saleType, String status, Integer duration) {
+		return qyStatDAO.getQYHBOrganNetStat(organCode, d1, d2, prdCode, toPerm, staffFlag, bankName, csFlag, saleType, status, duration);
+	}
+
+	@Override
+	public List<QyStatModel> getProvQYHBOrganStatWithBankCode(String organCode, String d1, String d2, String flag,
+			String prdCode, String toPerm, String staffFlag, String bankName, String csFlag, String saleType,
+			String status, Integer duration) {
+		return qyStatDAO.getProvQYHBOrganStatWithBankCode(organCode, d1, d2, flag, prdCode, toPerm, staffFlag, bankName, csFlag, saleType, status, duration);
+	}
+
+	@Override
+	public List<QyStatModel> getQYHBOrganStatWithBankCode(String organCode, String d1, String d2, String flag,
+			String prdCode, String toPerm, String staffFlag, String bankName, String csFlag, String saleType,
+			String status, Integer duration) {
+		return qyStatDAO.getQYHBOrganStatWithBankCode(organCode, d1, d2, flag, prdCode, toPerm, staffFlag, bankName, csFlag, saleType, status, duration);
+	}
+
+	@Override
+	public List<QyStatModel> getQYHBOrganNetStatWithBankCode(String organCode, String d1, String d2, String flag,
+			String prdCode, String toPerm, String staffFlag, String bankName, String csFlag, String saleType,
+			String status, Integer duration) {
+		return qyStatDAO.getQYHBOrganNetStatWithBankCode(organCode, d1, d2, flag, prdCode, toPerm, staffFlag, bankName, csFlag, saleType, status, duration);
+	}
+
+	@Override
+	public List<QyStatModel> getQYHBFeeTypeStat(String organCode, String d1, String d2, String prdCode, String toPerm,
+			String staffFlag, String csFlag, String saleType, String status, Integer duration) {
+		return qyStatDAO.getQYHBFeeTypeStat(organCode, d1, d2, prdCode, toPerm, staffFlag, csFlag, saleType, status, duration);
+	}
+
+	@Override
+	public List<QyStatModel> getQYHBFeeTypeStatWithBankCode(String organCode, String d1, String d2, String flag, String prdCode,
+			String toPerm, String staffFlag, String bankName, String csFlag, String saleType, String status,
+			Integer duration) {
+		return qyStatDAO.getQYHBFeeTypeStatWithBankCode(organCode, d1, d2, flag, prdCode, toPerm, staffFlag, bankName, csFlag, saleType, status, duration);
+	}
+	
 }
