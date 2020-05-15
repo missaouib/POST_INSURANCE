@@ -173,6 +173,7 @@ public class TaskInNightService {
 			statement = (JdbcStatement)connection.createStatement();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return;
 		}
 		String sql = null;
 		int rstInt = 0;
@@ -205,7 +206,7 @@ public class TaskInNightService {
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql" + rstInt);
 			
-			log.info("------------ task reuse service update finish");
+			log.info("------------ ct info in night task to update data finish");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			sql = "insert into t_log_info (username, message,ip_address,log_level,module) values "

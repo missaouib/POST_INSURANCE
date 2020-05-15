@@ -25,7 +25,7 @@ public interface QyStatDAO extends JpaRepository<QyStatModel, Long>, JpaSpecific
 	value="select tp.prod_name as organ_name, " + 
 			"sum(datediff(case when uw.client_receive_date is null then now() else uw.client_receive_date end,uw.sys_date)) as sumdays, " + 
 			"count(uw.policy_no) as policy_counts, " + 
-			"sum(case when datediff(uw.sign_date,uw.sys_date)<=5 then 1 else 0 END) as job5ds, " + 
+			"sum(case when datediff(uw.hb_end_date,uw.sys_date)<=5 then 1 else 0 END) as job5ds, " + 
 			"sum(case when uw.client_receive_date is not null then 1 else 0 END) as huixiao_counts, " + 
 			"sum(case when datediff(uw.client_receive_date,uw.bill_back_date)<=5 then 1 else 0 END) as huixiao5ds "
 			+ "from t_policy tp, t_under_write uw "
@@ -47,7 +47,7 @@ List<QyStatModel> getQyStatHbPrdRatio(@Param("orgCode")String orgCode, @Param("p
 value="select tp.prod_name as organ_name, " + 
 		"sum(datediff(case when uw.client_receive_date is null then now() else uw.client_receive_date end,uw.sys_date)) as sumdays, " + 
 		"count(uw.policy_no) as policy_counts, " + 
-		"sum(case when datediff(uw.sign_date,uw.sys_date)<=5 then 1 else 0 END) as job5ds, " + 
+		"sum(case when datediff(uw.hb_end_date,uw.sys_date)<=5 then 1 else 0 END) as job5ds, " + 
 		"sum(case when uw.client_receive_date is not null then 1 else 0 END) as huixiao_counts, " + 
 		"sum(case when datediff(uw.client_receive_date,uw.bill_back_date)<=5 then 1 else 0 END) as huixiao5ds "
 	+ "from t_policy tp, t_under_write uw, t_bank_code tbc "
@@ -71,11 +71,11 @@ List<QyStatModel> getQYHBProdStatWithBankCode(@Param("orgCode")String orgCode, @
 value="select left(tp.organ_name, 2) as organ_name, " + 
 		"sum(datediff(case when uw.client_receive_date is null then now() else uw.client_receive_date end,uw.sys_date)) as sumdays, " + 
 		"count(uw.policy_no) as policy_counts, " + 
-		"sum(case when datediff(uw.sign_date,uw.sys_date)<=5 then 1 else 0 END) as job5ds, " + 
+		"sum(case when datediff(uw.hb_end_date,uw.sys_date)<=5 then 1 else 0 END) as job5ds, " + 
 		"sum(case when uw.client_receive_date is not null then 1 else 0 END) as huixiao_counts, " + 
 		"sum(case when datediff(uw.client_receive_date,uw.bill_back_date)<=5 then 1 else 0 END) as huixiao5ds "
 	+ "from t_policy tp, t_under_write uw "
-	+ "where tp.policy_no=uw.policy_no and tp.attached_flag=0 tp.cs_flag<>:csFlag "
+	+ "where tp.policy_no=uw.policy_no and tp.attached_flag=0 and tp.cs_flag<>:csFlag "
 	+ "and tp.policy_date between :p1 and :p2 "
 	+ "and tp.duration >= :duration "
 	+ "and tp.organ_code like :orgCode "
@@ -93,11 +93,11 @@ List<QyStatModel> getProvQYHBOrganStat(@Param("orgCode")String orgCode, @Param("
 value="select tp.organ_name as organ_name, " + 
 		"sum(datediff(case when uw.client_receive_date is null then now() else uw.client_receive_date end,uw.sys_date)) as sumdays, " + 
 		"count(uw.policy_no) as policy_counts, " + 
-		"sum(case when datediff(uw.sign_date,uw.sys_date)<=5 then 1 else 0 END) as job5ds, " + 
+		"sum(case when datediff(uw.hb_end_date,uw.sys_date)<=5 then 1 else 0 END) as job5ds, " + 
 		"sum(case when uw.client_receive_date is not null then 1 else 0 END) as huixiao_counts, " + 
 		"sum(case when datediff(uw.client_receive_date,uw.bill_back_date)<=5 then 1 else 0 END) as huixiao5ds "
 	+ "from t_policy tp, t_under_write uw "
-	+ "where tp.policy_no=uw.policy_no and tp.cs_flag<>:csFlag and tp.attached_flag=0 "
+	+ "where tp.policy_no=uw.policy_no and tp.attached_flag=0 and tp.cs_flag<>:csFlag "
 	+ "and tp.policy_date between :p1 and :p2 "
 	+ "and tp.duration >= :duration "
 	+ "and tp.organ_code like :orgCode "
@@ -115,7 +115,7 @@ List<QyStatModel> getQYHBOrganStat(@Param("orgCode")String orgCode, @Param("p1")
 value="select tbc.name as organ_name, " + 
 		"sum(datediff(case when uw.client_receive_date is null then now() else uw.client_receive_date end,uw.sys_date)) as sumdays, " + 
 		"count(uw.policy_no) as policy_counts, " + 
-		"sum(case when datediff(uw.sign_date,uw.sys_date)<=5 then 1 else 0 END) as job5ds, " + 
+		"sum(case when datediff(uw.hb_end_date,uw.sys_date)<=5 then 1 else 0 END) as job5ds, " + 
 		"sum(case when uw.client_receive_date is not null then 1 else 0 END) as huixiao_counts, " + 
 		"sum(case when datediff(uw.client_receive_date,uw.bill_back_date)<=5 then 1 else 0 END) as huixiao5ds "
 	+ "from t_policy tp, t_under_write uw, t_bank_code tbc "
@@ -138,7 +138,7 @@ List<QyStatModel> getQYHBOrganNetStat(@Param("orgCode")String orgCode, @Param("p
 value="select left(tp.organ_name,2) as organ_name, " + 
 		"sum(datediff(case when uw.client_receive_date is null then now() else uw.client_receive_date end,uw.sys_date)) as sumdays, " + 
 		"count(uw.policy_no) as policy_counts, " + 
-		"sum(case when datediff(uw.sign_date,uw.sys_date)<=5 then 1 else 0 END) as job5ds, " + 
+		"sum(case when datediff(uw.hb_end_date,uw.sys_date)<=5 then 1 else 0 END) as job5ds, " + 
 		"sum(case when uw.client_receive_date is not null then 1 else 0 END) as huixiao_counts, " + 
 		"sum(case when datediff(uw.client_receive_date,uw.bill_back_date)<=5 then 1 else 0 END) as huixiao5ds "
 	+ "from t_policy tp, t_under_write uw, t_bank_code tbc "
@@ -162,7 +162,7 @@ List<QyStatModel> getProvQYHBOrganStatWithBankCode(@Param("orgCode")String orgCo
 value="select tp.organ_name as organ_name, " + 
 		"sum(datediff(case when uw.client_receive_date is null then now() else uw.client_receive_date end,uw.sys_date)) as sumdays, " + 
 		"count(uw.policy_no) as policy_counts, " + 
-		"sum(case when datediff(uw.sign_date,uw.sys_date)<=5 then 1 else 0 END) as job5ds, " + 
+		"sum(case when datediff(uw.hb_end_date,uw.sys_date)<=5 then 1 else 0 END) as job5ds, " + 
 		"sum(case when uw.client_receive_date is not null then 1 else 0 END) as huixiao_counts, " + 
 		"sum(case when datediff(uw.client_receive_date,uw.bill_back_date)<=5 then 1 else 0 END) as huixiao5ds "
 	+ "from t_policy tp, t_under_write uw, t_bank_code tbc "
@@ -186,7 +186,7 @@ List<QyStatModel> getQYHBOrganStatWithBankCode(@Param("orgCode")String orgCode, 
 value="select tbc.name as organ_name, " + 
 		"sum(datediff(case when uw.client_receive_date is null then now() else uw.client_receive_date end,uw.sys_date)) as sumdays, " + 
 		"count(uw.policy_no) as policy_counts, " + 
-		"sum(case when datediff(uw.sign_date,uw.sys_date)<=5 then 1 else 0 END) as job5ds, " + 
+		"sum(case when datediff(uw.hb_end_date,uw.sys_date)<=5 then 1 else 0 END) as job5ds, " + 
 		"sum(case when uw.client_receive_date is not null then 1 else 0 END) as huixiao_counts, " + 
 		"sum(case when datediff(uw.client_receive_date,uw.bill_back_date)<=5 then 1 else 0 END) as huixiao5ds "
 	+ "from t_policy tp, t_under_write uw, t_bank_code tbc "
@@ -211,7 +211,7 @@ List<QyStatModel> getQYHBOrganNetStatWithBankCode(@Param("orgCode")String orgCod
 value="select tp.fee_frequency as organ_name, " + 
 		"sum(datediff(case when uw.client_receive_date is null then now() else uw.client_receive_date end,uw.sys_date)) as sumdays, " + 
 		"count(uw.policy_no) as policy_counts, " + 
-		"sum(case when datediff(uw.sign_date,uw.sys_date)<=5 then 1 else 0 END) as job5ds, " + 
+		"sum(case when datediff(uw.hb_end_date,uw.sys_date)<=5 then 1 else 0 END) as job5ds, " + 
 		"sum(case when uw.client_receive_date is not null then 1 else 0 END) as huixiao_counts, " + 
 		"sum(case when datediff(uw.client_receive_date,uw.bill_back_date)<=5 then 1 else 0 END) as huixiao5ds "
 	+ "from t_policy tp, t_under_write uw "
@@ -233,7 +233,7 @@ List<QyStatModel> getQYHBFeeTypeStat(@Param("orgCode")String orgCode, @Param("p1
 value="select tp.fee_frequency as organ_name, " + 
 		"sum(datediff(case when uw.client_receive_date is null then now() else uw.client_receive_date end,uw.sys_date)) as sumdays, " + 
 		"count(uw.policy_no) as policy_counts, " + 
-		"sum(case when datediff(uw.sign_date,uw.sys_date)<=5 then 1 else 0 END) as job5ds, " + 
+		"sum(case when datediff(uw.hb_end_date,uw.sys_date)<=5 then 1 else 0 END) as job5ds, " + 
 		"sum(case when uw.client_receive_date is not null then 1 else 0 END) as huixiao_counts, " + 
 		"sum(case when datediff(uw.client_receive_date,uw.bill_back_date)<=5 then 1 else 0 END) as huixiao5ds "
 	+ "from t_policy tp, t_under_write uw, t_bank_code tbc "
