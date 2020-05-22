@@ -4486,11 +4486,11 @@ public class StasticsController {
 			if(tcm == null) {
 				break;
 			}
-			sumdays += tcm.getSumdays();
-			policyCounts += tcm.getPolicyCounts();
-			job5ds += tcm.getJob5ds();
-			huixiaoCounts += tcm.getHuixiaoCounts();
-			huixiao5ds += tcm.getHuixiao5ds();
+			sumdays += tcm.getSumdays()==null?0d:tcm.getSumdays();
+			policyCounts += tcm.getPolicyCounts()==null?0d:tcm.getPolicyCounts();
+			job5ds += tcm.getJob5ds()==null?0d:tcm.getJob5ds();
+			huixiaoCounts += tcm.getHuixiaoCounts()==null?0d:tcm.getHuixiaoCounts();
+			huixiao5ds += tcm.getHuixiao5ds()==null?0d:tcm.getHuixiao5ds();
 		}
 		qlc = sumdays/(policyCounts==0?1:policyCounts);
 		hxRatio = huixiaoCounts/(policyCounts==0?1:policyCounts);

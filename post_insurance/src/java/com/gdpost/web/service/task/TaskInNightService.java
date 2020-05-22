@@ -67,6 +67,31 @@ public class TaskInNightService {
         	rstInt = statement.executeUpdate(sql);
         	log.info("------------ finish exec sql：" + rstInt);
         	
+        	sql = "update t_reuser_risk rr,t_policy tp set rr.fix_status=\"CTStatus\",close_date=now(),close_user=\"毕泽明\" where rr.policy_no=tp.policy_no and tp.status=\"终止\";";
+			log.info("------------ sql :" + sql);
+			rstInt = statement.executeUpdate(sql);
+			log.info("------------ finish exec sql：" + rstInt);
+			
+			sql = "update t_reuser_risk rr,t_policy tp set rr.fix_status=\"CTStatus\",close_date=now(),close_user=\"毕泽明\" where rr.policy_no=tp.policy_no and tp.status=\"失效\";";
+			log.info("------------ sql :" + sql);
+			rstInt = statement.executeUpdate(sql);
+			log.info("------------ finish exec sql：" + rstInt);
+			
+			sql = "update t_reuser_risk rr,t_policy tp set rr.fix_status=\"CTStatus\",close_date=now(),close_user=\"毕泽明\" where rr.policy_no=tp.policy_no and tp.status=\"满期终止\";";
+			log.info("------------ sql :" + sql);
+			rstInt = statement.executeUpdate(sql);
+			log.info("------------ finish exec sql：" + rstInt);
+			
+			sql = "update t_reuser_risk rr,t_policy tp set rr.fix_status=\"Invalid\",close_date=now(),close_user=\"毕泽明\" where rr.policy_no=tp.policy_no and tp.status=\"理赔终止\";";
+			log.info("------------ sql :" + sql);
+			rstInt = statement.executeUpdate(sql);
+			log.info("------------ finish exec sql：" + rstInt);
+			
+			sql = "update t_reuser_risk rr, t_check_write cw set rr.fix_status=cw.fix_status,rr.close_user=\"毕泽明\",rr.close_date=now() where rr.policy_no=cw.policy_no and rr.fix_status=\"NewStatus\" and cw.fix_status<>\"FailStatus\" and cw.fix_status is not null and cw.fix_status<>\"\";";
+			log.info("------------ sql :" + sql);
+			rstInt = statement.executeUpdate(sql);
+			log.info("------------ finish exec sql：" + rstInt);
+        	
 			// 获取保单号、投保人（姓名、证件号码）、被保险人（证件号码），双方年龄、关系、地址、电话、email；进行判断
 			//剔除简易险
 			sql = "select form_no, policy_no, prod_name, cast(aes_decrypt(unhex(holder), 'GDPost') as char(100)) as holder,"
@@ -74,7 +99,7 @@ public class TaskInNightService {
 					+ "cast(aes_decrypt(unhex(holder_addr), 'GDPost') as char(100)) as holder_addr,"
 					+ "cast(aes_decrypt(unhex(holder_phone), 'GDPost') as char(100)) as holder_phone,"
 					+ "cast(aes_decrypt(unhex(holder_mobile), 'GDPost') as char(100)) as holder_mobile, prod_name, holder_email  "
-					+ "from t_policy_dtl where reuser_check=0 and policy_status=\"有效\" and attached_flag=0 and prod_code<>\"120022\" order by policy_date;";
+					+ "from t_policy_dtl where reuser_check=0 and policy_status=\"有效\" and attached_flag=0 and prod_code<>\"120022\" and holder_card_num not in (select id_card from t_staff) order by policy_date;";
 			
 			log.debug(" ----- sql:" + sql);
 			
@@ -132,6 +157,11 @@ public class TaskInNightService {
 			String updateSQL = "update t_policy_dtl set reuser_check=true where reuser_check=false and policy_date<\"" + startTime + "\" and attached_flag=0;";
 			rstInt = statement.executeUpdate(updateSQL);
 			log.info("------------ finish exec sql" + rstInt);
+			
+			sql = "delete from t_reuser_risk where policy_no in(select policy_no from t_under_write where policy_no is not null);";
+			log.info("------------ sql :" + sql);
+			rstInt = statement.executeUpdate(sql);
+			log.info("------------ finish exec sql：" + rstInt);
 			
 			sql = "insert into t_log_info (username, message,ip_address,log_level,module) values "
 					+ "('admin','customer info reuse check in night task, error:" + idx + "','127.0.0.1','WARN','其他操作');";

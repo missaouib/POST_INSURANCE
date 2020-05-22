@@ -620,7 +620,7 @@ public class CustomerInfoUtil {
 			while(rst != null && rst.next()) {
 				num = rst.getInt("countNum");
 				if(num>2) {
-					return "手机号码被" + num + "个不同投保人 使用";
+					return "手机号码被" + num + "个不同投保人使用;";
 				}
 			}
 		} catch (SQLException e) {
@@ -647,7 +647,7 @@ public class CustomerInfoUtil {
 			while(rst != null && rst.next()) {
 				num = rst.getInt("countNum");
 				if(num>2) {
-					return "地址被" + num + "个不同投保人 使用";
+					return "地址被" + num + "个不同投保人使用;";
 				}
 			}
 		} catch (SQLException e) {
@@ -674,7 +674,7 @@ public class CustomerInfoUtil {
 			while(rst != null && rst.next()) {
 				num = rst.getInt("countNum");
 				if(num>2) {
-					return "Email被" + num + "个不同投保人 使用";
+					return "Email被" + num + "个不同投保人使用";
 				}
 			}
 		} catch (SQLException e) {
@@ -718,7 +718,7 @@ public class CustomerInfoUtil {
 		if (mobile == null || mobile.trim().length() <= 0) {
 			return true;
 		}
-		String check = "^((13[0-9])|(14[5,7,9])|(15([0-3]|[5-9]))|(16)|(17[0,1,2,3,5,6,7,8])|(18[0-9])|(19[0-9]))\\d{8}$";
+		String check = "^((13[0-9])|(14[5,7,9])|(15([0-3]|[5-9]))|(16[2,5,6,7])|(17[0,1,2,3,5,6,7,8])|(18[0-9])|(19[0-9]))\\d{8}$";
 		Pattern regex = Pattern.compile(check);
 		Matcher matcher = regex.matcher(mobile);
 		return matcher.matches();

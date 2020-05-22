@@ -19,13 +19,13 @@
 		</p>
 		<p>
 			<label>发票标记：</label>
-			<input type="radio" name="reqFlag" value="首期" checked="checked"/>首期
+			<input type="radio" name="reqFlag" value="首期"/>首期
 			<input type="radio" name="reqFlag" value="续期"/>续期
 		</p>
 		<p>
 			<label>电子发票标记：</label>
-			<input type="radio" name="isElectiveBill" value="TRUE"/>是
-			<input type="radio" name="isElectiveBill" value="FALSE" checked="checked"/>否
+			<input type="radio" name="isElectiveBill" value="TRUE" checked="checked"/>是
+			<input type="radio" name="isElectiveBill" value="FALSE"/>否
 		</p>
 		<p>
 			<label>电子发票接收邮箱：</label>

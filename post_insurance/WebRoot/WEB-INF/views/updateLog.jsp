@@ -5,6 +5,8 @@
 	<fieldset>
 		<legend>更新日志信息</legend>
 		<textarea layoutH="80" style="width:98%">
+20200519:
+1，修复其他bug。
 20200515:
 1，增加人核件指标分析和导出功能。
 2、修复其他bug。

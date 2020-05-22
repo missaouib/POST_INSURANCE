@@ -292,7 +292,7 @@ public interface TuiBaoModelDAO extends JpaRepository<TuiBaoModel, String>, JpaS
 	@Query(name="getAGWarningWithPolicyDateAndCsDateNoBankCode",
 			value="select tp.organ_name as organ_name,count(distinct tp.policy_no) as policy_fee, sum(tce.expire_profit) as sum_policy_fee,count(distinct cr.policy_no) as sum_cs_fee, abs(sum(cr.money)) as sum_fee "
 			+ "from t_cs_expire tce, t_policy tp "
-			+ "left join t_cs_report cr on tp.policy_no=cr.policy_no and cr.cs_code=\"AG\" and cr.cs_date between :c1 and :c2 "
+			+ "left join t_cs_report cr on tp.policy_no=cr.policy_no and tp.attached_flag=0 and cr.cs_code=\"AG\" and cr.cs_date between :c1 and :c2 "
 			+ "where tce.policy_no=tp.policy_no and tp.cs_flag<>1 and tp.attached_flag=0 "
 			+ "and tp.policy_date between :p1 and :p2 "
 			+ "and tp.policy_end_date between :e1 and :e2 "
@@ -309,7 +309,7 @@ public interface TuiBaoModelDAO extends JpaRepository<TuiBaoModel, String>, JpaS
 	@Query(name="getAGWarningWithPolicyDateAndCsDate",
 			value="select tp.organ_name as organ_name,count(distinct tp.policy_no) as policy_fee, sum(tce.expire_profit) as sum_policy_fee,count(distinct cr.policy_no) as sum_cs_fee, abs(sum(cr.money)) as sum_fee "
 			+ "from t_bank_code tbc, t_cs_expire tce, t_policy tp "
-			+ "left join t_cs_report cr on tp.policy_no=cr.policy_no and cr.cs_code=\"AG\" and cr.cs_date between :c1 and :c2 "
+			+ "left join t_cs_report cr on tp.policy_no=cr.policy_no and tp.attached_flag=0 and cr.cs_code=\"AG\" and cr.cs_date between :c1 and :c2 "
 			+ "where tce.policy_no=tp.policy_no and tp.bank_code=tbc.cpi_code and tp.attached_flag=0 and tp.cs_flag<>1 "
 			+ "and tp.policy_date between :p1 and :p2 "
 			+ "and tp.policy_end_date between :e1 and :e2 "
@@ -327,7 +327,7 @@ public interface TuiBaoModelDAO extends JpaRepository<TuiBaoModel, String>, JpaS
 	@Query(name="getNetAGWarningWithPolicyDateAndCsDate",
 			value="select tp.bank_name as organ_name,count(distinct tp.policy_no) as policy_fee, sum(tce.expire_profit) as sum_policy_fee,count(distinct cr.policy_no) as sum_cs_fee, abs(sum(cr.money)) as sum_fee "
 					+ "from t_cs_expire tce, t_policy tp "
-					+ "left join t_cs_report cr on tp.policy_no=cr.policy_no and cr.cs_code=\"AG\" and cr.cs_date between :c1 and :c2 "
+					+ "left join t_cs_report cr on tp.policy_no=cr.policy_no and tp.attached_flag=0 and cr.cs_code=\"AG\" and cr.cs_date between :c1 and :c2 "
 					+ "where tce.policy_no=tp.policy_no and tp.cs_flag<>1 and tp.attached_flag=0 "
 					+ "and tp.policy_date between :p1 and :p2 "
 					+ "and tp.policy_end_date between :e1 and :e2 "
@@ -345,7 +345,7 @@ public interface TuiBaoModelDAO extends JpaRepository<TuiBaoModel, String>, JpaS
 	@Query(name="getNetAGWarningWithPolicyDateAndCsDate",
 			value="selecttp.bank_name as organ_name,count(distinct tp.policy_no) as policy_fee, sum(tce.expire_profit) as sum_policy_fee,count(distinct cr.policy_no) as sum_cs_fee, abs(sum(cr.money)) as sum_fee "
 					+ "from t_bank_code tbc, t_cs_expire tce, t_policy tp "
-					+ "left join t_cs_report cr on tp.policy_no=cr.policy_no and cr.cs_code=\"AG\" and cr.cs_date between :c1 and :c2 "
+					+ "left join t_cs_report cr on tp.policy_no=cr.policy_no and tp.attached_flag=0 and cr.cs_code=\"AG\" and cr.cs_date between :c1 and :c2 "
 					+ "where tce.policy_no=tp.policy_no and tp.bank_code=tbc.cpi_code and tp.cs_flag<>1 and tp.attached_flag=0 "
 					+ "and tp.policy_date between :p1 and :p2 "
 					+ "and tp.policy_end_date between :e1 and :e2 "
