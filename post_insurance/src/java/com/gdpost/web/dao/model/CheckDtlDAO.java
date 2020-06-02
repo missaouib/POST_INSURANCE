@@ -24,7 +24,7 @@ public interface CheckDtlDAO extends JpaRepository<CheckModel, String>, JpaSpeci
 	@Query(name="getCheckWriteStatDtl",
 			value="select distinct it1.organ_code, it1.organ_name, " + 
 					"it1.policy_no, it2.check_batch,it2.need_fix,it2.key_info,it2.fix_status,it2.fix_desc, it2.checker, it1.holder, it1.bank_name, cast(aes_decrypt(unhex(tpd.holder_MOBILE), 'GDPost') as char(100)) as holder_mobile , cast(aes_decrypt(unhex(tpd.holder_phone), 'GDPost') as char(100)) as holder_phone " + 
-					"from t_policy it1, t_policy_dtl tpd, t_check_write it2 where it1.policy_no=tpd.policy_no and it1.policy_no=it2.policy_no and it2.need_fix=\"要整改\"  " + 
+					"from t_policy it1, t_policy_dtl tpd, t_check_write it2 where it1.policy_no=tpd.policy_no and it1.policy_no=it2.policy_no and it1.attached_flag=0 and it2.need_fix=\"要整改\"  " + 
 					"and it1.policy_date between :pd1 and :pd2  " + 
 					"and it1.policy_no like \"8644%\"  " + 
 					"and it1.organ_code like :orgCode  " + 
@@ -37,7 +37,7 @@ public interface CheckDtlDAO extends JpaRepository<CheckModel, String>, JpaSpeci
 	@Query(name="getCheckRecordStatDtl",
 			value="select distinct it1.organ_code, it1.organ_name," + 
 					"it1.policy_no, it2.check_batch,it2.need_fix,it2.key_info,it2.fix_status,it2.fix_desc, it2.checker, it1.holder, it1.bank_name, cast(aes_decrypt(unhex(tpd.holder_MOBILE), 'GDPost') as char(100)) as holder_mobile , cast(aes_decrypt(unhex(tpd.holder_phone), 'GDPost') as char(100)) as holder_phone " + 
-					"from t_policy it1, t_policy_dtl tpd, t_check_record it2 where it1.policy_no=tpd.policy_no and it1.policy_no=it2.policy_no and it2.need_fix=\"要整改\" " + 
+					"from t_policy it1, t_policy_dtl tpd, t_check_record it2 where it1.policy_no=tpd.policy_no and it1.policy_no=it2.policy_no and it1.attached_flag=0 and it2.need_fix=\"要整改\" " + 
 					"and it1.policy_date between :pd1 and :pd2  " + 
 					"and it1.policy_no like \"8644%\"  " + 
 					"and it1.organ_code like :orgCode  " + 

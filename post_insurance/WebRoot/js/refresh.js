@@ -107,3 +107,29 @@ function checkUrge() {
 	});
 	$.ajaxSettings.global = true;
 }
+
+function DateDiff(sDate1, sDate2) {  //sDate1和sDate2是yyyy-MM-dd格式
+	  
+    var aDate, oDate1, oDate2, iDays;
+    aDate = sDate1.split("-");
+    oDate1 = new Date(aDate[1] + '-' + aDate[2] + '-' + aDate[0]);  //转换为yyyy-MM-dd格式
+    if(sDate2 == "") {
+    	var day2 = new Date();
+    	day2.setTime(day2.getTime());
+    	sDate2 = day2.getFullYear()+"-" + (day2.getMonth()+1) + "-" + day2.getDate();
+    }
+    aDate = sDate2.split("-");
+    oDate2 = new Date(aDate[1] + '-' + aDate[2] + '-' + aDate[0]);
+    iDays = parseInt(Math.abs(oDate1 - oDate2) / 1000 / 60 / 60 / 24); //把相差的毫秒数转换为天数
+    //alter(iDays);
+    return iDays;  //返回相差天数
+}
+
+function urlCheckOverDate(fd, sDate1, sDate2, url) {
+	if(DateDiff(sDate1, sDate2) > fd) {
+		alert("服务器：请不要下载超过" + fd + "天的数据啦！");
+		return false;
+	}
+	window.open(url,"_blank"); 
+	return true;
+}

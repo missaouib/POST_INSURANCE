@@ -64,6 +64,33 @@ public class StringUtil {
 		return new Long(ChronoUnit.DAYS.between(d1, d2)).intValue();
 	}
 	
+	/**
+	 * 得到两个日期相差的天数
+	 */
+	public static int getBetweenDay(String strDate1, String strDate2) {
+		Date date1  = str2Date(strDate1, "yyyy-MM-dd");
+		Date date2  = str2Date(strDate2, "yyyy-MM-dd");
+		
+		LocalDate d1 = null;
+		LocalDate d2 = null;
+		ZoneId zoneId = ZoneId.systemDefault();
+		
+		if(date1 instanceof java.sql.Date) {
+			d1 = ((java.sql.Date) date1).toLocalDate();
+		} else {
+			Instant instant1 = date1.toInstant();
+			d1 = instant1.atZone(zoneId).toLocalDate();
+		}
+		
+		if(date2 instanceof java.sql.Date) {
+			d2 = ((java.sql.Date) date2).toLocalDate();
+		} else {
+			Instant instant2 = date2.toInstant();
+			d2 = instant2.atZone(zoneId).toLocalDate();
+		}
+		return new Long(ChronoUnit.DAYS.between(d1, d2)).intValue();
+	}
+	
 	public static String getFirstDayOfYear(String patten) {
 		Calendar cal = new GregorianCalendar();
 		cal.set(Calendar.DAY_OF_YEAR, 1);

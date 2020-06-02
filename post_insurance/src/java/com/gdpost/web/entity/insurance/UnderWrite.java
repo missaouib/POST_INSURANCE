@@ -152,7 +152,7 @@ public class UnderWrite implements Idable<Long> {
 	//====================end 
 	@Transient
 	public int getSendsign() {
-		if(provSendDate != null) {
+		if(provSendDate != null && signDate != null) {
 			return StringUtil.getBetweenDay(signDate, provSendDate)-1;
 		}
 		return -1;
@@ -163,7 +163,7 @@ public class UnderWrite implements Idable<Long> {
 	}
 	@Transient
 	public int getClientprov() {
-		if(clientReceiveDate != null) {
+		if(clientReceiveDate != null && provSendDate != null) {
 			return StringUtil.getBetweenDay(provSendDate, clientReceiveDate);
 		}
 		return clientprov;
@@ -185,7 +185,7 @@ public class UnderWrite implements Idable<Long> {
 	}
 	@Transient
 	public int getClientybt() {
-		if(clientReceiveDate != null) {
+		if(clientReceiveDate != null && ybtDate != null) {
 			return StringUtil.getBetweenDay(ybtDate, clientReceiveDate);
 		}
 		return clientybt;
@@ -196,7 +196,7 @@ public class UnderWrite implements Idable<Long> {
 	}
 	@Transient
 	public int getClientsign() {
-		if(clientReceiveDate != null) {
+		if(clientReceiveDate != null && signDate != null) {
 			return StringUtil.getBetweenDay(signDate, clientReceiveDate);
 		}
 		return clientsign;
@@ -207,7 +207,7 @@ public class UnderWrite implements Idable<Long> {
 	}
 	@Transient
 	public int getClientsignprovsign() {
-		if(clientReceiveDate != null) {
+		if(clientReceiveDate != null && signDate != null) {
 			return StringUtil.getBetweenDay(signDate, clientReceiveDate) - getSendsign();
 		}
 		return clientsignprovsign;
@@ -229,7 +229,7 @@ public class UnderWrite implements Idable<Long> {
 	}
 	@Transient
 	public String getAllday15() {
-		if(clientReceiveDate != null) {
+		if(clientReceiveDate != null && ybtDate != null) {
 			return StringUtil.getBetweenDay(ybtDate, clientReceiveDate)<=15?"T":"F";
 		}
 		return allday15;
@@ -251,7 +251,7 @@ public class UnderWrite implements Idable<Long> {
 	}
 	@Transient
 	public String getBackday5() {
-		if(billBackDate != null) {
+		if(billBackDate != null && clientReceiveDate != null) {
 			return StringUtil.getBetweenDay(clientReceiveDate, billBackDate)<=5?"T":"F";
 		}
 		return backday5;

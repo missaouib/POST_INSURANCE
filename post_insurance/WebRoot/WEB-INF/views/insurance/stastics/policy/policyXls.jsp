@@ -21,8 +21,8 @@ response.setHeader("Content-Disposition", "inline; filename=policy_stat.xls");
 	<tr>
 		<td>${idx.index+1 }</td>
 		<td>${item.statName}</td>
-		<td>${item.policyCount}</td>
-		<td><fmt:formatNumber value="${item.policyCount/countPt*100}" pattern="#,###.##" />%</td>
+		<td>${item.policyCount-item.jzhCount}</td>
+		<td><fmt:formatNumber value="${(item.policyCount-item.jzhCount)/countPt*100}" pattern="#,###.##" />%</td>
 		<td>${item.policyFee}</td>
 		<td><fmt:formatNumber value="${item.policyFee/sumPt*100}" pattern="#,###.##" />%</td>
 		<td><fmt:formatNumber value="${item.hadPolicyFee}" pattern="#,###.##" /></td>

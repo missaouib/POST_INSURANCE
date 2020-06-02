@@ -5,6 +5,8 @@
 	<fieldset>
 		<legend>更新日志信息</legend>
 		<textarea layoutH="80" style="width:98%">
+20200523:
+1，限制导出时长。
 20200519:
 1，修复其他bug。
 20200515:

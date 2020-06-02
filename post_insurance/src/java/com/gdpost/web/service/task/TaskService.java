@@ -175,7 +175,7 @@ public class TaskService {
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
 			
-			sql = "update t_policy tp inner join (select sum(policy_fee) as total_fee, policy_no from t_policy where total_fee=0 group by policy_no) as tp2 set tp.total_fee=tp2.total_fee where tp.policy_no=tp2.policy_no and tp.total_fee=0 and tp.attached_flag=0;";
+			sql = "update t_policy tp inner join (select sum(policy_fee) as total_fee, policy_no from t_policy where total_fee=0 and status=\"有效\" group by policy_no) as tp2 set tp.total_fee=tp2.total_fee where tp.policy_no=tp2.policy_no and tp.total_fee=0 and tp.status=\"有效\" and tp.attached_flag=0;";
 			log.info("------------ sql :" + sql);
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
@@ -466,6 +466,11 @@ public class TaskService {
 			log.info("------------ finish exec sql：" + rstInt);
 			
 			sql = "update t_under_write uw, t_policy t set uw.sign_date=t.policy_date where uw.policy_no=t.policy_no and uw.sign_date is null;";
+			log.info("------------ sql :" + sql);
+			rstInt = statement.executeUpdate(sql);
+			log.info("------------ finish exec sql：" + rstInt);
+			
+			sql = "update t_under_write uw, t_policy_dtl tpd set uw.holder_age=((substring(policy_date,1,4)-substring(cast(aes_decrypt(unhex(tpd.holder_card_num), 'GDPost') as char(100)),7,4))-(substring(cast(aes_decrypt(unhex(tpd.holder_card_num), 'GDPost') as char(100)),11,4)-date_format(policy_date,'%m%d')>0)) where uw.policy_no=tpd.policy_no and uw.holder_age is null and uw.policy_no is not null and tpd.holder_card_type=\"身份证\" and tpd.holder_card_num is not null;";
 			log.info("------------ sql :" + sql);
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
