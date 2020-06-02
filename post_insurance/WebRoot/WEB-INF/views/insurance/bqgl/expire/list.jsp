@@ -80,7 +80,7 @@
 				<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/bqgl/expire/WARNStatus" title="确认批量将保单设为异常件?"><span>批量异常</span></a></li>
 			</shiro:hasPermission>
 			<li class="line">line</li>
-			<li><a class="icon" onclick="javascript:urlCheckOverDate(365, $('#csExpireDate1').val(),$('#csExpireDate2').val(),'${contextPath }/bqgl/expire/toXls?search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&orgCode=${orgCode }&search_LTE_policyEndDate=${param.search_LTE_policyEndDate }&search_GTE_policyEndDate=${param.search_GTE_policyEndDate }&status=${param.status }&search_LIKE_finalLevel=${param.search_LIKE_finalLevel}');"><span>导出Excel</span></a></li>
+			<li><a class="icon" onclick="javascript:urlCheckOverDate(${page.getTotalCount() },365, $('#csExpireDate1').val(),$('#csExpireDate2').val(),'${contextPath }/bqgl/expire/toXls?search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&orgCode=${orgCode }&search_LTE_policyEndDate=${param.search_LTE_policyEndDate }&search_GTE_policyEndDate=${param.search_GTE_policyEndDate }&status=${param.status }&search_LIKE_finalLevel=${param.search_LIKE_finalLevel}');"><span>导出Excel</span></a></li>
 		</ul>
 	</div>
 	<div id="w_list_print">

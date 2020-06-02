@@ -81,7 +81,7 @@
 				<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/bqgl/issue/CloseStatus" title="确认批量关闭?"><span>批量关闭</span></a></li>
 			</shiro:hasPermission>
 			<li class="line">line</li>
-			<li><a class="icon" onclick="javascript:urlCheckOverDate(365,$('#bqCsDate1').val(),$('#bqCsDate2').val(),'${contextPath }/bqgl/toXls?search_LIKE_policy.policyNo=${param.search_LIKE_policy_policyNo }&orgCode=${orgCode }&search_LTE_csDate=${param.search_LTE_csDate }&search_GTE_csDate=${param.search_GTE_csDate }&status=${param.status }');"><span>导出Excel</span></a></li>
+			<li><a class="icon" onclick="javascript:urlCheckOverDate(${page.getTotalCount() },365,$('#bqCsDate1').val(),$('#bqCsDate2').val(),'${contextPath }/bqgl/toXls?search_LIKE_policy.policyNo=${param.search_LIKE_policy_policyNo }&orgCode=${orgCode }&search_LTE_csDate=${param.search_LTE_csDate }&search_GTE_csDate=${param.search_GTE_csDate }&status=${param.status }');"><span>导出Excel</span></a></li>
 			<li class="line">line</li>
 			<li><a class="icon" target="dialog" href="${contextPath }/bqgl/help" mask="true" width="530" height="430"><span>功能说明</span></a></li>
 		</ul>

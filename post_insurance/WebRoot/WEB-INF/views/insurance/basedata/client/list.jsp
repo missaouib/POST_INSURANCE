@@ -147,13 +147,13 @@
 				<li><a iconClass="magnifier" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/client/view/{slt_uid}"><span>查看详情</span></a></li>
 			</shiro:hasPermission>
 				<li class="line">line</li>
-				<li><a class="icon" onclick="javascript:urlCheckOverDate(92, $('#cpDate1').val(),$('#cpDate2').val(),'${contextPath }/client/toXls?search_GTE_policyFee=${param.search_GTE_policyFee }&search_LTE_policyFee=${param.search_LTE_policyFee }&orgCode=${policy_orgCode }&search_LTE_policyDate=${param.search_LTE_policyDate }&search_GTE_policyDate=${param.search_GTE_policyDate }&feeFrequency=${param.feeFrequency }&prd.prdFullName=${prd_name }&search_LIKE_policyNo=${param.search_LIKE_policyNo }&search_LIKE_formNo=${param.search_LIKE_formNo }&duration=${duration }&encodeStatus=${encodeStatus == null?'null':encodeStatus }&staffFlag=${staffFlag}&attachedFlag=${attachedFlag}&saleChannel=${saleChannel}&ctNum=${ctNum}');"><span>导出Excel</span></a></li>
+				<li><a class="icon" onclick="javascript:urlCheckOverDate(${page.getTotalCount() },92, $('#cpDate1').val(),$('#cpDate2').val(),'${contextPath }/client/toXls?search_GTE_policyFee=${param.search_GTE_policyFee }&search_LTE_policyFee=${param.search_LTE_policyFee }&orgCode=${policy_orgCode }&search_LTE_policyDate=${param.search_LTE_policyDate }&search_GTE_policyDate=${param.search_GTE_policyDate }&feeFrequency=${param.feeFrequency }&prd.prdFullName=${prd_name }&search_LIKE_policyNo=${param.search_LIKE_policyNo }&search_LIKE_formNo=${param.search_LIKE_formNo }&duration=${duration }&encodeStatus=${encodeStatus == null?'null':encodeStatus }&staffFlag=${staffFlag}&attachedFlag=${attachedFlag}&saleChannel=${saleChannel}&ctNum=${ctNum}');"><span>导出Excel</span></a></li>
 				<li class="line">line</li>
 			<shiro:hasPermission name="Client:provEdit">
-				<li><a class="icon" onclick="javascript:urlCheckOverDate(92, $('#cpDate1').val(),$('#cpDate2').val(),'${contextPath }/client/pdtoXls?prodName=${prodName }&search_LTE_policyDate=${param.search_LTE_policyDate }&search_GTE_policyDate=${param.search_GTE_policyDate }');"><span>导出给信息局的数据</span></a></li>
+				<li><a class="icon" onclick="javascript:urlCheckOverDate(${page.getTotalCount() },92, $('#cpDate1').val(),$('#cpDate2').val(),'${contextPath }/client/pdtoXls?prodName=${prodName }&search_LTE_policyDate=${param.search_LTE_policyDate }&search_GTE_policyDate=${param.search_GTE_policyDate }');"><span>导出给信息局的数据</span></a></li>
 			</shiro:hasPermission>
 				<li class="line">line</li>
-				<li><a class="icon" onclick="javascript:urlCheckOverDate(92, $('#cpDate1').val(),$('#cpDate2').val(),'${contextPath }/client/toJgXls?prodName=${prodName }&search_LTE_policyDate=${param.search_LTE_policyDate }&search_GTE_policyDate=${param.search_GTE_policyDate }');"><span>导出监管台账</span></a></li>
+				<li><a class="icon" onclick="javascript:urlCheckOverDate(${page.getTotalCount() },92, $('#cpDate1').val(),$('#cpDate2').val(),'${contextPath }/client/toJgXls?prodName=${prodName }&search_LTE_policyDate=${param.search_LTE_policyDate }&search_GTE_policyDate=${param.search_GTE_policyDate }');"><span>导出监管台账</span></a></li>
 		</ul>
 	</div>
 	

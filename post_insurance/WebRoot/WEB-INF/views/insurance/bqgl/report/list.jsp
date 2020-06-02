@@ -78,7 +78,7 @@
 	<div class="panelBar">
 		<ul class="toolBar">
 			<li class="line">line</li>
-			<li><a class="icon" onclick="javascript:urlCheckOverDate(183, $('#payCsDate1').val(),$('#payCsDate2').val(),'${contextPath }/bqgl/report/list/toXls?orgCode=${orgCode}&search_LTE_csDate=${param.search_LTE_csDate}&search_GTE_csDate=${param.search_GTE_csDate}&search_LIKE_csNo=${param.search_LIKE_csNo}&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo}&search_LIKE_staffFlag=${csReport.search_LIKE_staffFlag}&search_LIKE_csCode=${param.search_LIKE_csCode}');"><span>导出Excel</span></a></li>
+			<li><a class="icon" onclick="javascript:urlCheckOverDate(${page.getTotalCount() },183, $('#payCsDate1').val(),$('#payCsDate2').val(),'${contextPath }/bqgl/report/list/toXls?orgCode=${orgCode}&search_LTE_csDate=${param.search_LTE_csDate}&search_GTE_csDate=${param.search_GTE_csDate}&search_LIKE_csNo=${param.search_LIKE_csNo}&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo}&search_LIKE_staffFlag=${csReport.search_LIKE_staffFlag}&search_LIKE_csCode=${param.search_LIKE_csCode}');"><span>导出Excel</span></a></li>
 			<!-- 
 			<li class="line">line</li>
 			<li><a class="icon" target="dialog" href="${contextPath }/pay/help" mask="true" width="530" height="430"><span>功能说明</span></a></li>

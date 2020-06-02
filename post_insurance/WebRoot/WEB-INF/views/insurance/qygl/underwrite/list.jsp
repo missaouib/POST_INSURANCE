@@ -54,21 +54,21 @@
 				</td>
 				<td>
 					<label>合同寄出起：</label>
-					<input type="text" name="search_GTE_provSendDate" id="uwDate1" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_provSendDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+					<input type="text" name="search_GTE_provSendDate" id="uwSendDate1" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_provSendDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 				</td>
 				<td>
 					<label>合同寄出止：</label>
-					<input type="text" name="search_LTE_provSendDate" id="uwDate2" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_provSendDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+					<input type="text" name="search_LTE_provSendDate" id="uwSendDate2" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_provSendDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 				</td>
 			</tr>
 			<tr>
 				<td>
 					<label>签单日期起：</label>
-					<input type="text" name="search_GTE_signDate" id="uwDate1" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_signDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+					<input type="text" name="search_GTE_signDate" id="uwSignDate1" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_signDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 				</td>
 				<td>
 					<label>签单日期止：</label>
-					<input type="text" name="search_LTE_signDate" id="uwDate2" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_signDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+					<input type="text" name="search_LTE_signDate" id="uwSignDate2" class="date validate[required] required" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_signDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 				</td>
 				<td>
 					&nbsp;
@@ -94,7 +94,7 @@
 			<shiro:hasPermission name="UnderWrite:view">
 				<li><a iconClass="magnifier" target="dialog" rel="underwrite_edit" mask="true" width="850" height="440" href="${contextPath }/qygl/underwrite/view/{slt_uid}"><span>查看</span></a></li>
 				<li class="line">line</li>
-				<li><a class="icon" target="_blank" target="dwzExport" href="${contextPath }/qygl/underwrite/toXls?search_LIKE_formNo=${param.search_LIKE_formNo }&orgCode=${orgCode }&status=${status }&search_LTE_sysDate=${param.search_LTE_sysDate }&search_GTE_sysDate=${param.search_GTE_sysDate }&search_GTE_provSendDate=${param.search_GTE_provSendDate}&search_LTE_provSendDate=${param.search_LTE_provSendDate}&search_GTE_signDate=${param.search_GTE_signDate}&search_LTE_signDate=${search_LTE_signDate}&status_flag=${status_flag}"><span>导出</span></a></li>
+				<li><a class="icon" target="_blank" target="dwzExport" href="${contextPath }/qygl/underwrite/toXls?search_LIKE_formNo=${param.search_LIKE_formNo }&orgCode=${orgCode }&status=${status }&search_LTE_sysDate=${param.search_LTE_sysDate }&search_GTE_sysDate=${param.search_GTE_sysDate }&search_GTE_provSendDate=${param.search_GTE_provSendDate}&search_LTE_provSendDate=${param.search_LTE_provSendDate}&search_GTE_signDate=${param.search_GTE_signDate}&search_LTE_signDate=${param.search_LTE_signDate}&status_flag=${status_flag}"><span>导出</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="UnderWrite:edit">
 			<li class="line">line</li>
