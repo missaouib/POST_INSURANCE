@@ -27,7 +27,7 @@ public interface QyStatDAO extends JpaRepository<QyStatModel, Long>, JpaSpecific
 			"count(uw.policy_no) as policy_counts, " + 
 			"sum(case when datediff(uw.hb_end_date,uw.sys_date)<=5 then 1 else 0 END) as job5ds, " + 
 			"sum(case when uw.client_receive_date is not null then 1 else 0 END) as huixiao_counts, " + 
-			"sum(case when datediff(uw.client_receive_date,uw.bill_back_date)<=5 then 1 else 0 END) as huixiao5ds "
+			"sum(case when datediff(uw.bill_back_date, uw.client_receive_date)<=5 then 1 else 0 END) as huixiao5ds "
 			+ "from t_policy tp, t_under_write uw "
 			+ "where tp.policy_no=uw.policy_no and tp.attached_flag=0 and tp.cs_flag<>:csFlag "
 	+ "and tp.policy_date between :p1 and :p2 "
@@ -49,7 +49,7 @@ value="select tp.prod_name as organ_name, " +
 		"count(uw.policy_no) as policy_counts, " + 
 		"sum(case when datediff(uw.hb_end_date,uw.sys_date)<=5 then 1 else 0 END) as job5ds, " + 
 		"sum(case when uw.client_receive_date is not null then 1 else 0 END) as huixiao_counts, " + 
-		"sum(case when datediff(uw.client_receive_date,uw.bill_back_date)<=5 then 1 else 0 END) as huixiao5ds "
+		"sum(case when datediff(uw.bill_back_date, uw.client_receive_date)<=5 then 1 else 0 END) as huixiao5ds "
 	+ "from t_policy tp, t_under_write uw, t_bank_code tbc "
 	+ "where tp.policy_no=uw.policy_no and tp.bank_code=tbc.cpi_code and tp.attached_flag=0 and tp.cs_flag<>:csFlag "
 	+ "and tp.policy_date between :p1 and :p2 "
@@ -73,7 +73,7 @@ value="select left(tp.organ_name, 2) as organ_name, " +
 		"count(uw.policy_no) as policy_counts, " + 
 		"sum(case when datediff(uw.hb_end_date,uw.sys_date)<=5 then 1 else 0 END) as job5ds, " + 
 		"sum(case when uw.client_receive_date is not null then 1 else 0 END) as huixiao_counts, " + 
-		"sum(case when datediff(uw.client_receive_date,uw.bill_back_date)<=5 then 1 else 0 END) as huixiao5ds "
+		"sum(case when datediff(uw.bill_back_date, uw.client_receive_date)<=5 then 1 else 0 END) as huixiao5ds "
 	+ "from t_policy tp, t_under_write uw "
 	+ "where tp.policy_no=uw.policy_no and tp.attached_flag=0 and tp.cs_flag<>:csFlag "
 	+ "and tp.policy_date between :p1 and :p2 "
@@ -95,7 +95,7 @@ value="select tp.organ_name as organ_name, " +
 		"count(uw.policy_no) as policy_counts, " + 
 		"sum(case when datediff(uw.hb_end_date,uw.sys_date)<=5 then 1 else 0 END) as job5ds, " + 
 		"sum(case when uw.client_receive_date is not null then 1 else 0 END) as huixiao_counts, " + 
-		"sum(case when datediff(uw.client_receive_date,uw.bill_back_date)<=5 then 1 else 0 END) as huixiao5ds "
+		"sum(case when datediff(uw.bill_back_date, uw.client_receive_date)<=5 then 1 else 0 END) as huixiao5ds "
 	+ "from t_policy tp, t_under_write uw "
 	+ "where tp.policy_no=uw.policy_no and tp.attached_flag=0 and tp.cs_flag<>:csFlag "
 	+ "and tp.policy_date between :p1 and :p2 "
@@ -117,7 +117,7 @@ value="select tbc.name as organ_name, " +
 		"count(uw.policy_no) as policy_counts, " + 
 		"sum(case when datediff(uw.hb_end_date,uw.sys_date)<=5 then 1 else 0 END) as job5ds, " + 
 		"sum(case when uw.client_receive_date is not null then 1 else 0 END) as huixiao_counts, " + 
-		"sum(case when datediff(uw.client_receive_date,uw.bill_back_date)<=5 then 1 else 0 END) as huixiao5ds "
+		"sum(case when datediff(uw.bill_back_date, uw.client_receive_date)<=5 then 1 else 0 END) as huixiao5ds "
 	+ "from t_policy tp, t_under_write uw, t_bank_code tbc "
 	+ "where tp.policy_no=uw.policy_no and tp.bank_code=tbc.cpi_code and tp.attached_flag=0 and tp.cs_flag<>:csFlag "
 	+ "and tp.policy_date between :p1 and :p2 "
@@ -140,7 +140,7 @@ value="select left(tp.organ_name,2) as organ_name, " +
 		"count(uw.policy_no) as policy_counts, " + 
 		"sum(case when datediff(uw.hb_end_date,uw.sys_date)<=5 then 1 else 0 END) as job5ds, " + 
 		"sum(case when uw.client_receive_date is not null then 1 else 0 END) as huixiao_counts, " + 
-		"sum(case when datediff(uw.client_receive_date,uw.bill_back_date)<=5 then 1 else 0 END) as huixiao5ds "
+		"sum(case when datediff(uw.bill_back_date, uw.client_receive_date)<=5 then 1 else 0 END) as huixiao5ds "
 	+ "from t_policy tp, t_under_write uw, t_bank_code tbc "
 	+ "where tp.policy_no=uw.policy_no and tp.bank_code=tbc.cpi_code and tp.attached_flag=0 and tp.cs_flag<>:csFlag "
 	+ "and tp.policy_date between :p1 and :p2 "
@@ -164,7 +164,7 @@ value="select tp.organ_name as organ_name, " +
 		"count(uw.policy_no) as policy_counts, " + 
 		"sum(case when datediff(uw.hb_end_date,uw.sys_date)<=5 then 1 else 0 END) as job5ds, " + 
 		"sum(case when uw.client_receive_date is not null then 1 else 0 END) as huixiao_counts, " + 
-		"sum(case when datediff(uw.client_receive_date,uw.bill_back_date)<=5 then 1 else 0 END) as huixiao5ds "
+		"sum(case when datediff(uw.bill_back_date, uw.client_receive_date)<=5 then 1 else 0 END) as huixiao5ds "
 	+ "from t_policy tp, t_under_write uw, t_bank_code tbc "
 	+ "where tp.policy_no=uw.policy_no and tp.bank_code=tbc.cpi_code and tp.attached_flag=0 and tp.cs_flag<>:csFlag "
 	+ "and tp.policy_date between :p1 and :p2 "
@@ -188,7 +188,7 @@ value="select tbc.name as organ_name, " +
 		"count(uw.policy_no) as policy_counts, " + 
 		"sum(case when datediff(uw.hb_end_date,uw.sys_date)<=5 then 1 else 0 END) as job5ds, " + 
 		"sum(case when uw.client_receive_date is not null then 1 else 0 END) as huixiao_counts, " + 
-		"sum(case when datediff(uw.client_receive_date,uw.bill_back_date)<=5 then 1 else 0 END) as huixiao5ds "
+		"sum(case when datediff(uw.bill_back_date, uw.client_receive_date)<=5 then 1 else 0 END) as huixiao5ds "
 	+ "from t_policy tp, t_under_write uw, t_bank_code tbc "
 	+ "where tp.policy_no=uw.policy_no and tp.bank_code=tbc.cpi_code and tp.attached_flag=0 and tp.cs_flag<>:csFlag "
 	+ "and tp.policy_date between :p1 and :p2 "
@@ -213,7 +213,7 @@ value="select tp.fee_frequency as organ_name, " +
 		"count(uw.policy_no) as policy_counts, " + 
 		"sum(case when datediff(uw.hb_end_date,uw.sys_date)<=5 then 1 else 0 END) as job5ds, " + 
 		"sum(case when uw.client_receive_date is not null then 1 else 0 END) as huixiao_counts, " + 
-		"sum(case when datediff(uw.client_receive_date,uw.bill_back_date)<=5 then 1 else 0 END) as huixiao5ds "
+		"sum(case when datediff(uw.bill_back_date, uw.client_receive_date)<=5 then 1 else 0 END) as huixiao5ds "
 	+ "from t_policy tp, t_under_write uw "
 	+ "where tp.policy_no=uw.policy_no and tp.cs_flag<>:csFlag and tp.attached_flag=0 "
 	+ "and tp.policy_date between :p1 and :p2 "
@@ -235,7 +235,7 @@ value="select tp.fee_frequency as organ_name, " +
 		"count(uw.policy_no) as policy_counts, " + 
 		"sum(case when datediff(uw.hb_end_date,uw.sys_date)<=5 then 1 else 0 END) as job5ds, " + 
 		"sum(case when uw.client_receive_date is not null then 1 else 0 END) as huixiao_counts, " + 
-		"sum(case when datediff(uw.client_receive_date,uw.bill_back_date)<=5 then 1 else 0 END) as huixiao5ds "
+		"sum(case when datediff(uw.bill_back_date, uw.client_receive_date)<=5 then 1 else 0 END) as huixiao5ds "
 	+ "from t_policy tp, t_under_write uw, t_bank_code tbc "
 	+ "where tp.policy_no=uw.policy_no and tp.bank_code=tbc.cpi_code and tp.attached_flag=0 and tp.cs_flag<>:csFlag "
 	+ "and tp.policy_date between :p1 and :p2 "
