@@ -226,6 +226,9 @@ public class XlsFileHandler extends AbstractFileHandler {
 					if (mkeyRow.equals("underwrite") && column.ColumnName.equals("机构代码")) {
 						org_idx = i;
 					}
+					if(realKeyRow.equals("保全受理号") && column.ColumnName.equals("项目编码")) {
+						org_idx = i;
+					}
 					dt.Columns.Add(column);
 				}
 				
@@ -286,6 +289,12 @@ public class XlsFileHandler extends AbstractFileHandler {
 										bFlag = false;
 										break;
 									}
+								}
+							}
+							if(realKeyRow.equals("保全受理号") && j==org_idx) {
+								if(cell.getStringCellValue() == null || cell.getStringCellValue().trim().length()<=0) {
+									bFlag = false;
+									break;
 								}
 							}
 							if(isPolicyBackDate && j==row.getFirstCellNum()) {

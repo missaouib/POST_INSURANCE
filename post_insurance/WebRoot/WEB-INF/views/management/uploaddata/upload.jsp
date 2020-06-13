@@ -173,6 +173,7 @@ jQuery(function() {
         // 内部根据当前运行是创建，可能是input元素，也可能是flash.
         pick: '#picker',
        	disableGlobalDnd: true,
+       	threads:1,
         fileNumLimit: 10,
         fileSizeLimit: 200 * 1024 * 1024,    // 200 M
         fileSingleSizeLimit: 50 * 1024 * 1024    // 50 M
@@ -204,7 +205,7 @@ jQuery(function() {
 
     uploader.on( 'uploadSuccess', function( file, response  ) {
         $( '#'+file.id ).find('p.state').text('已上传');
-        
+        //alert("上传成功，准备导入数据");
         if (response.result != null && response.result == 'success' && response.strFileName != null) {
             $("#console").html("开始导入数据");
             var tImport = setInterval(function () {
@@ -216,7 +217,7 @@ jQuery(function() {
                 type: 'post',
                 url: "/uploaddatamanage/uploaddata/import",
                 dataType: "text",
-                data: { "strFileGroup": strFileGroup, "ny": "${ny}", "template": template, "memo": "" },
+                data: { "strFileGroup": strFileGroup, "ny": "${ny}", "template": template, "memo": "", "shouldFileNum":uploader.getFiles().length},
                 success: function (data) {
                     clearInterval(tImport);
                     var response = $.parseJSON(data);

@@ -80,7 +80,7 @@
 		<legend>工单处理录入</legend>
 		<p class="nowrap">
 			<label>工单处理结果：</label>
-			<textarea name="result" cols="50" rows="4" class="required">${issue.result }<c:if test="${empty issue.result}">xxx 理财经理于 xx月xx日致电客户${issue.policy.holder}，致电电话为___________，谈话时长____分钟，处理如下。
+			<textarea name="result" cols="50" rows="4" class="required">${issue.result }<c:if test="${empty issue.result}">网点工作人员（非销售人员）xxx于xx月xx日致电客户${issue.policy.holder}，致电电话为__，谈话时长__分钟，处理如下。
 沟通内容：
 客户反馈：
 </c:if>

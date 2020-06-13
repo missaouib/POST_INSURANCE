@@ -127,6 +127,7 @@ public class UploadDataController {
 			"UploadPay:upload", "UploadIssue:upload", "CityUpload:upload"}, logical=Logical.OR)
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public @ResponseBody String upload(HttpServletRequest request, @RequestParam String name, @RequestParam(value = "file", required = true) MultipartFile file) {
+		log.debug("------------------UploadDateController-------------------");
         String strFileGroup = request.getParameter("fileGroup"); // 当前文件组
         int iCurrentChunk = 1;
         int iChunks = 1;
@@ -282,8 +283,8 @@ public class UploadDataController {
 			"UploadRenewed:upload", "UploadCallFail:upload", "UploadCheck:upload", 
 			"UploadPay:upload", "UploadIssue:upload", "CityUpload:upload"}, logical=Logical.OR)
 	@RequestMapping(value = "/import", method = RequestMethod.POST)
-	public @ResponseBody String doImport(HttpServletRequest request, @RequestParam String strFileGroup, @RequestParam int ny, @RequestParam String template, @RequestParam String memo) {
-		log.debug("-----------------------------------import data by use template: " + template);
+	public @ResponseBody String doImport(HttpServletRequest request, @RequestParam String strFileGroup, @RequestParam int ny, @RequestParam String template, @RequestParam String memo, @RequestParam int shouldFileNum) {
+		log.debug("-----------no admin--------------import data by use template: " + template);
 		com.gdpost.utils.UploadDataHelper.SessionChunk sessionChunk = new com.gdpost.utils.UploadDataHelper.SessionChunk();
 		com.gdpost.utils.UploadDataHelper.FileChunk fileChunk = sessionChunk.getSessionChunk(request);
 		if(fileChunk == null) {
@@ -301,15 +302,21 @@ public class UploadDataController {
 	    //boolean bFlag = false;
 	    DoRst dr = null;
 	    StringBuilder builder = new StringBuilder();
-	    //log.debug("----------------" + strFileGroup);
-	    //log.debug("----------------" + fileChunk.getFileGroup());
-		if(fileChunk.getFileGroup().equals(strFileGroup)) {
+	    
+	    List<String> listFiles = fileChunk.getListFileName();
+		log.debug("------------------" + listFiles);
+		int uc = 0;
+		if(fileChunk.getFileGroup().equals(strFileGroup) && listFiles.size()== shouldFileNum) {
+			log.info(" ---------- 开始导入以下文件：" + listFiles);
 			log.debug("--------------- do import:" + strFileGroup);
-			List<String> listFiles = fileChunk.getListFileName();
-			log.debug("------------------" + listFiles);
 			FileTemplate ft = FileTemplate.valueOf(template);
 			log.debug("--------------- do import template:" + ft);
-			dr = uploadDataService.handleData(ft, request, member_id, listFiles, currentNY, lastNY, shiroUser.getId(), shiroUser.getLoginName(), 0, builder, memo);
+			synchronized (this) {
+				dr = uploadDataService.handleData(ft, request, member_id, listFiles, currentNY, lastNY, shiroUser.getId(), shiroUser.getLoginName(), 0, builder, memo);
+				uc += dr.getUpdateRow();
+			}
+		} else {
+			return("{\"jsonrpc\":\"2.0\",\"result\":\"success\",\"id\":\"id\",\"message\":\"等待所有文件上传完毕。\"}");
 		}
 		
 	    // 请SessionChunk
@@ -318,7 +325,7 @@ public class UploadDataController {
 	    
 	    if(dr.isFlag()) {
 		    
-	    	LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{"导入了" + template + "的" + currentNY + "数据。"}));
+	    	LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{"导入了" + template + "的" + currentNY + "数据。共" + shouldFileNum + "个文件共" + uc + "记录。" + dr.getMsg()}));
 	    	
 	    	if(strMessage != null && !strMessage.equals("")) {
 				// 如有数据检查提示，则提示，如确认不导入，则提交request执行清除

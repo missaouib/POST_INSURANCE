@@ -460,6 +460,18 @@ public class TaskService {
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
 			
+			//简易险退保更新
+			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=2,tp.status=\"终止\" where tp.status<>\"终止\" and tp.policy_no=tcr.policy_no and tp.cs_flag=0 and prod_code=\"112004\" and tcr.full_cs_code=\"CT退保\";";
+			log.info("------------ sql :" + sql);
+			rstInt = statement.executeUpdate(sql);
+			log.info("------------ finish exec sql：" + rstInt);
+			
+			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=1,tp.status=\"终止\" where tp.status<>\"终止\" and tp.policy_no=tcr.policy_no and tp.cs_flag=0 and prod_code=\"112004\" and tcr.full_cs_code=\"CT犹撤\";";
+			log.info("------------ sql :" + sql);
+			rstInt = statement.executeUpdate(sql);
+			log.info("------------ finish exec sql：" + rstInt);
+			//end 简易险
+			
 			sql = "update t_policy_dtl tpd, t_policy_reprint_dtl tprd set tpd.policy_send_type=\"纸质保单\" where tpd.policy_no=tprd.policy_no and tpd.policy_send_type is null;";
 			log.info("------------ sql :" + sql);
 			rstInt = statement.executeUpdate(sql);

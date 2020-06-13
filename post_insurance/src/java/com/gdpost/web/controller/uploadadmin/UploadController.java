@@ -153,7 +153,7 @@ public class UploadController {
 			"UploadPay:upload", "UploadIssue:upload", "CityUpload:upload"}, logical=Logical.OR)
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public @ResponseBody String upload(HttpServletRequest request, @RequestParam String name, @RequestParam(value = "file", required = true) MultipartFile file) {
-        log.debug("-------------------------------------upload");
+        log.debug("------------------UploadController ADMIN-------------------upload");
         try
         {
             Long lFileSize = Long.parseLong(request.getParameter("size"));
