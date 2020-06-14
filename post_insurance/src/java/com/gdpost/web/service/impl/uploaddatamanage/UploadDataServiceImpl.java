@@ -377,10 +377,10 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql7 = "update t_renewed_list t1, t_cs_report t2, t_pay_list t3 set t1.fee_status=\"交费成功\", t1.fee_fail_reason='' where t1.policy_no=t2.policy_no and t2.cs_code=\"RE\" and datediff(t3.back_date,t2.cs_date)>=0 and t2.cs_date>t1.fee_date and t2.cs_no=t3.rel_no and t3.fail_desc=\"成功\";";
 			sql8 = "update t_policy t1, t_cs_report t2, t_pay_list t3 set t1.status=\"有效\" where t1.policy_no=t2.policy_no and t2.cs_code=\"RE\" and datediff(now(),t2.operate_time)=0 and t2.cs_no=t3.rel_no and t3.fail_desc=\"成功\";";
 			sql9 = "update t_policy tp, t_cs_report tcr set tp.cs_flag=1,tp.status=\"终止\",tp.cs_date=tcr.cs_date where tp.cs_flag<>1 and tp.attached_flag=0 and tp.policy_no=tcr.policy_no and tcr.full_cs_code=\"CT犹撤\" and abs(tcr.money)>500;";
-			sql10 = "update t_cs_expire ce, t_cs_report tcr set ce.status=\"AGStatus\",ce.cs_date=tcr.cs_date where ce.policy_no=tcr.policy_no and tcr.cs_code=\"AG\";";
+			sql10 = "update t_cs_expire ce, t_cs_report tcr set ce.status=\"AGStatus\",ce.cs_date=tcr.cs_date where ce.policy_no=tcr.policy_no and tcr.full_cs_code=\"AG满期给付\";";
 			sql11 = "update t_cs_expire ce, t_cs_report tcr set ce.status=\"CTStatus\",ce.cs_date=tcr.cs_date where ce.policy_no=tcr.policy_no and tcr.cs_code=\"CT\";";
 			sql12 = "INSERT INTO t_cs_reissue (cs_id) select tcr.id from t_cs_report tcr where tcr.cs_code=\"LR\" and tcr.id not in (select cs_id from t_cs_reissue);";
-			sql13 = "update t_policy tp, t_cs_report tcr set tp.status=\"满期终止\",tp.cs_date=tcr.cs_date where tp.policy_no=tcr.policy_no and tcr.cs_code=\"AG\";";
+			sql13 = "update t_policy tp, t_cs_report tcr set tp.status=\"满期终止\",tp.cs_date=tcr.cs_date where tp.policy_no=tcr.policy_no and tcr.full_cs_code=\"AG满期给付\";";
 			break;
 		case CsLoan:
 			standardColumns = CsLoanColumn.getStandardColumns();
@@ -394,7 +394,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql2 = "update t_cs_expire set insured_card_num=(REPLACE(insured_card_num, '\"', '')) where locate('\"',insured_card_num)>0;";
 			sql3 = "update t_cs_expire set holder_mobile=(REPLACE(holder_mobile, '\"', '')) where locate('\"',holder_mobile)>0;";
 			sql4 = "update t_cs_expire set holder_phone=(REPLACE(holder_phone, '\"', '')) where locate('\"',holder_phone)>0;";
-			sql5 = "update t_cs_expire ce, t_cs_report tcr set ce.status=\"AGStatus\",ce.cs_date=tcr.cs_date where ce.policy_no=tcr.policy_no and tcr.cs_code=\"AG\";";
+			sql5 = "update t_cs_expire ce, t_cs_report tcr set ce.status=\"AGStatus\",ce.cs_date=tcr.cs_date where ce.policy_no=tcr.policy_no and tcr.full_cs_code=\"AG满期给付\";";
 			sql6 = "update t_cs_expire ce, t_cs_report tcr set ce.status=\"CTStatus\",ce.cs_date=tcr.cs_date where ce.policy_no=tcr.policy_no and tcr.cs_code=\"CT\";";
 			break;
 		case DocNotScanDtl:

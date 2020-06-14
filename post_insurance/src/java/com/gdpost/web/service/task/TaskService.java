@@ -289,7 +289,7 @@ public class TaskService {
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
 			
-			sql = "update t_policy tp, t_cs_report tcr set tp.status=\"满期终止\",tp.cs_date=tcr.cs_date where tp.status<>\"满期终止\" and tp.policy_no=tcr.policy_no and tcr.cs_code=\"AG\";";
+			sql = "update t_policy tp, t_cs_report tcr set tp.status=\"满期终止\",tp.cs_date=tcr.cs_date where tp.status<>\"满期终止\" and tp.policy_no=tcr.policy_no and tcr.full_cs_code=\"AG满期给付\";";
 			log.info("------------ sql :" + sql);
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
