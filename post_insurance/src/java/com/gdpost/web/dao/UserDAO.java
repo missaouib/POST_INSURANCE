@@ -18,7 +18,11 @@ public interface UserDAO extends JpaRepository<User, Long>, JpaSpecificationExec
 	
 	List<User> findByUserRolesRoleNameAndStatus(String roleName, String status, Pageable page);
 	
+	List<User> findByStatusAndUserRolesRoleIdIn(String status, List<Long> ids, Pageable page);
+	
 	List<User> findByRealnameLikeAndUserRolesRoleNameAndStatus(String realname,String roleName, String status, Pageable page);
 	
 	List<User> findByRealnameLikeAndUserRolesRoleIdAndStatus(String realname,Long roleId, String status, Pageable page);
+	
+	List<User> findByStatusAndRealnameLikeAndUserRolesRoleIdIn(String status, String realname,List<Long> roleIds, Pageable page);
 }

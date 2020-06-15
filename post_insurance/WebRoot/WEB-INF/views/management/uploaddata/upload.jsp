@@ -71,6 +71,15 @@ function displayTips(val) {
 		$("#tipsDesc").html("模板格式直接使用系统下载的原始表，请勿修改列名称。");
 		return;
 	}
+	if(val=="ConversationReport") {
+		$("#tipsDesc").html("<font color='red'>数据请注意不要同步昨天及今天的数据。</font>模板格式直接使用系统下载的原始表，请勿修改列名称。");
+		alert("提醒：保全月报数据请不要同步昨天及今天的数据");
+		return;
+	}
+	if(val=="UWDtlData") {
+		$("#tipsDesc").html("<font color='red'>注意要先处理微信回销导致的回单回销日期为空数据。</font>模板格式直接使用系统下载的原始表，请勿修改列名称。");
+		return;
+	}
 	if(val=="CallFailStatus") {
 		$("#tipsDesc").html("11185二访中心详细数据。须含列：保单号\t工单类别\t工单状态\t工单子类\t工单内容\t回访日期1\t回访人1\t回访类型1\t回访内容1\t回访日期2\t回访人2\t回访类型2\t回访内容2\t回访日期3\t回访人3\t回访类型3\t回访内容3\t回访日期4\t回访人4\t回访类型4\t回访内容4\t回访日期5\t回访人5\t回访类型5\t回访内容5\t回访日期6\t回访人6\t回访类型6\t回访内容6，关键列：回访人1");
 		return;
@@ -245,6 +254,13 @@ jQuery(function() {
                     	}
                     } else if (response.result == "success") {
                         $("#console").html(response.message + " - 导入数据成功。");
+                        if(response.result != null && response.result == 'success' && response.message!=null && response.message.indexOf("共导入")!=-1) {
+				           	//alert(" --------- clear");
+				           	for (var i = 0; i < uploader.getFiles().length; i++) {
+						        uploader.removeFile(uploader.getFiles()[i]);
+						    }
+						   uploader.reset();
+					    }
                     } else {
                         if (response.message != null) {
                             alert(response.message);
@@ -253,6 +269,7 @@ jQuery(function() {
                     }
                 }
             });
+            
         } else {
             alert(response.message);
         }
@@ -281,7 +298,7 @@ jQuery(function() {
             $btn.text('开始上传');
         }
     });
-
+    
     $btn.on( 'click', function() {
         if ( state === 'uploading' ) {
             uploader.stop();

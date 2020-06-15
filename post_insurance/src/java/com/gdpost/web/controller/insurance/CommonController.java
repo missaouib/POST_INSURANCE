@@ -7,6 +7,7 @@
  */
 package com.gdpost.web.controller.insurance;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -242,20 +243,27 @@ public class CommonController {
 			request.setAttribute("role", role);
 		}
 		String roleIdStr = request.getParameter("roleId");
-		Long roleId = null;
 		if(roleIdStr != null && roleIdStr.trim().length()>0) {
 			request.setAttribute("roleId", roleIdStr);
-			roleId = new Long(roleIdStr);
 		}
+		
 		String realname = request.getParameter("realname");
 		if(realname == null || realname.trim().length()<=0) {
 			realname = "%%";
 		} else {
 			realname = "%" + realname + "%";
 		}
+		page.setNumPerPage(50);
 		List<User> org = null;
-		if(roleId != null) {
-			org = userService.findByRoleIdAndUserName(roleId, realname, page);
+		List<Long> ids = new ArrayList<Long>();
+		if(roleIdStr != null) {
+			String[] roleid = roleIdStr.split(",");
+			for(String r:roleid) {
+				ids.add(Long.parseLong(r));
+			}
+			//org = userService.findByRoleIdAndUserName(roleId, realname, page);
+			org = userService.findByRoleIdInAndUserName(ids, realname, page);
+			
 		} else {
 			org = userService.findByRoleNameAndUserName(role, realname, page);
 		}
@@ -289,11 +297,23 @@ public class CommonController {
 	
 	@RequestMapping(value="/lookupClaimUserSuggest", method={RequestMethod.POST})
 	public @ResponseBody String lookupClaimUserSuggest(ServletRequest request, Map<String, Object> map) {
-		String role = request.getParameter("role");
+		String roleids = request.getParameter("roleId");
+		roleids = roleids==null?"9,18":roleids;
+		String[] roleid = roleids.split(",");
+		List<Long> ids = new ArrayList<Long>();
+		for(String r:roleid) {
+			ids.add(Long.parseLong(r));
+		}
 		Page page = new Page();
 		page.setNumPerPage(25);
+		String realname = request.getParameter("realname");
+		if(realname == null || realname.trim().length()<=0) {
+			realname = "%%";
+		} else {
+			realname = "%" + realname + "%";
+		}
 		//Specification<User> specification = DynamicSpecifications.bySearchFilterWithoutRequest(User.class, csf);
-		List<User> user = userService.findByRoleName(role, page);
+		List<User> user = userService.findByRoleIdInAndUserName(ids, realname, page);//userService.findByRoleIds(ids, page);
 		SerializeConfig mapping = new SerializeConfig();
 		HashMap<String, String> fm = new HashMap<String, String>();
 		fm.put("id", "id");

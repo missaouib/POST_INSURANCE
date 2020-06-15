@@ -98,7 +98,7 @@ function customAjaxDone(json){
 					<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 		<p>
-			<label>结案日期：</label>
+			<label>调查止期：</label>
 			<input type="text" name="checkEndDate" id="checkEndDate" class="date" dateFmt="yyyy-MM-dd" value="<fmt:formatDate value="${task.checkEndDate }" pattern="yyyy-MM-dd"/>"/>
 					<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
@@ -110,8 +110,8 @@ function customAjaxDone(json){
 		<p>
 			<label>调查人：</label>
 			<input name="user.realname" type="text" postField="realname" suggestFields="realname" 
-					suggestUrl="/common/lookupClaimUserSuggest?roleId=9" lookupGroup="" value="${task.checker }"/>
-					<a class="btnLook" href="${contextPath }/common/lookup4RoleUser?roleId=9" lookupGroup="user" title="选择用户" width="650" hight="530">查</a>
+					suggestUrl="/common/lookupClaimUserSuggest?roleId=9,18r" lookupGroup="" value="${task.checker }"/>
+					<a class="btnLook" href="${contextPath }/common/lookup4RoleUser?roleId=9,18" lookupGroup="user" title="选择用户" width="650" hight="530">查</a>
 		</p>
 		<p>
 			<label>调查地点：</label>

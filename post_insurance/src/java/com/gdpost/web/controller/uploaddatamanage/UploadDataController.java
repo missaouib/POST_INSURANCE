@@ -305,6 +305,7 @@ public class UploadDataController {
 	    
 	    List<String> listFiles = fileChunk.getListFileName();
 		log.debug("------------------" + listFiles);
+		log.debug(" ---------------" + shouldFileNum);
 		int uc = 0;
 		if(fileChunk.getFileGroup().equals(strFileGroup) && listFiles.size()== shouldFileNum) {
 			log.info(" ---------- 开始导入以下文件：" + listFiles);
@@ -325,13 +326,13 @@ public class UploadDataController {
 	    
 	    if(dr.isFlag()) {
 		    
-	    	LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{"导入了" + template + "的" + currentNY + "数据。共" + shouldFileNum + "个文件共" + uc + "记录。" + dr.getMsg()}));
+	    	LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{"导入了" + template + "的" + currentNY + "数据。共" + shouldFileNum + "个文件共导入/更新了" + uc + "记录。" + dr.getMsg()}));
 	    	
 	    	if(strMessage != null && !strMessage.equals("")) {
 				// 如有数据检查提示，则提示，如确认不导入，则提交request执行清除
-	    		return("{\"jsonrpc\":\"2.0\",\"result\":\"confirm\",\"id\":\"id\",\"message\":\"共：" + dr.getNum() + "条记录；共导入/更新了：" + dr.getUpdateRow() + "条记录。" + strMessage + "\"}");
+	    		return("{\"jsonrpc\":\"2.0\",\"result\":\"confirm\",\"id\":\"id\",\"message\":\"共：" + dr.getNum() + "条记录；共导入/更新了：" + uc + "条记录。" + strMessage + "\"}");
 	    	} else {
-	    		return("{\"jsonrpc\":\"2.0\",\"result\":\"success\",\"id\":\"id\",\"message\":\"共：" + dr.getNum() + "条记录；共导入/更新了：" + dr.getUpdateRow() + "条记录，\"}");
+	    		return("{\"jsonrpc\":\"2.0\",\"result\":\"success\",\"id\":\"id\",\"message\":\"共：" + dr.getNum() + "条记录；共导入/更新了：" + uc + "条记录，\"}");
 	    	}
 	    } else {
 	    	LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{"导入" + template + "的数据出错，" + strMessage + "。"}));

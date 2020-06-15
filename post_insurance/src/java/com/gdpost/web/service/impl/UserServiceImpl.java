@@ -124,6 +124,12 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
+	public List<User> findByRoleIds(List<Long> ids, Page page) {
+		List<User> list = userDAO.findByStatusAndUserRolesRoleIdIn(User.STATUS_ENABLED, ids, PageUtils.createPageable(page));
+		return list;
+	}
+	
+	@Override
 	public List<User> findByRoleNameAndUserName(String roleName, String realname, Page page) {
 		List<User> list = userDAO.findByRealnameLikeAndUserRolesRoleNameAndStatus(realname, roleName, User.STATUS_ENABLED, PageUtils.createPageable(page));
 		return list;
@@ -132,6 +138,12 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<User> findByRoleIdAndUserName(Long roleId, String realname, Page page) {
 		List<User> list = userDAO.findByRealnameLikeAndUserRolesRoleIdAndStatus(realname, roleId, User.STATUS_ENABLED, PageUtils.createPageable(page));
+		return list;
+	}
+	
+	@Override
+	public List<User> findByRoleIdInAndUserName(List<Long> roleId, String realname, Page page) {
+		List<User> list = userDAO.findByStatusAndRealnameLikeAndUserRolesRoleIdIn(User.STATUS_ENABLED, realname, roleId, PageUtils.createPageable(page));
 		return list;
 	}
 	

@@ -25,9 +25,13 @@ public interface UserService {
 	
 	List<User> findByRoleName(String role, Page page);
 	
+	List<User> findByRoleIds(List<Long> ids, Page page);
+	
 	List<User> findByRoleNameAndUserName(String role, String realname, Page page);
 	
 	List<User> findByRoleIdAndUserName(Long roleId, String realname, Page page);
+	
+	List<User> findByRoleIdInAndUserName(List<Long> roleId, String realname, Page page);
 	
 	void updatePwd(User user, String newPwd);
 	

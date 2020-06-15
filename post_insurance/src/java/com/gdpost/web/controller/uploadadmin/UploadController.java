@@ -260,7 +260,7 @@ public class UploadController {
                 	    log.info(shiroUser.getLoginName() + "上传了" + strOriginalFileName);
     				
                         // 返回文件名，客户端根据文件名请求处理文件
-                        return("{\"jsonrpc\":\"2.0\",\"result\":\"success\",\"id\":\"id\",\"strFileName\":\"" + strOriginalFileName + "\",\"message\":\"\"}");
+                        return("{\"jsonrpc\":\"2.0\",\"result\":\"success\",\"id\":\"id\",\"strFileName\":\"" + strOriginalFileName + "\",\"message\":\"已上传\"}");
             		} catch (FileNotFoundException e) {
             			log.error(e.getMessage());
     					return (strError);
