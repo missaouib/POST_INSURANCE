@@ -21,6 +21,7 @@
 	<input type="hidden" name="saleChannel" value="${saleChannel }"/>
 	<input type="hidden" name="search_LIKE_holder" value="${param.search_LIKE_holder}"/>
 	<input type="hidden" name="holderPhone" value="${holderPhone}"/>
+	<input type="hidden" name="netFlag" value="${netFlag}"/>
 </dwz:paginationForm>
 
 <form method="post" id="hfForm" action="${contextPath }/client/list" onsubmit="return navTabSearch(this)">
@@ -101,7 +102,14 @@
 							<form:option value="1">是</form:option>
 						</form:select>
 					</td>
-					<td>&nbsp;</td>
+					<td>
+						<label>银邮：</label>
+						<form:select path="policy.netFlag" id="cpanetflag" class="combox">
+							<form:option value="">  --  </form:option>
+							<form:option value="1"> 邮政代理 </form:option>
+							<form:option value="2"> 银行自营 </form:option>
+						</form:select>
+					</td>
 				</tr>
 				<tr>
 					<td>
@@ -147,7 +155,7 @@
 				<li><a iconClass="magnifier" target="dialog" rel="lookup2organization_edit" mask="true" width="820" height="520" href="${contextPath }/client/view/{slt_uid}"><span>查看详情</span></a></li>
 			</shiro:hasPermission>
 				<li class="line">line</li>
-				<li><a class="icon" onclick="javascript:urlCheckOverDate(${page.getTotalCount() },92, $('#cpDate1').val(),$('#cpDate2').val(),'${contextPath }/client/toXls?search_GTE_policyFee=${param.search_GTE_policyFee }&search_LTE_policyFee=${param.search_LTE_policyFee }&orgCode=${policy_orgCode }&search_LTE_policyDate=${param.search_LTE_policyDate }&search_GTE_policyDate=${param.search_GTE_policyDate }&feeFrequency=${param.feeFrequency }&prd.prdFullName=${prd_name }&search_LIKE_policyNo=${param.search_LIKE_policyNo }&search_LIKE_formNo=${param.search_LIKE_formNo }&duration=${duration }&encodeStatus=${encodeStatus == null?'null':encodeStatus }&staffFlag=${staffFlag}&attachedFlag=${attachedFlag}&saleChannel=${saleChannel}&ctNum=${ctNum}');"><span>导出Excel</span></a></li>
+				<li><a class="icon" onclick="javascript:urlCheckOverDate(${page.getTotalCount() },92, $('#cpDate1').val(),$('#cpDate2').val(),'${contextPath }/client/toXls?search_GTE_policyFee=${param.search_GTE_policyFee }&search_LTE_policyFee=${param.search_LTE_policyFee }&orgCode=${policy_orgCode }&search_LTE_policyDate=${param.search_LTE_policyDate }&search_GTE_policyDate=${param.search_GTE_policyDate }&feeFrequency=${param.feeFrequency }&prd.prdFullName=${prd_name }&search_LIKE_policyNo=${param.search_LIKE_policyNo }&search_LIKE_formNo=${param.search_LIKE_formNo }&duration=${duration }&encodeStatus=${encodeStatus == null?'null':encodeStatus }&staffFlag=${staffFlag}&attachedFlag=${attachedFlag}&saleChannel=${saleChannel}&ctNum=${ctNum}&netFlag=${netFlag }');"><span>导出Excel</span></a></li>
 				<li class="line">line</li>
 			<shiro:hasPermission name="Client:provEdit">
 				<li><a class="icon" onclick="javascript:urlCheckOverDate(${page.getTotalCount() },92, $('#cpDate1').val(),$('#cpDate2').val(),'${contextPath }/client/pdtoXls?prodName=${prodName }&search_LTE_policyDate=${param.search_LTE_policyDate }&search_GTE_policyDate=${param.search_GTE_policyDate }');"><span>导出给信息局的数据</span></a></li>

@@ -101,12 +101,23 @@ public class Policy implements Idable<Long>, Serializable{
 	@Transient
 	private String saleChannel;
 	
+	@Transient
+	private String netFlag;
+	
 //	private List<CheckRecordDtl> checkRecordDtls = new ArrayList<CheckRecordDtl>(0);
 //	private List<CheckWriteDtl> checkWriteDtls = new ArrayList<CheckWriteDtl>(0);
 //	private List<CallFail> callFails = new ArrayList<CallFail>(0);
 
 	// Constructors
-
+	@Transient
+	public String getNetFlag() {
+		return netFlag;
+	}
+	@Transient
+	public void setNetFlag(String netFlag) {
+		this.netFlag = netFlag;
+	}
+	
 	@Transient
 	public String getSaleChannel() {
 		return saleChannel;

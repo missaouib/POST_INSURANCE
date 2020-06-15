@@ -108,6 +108,7 @@ public class ClientController {
 		String saleChannel = request.getParameter("saleChannel");
 		String holderPhone = request.getParameter("holderPhone");
 		String ctNum = request.getParameter("ctNum");
+		String netFlag = request.getParameter("netFlag");
 		
 		Boolean staff = null;
 		if(staffFlag != null && staffFlag.trim().equals("0")) {
@@ -120,6 +121,7 @@ public class ClientController {
 		policy.setStaffFlag(staff);
 		policy.setSaleChannel(saleChannel);
 		policy.setDuration(Integer.valueOf(duration==null||duration.trim().length()<=0?"0":duration));
+		policy.setNetFlag(netFlag);
 		
 		map.put("policy", policy);
 		map.put("page", page);
@@ -150,6 +152,11 @@ public class ClientController {
 		request.setAttribute("policy_name", orgName);
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		
+		if(netFlag != null && netFlag.trim().length()>0) {
+			csf.add(new SearchFilter("bankCode.netFlag", Operator.EQ, netFlag));
+			request.setAttribute("netFlag", netFlag);
+		}
 		
 		if(ctNum != null && ctNum.trim().length()>0) {
 			csf.add(new SearchFilter("policyDtl.ctNum", Operator.GTE, ctNum));
@@ -322,6 +329,7 @@ public class ClientController {
 		String duration = request.getParameter("duration");
 		String saleChannel = request.getParameter("saleChannel");
 		String holderPhone = request.getParameter("holderPhone");
+		String netFlag = request.getParameter("netFlag");
 		Boolean staff = null;
 		if(staffFlag != null && staffFlag.trim().equals("0")) {
 			staff = false;
@@ -352,6 +360,10 @@ public class ClientController {
 		}
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		if(netFlag != null && netFlag.trim().length()>0) {
+			csf.add(new SearchFilter("bankCode.netFlag", Operator.EQ, netFlag));
+		}
+		
 		String ctNum = request.getParameter("ctNum");
 		if(ctNum != null && ctNum.trim().length()>0) {
 			csf.add(new SearchFilter("policyDtl.ctNum", Operator.GTE, ctNum));

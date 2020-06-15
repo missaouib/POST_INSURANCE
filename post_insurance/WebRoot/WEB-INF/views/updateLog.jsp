@@ -5,6 +5,9 @@
 	<fieldset>
 		<legend>更新日志信息</legend>
 		<textarea layoutH="80" style="width:98%">
+20200615:
+1，个人保单查询条件加入邮银标记条件。
+2、修复其他bug （task）
 20200612:
 1，优化数据同步上传批量一次导入，以及保全月报问题数据跳过。
 2、修复其他bug 
