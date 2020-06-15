@@ -420,17 +420,17 @@ public class TaskService {
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
 			
-			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=2,tp.status=\"终止\" where tp.status<>\"终止\" and tp.policy_no=tcr.policy_no and tp.cs_flag=0 and tp.attached_flag=0 and tcr.full_cs_code=\"CT退保\" and abs(tcr.money)>500;";
+			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=2,tp.status=\"终止\",tp.cs_date=tcr.cs_date where tp.status<>\"终止\" and tp.policy_no=tcr.policy_no and tp.cs_flag=0 and tp.attached_flag=0 and tcr.full_cs_code=\"CT退保\" and abs(tcr.money)>500;";
 			log.info("------------ sql :" + sql);
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
 			
-			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=2,tp.status=\"终止\" where tp.status<>\"终止\" and tp.policy_no=tcr.policy_no and tp.cs_flag=0 and tp.attached_flag=1 and tcr.full_cs_code=\"CT退保\" and abs(tcr.money)<=500;";
+			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=2,tp.status=\"终止\",tp.cs_date=tcr.cs_date where tp.status<>\"终止\" and tp.policy_no=tcr.policy_no and tp.cs_flag=0 and tp.attached_flag=1 and tcr.full_cs_code=\"CT退保\" and abs(tcr.money)<=500;";
 			log.info("------------ sql :" + sql);
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
 			
-			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=2,tp.status=\"终止\" where tp.status<>\"终止\" and tp.policy_no=tcr.policy_no and tp.cs_flag<>2 and tp.attached_flag=0 and tcr.full_cs_code=\"CT退保\" and tp.prod_name like \"%邮保百万%\";";
+			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=2,tp.status=\"终止\",tp.cs_date=tcr.cs_date where tp.status<>\"终止\" and tp.policy_no=tcr.policy_no and tp.cs_flag<>2 and tp.attached_flag=0 and tcr.full_cs_code=\"CT退保\" and tp.prod_name like \"%邮保百万%\";";
 			log.info("------------ sql :" + sql);
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
@@ -461,12 +461,12 @@ public class TaskService {
 			log.info("------------ finish exec sql：" + rstInt);
 			
 			//简易险退保更新
-			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=2,tp.status=\"终止\" where tp.status<>\"终止\" and tp.policy_no=tcr.policy_no and tp.cs_flag=0 and prod_code=\"112004\" and tcr.full_cs_code=\"CT退保\";";
+			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=2,tp.status=\"终止\",tp.cs_date=tcr.cs_date where tp.status<>\"终止\" and tp.policy_no=tcr.policy_no and tp.cs_flag=0 and prod_code=\"112004\" and tcr.full_cs_code=\"CT退保\";";
 			log.info("------------ sql :" + sql);
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
 			
-			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=1,tp.status=\"终止\" where tp.status<>\"终止\" and tp.policy_no=tcr.policy_no and tp.cs_flag=0 and prod_code=\"112004\" and tcr.full_cs_code=\"CT犹撤\";";
+			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=1,tp.status=\"终止\",tp.cs_date=tcr.cs_date where tp.status<>\"终止\" and tp.policy_no=tcr.policy_no and tp.cs_flag=0 and prod_code=\"112004\" and tcr.full_cs_code=\"CT犹撤\";";
 			log.info("------------ sql :" + sql);
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
