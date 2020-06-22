@@ -50,7 +50,7 @@ public class XlsxStatFileHandler extends AbstractFileHandler {
             DataColumn column = null;
             int cellCount = 0;
             int rowCount = 0;
-            int markRow = 5;
+            int markRow = 4;
 			int count = -1;
 			int keyRowIdx = -1;
 			Cell checkCell = null;

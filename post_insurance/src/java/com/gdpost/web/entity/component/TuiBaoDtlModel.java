@@ -33,6 +33,8 @@ public class TuiBaoDtlModel implements java.io.Serializable {
 	private String bankName;
 	private String staffFlag;
 	private String selBankCode;
+	private String perm;
+	private String duration;
 	// Constructors
 
 	/** default constructor */
@@ -173,6 +175,24 @@ public class TuiBaoDtlModel implements java.io.Serializable {
 
 	public void setSelBankCode(String selBankCode) {
 		this.selBankCode = selBankCode;
+	}
+
+	@Column(name="perm")
+	public String getPerm() {
+		return perm;
+	}
+
+	public void setPerm(String perm) {
+		this.perm = perm;
+	}
+
+	@Column(name="duration")
+	public String getDuration() {
+		return duration;
+	}
+
+	public void setDuration(String duration) {
+		this.duration = duration;
 	}
 	
 }

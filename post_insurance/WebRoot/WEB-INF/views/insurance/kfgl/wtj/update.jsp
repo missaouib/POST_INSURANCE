@@ -80,9 +80,9 @@
 		<legend>工单处理录入</legend>
 		<p class="nowrap">
 			<label>工单处理结果：</label>
-			<textarea name="result" cols="50" rows="4" class="required">${issue.result }<c:if test="${empty issue.result}">网点工作人员（非销售人员）xxx于xx月xx日致电客户${issue.policy.holder}，致电电话为__，谈话时长__分钟，处理如下。
-沟通内容：
-客户反馈：
+			<textarea name="result" cols="50" rows="4" class="required">${issue.result }<c:if test="${empty issue.result}">2020年_月_日，工作人员致电客户${issue.policy.holder}，全程通话时约为_分钟。
+沟通解释：就未收到合同/条款解释不清-保险责任、保险期间、产品收益/意向退保/未双录等问题，再次作出解释。
+客户表示：已理解/将于_时间到网点办理双录/要办理退保。
 </c:if>
 			</textarea>
 		</p>

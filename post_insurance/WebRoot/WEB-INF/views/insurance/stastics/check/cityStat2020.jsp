@@ -119,7 +119,7 @@ table.dataintable tr:nth-child(even) {
       <td colspan="2">微信回访占比</td>
       <td>重点工作推动维度得分</td>
       <td>总分</td>
-      <td rowspan="4">总分排名</td>
+      <td rowspan="3">总分排名</td>
     </tr>
     <tr>
       <td colspan="2">得分区间</td>
@@ -156,8 +156,8 @@ table.dataintable tr:nth-child(even) {
       <td>[0,139]</td>
     </tr>
     <tr>
-      <td rowspan="2">机构号</td>
-      <td rowspan="2">机构名称</td>
+      <td>机构号</td>
+      <td>机构名称</td>
       <td>基准值</td>
       <td>基准分</td>
       <td>基准值</td>
@@ -214,64 +214,6 @@ table.dataintable tr:nth-child(even) {
       <td>基准分</td>
       <td>合计</td>
       <td>合计</td>
-    </tr>
-    <tr>
-      <td>99%</td>
-      <td>2</td>
-      <td>99%</td>
-      <td>8</td>
-      <td>3%</td>
-      <td>8</td>
-      <td>0.7%</td>
-      <td>30</td>
-      <td>54</td>
-      <td>6</td>
-      <td>6</td>
-      <td>60</td>
-      <td>6</td>
-      <td>95%</td>
-      <td>2</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>100%</td>
-      <td>2</td>
-      <td>100%</td>
-      <td>5</td>
-      <td>100%</td>
-      <td>6</td>
-      <td>24</td>
-      <td>0.16%</td>
-      <td>2</td>
-      <td>1.50%</td>
-      <td>1</td>
-      <td>90%</td>
-      <td>3</td>
-      <td>3%</td>
-      <td>3</td>
-      <td>9</td>
-      <td>6%</td>
-      <td>2</td>
-      <td>100%</td>
-      <td>3</td>
-      <td>100%</td>
-      <td>4</td>
-      <td>0</td>
-      <td>/</td>
-      <td>9</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>0.5</td>
-      <td>1</td>
-      <td>0.5</td>
-      <td>94%</td>
-      <td>0.8</td>
-      <td>60%</td>
-      <td>3</td>
-      <td>51%</td>
-      <td>4</td>
-      <td>10</td>
-      <td>100</td>
     </tr>
     <c:forEach var="item" items="${cmRst}" varStatus="idx">
     <tr>

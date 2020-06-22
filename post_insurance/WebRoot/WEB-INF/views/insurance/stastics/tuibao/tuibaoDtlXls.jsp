@@ -16,6 +16,8 @@ response.setHeader("Content-Disposition", "inline; filename=tuibao_dtl.xls");
 		<th>险种名称</th>
 		<th>保费</th>
 		<th>保单日期</th>
+		<th>交费期间</th>
+		<th>保险期间</th>
 		<th>保全号</th>
 		<th>保全日期</th>
 		<th>保全代码</th>
@@ -34,6 +36,8 @@ response.setHeader("Content-Disposition", "inline; filename=tuibao_dtl.xls");
 		<td>${item.prodName}</td>
 		<td>${item.policyFee}</td>
 		<td><fmt:formatDate value="${item.policyDate}" pattern="yyyy-MM-dd"/></td>
+		<td>${item.perm}</td>
+		<td>${item.duration}</td>
 		<td>${item.csNo}</td>
 		<td><fmt:formatDate value="${item.csDate}" pattern="yyyy-MM-dd"/></td>
 		<td>${item.csCode}</td>

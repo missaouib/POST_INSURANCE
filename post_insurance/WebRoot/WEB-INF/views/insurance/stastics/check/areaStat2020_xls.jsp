@@ -38,7 +38,7 @@ response.setHeader("Content-Disposition", "inline; filename=area_stat_report.xls
           <td colspan="2">风险事件</td>
           <td>风险管控维度得分</td>
           <td>总分</td>
-          <td rowspan="4">总分排名</td>
+          <td rowspan="3">总分排名</td>
         </tr>
         <tr>
           <td colspan="2">得分区间</td>
@@ -63,8 +63,8 @@ response.setHeader("Content-Disposition", "inline; filename=area_stat_report.xls
           <td>[0,131]</td>
         </tr>
         <tr>
-          <td rowspan="2">机构号</td>
-          <td rowspan="2">机构名称</td>
+          <td>机构号</td>
+          <td>机构名称</td>
           <td>基准值</td>
           <td>基准分</td>
           <td>基准值</td>
@@ -99,41 +99,7 @@ response.setHeader("Content-Disposition", "inline; filename=area_stat_report.xls
           <td>合计</td>
           <td>合计</td>
         </tr>
-        <tr>
-          <td>98%</td>
-          <td>4</td>
-          <td>98%</td>
-          <td>8</td>
-          <td>3%</td>
-          <td>8</td>
-          <td>0.7%</td>
-          <td>30</td>
-          <td>56</td>
-          <td>6</td>
-          <td>9</td>
-          <td>60</td>
-          <td>9</td>
-          <td>100%</td>
-          <td>6</td>
-          <td>0</td>
-          <td>5</td>
-          <td>100%</td>
-          <td>5</td>
-          <td>23</td>
-          <td>0.6%</td>
-          <td>6</td>
-          <td>10%</td>
-          <td>2</td>
-          <td>12</td>
-          <td>0</td>
-          <td>2</td>
-          <td>100%</td>
-          <td>7</td>
-          <td>0</td>
-          <td>/</td>
-          <td>9</td>
-          <td>100</td>
-        </tr>
+        
     <c:forEach var="item" items="${cmRst}" varStatus="idx">
     <tr>
       <td>${item.organCode }</td>
