@@ -106,12 +106,11 @@
 	<div class="formBar">
 		<ul>
 			<shiro:hasPermission name="Inquire:provAdmin">
-			<li><div <c:if test='${inquire.inquireStatus eq "已结案" }'>class="buttonDisabled"</c:if> <c:if test='${inquire.inquireStatus ne "已结案" }'>class="button"</c:if>><div class="buttonContent"><button type="submit" <c:if test='${inquire.inquireStatus eq "已结案" }'>disabled=true</c:if>>重打开</button></div></div></li>
+			<li><div <c:if test='${inquire.inquireStatus eq "已结案" }'>class="buttonDisabled"</c:if> <c:if test='${inquire.inquireStatus ne "已结案" }'>class="button"</c:if>><div class="buttonContent"><button type="submit" <c:if test='${inquire.inquireStatus eq "已结案" }'>disabled=true</c:if>>退回重新处理</button></div></div></li>
 			<li><div <c:if test='${inquire.inquireStatus eq "已结案" }'>class="buttonDisabled"</c:if> <c:if test='${inquire.inquireStatus ne "已结案" }'>class="button"</c:if>><div class="buttonContent"><button type="button" onclick="$('#inquireStatus').val('CloseStatus');$('#inquireForm').attr('action', '/kfgl/inquire/close').submit();" <c:if test='${inquire.inquireStatus eq "已结案" }'>disabled=true</c:if>>结案关闭</button></div></div></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Inquire:provEdit">
 			<li><div <c:if test='${inquire.inquireStatus eq "已结案" }'>class="buttonDisabled"</c:if> <c:if test='${inquire.inquireStatus ne "已结案" }'>class="button"</c:if>><div class="buttonContent"><button type="button" onclick="$('#inquireForm').attr('action', '/kfgl/inquire/toCity').submit();" <c:if test='${inquire.inquireStatus eq "已结案" }'>disabled=true</c:if>>转办地市</button></div></div></li>
-			<li><div <c:if test='${inquire.inquireStatus eq "已结案" }'>class="buttonDisabled"</c:if> <c:if test='${inquire.inquireStatus ne "已结案" }'>class="button"</c:if>><div class="buttonContent"><button type="submit" <c:if test='${inquire.inquireStatus eq "已结案" }'>disabled=true</c:if>>重打开</button></div></div></li>
 			<li><div <c:if test='${inquire.inquireStatus eq "已结案" }'>class="buttonDisabled"</c:if> <c:if test='${inquire.inquireStatus ne "已结案" }'>class="button"</c:if>><div class="buttonContent"><button type="button" onclick="$('#inquireStatus').val('DealStatus');$('#inquireForm').attr('action', '/kfgl/inquire/deal').submit();" <c:if test='${inquire.inquireStatus eq "已结案" }'>disabled=true</c:if>>审核通过</button></div></div></li>
 			</shiro:hasPermission>
 			<li><div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div></li>

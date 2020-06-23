@@ -135,7 +135,7 @@
 	<div class="formBar">
 		<ul>
 			<shiro:hasPermission name="Wtgd:provEdit">
-			<li><div <c:if test='${issue.status eq "已结案" }'>class="buttonDisabled"</c:if> <c:if test='${issue.status ne "已结案" }'>class="button"</c:if>><div class="buttonContent"><button type="submit" <c:if test='${issue.status eq "已结案" }'>disabled=true</c:if>>重打开</button></div></div></li>
+			<li><div <c:if test='${issue.status eq "已结案" }'>class="buttonDisabled"</c:if> <c:if test='${issue.status ne "已结案" }'>class="button"</c:if>><div class="buttonContent"><button type="submit" <c:if test='${issue.status eq "已结案" }'>disabled=true</c:if>>退回重新处理</button></div></div></li>
 			<li><div <c:if test='${issue.status eq "已结案" }'>class="buttonDisabled"</c:if> <c:if test='${issue.status ne "已结案" }'>class="button"</c:if>><div class="buttonContent"><button type="button" onclick="$('#status').val('DealStatus');$('#issueForm').attr('action', '/kfgl/issue/deal').submit();" <c:if test='${issue.status eq "已结案" }'>disabled=true</c:if>>审核通过</button></div></div></li>
 			</shiro:hasPermission>
 			<li><div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div></li>
