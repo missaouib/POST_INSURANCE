@@ -17,6 +17,9 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.ColumnTransformer;
+import org.hibernate.annotations.JoinColumnOrFormula;
+import org.hibernate.annotations.JoinColumnsOrFormulas;
+import org.hibernate.annotations.JoinFormula;
 
 import com.gdpost.web.entity.Idable;
 
@@ -334,7 +337,11 @@ public class PolicyDtl implements Idable<Long>,Serializable {
 	}
 
 	@OneToOne(optional=true)
-	@JoinColumn(name="holder_card_num", referencedColumnName="id_Card", insertable=false, updatable=false, nullable=true)
+	//@JoinColumn(name="holder_card_num", referencedColumnName="id_Card", insertable=false, updatable=false, nullable=true)
+	@JoinColumnsOrFormulas(value={
+		@JoinColumnOrFormula(column=@JoinColumn(name ="holder_card_num", referencedColumnName ="id_Card", insertable =false, updatable = false, nullable=true)),
+		@JoinColumnOrFormula(formula=@JoinFormula(value="year(policy_date)", referencedColumnName = "year"))
+		})
 	public Staff getStaff() {
 		return staff;
 	}

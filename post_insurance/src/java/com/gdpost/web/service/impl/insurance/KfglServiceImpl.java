@@ -135,7 +135,12 @@ public class KfglServiceImpl implements KfglService {
 					new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, userOrg.getOrgCode()));
 		}
 		
-		List<Issue> issues = this.findByExample(specification, page);
+		List<Issue> issues = null;
+		try {
+			issues = this.findByExample(specification, page);
+		} catch(Exception ce) {
+			ce.printStackTrace();
+		}
 		
 		return issues;
 	}

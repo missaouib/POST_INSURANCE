@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gdpost.utils.SecurityUtils;
 import com.gdpost.web.SecurityConstants;
+import com.gdpost.web.entity.insurance.RenewedList;
 import com.gdpost.web.entity.main.Module;
 import com.gdpost.web.entity.main.Notice;
 import com.gdpost.web.entity.main.Organization;
@@ -133,7 +134,7 @@ public class IndexController {
 		
 		map.put("checkRecordIssueList", qyglService.getTODORecordIssueList(shiroUser.getUser()));
 		
-		map.put("xqIssueList", xqglService.getTODOIssueList(shiroUser.getUser()));
+		map.put("xqIssueList", new ArrayList<RenewedList>());//xqglService.getTODOIssueList(shiroUser.getUser()));
 		
 		map.put("hfIssueList", hfglService.getTODOIssueList(shiroUser.getUser()));
 		

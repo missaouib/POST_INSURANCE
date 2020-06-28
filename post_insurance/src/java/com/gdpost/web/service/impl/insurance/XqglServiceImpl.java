@@ -106,7 +106,12 @@ public class XqglServiceImpl implements XqglService {
 		page.setOrderField("policy.policyDate");
 		page.setOrderDirection("Desc");
 		
-		List<RenewedList> issues = this.findByExample(specification, page);
+		List<RenewedList> issues = null;
+		try {
+			issues = this.findByExample(specification, page);
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
 		if (issues == null || issues.isEmpty()) {
 			issues = new ArrayList<RenewedList>();
 		}

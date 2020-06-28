@@ -33,6 +33,7 @@ public class Staff implements Idable<Long>,Serializable {
 	private String name;
 	private String idCard;
 	private String status;
+	private Integer year;
 
 	// Constructors
 
@@ -88,6 +89,15 @@ public class Staff implements Idable<Long>,Serializable {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	@Column(name = "year")
+	public Integer getYear() {
+		return year;
+	}
+
+	public void setYear(Integer year) {
+		this.year = year;
 	}
 
 }
