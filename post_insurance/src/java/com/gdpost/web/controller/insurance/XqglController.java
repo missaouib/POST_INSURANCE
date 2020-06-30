@@ -25,6 +25,7 @@ import javax.validation.Valid;
 
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -101,6 +102,8 @@ public class XqglController {
 	private static final String PROV_UPDATE_STAY = "insurance/xqgl/stay/provupdate";
 	private static final String LIST_STAY = "insurance/xqgl/stay/list";
 	private static final String STAY_TO_XLS = "insurance/xqgl/stay/toXls";
+	
+	private static final String TO_ELSE = "insurance/xqgl/toElse";
 	
 	@RequestMapping(value="/help", method=RequestMethod.GET)
 	public String toHelp() {
@@ -832,6 +835,33 @@ public class XqglController {
 		
 		map.put("stays", stays);
 		return STAY_TO_XLS;
+	}
+	
+	@RequiresUser
+	@Log(message="{0}要进入3年保费丢失率！", level=LogLevel.INFO, module=LogModule.QTCZ)
+	@RequestMapping(value = "/toSys", method = { RequestMethod.GET, RequestMethod.POST })
+	public String toElse(HttpServletRequest request, Map<String, Object> map) {
+		LOG.debug("-------------------here----------");
+		ShiroUser shiroUser = SecurityUtils.getShiroUser();
+		User user = shiroUser.getUser();// userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
+		
+		String url = request.getParameter("url");
+		if(url != null && url.trim().length()>0) {
+			url = url.replace("?1", userOrg.getOrgCode());
+		}
+
+		if("http".equals(request.getScheme())) {
+			request.setAttribute("http", "http");
+		}
+		if("https".equals(request.getScheme())) {
+			request.setAttribute("http", "https");
+		}
+		request.setAttribute("url", url);
+		request.setAttribute("userOrgan", userOrg);
+		request.setAttribute("loginUser", user);
+		
+		return TO_ELSE;
 	}
 	
 	@InitBinder
