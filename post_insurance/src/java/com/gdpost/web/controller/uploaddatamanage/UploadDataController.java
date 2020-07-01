@@ -312,10 +312,10 @@ public class UploadDataController {
 			log.debug("--------------- do import:" + strFileGroup);
 			FileTemplate ft = FileTemplate.valueOf(template);
 			log.debug("--------------- do import template:" + ft);
-			synchronized (this) {
-				dr = uploadDataService.handleData(ft, request, member_id, listFiles, currentNY, lastNY, shiroUser.getId(), shiroUser.getLoginName(), 0, builder, memo);
-				uc += dr.getUpdateRow();
-			}
+			//synchronized (this) {
+			dr = uploadDataService.handleData(ft, request, member_id, listFiles, currentNY, lastNY, shiroUser.getId(), shiroUser.getLoginName(), 0, builder, memo);
+			uc += dr.getUpdateRow();
+			//}
 		} else {
 			return("{\"jsonrpc\":\"2.0\",\"result\":\"success\",\"id\":\"id\",\"message\":\"等待所有文件上传完毕。\"}");
 		}

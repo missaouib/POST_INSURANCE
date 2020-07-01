@@ -216,6 +216,8 @@ public class TaskInNightService {
         	log.info("------------ finish exec sql" + rstInt);
         	String dateStr = (Calendar.getInstance().get(Calendar.YEAR)-1) + "-01-01";
         	
+        	statement.execute("ALTER TABLE t_policy_dtl DISABLE KEYS;");
+        	
         	String updateSQL = "update t_policy_dtl tpd, " + 
         			"(select count(distinct cr.policy_no) as cs_count, abs(sum(cr.money)) as csmoney, tpd.holder_card_num as holder, " + 
         			"group_concat(cr.policy_no SEPARATOR \",\") policy_nos, group_concat(cr.money SEPARATOR \",\") cs_moneys " + 
@@ -229,6 +231,8 @@ public class TaskInNightService {
         	log.info("------------ task service 1 :" + updateSQL);
 			rstInt = statement.executeUpdate(updateSQL);
 			log.info("------------ finish exec sql" + rstInt);
+			
+			statement.execute("ALTER TABLE t_policy_dtl ENABLE KEYS;");
 			
 			sql = "insert into t_log_info (username, message,ip_address,log_level,module) values "
 					+ "('admin','ct info stat in night task, total policy:" + rstInt + "','127.0.0.1','WARN','其他操作');";

@@ -478,7 +478,7 @@ $(document).ready(function(){
 									<tr>
 										<td>${fn:replace(item.organization.name,'中邮保险局','')}</td>
 										<td>
-										<a target="dialog" rel="lookup2organization_edit" mask="true" width="550" height="220" href="${contextPath }/qygl/underwrite/signDateUpdate/${item.id}"><span>${item.formNo}</span></a>
+										<a href="#" onclick="javascript:alert('核心业务系统回销即可，省分每工作日同步数据自动关闭');"><span>${item.formNo}</span></a>
 										</td>
 										<td>${item.policyNo}</td>
 										<td>${item.holder}</td>
