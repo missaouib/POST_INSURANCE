@@ -75,7 +75,7 @@ update t_policy tp set policy_end_date=date_add(DATE_ADD(plicy_valid_date,INTERV
 update t_policy tp set policy_end_date=date_add(DATE_ADD(plicy_valid_date,INTERVAL 12 YEAR),INTERVAL -1 DAY) where policy_end_date is null and duration=12;
 
 
-CREATE DATABASE postinsurance DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE DATABASE postinsurance DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 exi
 

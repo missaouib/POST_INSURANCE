@@ -1208,9 +1208,13 @@ public class StasticsController {
 		String saleType = request.getParameter("saleType");
 		String status = request.getParameter("status");
 		String durationStr = request.getParameter("duration");
+		String pFeeStr = request.getParameter("pFee");
 		Integer duration = (durationStr == null || !NumberUtils.isDigits(durationStr)) ? 0
 				: Integer.valueOf(durationStr);
 
+		Integer pFee = (pFeeStr == null || !NumberUtils.isDigits(pFeeStr)) ? 0
+				: Integer.valueOf(pFeeStr);
+		
 		if (statType == null || statType.trim().length() <= 0) {
 			statType = "Organ";
 		}
@@ -1276,6 +1280,7 @@ public class StasticsController {
 		request.setAttribute("saleType2", saleType == null || saleType.length() < 4 ? "" : saleType.substring(0, 4));
 		request.setAttribute("status", status);
 		request.setAttribute("duration", duration);
+		request.setAttribute("pFee", pFee);
 
 		boolean hasNet = true;
 		if (netFlag == null || netFlag.trim().length() <= 0) {
@@ -1292,6 +1297,7 @@ public class StasticsController {
 		cm.setSaleType(saleType);
 		cm.setStatus(status);
 		cm.setDuration(duration);
+		cm.setpFee(pFee);
 		request.setAttribute("PolicyStatModel", cm);
 
 		String fd = StringUtil.getFirstDayOfMonth("yyyy-MM-dd");
@@ -1315,43 +1321,43 @@ public class StasticsController {
 			if (isNet) {
 				if (hasNet) {
 					temp = stasticsService.getPolicyOrganNetStasticsWithBankCode(organCode + "%", pd1, pd2, netFlag,
-							prdCode, toPerm, isStaff, bankName, csFlag, saleType, status, duration);
+							prdCode, toPerm, isStaff, bankName, csFlag, saleType, status, duration, pFee);
 				} else {
 					temp = stasticsService.getPolicyOrganNetStastics(organCode + "%", pd1, pd2, prdCode, toPerm,
-							isStaff, bankName, csFlag, saleType, status, duration);
+							isStaff, bankName, csFlag, saleType, status, duration, pFee);
 				}
 			} else if (isCity) {
 				if (hasNet) {
 					temp = stasticsService.getPolicyOrganStasticsWithBankCode(organCode + "%", pd1, pd2, netFlag,
-							prdCode, toPerm, isStaff, bankName, csFlag, saleType, status, duration);
+							prdCode, toPerm, isStaff, bankName, csFlag, saleType, status, duration, pFee);
 				} else {
 					temp = stasticsService.getPolicyOrganStastics(organCode + "%", pd1, pd2, prdCode, toPerm, isStaff,
-							csFlag, saleType, status, duration);
+							csFlag, saleType, status, duration, pFee);
 				}
 			} else {
 				if (hasNet) {
 					temp = stasticsService.getProvPolicyOrganStasticsWithBankCode(organCode + "%", pd1, pd2, netFlag,
-							prdCode, toPerm, isStaff, bankName, csFlag, saleType, status, duration);
+							prdCode, toPerm, isStaff, bankName, csFlag, saleType, status, duration, pFee);
 				} else {
 					temp = stasticsService.getProvPolicyOrganStastics(organCode + "%", pd1, pd2, prdCode, toPerm,
-							isStaff, csFlag, saleType, status, duration);
+							isStaff, csFlag, saleType, status, duration, pFee);
 				}
 			}
 		} else if (statType.equals("Prod")) {
 			if (hasNet) {
 				temp = stasticsService.getPolicyProdStasticsWithBankCode(organCode + "%", pd1, pd2, netFlag, prdCode,
-						toPerm, isStaff, bankName, csFlag, saleType, status, duration);
+						toPerm, isStaff, bankName, csFlag, saleType, status, duration, pFee);
 			} else {
 				temp = stasticsService.getPolicyProdStastics(organCode + "%", pd1, pd2, prdCode, toPerm, isStaff,
-						csFlag, saleType, status, duration);
+						csFlag, saleType, status, duration, pFee);
 			}
 		} else {
 			if (hasNet) {
 				temp = stasticsService.getPolicyFeeFrequencyStasticsWithBankCode(organCode + "%", pd1, pd2, netFlag,
-						prdCode, toPerm, isStaff, bankName, csFlag, saleType, status, duration);
+						prdCode, toPerm, isStaff, bankName, csFlag, saleType, status, duration, pFee);
 			} else {
 				temp = stasticsService.getPolicyFeeFrequencyStastics(organCode + "%", pd1, pd2, prdCode, toPerm,
-						isStaff, csFlag, saleType, status, duration);
+						isStaff, csFlag, saleType, status, duration, pFee);
 			}
 		}
 
@@ -1444,8 +1450,12 @@ public class StasticsController {
 		String saleType = request.getParameter("saleType");
 		String status = request.getParameter("status");
 		String durationStr = request.getParameter("duration");
+		String pFeeStr = request.getParameter("pFee");
 		Integer duration = (durationStr == null || !NumberUtils.isDigits(durationStr)) ? 0
 				: Integer.valueOf(durationStr);
+
+		Integer pFee = (pFeeStr == null || !NumberUtils.isDigits(pFeeStr)) ? 0
+				: Integer.valueOf(pFeeStr);
 
 		if (statType == null || statType.trim().length() <= 0) {
 			statType = "Organ";
@@ -1531,43 +1541,43 @@ public class StasticsController {
 			if (isNet) {
 				if (hasNet) {
 					temp = stasticsService.getPolicyOrganNetStasticsWithBankCode(organCode + "%", pd1, pd2, netFlag,
-							prdCode, toPerm, isStaff, bankName, csFlag, saleType, status, duration);
+							prdCode, toPerm, isStaff, bankName, csFlag, saleType, status, duration, pFee);
 				} else {
 					temp = stasticsService.getPolicyOrganNetStastics(organCode + "%", pd1, pd2, prdCode, toPerm,
-							isStaff, bankName, csFlag, saleType, status, duration);
+							isStaff, bankName, csFlag, saleType, status, duration, pFee);
 				}
 			} else if (isCity) {
 				if (hasNet) {
 					temp = stasticsService.getPolicyOrganStasticsWithBankCode(organCode + "%", pd1, pd2, netFlag,
-							prdCode, toPerm, isStaff, bankName, csFlag, saleType, status, duration);
+							prdCode, toPerm, isStaff, bankName, csFlag, saleType, status, duration, pFee);
 				} else {
 					temp = stasticsService.getPolicyOrganStastics(organCode + "%", pd1, pd2, prdCode, toPerm, isStaff,
-							csFlag, saleType, status, duration);
+							csFlag, saleType, status, duration, pFee);
 				}
 			} else {
 				if (hasNet) {
 					temp = stasticsService.getProvPolicyOrganStasticsWithBankCode(organCode + "%", pd1, pd2, netFlag,
-							prdCode, toPerm, isStaff, bankName, csFlag, saleType, status, duration);
+							prdCode, toPerm, isStaff, bankName, csFlag, saleType, status, duration, pFee);
 				} else {
 					temp = stasticsService.getProvPolicyOrganStastics(organCode + "%", pd1, pd2, prdCode, toPerm,
-							isStaff, csFlag, saleType, status, duration);
+							isStaff, csFlag, saleType, status, duration, pFee);
 				}
 			}
 		} else if (statType.equals("Prod")) {
 			if (hasNet) {
 				temp = stasticsService.getPolicyProdStasticsWithBankCode(organCode + "%", pd1, pd2, netFlag, prdCode,
-						toPerm, isStaff, bankName, csFlag, saleType, status, duration);
+						toPerm, isStaff, bankName, csFlag, saleType, status, duration, pFee);
 			} else {
 				temp = stasticsService.getPolicyProdStastics(organCode + "%", pd1, pd2, prdCode, toPerm, isStaff,
-						csFlag, saleType, status, duration);
+						csFlag, saleType, status, duration, pFee);
 			}
 		} else {
 			if (hasNet) {
 				temp = stasticsService.getPolicyFeeFrequencyStasticsWithBankCode(organCode + "%", pd1, pd2, netFlag,
-						prdCode, toPerm, isStaff, bankName, csFlag, saleType, status, duration);
+						prdCode, toPerm, isStaff, bankName, csFlag, saleType, status, duration, pFee);
 			} else {
 				temp = stasticsService.getPolicyFeeFrequencyStastics(organCode + "%", pd1, pd2, prdCode, toPerm,
-						isStaff, csFlag, saleType, status, duration);
+						isStaff, csFlag, saleType, status, duration, pFee);
 			}
 		}
 

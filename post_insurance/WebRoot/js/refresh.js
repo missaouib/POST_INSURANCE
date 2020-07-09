@@ -126,12 +126,12 @@ function DateDiff(sDate1, sDate2) {  //sDate1和sDate2是yyyy-MM-dd格式
 }
 
 function urlCheckOverDate(pcount,fd, sDate1, sDate2, url) {
-	if(pcount<=5000) {
+	if(pcount<=10000) {
 		window.open(url,"_blank"); 
 		return true;
 	}
-	if((DateDiff(sDate1, sDate2) > fd) || pcount>5000) {
-		alert("服务器：请不要下载超过5000条记录或者日期超过" + fd + "天的数据啦！");
+	if((DateDiff(sDate1, sDate2) > fd) || pcount>10000) {
+		alert("服务器：请不要下载超过10000条记录或者日期超过" + fd + "天的数据啦！");
 		return false;
 	}
 	window.open(url,"_blank"); 

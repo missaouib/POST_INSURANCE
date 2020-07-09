@@ -108,7 +108,10 @@ function toTips(val) {
 							<form:option value="10">长期险</form:option>
 						</form:select>
 					</td>
-					<td>&nbsp;</td>
+					<td>
+					<label>最低保费：</label>
+					<input type="text" name="pFee" id="ps_policyFee" value="${pFee }"/>
+					</td>
 					<td>&nbsp;</td>
 				</tr>
 			</table>
@@ -121,7 +124,7 @@ function toTips(val) {
 	</div>
 </form>
 <h2 class="contentTitle"><label>统计结果</label>
-<a class="buttonActive" target="_blank" href="${contextPath }/component/stastics/policy/toXls?duration=${duration }&orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&csDate1=${csDate1 }&csDate2=${csDate2 }&prdCode=${prdCode}&levelFlag=${levelFlag}&netFlag=${netFlag}&perm=${perm}&staffFlag=${staffFlag}&csFlag=${csFlag}&statType=${statType}&saleType=${saleType2}&status=${status}"><span>导出统计结果</span></a>
+<a class="buttonActive" target="_blank" href="${contextPath }/component/stastics/policy/toXls?duration=${duration }&orgCode=${orgCode }&policyDate1=${policyDate1 }&policyDate2=${policyDate2 }&csDate1=${csDate1 }&csDate2=${csDate2 }&prdCode=${prdCode}&levelFlag=${levelFlag}&netFlag=${netFlag}&perm=${perm}&staffFlag=${staffFlag}&csFlag=${csFlag}&statType=${statType}&saleType=${saleType2}&status=${status}&pFee=${pFee}"><span>导出统计结果</span></a>
 </h2>
 <br>
 <div class="pageContent" layoutH="150" width="150%">

@@ -14,6 +14,7 @@ response.setHeader("Content-Disposition", "inline; filename=CS_REPORT_LIST.xls")
 		<th>保全受理号</th>
 		<th>保单号</th>
 		<th>险种名称</th>
+		<th>机构简称</th>
 		<th>所属机构</th>
 		<th>网点名称</th>
 		<th>渠道</th>
@@ -34,6 +35,7 @@ response.setHeader("Content-Disposition", "inline; filename=CS_REPORT_LIST.xls")
 		<td>${item.csNo}</td>
 		<td style="vnd.ms-excel.numberformat:@">${item.policy.policyNo}</td>
 		<td>${item.policy.prodName}</td>
+		<td>${item.policy.organName}</td>
 		<td>${item.organName}</td>
 		<td>${item.netName}</td>
 		<td>${item.csChannel}</td>

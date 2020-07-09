@@ -9,7 +9,7 @@
 	<input type="hidden" name="search_LTE_csDate" value="${param.search_LTE_csDate }"/>
 	<input type="hidden" name="search_GTE_csDate" value="${param.search_GTE_csDate }"/>
 	<input type="hidden" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
-	<input type="hidden" name="search_LIKE_csCode" value="${param.search_LIKE_csCode }">
+	<input type="hidden" name="search_LIKE_fullCsCode" value="${param.search_LIKE_fullCsCode }">
 	<input type="hidden" name="search_LIKE_staffFlag" value="${param.search_LIKE_staffFlag }">
 </dwz:paginationForm>
 
@@ -39,6 +39,9 @@
 						<form:option value="1"> 员工单 </form:option>
 					</form:select>
 					</td>
+					<td><label>产品：</label>
+					&nbsp;
+					</td>
 				</tr>
 				<tr>
 					<td>
@@ -50,7 +53,7 @@
 						<input type="text" id="payCsDate2" name="search_LTE_csDate" class="date validate[required] required" style="width: 80px;"dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_csDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
-						保全编码：<input type="text" style="width: 100px;" id="csCode" name="search_LIKE_csCode" value="${param.search_LIKE_csCode }"/>
+						保全编码：<input type="text" style="width: 100px;" id="fullCsCode" name="search_LIKE_fullCsCode" value="${param.search_LIKE_fullCsCode }"/>
 					</td>
 					<td>
 					<label>申请方式：</label>
@@ -62,6 +65,7 @@
 					  <option value="邮保通">邮保通保全</option>
 					</select>
 					</td>
+					<td>&nbsp;</td>
 				</tr>
 			</table>
 			<div class="subBar">
@@ -78,7 +82,7 @@
 	<div class="panelBar">
 		<ul class="toolBar">
 			<li class="line">line</li>
-			<li><a class="icon" onclick="javascript:urlCheckOverDate(${page.getTotalCount() },183, $('#payCsDate1').val(),$('#payCsDate2').val(),'${contextPath }/bqgl/report/list/toXls?orgCode=${orgCode}&search_LTE_csDate=${param.search_LTE_csDate}&search_GTE_csDate=${param.search_GTE_csDate}&search_LIKE_csNo=${param.search_LIKE_csNo}&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo}&search_LIKE_staffFlag=${csReport.search_LIKE_staffFlag}&search_LIKE_csCode=${param.search_LIKE_csCode}');"><span>导出Excel</span></a></li>
+			<li><a class="icon" onclick="javascript:urlCheckOverDate(${page.getTotalCount() },183, $('#payCsDate1').val(),$('#payCsDate2').val(),'${contextPath }/bqgl/report/list/toXls?orgCode=${orgCode}&search_LTE_csDate=${param.search_LTE_csDate}&search_GTE_csDate=${param.search_GTE_csDate}&search_LIKE_csNo=${param.search_LIKE_csNo}&search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo}&search_LIKE_staffFlag=${csReport.search_LIKE_staffFlag}&search_LIKE_fullCsCode=${param.search_LIKE_fullCsCode}');"><span>导出Excel</span></a></li>
 			<!-- 
 			<li class="line">line</li>
 			<li><a class="icon" target="dialog" href="${contextPath }/pay/help" mask="true" width="530" height="430"><span>功能说明</span></a></li>

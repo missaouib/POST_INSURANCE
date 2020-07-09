@@ -44,8 +44,21 @@ public class PolicyStatModel implements java.io.Serializable {
 	private String status;
 	@Transient
 	private Integer duration;
+	
+	@Transient
+	private Integer pFee;
 
 	// Constructors
+
+	@Transient
+	public Integer getpFee() {
+		return pFee;
+	}
+
+	@Transient
+	public void setpFee(Integer pFee) {
+		this.pFee = pFee;
+	}
 
 	/** default constructor */
 	public PolicyStatModel() {
