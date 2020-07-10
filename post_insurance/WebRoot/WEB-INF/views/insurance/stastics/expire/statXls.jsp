@@ -32,6 +32,6 @@ response.setHeader("Content-Disposition", "inline; filename=tuibao_warnning.xls"
 		<td style="text-align: right;"><fmt:formatNumber value="${sumTb}" pattern="#,###.#" /></td>
 		<td style="text-align: right;"><fmt:formatNumber value="${totalCS}" pattern="#,###.#" /></td>
 		<td style="text-align: right;"><fmt:formatNumber value="${totalTb}" pattern="#,###.#" /></td>
-		<td style="text-align: right;"><fmt:formatNumber value="${sumTb/totalTb*100}" pattern="#,###.#" />%</td>
+		<td style="text-align: right;"><fmt:formatNumber value="${sumTb/totalTb*100}" pattern="#,###.##" />%</td>
 	</tr>
 </table>

@@ -159,9 +159,9 @@ function toTips(val) {
 					</c:choose>
 				</td>
 				<td style="text-align: right;"><fmt:formatNumber value="${item.policyCount-item.jzhCount}" pattern="#,###.#" /></td>
-				<td style="text-align: right;"><fmt:formatNumber value="${(item.policyCount-item.jzhCount)/countPt*100}" pattern="#,###.#" />%</td>
+				<td style="text-align: right;"><fmt:formatNumber value="${(item.policyCount-item.jzhCount)/countPt*100}" pattern="#,###.##" />%</td>
 				<td style="text-align: right;"><fmt:formatNumber value="${item.policyFee}" pattern="#,###.#" /></td>
-				<td style="text-align: right;"><fmt:formatNumber value="${item.policyFee/sumPt*100}" pattern="#,###.#" />%</td>
+				<td style="text-align: right;"><fmt:formatNumber value="${item.policyFee/sumPt*100}" pattern="#,###.##" />%</td>
 				<td style="text-align: right;"><fmt:formatNumber value="${item.hadPolicyFee}" pattern="#,###.##" /></td>
 			</tr>
 			</c:forEach>

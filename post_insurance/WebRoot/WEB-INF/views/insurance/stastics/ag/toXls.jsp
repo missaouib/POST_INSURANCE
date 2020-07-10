@@ -23,7 +23,7 @@ response.setHeader("Content-Disposition", "inline; filename=AG_STAT.xls");
 		<td>${item.policyFee}</td>
 		<td>${item.sumCsFee}</td>
 		<td><fmt:formatNumber value="${item.sumCsFee/item.policyFee*100}" pattern="#,###.##" />%</td>
-		<td><fmt:formatNumber value="${item.sumFee/item.sumPolicyFee*100}" pattern="#,###.#" />%</td>
+		<td><fmt:formatNumber value="${item.sumFee/item.sumPolicyFee*100}" pattern="#,###.##" />%</td>
 	</tr>
 	</c:forEach>
 	<tr>
@@ -31,7 +31,7 @@ response.setHeader("Content-Disposition", "inline; filename=AG_STAT.xls");
 		<td>合计：</td>
 		<td><fmt:formatNumber value="${sumTb}" pattern="#,###.#" /></td>
 		<td><fmt:formatNumber value="${totalCS}" pattern="#,###.#" /></td>
-		<td><fmt:formatNumber value="${totalCS/sumTb*100}" pattern="#,###.#" />%</td>
-		<td><fmt:formatNumber value="${csMoney/csProfit*100}" pattern="#,###.#" />%</td>
+		<td><fmt:formatNumber value="${totalCS/sumTb*100}" pattern="#,###.##" />%</td>
+		<td><fmt:formatNumber value="${csMoney/csProfit*100}" pattern="#,###.##" />%</td>
 	</tr>
 </table>

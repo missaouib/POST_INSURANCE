@@ -130,8 +130,8 @@ function toTips(val) {
 				<td>${item.organName}</td>
 				<td style="text-align: right;"><fmt:formatNumber value="${item.policyFee}" pattern="#,###.#" /></td>
 				<td style="text-align: right;"><fmt:formatNumber value="${item.sumCsFee}" pattern="#,###.#" /></td>
-				<td style="text-align: right;"><fmt:formatNumber value="${item.sumCsFee/item.policyFee*100}" pattern="#,###.#" />%</td>
-				<td style="text-align: right;"><fmt:formatNumber value="${item.sumFee/item.sumPolicyFee*100}" pattern="#,###.#" />%</td>
+				<td style="text-align: right;"><fmt:formatNumber value="${item.sumCsFee/item.policyFee*100}" pattern="#,###.##" />%</td>
+				<td style="text-align: right;"><fmt:formatNumber value="${item.sumFee/item.sumPolicyFee*100}" pattern="#,###.##" />%</td>
 			</tr>
 			</c:forEach>
 			<tr>
@@ -139,8 +139,8 @@ function toTips(val) {
 				<td>合计：</td>
 				<td style="text-align: right;"><fmt:formatNumber value="${countPt}" pattern="#,###.#" /></td>
 				<td style="text-align: right;"><fmt:formatNumber value="${sumPt}" pattern="#,###.#" /></td>
-				<td style="text-align: right;"><fmt:formatNumber value="${sumPt/countPt*100}" pattern="#,###.#" />%</td>
-				<td style="text-align: right;"><fmt:formatNumber value="${csMoney/csProfit*100}" pattern="#,###.#" />%</td>
+				<td style="text-align: right;"><fmt:formatNumber value="${sumPt/countPt*100}" pattern="#,###.##" />%</td>
+				<td style="text-align: right;"><fmt:formatNumber value="${csMoney/csProfit*100}" pattern="#,###.##" />%</td>
 			</tr>
 		</tbody>
 	</table>

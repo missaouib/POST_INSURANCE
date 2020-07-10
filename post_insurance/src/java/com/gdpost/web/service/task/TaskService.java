@@ -573,7 +573,7 @@ public class TaskService {
 			rstInt = statement.executeUpdate(updateSQL);
 			log.info("------------ finish exec sql：" + rstInt);
 			
-			sql = "delete from t_check_write where policy_no in(select policy_no from t_policy where prod_code=\"120022\");";
+			sql = "delete from t_check_write where key_info not like \"Email不真实%\" and policy_no in(select policy_no from t_policy where prod_code=\"120022\");";
 			log.info("------------ finish exec sql：" + sql);
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);

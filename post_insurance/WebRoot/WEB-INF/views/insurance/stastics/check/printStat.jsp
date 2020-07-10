@@ -77,7 +77,7 @@ function toTips(val) {
 				<td>${item.orgName }</td>
 				<td style="text-align: right;"><fmt:formatNumber value="${item.policyCounts}" pattern="#,###.#" /></td>
 				<td style="text-align: right;"><fmt:formatNumber value="${item.checkCounts}" pattern="#,###.#" /></td>
-				<td style="text-align: right;"><fmt:formatNumber value="${(item.checkCounts/item.policyCounts)*100}" pattern="#,###.#" />%</td>
+				<td style="text-align: right;"><fmt:formatNumber value="${(item.checkCounts/item.policyCounts)*100}" pattern="#,###.##" />%</td>
 			</tr>
 			</c:forEach>
 			<tr>
@@ -85,7 +85,7 @@ function toTips(val) {
 				<td>合计：</td>
 				<td style="text-align: right;"><fmt:formatNumber value="${countPt}" pattern="#,###.#" /></td>
 				<td style="text-align: right;"><fmt:formatNumber value="${sumPt}" pattern="#,###.#" /></td>
-				<td style="text-align: right;"><fmt:formatNumber value="${(sumPt/countPt)*100}" pattern="#,###.#" />%</td>
+				<td style="text-align: right;"><fmt:formatNumber value="${(sumPt/countPt)*100}" pattern="#,###.##" />%</td>
 			</tr>
 		</tbody>
 	</table>
