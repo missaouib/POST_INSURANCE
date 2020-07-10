@@ -158,11 +158,11 @@ public class UploadDataServiceImpl implements UploadDataService{
 			tableName = "t_policy";
 			standardColumns = PolicyColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_policy character set utf8 (";
-			sql1 = "delete from t_policy where form_no is null or policy_fee<=0;";
+			sql1 = "delete from t_policy where policy_date>=\"2013-01-01\" and form_no is null or policy_fee<=0;";
 			sql2 = "update t_policy set attached_flag = 1 where attached_flag=0 and prod_name like \"中邮附加%\";";
 			sql3 = "update t_policy set attached_flag = 2 where attached_flag=0 and prod_name like \"中邮禄禄通%\";";
 			sql4 = "update t_policy set attached_flag = 3 where attached_flag=0 and policy_no like \"5244%\";";
-			sql12 = "update t_policy set attached_flag = 7 where attached_flag=0 and policy_fee=1 and prod_code=\"125022\";";
+			sql12 = "update t_policy set attached_flag = 7 where attached_flag=0 and policy_fee=1 and prod_code in (\"125022\", \"112007\");";
 			sql8 = "update t_policy set attached_flag = 8 where attached_flag=0 and prod_code in(\"125019\",\"121001\",\"121002\");";
 			sql5 = "update t_policy tp inner join (select sum(policy_fee) as total_fee, policy_no from t_policy where total_fee=0 and TO_DAYS(NOW())=TO_DAYS(operate_time) group by policy_no) as tp2 set tp.total_fee=tp2.total_fee where tp.total_fee=0 and tp.attached_flag=0 and tp.policy_no=tp2.policy_no and TO_DAYS(NOW())=TO_DAYS(tp.operate_time);";
 			sql6 = "update t_under_write uw,t_policy tp,t_bank_code bc set uw.net_name=bc.name where uw.policy_no is not null and uw.net_name is null and uw.policy_no=tp.policy_no and tp.bank_code=bc.cpi_code and TO_DAYS(NOW())=TO_DAYS(tp.operate_time);";
@@ -284,14 +284,15 @@ public class UploadDataServiceImpl implements UploadDataService{
 			tableName = "t_check_write";
 			standardColumns = CheckColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_check_write character set utf8 (fix_status, ";
-			sql1 = "update t_check_write set need_fix=\"要整改\" where key_info is not null and length(key_info)>0;";
-			sql2 = "update t_check_write cw, t_policy tp set cw.form_no=tp.form_no where cw.policy_no=tp.policy_no and tp.attached_flag=0 and cw.form_no is null and need_fix=\"要整改\";";
+			sql2 = "update t_check_write set need_fix=\"要整改\" where key_info is not null and length(key_info)>0 and status<>\"ElseStatus\" and need_fix=\"不要整改\";";
+			sql3 = "update t_check_write cw, t_policy tp set cw.form_no=tp.form_no where cw.policy_no=tp.policy_no and tp.attached_flag=0 and cw.form_no is null and need_fix=\"要整改\";";
+			sql1 = "delete from t_check_write where policy_no not in (select policy_no from t_policy);";
 			break;
 		case CheckRecord:
 			tableName = "t_check_record";
 			standardColumns = CheckColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_check_record character set utf8 (fix_status, ";
-			sql1 = "update t_check_record set need_fix=\"要整改\" where key_info is not null and length(key_info)>0;";
+			sql1 = "update t_check_record set need_fix=\"要整改\" where key_info is not null and length(key_info)>0 and status<>\"ElseStatus\";";
 			break;
 		case CheckCityBack:
 			standardColumns = CheckCityBackColumn.getStandardColumns();
@@ -359,6 +360,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql5 = "update t_under_write uw, t_policy_dtl pd set uw.holder=cast(aes_decrypt(unhex(pd.holder), 'GDPost') as char(100)),uw.insured=cast(aes_decrypt(unhex(pd.insured), 'GDPost') as char(100)),uw.relation=pd.relation where uw.policy_no=pd.policy_no and uw.holder is null;";
 			sql6 = "update t_under_write uw, t_prd prd set uw.product_id=prd.id where uw.product_id is null and uw.prd_name=prd.prd_full_name;";
 			sql7 = "update t_under_write uw, t_organization org set uw.organ_id=org.id where uw.organ_id is null and uw.organ_name=org.name;";
+			sql8 = "update t_under_write set sys_date=check_date where sys_date is null and check_date is not null;";
+			sql9 = "update t_under_write set bill_back_date=client_receive_date where bill_back_date is null and client_receive_date is not null;";
 			break;
 		case UnderWriteDtlData:
 			standardColumns = UnderWriteDtlColumn.getStandardColumns();

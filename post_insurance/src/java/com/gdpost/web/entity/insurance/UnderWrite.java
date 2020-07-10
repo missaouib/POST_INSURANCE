@@ -798,7 +798,8 @@ public class UnderWrite implements Idable<Long> {
 	@OneToOne(optional=true, fetch=FetchType.EAGER)
 	@JoinColumnsOrFormulas(value={
 	@JoinColumnOrFormula(column=@JoinColumn(name ="form_no", referencedColumnName ="rel_no", insertable =false, updatable = false)),
-	@JoinColumnOrFormula(formula=@JoinFormula(value="0", referencedColumnName = "success_flag"))
+	@JoinColumnOrFormula(formula=@JoinFormula(value="0", referencedColumnName = "success_flag")),
+	@JoinColumnOrFormula(formula=@JoinFormula(value="\"NewStatus\"", referencedColumnName = "status"))
 	})
 	//@OneToOne(optional=true, fetch=FetchType.EAGER)
 	//@JoinColumn(name="form_no", referencedColumnName="rel_no", insertable=false, updatable=false, nullable=true)

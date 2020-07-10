@@ -305,7 +305,7 @@ public class TaskService {
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
 			
-			sql = "update t_check_write cw, t_policy_dtl tpd set cw.fix_status=\"CloseStatus\",cw.fix_desc=concat(cw.fix_desc,\"员工单\"),cw.deal_man=\"System\",cw.deal_time=current_timestamp where cw.policy_no=tpd.policy_no and cw.key_info=\"地址含有邮政关键信息;\" and cw.fix_status<>\"CloseStatus\" and tpd.holder_card_num in (select id_card from t_staff where year=year(now()));";
+			sql = "update t_check_write cw, t_policy_dtl tpd set cw.fix_status=\"CloseStatus\",cw.fix_desc=concat(cw.fix_desc,\"，核实为员工单\"),cw.deal_man=\"System\",cw.deal_time=current_timestamp where cw.policy_no=tpd.policy_no and cw.key_info=\"地址含有邮政关键信息;\" and cw.fix_status<>\"CloseStatus\" and tpd.holder_card_num in (select id_card from t_staff where year=year(now()));";
 			log.info("------------ sql :" + sql);
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
