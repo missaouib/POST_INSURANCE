@@ -300,12 +300,12 @@ public class TaskService {
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
 			
-			sql = "update t_check_write set fix_status=\"CTStatus\",fix_desc=concat(fix_desc,\"：已退保\")  where fix_status<>\"NewStatus\" and fix_status<>\"CloseStatus\" and fix_status<>\"CTStatus\" and policy_no in (select policy_no from t_policy where cs_flag<>0);";
+			sql = "update t_check_write set fix_status=\"CTStatus\",fix_desc=concat(fix_desc,\"：已退保\")  where fix_status in (\"NewStatus\", \"IngStatus\", \"FailStatus\") and policy_no in (select policy_no from t_policy where cs_flag<>0);";
 			log.info("------------ sql :" + sql);
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
 			
-			sql = "update t_check_write cw, t_policy_dtl tpd set cw.fix_status=\"CloseStatus\",cw.fix_desc=concat(cw.fix_desc,\"，核实为员工单\"),cw.deal_man=\"System\",cw.deal_time=current_timestamp where cw.policy_no=tpd.policy_no and cw.key_info=\"地址含有邮政关键信息;\" and cw.fix_status<>\"CloseStatus\" and tpd.holder_card_num in (select id_card from t_staff where year=year(now()));";
+			sql = "update t_check_write cw, t_policy_dtl tpd set cw.fix_status=\"ElseStatus\",cw.fix_desc=concat(cw.fix_desc,\"，核实为员工单\"),cw.deal_man=\"System\",cw.deal_time=current_timestamp where cw.policy_no=tpd.policy_no and cw.key_info=\"地址含有邮政关键信息;\" and cw.fix_status<>\"ElseStatus\" and tpd.holder_card_num in (select id_card from t_staff where year=year(now()));";
 			log.info("------------ sql :" + sql);
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);

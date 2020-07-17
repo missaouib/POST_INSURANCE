@@ -284,7 +284,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			tableName = "t_check_write";
 			standardColumns = CheckColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_check_write character set utf8 (fix_status, ";
-			sql2 = "update t_check_write set need_fix=\"要整改\" where key_info is not null and length(key_info)>0 and status<>\"ElseStatus\" and need_fix=\"不要整改\";";
+			sql2 = "update t_check_write set need_fix=\"要整改\" where key_info is not null and length(key_info)>0 and fix_status<>\"ElseStatus\" and need_fix=\"不要整改\";";
 			sql3 = "update t_check_write cw, t_policy tp set cw.form_no=tp.form_no where cw.policy_no=tp.policy_no and tp.attached_flag=0 and cw.form_no is null and need_fix=\"要整改\";";
 			sql1 = "delete from t_check_write where policy_no not in (select policy_no from t_policy);";
 			break;
@@ -292,7 +292,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			tableName = "t_check_record";
 			standardColumns = CheckColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_check_record character set utf8 (fix_status, ";
-			sql1 = "update t_check_record set need_fix=\"要整改\" where key_info is not null and length(key_info)>0 and status<>\"ElseStatus\";";
+			sql1 = "update t_check_record set need_fix=\"要整改\" where key_info is not null and length(key_info)>0 and fix_status<>\"ElseStatus\";";
 			break;
 		case CheckCityBack:
 			standardColumns = CheckCityBackColumn.getStandardColumns();
