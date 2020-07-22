@@ -11,6 +11,7 @@
 	<input type="hidden" name="search_GTE_policyEndDate" value="${param.search_GTE_policyEndDate }"/>
 	<input type="hidden" name="search_LIKE_finalLevel" value="${param.search_LIKE_finalLevel }"/>
 	<input type="hidden" name="status" value="${status }"/>
+	<input type="hidden" name="prd.prdFullName" value="${prd_name }"/>
 </dwz:paginationForm>
 
 <form method="post" id="bqForm" action="${contextPath }/bqgl/expire/list" onsubmit="return navTabSearch(this)">
@@ -56,7 +57,10 @@
 						<label>满期日期：</label>
 						<input type="text" id="csExpireDate2" name="search_LTE_policyEndDate" class="date validate[required] required" style="width: 80px;"dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_policyEndDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
-					<td>&nbsp;
+					<td>
+					<label>产品：</label>
+					<input name="prd.prdFullName" type="text" postField="search_LIKE_prdName" suggestFields="prdFullName" class="input-medium validate[required,maxSize[32]] required"
+					suggestUrl="/common/lookupPrdSuggest" lookupGroup="prd" value="${prd_name }"/>
 					</td>
 				</tr>
 			</table>
@@ -80,7 +84,7 @@
 				<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/bqgl/expire/WARNStatus" title="确认批量将保单设为异常件?"><span>批量异常</span></a></li>
 			</shiro:hasPermission>
 			<li class="line">line</li>
-			<li><a class="icon" onclick="javascript:urlCheckOverDate(${page.getTotalCount() },365, $('#csExpireDate1').val(),$('#csExpireDate2').val(),'${contextPath }/bqgl/expire/toXls?search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&orgCode=${orgCode }&search_LTE_policyEndDate=${param.search_LTE_policyEndDate }&search_GTE_policyEndDate=${param.search_GTE_policyEndDate }&status=${param.status }&search_LIKE_finalLevel=${param.search_LIKE_finalLevel}');"><span>导出Excel</span></a></li>
+			<li><a class="icon" onclick="javascript:urlCheckOverDate(${page.getTotalCount() },365, $('#csExpireDate1').val(),$('#csExpireDate2').val(),'${contextPath }/bqgl/expire/toXls?search_LIKE_policy.policyNo=${search_LIKE_policy_policyNo }&orgCode=${orgCode }&search_LTE_policyEndDate=${param.search_LTE_policyEndDate }&search_GTE_policyEndDate=${param.search_GTE_policyEndDate }&status=${param.status }&search_LIKE_finalLevel=${param.search_LIKE_finalLevel}&prd.prdFullName=${prd_name }');"><span>导出Excel</span></a></li>
 		</ul>
 	</div>
 	<div id="w_list_print">

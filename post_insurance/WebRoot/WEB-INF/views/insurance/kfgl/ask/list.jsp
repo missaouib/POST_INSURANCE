@@ -12,8 +12,6 @@
 	<input type="hidden" name="kfstatus_flag" value="${kfstatus_flag }"/>
 	<input type="hidden" name="search_LTE_operateTime" value="${param.search_LTE_operateTime }"/>
 	<input type="hidden" name="search_GTE_operateTime" value="${param.search_GTE_operateTime }"/>
-	<input type="hidden" name="search_LTE_billBackDate" value="${param.search_LTE_billBackDate }"/>
-	<input type="hidden" name="search_GTE_billBackDate" value="${param.search_GTE_billBackDate }"/>
 </dwz:paginationForm>
 
 <form method="post" id="kfForm" action="${contextPath }/kfgl/inquire/list" onsubmit="return navTabSearch(this)">
@@ -26,29 +24,9 @@
 						工单号：<input type="text" id="kfPolicyNo" name="search_LIKE_inquireNo" style="width: 80px;" value="${param.search_LIKE_inquireNo }"/>
 					</td>
 					<td>
-						<label>状态：</label>
-						<form:select path="inquire.inquireStatus" id="kfaskStatus" class="combox">
-							<form:option value=""> -- -- </form:option>
-							<form:options items="${statusList }" itemLabel="desc"/>
-						</form:select>
-					</td>
-					<td>
 						<label>所属机构：</label>
 						<input name="orgCode" id="kf_orgCode" type="hidden" value="${orgCode }"/>
 						<input class="validate[required] required" name="name" id="kf_orgName" type="text" readonly="readonly" style="width: 100px;" value="${name }"/><a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="" title="选择机构" width="400">查</a>
-					</td>
-					<td>
-						<label>签收起日期：</label>
-						<input type="text" name="search_GTE_billBackDate" id="kfBBDDate1" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_billBackDate }"/><a class="inputDateButton" href="javascript:;">选</a>
-					</td>
-					<td>
-						<label>签收止日期：</label>
-						<input type="text" name="search_LTE_billBackDate" id="kfBBDDate2" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_billBackDate }"/><a class="inputDateButton" href="javascript:;">选</a>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						保单号：<input type="text" id="kfPolicyNo" style="width: 80px;" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
 					</td>
 					<td>
 						<label>开始起日期：</label>
@@ -58,6 +36,18 @@
 						<label>结束止日期：</label>
 						<input type="text" name="search_LTE_operateTime" id="kfDate2" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_operateTime }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
+				</tr>
+				<tr>
+					<td>
+						保单号：<input type="text" id="kfPolicyNo" style="width: 80px;" name="search_LIKE_policy.policyNo" value="${search_LIKE_policy_policyNo }"/>
+					</td>
+					<td>
+						<label>状态：</label>
+						<form:select path="inquire.inquireStatus" id="kfaskStatus" class="combox">
+							<form:option value=""> -- -- </form:option>
+							<form:options items="${statusList }" itemLabel="desc"/>
+						</form:select>
+					</td>
 					<td>
 						<label>工单类型（经办部门）：</label>
 						<form:select path="inquire.inquireSubtype" id="kfinquireSubtype" class="combox">
@@ -65,6 +55,7 @@
 							<form:options items="${inquireSubtypes }"/>
 						</form:select>
 					</td>
+					<td>&nbsp;</td>
 				</tr>
 			</table>
 			<div class="subBar">

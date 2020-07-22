@@ -10,6 +10,8 @@
 	</div>
 	<p>&nbsp;</p>
 	<p>&nbsp;</p>
+	<!-- 
 	<label>如点击上面链接打开无显示，点击下方链接吧</label><br><br>
 	<a href="http://10.201.223.123/spider/xuqi/index.html?organCode=${userOrgan.orgCode }" target="_blank">弹窗方式</a>
+	 -->
 </div>

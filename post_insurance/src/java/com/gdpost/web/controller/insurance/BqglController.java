@@ -7,6 +7,8 @@
  */
 package com.gdpost.web.controller.insurance;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collection;
@@ -1024,6 +1026,17 @@ public class BqglController {
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, orgCode));
 		
+		String prdName = request.getParameter("prd.prdFullName");
+		if(prdName != null && prdName.trim().length()>0) {
+			csf.add(new SearchFilter("policy.prd.prdFullName", Operator.EQ, prdName));
+			request.setAttribute("prd_name", prdName);
+			try {
+				request.setAttribute("prodName", URLEncoder.encode(prdName, "UTF8"));
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		Specification<CsReport> specification = DynamicSpecifications.bySearchFilter(request, CsReport.class, csf);
 		
 		List<CsReport> issues = bqglService.findCsReportByExample(specification, page);
@@ -1057,6 +1070,11 @@ public class BqglController {
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, orgCode));
+		
+		String prdName = request.getParameter("prd.prdFullName");
+		if(prdName != null && prdName.trim().length()>0) {
+			csf.add(new SearchFilter("policy.prd.prdFullName", Operator.EQ, prdName));
+		}
 		
 		Specification<CsReport> specification = DynamicSpecifications.bySearchFilter(request, CsReport.class, csf);
 		
@@ -1257,6 +1275,17 @@ public class BqglController {
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, orgCode));
 		
+		String prdName = request.getParameter("prd.prdFullName");
+		if(prdName != null && prdName.trim().length()>0) {
+			csf.add(new SearchFilter("policy.prd.prdFullName", Operator.EQ, prdName));
+			request.setAttribute("prd_name", prdName);
+			try {
+				request.setAttribute("prodName", URLEncoder.encode(prdName, "UTF8"));
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		if(status != null && status.trim().length()>0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
 		}
@@ -1359,6 +1388,12 @@ public class BqglController {
 		if(status != null && status.trim().length()>0) {
 			csf.add(new SearchFilter("status", Operator.EQ, status));
 		}
+		
+		String prdName = request.getParameter("prd.prdFullName");
+		if(prdName != null && prdName.trim().length()>0) {
+			csf.add(new SearchFilter("policy.prd.prdFullName", Operator.EQ, prdName));
+		}
+		
 		Specification<CsExpire> specification = DynamicSpecifications.bySearchFilter(request, CsExpire.class, csf);
 		
 		List<CsExpire> expires = bqglService.findCsExpireByExample(specification, page);
