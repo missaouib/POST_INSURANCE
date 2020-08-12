@@ -299,7 +299,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			return dr;
 		case PayToFailList:
 			tableName = "t_pay_list";
-			sql1 = "update t_pay_list set status=\"CloseStatus\" where pay_type=" + PayList.PAY_TO + " and operate_time<CURRENT_DATE and fee_type<>'保全受理号'; ";
+			firstsql = "update t_pay_list set status=\"CloseStatus\" where pay_type=" + PayList.PAY_TO + " and operate_time<CURRENT_DATE and fee_type<>'保全受理号'; ";
 			standardColumns = PayFailListColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_pay_list character set utf8 (pay_type, status, ";
 			//sql2 = "update t_renewed_list t1, t_pay_list t2, t_policy t3 set t1.fee_status=\"交费失败\",t1.fee_fail_reason=t2.fail_desc where t1.policy_no=t2.rel_no and t2.rel_no=t3.policy_no and t2.fail_desc<>'成功' and datediff(t2.back_date,t1.fee_date)>=0;";
@@ -307,7 +307,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			break;
 		case PayFromFailList:
 			tableName = "t_pay_list";
-			sql1 = "update t_pay_list set status=\"CloseStatus\" where pay_type=" + PayList.PAY_FROM + " and operate_time<CURRENT_DATE and fee_type<>'保全受理号';";
+			firstsql = "update t_pay_list set status=\"CloseStatus\" where pay_type=" + PayList.PAY_FROM + " and operate_time<CURRENT_DATE and fee_type<>'保全受理号';";
 			standardColumns = PayFailListColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_pay_list character set utf8 (pay_type, status, ";
 			//sql2 = "update t_renewed_list t1, t_pay_list t2, t_policy t3 set t1.fee_status=\"交费失败\",t1.fee_fail_reason=t2.fail_desc where t1.policy_no=t2.rel_no and t2.rel_no=t3.policy_no and t2.fail_desc<>'成功' and datediff(t2.back_date,t1.fee_date)>=0;";
@@ -317,6 +317,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			break;
 		case PaySuccessList:
 			tableName = "t_pay_list";
+			//firstsql = "update t_pay_list set status=\"CloseStatus\" where fail_desc<>\"成功\" and operate_time<CURRENT_DATE and fee_type<>'保全受理号'; ";
 			standardColumns = PayFailListColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_pay_list character set utf8 (pay_type, status, ";
 			sql1 = "update t_pay_list t1,(select rel_no from t_pay_list where fail_desc=\"成功\") t2 set t1.status='CloseStatus' where t1.status<>'CloseStatus' and t1.status<>\"成功\" and t1.rel_no=t2.rel_no;";
@@ -327,6 +328,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			break;
 		case PayFromSuccessList:
 			tableName = "t_pay_list";
+			//firstsql = "update t_pay_list set status=\"CloseStatus\" where fail_desc<>\"成功\" and operate_time<CURRENT_DATE and fee_type<>'保全受理号'; ";
 			standardColumns = PayFailListColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_pay_list character set utf8 (pay_type, status, ";
 			sql1 = "update t_pay_list t1,(select rel_no from t_pay_list where fail_desc=\"成功\") t2 set t1.status='CloseStatus' where t1.status<>'CloseStatus' and t1.status<>\"成功\" and t1.rel_no=t2.rel_no;";
@@ -524,6 +526,13 @@ public class UploadDataServiceImpl implements UploadDataService{
     				log.debug(item.getDisplayName() + "----导入日期有问题， 重置为上传当日日期: " + cell);
     	            builder.append("NULL\t");
     	            continue;
+        		}
+        		
+        		if(ft.name().equals(FileTemplate.ConversationReport.name())) {
+        			if(item.getDisplayName().equals("金额") && cell != null && StringUtil.trimStr(cell).length()<=0) {
+	    	            builder.append("0\t");
+	    	            continue;
+        			}
         		}
         		if(ft.name().equals(FileTemplate.CallFail.name())/* || ft.name().equals(FileTemplate.Issue.name())*/) {
         			if(item.getDisplayName().equals("结案时间") && cell != null && StringUtil.trimStr(cell).length()<=0) {

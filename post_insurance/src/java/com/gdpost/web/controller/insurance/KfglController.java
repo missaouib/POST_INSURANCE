@@ -220,6 +220,9 @@ public class KfglController {
 			Issue issue = kfglService.get(id);
 			if (issue != null) {
 				issue.setOrganization(null);
+				if(issue.getDealMan() == null) {
+					issue.setDealMan(SecurityUtils.getShiroUser().getUser().getRealname());
+				}
 			}
 			return issue;
 		}
@@ -230,7 +233,9 @@ public class KfglController {
 	@RequestMapping(value = "/issue/update/{id}", method = RequestMethod.GET)
 	public String preUpdate(@PathVariable Long id, Map<String, Object> map) {
 		Issue issue = kfglService.get(id);
-
+		if (issue != null && issue.getDealMan() == null) {
+			issue.setDealMan(SecurityUtils.getShiroUser().getUser().getRealname());
+		}
 		map.put("issue", issue);
 		return UPDATE;
 	}

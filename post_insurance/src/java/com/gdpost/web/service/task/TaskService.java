@@ -588,6 +588,21 @@ public class TaskService {
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
 			
+			sql = "update t_under_write uw, t_policy tp, t_prd prd set uw.product_id=prd.id where uw.policy_no=tp.policy_no and tp.attached_flag=0 and tp.prod_code=left(prd.prd_code,6);";
+			log.info("------------ finish exec sql：" + sql);
+			rstInt = statement.executeUpdate(sql);
+			log.info("------------ finish exec sql：" + rstInt);
+			
+			sql = "update t_under_write uw, t_policy tp, t_organization org set uw.organ_id=org.id where uw.policy_no=tp.policy_no and tp.organ_code=org.org_code and tp.attached_flag=0;";
+			log.info("------------ finish exec sql：" + sql);
+			rstInt = statement.executeUpdate(sql);
+			log.info("------------ finish exec sql：" + rstInt);
+			
+			sql = "update t_under_write uw, t_policy tp set uw.holder=tp.holder,uw.insured=cast(aes_decrypt(unhex(tp.insured), 'GDPost') as char(100)),uw.relation=\"本人\" where uw.holder is null and uw.policy_no=tp.policy_no and tp.attached_flag=0;";
+			log.info("------------ finish exec sql：" + sql);
+			rstInt = statement.executeUpdate(sql);
+			log.info("------------ finish exec sql：" + rstInt);
+			
 			sql = "insert into t_log_info (username, message,ip_address,log_level,module) values "
 					+ "('admin','customer info check, error:" + idx + "','127.0.0.1','WARN','其他操作');";
 			log.info("------------ sql :" + sql);
