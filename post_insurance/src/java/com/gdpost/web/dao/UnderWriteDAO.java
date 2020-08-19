@@ -1,9 +1,12 @@
 package com.gdpost.web.dao;
 
+import java.util.Date;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -46,4 +49,9 @@ public interface UnderWriteDAO extends JpaRepository<UnderWrite, Long>, JpaSpeci
 			+ "and o.orgCode like :orgCode and "
 			+ "u.clientReceiveDate is null and u.status=:status")
 	Page<UnderWrite> findDistinctUnderWrite2Weixin(@Param("orgCode") String orgCode, @Param("status") String status, Pageable pageable);
+	
+	@Modifying(clearAutomatically = true)
+	@Query("update UnderWrite set cityReceiveDate=:recDate where provEmsNo=:emsNo")
+	void updateUnderWriteByEmsNo(@Param("recDate") Date recDate, @Param("emsNo") String emsNo);
+	
 }

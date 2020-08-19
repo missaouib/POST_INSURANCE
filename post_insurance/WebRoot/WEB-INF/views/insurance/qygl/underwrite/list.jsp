@@ -137,11 +137,11 @@
 			<tr>
 				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
 				<th orderField=organization.name class="${page.orderField eq 'organization.name' ? page.orderDirection : ''}">市县机构</th>
-				<th>投保单号</th>
+				<th orderField=formNo class="${page.orderField eq 'formNo' ? page.orderDirection : ''}">投保单号</th>
 				<th orderField=policyNo class="${page.orderField eq 'policyNo' ? page.orderDirection : ''}">保单号</th>
 				<th orderField=signDate class="${page.orderField eq 'signDate' ? page.orderDirection : ''}">签单日期</th>
 				<th orderField=provSendDate class="${page.orderField eq 'provSendDate' ? page.orderDirection : ''}">合同寄出</th>
-				<th>快递单号</th>
+				<th orderField=provEmsNo class="${page.orderField eq 'provEmsNo' ? page.orderDirection : ''}">快递单号</th>
 				<th>全流程</th>
 				<th>寄出</th>
 				<th>扣费</th>

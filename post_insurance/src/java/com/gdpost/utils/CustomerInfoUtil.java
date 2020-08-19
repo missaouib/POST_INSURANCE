@@ -3,14 +3,18 @@ package com.gdpost.utils;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
+import org.apache.commons.collections4.SetUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -238,7 +242,7 @@ public class CustomerInfoUtil {
 		StringBuffer str = new StringBuffer("");
 		LOG.debug(" --------- addr: " + addr);
 		//1、长度校验
-		if(addr == null || addr.trim().length()<=5) {
+		if(addr == null || addr.trim().length()<=6) {
 			return "地址长度太短;";
 		}
 		boolean hasNum = false;
@@ -794,6 +798,155 @@ public class CustomerInfoUtil {
 		}
 		return str.toString();
 	}
+	
+	/**
+	 * 集合的交集与集合的并集的比例
+	 * @param a
+	 * @param b
+	 * @return
+	 */
+	public static float jaccard(String a, String b) {
+        if (a == null && b == null) {
+            return 1f;
+        }
+        // 都为空相似度为 1
+        if (a == null || b == null) {
+            return 0f;
+        }
+        Set<Integer> aChar = a.chars().boxed().collect(Collectors.toSet());
+        Set<Integer> bChar = b.chars().boxed().collect(Collectors.toSet());
+        // 交集数量
+        int intersection = SetUtils.intersection(aChar, bChar).size();
+        if (intersection == 0) return 0;
+        // 并集数量
+        int union = SetUtils.union(aChar, bChar).size();
+        return ((float) intersection) / (float)union;
+    }
+	
+	/**
+	 * 与 Jaccard 类似，Dice 系数也是一种计算简单集合之间相似度的一种计算方式
+	 * @param a
+	 * @param b
+	 * @return
+	 */
+	public static float sorensenDice(String a, String b) {
+        if (a == null && b == null) {
+            return 1f;
+        }
+        if (a == null || b == null) {
+            return 0F;
+        }
+        Set<Integer> aChars = a.chars().boxed().collect(Collectors.toSet());
+        Set<Integer> bChars = b.chars().boxed().collect(Collectors.toSet());
+        // 求交集数量
+        int intersect = SetUtils.intersection(aChars, bChars).size();
+        if (intersect == 0) {
+            return 0F;
+        }
+        // 全集，两个集合直接加起来
+        int aSize = aChars.size();
+        int bSize = bChars.size();
+        return (2 * (float) intersect) / ((float) (aSize + bSize));
+    }
+	
+	/**
+	 * 用编辑距离表示字符串相似度, 编辑距离越小，字符串越相似
+	 * 莱文斯坦距离，又称 Levenshtein 距离，是编辑距离的一种。指两个字串之间，由一个转成另一个所需的最少编辑操作次数
+	 * @param a
+	 * @param b
+	 * @return
+	 */
+	public static float levenshtein(String a, String b) {
+        if (a == null && b == null) {
+            return 1f;
+        }
+        if (a == null || b == null) {
+            return 0F;
+        }
+        int editDistance = editDis(a, b);
+        return 1 - ((float) editDistance / Math.max(a.length(), b.length()));
+    }
+
+    private static int editDis(String a, String b) {
+
+        int aLen = a.length();
+        int bLen = b.length();
+
+        if (aLen == 0) return aLen;
+        if (bLen == 0) return bLen;
+
+        int[][] v = new int[aLen + 1][bLen + 1];
+        for (int i = 0; i <= aLen; ++i) {
+            for (int j = 0; j <= bLen; ++j) {
+                if (i == 0) {
+                    v[i][j] = j;
+                } else if (j == 0) {
+                    v[i][j] = i;
+                } else if (a.charAt(i - 1) == b.charAt(j - 1)) {
+                    v[i][j] = v[i - 1][j - 1];
+                } else {
+                    v[i][j] = 1 + Math.min(v[i - 1][j - 1], Math.min(v[i][j - 1], v[i - 1][j]));
+                }
+            }
+        }
+        return v[aLen][bLen];
+    }
+    
+    /**
+     * 余弦相似性通过测量两个向量的夹角的余弦值来度量它们之间的相似性。0 度角的余弦值是 1，而其他任何角度的余弦值都不大于 1；并且其最小值是-1。从而两个向量之间的角度的余弦值确定两个向量是否大致指向相同的方向。
+     * 两个向量有相同的指向时，余弦相似度的值为 1；两个向量夹角为 90°时，余弦相似度的值为 0；两个向量指向完全相反的方向时，余弦相似度的值为-1。
+     * 这结果是与向量的长度无关的，仅仅与向量的指向方向相关。余弦相似度通常用于正空间，因此给出的值为 0 到 1 之间。
+     * @param a
+     * @param b
+     * @return
+     */
+    public static float cos(String a, String b) {
+        if (a == null || b == null) {
+            return 0F;
+        }
+        Set<Integer> aChar = a.chars().boxed().collect(Collectors.toSet());
+        Set<Integer> bChar = b.chars().boxed().collect(Collectors.toSet());
+
+        // 统计字频
+        Map<Integer, Integer> aMap = new HashMap<>();
+        Map<Integer, Integer> bMap = new HashMap<>();
+        for (Integer a1 : aChar) {
+            aMap.put(a1, aMap.getOrDefault(a1, 0) + 1);
+        }
+        for (Integer b1 : bChar) {
+            bMap.put(b1, bMap.getOrDefault(b1, 0) + 1);
+        }
+
+        // 向量化
+        Set<Integer> union = SetUtils.union(aChar, bChar);
+        int[] aVec = new int[union.size()];
+        int[] bVec = new int[union.size()];
+        List<Integer> collect = new ArrayList<>(union);
+        for (int i = 0; i < collect.size(); i++) {
+            aVec[i] = aMap.getOrDefault(collect.get(i), 0);
+            bVec[i] = bMap.getOrDefault(collect.get(i), 0);
+        }
+
+        // 分别计算三个参数
+        int p1 = 0;
+        for (int i = 0; i < aVec.length; i++) {
+            p1 += (aVec[i] * bVec[i]);
+        }
+
+        float p2 = 0f;
+        for (int i : aVec) {
+            p2 += (i * i);
+        }
+        p2 = (float) Math.sqrt(p2);
+
+        float p3 = 0f;
+        for (int i : bVec) {
+            p3 += (i * i);
+        }
+        p3 = (float) Math.sqrt(p3);
+
+        return ((float) p1) / (p2 * p3);
+    }
 
 	/*
 	 * =======================================
@@ -887,37 +1040,11 @@ public class CustomerInfoUtil {
 
 	public static void main(String[] args) {
 		
-		//String str = "441827197812105641";
-		//boolean i1 = CustomerInfoUtil.is18ByteIdCardComplex(str);
-		//boolean i2 = CustomerInfoUtil.is18ByteIdCard(str);
-		//System.out.println(i1);
-		//System.out.println(i2);
-		//System.out.println(str.substring(16, 17));
-		
-		//String email = "12345@qq..com";
-		//System.out.println(CustomerInfoUtil.checkEmail(email));
-		
-		//String city = "肇庆";
-		//String area = "四会";
-		String addr = "东环路4号之七701房";
-		//System.out.println(addr.length() - addr.indexOf(city));
-		//System.out.println(addr.length() - addr.indexOf(area));
-		System.out.println(CustomerInfoUtil.testAddr("814400000124544", addr));
-		//一二三四五六七八九零十百千万亿〇壹贰叁肆伍陆柒捌玖０１２３４５６７８９
-		//".*\\d+.*"
-		/**/
-		String pattern =  ".*[一二三四五六七八九零十百千万亿〇壹贰叁肆伍陆柒捌玖０１２３４５６７８９0-9]{1,}[a-zA-Z]+.*";//".*[0-9][a-zA-Z]+$";
-		System.out.println(addr.matches(pattern));
-		
-		
-		//String type = "港澳居民来往内地通行证";
-		//String num = "44162319760819001X";
-		//System.out.println(CustomerInfoUtil.is18ByteIdCardComplex(num));
-		/*
-		String pattern = ".*[一二三四五六七八九零十百千万亿〇壹贰叁肆伍陆柒捌玖０１２３４５６７８９0-9]+$";
-		Pattern p=Pattern.compile(pattern);
-		String str = "东莞市清溪镇12e323元厦坭园宝厂０";
-        System.out.println(p.matcher(str).matches());;
-        */
+		String addr = "四会市东城街道四会大道中71号邮政大楼";
+		String src = "广东省省四会市东城街道清东路128号";
+		System.out.println(CustomerInfoUtil.jaccard(addr, src));
+		System.out.println(CustomerInfoUtil.sorensenDice(addr, src));
+		System.out.println(CustomerInfoUtil.levenshtein(addr, src));
+		System.out.println(CustomerInfoUtil.cos(addr, src));
 	}
 }

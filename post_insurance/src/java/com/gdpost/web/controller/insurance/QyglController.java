@@ -1047,6 +1047,10 @@ public class QyglController {
 				}
 				
 				qyglService.saveOrUpdateUnderWrite(src);
+				if(emsNo == null || emsNo.trim().length()<=0) {
+					emsNo = src.getProvEmsNo();
+				}
+				qyglService.saveOrUpdateUnderWrite(sendDate, emsNo);
 				
 				policys[i] = src.getFormNo();
 			}

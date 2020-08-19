@@ -261,6 +261,11 @@ public class QyglServiceImpl implements QyglService {
 	public void saveOrUpdateUnderWrite(UnderWrite uw) {
 		uwDAO.save(uw);
 	}
+	
+	@Override
+	public void saveOrUpdateUnderWrite(Date strDate, String emsNo) {
+		uwDAO.updateUnderWriteByEmsNo(strDate,emsNo);
+	}
 
 	@Override
 	public void deleteUnderWrite(Long id) {

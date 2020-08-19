@@ -16,6 +16,26 @@
 			<span class="unit">${issue.formNo }</span>
 		</p>
 		<p>
+			<label>投保人：</label>
+			<span class="unit">${issue.policy.holder }</span>
+		</p>
+		<p>
+			<label>电话：</label>
+			<span class="unit">${issue.policy.policyDtl.holderPhone }</span>
+		</p>
+		<p>
+			<label>手机：</label>
+			<span class="unit">${issue.policy.policyDtl.holderMobile }</span>
+		</p>
+		<p>
+			<label>EMAIL：</label>
+			<span class="unit">${issue.policy.policyDtl.holderEmail }</span>
+		</p>
+		<p>
+			<label>地址：</label>
+			<span class="unit">${issue.policy.policyDtl.holderAddr }</span>
+		</p>
+		<p>
 			<label>网点类型：</label>
 			<span class="unit">${issue.netType }</span>
 		</p>

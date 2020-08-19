@@ -7,6 +7,7 @@
  */
 package com.gdpost.web.service.insurance;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -75,6 +76,8 @@ public interface QyglService {
 	UnderWrite getUnderWrite(Long id);
 
 	void saveOrUpdateUnderWrite(UnderWrite uw);
+	
+	void saveOrUpdateUnderWrite(Date strDate, String emsNo);
 
 	void deleteUnderWrite(Long id);
 	
