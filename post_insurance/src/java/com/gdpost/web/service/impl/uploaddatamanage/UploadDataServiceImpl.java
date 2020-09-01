@@ -36,6 +36,7 @@ import com.gdpost.utils.TemplateHelper.CallFailNeedDoorListColumn;
 import com.gdpost.utils.TemplateHelper.CallRatioColumn;
 import com.gdpost.utils.TemplateHelper.CheckCityBackColumn;
 import com.gdpost.utils.TemplateHelper.CheckColumn;
+import com.gdpost.utils.TemplateHelper.ClaimsCloseReportColumn;
 import com.gdpost.utils.TemplateHelper.ColumnItem;
 import com.gdpost.utils.TemplateHelper.ColumnType;
 import com.gdpost.utils.TemplateHelper.ConversationReqColumn;
@@ -71,6 +72,7 @@ import com.gdpost.utils.TemplateHelper.UnderWriteRemarkColumn;
 import com.gdpost.utils.TemplateHelper.UnderWriteSentDataColumn;
 import com.gdpost.utils.UploadDataHelper.UploadDataUtils;
 import com.gdpost.web.dao.uploaddatamanage.UploadDataDAO;
+import com.gdpost.web.entity.insurance.ClaimsCloseReport;
 import com.gdpost.web.entity.insurance.PayList;
 import com.gdpost.web.entity.insurance.Policy;
 import com.gdpost.web.service.uploaddatamanage.UploadDataService;
@@ -459,6 +461,11 @@ public class UploadDataServiceImpl implements UploadDataService{
 			standardColumns = StasticsAreaColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_stastics_area character set utf8 (";
 			//sql1 = "update t_cs_loan set flag=case when DATEDIFF(NOW(),should_date)>1 then '2' when  DATEDIFF(NOW(),should_date)>-30 then '1' else '0' end;";
+			break;
+		case ClaimsCloseReport:
+			standardColumns = ClaimsCloseReportColumn.getStandardColumns();
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_claims_close_report character set utf8 (";
+			sql1 = "update t_claims_close_report set policy_no=left(policy_nos,14) where policy_no is null;";
 			break;
 		}
 		
@@ -1639,6 +1646,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 			return dr;
 		case StatArea:
 			return dr;
+		case ClaimsCloseReport:
+			return dr;
 		}
 
         try {
@@ -1923,6 +1932,10 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case StatArea:
 			standardColumns = StasticsAreaColumn.getStandardColumns();
 			keyRow = StasticsAreaColumn.KEY_ROW;
+			break;
+		case ClaimsCloseReport:
+			standardColumns = ClaimsCloseReportColumn.getStandardColumns();
+			keyRow = ClaimsCloseReportColumn.KEY_ROW;
 			break;
 		}
 		

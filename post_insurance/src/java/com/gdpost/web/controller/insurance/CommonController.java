@@ -116,9 +116,9 @@ public class CommonController {
 				new SearchFilter("organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
 		
 		String policyNo = request.getParameter("policyNo");
-		if(policyNo != null && policyNo.trim().length() <= 3) {
+		if(policyNo != null && policyNo.trim().length() <= 10) {
 			return "[{}]";
-		} if(policyNo != null && policyNo.trim().length() > 3) {
+		} if(policyNo != null && policyNo.trim().length() > 10) {
 			if(policyNo.startsWith("86") || policyNo.startsWith("76") || policyNo.startsWith("96") || policyNo.startsWith("81")) {
 				if(policyNo.trim().length()>9) {
 					specification = DynamicSpecifications.bySearchFilterWithoutRequest(Policy.class, 

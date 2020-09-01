@@ -1,4 +1,67 @@
-﻿alter table t_stastics_city add column xq3ylost_value varchar(7) after wtj_score;
+﻿drop table t_settlement_check;
+drop table t_settlement_report;
+alter table t_settle_task DROP FOREIGN KEY t_settle_task_fk;
+drop table t_settlement_dtl;
+SET GLOBAL foreign_key_checks=0; 
+drop table t_settlement;
+alter table t_settle_task change settleDtl_id claims_no varchar(21); 
+
+create table t_settlement (
+    id    bigint not null auto_increment,
+    organ_code    varchar(20)    COMMENT '机构代码',
+    organ_name    varchar(60)    COMMENT '机构名称',
+    claims_no    varchar(21)    COMMENT '赔案号',
+    case_type    varchar(15)    COMMENT '理赔类型',
+    case_man    varchar(12)    COMMENT '出险人',
+    reporter    varchar(12)    COMMENT '报案人',
+    reporter_phone    varchar(11)    COMMENT '报案人联系方式',
+    settle_date    date    COMMENT '事故日期',
+    case_date    date    COMMENT '出险日期',
+    reporte_date    date    COMMENT '报案日期',
+    follow_date    date    COMMENT '最新追踪日期',
+    case_status    varchar(9)    COMMENT '案件状态',
+    remark    varchar(119)    COMMENT '备注',
+    operate_date    datetime    COMMENT '导入日期',
+    operate_id    bigint    COMMENT '导入人员id',
+	primary key (id)
+) engine=innodb auto_increment=1 default charset=utf8mb4;
+
+
+create table t_claims_close_report (
+    id    bigint not null auto_increment,    
+    organ_code    varchar(20)    COMMENT '机构代码',
+    organ_name    varchar(60)    COMMENT '机构名称',
+    claims_no    varchar(21)    COMMENT '赔案号',
+    policy_no    varchar(14),
+    policy_nos    varchar(74)    COMMENT '保单号',
+    area_name    varchar(120)    COMMENT '保单所在地',
+    prod_code    varchar(44)    COMMENT '险种代码',
+    prod_name    varchar(128)    COMMENT '险种名称',
+    client_no    varchar(59)    COMMENT '客户号',
+    holder    varchar(21)    COMMENT '投保人',
+    insured    varchar(21)    COMMENT '被保险人',
+    fm    varchar(2)    COMMENT '性别',
+    age    int(3)    COMMENT '年龄',
+    job    varchar(24)    COMMENT '职业',
+    settle_type    varchar(6)    COMMENT '出险类型',
+    claims_type    varchar(36)    COMMENT '理赔类型',
+    req_man    varchar(12)    COMMENT '申请人',
+    req_phone    varchar(11)    COMMENT '申请人电话',
+    report_date    date    COMMENT '报案日期',
+    settle_date    date    COMMENT '出险日期',
+    case_date    date    COMMENT '立案日期',
+    claims_rst    varchar(12)    COMMENT '理赔结论',
+    total_fee    double    COMMENT '总费用',
+    claims_fee    double    COMMENT '理算金额',
+    give_fee    double    COMMENT '给付金额',
+    reject_fee    double    COMMENT '拒赔金额',
+    close_date    date    COMMENT '结案日期',
+    operate_id           bigint,
+    operate_time         date,
+    primary key (id)
+) engine=innodb auto_increment=1 default charset=utf8mb4;
+
+alter table t_stastics_city add column xq3ylost_value varchar(7) after wtj_score;
 alter table t_stastics_city add column xq3ylost_score double after xq3ylost_value;
 
 alter table t_stastics_city add column lp7dnum_value varchar(7) after lp7d_score;

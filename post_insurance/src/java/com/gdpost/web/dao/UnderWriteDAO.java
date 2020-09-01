@@ -51,7 +51,7 @@ public interface UnderWriteDAO extends JpaRepository<UnderWrite, Long>, JpaSpeci
 	Page<UnderWrite> findDistinctUnderWrite2Weixin(@Param("orgCode") String orgCode, @Param("status") String status, Pageable pageable);
 	
 	@Modifying(clearAutomatically = true)
-	@Query("update UnderWrite set cityReceiveDate=:recDate where provEmsNo=:emsNo")
+	@Query("update UnderWrite set cityReceiveDate=:recDate,areaReceiveDate=:recDate where provEmsNo=:emsNo")
 	void updateUnderWriteByEmsNo(@Param("recDate") Date recDate, @Param("emsNo") String emsNo);
 	
 }

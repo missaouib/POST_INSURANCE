@@ -277,9 +277,10 @@
 			<key-column name="id" type="Long" />
 		</primary-key>
 	</table>
-<table name="t_cs_expire" catalog="postinsurance">
-	<primary-key>
-		<key-column name="id" type="Long"/>
-	</primary-key>
-</table>
+	<table name="t_cs_expire" catalog="postinsurance">
+		<primary-key>
+			<key-column name="id" type="Long" />
+		</primary-key>
+	</table>
+	<table name="t_claims_close_report" catalog="postinsurance" class="ClaimsCloseReport"></table>
 </hibernate-reverse-engineering>
