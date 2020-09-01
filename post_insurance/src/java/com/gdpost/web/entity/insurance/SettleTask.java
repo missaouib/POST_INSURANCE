@@ -18,6 +18,10 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.JoinColumnOrFormula;
+import org.hibernate.annotations.JoinColumnsOrFormulas;
+import org.hibernate.annotations.JoinFormula;
+
 import com.gdpost.utils.StringUtil;
 import com.gdpost.web.entity.Idable;
 import com.gdpost.web.entity.main.Organization;
@@ -37,8 +41,8 @@ public class SettleTask implements Idable<Long> {
 
 	private Long id;
 	private Organization organization;
-	private String policyNo;
-	private SettlementDtl settlementDtl;
+	private Policy policy;
+	private Settlement settlement;
 	private String insured;
 	private String prodName;
 	private Double policyFee;
@@ -67,9 +71,9 @@ public class SettleTask implements Idable<Long> {
 	}
 
 	/** full constructor */
-	public SettleTask(String policyNo, String insured, Date checkStartDate, Date checkEndDate, Integer limitation, String checkReq,
+	public SettleTask(Policy policy, String insured, Date checkStartDate, Date checkEndDate, Integer limitation, String checkReq,
 			String checker, String checkerAddr, Double checkFee, String attrLink, Long operateId, Date createTime) {
-		this.policyNo = policyNo;
+		this.policy = policy;
 		this.insured = insured;
 		this.checkStartDate = checkStartDate;
 		this.checkEndDate = checkEndDate;
@@ -105,23 +109,27 @@ public class SettleTask implements Idable<Long> {
 		this.organization = organization;
 	}
 
-	@Column(name="policy_no")
-	public String getPolicyNo() {
-		return this.policyNo;
+	@ManyToOne
+	@JoinColumnsOrFormulas(value={
+	@JoinColumnOrFormula(column=@JoinColumn(name ="policy_no", referencedColumnName ="policy_no")),
+	@JoinColumnOrFormula(formula=@JoinFormula(value="0", referencedColumnName = "attached_flag"))
+	})
+	public Policy getPolicy() {
+		return this.policy;
 	}
 
-	public void setPolicyNo(String policyNo) {
-		this.policyNo = policyNo;
+	public void setPolicy(Policy policy) {
+		this.policy = policy;
 	}
 	
 	@OneToOne
-	@JoinColumn(name="settledtl_id", referencedColumnName="id", nullable=true)
-	public SettlementDtl getSettlementDtl() {
-		return this.settlementDtl;
+	@JoinColumn(name="claims_no", referencedColumnName="claims_no", nullable=true)
+	public Settlement getSettlement() {
+		return this.settlement;
 	}
 
-	public void setSettlementDtl(SettlementDtl settlementDtl) {
-		this.settlementDtl = settlementDtl;
+	public void setSettlement(Settlement settlement) {
+		this.settlement = settlement;
 	}
 
 	@Column(name = "insured", length = 32)

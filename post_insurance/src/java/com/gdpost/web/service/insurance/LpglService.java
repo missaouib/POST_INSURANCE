@@ -17,7 +17,6 @@ import com.gdpost.web.entity.insurance.GsettleLog;
 import com.gdpost.web.entity.insurance.SettleTask;
 import com.gdpost.web.entity.insurance.SettleTaskLog;
 import com.gdpost.web.entity.insurance.Settlement;
-import com.gdpost.web.entity.insurance.SettlementDtl;
 import com.gdpost.web.entity.insurance.SettlementLog;
 import com.gdpost.web.util.dwz.Page;
 
@@ -34,21 +33,7 @@ public interface LpglService {
 	
 	Settlement getSettleByPolicyNo(String name);
 	
-	SettlementDtl getSettleDtl(Long id);
-
-	void saveOrUpdateSettleDtl(SettlementDtl dtl);
-
-	void deleteSettleDtl(Long id);
-	
-	List<SettlementDtl> findAllSettleDtl(Page page);
-	
-	List<SettlementDtl> findBySettleDtlExample(Specification<SettlementDtl> specification, Page page);
-	
-	SettlementDtl getDtlBySettlementId(Long id);
-	
-	SettlementDtl getDtlByPolicyPolicyNo(String policyNo);
-	
-	SettlementDtl getDtlByClaimsNo(String cliaimsNo);
+	Settlement getSettleByClaimsNo(String claimsNo);
 	
 	SettlementLog getSettleLog(Long id);
 

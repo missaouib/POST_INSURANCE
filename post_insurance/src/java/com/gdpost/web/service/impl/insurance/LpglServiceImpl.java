@@ -16,7 +16,6 @@ import com.gdpost.web.dao.GsettleLogDAO;
 import com.gdpost.web.dao.SettleTaskDAO;
 import com.gdpost.web.dao.SettleTaskLogDAO;
 import com.gdpost.web.dao.SettlementDAO;
-import com.gdpost.web.dao.SettlementDtlDAO;
 import com.gdpost.web.dao.SettlementLogDAO;
 import com.gdpost.web.entity.insurance.Gsettle;
 import com.gdpost.web.entity.insurance.GsettleDtl;
@@ -24,7 +23,6 @@ import com.gdpost.web.entity.insurance.GsettleLog;
 import com.gdpost.web.entity.insurance.SettleTask;
 import com.gdpost.web.entity.insurance.SettleTaskLog;
 import com.gdpost.web.entity.insurance.Settlement;
-import com.gdpost.web.entity.insurance.SettlementDtl;
 import com.gdpost.web.entity.insurance.SettlementLog;
 import com.gdpost.web.exception.ExistedException;
 import com.gdpost.web.service.insurance.LpglService;
@@ -38,9 +36,6 @@ public class LpglServiceImpl implements LpglService {
 	
 	@Autowired
 	private SettlementDAO settlementDAO;
-	
-	@Autowired
-	private SettlementDtlDAO settlementDtlDAO;
 	
 	@Autowired
 	private SettlementLogDAO settlementLogDAO;
@@ -77,8 +72,8 @@ public class LpglServiceImpl implements LpglService {
 	public void saveOrUpdateSettle(Settlement settle) {
 		if (settle.getId() == null) {
 			if(settle.getCaseType() != null && !settle.getCaseType().equals("医疗")) {
-				if (settlementDAO.getByInsuredAndCaseDate(settle.getInsured(), settle.getCaseDate()) != null) {
-					throw new ExistedException("出险人：" + settle.getInsured() + "已记录。");
+				if (settlementDAO.getByCaseManAndCaseDate(settle.getCaseMan(), settle.getCaseDate()) != null) {
+					throw new ExistedException("出险人：" + settle.getCaseMan() + "已记录。");
 				}
 			}
 		}
@@ -123,71 +118,12 @@ public class LpglServiceImpl implements LpglService {
 	 */
 	@Override
 	public Settlement getSettleByPolicyNo(String policyNo) {
-		return settlementDAO.getByPolicyPolicyNo(policyNo);
+		return settlementDAO.getBySettleTaskPolicyPolicyNo(policyNo);
 	}
 	
 	@Override
-	public SettlementDtl getSettleDtl(Long id) {
-		return settlementDtlDAO.findById(id).get();
-	}
-
-	/*
-	 * (non-Javadoc) 
-	 * @see com.gdpost.web.service.UserService#saveOrUpdate(com.gdpost.web.entity.main.SettlementDtl)  
-	 */
-	@Override
-	public void saveOrUpdateSettleDtl(SettlementDtl SettlemenDtl) {
-		settlementDtlDAO.saveAndFlush(SettlemenDtl);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see com.gdpost.web.service.UserService#delete(java.lang.Long)  
-	 */
-	@Override
-	public void deleteSettleDtl(Long id) {
-		settlementDtlDAO.deleteById(id);
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see com.gdpost.web.service.UserService#findAll(com.gdpost.web.util.dwz.Page)  
-	 */
-	@Override
-	public List<SettlementDtl> findAllSettleDtl(Page page) {
-		org.springframework.data.domain.Page<SettlementDtl> springDataPage = settlementDtlDAO.findAll(PageUtils.createPageable(page));
-		page.setTotalCount(springDataPage.getTotalElements());
-		return springDataPage.getContent();
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see com.gdpost.web.service.UserService#findByExample(org.springframework.data.jpa.domain.Specification, com.gdpost.web.util.dwz.Page)	
-	 */
-	@Override
-	public List<SettlementDtl> findBySettleDtlExample(
-			Specification<SettlementDtl> specification, Page page) {
-		org.springframework.data.domain.Page<SettlementDtl> springDataPage = settlementDtlDAO.findAll(specification, PageUtils.createPageable(page));
-		page.setTotalCount(springDataPage.getTotalElements());
-		return springDataPage.getContent();
-	}
-	
-	/* (non-Javadoc)
-	 * @see com.gdpost.web.service.UserService#getBySettlementDtlNo(java.lang.String)
-	 */
-	@Override
-	public SettlementDtl getDtlBySettlementId(Long id) {
-		return settlementDtlDAO.getBySettlementId(id);
-	}
-	
-	@Override
-	public SettlementDtl getDtlByPolicyPolicyNo(String policyNo) {
-		return settlementDtlDAO.findFirstByPolicyNoOrderByIdAsc(policyNo);
-	}
-	
-	@Override
-	public SettlementDtl getDtlByClaimsNo(String claimsNo) {
-		return settlementDtlDAO.getByClaimsNo(claimsNo);
+	public Settlement getSettleByClaimsNo(String claimsNo) {
+		return settlementDAO.getByClaimsNo(claimsNo);
 	}
 
 	@Override

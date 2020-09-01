@@ -61,7 +61,6 @@ import com.gdpost.web.entity.insurance.Policy;
 import com.gdpost.web.entity.insurance.SettleTask;
 import com.gdpost.web.entity.insurance.SettleTaskLog;
 import com.gdpost.web.entity.insurance.Settlement;
-import com.gdpost.web.entity.insurance.SettlementDtl;
 import com.gdpost.web.entity.insurance.SettlementLog;
 import com.gdpost.web.entity.main.Organization;
 import com.gdpost.web.entity.main.User;
@@ -96,7 +95,6 @@ public class LpglController {
 	private static final String UPDATE = "insurance/lpgl/follow/update";
 	private static final String LIST = "insurance/lpgl/follow/list";
 	private static final String TO_XLS = "insurance/lpgl/follow/toXls";
-	private static final String CREATE_DTL = "insurance/lpgl/follow/createDtl";
 	private static final String LOG_DTL = "insurance/lpgl/follow/logs";
 	
 	private static final String CREATE_TASK = "insurance/lpgl/task/create";
@@ -133,11 +131,12 @@ public class LpglController {
 	@Log(message="添加了{0}的理赔案件。", level=LogLevel.WARN, module=LogModule.LPGL)
 	@RequiresPermissions("Settlement:save")
 	@RequestMapping(value="/create", method=RequestMethod.POST)
+	@Deprecated
 	public @ResponseBody String create(@Valid Settlement settle, HttpServletRequest request) {
 		User user = SecurityUtils.getShiroUser().getUser();
 		try {
 			settle.setOperateId(user.getId());
-			settle.setCreateTime(new Date());
+			//settle.setCreateTime(new Date());
 			lpglService.saveOrUpdateSettle(settle);
 			SettlementLog settleLog = new SettlementLog();
 			settleLog.setSettlement(settle);
@@ -151,46 +150,27 @@ public class LpglController {
 			return AjaxObject.newError("添加理赔案件失败：" + e.getMessage()).setCallbackType("").toString();
 		}
 		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{settle.getInsured()}));
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{settle.getCaseMan()}));
 		return AjaxObject.newOk("添加理赔案件成功！").toString();
 	}
 	
-	@RequiresPermissions("Settlement:save")
-	@RequestMapping(value="/detail/{id}", method=RequestMethod.GET)
-	public String preCreateDtl(@PathVariable Long id, HttpServletRequest request) {
-		Settlement settle = lpglService.getSettle(id);
-		request.setAttribute("settle", settle);
-		SettlementDtl settleDtl = lpglService.getDtlBySettlementId(id);
-		
-		List<SettlementLog> dealLogs = lpglService.findDealLogBySettleId(id);
-		request.setAttribute("dealLogs", dealLogs);
-		
-		if(settleDtl != null && settleDtl.getId() != null) {
-			request.setAttribute("flag", "update");
-			request.setAttribute("settleDtl", settleDtl);
-		} else {
-			request.setAttribute("flag", "create");
-		}
-		return CREATE_DTL;
-	}
-
 	@Log(message="登记了{0}的理赔案件详情。", level=LogLevel.WARN, module=LogModule.LPGL)
 	@RequiresPermissions("Settlement:save")
 	@RequestMapping(value="/detail", method=RequestMethod.POST)
-	public @ResponseBody String createDtl(SettlementDtl settleDtl, HttpServletRequest request) {
+	public @ResponseBody String createDtl(Settlement settleDtl, HttpServletRequest request) {
 		try {
 			LOG.debug("----------- settle dtl id:" + settleDtl.getId());
 			String id = request.getParameter("settleDtlId");
-			SettlementDtl dtl = null;
+			Settlement dtl = null;
 			if(id != null && id.trim().length() >0) {
-				dtl = lpglService.getSettleDtl(new Long(id));
+				dtl = lpglService.getSettle(new Long(id));
 				BeanUtils.copyProperties(settleDtl, dtl, "id");
 			} else {
 				dtl = settleDtl;
 			}
-			lpglService.saveOrUpdateSettleDtl(dtl);
+			lpglService.saveOrUpdateSettle(dtl);
 			
-			Settlement settle = lpglService.getSettle(settleDtl.getSettlement().getId());
+			Settlement settle = lpglService.getSettle(settleDtl.getId());
 			
 			User user = SecurityUtils.getShiroUser().getUser();
 			
@@ -264,7 +244,7 @@ public class LpglController {
 			loginfo.append("改类型：" + src.getCaseType() + "->" + settle.getCaseType() + "；");
 			src.setCaseType(settle.getCaseType());
 		}
-		
+		/*
 		if(settle.getCloseDate()!=null && src.getCloseDate() != null && !DateUtils.isSameDay(src.getCloseDate(), settle.getCloseDate())) {
 			loginfo.append("改关闭日期：" + StringUtil.date2Str(src.getCloseDate(), "yy-M-d") + "->" + StringUtil.date2Str(settle.getCloseDate(), "yy-M-d") + "；");
 			src.setCloseDate(settle.getCloseDate());
@@ -293,7 +273,7 @@ public class LpglController {
 			loginfo.append("改立案日期：" + "null ->" + StringUtil.date2Str(settle.getRecordDate(), "yy-M-d") + "；");
 			src.setRecordDate(settle.getRecordDate());
 		}
-			
+		*/
 		if(settle.getReporteDate()!=null && src.getReporteDate() != null && !DateUtils.isSameDay(src.getReporteDate(), settle.getReporteDate())) {
 			loginfo.append("改报案日期：" + StringUtil.date2Str(src.getReporteDate(), "yy-M-d") + "->" + StringUtil.date2Str(settle.getReporteDate(), "yy-M-d") + "；");
 			src.setReporteDate(settle.getReporteDate());
@@ -325,7 +305,7 @@ public class LpglController {
 			lpglService.saveOrUpdateSettleLog(settleLog);
 		}
 		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{settle.getInsured()}));
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{settle.getCaseMan()}));
 		return	AjaxObject.newOk("修改案件成功！").toString(); 
 	}
 	
@@ -342,7 +322,7 @@ public class LpglController {
 			settleLog.setSettlement(settle);
 			settleLog.setUser(user);
 			settleLog.setDealDate(new Date());
-			settleLog.setInfo("删除报案信息：" + settle.getInsured());
+			settleLog.setInfo("删除报案信息：" + settle.getCaseMan());
 			settleLog.setIp(request.getRemoteAddr());
 			settleLog.setIsKeyInfo(true);
 			lpglService.saveOrUpdateSettleLog(settleLog);
@@ -353,7 +333,7 @@ public class LpglController {
 			return AjaxObject.newError("删除案件失败：" + e.getMessage()).setCallbackType("").toString();
 		}
 		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{settle.getInsured()}));
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{settle.getCaseMan()}));
 		return AjaxObject.newOk("删除案件成功！").setCallbackType("").toString();
 	}
 	
@@ -371,14 +351,14 @@ public class LpglController {
 				settleLog.setSettlement(settle);
 				settleLog.setUser(user);
 				settleLog.setDealDate(new Date());
-				settleLog.setInfo("删除报案信息：" + settle.getInsured());
+				settleLog.setInfo("删除报案信息：" + settle.getCaseMan());
 				settleLog.setIp(request.getRemoteAddr());
 				settleLog.setIsKeyInfo(true);
 				lpglService.saveOrUpdateSettleLog(settleLog);
 				
 				lpglService.deleteSettle(settle.getId());
 				
-				policys[i] = settle.getInsured();
+				policys[i] = settle.getCaseMan();
 			}
 		} catch (ServiceException e) {
 			return AjaxObject.newError("删除案件失败：" + e.getMessage()).setCallbackType("").toString();
@@ -631,11 +611,11 @@ public class LpglController {
 			task.setChecker(realname);
 			task.setCheckStartDate(new Date());
 			String policyNo = request.getParameter("policyNo");
-			task.setPolicyNo(policyNo);
 			Policy policy = policyService.getByPolicyNo(policyNo);
+			task.setPolicy(policy);
 			if(policy != null) {
-				SettlementDtl settleDtl = lpglService.getDtlByPolicyPolicyNo(policyNo);
-				task.setSettlementDtl(settleDtl);
+				Settlement settle = lpglService.getSettleByPolicyNo(policyNo);
+				task.setSettlement(settle);
 				task.setOrganization(policy.getOrganization());
 			} else {
 				task.setOrganization(user.getOrganization());
@@ -716,16 +696,16 @@ public class LpglController {
 	public String preUpdateTask(@PathVariable Long id, Map<String, Object> map) {
 		SettleTask task = lpglService.getSettleTask(id);
 		
-		SettlementDtl settleDtl = lpglService.getDtlByPolicyPolicyNo(task.getPolicyNo());
+		Settlement settle = lpglService.getSettleByPolicyNo(task.getPolicy().getPolicyNo());
 		
 		List<SettleTaskLog> dealLogs = lpglService.findDealLogByTaskId(id);
 		map.put("dealLogs", dealLogs);
 		
-		Policy policy = policyService.getByPolicyNo(task.getPolicyNo());
+		Policy policy = policyService.getByPolicyNo(task.getPolicy().getPolicyNo());
 		
 		map.put("task", task);
 		map.put("policy", policy);
-		map.put("settleDtl", settleDtl);
+		map.put("settle", settle);
 		return UPDATE_TASK;
 	}
 	
@@ -923,10 +903,10 @@ public class LpglController {
 			src.setCheckFee(task.getCheckFee());
 		}
 		
-		src.setPolicyNo(policyNo);
+		src.setPolicy(policy);
 		if(policy != null) {
-			SettlementDtl settleDtl = lpglService.getDtlByPolicyPolicyNo(policyNo);
-			src.setSettlementDtl(settleDtl);
+			Settlement settleDtl = lpglService.getSettleByPolicyNo(policyNo);
+			src.setSettlement(settleDtl);
 			src.setOrganization(policy.getOrganization());
 		} else {
 			src.setOrganization(user.getOrganization());
@@ -1131,7 +1111,7 @@ public class LpglController {
 		User user = shiroUser.getUser();
 		Organization userOrg = user.getOrganization();
 		//boolean isOffsite = false;
-		Specification<SettlementDtl> specification = DynamicSpecifications.bySearchFilter(request, SettlementDtl.class, 
+		Specification<Settlement> specification = DynamicSpecifications.bySearchFilter(request, Settlement.class, 
 				new SearchFilter("settlement.organization.orgCode", Operator.LIKE_R, userOrg.getOrgCode()));
 		
 		String policyNo = request.getParameter("policyNo");
@@ -1140,7 +1120,7 @@ public class LpglController {
 		} if(policyNo != null && policyNo.trim().length() > 3) {
 			if(policyNo.startsWith("86") || policyNo.startsWith("76") || policyNo.startsWith("96") || policyNo.startsWith("81")) {
 				if(policyNo.trim().length()>9) {
-					specification = DynamicSpecifications.bySearchFilterWithoutRequest(SettlementDtl.class, 
+					specification = DynamicSpecifications.bySearchFilterWithoutRequest(Settlement.class, 
 							new SearchFilter("policyNo", Operator.LIKE, policyNo));
 				} else {
 					return "[{}]";
@@ -1149,7 +1129,7 @@ public class LpglController {
 		}
 		Page page = new Page();
 		page.setNumPerPage(15);
-		List<SettlementDtl> org = lpglService.findBySettleDtlExample(specification, page);
+		List<Settlement> org = lpglService.findBySettleExample(specification, page);
 		if(org == null || org.isEmpty()) {
 			return "[{}]";
 		}
@@ -1170,7 +1150,7 @@ public class LpglController {
 		fm.put("caseType", "caseType");
 		String dateFormat = "yyyy-MM-dd";  
 	    mapping.put(Date.class, new SimpleDateFormatSerializer(dateFormat));
-		mapping.put(SettlementDtl.class, new JavaBeanSerializer(SettlementDtl.class, fm));
+		mapping.put(Settlement.class, new JavaBeanSerializer(Settlement.class, fm));
 		JSON.DEFFAULT_DATE_FORMAT = "yyyy-MM-dd";
 		String str = JSON.toJSONString(org, mapping, SerializerFeature.WriteDateUseDateFormat);
 		

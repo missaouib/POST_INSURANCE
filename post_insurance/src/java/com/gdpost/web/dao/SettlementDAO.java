@@ -12,7 +12,9 @@ import com.gdpost.web.entity.insurance.Settlement;
 
 public interface SettlementDAO extends JpaRepository<Settlement, Long>, JpaSpecificationExecutor<Settlement> {
 
-	Settlement getByPolicyPolicyNo(String policyNo);
+	Settlement getBySettleTaskPolicyPolicyNo(String policyNo);
 	
-	Settlement getByInsuredAndCaseDate(String insured, Date casedate);
+	Settlement getByCaseManAndCaseDate(String caseMan, Date casedate);
+
+	Settlement getByClaimsNo(String claimsNo);
 }
