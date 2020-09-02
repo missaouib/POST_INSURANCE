@@ -46,7 +46,7 @@ public class BankCode implements Idable<Long>,Serializable {
 	private String city;
 	private String area;
 	private String addrAttr;
-	private String flag;
+	private String addr;
 	private String oldName;
 
 	// Constructors
@@ -190,13 +190,13 @@ public class BankCode implements Idable<Long>,Serializable {
 		this.addrAttr = addrAttr;
 	}
 
-	@Column(name = "flag")
-	public String getFlag() {
-		return flag;
+	@Column(name = "addr")
+	public String getAddr() {
+		return addr;
 	}
 
-	public void setFlag(String flag) {
-		this.flag = flag;
+	public void setAddr(String addr) {
+		this.addr = addr;
 	}
 
 	@Column(name = "old_name")

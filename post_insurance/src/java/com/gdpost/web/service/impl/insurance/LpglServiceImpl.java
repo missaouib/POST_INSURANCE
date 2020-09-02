@@ -118,7 +118,7 @@ public class LpglServiceImpl implements LpglService {
 	 */
 	@Override
 	public Settlement getSettleByPolicyNo(String policyNo) {
-		return settlementDAO.getBySettleTaskPolicyPolicyNo(policyNo);
+		return settlementDAO.getByClaimsCloseReportPolicyPolicyNo(policyNo);
 	}
 	
 	@Override

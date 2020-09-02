@@ -1,5 +1,6 @@
 package com.gdpost.web.entity.insurance;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -26,10 +27,14 @@ import com.gdpost.web.entity.main.Organization;
  */
 @Entity
 @Table(name = "t_claims_close_report")
-public class ClaimsCloseReport implements Idable<Long> {
+public class ClaimsCloseReport implements Idable<Long>, Serializable {
 
 	// Fields
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 827877552022447881L;
 	private Long id;
 	private Organization organization;
 	private String organName;

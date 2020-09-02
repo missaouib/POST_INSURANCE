@@ -1,6 +1,6 @@
 package com.gdpost.web.entity.insurance;
 
-import java.sql.Timestamp;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,6 +21,10 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.JoinColumnOrFormula;
+import org.hibernate.annotations.JoinColumnsOrFormulas;
+import org.hibernate.annotations.JoinFormula;
+
 import com.gdpost.web.entity.Idable;
 import com.gdpost.web.entity.main.Organization;
 
@@ -29,14 +33,19 @@ import com.gdpost.web.entity.main.Organization;
  */
 @Entity
 @Table(name = "t_settlement")
-public class Settlement implements Idable<Long> {
+public class Settlement implements Idable<Long>, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3048489897303282878L;
 	// Fields
 
 	private Long id;
 	private Organization organization;
 	private String organName;
 	private String claimsNo;
+	private Policy policy;
 	private String caseType;
 	private String caseMan;
 	private String reporter;
@@ -47,10 +56,11 @@ public class Settlement implements Idable<Long> {
 	private Date followDate;
 	private String caseStatus;
 	private String remark;
-	private Timestamp operateDate;
+	private Date operateTime;
 	private Long operateId;
 	
 	private SettleTask settleTask;
+	private ClaimsCloseReport claimsCloseReport;
 	private List<SettlementLog> settlementLogs = new ArrayList<SettlementLog>(0);
 	
 	@Transient
@@ -75,7 +85,7 @@ public class Settlement implements Idable<Long> {
 	}
 
 	@ManyToOne
-	@JoinColumn(name = "org_id", referencedColumnName="id")
+	@JoinColumn(name = "organ_code", referencedColumnName="org_code")
 	public Organization getOrganization() {
 		return this.organization;
 	}
@@ -102,6 +112,19 @@ public class Settlement implements Idable<Long> {
 
 	public void setClaimsNo(String claimsNo) {
 		this.claimsNo = claimsNo;
+	}
+
+	@ManyToOne(optional=true)
+	@JoinColumnsOrFormulas(value={
+	@JoinColumnOrFormula(column=@JoinColumn(name ="policy_no", referencedColumnName ="policy_no", insertable =false, updatable = false, nullable=true)),
+	@JoinColumnOrFormula(formula=@JoinFormula(value="0", referencedColumnName = "attached_flag"))
+	})
+	public Policy getPolicy() {
+		return policy;
+	}
+
+	public void setPolicy(Policy policy) {
+		this.policy = policy;
 	}
 
 	@Column(name = "case_type", length = 15)
@@ -208,14 +231,15 @@ public class Settlement implements Idable<Long> {
 		this.remark = remark;
 	}
 
-	@Column(name = "operate_date", length = 26)
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "operate_time", length = 26)
 
-	public Timestamp getOperateDate() {
-		return this.operateDate;
+	public Date getOperateTime() {
+		return this.operateTime;
 	}
 
-	public void setOperateDate(Timestamp operateDate) {
-		this.operateDate = operateDate;
+	public void setOperateTime(Date operateTime) {
+		this.operateTime = operateTime;
 	}
 
 	@Column(name = "operate_id")
@@ -228,13 +252,25 @@ public class Settlement implements Idable<Long> {
 		this.operateId = operateId;
 	}
 
-	@OneToOne(optional=true,mappedBy="settlement")
+	/**/
+	@OneToOne(optional=true)
+	@JoinColumn(name="claims_no", referencedColumnName="claims_no", insertable=false, updatable=false, nullable=true)
 	public SettleTask getSettleTask() {
 		return settleTask;
 	}
 
 	public void setSettleTask(SettleTask settleTask) {
 		this.settleTask = settleTask;
+	}
+	
+	@OneToOne(optional=true)
+	@JoinColumn(name="claims_no", referencedColumnName="claims_no", insertable=false, updatable=false, nullable=true)
+	public ClaimsCloseReport getClaimsCloseReport() {
+		return claimsCloseReport;
+	}
+
+	public void setClaimsCloseReport(ClaimsCloseReport claimsCloseReport) {
+		this.claimsCloseReport = claimsCloseReport;
 	}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "settlement")

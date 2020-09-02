@@ -1,5 +1,6 @@
 package com.gdpost.web.entity.insurance;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -31,8 +32,12 @@ import com.gdpost.web.entity.main.Organization;
  */
 @Entity
 @Table(name = "t_settle_task")
-public class SettleTask implements Idable<Long> {
+public class SettleTask implements Idable<Long>, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3678356878663291218L;
 	@Transient
 	public static final String STATUS_ING = "调查中";
 	@Transient
@@ -122,7 +127,7 @@ public class SettleTask implements Idable<Long> {
 		this.policy = policy;
 	}
 	
-	@OneToOne
+	@OneToOne(optional=true)
 	@JoinColumn(name="claims_no", referencedColumnName="claims_no", nullable=true)
 	public Settlement getSettlement() {
 		return this.settlement;

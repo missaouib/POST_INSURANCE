@@ -159,8 +159,7 @@ public class TaskService {
 			log.info("------------ task service 6 rst :" + iRst6);
 			
 			sql = "update t_under_write t1,t_policy_reprint_dtl t2 set t1.prov_ems_no=t2.ems_no, t1.status='SendStatus', "
-					+ "t1.prov_send_date=t2.print_date where t1.policy_no is not null and (t1.policy_no=t2.policy_no or t1.form_no=t2.form_no) "
-					+ "and t1.status='NewStatus';";
+					+ "t1.prov_send_date=t2.print_date where t1.status='NewStatus' and t1.policy_no is not null and (t1.policy_no=t2.policy_no or t1.form_no=t2.form_no);";
 			log.info("------------ sql :" + sql);
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
@@ -180,16 +179,17 @@ public class TaskService {
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
 			
-			sql = "update t_policy tp, t_policy_dtl tpd, t_staff ts set tp.staff_flag=true,tp.duration=tpd.duration where tp.staff_flag=0 and tp.policy_no=tpd.policy_no and tpd.holder_card_num=ts.id_card and year(tp.policy_date)=year(now()) and year(tp.policy_date)=ts.year;";
+			sql = "update t_policy tp, t_policy_dtl tpd, t_staff ts set tp.staff_flag=true,tp.duration=tpd.duration where tp.policy_no=tpd.policy_no and tpd.holder_card_num=ts.id_card and tp.staff_flag=0 and year(tp.policy_date)=ts.year and year(tp.policy_date)=year(now());";
 			log.info("------------ sql :" + sql);
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
 			
-			sql = "update t_pay_list t1,(select rel_no from t_pay_list where fail_desc=\"成功\") t2 set t1.status='CloseStatus' where t1.status<>'CloseStatus' and t1.status<>\"成功\" and t1.rel_no=t2.rel_no;";
+			sql = "update t_pay_list t1,(select rel_no,back_date from t_pay_list where fail_desc=\"成功\") t2 set t1.status='CloseStatus' where t1.rel_no=t2.rel_no and datediff(t2.back_date,t1.back_date)>0 and t1.status<>'CloseStatus' and t1.status<>\"成功\";";
 			log.info("------------ sql :" + sql);
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
 			
+			/*
 			sql = "update t_renewed_list set fee_status='交费成功', fee_fail_reason='' where fee_status<>\"交费成功\" and policy_no in (select rel_no from t_pay_list where pay_type=2 and fail_desc like '%成功' and datediff(back_date,fee_date)>=0);";
 			log.info("------------ sql :" + sql);
 			rstInt = statement.executeUpdate(sql);
@@ -207,19 +207,9 @@ public class TaskService {
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
 			
-			sql = "update t_policy t0 set t0.status='有效' where t0.status<>'有效' and t0.policy_no in (select t2.policy_no from t_pay_list t1, t_cs_report t2 where t1.pay_type=2 and t1.rel_no=t2.cs_no and t2.cs_code='RE' and t1.fail_desc='成功');";
-			log.info("------------ sql :" + sql);
-			rstInt = statement.executeUpdate(sql);
-			log.info("------------ finish exec sql：" + rstInt);
-			
 			sql = "update t_renewed_list t0 set t0.fee_status='交费成功', fee_fail_reason='' where t0.fee_status<>\"交费成功\" "
 					+ "and t0.policy_no in (select t2.policy_no from t_pay_list t1, t_cs_report t2 "
 					+ "where t1.back_date>t2.cs_date and t2.cs_date>t0.fee_date and t1.pay_type=2 and t1.fail_desc like '%成功' and t0.policy_fee=t1.money and t1.rel_no=t2.cs_no and t2.cs_code='RE');";
-			log.info("------------ sql :" + sql);
-			rstInt = statement.executeUpdate(sql);
-			log.info("------------ finish exec sql：" + rstInt);
-			
-			sql = "update t_cs_report tsr, t_policy_dtl tpd, t_staff ts set tsr.staff_flag=true where tsr.staff_flag=0 and tsr.policy_no=tpd.policy_no and tpd.holder_card_num=ts.id_card and year(tpd.policy_date)=year(now()) and year(tpd.policy_date)=ts.year;";
 			log.info("------------ sql :" + sql);
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
@@ -229,7 +219,19 @@ public class TaskService {
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
 			
-			sql = "update t_policy t1, t_bank_code t2 set t1.bank_name=t2.name where (t1.bank_name like '%邮政局%' or t1.bank_name='' or t1.bank_name is null) and t1.prod_name not like '%禄禄通%' and t1.bank_code=t2.cpi_code;";
+			*/
+			
+			sql = "update t_policy t0 set t0.status='有效' where t0.status<>'有效' and t0.policy_no in (select t2.policy_no from t_pay_list t1, t_cs_report t2 where t1.rel_no=t2.cs_no and t2.cs_code='RE' and t1.pay_type=2 and t1.fail_desc='成功');";
+			log.info("------------ sql :" + sql);
+			rstInt = statement.executeUpdate(sql);
+			log.info("------------ finish exec sql：" + rstInt);
+			
+			sql = "update t_cs_report tsr, t_policy_dtl tpd, t_staff ts set tsr.staff_flag=true where tsr.policy_no=tpd.policy_no and tpd.holder_card_num=ts.id_card and tsr.staff_flag=0 and year(tpd.policy_date)=ts.year and year(tpd.policy_date)=year(now());";
+			log.info("------------ sql :" + sql);
+			rstInt = statement.executeUpdate(sql);
+			log.info("------------ finish exec sql：" + rstInt);
+			
+			sql = "update t_policy t1, t_bank_code t2 set t1.bank_name=t2.name where t1.bank_code=t2.cpi_code and (t1.bank_name like '%邮政局%' or t1.bank_name='' or t1.bank_name is null) and t1.prod_name not like '%禄禄通%';";
 			log.info("------------ sql :" + sql);
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
@@ -400,7 +402,7 @@ public class TaskService {
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
 			
-			sql = "update t_policy tp,t_policy_dtl tpd set tp.status=\"满期终止\" where tp.policy_no=tpd.policy_no and tpd.duration is not null and tpd.duration>=5 and TIMESTAMPDIFF(YEAR,tp.policy_date,DATE_FORMAT(NOW(), '%Y-%m-%d'))>tpd.duration and tp.status=\"有效\";";
+			sql = "update t_policy tp,t_policy_dtl tpd set tp.status=\"满期终止\" where tp.policy_no=tpd.policy_no and tp.status=\"有效\" and tpd.duration>=5 and tpd.duration is not null and TIMESTAMPDIFF(YEAR,tp.policy_date,DATE_FORMAT(NOW(), '%Y-%m-%d'))>tpd.duration;";
 			log.info("------------ sql :" + sql);
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
@@ -420,53 +422,53 @@ public class TaskService {
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
 			
-			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=2,tp.status=\"终止\",tp.cs_date=tcr.cs_date where tp.status<>\"终止\" and tp.policy_no=tcr.policy_no and tp.cs_flag=0 and tp.attached_flag=0 and tcr.full_cs_code=\"CT退保\" and abs(tcr.money)>500;";
+			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=2,tp.status=\"终止\",tp.cs_date=tcr.cs_date where tp.policy_no=tcr.policy_no and tp.cs_flag=0 and tp.attached_flag=0 and tcr.full_cs_code=\"CT退保\" and tp.status<>\"终止\" and abs(tcr.money)>500;";
 			log.info("------------ sql :" + sql);
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
 			
-			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=2,tp.status=\"终止\",tp.cs_date=tcr.cs_date where tp.status<>\"终止\" and tp.policy_no=tcr.policy_no and tp.cs_flag=0 and tp.attached_flag=1 and tcr.full_cs_code=\"CT退保\" and abs(tcr.money)<=500;";
+			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=2,tp.status=\"终止\",tp.cs_date=tcr.cs_date where tp.policy_no=tcr.policy_no and tp.cs_flag=0 and tp.attached_flag=1 and tcr.full_cs_code=\"CT退保\" and tp.status<>\"终止\" and abs(tcr.money)<=500;";
 			log.info("------------ sql :" + sql);
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
 			
-			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=2,tp.status=\"终止\",tp.cs_date=tcr.cs_date where tp.status<>\"终止\" and tp.policy_no=tcr.policy_no and tp.cs_flag<>2 and tp.attached_flag=0 and tcr.full_cs_code=\"CT退保\" and tp.prod_name like \"%邮保百万%\";";
+			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=2,tp.status=\"终止\",tp.cs_date=tcr.cs_date where tp.policy_no=tcr.policy_no and tp.cs_flag<>2 and tp.attached_flag=0 and tcr.full_cs_code=\"CT退保\" and tp.status<>\"终止\" and tp.prod_name like \"%邮保百万%\";";
 			log.info("------------ sql :" + sql);
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
 			
-			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=1,tp.status=\"终止\",tp.cs_date=tcr.cs_date where tp.cs_flag<>1 and tp.attached_flag=0 and tp.policy_no=tcr.policy_no and tcr.full_cs_code=\"CT犹撤\" and abs(tcr.money)>500;";
+			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=1,tp.status=\"终止\",tp.cs_date=tcr.cs_date where tp.policy_no=tcr.policy_no and tcr.full_cs_code=\"CT犹撤\" and tp.attached_flag=0 and tp.cs_flag<>1 and abs(tcr.money)>500;";
 			log.info("------------ sql :" + sql);
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
 			
-			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=1,tp.status=\"终止\",tp.cs_date=tcr.cs_date where tp.cs_flag<>1 and tp.attached_flag=1 and tp.policy_no=tcr.policy_no and tcr.full_cs_code=\"CT犹撤\" and abs(tcr.money)<=500;";
+			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=1,tp.status=\"终止\",tp.cs_date=tcr.cs_date where tp.policy_no=tcr.policy_no and tcr.full_cs_code=\"CT犹撤\" and tp.attached_flag=1 and tp.cs_flag<>1 and abs(tcr.money)<=500;";
 			log.info("------------ sql :" + sql);
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
 			
-			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=1,tp.status=\"终止\",tp.cs_date=tcr.cs_date where tp.cs_flag<>1 and tp.attached_flag=0 and tp.policy_no=tcr.policy_no and tcr.full_cs_code=\"CT犹撤\" and tp.prod_code=\"120022\";";
+			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=1,tp.status=\"终止\",tp.cs_date=tcr.cs_date where tp.policy_no=tcr.policy_no and tcr.full_cs_code=\"CT犹撤\" and tp.prod_code=\"120022\" and tp.attached_flag=0 and tp.cs_flag<>1;";
 			log.info("------------ sql :" + sql);
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
 			
-			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=2,tp.status=\"终止\",tp.cs_date=tcr.cs_date where tp.cs_flag<>2 and tp.attached_flag=0 and tp.policy_no=tcr.policy_no and tcr.full_cs_code=\"CT退保\" and tp.prod_code=\"120022\";";
+			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=2,tp.status=\"终止\",tp.cs_date=tcr.cs_date where tp.policy_no=tcr.policy_no and tcr.full_cs_code=\"CT退保\" and tp.prod_code=\"120022\" and tp.attached_flag=0 and tp.cs_flag<>2;";
 			log.info("------------ sql :" + sql);
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
 			
-			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=2,tp.status=\"终止\",tp.cs_date=tcr.cs_date where tp.cs_flag<>2 and tp.policy_no=tcr.policy_no and tcr.cs_code=\"CT\" and tp.prod_code=\"112004\";";
+			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=2,tp.status=\"终止\",tp.cs_date=tcr.cs_date where tp.policy_no=tcr.policy_no and tcr.cs_code=\"CT\" and tp.prod_code=\"112004\" and tp.cs_flag<>2;";
 			log.info("------------ sql :" + sql);
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
 			
 			//简易险退保更新
-			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=2,tp.status=\"终止\",tp.cs_date=tcr.cs_date where tp.status<>\"终止\" and tp.policy_no=tcr.policy_no and tp.cs_flag=0 and prod_code=\"112004\" and tcr.full_cs_code=\"CT退保\";";
+			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=2,tp.status=\"终止\",tp.cs_date=tcr.cs_date where tp.policy_no=tcr.policy_no and tp.cs_flag=0 and prod_code=\"112004\" and tcr.full_cs_code=\"CT退保\" and tp.status<>\"终止\";";
 			log.info("------------ sql :" + sql);
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
 			
-			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=1,tp.status=\"终止\",tp.cs_date=tcr.cs_date where tp.status<>\"终止\" and tp.policy_no=tcr.policy_no and tp.cs_flag=0 and prod_code=\"112004\" and tcr.full_cs_code=\"CT犹撤\";";
+			sql = "update t_policy tp, t_cs_report tcr set tp.cs_flag=1,tp.status=\"终止\",tp.cs_date=tcr.cs_date where tp.policy_no=tcr.policy_no and tp.cs_flag=0 and prod_code=\"112004\" and tcr.full_cs_code=\"CT犹撤\" and tp.status<>\"终止\";";
 			log.info("------------ sql :" + sql);
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);

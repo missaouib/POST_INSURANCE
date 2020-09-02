@@ -93,6 +93,7 @@ public class LpglController {
 
 	private static final String CREATE = "insurance/lpgl/follow/create";
 	private static final String UPDATE = "insurance/lpgl/follow/update";
+	private static final String UPDATE_DTL = "insurance/lpgl/follow/updateDtl";
 	private static final String LIST = "insurance/lpgl/follow/list";
 	private static final String TO_XLS = "insurance/lpgl/follow/toXls";
 	private static final String LOG_DTL = "insurance/lpgl/follow/logs";
@@ -152,6 +153,15 @@ public class LpglController {
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{settle.getCaseMan()}));
 		return AjaxObject.newOk("添加理赔案件成功！").toString();
+	}
+	
+	@RequiresPermissions("Settlement:edit")
+	@RequestMapping(value="/detail/{id}", method=RequestMethod.GET)
+	public String preDetail(@PathVariable Long id, Map<String, Object> map) {
+		Settlement settle = lpglService.getSettle(id);
+		
+		map.put("settle", settle);
+		return UPDATE_DTL;
 	}
 	
 	@Log(message="登记了{0}的理赔案件详情。", level=LogLevel.WARN, module=LogModule.LPGL)

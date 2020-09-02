@@ -623,8 +623,8 @@ public class CustomerInfoUtil {
 			rst = stat.executeQuery(sql);
 			while(rst != null && rst.next()) {
 				num = rst.getInt("countNum");
-				if(num>2) {
-					return "手机号码被" + num + "个不同投保人使用;";
+				if(num>1) {
+					return "手机号码被" + num + "个不同投保人使用，须核实关系;";
 				}
 			}
 		} catch (SQLException e) {
@@ -646,12 +646,23 @@ public class CustomerInfoUtil {
 		String sql = "select count(distinct holder) as countNum from t_policy_dtl where attached_flag=0 and prod_code<>\"120022\" and policy_status=\"有效\"   and cast(aes_decrypt(unhex(holder_addr), 'GDPost') as char(100))=\"" + addr + "\" and cast(aes_decrypt(unhex(holder), 'GDPost') as char(100))<>\"" + holder + "\";";
 		ResultSet rst = null;
 		int num = 0;
+		String bank = null;
+		String checkRst = null;
 		try {
 			rst = stat.executeQuery(sql);
 			while(rst != null && rst.next()) {
 				num = rst.getInt("countNum");
 				if(num>2) {
-					return "地址被" + num + "个不同投保人使用;";
+					checkRst = "地址被" + num + "个不同投保人使用;";
+				}
+			}
+			rst.close();
+			sql = "select addr from t_bank_code where locate(city,\"" + addr + "\")>0; ";
+			rst = stat.executeQuery(sql);
+			while(rst != null && rst.next()) {
+				bank = rst.getString("addr");
+				if(CustomerInfoUtil.cos(addr, bank) >0.5) {
+					checkRst = "疑似使用网点地址！且地址被" + num + "个不同投保人使用;";
 				}
 			}
 		} catch (SQLException e) {
@@ -663,7 +674,7 @@ public class CustomerInfoUtil {
 				e.printStackTrace();
 			}
 		}
-		return null;
+		return checkRst;
 	}
 	
 	public static String reuseEmailNum(Statement stat, String holder, String email) {

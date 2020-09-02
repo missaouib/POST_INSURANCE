@@ -104,7 +104,7 @@
 				<td>${idx.index+1 }</td>
 				<td>${item.organization.shortName}</td>
 				<td>${item.insured}</td>
-				<td>${item.policyNo}</td>
+				<td>${item.policy.policyNo}</td>
 				<td><fmt:formatDate value="${item.checkStartDate}" pattern="yyyy-MM-dd"/></td>
 				<td>${item.limitation }</td>
 				<td>${item.checker}</td>
