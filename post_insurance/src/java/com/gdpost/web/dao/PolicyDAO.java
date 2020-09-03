@@ -1,5 +1,7 @@
 package com.gdpost.web.dao;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -20,7 +22,9 @@ import com.gdpost.web.entity.insurance.Policy;
 public interface PolicyDAO extends JpaRepository<Policy, Long>, JpaSpecificationExecutor<Policy> {
 	Policy getByPolicyNoAndAttachedFlag(String policyNo, Integer attachedFlag);
 	
-	Policy getByPolicyDtlHolderCardNum(String idCardNum);
+	Policy getFirstByPolicyDtlHolderCardNum(String idCardNum);
+	
+	List<Policy> findByPolicyDtlInsuredCardNum(String idCardNum);
 	
 	@Query(value="select tp from Policy tp, BankCode bc where tp.bankCode.selBankCode=bc.cpiCode and bc.status=1 and bc.netFlag=2 and tp.attachedFlag=0 and tp.policyNo=:policyNo")
 	Policy isBankPolicy(@Param("policyNo") String policyNo);

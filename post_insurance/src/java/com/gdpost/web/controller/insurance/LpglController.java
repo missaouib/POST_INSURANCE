@@ -157,68 +157,138 @@ public class LpglController {
 	
 	@RequiresPermissions("Settlement:edit")
 	@RequestMapping(value="/detail/{id}", method=RequestMethod.GET)
-	public String preDetail(@PathVariable Long id, Map<String, Object> map) {
+	public String preDetail(@PathVariable Long id, HttpServletRequest request, Map<String, Object> map) {
 		Settlement settle = lpglService.getSettle(id);
+		request.setAttribute("settle", settle);
 		
-		map.put("settle", settle);
+		List<SettlementLog> dealLogs = lpglService.findDealLogBySettleId(id);
+		request.setAttribute("dealLogs", dealLogs);
+		
+		if(settle != null && settle.getId() != null) {
+			request.setAttribute("flag", "update");
+			request.setAttribute("settle", settle);
+		} else {
+			request.setAttribute("flag", "create");
+		}
 		return UPDATE_DTL;
 	}
 	
 	@Log(message="登记了{0}的理赔案件详情。", level=LogLevel.WARN, module=LogModule.LPGL)
 	@RequiresPermissions("Settlement:save")
 	@RequestMapping(value="/detail", method=RequestMethod.POST)
-	public @ResponseBody String createDtl(Settlement settleDtl, HttpServletRequest request) {
-		try {
-			LOG.debug("----------- settle dtl id:" + settleDtl.getId());
-			String id = request.getParameter("settleDtlId");
-			Settlement dtl = null;
-			if(id != null && id.trim().length() >0) {
-				dtl = lpglService.getSettle(new Long(id));
-				BeanUtils.copyProperties(settleDtl, dtl, "id");
-			} else {
-				dtl = settleDtl;
+	public @ResponseBody String createDtl(Settlement settle, HttpServletRequest request) {
+		
+		User user = SecurityUtils.getShiroUser().getUser();
+		Settlement src = lpglService.getSettle(settle.getId());
+		StringBuffer loginfo = new StringBuffer("");
+		String policyId = request.getParameter("policy.id");
+		String policyNo = request.getParameter("policy.policyNo");
+		boolean needTask = false;
+		Policy policy = null;
+		
+		if(policyId != null && policyId.trim().length()>0) {
+			policy = policyService.get(Long.parseLong(policyId));
+		}
+		
+		if(policyId!=null && (src.getPolicy() == null  || !policyId.equals(src.getPolicy().getId().toString()))) {
+			loginfo.append("改保单号：" + (src.getPolicy()==null?"":src.getPolicy().getPolicyNo()) + "->" + policyNo + "；");
+			src.setPolicy(policy);
+		}
+		if(settle.getCaseStatus()!=null && !src.getCaseStatus().equals(settle.getCaseStatus())) {
+			loginfo.append("改状态：" + src.getCaseStatus() + "->" + settle.getCaseStatus() + "；");
+			src.setCaseStatus(settle.getCaseStatus());
+			if(settle.getCaseStatus().equals("待调查")) {
+				needTask = true;
 			}
-			lpglService.saveOrUpdateSettle(dtl);
+		}
+		if(settle.getCaseType()!=null && (src.getCaseType() == null || !src.getCaseType().equals(settle.getCaseType()))) {
+			loginfo.append("改理赔类型：" + src.getCaseType() + "->" + settle.getCaseType() + "；");
+			src.setCaseType(settle.getCaseType());
+		}
+		if(settle.getReporteDate()!=null && src.getReporteDate() != null && !DateUtils.isSameDay(src.getReporteDate(), settle.getReporteDate())) {
+			loginfo.append("改报案日期：" + StringUtil.date2Str(src.getReporteDate(), "yy-M-d") + "->" + StringUtil.date2Str(settle.getReporteDate(), "yy-M-d") + "；");
+			src.setReporteDate(settle.getReporteDate());
+		} else if(settle.getReporteDate()!=null && src.getReporteDate() == null) {
+			loginfo.append("改报案日期：" + "null ->" + StringUtil.date2Str(settle.getReporteDate(), "yy-M-d") + "；");
+			src.setReporteDate(settle.getReporteDate());
+		}
+		if(settle.getRemark()!=null && !(src.getRemark()==null?"":src.getRemark()).equals(settle.getRemark())) {
+			loginfo.append("改出险描述：" + src.getRemark() + "->" + settle.getRemark() + "；");
+			src.setRemark(settle.getRemark());
+		}
+		
+		if(loginfo.length() > 0) {
+			SettlementLog settleLog = new SettlementLog();
+			settleLog.setSettlement(src);
+			settleLog.setUser(user);
+			settleLog.setDealDate(new Date());
+			settleLog.setInfo(loginfo.toString());
+			settleLog.setIp(request.getRemoteAddr());
+			settleLog.setIsKeyInfo(true);
+			lpglService.saveOrUpdateSettleLog(settleLog);
+		}
+		
+		try {			
+			SettlementLog settleLog = new SettlementLog();
+			settleLog.setSettlement(src);
+			settleLog.setDealDate(new Date());
+			settleLog.setUser(user);
+			settleLog.setInfo("添加或者更新了案件进度相关信息；");
+			settleLog.setIp(request.getRemoteAddr());
+			settleLog.setIsKeyInfo(true);
+			lpglService.saveOrUpdateSettleLog(settleLog);
 			
-			Settlement settle = lpglService.getSettle(settleDtl.getId());
+			String toDealDay = request.getParameter("toDealDay");//需要几天反馈
+			//String followDate = request.getParameter("followDate"); //自动计算
+			Date followDate = StringUtil.dateAdd(new Date(), Integer.parseInt(toDealDay));
 			
-			User user = SecurityUtils.getShiroUser().getUser();
-			
-//			SettlementLog settleLog = new SettlementLog();
-//			settleLog.setSettlement(settle);
-//			settleLog.setDealDate(new Date());
-//			settleLog.setUser(user);
-//			settleLog.setInfo("添加或者更新了案件进度相关信息；");
-//			settleLog.setIp(request.getRemoteAddr());
-//			settleLog.setIsKeyInfo(true);
-//			lpglService.saveOrUpdateSettleLog(settleLog);
-			
-			String toDealDay = request.getParameter("toDealDay");
-			String followDate = request.getParameter("followDate");
 			String info = request.getParameter("info");
 			SettlementLog settleInfo = new SettlementLog();
 			settleInfo.setSettlement(settle);
 			settleInfo.setDealDate(new Date());
-			if(followDate != null && followDate.trim().length()>0 && info != null && info.trim().length()>0) {
-				settleInfo.setFollowDate(StringUtil.str2Date(followDate, "yyyy-MM-dd"));
-				settleInfo.setInfo(info);
-				settleInfo.setIsFollow(true);
-				settleInfo.setToDealDay(null);
-			} else {
-				settleInfo.setIsFollow(true);
-				settleInfo.setToDealDay(Integer.valueOf(toDealDay));
-				settleInfo.setInfo("设置了案件进度跟进要求->第" + toDealDay + "日内反馈。");
-			}
+			
+			settleInfo.setFollowDate(followDate);
+			settleInfo.setIsFollow(true);
+			settleInfo.setToDealDay(Integer.valueOf(toDealDay));
+			settleInfo.setInfo("设置跟进要求->第" + toDealDay + "日内反馈：" + info);
+			
 			settleInfo.setUser(user);
 			settleInfo.setIp(request.getRemoteAddr());
 			settleInfo.setIsKeyInfo(true);
 			lpglService.saveOrUpdateSettleLog(settleInfo);
 			
+			src.setFollowDate(followDate);
+			lpglService.saveOrUpdateSettle(src);
+			
+			//如果为待调查，自动生成一条调查任务
+			if(needTask && lpglService.getSettleTaskByClaimsNo(src.getClaimsNo()) == null) {
+				LOG.debug("--------------- 系统自动生成理赔调查任务：" + src.getClaimsNo());
+				SettleTask task = new SettleTask();
+				task.setSettlement(src);
+				task.setCaseType(src.getCaseType());
+				task.setPolicy(policy);
+				task.setInsured(src.getCaseMan());
+				task.setOrganization(policy.getOrganization());
+				task.setOperateId(user.getId());
+				task.setCreateTime(new Date());
+				task.setCheckStartDate(new Date());
+				task.setCheckStatus(SettleTask.STATUS_ING);
+				lpglService.saveOrUpdateSettleTask(task);
+				
+				SettleTaskLog taskLog = new SettleTaskLog();
+				taskLog.setSettleTask(task);
+				taskLog.setDealDate(new Date());
+				taskLog.setUser(user);
+				taskLog.setInfo("系统自动触发添加理赔案件调查任务信息；");
+				taskLog.setIp(request.getRemoteAddr());
+				taskLog.setIsKeyInfo(true);
+				lpglService.saveOrUpdateSettleTaskLog(taskLog);
+			}
 		} catch (ExistedException e) {
 			return AjaxObject.newError("理赔案件详情登记失败：" + e.getMessage()).setCallbackType("").toString();
 		}
 		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{settleDtl.getClaimsNo()}));
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getClaimsNo()}));
 		return AjaxObject.newOk("理赔案件详情登记成功！").toString();
 	}
 
@@ -237,53 +307,16 @@ public class LpglController {
 	public @ResponseBody String update(@Valid Settlement settle, HttpServletRequest request) {
 		Settlement src = lpglService.getSettle(settle.getId());
 		StringBuffer loginfo = new StringBuffer("");
-		if(settle.getCaseDate()!=null && src.getCaseDate() != null && !DateUtils.isSameDay(src.getCaseDate(), settle.getCaseDate())) {
-			loginfo.append("改出险日期：" + StringUtil.date2Str(src.getCaseDate(), "yy-M-d") + "->" + StringUtil.date2Str(settle.getCaseDate(), "yy-M-d") + "；");
-			src.setCaseDate(settle.getCaseDate());
-		} else if(settle.getCaseDate()!=null && src.getCaseDate() == null) {
-			loginfo.append("改出险日期：" + "null ->" + StringUtil.date2Str(settle.getCaseDate(), "yy-M-d") + "；");
-			src.setCaseDate(settle.getCaseDate());
-		}
 		
 		if(settle.getCaseStatus()!=null && !src.getCaseStatus().equals(settle.getCaseStatus())) {
 			loginfo.append("改状态：" + src.getCaseStatus() + "->" + settle.getCaseStatus() + "；");
 			src.setCaseStatus(settle.getCaseStatus());
 		}
 		
-		if(settle.getCaseType()!=null && !src.getCaseType().equals(settle.getCaseType())) {
-			loginfo.append("改类型：" + src.getCaseType() + "->" + settle.getCaseType() + "；");
+		if(settle.getCaseType()!=null && (src.getCaseType() == null || !src.getCaseType().equals(settle.getCaseType()))) {
+			loginfo.append("改理赔类型：" + src.getCaseType() + "->" + settle.getCaseType() + "；");
 			src.setCaseType(settle.getCaseType());
 		}
-		/*
-		if(settle.getCloseDate()!=null && src.getCloseDate() != null && !DateUtils.isSameDay(src.getCloseDate(), settle.getCloseDate())) {
-			loginfo.append("改关闭日期：" + StringUtil.date2Str(src.getCloseDate(), "yy-M-d") + "->" + StringUtil.date2Str(settle.getCloseDate(), "yy-M-d") + "；");
-			src.setCloseDate(settle.getCloseDate());
-		} else if(settle.getCloseDate()!=null && src.getCloseDate() == null) {
-			loginfo.append("改关闭日期：" + "null ->" + StringUtil.date2Str(settle.getCloseDate(), "yy-M-d") + "；");
-			src.setCloseDate(settle.getCloseDate());
-		}
-		
-		if(settle.getInsured()!=null && !src.getInsured().equals(settle.getInsured())) {
-			loginfo.append("改出险人：" + src.getInsured() + "->" + settle.getInsured() + "；");
-			src.setInsured(settle.getInsured());
-		}
-		if(settle.getOrganization()!=null && !src.getOrganization().getName().equals(settle.getOrganization().getName())) {
-			loginfo.append("改机构；");
-			src.setOrganization(settle.getOrganization());
-		}
-		if(settle.getPayFee()!=null && (src.getPayFee()==null?0:src.getPayFee().doubleValue()) != settle.getPayFee().doubleValue()) {
-			loginfo.append("改赔付金额：" + src.getPayFee() + "->" + settle.getPayFee() + "；");
-			src.setPayFee(settle.getPayFee());
-		}
-		
-		if(settle.getRecordDate()!=null && src.getRecordDate() != null && !DateUtils.isSameDay(src.getRecordDate(), settle.getRecordDate())) {
-			loginfo.append("改立案日期：" + StringUtil.date2Str(src.getRecordDate(), "yy-M-d") + "->" + StringUtil.date2Str(settle.getRecordDate(), "yy-M-d") + "；");
-			src.setRecordDate(settle.getRecordDate());
-		} else if(settle.getRecordDate()!=null && src.getRecordDate() == null ) {
-			loginfo.append("改立案日期：" + "null ->" + StringUtil.date2Str(settle.getRecordDate(), "yy-M-d") + "；");
-			src.setRecordDate(settle.getRecordDate());
-		}
-		*/
 		if(settle.getReporteDate()!=null && src.getReporteDate() != null && !DateUtils.isSameDay(src.getReporteDate(), settle.getReporteDate())) {
 			loginfo.append("改报案日期：" + StringUtil.date2Str(src.getReporteDate(), "yy-M-d") + "->" + StringUtil.date2Str(settle.getReporteDate(), "yy-M-d") + "；");
 			src.setReporteDate(settle.getReporteDate());
@@ -292,13 +325,9 @@ public class LpglController {
 			src.setReporteDate(settle.getReporteDate());
 		}
 		
-		if(settle.getReporter()!=null && !(src.getReporter()==null?"":src.getReporter()).equals(settle.getReporter())) {
-			loginfo.append("改报案人：" + src.getReporter() + "->" + settle.getReporter() + "；");
-			src.setReporter(settle.getReporter());
-		}
-		if(settle.getReporterPhone()!=null && !(src.getReporterPhone()==null?"":src.getReporterPhone()).equals(settle.getReporterPhone())) {
-			loginfo.append("改报案人电话：" + src.getReporterPhone() + "->" + settle.getReporterPhone() + "；");
-			src.setReporterPhone(settle.getReporterPhone());
+		if(settle.getRemark()!=null && !(src.getRemark()==null?"":src.getRemark()).equals(settle.getRemark())) {
+			loginfo.append("改出险描述：" + src.getRemark() + "->" + settle.getRemark() + "；");
+			src.setRemark(settle.getRemark());
 		}
 		
 		lpglService.saveOrUpdateSettle(src);
@@ -407,7 +436,7 @@ public class LpglController {
 		if(caseStatus != null && caseStatus.trim().length() >0) {
 			csf.add(new SearchFilter("caseStatus", Operator.EQ, caseStatus));
 		} else {
-			csf.add(new SearchFilter("caseStatus", Operator.NEQ, "结案关闭"));
+			csf.add(new SearchFilter("caseStatus", Operator.NEQ, "已结案"));
 		}
 		
 		Specification<Settlement> specification = DynamicSpecifications.bySearchFilter(request, Settlement.class, csf);
@@ -430,8 +459,10 @@ public class LpglController {
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE_R, user.getOrganization().getOrgCode()));
-		if(caseStatus != null && caseStatus.trim().length() > 0) {
+		if(caseStatus != null && caseStatus.trim().length() >0) {
 			csf.add(new SearchFilter("caseStatus", Operator.EQ, caseStatus));
+		} else {
+			csf.add(new SearchFilter("caseStatus", Operator.NEQ, "已结案"));
 		}
 		
 		Specification<Settlement> specification = DynamicSpecifications.bySearchFilter(request, Settlement.class, csf);
@@ -706,12 +737,17 @@ public class LpglController {
 	public String preUpdateTask(@PathVariable Long id, Map<String, Object> map) {
 		SettleTask task = lpglService.getSettleTask(id);
 		
-		Settlement settle = lpglService.getSettleByPolicyNo(task.getPolicy().getPolicyNo());
+		Settlement settle = new Settlement();
+		Policy policy = new Policy();
+		if(task.getPolicy() != null) {
+			settle = lpglService.getSettleByPolicyNo(task.getPolicy().getPolicyNo());
+			policy = policyService.getByPolicyNo(task.getPolicy().getPolicyNo());
+		} else if(task.getSettlement() != null) {
+			settle = lpglService.getSettleByClaimsNo(task.getSettlement().getClaimsNo());
+		}
 		
 		List<SettleTaskLog> dealLogs = lpglService.findDealLogByTaskId(id);
 		map.put("dealLogs", dealLogs);
-		
-		Policy policy = policyService.getByPolicyNo(task.getPolicy().getPolicyNo());
 		
 		map.put("task", task);
 		map.put("policy", policy);

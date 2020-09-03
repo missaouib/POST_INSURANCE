@@ -22,12 +22,12 @@ public class CheckCityBackColumn {
 		column.setNullable(false);
 		standardColumns.add(column);
 		
-		column = new ColumnItem();
-		column.setDisplayName("批次号");
-		column.setColumnName("check_batch");
-		column.setColumnType(ColumnType.string);
-		column.setNullable(false);
-		standardColumns.add(column);
+//		column = new ColumnItem();
+//		column.setDisplayName("批次号");
+//		column.setColumnName("check_batch");
+//		column.setColumnType(ColumnType.string);
+//		column.setNullable(false);
+//		standardColumns.add(column);
 		
 		column = new ColumnItem();
 		column.setDisplayName("处理结果");

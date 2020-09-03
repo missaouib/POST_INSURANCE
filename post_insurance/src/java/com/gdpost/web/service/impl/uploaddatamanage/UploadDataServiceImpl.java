@@ -465,6 +465,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			standardColumns = ClaimsCloseReportColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_claims_close_report character set utf8 (";
 			sql1 = "update t_claims_close_report set policy_no=left(policy_nos,14) where policy_no is null;";
+			sql2 = "update t_settlement ts,t_claims_close_report tccr set ts.case_status=\"已结案\",ts.case_end_date=tccr.close_date where ts.claims_no=tccr.claims_no and ts.case_end_date is null;";
 			break;
 		case Settlement:
 			standardColumns = SettlementColumn.getStandardColumns();
@@ -1362,7 +1363,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case CheckCityBack:
 			//tableName = "t_check_write";
 			standardColumns = CheckCityBackColumn.getStandardColumns();
-			sql = new StringBuffer("INSERT INTO t_check_write (policy_no, check_batch, fix_desc, deal_man, deal_time, fix_status) VALUES ");
+			sql = new StringBuffer("INSERT INTO t_check_write (policy_no, fix_desc, deal_man, deal_time, fix_status) VALUES ");
 			for (DataRow row : dt.Rows) {
 				line = new StringBuffer("(");
 	        	for(ColumnItem item : standardColumns) {

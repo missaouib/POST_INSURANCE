@@ -155,6 +155,11 @@ public class LpglServiceImpl implements LpglService {
 	public SettleTask getSettleTask(Long id) {
 		return settleTaskDAO.findById(id).get();
 	}
+	
+	@Override
+	public SettleTask getSettleTaskByClaimsNo(String claimsNo) {
+		return settleTaskDAO.getBySettlementClaimsNo(claimsNo);
+	}
 
 	/*
 	 * (non-Javadoc) 

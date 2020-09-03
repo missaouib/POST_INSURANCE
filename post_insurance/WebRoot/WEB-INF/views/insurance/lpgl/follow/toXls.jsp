@@ -20,55 +20,51 @@ response.setHeader("Content-Disposition", "inline; filename=settles.xls");
 				<th>报案人电话</th>
 				<th>出险日期</th>
 				<th>理赔类型</th>
-				<th>首次接触赔案时间</th>
-				<th>接案人</th>
-				<th>首次接收理赔材料日期</th>
-				<th>签收人</th>
-				<th>接收齐全理赔材料日期</th>
-				<th>签收人</th>
-				<th>发起调查日期</th>
-				<th>发起人</th>
-				<th>调查完成日期</th>
-				<th>调查人</th>
 				<th>报案日期</th>
-				<th>立案日期</th>
 				<th>赔案号</th>
 				<th>结案日期</th>
 				<th>赔付金额</th>
 				<th>账户状态</th>
 				<th>录入时间</th>
+				<th>出险天数</th>
+				<th>追踪要求</th>
+				<th>剩余追踪天数</th>
 				<th>备注</th>
 			</tr>
 			<c:forEach var="item" items="${settles}" varStatus="idx">
 			<tr>
 				<td>${idx.index+1 }</td>
 				<td>${item.organization.shortName}</td>
-				<td>${item.insured}</td>
-				<td style="vnd.ms-excel.numberformat:@">${item.settlementDtls.policyNo}</td>
-				<td>${item.settlementDtls.prodName}</td>
-				<td>${item.settlementDtls.policyFee}</td>
-				<td><fmt:formatDate value="${item.settlementDtls.policyDate}" pattern="yyyy-MM-dd"/></td>
+				<td>${item.caseMan}</td>
+				<td style="vnd.ms-excel.numberformat:@">${item.policy.policyNo}</td>
+				<td>${item.policy.prodName}</td>
+				<td>${item.policy.policyFee}</td>
+				<td><fmt:formatDate value="${item.policy.policyDate}" pattern="yyyy-MM-dd"/></td>
 				<td>${item.reporter}</td>
 				<td>${item.reporterPhone}</td>
 				<td><fmt:formatDate value="${item.caseDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.caseType}</td>
-				<td><fmt:formatDate value="${item.settlementDtls.firstCaseTime}" pattern="yyyy-MM-dd"/></td>
-				<td>${item.settlementDtls.caseMan}</td>
-				<td><fmt:formatDate value="${item.settlementDtls.firstFileDate}" pattern="yyyy-MM-dd"/></td>
-				<td>${item.settlementDtls.firstSignMan}</td>
-				<td><fmt:formatDate value="${item.settlementDtls.allFileDate}" pattern="yyyy-MM-dd"/></td>
-				<td>${item.settlementDtls.allSignMan}</td>
-				<td><fmt:formatDate value="${item.settlementDtls.checkDate}" pattern="yyyy-MM-dd"/></td>
-				<td>${item.settlementDtls.checker}</td>
-				<td><fmt:formatDate value="${item.settlementDtls.checkDoneDate}" pattern="yyyy-MM-dd"/></td>
-				<td>${item.settlementDtls.checkDoneMan}</td>
 				<td><fmt:formatDate value="${item.reporteDate }" pattern="yyyy-MM-dd"/></td>
-				<td><fmt:formatDate value="${item.recordDate }" pattern="yyyy-MM-dd"/></td>
-				<td>${item.settlementDtls.claimsNo}</td>
-				<td><fmt:formatDate value="${item.closeDate }" pattern="yyyy-MM-dd"/></td>
-				<td>${item.payFee}</td>
+				<td><div style="color: <c:choose><c:when test="${item.lessFeedBack<0}">red</c:when><c:when test="${item.lessFeedBack<2}">orange</c:when><c:otherwise>"black"</c:otherwise></c:choose>;vertical-align:middle;font-weight:normal;">${item.claimsNo}</div></td>
+				<td><fmt:formatDate value="${item.caseEndDate }" pattern="yyyy-MM-dd"/></td>
+				<td>${item.claimsCloseReport.giveFee}</td>
 				<td>${item.caseStatus}</td>
-				<td><fmt:formatDate value="${item.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+				<td><fmt:formatDate value="${item.operateTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+				<td>${item.caseLong }</td>
+				<td>
+				<c:choose>
+					<c:when test="${not empty item.needFeedBack and item.needFeedBack eq '待反馈'}">
+					<div style="color: red;vertical-align:middle;font-weight:normal;">待反馈</div>
+					</c:when>
+					<c:when test="${not empty item.needFeedBack and item.needFeedBack eq '已反馈'}">
+					<div style="color: blue;vertical-align:middle;font-weight:normal;">已反馈</div>
+					</c:when>
+					<c:otherwise>
+						&nbsp;
+					</c:otherwise>
+				</c:choose>
+				</td>
+				<td>${item.lessFeedBack }</td>
 				<td>${item.remark}</td>
 			</tr>
 			</c:forEach>

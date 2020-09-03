@@ -29,6 +29,8 @@ public interface PolicyService {
 	
 	Policy getByHolderIdCardNum(String idCardNum);
 	
+	List<Policy> getByInsuredIdCardNum(String idCardNum);
+	
 	PolicyReprintDtl getPolicyReprintDtl(Long id);
 
 	void saveOrUpdatePolicyReprintDtl(PolicyReprintDtl req);

@@ -25,6 +25,7 @@ import org.hibernate.annotations.JoinColumnOrFormula;
 import org.hibernate.annotations.JoinColumnsOrFormulas;
 import org.hibernate.annotations.JoinFormula;
 
+import com.gdpost.utils.StringUtil;
 import com.gdpost.web.entity.Idable;
 import com.gdpost.web.entity.main.Organization;
 
@@ -54,6 +55,7 @@ public class Settlement implements Idable<Long>, Serializable {
 	private Date caseDate;
 	private Date reporteDate;
 	private Date followDate;
+	private Date caseEndDate;
 	private String caseStatus;
 	private String remark;
 	private Date operateTime;
@@ -65,6 +67,12 @@ public class Settlement implements Idable<Long>, Serializable {
 	
 	@Transient
 	private String needFeedBack;
+	
+	@Transient
+	private Integer lessFeedBack;
+	
+	@Transient
+	private Integer caseLong;
 	
 	// Constructors
 
@@ -116,7 +124,7 @@ public class Settlement implements Idable<Long>, Serializable {
 
 	@ManyToOne(optional=true)
 	@JoinColumnsOrFormulas(value={
-	@JoinColumnOrFormula(column=@JoinColumn(name ="policy_no", referencedColumnName ="policy_no", insertable =false, updatable = false, nullable=true)),
+	@JoinColumnOrFormula(column=@JoinColumn(name ="policy_no", referencedColumnName ="policy_no", insertable =false, updatable = true, nullable=true)),
 	@JoinColumnOrFormula(formula=@JoinFormula(value="0", referencedColumnName = "attached_flag"))
 	})
 	public Policy getPolicy() {
@@ -211,6 +219,16 @@ public class Settlement implements Idable<Long>, Serializable {
 		this.followDate = followDate;
 	}
 
+	@Temporal(TemporalType.DATE)
+	@Column(name="case_end_date")
+	public Date getCaseEndDate() {
+		return caseEndDate;
+	}
+
+	public void setCaseEndDate(Date caseEndDate) {
+		this.caseEndDate = caseEndDate;
+	}
+
 	@Column(name = "case_status", length = 9)
 
 	public String getCaseStatus() {
@@ -298,6 +316,36 @@ public class Settlement implements Idable<Long>, Serializable {
 	@Transient
 	public void setNeedFeedBack(String needFeedBack) {
 		this.needFeedBack = needFeedBack;
+	}
+
+	@Transient
+	public Integer getLessFeedBack() {
+		if(this.followDate != null) {
+			return StringUtil.getBetweenDay(new Date(), this.followDate);
+		}
+		return lessFeedBack;
+	}
+
+	@Transient
+	public void setLessFeedBack(Integer lessFeedBack) {
+		this.lessFeedBack = lessFeedBack;
+	}
+
+	@Transient
+	public Integer getCaseLong() {
+		if(this.caseStatus != null && this.caseStatus.equals("已结案")) {
+			return StringUtil.getBetweenDay(this.caseDate, this.caseEndDate);
+		}
+		
+		if(this.caseStatus != null && !this.caseStatus.equals("已结案")) {
+			return StringUtil.getBetweenDay(this.caseDate, new Date());
+		}
+		return caseLong;
+	}
+
+	@Transient
+	public void setCaseLong(Integer caseLong) {
+		this.caseLong = caseLong;
 	}
 	
 	

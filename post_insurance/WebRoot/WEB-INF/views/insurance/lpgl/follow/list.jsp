@@ -23,13 +23,9 @@
 						<label>状态：</label>
 						<form:select path="settle.caseStatus" id="list_caseStatus" class="combox">
 							<form:option value=""> -- </form:option>
-							<form:option value="待报案">待报案</form:option>
 							<form:option value="待立案">待立案</form:option>
 							<form:option value="待调查">待调查</form:option>
-							<form:option value="待结案">待结案</form:option>
-							<form:option value="拒付退费">拒付退费</form:option>
-							<form:option value="结案关闭">结案关闭</form:option>
-							<form:option value="不予立案">不予立案</form:option>
+							<form:option value="已结案">已结案</form:option>
 						</form:select>
 					</td>
 					<td>
@@ -103,7 +99,7 @@
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
 				<td>${item.organization.shortName}</td>
-				<td>${item.claimsNo}</td>
+				<td><div style="color: <c:choose><c:when test="${item.lessFeedBack<0}">red</c:when><c:when test="${item.lessFeedBack<2}">orange</c:when><c:otherwise>"black"</c:otherwise></c:choose>;vertical-align:middle;font-weight:normal;">${item.claimsNo}</div></td>
 				<td>${item.caseMan}</td>
 				<td>${item.reporter}</td>
 				<td>${item.reporterPhone}</td>
@@ -111,7 +107,7 @@
 				<td>${item.caseType}</td>
 				<td><fmt:formatDate value="${item.reporteDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.caseStatus}</td>
-				<td>出险天数</td>
+				<td>${item.caseLong }</td>
 				<td>
 				<c:choose>
 					<c:when test="${not empty item.needFeedBack and item.needFeedBack eq '待反馈'}">
@@ -126,13 +122,13 @@
 				</c:choose>
 				</td>
 				<td>
-					<a target="dialog" mask="true" width="650" height="530" href="${contextPath }/lpgl/detail/${item.id}"><div style="color: blue;vertical-align:middle;font-weight:normal;">录入</div></a> &nbsp;&nbsp;
+					<a target="dialog" rel="lookup2Policy" mask="true" width="850" height="650" href="${contextPath }/lpgl/detail/${item.id}"><div style="color: blue;vertical-align:middle;font-weight:normal;">录入</div></a> &nbsp;&nbsp;
 				</td>
-				<td>剩余追踪天数</td>
+				<td>${item.lessFeedBack }</td>
 				<td>
 				<a target="dialog" mask="true" width="750" height="430" href="${contextPath }/lpgl/log/${item.id}"><div style="color: blue;vertical-align:middle;font-weight:normal;">查看</div></a>
 				</td>
-			</tr>			
+			</tr>
 			</c:forEach>
 		</tbody>
 	</table>

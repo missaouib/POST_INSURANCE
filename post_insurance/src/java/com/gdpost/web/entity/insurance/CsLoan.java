@@ -53,6 +53,7 @@ public class CsLoan implements Idable<Long> {
 	private Integer flag;
 	private Long operateId;
 	private Date operateTime;
+	private String attachment;
 	
 	@Transient
 	private Integer checkDate;
@@ -305,6 +306,15 @@ public class CsLoan implements Idable<Long> {
 
 	public void setOperateTime(Date operateTime) {
 		this.operateTime = operateTime;
+	}
+
+	@Column(name = "attachment")
+	public String getAttachment() {
+		return attachment;
+	}
+
+	public void setAttachment(String attachment) {
+		this.attachment = attachment;
 	}
 
 	@Override

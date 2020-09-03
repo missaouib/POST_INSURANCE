@@ -1,7 +1,22 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
+<script type="text/javascript">
+<!--
+function customAjaxDone(json){
+	//alert(json.statusCode);
+    if (json.statusCode == DWZ.statusCode.ok){
+    	DWZ.ajaxDone(json);
+    	dialogReloadNavTab(json);
+    	$.pdialog.closeCurrent(); 
+    }
+    else{
+        DWZ.ajaxDone(json);
+    }
+}
+//-->
+</script>
 <div class="pageContent">
-<form method="post" action="${contextPath }/bqgl/loan/remark" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
+<form method="post" action="${contextPath }/bqgl/loan/remark" enctype="multipart/form-data" class="required-validate pageForm" onsubmit="return iframeCallback(this, customAjaxDone);">
 <input type="hidden" name="id" value="${loan.id}"/>
 	<div class="pageFormContent" layouth="58">
 		<p>
@@ -17,6 +32,11 @@
 			<textarea name="resetPhone" class="validate[maxSize[128]]" cols="30" rows="2">${cfl.resetPhone }</textarea>
 		</p>
 		 -->
+		 <p>&nbsp;</p>
+		<p>
+			<label>附件</label>
+			<input type="file" name="file">
+		</p>
 	</div>
 	<div class="formBar">
 		<ul>

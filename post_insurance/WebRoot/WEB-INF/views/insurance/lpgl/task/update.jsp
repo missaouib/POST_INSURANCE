@@ -25,7 +25,7 @@ function customAjaxDone(json){
 		<p>
 			<label>保单号：</label>
 			<input name="policyNo" type="text" postField="search_LIKE_policyNo" suggestFields="policyNo" 
-					suggestUrl="/lpgl/lookupSettlesuggest" lookupGroup="" class="input-medium validate[maxSize[32]]" value="${task.policyNo }"/>
+					suggestUrl="/lpgl/lookupSettlesuggest" lookupGroup="" class="input-medium validate[maxSize[32]]" value="${task.policy.policyNo }"/>
 		</p>
 	  	<p >
 			<label>出保险人：</label>
@@ -33,20 +33,24 @@ function customAjaxDone(json){
 		</p>
 		<p>
 			<label>险种：</label>
-			<input type="text" name="prodName" class="input-medium validate[maxSize[32]]" maxlength="32" value="${task.prodName }"/>
+			<input type="text" name="prodName" class="input-medium validate[maxSize[32]]" maxlength="32" value="${task.policy.prodName }"/>
 		</p>
 		<p>
 			<label>保费：</label>
-			<input type="text" name="policyFee" class="input-medium validate[maxSize[32]]" maxlength="32" value="${task.policyFee }"/>
+			<input type="text" name="policyFee" class="input-medium validate[maxSize[32]]" maxlength="32" value="${task.policy.policyFee }"/>
 		</p>
 		<p>
 			<label>生效日期：</label>
-			<input type="text" name="policyDate" id="policyDate" class="date" dateFmt="yyyy-MM-dd" value="<fmt:formatDate value="${task.policyDate }" pattern="yyyy-MM-dd"/>"/>
+			<input type="text" name="policyDate" id="policyDate" class="date" dateFmt="yyyy-MM-dd" value="<fmt:formatDate value="${task.policy.policyDate }" pattern="yyyy-MM-dd"/>"/>
 					<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 	</fieldset>
 	<fieldset>
 		<legend>出险信息</legend>
+		<p >
+			<label>赔案号：</label>
+			<input type="text" name="claimsNo" class="input-medium validate[maxSize[32]]" maxlength="32" value="${task.settlement.claimsNo }"/>
+		</p>
 		<p>
 			<label>出险日期：</label>
 			<input type="text" name="caseDate" id="caseDate" class="date" dateFmt="yyyy-MM-dd" value="<fmt:formatDate value="${task.caseDate }" pattern="yyyy-MM-dd"/>"/>

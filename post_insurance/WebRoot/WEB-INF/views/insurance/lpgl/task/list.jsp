@@ -61,10 +61,10 @@
 	<div class="panelBar">
 		<ul class="toolBar">
 			<shiro:hasPermission name="Settlement:save">
-				<li><a class="add" target="dialog" rel="lookup2organization_add" mask="true" width="530" height="450" href="${contextPath }/lpgl/task/create"><span>添加</span></a></li>
+				<li><a class="add" target="dialog" rel="lookup2organization_add" mask="true" width="850" height="650" href="${contextPath }/lpgl/task/create"><span>添加</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Settlement:edit">
-				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="530" height="550" href="${contextPath }/lpgl/task/update/{slt_uid}"><span>编辑</span></a></li>
+				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="650" href="${contextPath }/lpgl/task/update/{slt_uid}"><span>编辑</span></a></li>
 				<li><a class="edit" target="ajaxTodo" title="确认已完成？" href="${contextPath }/lpgl/task/done/{slt_uid}"><span>完成</span></a></li>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Settlement:delete">
@@ -98,7 +98,7 @@
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
 				<td>
-					<a target="dialog" mask="true" width="530" height="530" href="${contextPath }/lpgl/task/update/${item.id}">详情</a> &nbsp;&nbsp;
+					<a target="dialog" mask="true" width="850" height="630" href="${contextPath }/lpgl/task/update/${item.id}">详情</a> &nbsp;&nbsp;
 					<a target="dialog" mask="true" width="750" height="430" href="${contextPath }/lpgl/task/log/${item.id}">操作日志</a>
 				</td>	
 				<td>${idx.index+1 }</td>

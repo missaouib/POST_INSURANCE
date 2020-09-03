@@ -11,5 +11,7 @@ import com.gdpost.web.entity.insurance.SettleTask;
 public interface SettleTaskDAO extends JpaRepository<SettleTask, Long>, JpaSpecificationExecutor<SettleTask> {
 
 	SettleTask getByPolicyPolicyNo(String policyNo);
+	
+	SettleTask getBySettlementClaimsNo(String claimsNo);
 
 }

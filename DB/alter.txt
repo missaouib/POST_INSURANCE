@@ -6,6 +6,7 @@ SET GLOBAL foreign_key_checks=0;
 drop table t_settlement;
 alter table t_settle_task change settleDtl_id claims_no varchar(21); 
 alter table t_bank_code change flag addr varchar(119);
+alter table t_cs_loan add attachment varchar(119);
 
 create table t_settlement (
     id    bigint not null auto_increment,
@@ -21,6 +22,7 @@ create table t_settlement (
     case_date    date    COMMENT '出险日期',
     reporte_date    date    COMMENT '报案日期',
     follow_date    date    COMMENT '最新追踪日期',
+    case_end_date    date    COMMENT '结案日期',
     case_status    varchar(9)    COMMENT '案件状态',
     remark    varchar(119)    COMMENT '备注',
     operate_time          timestamp default current_timestamp,

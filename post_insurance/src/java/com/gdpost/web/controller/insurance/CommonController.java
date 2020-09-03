@@ -47,6 +47,7 @@ import com.gdpost.web.service.UserService;
 import com.gdpost.web.service.insurance.BaseDataService;
 import com.gdpost.web.service.insurance.BqglService;
 import com.gdpost.web.service.insurance.CommonService;
+import com.gdpost.web.service.insurance.PolicyService;
 import com.gdpost.web.shiro.ShiroUser;
 import com.gdpost.web.util.dwz.Page;
 import com.gdpost.web.util.persistence.DynamicSpecifications;
@@ -93,6 +94,9 @@ public class CommonController {
 	private UserService userService;
 	
 	@Autowired
+	private PolicyService policyService;
+	
+	@Autowired
 	private RoleService roleService;
 	
 	@Autowired
@@ -101,6 +105,8 @@ public class CommonController {
 	private static final String LOOK_CVE = "insurance/common/lookup_cve";
 	
 	private static final String LOOK_USER = "insurance/common/lookup_user";
+	
+	private static final String LOOK_POLICY = "insurance/common/lookup_policy";
 	
 	private static final String LOOK_ROLE_USER = "insurance/common/lookup_roleUser";
 	
@@ -234,6 +240,23 @@ public class CommonController {
 		map.put("userlist", org);
 		map.put("page", page);
 		return LOOK_USER;
+	}
+	
+	@RequestMapping(value="/lookup4Policy", method={RequestMethod.GET, RequestMethod.POST})
+	public String lookup4Policy(ServletRequest request, Map<String, Object> map, Page page) {
+		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
+		String insuredCardNum = request.getParameter("insuredCardNum");
+		if(insuredCardNum == null || insuredCardNum.trim().length()<8) {
+			return LOOK_POLICY;
+		} else if(insuredCardNum != null && insuredCardNum.trim().length()>10) {
+			csf.add(new SearchFilter("policyDtl.insuredCardNum", Operator.EQ, insuredCardNum));
+			request.setAttribute("insuredCardNum", insuredCardNum);
+		}
+		Specification<Policy> specification = DynamicSpecifications.bySearchFilter(request, Policy.class, csf);
+		List<Policy> org = policyService.findByExample(specification, page);
+		map.put("policylist", org);
+		map.put("page", page);
+		return LOOK_POLICY;
 	}
 	
 	@RequestMapping(value="/lookup4RoleUser", method={RequestMethod.GET, RequestMethod.POST})

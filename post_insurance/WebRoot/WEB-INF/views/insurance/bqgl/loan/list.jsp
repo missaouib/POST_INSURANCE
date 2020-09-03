@@ -85,7 +85,7 @@
 		</ul>
 	</div>
 	<div id="w_list_print">
-	<table class="table" layoutH="160" width="100%">
+	<table class="table" layoutH="160" width="110%">
 		<thead>
 			<tr>
 				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>
@@ -99,9 +99,10 @@
 				<th>出单网点</th>
 				<th>借款日期</th>
 				<th>借款金额</th>
-				<th>约定还款日期</th>
-				<th>保单状态</th>
+				<th>约定还款</th>
+				<th>状态</th>
 				<th>备注</th>
+				<th>附件</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -133,6 +134,9 @@
 				<td><fmt:formatDate value="${item.shouldDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.status}</td>
 				<td title="${item.remark}">${fn:substring(item.remark, 0, 14)}</td>
+				<td>
+		           <a href="${item.attachment}" target="_blank">${item.attachment}</a>
+				</td>
 			</tr>
 			</c:forEach>
 		</tbody>

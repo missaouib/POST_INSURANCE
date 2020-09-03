@@ -83,7 +83,12 @@ public class PolicyServiceImpl implements PolicyService {
 	
 	@Override
 	public Policy getByHolderIdCardNum(String idCardNum) {
-		return policyDAO.getByPolicyDtlHolderCardNum(idCardNum);
+		return policyDAO.getFirstByPolicyDtlHolderCardNum(idCardNum);
+	}
+	
+	@Override
+	public List<Policy> getByInsuredIdCardNum(String idCardNum) {
+		return policyDAO.findByPolicyDtlInsuredCardNum(idCardNum);
 	}
 
 	/*

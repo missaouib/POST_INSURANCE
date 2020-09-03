@@ -1,108 +1,132 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
+<script type="text/javascript">
+<!--
+function customAjaxDone(json){
+	//alert(json.statusCode);
+    if (json.statusCode == DWZ.statusCode.ok){
+    	DWZ.ajaxDone(json);
+    	dialogReloadNavTab(json);
+    	$.pdialog.closeCurrent(); 
+    }
+    else{
+        DWZ.ajaxDone(json);
+    }
+}
+//-->
+</script>
 <div class="pageContent">
-<form method="post" action="${contextPath }/lpgl/detail" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
-<input hidden="hidden" name="settlement.id" value="${settle.id }">
+<form method="post" action="${contextPath }/lpgl/detail" class="required-validate pageForm" onsubmit="return iframeCallback(this, customAjaxDone);">
+<input hidden="hidden" name="id" value="${settle.id }">
 <input hidden="hidden" name="settleId" value="${settle.id }">
 	<div class="pageFormContent" layoutH="58">
-		<p>
-			<label>赔案号：</label>
-			<input type="text" name="claimsNo" class="input-medium validate[maxSize[32]]" maxlength="32" value="${settle.claimsNo }"/>
-		</p>
 	<fieldset>
-		<legend>保单基本信息</legend>
-		<p>
-			<label>被保险人：</label>
-			<span class="unit">${settle.caseMan }</span>
-		</p>
-		<p>
-			<label>保单号：</label>
-			<input name="policyNo" type="text" postField="search_LIKE_policyNo" suggestFields="policyNo" 
-					suggestUrl="/common/lookupPolicysuggest" lookupGroup="" class="input-medium validate[maxSize[32]]" value="${settle.policy.policyNo }"/>
-		</p>
-		<p>
-			<label>险种：</label>
-			<input type="text" name="prodName" class="input-medium validate[maxSize[32]]" maxlength="32" value="${settle.prodName }"/>
-		</p>
-		<p>
-			<label>保费：</label>
-			<input type="text" name="policyFee" class="input-medium validate[maxSize[32]]" maxlength="32" value="${settle.policyFee }"/>
-		</p>
-		<p>
-			<label>生效日期：</label>
-			<input type="text" name="policyDate" class="input-medium validate[maxSize[32]]" maxlength="32" value="${settle.policyDate }"/>
-		</p>
+		<legend>未结赔案信息</legend>
+		<dl>
+				<dt>机构：</dt>
+				<dd>${settle.organization.name }</dd>
+		</dl>
+		<dl>
+			<dt>赔案号：</dt>
+			<dd>${settle.claimsNo }</dd>
+		</dl>
+		<dl>
+			<dt>出险人：</dt>
+			<dd>${settle.caseMan }</dd>
+		</dl>
+		<dl>
+			<dt>报案人：</dt>
+			<dd>${settle.reporter }</dd>
+		</dl>
+		<dl>
+			<dt>报案人电话 ：</dt>
+			<dd>${settle.reporterPhone }</dd>
+		</dl>
+		<dl>
+			<dt>出险日期：</dt>
+			<dd>${settle.caseDate }</dd>
+		</dl>
 	</fieldset>
 	<fieldset>
-		<legend>出险信息</legend>
-		<p>
-			<label>出险日期：</label>
-			<span class="unit"><fmt:formatDate value="${settle.caseDate }" pattern="yyyy-MM-dd"/></span>
-		</p>
-		<p>
-			<label>理赔类型：</label>
-			<span class="unit">${settle.caseType }</span>
-		</p>
-		<p>
-			<label>备注：</label>
-			<span class="unit">${settle.remark }</span>
-		</p>
+		<legend>保单基本信息</legend>
+		<dl>
+			<dt>被保险人：</dt>
+			<dd>${settle.caseMan }</dd>
+		</dl>
+		<dl>
+			<dt>保单号：</dt>
+			<dd>
+			<input type="hidden" name="policy.id" value="${settle.policy.id }"/>
+			<input name="policy.policyNo" type="text" postField="policyNo" suggestFields="policyNo" 
+					suggestUrl="/common/lookupPolicysuggest" lookupGroup="policy" value="${settle.policy.policyNo }"/>
+					<a class="btnLook" href="${contextPath }/common/lookup4Policy" lookupGroup="policy" title="选择保单" width="650">查</a>
+			<dd>
+		</dl>
+	</fieldset>
+	<fieldset>
+		<dl>
+			<dt>理赔类型：</dt>
+			<dd>
+			<form:select path="settle.caseType" id="caseType" class="combox validate[required] required">
+				<form:option value="意外身故">意外身故</form:option>
+				<form:option value="疾病身故">疾病身故</form:option>
+				<form:option value="重大疾病">重大疾病</form:option>
+				<form:option value="全残">全残</form:option>
+				<form:option value="医疗">医疗</form:option>
+			</form:select>
+			</dd>
+		</dl>
+		<dl>
+			<dt>报案日期：</dt>
+			<dd>
+			<input type="text" name="reporteDate" id="reporteDate" class="date validate[required] required" dateFmt="yyyy-MM-dd" value="<fmt:formatDate value="${settle.reporteDate }" pattern="yyyy-MM-dd"/>"/>
+					<a class="inputDateButton" href="javascript:;">选择</a>
+			</dd>
+		</dl>
+		<dl>
+			<dt>案件状态：</dt>
+			<dd>
+			<form:select path="settle.caseStatus" id="caseStatus" class="combox validate[required] required">
+				<form:option value="待立案">待立案</form:option>
+				<form:option value="待调查">待调查</form:option>
+				<form:option value="已结案">已结案</form:option>
+			</form:select>
+			</dd>
+		</dl>
+		<dl>
+			<dt>出险描述：</dt>
+			<dd><textarea name="remark" id="remark" cols="30" rows="3" class="input-medium">${settle.remark }</textarea></dd>
+		</dl>
+		<dl></dl>
 	</fieldset>
 	<fieldset>
 		<legend>案件进度</legend>
 		<p class="nowrap">
 		<c:forEach var="item" items="${dealLogs}" varStatus="idx" end="2">
-		<fmt:formatDate value="${item.dealDate}" pattern="yyyy-MM-dd"/>：${item.user.username}:${empty item.followDate?"":"反馈日期"}${item.followDate }&nbsp;${item.info} <br/>
+		<fmt:formatDate value="${item.dealDate}" pattern="yyyy-MM-dd"/>：${item.user.realname}:${empty item.followDate?"":"反馈日期"}${item.followDate }&nbsp;${item.info} <br/>
 		</c:forEach>
-		</p>
-		<p>
-			<label>跟进反馈：</label>
+		</dl>
+		<dl>
+			<dt>跟进反馈：</dt>
 			<select name="toDealDay" id="lptdd" class="combox">
 				<option value="1">1日内反馈 </option>
 				<option value="3">3日内反馈 </option>
 				<option value="5">5日内反馈 </option>
 				<option value="15">15日内反馈 </option>
-				<option value="30">择期反馈 </option>
+				<!-- <option value="30">择期反馈 </option> -->
 			</select>
-		</p>
-		<p>
-			<label>跟进日期：</label>
+		</dl>
+		<!-- 
+		<dl>
+			<dt>跟进日期：</dt>
 			<input type="text" name="followDate" class="date validate[maxSize[12]]" dateFmt="yyyy-MM-dd" readonly="true" value="" pattern="yyyy-MM-dd"/>
 			<a class="inputDateButton" href="javascript:;">选择</a>
-		</p>
-		<p class="nowrap">
-			<label>反馈内容：</label>
-			<textarea name="info" cols="50" rows="3"></textarea>
-		</p>
-		<!-- 
-		<p>
-			<label>首次接触赔案时间：</label>
-			<input type="text" name="firstCaseTime" class="date validate[maxSize[12]]" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value="${settle.firstCaseTime }" pattern="yyyy-MM-dd"/>"/>
-			<a class="inputDateButton" href="javascript:;">选择</a>
-		</p>
-		<p>
-			<label>接案人：</label>
-			<input type="text" name="caseMan" class="input-medium validate[maxSize[32]]" maxlength="32" value="${settle.caseMan }"/>
-		</p>
-		<p>
-			<label>首次接收理赔材料日期：</label>
-			<input type="text" name="firstFileDate" class="date validate[maxSize[12]]" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value="${settle.firstFileDate }" pattern="yyyy-MM-dd"/>"/>
-			<a class="inputDateButton" href="javascript:;">选择</a>
-		</p>
-		<p>
-			<label>签收人：</label>
-			<input type="text" name="firstSignMan" class="input-medium validate[maxSize[32]]" maxlength="32" value="${settle.firstSignMan }"/>
-		</p>
-		<p>
-			<label>接收齐全理赔材料日期：</label>
-			<input type="text" name="allFileDate" class="date validate[maxSize[12]]" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value="${settle.allFileDate }" pattern="yyyy-MM-dd"/>"/>
-			<a class="inputDateButton" href="javascript:;">选择</a>
-		</p>
-		<p>
-			<label>签收人：</label>
-			<input type="text" name="allSignMan" class="input-medium validate[maxSize[32]]" maxlength="32" value="${settle.allSignMan }"/>
-		</p>
+		</dl>
 		 -->
+		<p class="nowrap">
+			<dt>反馈内容：</dt>
+			<textarea name="info" cols="50" rows="3"></textarea>
+		</dl>
 	</fieldset>
 	</div>
 			

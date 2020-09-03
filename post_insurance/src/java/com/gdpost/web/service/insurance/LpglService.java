@@ -47,6 +47,8 @@ public interface LpglService {
 	 * SettleTask
 	 */
 	SettleTask getSettleTask(Long id);
+	
+	SettleTask getSettleTaskByClaimsNo(String claimsNo);
 
 	void saveOrUpdateSettleTask(SettleTask settle);
 
