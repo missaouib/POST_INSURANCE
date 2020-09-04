@@ -229,10 +229,12 @@ public class UnderWrite implements Idable<Long> {
 	}
 	@Transient
 	public String getAllday15() {
-		if(clientReceiveDate != null && ybtDate != null) {
-			return StringUtil.getBetweenDay(ybtDate, clientReceiveDate)<=15?"T":"F";
+		if(clientReceiveDate != null && formWriteDate != null) {
+			return StringUtil.getBetweenDay(this.formWriteDate, clientReceiveDate)<=15?"T":"F";
+		} else if(clientReceiveDate != null && this.ybtDate != null) {
+			return StringUtil.getBetweenDay(this.ybtDate, clientReceiveDate)<=15?"T":"F";
 		}
-		return allday15;
+		return "N";
 	}
 	@Transient
 	public void setAllday15(String allday15) {
@@ -303,7 +305,13 @@ public class UnderWrite implements Idable<Long> {
 	
 	@Transient
 	public int getLongDate() {
-		if(this.ybtDate != null) {
+		if(this.formWriteDate != null) {
+			if (this.billBackDate == null) {
+				return StringUtil.getBetweenDay(this.formWriteDate, new Date());
+			} else {
+				return StringUtil.getBetweenDay(this.formWriteDate, this.billBackDate);
+			}
+		} else if(this.ybtDate != null) {
 			if (this.billBackDate == null) {
 				return StringUtil.getBetweenDay(this.ybtDate, new Date());
 			} else {
@@ -322,7 +330,11 @@ public class UnderWrite implements Idable<Long> {
 	@Transient
 	public int getHadSendDate() {
 		if(this.provSendDate != null) {
-			return StringUtil.getBetweenDay(this.provSendDate, this.billBackDate==null?new Date():this.billBackDate);
+			if(this.billBackDate == null) {
+				return StringUtil.getBetweenDay(this.provSendDate, new Date());
+			} else {
+				return StringUtil.getBetweenDay(this.provSendDate, this.billBackDate);
+			}
 		}
 		return -1;
 	}

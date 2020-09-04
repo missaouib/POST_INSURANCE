@@ -49,13 +49,12 @@
 		</ul>
 	</div>
 	
-	<table class="table" layoutH="137" width="100%">
+	<table class="table" layoutH="137" width="120%">
 		<thead>
 			<tr>
 				<th width="22"><input type="checkbox" group="ids" class="checkboxCtrl"></th>			
 				<th>邮保通代码</th>
 				<th>中邮网点代码</th>
-				<th>银行网点代码</th>
 				<th>网点名称</th>
 				<th>管理机构</th>
 				<th>网点属性</th>
@@ -65,8 +64,7 @@
 				<th>县区</th>
 				<th>机构属性</th>
 				<th>地域属性</th>
-				<th>入网情况</th>
-				<th>旧名称</th>
+				<th>地址</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -75,7 +73,6 @@
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
 				<td>${item.ybtCode}</td>
 				<td>${item.cpiCode}</td>
-				<td>${item.selBankCode}</td>
 				<td>${item.name}</td>
 				<td>${item.organization.shortName}</td>
 				<td>
@@ -94,9 +91,8 @@
 				<td>${item.area}</td>
 				<td>${item.attr}</td>
 				<td>${item.addrAttr}</td>
-				<td>${item.flag}</td>
-				<td>${item.oldName}</td>
-			</tr>			
+				<td>${item.addr}</td>
+			</tr>
 			</c:forEach>
 		</tbody>
 	</table>

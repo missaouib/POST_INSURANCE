@@ -223,7 +223,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case CallFail:
 			//tableName = "t_call_fail_list";
 			standardColumns = IssueColumn.getStandardColumns();
-			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_call_fail_list character set utf8 (";
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_call_fail_list character set utf8 (";
 			sql1 = "update t_call_fail_list set finish_date=\"2015-01-01 00:00:00\" where finish_date<\"2000-11-01 09:00:00\";";
 			break;
 		case CallFailPFR:
@@ -341,7 +341,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case UnderWriteSentData:
 			//tableName = "t_policy_reprint_dtl";
 			standardColumns = PolicySentDataColumn.getStandardColumns();
-			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_policy_reprint_dtl character set utf8 (";
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_policy_reprint_dtl character set utf8 (";
 			sql1 = "update t_cs_reissue t1,t_policy_reprint_dtl t2,t_cs_report t3 set t1.prov_express_no=t2.ems_no,t1.prov_sent_date=t2.print_date where t1.cs_id=t3.id and t2.policy_no=t3.policy_no and t2.print_date>=t3.cs_date;";
 			sql2 = "update t_under_write tuw, t_policy_reprint_dtl tprd set tuw.prov_ems_no=tprd.ems_no,tuw.status=\"SendStatus\" where tuw.policy_no=tprd.policy_no and tuw.prov_ems_no is null and tuw.status<>\"CloseStatus\";";
 			sql3 = "update t_under_write set status=\"CloseStatus\" where bill_back_date is not null;";
@@ -381,7 +381,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case ConversationReport:
 			//tableName = "t_cs_report";
 			standardColumns = CsReportColumn.getStandardColumns();
-			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_cs_report character set utf8 (";
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_cs_report character set utf8 (";
 			/*sql1 = "update t_renewed_list t0 set t0.fee_status='交费成功' where t0.fee_status<>\"交费成功\" "
 					+ "and t0.policy_no in (select t2.policy_no from t_pay_list t1, t_cs_report t2 "
 					+ "where t1.pay_type=2 and t0.policy_fee=t1.money and t1.rel_no=t2.cs_no and t2.cs_code='RE' and datediff(now(),t2.operate_time)=0);";*/
@@ -402,13 +402,13 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case CsLoan:
 			//tableName = "t_cs_loan";
 			standardColumns = CsLoanColumn.getStandardColumns();
-			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_cs_loan character set utf8 (";
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_cs_loan character set utf8 (";
 			sql1 = "update t_cs_loan set flag=case when DATEDIFF(NOW(),should_date)>1 then '2' when  DATEDIFF(NOW(),should_date)>-30 then '1' else '0' end;";
 			break;
 		case CsExpire:
 			//tableName = "t_cs_expire";
 			standardColumns = CsExpireColumn.getStandardColumns();
-			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_cs_expire character set utf8 (";
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_cs_expire character set utf8 (";
 			sql1 = "update t_cs_expire set holder_card_num=(REPLACE(holder_card_num, '\"', '')) where locate('\"',holder_card_num)>0;";
 			sql2 = "update t_cs_expire set insured_card_num=(REPLACE(insured_card_num, '\"', '')) where locate('\"',insured_card_num)>0;";
 			sql3 = "update t_cs_expire set holder_mobile=(REPLACE(holder_mobile, '\"', '')) where locate('\"',holder_mobile)>0;";
@@ -463,13 +463,13 @@ public class UploadDataServiceImpl implements UploadDataService{
 			break;
 		case ClaimsCloseReport:
 			standardColumns = ClaimsCloseReportColumn.getStandardColumns();
-			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_claims_close_report character set utf8 (";
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_claims_close_report character set utf8 (";
 			sql1 = "update t_claims_close_report set policy_no=left(policy_nos,14) where policy_no is null;";
 			sql2 = "update t_settlement ts,t_claims_close_report tccr set ts.case_status=\"已结案\",ts.case_end_date=tccr.close_date where ts.claims_no=tccr.claims_no and ts.case_end_date is null;";
 			break;
 		case Settlement:
 			standardColumns = SettlementColumn.getStandardColumns();
-			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_settlement character set utf8 (";
+			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_settlement character set utf8 (";
 			sql1 = "update t_settlement set reporte_date=date_add(operate_time,INTERVAL -1 DAY) where reporte_date is null;";
 			break;
 		}
@@ -1529,7 +1529,9 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql5= "update t_under_write uw, t_policy tp set uw.holder=tp.holder,uw.insured=cast(aes_decrypt(unhex(tp.insured), 'GDPost') as char(100)),uw.relation=\"本人\" where uw.holder is null and uw.policy_no=tp.policy_no and tp.attached_flag=0;";
 			break;
 		case UWDtlData:
-			/*
+			/* 
+			 * 手工单时效报表
+			 * 
 			 * 市县名称organ_name、投保单号form_no、保险单号policy_no、险种名称prd_name、保险费policy_fee、交费期数perm、交费方式fee_type、转核原因underwrite_reason、
 			 * 非实时保单录入日期ybt_date、核心业务系统录入日期sys_date、复核完成日期check_date、体检下发日期body_check_date1、体检回销日期body_check_date2、
 			 * 契约调查下发日期deal_check_date1、契调回销日期deal_check_date2、核保完成日期hb_end_date、保单打印日期prov_send_date、保单签单日期sign_date、客户签收日期client_receive_date、回执回销日期bill_back_date、客户填单日期form_write_date、
@@ -1544,7 +1546,15 @@ public class UploadDataServiceImpl implements UploadDataService{
 	        	for(ColumnItem item : standardColumns) {
 	        		val = StringUtil.trimStr(row.getValue(item.getDisplayName()));
         			
-	        		if(item.getDisplayName().contains("日期")) {
+	        		if(item.getDisplayName().contains("非实时保单录入日期")) {
+	        			if(val == null || val.toString().trim().length() <= 0) {
+	        				line.append("null,");
+	        			} else {
+	        				val = StringUtil.trimStr(val, true);
+	        				val = StringUtil.date2Str(StringUtil.str2Date(String.valueOf(val), "yyyyMMdd"), "yyyy-MM-dd");
+	        				line.append("\"" + val + "\",");
+	        			}
+	        		} else if(item.getDisplayName().contains("日期")) {
 	        			if(val == null || val.toString().trim().length() <= 0) {
 	        				line.append("null,");
 	        			} else {
@@ -1562,7 +1572,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql.append(" ON DUPLICATE KEY UPDATE policy_no=VALUES(policy_no),holder=VALUES(holder),insured=VALUES(insured), relation=VALUES(relation), ");
 			sql.append("prd_name=VALUES(prd_name),organ_name=VALUES(organ_name), perm=VALUES(perm), fee_type=VALUES(fee_type), ");
 			sql.append("underwrite_reason=VALUES(underwrite_reason), ");
-			sql.append("sys_date=VALUES(sys_date), ");
+			sql.append("sys_date=VALUES(sys_date), ybt_date=VALUES(ybt_date), ");
 			sql.append("check_date=VALUES(check_date), body_check_date1=VALUES(body_check_date1), ");
 			sql.append("body_check_date2=VALUES(body_check_date2), deal_check_date1=VALUES(deal_check_date1), deal_check_date2=VALUES(deal_check_date2), hb_end_date=VALUES(hb_end_date), ");
 			sql.append("sign_date=VALUES(sign_date), ");

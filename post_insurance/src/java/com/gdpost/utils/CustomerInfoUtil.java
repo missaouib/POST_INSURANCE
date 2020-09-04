@@ -654,15 +654,18 @@ public class CustomerInfoUtil {
 				num = rst.getInt("countNum");
 				if(num>2) {
 					checkRst = "地址被" + num + "个不同投保人使用;";
+					break;
 				}
 			}
-			rst.close();
-			sql = "select addr from t_bank_code where locate(city,\"" + addr + "\")>0; ";
-			rst = stat.executeQuery(sql);
-			while(rst != null && rst.next()) {
-				bank = rst.getString("addr");
-				if(CustomerInfoUtil.cos(addr, bank) >0.5) {
-					checkRst = "疑似使用网点地址！且地址被" + num + "个不同投保人使用;";
+			if(num > 2) {
+				rst.close();
+				sql = "select addr from t_bank_code where locate(city,\"" + addr + "\")>0; ";
+				rst = stat.executeQuery(sql);
+				while(rst != null && rst.next()) {
+					bank = rst.getString("addr");
+					if(CustomerInfoUtil.jaccard(addr, bank) > 0.5) {
+						checkRst = "疑似使用网点地址！且地址被" + num + "个不同投保人使用;";
+					}
 				}
 			}
 		} catch (SQLException e) {
@@ -1050,9 +1053,8 @@ public class CustomerInfoUtil {
     }
 
 	public static void main(String[] args) {
-		
-		String addr = "四会市东城街道四会大道中71号邮政大楼";
-		String src = "广东省省四会市东城街道清东路128号";
+		String addr = "东莞市黄江镇邮政路5号";
+		String src = "广东省东莞市黄江镇礼贤巷8号";
 		System.out.println(CustomerInfoUtil.jaccard(addr, src));
 		System.out.println(CustomerInfoUtil.sorensenDice(addr, src));
 		System.out.println(CustomerInfoUtil.levenshtein(addr, src));
