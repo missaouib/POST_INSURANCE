@@ -1104,6 +1104,13 @@ public class LpglController {
 		task.setCheckStatus(checkStatus);
 		request.setAttribute("task", task);
 		request.setAttribute("checkStatus", checkStatus);
+		String checkDateFlag = request.getParameter("checkDateFlag");
+		if(checkDateFlag == null||checkDateFlag.trim().length()<=0) {
+			checkDateFlag = "1";
+		}
+		request.setAttribute("checkDateFlag", checkDateFlag);
+		String checkDate1 = request.getParameter("checkDate1");
+		String checkDate2 = request.getParameter("checkDate2");
 		String orgCode = request.getParameter("organization.orgCode");
 		if(orgCode == null || orgCode.trim().length() <= 0) {
 			orgCode = user.getOrganization().getOrgCode();
@@ -1123,6 +1130,17 @@ public class LpglController {
 		csf.add(new SearchFilter("organization.orgCode", Operator.OR_LIKE_R, orgCode));
 		csf.add(new SearchFilter("organization.orgCode", Operator.OR_ISNULL, null));
 		csf.add(new SearchFilter("checker", Operator.OR_EQ, user.getRealname()));
+		if(checkDate1 != null && checkDate2 != null) {
+			request.setAttribute("checkDate1", checkDate1);
+			request.setAttribute("checkDate2", checkDate2);
+			if(checkDateFlag.equals("0")) {
+				csf.add(new SearchFilter("checkStartDate", Operator.GTE, checkDate1));
+				csf.add(new SearchFilter("checkStartDate", Operator.LTE, checkDate2));
+			} else {
+				csf.add(new SearchFilter("checkEndDate", Operator.GTE, checkDate1));
+				csf.add(new SearchFilter("checkEndDate", Operator.LTE, checkDate2));
+			}
+		}
 		if(checkStatus != null && checkStatus.trim().length() >0) {
 			csf.add(new SearchFilter("checkStatus", Operator.EQ, checkStatus));
 		}
@@ -1142,6 +1160,13 @@ public class LpglController {
 		User user = SecurityUtils.getShiroUser().getUser();
 		String checkStatus = request.getParameter("checkStatus");
 		String orgCode = request.getParameter("organization.orgCode");
+		String checkDateFlag = request.getParameter("checkDateFlag");
+		if(checkDateFlag == null||checkDateFlag.trim().length()<=0) {
+			checkDateFlag = "1";
+		}
+		String checkDate1 = request.getParameter("checkDate1");
+		String checkDate2 = request.getParameter("checkDate2");
+		
 		if(orgCode == null || orgCode.trim().length() <= 0) {
 			orgCode = user.getOrganization().getOrgCode();
 			if(orgCode.contains("11185")) {
@@ -1160,7 +1185,13 @@ public class LpglController {
 		if(checkStatus != null && checkStatus.trim().length() >0) {
 			csf.add(new SearchFilter("checkStatus", Operator.EQ, checkStatus));
 		}
-		
+		if(checkDateFlag.equals("0")) {
+			csf.add(new SearchFilter("checkStartDate", Operator.GTE, checkDate1));
+			csf.add(new SearchFilter("checkStartDate", Operator.LTE, checkDate2));
+		} else {
+			csf.add(new SearchFilter("checkEndDate", Operator.GTE, checkDate1));
+			csf.add(new SearchFilter("checkEndDate", Operator.LTE, checkDate2));
+		}
 		Specification<SettleTask> specification = DynamicSpecifications.bySearchFilter(request, SettleTask.class, csf);
 		List<SettleTask> tasks = lpglService.findBySettleTaskExample(specification, page);
 

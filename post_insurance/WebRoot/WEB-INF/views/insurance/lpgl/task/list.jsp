@@ -6,8 +6,8 @@
 	<input type="hidden" name="search_LIKE_insured" value="${param.search_LIKE_insured }"/>
 	<input type="hidden" name="organization.orgCode" value="${org_code }"/>
 	<input type="hidden" name="organization.name" value="${org_name }"/>
-	<input type="hidden" name="search_LTE_checkStartDate" value="${param.search_LTE_checkStartDate }"/>
-	<input type="hidden" name="search_GTE_checkStartDate" value="${param.search_GTE_checkStartDate }"/>
+	<input type="hidden" name="checkDate2" value="${checkDate2 }"/>
+	<input type="hidden" name="checkDate1" value="${checkDate1 }"/>
 	<input type="hidden" name="checkStatus" value="${checkStatus }"/>
 </dwz:paginationForm>
 
@@ -36,14 +36,16 @@
 				<tr>
 					<td>
 						<label>调查日期：</label>
-						<input type="text" name="search_GTE_checkStartDate" id="taskDate1" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_GTE_checkStartDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+						<input type="text" name="checkDate1" id="taskDate1" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${checkDate1 }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
 						<label>调查日期：</label>
-						<input type="text" name="search_LTE_checkStartDate" id="taskDate2" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_checkStartDate }"/><a class="inputDateButton" href="javascript:;">选</a>
+						<input type="text" name="checkDate2" id="taskDate2" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${checkDate2 }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
-						&nbsp;
+						<label>日期标记</label>
+						<input type="radio" name="checkDateFlag" value="0" ${checkDateFlag eq "0"?"checked=\"checked\"":"" }/>调查发起
+						<input type="radio" name="checkDateFlag" value="1" ${checkDateFlag eq "1"?"checked=\"checked\"":"" }/>调查止期
 					</td>
 				</tr>
 			</table>
@@ -72,7 +74,7 @@
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Settlement:view">
 				<li class="line">line</li>
-				<li><a class="icon" target="_blank" href="${contextPath }/lpgl/task/toXls?search_LIKE_insured=${search_LIKE_insured }&search_LTE_checkStartDate=${param.search_LTE_checkStartDate}&search_GTE_checkStartDate=${param.search_GTE_checkStartDate}&checkStatus=${checkStatus}&organization.orgCode=${org_code}&organization.name=${org_name}"><span>导出Excel</span></a></li>
+				<li><a class="icon" target="_blank" href="${contextPath }/lpgl/task/toXls?search_LIKE_insured=${search_LIKE_insured }&checkDate2=${checkDate2}&checkDate1=${checkDate1}&checkStatus=${checkStatus}&organization.orgCode=${org_code}&organization.name=${org_name}&checkDateFlag=${checkDateFlag}"><span>导出Excel</span></a></li>
 			</shiro:hasPermission>
 		</ul>
 	</div>
@@ -87,6 +89,7 @@
 				<th>出险人</th>
 				<th>保单号</th>
 				<th>调查起期</th>
+				<th>调查完成</th>
 				<th>调查时效</th>
 				<th orderField=checker class="${page.orderField eq 'checker' ? page.orderDirection : ''}">调查人</th>
 				<th>查勘费</th>
@@ -106,6 +109,7 @@
 				<td>${item.insured}</td>
 				<td>${item.policy.policyNo}</td>
 				<td><fmt:formatDate value="${item.checkStartDate}" pattern="yyyy-MM-dd"/></td>
+				<td><fmt:formatDate value="${item.checkEndDate}" pattern="yyyy-MM-dd"/></td>
 				<td>${item.limitation }</td>
 				<td>${item.checker}</td>
 				<td>${item.checkFee}</td>
