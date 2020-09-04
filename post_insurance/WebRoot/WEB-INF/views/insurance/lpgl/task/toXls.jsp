@@ -31,12 +31,12 @@ response.setHeader("Content-Disposition", "inline; filename=settles_task.xls");
 				<td>${idx.index+1 }</td>
 				<td>${item.organization.shortName}</td>
 				<td>${item.insured}</td>
-				<td style="vnd.ms-excel.numberformat:@">${item.settlementDtl.policyNo}</td>
-				<td>${item.settlementDtl.prodName}</td>
-				<td>${item.settlementDtl.policyFee}</td>
-				<td><fmt:formatDate value="${item.settlementDtl.policyDate}" pattern="yyyy-MM-dd"/></td>
-				<td><fmt:formatDate value="${item.settlementDtl.caseDate }" pattern="yyyy-MM-dd"/></td>
-				<td>${item.settlementDtl.caseType}</td>
+				<td style="vnd.ms-excel.numberformat:@">${item.policy.policyNo}</td>
+				<td>${item.policy.prodName}</td>
+				<td>${item.policy.policyFee}</td>
+				<td><fmt:formatDate value="${item.policy.policyDate}" pattern="yyyy-MM-dd"/></td>
+				<td><fmt:formatDate value="${item.settlement.caseDate }" pattern="yyyy-MM-dd"/></td>
+				<td>${item.settlement.caseType}</td>
 				<td><fmt:formatDate value="${item.checkStartDate}" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.checkEndDate}" pattern="yyyy-MM-dd"/></td>
 				<td>${item.checkReq}</td>

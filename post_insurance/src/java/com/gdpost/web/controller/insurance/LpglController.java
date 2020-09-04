@@ -307,10 +307,15 @@ public class LpglController {
 	public @ResponseBody String update(@Valid Settlement settle, HttpServletRequest request) {
 		Settlement src = lpglService.getSettle(settle.getId());
 		StringBuffer loginfo = new StringBuffer("");
+		boolean needTask = false;
+		User user = SecurityUtils.getShiroUser().getUser();
 		
 		if(settle.getCaseStatus()!=null && !src.getCaseStatus().equals(settle.getCaseStatus())) {
 			loginfo.append("改状态：" + src.getCaseStatus() + "->" + settle.getCaseStatus() + "；");
 			src.setCaseStatus(settle.getCaseStatus());
+			if(settle.getCaseStatus().equals("待调查")) {
+				needTask = true;
+			}
 		}
 		
 		if(settle.getCaseType()!=null && (src.getCaseType() == null || !src.getCaseType().equals(settle.getCaseType()))) {
@@ -333,7 +338,6 @@ public class LpglController {
 		lpglService.saveOrUpdateSettle(src);
 		
 		if(loginfo.length() > 0) {
-			User user = SecurityUtils.getShiroUser().getUser();
 			SettlementLog settleLog = new SettlementLog();
 			settleLog.setSettlement(src);
 			settleLog.setUser(user);
@@ -342,6 +346,31 @@ public class LpglController {
 			settleLog.setIp(request.getRemoteAddr());
 			settleLog.setIsKeyInfo(true);
 			lpglService.saveOrUpdateSettleLog(settleLog);
+		}
+		
+		//如果为待调查，自动生成一条调查任务
+		if(needTask && lpglService.getSettleTaskByClaimsNo(src.getClaimsNo()) == null) {
+			LOG.debug("--------------- 系统自动生成理赔调查任务：" + src.getClaimsNo());
+			SettleTask task = new SettleTask();
+			task.setSettlement(src);
+			task.setCaseType(src.getCaseType());
+			//task.setPolicy(policy);
+			task.setInsured(src.getCaseMan());
+			//task.setOrganization(policy.getOrganization());
+			task.setOperateId(user.getId());
+			task.setCreateTime(new Date());
+			task.setCheckStartDate(new Date());
+			task.setCheckStatus(SettleTask.STATUS_ING);
+			lpglService.saveOrUpdateSettleTask(task);
+			
+			SettleTaskLog taskLog = new SettleTaskLog();
+			taskLog.setSettleTask(task);
+			taskLog.setDealDate(new Date());
+			taskLog.setUser(user);
+			taskLog.setInfo("系统自动触发添加理赔案件调查任务信息；");
+			taskLog.setIp(request.getRemoteAddr());
+			taskLog.setIsKeyInfo(true);
+			lpglService.saveOrUpdateSettleTaskLog(taskLog);
 		}
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{settle.getCaseMan()}));
