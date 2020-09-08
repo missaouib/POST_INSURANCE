@@ -9,6 +9,7 @@
 	<input type="hidden" name="checkDate2" value="${checkDate2 }"/>
 	<input type="hidden" name="checkDate1" value="${checkDate1 }"/>
 	<input type="hidden" name="checkStatus" value="${checkStatus }"/>
+	<input type="hidden" name="taskLong" value="${taskLong }"/>
 </dwz:paginationForm>
 
 <form method="post" action="${contextPath }/lpgl/task/list" onsubmit="return navTabSearch(this)">
@@ -25,6 +26,16 @@
 							<form:option value=""> -- </form:option>
 							<form:option value="调查中">调查中</form:option>
 							<form:option value="调查完成">调查完成</form:option>
+						</form:select>
+					</td>
+					<td>
+						<label>调查时效：</label>
+						<form:select path="task.taskLong" id="list_taskLong" class="combox">
+							<form:option value=""> -- </form:option>
+							<form:option value="3">3天内</form:option>
+							<form:option value="5">5天内</form:option>
+							<form:option value="7">7天内</form:option>
+							<form:option value="9">7天以上</form:option>
 						</form:select>
 					</td>
 					<td>
@@ -47,6 +58,7 @@
 						<input type="radio" name="checkDateFlag" value="0" ${checkDateFlag eq "0"?"checked=\"checked\"":"" }/>调查发起
 						<input type="radio" name="checkDateFlag" value="1" ${checkDateFlag eq "1"?"checked=\"checked\"":"" }/>调查止期
 					</td>
+					<td>&nbsp;</td>
 				</tr>
 			</table>
 			<div class="subBar">
@@ -74,7 +86,7 @@
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Settlement:view">
 				<li class="line">line</li>
-				<li><a class="icon" target="_blank" href="${contextPath }/lpgl/task/toXls?search_LIKE_insured=${search_LIKE_insured }&checkDate2=${checkDate2}&checkDate1=${checkDate1}&checkStatus=${checkStatus}&organization.orgCode=${org_code}&organization.name=${org_name}&checkDateFlag=${checkDateFlag}"><span>导出Excel</span></a></li>
+				<li><a class="icon" target="_blank" href="${contextPath }/lpgl/task/toXls?taskLong=${taskLong }&search_LIKE_insured=${search_LIKE_insured }&checkDate2=${checkDate2}&checkDate1=${checkDate1}&checkStatus=${checkStatus}&organization.orgCode=${org_code}&organization.name=${org_name}&checkDateFlag=${checkDateFlag}"><span>导出Excel</span></a></li>
 			</shiro:hasPermission>
 		</ul>
 	</div>

@@ -1109,6 +1109,7 @@ public class LpglController {
 			checkDateFlag = "1";
 		}
 		request.setAttribute("checkDateFlag", checkDateFlag);
+		String taskLong = request.getParameter("taskLong");
 		String checkDate1 = request.getParameter("checkDate1");
 		String checkDate2 = request.getParameter("checkDate2");
 		String orgCode = request.getParameter("organization.orgCode");
@@ -1145,6 +1146,14 @@ public class LpglController {
 			csf.add(new SearchFilter("checkStatus", Operator.EQ, checkStatus));
 		}
 		
+		if(taskLong != null && taskLong.trim().length()>0) {
+			request.setAttribute("taskLong", taskLong);
+			if(Integer.parseInt(taskLong)<=7) {
+				csf.add(new SearchFilter("now()-checkStartDate", Operator.LT, taskLong));
+			} else {
+				csf.add(new SearchFilter("now()-checkStartDate", Operator.GTE, taskLong));
+			}
+		}
 		Specification<SettleTask> specification = DynamicSpecifications.bySearchFilter(request, SettleTask.class, csf);
 		List<SettleTask> users = lpglService.findBySettleTaskExample(specification, page);
 

@@ -1,4 +1,8 @@
-﻿drop table t_settlement_check;
+﻿drop database postinsurance;
+mysqladmin -uroot -p drop postinsurance;
+mysqladmin -uroot -p123456 CREATE postinsurance
+
+drop table t_settlement_check;
 drop table t_settlement_report;
 alter table t_settle_task DROP FOREIGN KEY t_settle_task_fk;
 drop table t_settlement_dtl;
@@ -140,9 +144,6 @@ update t_policy tp set policy_end_date=date_add(DATE_ADD(plicy_valid_date,INTERV
 update t_policy tp set policy_end_date=date_add(DATE_ADD(plicy_valid_date,INTERVAL 25 YEAR),INTERVAL -1 DAY) where policy_end_date is null and duration=25;
 update t_policy tp set policy_end_date=date_add(DATE_ADD(plicy_valid_date,INTERVAL 20 YEAR),INTERVAL -1 DAY) where policy_end_date is null and duration=20;
 update t_policy tp set policy_end_date=date_add(DATE_ADD(plicy_valid_date,INTERVAL 12 YEAR),INTERVAL -1 DAY) where policy_end_date is null and duration=12;
-
-
-CREATE DATABASE postinsurance DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 exi
 

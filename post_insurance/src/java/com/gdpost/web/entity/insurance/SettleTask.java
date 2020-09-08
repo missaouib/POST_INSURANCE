@@ -67,9 +67,20 @@ public class SettleTask implements Idable<Long>, Serializable {
 	private Date createTime;
 	private String remark;
 	private List<SettleTaskLog> settleTaskLogs = new ArrayList<SettleTaskLog>(0);
+	
+	@Transient
+	private String taskLong;
 
 	// Constructors
 
+	@Transient
+	public String getTaskLong() {
+		return taskLong;
+	}
+	@Transient
+	public void setTaskLong(String taskLong) {
+		this.taskLong = taskLong;
+	}
 
 	/** default constructor */
 	public SettleTask() {
