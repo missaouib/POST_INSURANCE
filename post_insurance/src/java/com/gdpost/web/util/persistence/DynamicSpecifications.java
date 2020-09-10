@@ -12,6 +12,7 @@ import java.util.Set;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
@@ -414,7 +415,8 @@ public class DynamicSpecifications {
 						// 自动进行enum和date的转换。
 						Class clazz = expression.getJavaType();
 						if (Date.class.isAssignableFrom(clazz) && !filter.getValue().getClass().equals(clazz) 
-								&& !filter.getOperator().toString().equalsIgnoreCase("isnull") && !filter.getOperator().toString().equalsIgnoreCase("notnull")) {
+								&& !filter.getOperator().toString().equalsIgnoreCase("isnull") && !filter.getOperator().toString().equalsIgnoreCase("notnull")
+								&& !filter.getOperator().toString().equalsIgnoreCase("datediff_lte") && !filter.getOperator().toString().equalsIgnoreCase("datediff_gte")) {
 							filter.setValue(convert2Date((String)filter.getValue()));
 						} else if (Enum.class.isAssignableFrom(clazz) && !filter.getValue().getClass().equals(clazz)) {
 							filter.setValue(convert2Enum(clazz, (String)filter.getValue()));
@@ -460,6 +462,21 @@ public class DynamicSpecifications {
 							break;
 						case NOTNULL:
 							predicates.add(builder.isNotNull(expression));
+							break;
+						case DATEDIFF_LTE:
+							Expression<Object> day = new MyFunctionExpression(null, String.class, "DAY");
+							//Expression<String> day = builder.literal("day");
+							Object[] ds = (Object[]) filter.getValue();
+							Integer i = (Integer) ds[2];
+						    Expression<Integer> diff = builder.function("DATEDIFF", Integer.class, root.get(ds[0].toString()), root.get(ds[1].toString()));
+						    predicates.add(builder.lessThanOrEqualTo(diff, i));
+							break;
+						case DATEDIFF_GTE:
+							day = new MyFunctionExpression(null, String.class, "DAY");
+							ds = (Object[]) filter.getValue();
+							i = (Integer) ds[2];
+							diff = builder.function("DATEDIFF", Integer.class, builder.literal(ds[0]), builder.literal(ds[1]));
+						    predicates.add(builder.greaterThanOrEqualTo(diff, i));
 							break;
 						case OR_EQ:
 							hasOr = true;

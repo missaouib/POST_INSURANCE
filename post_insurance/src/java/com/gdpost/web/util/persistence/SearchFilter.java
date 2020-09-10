@@ -14,7 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 public class SearchFilter {
 
 	public enum Operator {
-		EQ, LIKE, NOT_LIKE, LIKE_L, LIKE_R, GT, LT, GTE, LTE, IN, NEQ, ISNULL, NOTNULL, OR_EQ, OR_IN, OR_LIKE, OR_LIKE_R, OR_NEQ, OR_ISNULL
+		EQ, LIKE, NOT_LIKE, LIKE_L, LIKE_R, GT, LT, GTE, LTE, IN, NEQ, ISNULL, NOTNULL, OR_EQ, OR_IN, OR_LIKE, OR_LIKE_R, OR_NEQ, OR_ISNULL, DATEDIFF_LTE, DATEDIFF_GTE
 	}
 
 	private String fieldName;
@@ -139,6 +139,10 @@ public class SearchFilter {
 			return new SearchFilter(field, Operator.LIKE_L, value);
 		} else if(OP.equalsIgnoreCase("like_r")) {
 			return new SearchFilter(field, Operator.LIKE_R, value);
+		} else if(OP.equalsIgnoreCase("datediff_lte")) {
+			return new SearchFilter(field, Operator.DATEDIFF_LTE, value);
+		} else if(OP.equalsIgnoreCase("datediff_gte")) {
+			return new SearchFilter(field, Operator.DATEDIFF_GTE, value);
 		}
 		
 		return null;

@@ -17,15 +17,15 @@ function customAjaxDone(json){
 //-->
 </script>
 <div class="pageContent">
-<form method="post" action="${contextPath }/lpgl/task/update" class="required-validate pageForm" enctype="multipart/form-data" onsubmit="return iframeCallback(this, customAjaxDone);"">
+<form method="post" action="${contextPath }/lpgl/task/update" class="required-validate pageForm" enctype="multipart/form-data" onsubmit="return iframeCallback(this, customAjaxDone);">
 <input type="hidden" name="taskId" value="${task.id }" />
 	<div class="pageFormContent" layoutH="58">
 		<fieldset>
 		<legend>保单基本信息</legend>
 		<p>
 			<label>保单号：</label>
-			<input name="policyNo" type="text" postField="search_LIKE_policyNo" suggestFields="policyNo" 
-					suggestUrl="/lpgl/lookupSettlesuggest" lookupGroup="" class="input-medium validate[maxSize[32]]" value="${task.policy.policyNo }"/>
+			<input name="policyNo" type="text" postField="policyNo" suggestFields="policyNo" 
+					suggestUrl="/common/lookupPolicysuggest" lookupGroup="" value="${settle.policy.policyNo }"/>
 		</p>
 	  	<p >
 			<label>出保险人：</label>
@@ -52,6 +52,11 @@ function customAjaxDone(json){
 			<input type="text" name="claimsNo" class="input-medium validate[maxSize[32]]" maxlength="32" value="${task.settlement.claimsNo }"/>
 		</p>
 		<p>
+			<label>报案日期：</label>
+			<input type="text" name="reporteDate" id="reporteDate" class="date" dateFmt="yyyy-MM-dd" value="<fmt:formatDate value="${task.reporteDate }" pattern="yyyy-MM-dd"/>"/>
+					<a class="inputDateButton" href="javascript:;">选择</a>
+		</p>
+		<p>
 			<label>出险日期：</label>
 			<input type="text" name="caseDate" id="caseDate" class="date" dateFmt="yyyy-MM-dd" value="<fmt:formatDate value="${task.caseDate }" pattern="yyyy-MM-dd"/>"/>
 					<a class="inputDateButton" href="javascript:;">选择</a>
@@ -65,6 +70,10 @@ function customAjaxDone(json){
 				<form:option value="全残">全残</form:option>
 				<form:option value="医疗">医疗</form:option>
 			</form:select>
+		</p>
+		<p >
+			<label>出险天数：</label>
+			<dd>${task.taskLong }</dd>
 		</p>
 	</fieldset>
 	<fieldset>
@@ -81,13 +90,7 @@ function customAjaxDone(json){
 				<option value="3">3日内反馈 </option>
 				<option value="5">5日内反馈 </option>
 				<option value="15">15日内反馈 </option>
-				<option value="30">择期反馈 </option>
 			</select>
-		</p>
-		<p>
-			<label>跟进日期：</label>
-			<input type="text" name="followDate" class="date validate[maxSize[12]]" dateFmt="yyyy-MM-dd" readonly="true" value="" pattern="yyyy-MM-dd"/>
-			<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 		<p class="nowrap">
 			<label>反馈内容：</label>
@@ -110,6 +113,7 @@ function customAjaxDone(json){
 			<label>调查要求：</label>
 			<textarea name="checkReq" id="checkReq" cols="30" rows="3" class="input-medium">${task.checkReq }</textarea>
 		</p>
+		<p>&nbsp;</p><p>&nbsp;</p>
 		<p>&nbsp;</p><p>&nbsp;</p>
 		<p>
 			<label>调查人：</label>
@@ -144,8 +148,10 @@ function customAjaxDone(json){
 			
 	<div class="formBar">
 		<ul>
-			<li><div class="button"><div class="buttonContent"><button type="submit">确定</button></div></div></li>
-			<li><div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div></li>
+			<li><div class="button"><div class="buttonContent"><button type="button" class="close">关闭本窗口</button></div></div></li>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<li><div class="button"><div class="buttonContent"><button type="submit">确定提交信息</button></div></div></li>
+			
 		</ul>
 	</div>
 </form>

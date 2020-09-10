@@ -2,6 +2,11 @@
 mysqladmin -uroot -p drop postinsurance;
 mysqladmin -uroot -p123456 CREATE postinsurance
 
+alter table t_settle_task add column policy_type int(1) comment '0个险1团险';
+alter table t_settle_task add column hx_date date;
+alter table t_settle_task add column reporte_date    date    COMMENT '报案日期';
+alter table t_settle_task add column follow_date date comment '跟进日期，跟进反馈设置自动生成';
+
 drop table t_settlement_check;
 drop table t_settlement_report;
 alter table t_settle_task DROP FOREIGN KEY t_settle_task_fk;

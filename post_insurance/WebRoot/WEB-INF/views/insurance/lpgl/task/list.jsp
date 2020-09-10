@@ -54,9 +54,9 @@
 						<input type="text" name="checkDate2" id="taskDate2" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${checkDate2 }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
-						<label>日期标记</label>
-						<input type="radio" name="checkDateFlag" value="0" ${checkDateFlag eq "0"?"checked=\"checked\"":"" }/>调查发起
-						<input type="radio" name="checkDateFlag" value="1" ${checkDateFlag eq "1"?"checked=\"checked\"":"" }/>调查止期
+						<label>日期标记：</label>
+						<label><input type="radio" class="radio" name="checkDateFlag" value="0" ${checkDateFlag eq "0"?"checked=\"checked\"":"" }/>调查发起
+						<input type="radio" class="radio" name="checkDateFlag" value="1" ${checkDateFlag eq "1"?"checked=\"checked\"":"" }/>调查止期</label>
 					</td>
 					<td>&nbsp;</td>
 				</tr>
@@ -95,37 +95,62 @@
 		<thead>
 			<tr>
 				<th width="22"><input type="checkbox" group="ids" class="checkboxCtrl"></th>
-				<th>操作</th>	
 				<th>序号</th>	
+				<th>险种类别</th>	
 				<th orderField=organization.name class="${page.orderField eq 'organization.name' ? page.orderDirection : ''}">机构名称</th>
-				<th>出险人</th>
 				<th>保单号</th>
-				<th>调查起期</th>
-				<th>调查完成</th>
+				<th>出险人</th>
+				<!-- <th>调查起期</th>
+				<th>调查完成</th> -->
 				<th>调查时效</th>
 				<th orderField=checker class="${page.orderField eq 'checker' ? page.orderDirection : ''}">调查人</th>
-				<th>查勘费</th>
-				<th>附件</th>
+				<th>待办状态</th>
+				<th>操作</th>	
+				<th>核心发起日期</th>
+				<th>追踪要求</th>
+				<th>剩余追踪天数</th>
+				<th>查看日志</th>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach var="item" items="${users}" varStatus="idx">
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
-				<td>
-					<a target="dialog" mask="true" width="850" height="630" href="${contextPath }/lpgl/task/update/${item.id}">详情</a> &nbsp;&nbsp;
-					<a target="dialog" mask="true" width="750" height="430" href="${contextPath }/lpgl/task/log/${item.id}">操作日志</a>
-				</td>	
 				<td>${idx.index+1 }</td>
+				<td>
+					 ${item.policyType eq 0?"个险":"团险"}&nbsp;&nbsp;（<a target="dialog" rel="lookup2taskpolicyType" mask="true" width="350" height="200" href="${contextPath }/lpgl/task/type/${item.id}">设</a>） &nbsp;&nbsp;
+				</td>
 				<td>${item.organization.shortName}</td>
-				<td>${item.insured}</td>
 				<td>${item.policy.policyNo}</td>
-				<td><fmt:formatDate value="${item.checkStartDate}" pattern="yyyy-MM-dd"/></td>
-				<td><fmt:formatDate value="${item.checkEndDate}" pattern="yyyy-MM-dd"/></td>
+				<td>${item.insured}</td>
+				<%-- <td><fmt:formatDate value="${item.checkStartDate}" pattern="yyyy-MM-dd"/></td>
+				<td><fmt:formatDate value="${item.checkEndDate}" pattern="yyyy-MM-dd"/></td> --%>
 				<td>${item.limitation }</td>
 				<td>${item.checker}</td>
-				<td>${item.checkFee}</td>
-				<td> <a href="${item.attrLink}" target="_blank">${item.attrLink}</a></td>
+				<td>${item.checkStatus}</td>
+				<td>
+					 <a target="dialog" rel="lookup2taskpolicyType" mask="true" max="true" width="800" height="600" href="${contextPath }/lpgl/task/update/${item.id}"><div style="color: blue;vertical-align:middle;font-weight:normal;">录入</div></a>&nbsp;&nbsp;
+				</td>
+				<td>
+					 <fmt:formatDate value="${item.hxDate}" pattern="yyyy-MM-dd"/>&nbsp;&nbsp;（<a target="dialog" rel="lookup2taskpolicyType" mask="true" width="350" height="200" href="${contextPath }/lpgl/task/HXDay/${item.id}">设</a>） &nbsp;&nbsp;
+				</td>
+				<td>
+				<c:choose>
+					<c:when test="${not empty item.needFeedBack and item.needFeedBack eq '待反馈'}">
+					<div style="color: red;vertical-align:middle;font-weight:normal;">待反馈</div>
+					</c:when>
+					<c:when test="${not empty item.needFeedBack and item.needFeedBack eq '已反馈'}">
+					<div style="color: blue;vertical-align:middle;font-weight:normal;">已反馈</div>
+					</c:when>
+					<c:otherwise>
+						&nbsp;
+					</c:otherwise>
+				</c:choose>
+				</td>
+				<td>${item.lessFeedBack }</td>
+				<td>
+					<a target="dialog" mask="true" width="750" height="430" href="${contextPath }/lpgl/task/log/${item.id}">查</a>
+				</td>
 			</tr>			
 			</c:forEach>
 		</tbody>

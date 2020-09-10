@@ -114,17 +114,17 @@ public class CommonController {
 	
 	@RequestMapping(value="/lookupPolicysuggest", method={RequestMethod.POST})
 	public @ResponseBody String lookupPolicySuggest(ServletRequest request, Map<String, Object> map) {
-		ShiroUser shiroUser = SecurityUtils.getShiroUser();
-		User user = shiroUser.getUser();
-		Organization userOrg = user.getOrganization();
-		//boolean isOffsite = false;
-		Specification<Policy> specification = DynamicSpecifications.bySearchFilter(request, Policy.class, 
-				new SearchFilter("organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
-		
 		String policyNo = request.getParameter("policyNo");
-		if(policyNo != null && policyNo.trim().length() <= 10) {
+		Specification<Policy> specification = null;
+		if(policyNo != null && policyNo.trim().length() <= 14) {
 			return "[{}]";
-		} if(policyNo != null && policyNo.trim().length() > 10) {
+		} if(policyNo != null && policyNo.trim().length() > 14) {
+			ShiroUser shiroUser = SecurityUtils.getShiroUser();
+			User user = shiroUser.getUser();
+			Organization userOrg = user.getOrganization();
+			//boolean isOffsite = false;
+			specification = DynamicSpecifications.bySearchFilter(request, Policy.class, 
+					new SearchFilter("organization.orgCode", Operator.LIKE, userOrg.getOrgCode()));
 			if(policyNo.startsWith("86") || policyNo.startsWith("76") || policyNo.startsWith("96") || policyNo.startsWith("81")) {
 				if(policyNo.trim().length()>9) {
 					specification = DynamicSpecifications.bySearchFilterWithoutRequest(Policy.class, 

@@ -23,8 +23,8 @@ function customAjaxDone(json){
 		<legend>保单基本信息</legend>
 		<p>
 			<label>保单号：</label>
-			<input name="policyNo" type="text" postField="search_LIKE_policyNo" suggestFields="policyNo" 
-					suggestUrl="/lpgl/lookupSettlesuggest" lookupGroup="" class="input-medium validate[maxSize[32]]" value="${settleDtl.policyNo }"/>
+			<input name="policyNo" type="text" postField="policyNo" suggestFields="policyNo" 
+					suggestUrl="/common/lookupPolicysuggest" lookupGroup="" value="${settle.policy.policyNo }"/>
 		</p>
 	  	<p >
 			<label>出保险人：</label>
@@ -52,6 +52,11 @@ function customAjaxDone(json){
 					<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 		<p>
+			<label>报案日期：</label>
+			<input type="text" name="reporteDate" id="reporteDate" class="date" dateFmt="yyyy-MM-dd" value="<fmt:formatDate value="${task.reporteDate }" pattern="yyyy-MM-dd"/>"/>
+					<a class="inputDateButton" href="javascript:;">选择</a>
+		</p>
+		<p>
 			<label>理赔类型：</label>
 			<select name="caseType" id="caseType" class="combox validate[required] required">
 				<option value="意外身故">意外身故</option>
@@ -76,7 +81,6 @@ function customAjaxDone(json){
 				<option value="3">3日内反馈 </option>
 				<option value="5">5日内反馈 </option>
 				<option value="15">15日内反馈 </option>
-				<option value="30">择期反馈 </option>
 			</select>
 		</p>
 		<p>
@@ -135,6 +139,7 @@ function customAjaxDone(json){
 	<div class="formBar">
 		<ul>
 			<li><div class="button"><div class="buttonContent"><button type="submit">确定</button></div></div></li>
+			
 			<li><div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div></li>
 		</ul>
 	</div>

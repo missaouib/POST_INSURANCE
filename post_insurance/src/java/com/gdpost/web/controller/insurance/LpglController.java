@@ -103,6 +103,8 @@ public class LpglController {
 	private static final String LIST_TASK = "insurance/lpgl/task/list";
 	private static final String TASK_TO_XLS = "insurance/lpgl/task/toXls";
 	private static final String TASK_LOG_DTL = "insurance/lpgl/task/logs";
+	private static final String POLICY_TYPE = "insurance/lpgl/task/policyType";
+	private static final String HX_DATE = "insurance/lpgl/task/hxDate";
 	
 	/*
 	 * ===
@@ -268,7 +270,8 @@ public class LpglController {
 				task.setCaseType(src.getCaseType());
 				task.setPolicy(policy);
 				task.setInsured(src.getCaseMan());
-				task.setOrganization(policy.getOrganization());
+				task.setReporteDate(src.getReporteDate());
+				task.setOrganization(policy==null?user.getOrganization():policy.getOrganization());
 				task.setOperateId(user.getId());
 				task.setCreateTime(new Date());
 				task.setCheckStartDate(new Date());
@@ -354,9 +357,9 @@ public class LpglController {
 			SettleTask task = new SettleTask();
 			task.setSettlement(src);
 			task.setCaseType(src.getCaseType());
-			//task.setPolicy(policy);
 			task.setInsured(src.getCaseMan());
-			//task.setOrganization(policy.getOrganization());
+			task.setReporteDate(src.getReporteDate());
+			task.setOrganization(user.getOrganization());
 			task.setOperateId(user.getId());
 			task.setCreateTime(new Date());
 			task.setCheckStartDate(new Date());
@@ -741,6 +744,10 @@ public class LpglController {
 		SettleTask task = lpglService.getSettleTask(id);
 		try {
 			task.setCheckEndDate(new Date());
+			
+			if(StringUtil.getBetweenDay(task.getCheckStartDate(), task.getCheckEndDate()) > 7 && (task.getRemark()== null || task.getRemark().trim().length()<=0)) {
+				return AjaxObject.newError("调查超时，请先在详细信息中备注说明超时原因").setCallbackType("").toString();
+			}
 			task.setCheckStatus(SettleTask.STATUS_DONE);
 			lpglService.saveOrUpdateSettleTask(task);
 			
@@ -759,6 +766,87 @@ public class LpglController {
 		
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{task.getInsured()}));
 		return AjaxObject.newOk("关闭理赔案件调查任务成功！").setCallbackType("").toString();
+	}
+	
+	@RequiresPermissions("SettleTask:save")
+	@RequestMapping(value="/task/type/{id}", method=RequestMethod.GET)
+	public String prePolicyTypeTask(@PathVariable Long id, HttpServletRequest request) {
+		SettleTask task = lpglService.getSettleTask(id);
+		request.setAttribute("task", task);
+		return POLICY_TYPE;
+	}
+	
+	@Log(message="设置了{0}的理赔案件调查任务险种类型。", level=LogLevel.WARN, module=LogModule.LPGL)
+	@RequiresPermissions("SettleTask:save")
+	@RequestMapping(value="/task/type", method={RequestMethod.POST})
+	public @ResponseBody String policyTypeTask(HttpServletRequest request) {
+		User user = SecurityUtils.getShiroUser().getUser();
+		String idStr = request.getParameter("id");
+		SettleTask task = lpglService.getSettleTask(Long.parseLong(idStr));
+		String policyType = request.getParameter("policyType");
+		if(policyType == null || policyType.trim().length()<=0) {
+			policyType = "0";
+		}
+		try {
+			task.setPolicyType(Integer.valueOf(policyType));
+			lpglService.saveOrUpdateSettleTask(task);
+			
+			SettleTaskLog settleLog = new SettleTaskLog();
+			settleLog.setSettleTask(task);
+			settleLog.setDealDate(new Date());
+			settleLog.setUser(user);
+			settleLog.setInfo("设置了理赔案件调查任务险种类型；");
+			settleLog.setIp(request.getRemoteAddr());
+			settleLog.setIsKeyInfo(true);
+			lpglService.saveOrUpdateSettleTaskLog(settleLog);
+			
+		} catch (ExistedException e) {
+			return AjaxObject.newError("设置理赔案件调查任务险种类型失败：" + e.getMessage()).setCallbackType("").toString();
+		}
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{task.getInsured()}));
+		return AjaxObject.newOk("设置理赔案件调查任务险种类型成功！").setCallbackType("").toString();
+	}
+	
+	@RequiresPermissions("SettleTask:save")
+	@RequestMapping(value="/task/HXDay/{id}", method=RequestMethod.GET)
+	public String preHxDateTask(@PathVariable Long id, HttpServletRequest request) {
+		SettleTask task = lpglService.getSettleTask(id);
+		request.setAttribute("task", task);
+		return HX_DATE;
+	}
+	
+	@Log(message="设置了{0}的理赔案件调查任务核心发起日期。", level=LogLevel.WARN, module=LogModule.LPGL)
+	@RequiresPermissions("SettleTask:save")
+	@RequestMapping(value="/task/HXDay", method={RequestMethod.POST})
+	public @ResponseBody String hxDateTask(HttpServletRequest request) {
+		User user = SecurityUtils.getShiroUser().getUser();
+		String idStr = request.getParameter("id");
+		SettleTask task = lpglService.getSettleTask(Long.parseLong(idStr));
+		String hxDateStr = request.getParameter("hxDate");
+		Date hxDate = new Date();
+		if(hxDateStr != null && hxDateStr.trim().length()>0) {
+			hxDate = StringUtil.str2Date(hxDateStr, "yyyy-MM-dd");
+		}
+		try {
+			task.setHxDate(hxDate);
+			lpglService.saveOrUpdateSettleTask(task);
+			
+			SettleTaskLog settleLog = new SettleTaskLog();
+			settleLog.setSettleTask(task);
+			settleLog.setDealDate(new Date());
+			settleLog.setUser(user);
+			settleLog.setInfo("设置调查任务核心发起日期；");
+			settleLog.setIp(request.getRemoteAddr());
+			settleLog.setIsKeyInfo(true);
+			lpglService.saveOrUpdateSettleTaskLog(settleLog);
+			
+		} catch (ExistedException e) {
+			return AjaxObject.newError("设置调查任务核心发起日期失败：" + e.getMessage()).setCallbackType("").toString();
+		}
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{task.getInsured()}));
+		return AjaxObject.newOk("设置调查任务核心发起日期成功！").setCallbackType("").toString();
 	}
 	
 	@RequiresPermissions("SettleTask:edit")
@@ -953,6 +1041,7 @@ public class LpglController {
 		}
 		
 		StringBuffer loginfo = new StringBuffer("");
+		boolean endCase = false;
 		if(task.getAttrLink()!=null) {
 			loginfo.append("修改附件；");
 			src.setAttrLink(task.getAttrLink());
@@ -977,16 +1066,38 @@ public class LpglController {
 			loginfo.append("改查勘费：" + src.getCheckFee() + "->" + task.getCheckFee() + "；");
 			src.setCheckFee(task.getCheckFee());
 		}
-		
+		if(task.getCheckEndDate()!=null && !(src.getCheckEndDate()==null?"":src.getCheckEndDate()).equals(task.getCheckEndDate())) {
+			loginfo.append("设置结案日期：" + src.getCheckEndDate() + "->" + task.getCheckEndDate() + "；");
+			src.setCheckEndDate(task.getCheckEndDate());
+			if(StringUtil.getBetweenDay(src.getCheckStartDate(), src.getCheckEndDate()) > 7 && (src.getRemark()== null || src.getRemark().trim().length()<=0)) {
+				return AjaxObject.newError("调查超时，请备注说明超时原因").setCallbackType("").toString();
+			}
+			endCase = true;
+		}
+		src.setRemark(task.getRemark());
 		src.setPolicy(policy);
 		if(policy != null) {
 			Settlement settleDtl = lpglService.getSettleByPolicyNo(policyNo);
 			src.setSettlement(settleDtl);
 			src.setOrganization(policy.getOrganization());
+			if(policy.getPolicyNo().startsWith("3186")) {
+				src.setPolicyType(1);
+			} else {
+				src.setPolicyType(0);
+			}
 		} else {
 			src.setOrganization(user.getOrganization());
 		}
 		src.setCheckStatus(SettleTask.STATUS_ING);
+		if(endCase) {
+			src.setCheckStatus(SettleTask.STATUS_DONE);
+		}
+		
+		String toDealDay = request.getParameter("toDealDay");//需要几天反馈
+		//String followDate = request.getParameter("followDate"); //自动计算
+		Date followDate = StringUtil.dateAdd(new Date(), Integer.parseInt(toDealDay));
+		src.setFollowDate(followDate);
+		
 		lpglService.saveOrUpdateSettleTask(src);
 		
 		if(loginfo.length() > 0) {
@@ -1000,22 +1111,15 @@ public class LpglController {
 			lpglService.saveOrUpdateSettleTaskLog(settleLog);
 		}
 		
-		String toDealDay = request.getParameter("toDealDay");
-		String followDate = request.getParameter("followDate");
 		String info = request.getParameter("info");
 		SettleTaskLog taskLog = new SettleTaskLog();
 		taskLog.setSettleTask(src);
 		taskLog.setDealDate(new Date());
-		if(followDate != null && followDate.trim().length()>0 && info != null && info.trim().length()>0) {
-			taskLog.setFollowDate(StringUtil.str2Date(followDate, "yyyy-MM-dd"));
-			taskLog.setInfo(info);
-			taskLog.setIsFollow(true);
-			taskLog.setToDealDay(null);
-		} else {
-			taskLog.setIsFollow(true);
-			taskLog.setToDealDay(Integer.valueOf(toDealDay));
-			taskLog.setInfo("设置了案件调查任务跟进要求->第" + toDealDay + "日内反馈。");
-		}
+		
+		taskLog.setIsFollow(true);
+		taskLog.setToDealDay(Integer.valueOf(toDealDay));
+		taskLog.setInfo("设置了案件调查任务跟进要求->第" + toDealDay + "日内反馈。内容：" + info);
+
 		taskLog.setUser(user);
 		taskLog.setIp(request.getRemoteAddr());
 		taskLog.setIsKeyInfo(true);
@@ -1131,7 +1235,7 @@ public class LpglController {
 		csf.add(new SearchFilter("organization.orgCode", Operator.OR_LIKE_R, orgCode));
 		csf.add(new SearchFilter("organization.orgCode", Operator.OR_ISNULL, null));
 		csf.add(new SearchFilter("checker", Operator.OR_EQ, user.getRealname()));
-		if(checkDate1 != null && checkDate2 != null) {
+		if(checkDate1 != null && checkDate1.trim().length()>0 && checkDate2 != null && checkDate2.trim().length()>0) {
 			request.setAttribute("checkDate1", checkDate1);
 			request.setAttribute("checkDate2", checkDate2);
 			if(checkDateFlag.equals("0")) {
@@ -1145,13 +1249,15 @@ public class LpglController {
 		if(checkStatus != null && checkStatus.trim().length() >0) {
 			csf.add(new SearchFilter("checkStatus", Operator.EQ, checkStatus));
 		}
-		
+		//taskLong = "5";
 		if(taskLong != null && taskLong.trim().length()>0) {
+			task.setTaskLong(taskLong);
 			request.setAttribute("taskLong", taskLong);
+			Object[] obj = {"checkEndDate", "checkStartDate",Integer.parseInt(taskLong), SettleTask.class};
 			if(Integer.parseInt(taskLong)<=7) {
-				csf.add(new SearchFilter("now()-checkStartDate", Operator.LT, taskLong));
+				csf.add(new SearchFilter("checkStartDate", Operator.DATEDIFF_LTE, obj));
 			} else {
-				csf.add(new SearchFilter("now()-checkStartDate", Operator.GTE, taskLong));
+				csf.add(new SearchFilter("checkStartDate", Operator.DATEDIFF_GTE, obj));
 			}
 		}
 		Specification<SettleTask> specification = DynamicSpecifications.bySearchFilter(request, SettleTask.class, csf);
@@ -1221,6 +1327,7 @@ public class LpglController {
 	}
 	
 	@RequestMapping(value="/lookupSettlesuggest", method={RequestMethod.POST})
+	@Deprecated
 	public @ResponseBody String lookupSettleSuggest(ServletRequest request, Map<String, Object> map) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		User user = shiroUser.getUser();
@@ -1230,13 +1337,13 @@ public class LpglController {
 				new SearchFilter("settlement.organization.orgCode", Operator.LIKE_R, userOrg.getOrgCode()));
 		
 		String policyNo = request.getParameter("policyNo");
-		if(policyNo != null && policyNo.trim().length() <= 3) {
+		if(policyNo != null && policyNo.trim().length() <= 10) {
 			return "[{}]";
-		} if(policyNo != null && policyNo.trim().length() > 3) {
+		} if(policyNo != null && policyNo.trim().length() > 10) {
 			if(policyNo.startsWith("86") || policyNo.startsWith("76") || policyNo.startsWith("96") || policyNo.startsWith("81")) {
 				if(policyNo.trim().length()>9) {
 					specification = DynamicSpecifications.bySearchFilterWithoutRequest(Settlement.class, 
-							new SearchFilter("policyNo", Operator.LIKE, policyNo));
+							new SearchFilter("policy.policyNo", Operator.LIKE, policyNo));
 				} else {
 					return "[{}]";
 				}

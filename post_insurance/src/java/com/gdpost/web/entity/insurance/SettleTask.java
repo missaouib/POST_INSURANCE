@@ -17,6 +17,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.JoinColumnOrFormula;
@@ -66,15 +68,63 @@ public class SettleTask implements Idable<Long>, Serializable {
 	private Long operateId;
 	private Date createTime;
 	private String remark;
+	private Integer policyType;//0个险1团险
+	private Date hxDate;
+	private Date reporteDate;
+	private Date followDate;
 	private List<SettleTaskLog> settleTaskLogs = new ArrayList<SettleTaskLog>(0);
 	
 	@Transient
 	private String taskLong;
+	
+	@Transient
+	private String needFeedBack;
+	
+	@Transient
+	private Integer lessFeedBack;
 
+	@Transient
+	public String getNeedFeedBack() {
+		if(this.settleTaskLogs != null && this.settleTaskLogs.size()>0) {
+			SettleTaskLog slog = this.settleTaskLogs.get(this.settleTaskLogs.size()-1);
+			if (slog != null && slog.getIsFollow() != null && slog.getIsFollow() && slog.getFollowDate() == null) {
+				return "待反馈";
+			} else if (slog != null && slog.getIsFollow() != null && slog.getIsFollow() && slog.getFollowDate() != null) {
+				return "已反馈";
+			}
+		}
+		return null;
+	}
+
+	@Transient
+	public void setNeedFeedBack(String needFeedBack) {
+		this.needFeedBack = needFeedBack;
+	}
+
+	@Transient
+	public Integer getLessFeedBack() {
+		if(this.followDate != null) {
+			return StringUtil.getBetweenDay(new Date(), this.followDate);
+		}
+		return lessFeedBack;
+	}
+
+	@Transient
+	public void setLessFeedBack(Integer lessFeedBack) {
+		this.lessFeedBack = lessFeedBack;
+	}
+	
 	// Constructors
 
 	@Transient
 	public String getTaskLong() {
+		if(this.caseDate!= null) {
+			if(this.checkEndDate != null) {
+				return StringUtil.getBetweenDay(caseDate, this.checkEndDate) + "";
+			} else {
+				return StringUtil.getBetweenDay(caseDate, new Date()) + "";
+			}
+		}
 		return taskLong;
 	}
 	@Transient
@@ -115,7 +165,7 @@ public class SettleTask implements Idable<Long>, Serializable {
 		this.id = id;
 	}
 
-	@ManyToOne
+	@ManyToOne(optional=true)
 	@JoinColumn(name = "org_id", nullable = true)
 	public Organization getOrganization() {
 		return this.organization;
@@ -125,7 +175,7 @@ public class SettleTask implements Idable<Long>, Serializable {
 		this.organization = organization;
 	}
 
-	@ManyToOne
+	@ManyToOne(optional=true)
 	@JoinColumnsOrFormulas(value={
 	@JoinColumnOrFormula(column=@JoinColumn(name ="policy_no", referencedColumnName ="policy_no")),
 	@JoinColumnOrFormula(formula=@JoinFormula(value="0", referencedColumnName = "attached_flag"))
@@ -311,13 +361,48 @@ public class SettleTask implements Idable<Long>, Serializable {
 		this.remark = remark;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "settleTask")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "settleTask")
 	public List<SettleTaskLog> getSettleTaskLogs() {
 		return this.settleTaskLogs;
 	}
 
 	public void setSettleTaskLogs(List<SettleTaskLog> settleTaskLogs) {
 		this.settleTaskLogs = settleTaskLogs;
+	}
+	
+	@Column(name="policy_type")
+	public Integer getPolicyType() {
+		return policyType;
+	}
+	public void setPolicyType(Integer policyType) {
+		this.policyType = policyType;
+	}
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name="hx_date")
+	public Date getHxDate() {
+		return hxDate;
+	}
+	public void setHxDate(Date hxDate) {
+		this.hxDate = hxDate;
+	}
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name="reporte_date")
+	public Date getReporteDate() {
+		return reporteDate;
+	}
+	public void setReporteDate(Date reporteDate) {
+		this.reporteDate = reporteDate;
+	}
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name="follow_date")
+	public Date getFollowDate() {
+		return followDate;
+	}
+	public void setFollowDate(Date followDate) {
+		this.followDate = followDate;
 	}
 
 }
