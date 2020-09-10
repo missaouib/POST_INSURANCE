@@ -2,8 +2,6 @@ package com.gdpost.web.entity.component;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
@@ -31,7 +29,6 @@ public class CheckModel implements java.io.Serializable {
 	private String checker;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="policy_no")
 	public String getPolicyNo() {
 		return policyNo;

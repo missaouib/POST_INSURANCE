@@ -313,17 +313,17 @@ public class StasticsServiceImpl implements StasticsService {
 
 	@Override
 	public List<CheckModel> getCheckWritetasticsDtl(String orgCode, String d1, String d2, Integer duration, String toPerm) {
-		return checDtlkDAO.getCheckWriteStatDtl(orgCode, d1, d2, duration, toPerm);
+		return checDtlkDAO.getCheckModelWriteStatDtl(orgCode, d1, d2, duration, toPerm);
 	}
 
 	@Override
 	public List<CheckModel> getCheckRecordtasticsDtl(String orgCode, String d1, String d2, Integer duration, String toPerm) {
-		return checDtlkDAO.getCheckRecordStatDtl(orgCode, d1, d2, duration, toPerm);
+		return checDtlkDAO.getCheckModelRecordStatDtl(orgCode, d1, d2, duration, toPerm);
 	}
 
 	@Override
 	public List<CheckModel> getCheckTruthStasticsDtl(String organCode, String d1, String d2, Integer duration, String toPerm, String netFlag) {
-		return checDtlkDAO.getCheckTruthStatDtl(organCode, d1, d2, duration, toPerm, netFlag);
+		return checDtlkDAO.getCheckModelTruthStatDtl(organCode, d1, d2, duration, toPerm, netFlag);
 	}
 	
 	@Override
