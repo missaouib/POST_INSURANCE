@@ -30,6 +30,7 @@ response.setHeader("Content-Disposition", "inline; filename=settles.xls");
 				<th>追踪要求</th>
 				<th>剩余追踪天数</th>
 				<th>备注</th>
+				<th>日志</th>
 			</tr>
 			<c:forEach var="item" items="${settles}" varStatus="idx">
 			<tr>
@@ -66,6 +67,10 @@ response.setHeader("Content-Disposition", "inline; filename=settles.xls");
 				</td>
 				<td>${item.lessFeedBack }</td>
 				<td>${item.remark}</td>
+				<td><c:forEach var="dtl" items="${item.settlementLogs}">
+				${dtl.info}（${dtl.user.realname}/<fmt:formatDate value='${dtl.dealDate}' pattern='yyyy-MM-dd'/>）
+				</c:forEach>
+				</td>
 			</tr>
 			</c:forEach>
 	</table>

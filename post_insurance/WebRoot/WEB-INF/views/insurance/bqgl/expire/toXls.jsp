@@ -112,7 +112,7 @@ response.setHeader("Content-Disposition", "inline; filename=CSExpire_LIST.xls");
 				<td>${item.policy.bankName}</td>
 				<td>
 				<c:forEach var="dtl" items="${item.csExpireDtls}">
-				${dtl.dealDesc}（${dtl.dealMan}/<fmt:formatDate value='${dtl.dealTime}' pattern='yyyy-MM-dd'/>）<br>
+				${dtl.dealDesc}（${dtl.dealMan}/<fmt:formatDate value='${dtl.dealTime}' pattern='yyyy-MM-dd'/>）
 				</c:forEach>
 				</td>
 			</tr>

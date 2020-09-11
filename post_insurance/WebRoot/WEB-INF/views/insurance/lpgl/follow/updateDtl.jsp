@@ -101,20 +101,21 @@ function customAjaxDone(json){
 	</fieldset>
 	<fieldset>
 		<legend>案件进度</legend>
-		<p class="nowrap">
+		<dl class="nowrap">
+		<dd>
 		<c:forEach var="item" items="${dealLogs}" varStatus="idx" end="2">
 		<fmt:formatDate value="${item.dealDate}" pattern="yyyy-MM-dd"/>：${item.user.realname}:${empty item.followDate?"":"反馈日期"}${item.followDate }&nbsp;${item.info} <br/>
 		</c:forEach>
-		</dl>
+		</dd></dl>
 		<dl>
 			<dt>跟进反馈：</dt>
-			<select name="toDealDay" id="lptdd" class="combox">
+			<dd><select name="toDealDay" id="lptdd" class="combox">
 				<option value="1">1日内反馈 </option>
 				<option value="3">3日内反馈 </option>
 				<option value="5">5日内反馈 </option>
 				<option value="15">15日内反馈 </option>
 				<!-- <option value="30">择期反馈 </option> -->
-			</select>
+			</select></dd>
 		</dl>
 		<!-- 
 		<dl>
@@ -123,9 +124,13 @@ function customAjaxDone(json){
 			<a class="inputDateButton" href="javascript:;">选择</a>
 		</dl>
 		 -->
-		<p class="nowrap">
+		<dl class="nowrap">
 			<dt>反馈内容：</dt>
-			<textarea name="info" cols="50" rows="3"></textarea>
+			<dd><textarea name="info" cols="50" rows="3"></textarea></dd>
+		</dl>
+		<dl class="nowrap">
+			<dt>指导意见（省分）：</dt>
+			<dd><textarea name="provInfo" cols="50" rows="3" <shiro:lacksPermission name="SettleTask:provEdit">readonly="true"</shiro:lacksPermission>>${settle.provInfo }</textarea></dd>
 		</dl>
 	</fieldset>
 	</div>

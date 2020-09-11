@@ -185,6 +185,11 @@ public class LpglController {
 		StringBuffer loginfo = new StringBuffer("");
 		String policyId = request.getParameter("policy.id");
 		String policyNo = request.getParameter("policy.policyNo");
+		String provInfo = request.getParameter("provInfo");
+		boolean prov = false;
+		if(provInfo != null && provInfo.trim().length()>0) {
+			prov = true;
+		}
 		boolean needTask = false;
 		Policy policy = null;
 		
@@ -214,9 +219,14 @@ public class LpglController {
 			loginfo.append("改报案日期：" + "null ->" + StringUtil.date2Str(settle.getReporteDate(), "yy-M-d") + "；");
 			src.setReporteDate(settle.getReporteDate());
 		}
-		if(settle.getRemark()!=null && !(src.getRemark()==null?"":src.getRemark()).equals(settle.getRemark())) {
+		if(!prov && settle.getRemark()!=null && !(src.getRemark()==null?"":src.getRemark()).equals(settle.getRemark())) {
 			loginfo.append("改出险描述：" + src.getRemark() + "->" + settle.getRemark() + "；");
 			src.setRemark(settle.getRemark());
+		}
+		
+		if(prov && !(src.getProvInfo()==null?"":src.getProvInfo()).equals(settle.getProvInfo())) {
+			loginfo.append("改指导意见：" + src.getProvInfo() + "->" + settle.getProvInfo() + "；");
+			src.setProvInfo(settle.getProvInfo());
 		}
 		
 		if(loginfo.length() > 0) {
@@ -230,36 +240,39 @@ public class LpglController {
 			lpglService.saveOrUpdateSettleLog(settleLog);
 		}
 		
-		try {			
-			SettlementLog settleLog = new SettlementLog();
-			settleLog.setSettlement(src);
-			settleLog.setDealDate(new Date());
-			settleLog.setUser(user);
-			settleLog.setInfo("添加或者更新了案件进度相关信息；");
-			settleLog.setIp(request.getRemoteAddr());
-			settleLog.setIsKeyInfo(true);
-			lpglService.saveOrUpdateSettleLog(settleLog);
+		try {
+			if(!prov) { //如果不是省分设置指导意见，则为市县反馈跟进进度
+				SettlementLog settleLog = new SettlementLog();
+				settleLog.setSettlement(src);
+				settleLog.setDealDate(new Date());
+				settleLog.setUser(user);
+				settleLog.setInfo("添加或者更新了案件进度相关信息；");
+				settleLog.setIp(request.getRemoteAddr());
+				settleLog.setIsKeyInfo(true);
+				lpglService.saveOrUpdateSettleLog(settleLog);
+				
+				String toDealDay = request.getParameter("toDealDay");//需要几天反馈
+				//String followDate = request.getParameter("followDate"); //自动计算
+				Date followDate = StringUtil.dateAdd(new Date(), Integer.parseInt(toDealDay));
+				
+				String info = request.getParameter("info");
+				SettlementLog settleInfo = new SettlementLog();
+				settleInfo.setSettlement(settle);
+				settleInfo.setDealDate(new Date());
+				
+				settleInfo.setFollowDate(followDate);
+				settleInfo.setIsFollow(true);
+				settleInfo.setToDealDay(Integer.valueOf(toDealDay));
+				settleInfo.setInfo("设置跟进要求->第" + toDealDay + "日内反馈：" + info);
+				
+				settleInfo.setUser(user);
+				settleInfo.setIp(request.getRemoteAddr());
+				settleInfo.setIsKeyInfo(true);
+				lpglService.saveOrUpdateSettleLog(settleInfo);
+				
+				src.setFollowDate(followDate);
+			}
 			
-			String toDealDay = request.getParameter("toDealDay");//需要几天反馈
-			//String followDate = request.getParameter("followDate"); //自动计算
-			Date followDate = StringUtil.dateAdd(new Date(), Integer.parseInt(toDealDay));
-			
-			String info = request.getParameter("info");
-			SettlementLog settleInfo = new SettlementLog();
-			settleInfo.setSettlement(settle);
-			settleInfo.setDealDate(new Date());
-			
-			settleInfo.setFollowDate(followDate);
-			settleInfo.setIsFollow(true);
-			settleInfo.setToDealDay(Integer.valueOf(toDealDay));
-			settleInfo.setInfo("设置跟进要求->第" + toDealDay + "日内反馈：" + info);
-			
-			settleInfo.setUser(user);
-			settleInfo.setIp(request.getRemoteAddr());
-			settleInfo.setIsKeyInfo(true);
-			lpglService.saveOrUpdateSettleLog(settleInfo);
-			
-			src.setFollowDate(followDate);
 			lpglService.saveOrUpdateSettle(src);
 			
 			//如果为待调查，自动生成一条调查任务
@@ -1274,14 +1287,19 @@ public class LpglController {
 	public String taskToXls(ServletRequest request, Page page, Map<String, Object> map) {
 		User user = SecurityUtils.getShiroUser().getUser();
 		String checkStatus = request.getParameter("checkStatus");
-		String orgCode = request.getParameter("organization.orgCode");
+		if(checkStatus == null) {
+			checkStatus = SettleTask.STATUS_ING;
+		}
+		SettleTask task = new SettleTask();
+		task.setCheckStatus(checkStatus);
 		String checkDateFlag = request.getParameter("checkDateFlag");
 		if(checkDateFlag == null||checkDateFlag.trim().length()<=0) {
 			checkDateFlag = "1";
 		}
+		String taskLong = request.getParameter("taskLong");
 		String checkDate1 = request.getParameter("checkDate1");
 		String checkDate2 = request.getParameter("checkDate2");
-		
+		String orgCode = request.getParameter("organization.orgCode");
 		if(orgCode == null || orgCode.trim().length() <= 0) {
 			orgCode = user.getOrganization().getOrgCode();
 			if(orgCode.contains("11185")) {
@@ -1294,23 +1312,39 @@ public class LpglController {
 		}
 		
 		page.setNumPerPage(65564);
+		page.setOrderField("organization.orgCode");
+		page.setOrderDirection("ASC");
 		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE_R, orgCode));
+		csf.add(new SearchFilter("organization.orgCode", Operator.OR_LIKE_R, orgCode));
+		csf.add(new SearchFilter("organization.orgCode", Operator.OR_ISNULL, null));
+		csf.add(new SearchFilter("checker", Operator.OR_EQ, user.getRealname()));
+		if(checkDate1 != null && checkDate1.trim().length()>0 && checkDate2 != null && checkDate2.trim().length()>0) {
+			if(checkDateFlag.equals("0")) {
+				csf.add(new SearchFilter("checkStartDate", Operator.GTE, checkDate1));
+				csf.add(new SearchFilter("checkStartDate", Operator.LTE, checkDate2));
+			} else {
+				csf.add(new SearchFilter("checkEndDate", Operator.GTE, checkDate1));
+				csf.add(new SearchFilter("checkEndDate", Operator.LTE, checkDate2));
+			}
+		}
 		if(checkStatus != null && checkStatus.trim().length() >0) {
 			csf.add(new SearchFilter("checkStatus", Operator.EQ, checkStatus));
 		}
-		if(checkDateFlag.equals("0")) {
-			csf.add(new SearchFilter("checkStartDate", Operator.GTE, checkDate1));
-			csf.add(new SearchFilter("checkStartDate", Operator.LTE, checkDate2));
-		} else {
-			csf.add(new SearchFilter("checkEndDate", Operator.GTE, checkDate1));
-			csf.add(new SearchFilter("checkEndDate", Operator.LTE, checkDate2));
+		//taskLong = "5";
+		if(taskLong != null && taskLong.trim().length()>0) {
+			task.setTaskLong(taskLong);
+			request.setAttribute("taskLong", taskLong);
+			Object[] obj = {"checkEndDate", "checkStartDate",Integer.parseInt(taskLong), SettleTask.class};
+			if(Integer.parseInt(taskLong)<=7) {
+				csf.add(new SearchFilter("checkStartDate", Operator.DATEDIFF_LTE, obj));
+			} else {
+				csf.add(new SearchFilter("checkStartDate", Operator.DATEDIFF_GTE, obj));
+			}
 		}
 		Specification<SettleTask> specification = DynamicSpecifications.bySearchFilter(request, SettleTask.class, csf);
 		List<SettleTask> tasks = lpglService.findBySettleTaskExample(specification, page);
 
-		map.put("page", page);
 		map.put("tasks", tasks);
 		return TASK_TO_XLS;
 	}

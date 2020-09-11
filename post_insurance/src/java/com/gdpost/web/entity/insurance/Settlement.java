@@ -58,6 +58,7 @@ public class Settlement implements Idable<Long>, Serializable {
 	private Date caseEndDate;
 	private String caseStatus;
 	private String remark;
+	private String provInfo;
 	private Date operateTime;
 	private Long operateId;
 	
@@ -247,6 +248,15 @@ public class Settlement implements Idable<Long>, Serializable {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	@Column(name="prov_info")
+	public String getProvInfo() {
+		return provInfo;
+	}
+
+	public void setProvInfo(String provInfo) {
+		this.provInfo = provInfo;
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)

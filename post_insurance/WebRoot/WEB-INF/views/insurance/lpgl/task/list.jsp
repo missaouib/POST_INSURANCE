@@ -74,17 +74,17 @@
 
 	<div class="panelBar">
 		<ul class="toolBar">
-			<shiro:hasPermission name="Settlement:save">
+			<shiro:hasPermission name="SettleTask:save">
 				<li><a class="add" target="dialog" rel="lookup2organization_add" mask="true" width="850" height="650" href="${contextPath }/lpgl/task/create"><span>添加</span></a></li>
 			</shiro:hasPermission>
-			<shiro:hasPermission name="Settlement:edit">
+			<shiro:hasPermission name="SettleTask:edit">
 				<li><a class="edit" target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="650" href="${contextPath }/lpgl/task/update/{slt_uid}"><span>编辑</span></a></li>
 				<li><a class="edit" target="ajaxTodo" title="确认已完成？" href="${contextPath }/lpgl/task/done/{slt_uid}"><span>完成</span></a></li>
 			</shiro:hasPermission>
-			<shiro:hasPermission name="Settlement:delete">
+			<shiro:hasPermission name="SettleTask:delete">
 				<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/lpgl/task/delete" title="确认要删除?"><span>删除</span></a></li>
 			</shiro:hasPermission>
-			<shiro:hasPermission name="Settlement:view">
+			<shiro:hasPermission name="SettleTask:view">
 				<li class="line">line</li>
 				<li><a class="icon" target="_blank" href="${contextPath }/lpgl/task/toXls?taskLong=${taskLong }&search_LIKE_insured=${search_LIKE_insured }&checkDate2=${checkDate2}&checkDate1=${checkDate1}&checkStatus=${checkStatus}&organization.orgCode=${org_code}&organization.name=${org_name}&checkDateFlag=${checkDateFlag}"><span>导出Excel</span></a></li>
 			</shiro:hasPermission>
@@ -122,7 +122,7 @@
 				</td>
 				<td>${item.organization.shortName}</td>
 				<td>${item.policy.policyNo}</td>
-				<td>${item.insured}</td>
+				<td><div style="color: <c:choose><c:when test="${item.lessFeedBack<0}">red</c:when><c:when test="${item.lessFeedBack<2}">orange</c:when><c:otherwise>"black"</c:otherwise></c:choose>;vertical-align:middle;font-weight:normal;">${item.insured}</div></td>
 				<%-- <td><fmt:formatDate value="${item.checkStartDate}" pattern="yyyy-MM-dd"/></td>
 				<td><fmt:formatDate value="${item.checkEndDate}" pattern="yyyy-MM-dd"/></td> --%>
 				<td>${item.limitation }</td>

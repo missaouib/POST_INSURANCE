@@ -24,24 +24,24 @@ function customAjaxDone(json){
 		<legend>保单基本信息</legend>
 		<p>
 			<label>保单号：</label>
-			<input name="policyNo" type="text" postField="policyNo" suggestFields="policyNo" 
+			<input name="policyNo" type="text" postField="policyNo" suggestFields="policyNo" <shiro:lacksPermission name="SettleTask:provEdit">readonly="true"</shiro:lacksPermission>
 					suggestUrl="/common/lookupPolicysuggest" lookupGroup="" value="${settle.policy.policyNo }"/>
 		</p>
 	  	<p >
 			<label>出保险人：</label>
-			<input type="text" name="insured" class="input-medium validate[maxSize[32]]" maxlength="32" value="${task.insured }"/>
+			<input type="text" name="insured" class="input-medium validate[maxSize[32]]" maxlength="32" value="${task.insured }" <shiro:lacksPermission name="SettleTask:provEdit">readonly="true"</shiro:lacksPermission>/>
 		</p>
 		<p>
 			<label>险种：</label>
-			<input type="text" name="prodName" class="input-medium validate[maxSize[32]]" maxlength="32" value="${task.policy.prodName }"/>
+			<input type="text" name="prodName" class="input-medium validate[maxSize[32]]" maxlength="32" value="${task.policy.prodName }" <shiro:lacksPermission name="SettleTask:provEdit">readonly="true"</shiro:lacksPermission>/>
 		</p>
 		<p>
 			<label>保费：</label>
-			<input type="text" name="policyFee" class="input-medium validate[maxSize[32]]" maxlength="32" value="${task.policy.policyFee }"/>
+			<input type="text" name="policyFee" class="input-medium validate[maxSize[32]]" maxlength="32" value="${task.policy.policyFee }" <shiro:lacksPermission name="SettleTask:provEdit">readonly="true"</shiro:lacksPermission>/>
 		</p>
 		<p>
 			<label>生效日期：</label>
-			<input type="text" name="policyDate" id="policyDate" class="date" dateFmt="yyyy-MM-dd" value="<fmt:formatDate value="${task.policy.policyDate }" pattern="yyyy-MM-dd"/>"/>
+			<input type="text" name="policyDate" id="policyDate" class="date" dateFmt="yyyy-MM-dd" value="<fmt:formatDate value="${task.policy.policyDate }" pattern="yyyy-MM-dd"/>" <shiro:lacksPermission name="SettleTask:provEdit">readonly="true"</shiro:lacksPermission>/>
 					<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 	</fieldset>
@@ -49,16 +49,16 @@ function customAjaxDone(json){
 		<legend>出险信息</legend>
 		<p >
 			<label>赔案号：</label>
-			<input type="text" name="claimsNo" class="input-medium validate[maxSize[32]]" maxlength="32" value="${task.settlement.claimsNo }"/>
+			<input type="text" name="claimsNo" class="input-medium validate[maxSize[32]]" maxlength="32" value="${task.settlement.claimsNo }" <shiro:lacksPermission name="SettleTask:provEdit">readonly="true"</shiro:lacksPermission>/>
 		</p>
 		<p>
 			<label>报案日期：</label>
-			<input type="text" name="reporteDate" id="reporteDate" class="date" dateFmt="yyyy-MM-dd" value="<fmt:formatDate value="${task.reporteDate }" pattern="yyyy-MM-dd"/>"/>
+			<input type="text" name="reporteDate" id="reporteDate" class="date" dateFmt="yyyy-MM-dd" value="<fmt:formatDate value="${task.reporteDate }" pattern="yyyy-MM-dd"/>" <shiro:lacksPermission name="SettleTask:provEdit">readonly="true"</shiro:lacksPermission>/>
 					<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 		<p>
 			<label>出险日期：</label>
-			<input type="text" name="caseDate" id="caseDate" class="date" dateFmt="yyyy-MM-dd" value="<fmt:formatDate value="${task.caseDate }" pattern="yyyy-MM-dd"/>"/>
+			<input type="text" name="caseDate" id="caseDate" class="date" dateFmt="yyyy-MM-dd" value="<fmt:formatDate value="${task.caseDate }" pattern="yyyy-MM-dd"/>" <shiro:lacksPermission name="SettleTask:provEdit">readonly="true"</shiro:lacksPermission>/>
 					<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 		<p>
@@ -86,7 +86,6 @@ function customAjaxDone(json){
 		<p>
 			<label>跟进反馈：</label>
 			<select name="toDealDay" id="lptaskdd" class="combox">
-				<option value="1">1日内反馈 </option>
 				<option value="3">3日内反馈 </option>
 				<option value="5">5日内反馈 </option>
 				<option value="15">15日内反馈 </option>
@@ -101,33 +100,33 @@ function customAjaxDone(json){
 		<legend>调查进程</legend>
 		<p>
 			<label>调查起期：</label>
-			<input type="text" name="checkStartDate" id="checkStartDate" class="date" dateFmt="yyyy-MM-dd" value="<fmt:formatDate value="${task.checkStartDate }" pattern="yyyy-MM-dd"/>"/>
+			<input type="text" name="checkStartDate" id="checkStartDate" class="date" dateFmt="yyyy-MM-dd" value="<fmt:formatDate value="${task.checkStartDate }" pattern="yyyy-MM-dd"/>" <shiro:lacksPermission name="SettleTask:provEdit">readonly="true"</shiro:lacksPermission>/>
 					<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 		<p>
 			<label>调查止期：</label>
-			<input type="text" name="checkEndDate" id="checkEndDate" class="date" dateFmt="yyyy-MM-dd" value="<fmt:formatDate value="${task.checkEndDate }" pattern="yyyy-MM-dd"/>"/>
+			<input type="text" name="checkEndDate" id="checkEndDate" class="date" dateFmt="yyyy-MM-dd" value="<fmt:formatDate value="${task.checkEndDate }" pattern="yyyy-MM-dd"/>" <shiro:lacksPermission name="SettleTask:provEdit">readonly="true"</shiro:lacksPermission>/>
 					<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 		<p>
 			<label>调查要求：</label>
-			<textarea name="checkReq" id="checkReq" cols="30" rows="3" class="input-medium">${task.checkReq }</textarea>
+			<textarea name="checkReq" id="checkReq" cols="30" rows="3" class="input-medium" <shiro:lacksPermission name="SettleTask:provEdit">readonly="true"</shiro:lacksPermission>>${task.checkReq }</textarea>
 		</p>
 		<p>&nbsp;</p><p>&nbsp;</p>
 		<p>&nbsp;</p><p>&nbsp;</p>
 		<p>
 			<label>调查人：</label>
-			<input name="user.realname" type="text" postField="realname" suggestFields="realname" 
+			<input name="user.realname" type="text" postField="realname" suggestFields="realname" <shiro:lacksPermission name="SettleTask:provEdit">readonly="true"</shiro:lacksPermission>
 					suggestUrl="/common/lookupClaimUserSuggest?roleId=9,18r" lookupGroup="" value="${task.checker }"/>
 					<a class="btnLook" href="${contextPath }/common/lookup4RoleUser?roleId=9,18" lookupGroup="user" title="选择用户" width="650" hight="530">查</a>
 		</p>
 		<p>
 			<label>调查地点：</label>
-			<input type="text" name="checkerAddr" class="input-medium validate[maxSize[32]]" maxlength="32" value="${task.checkerAddr }"/>
+			<input type="text" name="checkerAddr" class="input-medium validate[maxSize[32]]" maxlength="32" value="${task.checkerAddr }" <shiro:lacksPermission name="SettleTask:provEdit">readonly="true"</shiro:lacksPermission>/>
 		</p>
 		<p>
 			<label>查勘费：</label>
-			<input type="text" name="checkFee" class="input-medium validate[maxSize[32]]" maxlength="32" value="${task.checkFee }"/>
+			<input type="text" name="checkFee" class="input-medium validate[maxSize[32]]" maxlength="32" value="${task.checkFee }" />
 		</p>
 		<p>
 			<label>备注：</label>
