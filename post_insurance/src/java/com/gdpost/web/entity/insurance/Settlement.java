@@ -343,11 +343,11 @@ public class Settlement implements Idable<Long>, Serializable {
 
 	@Transient
 	public Integer getCaseLong() {
-		if(this.caseStatus != null && this.caseStatus.equals("已结案")) {
+		if(this.caseDate != null && this.caseEndDate != null) {
 			return StringUtil.getBetweenDay(this.caseDate, this.caseEndDate);
 		}
 		
-		if(this.caseStatus != null && !this.caseStatus.equals("已结案")) {
+		if(this.caseDate != null && this.caseEndDate == null) {
 			return StringUtil.getBetweenDay(this.caseDate, new Date());
 		}
 		return caseLong;

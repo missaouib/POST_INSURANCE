@@ -68,7 +68,7 @@ response.setHeader("Content-Disposition", "inline; filename=settles.xls");
 				<td>${item.lessFeedBack }</td>
 				<td>${item.remark}</td>
 				<td><c:forEach var="dtl" items="${item.settlementLogs}">
-				${dtl.info}（${dtl.user.realname}/<fmt:formatDate value='${dtl.dealDate}' pattern='yyyy-MM-dd'/>）
+				${dtl.info}（${dtl.user.realname}/<fmt:formatDate value='${dtl.dealDate}' pattern='yyyy-MM-dd'/>）Chr(10)
 				</c:forEach>
 				</td>
 			</tr>
