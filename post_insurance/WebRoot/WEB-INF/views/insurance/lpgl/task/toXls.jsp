@@ -54,7 +54,7 @@ response.setHeader("Content-Disposition", "inline; filename=settles_task.xls");
 				<td>${item.remark}</td>
 				<td>${item.attrLink}</td>
 				<td><c:forEach var="dtl" items="${item.settleTaskLogs}">
-				${dtl.info}（${dtl.user.realname}/<fmt:formatDate value='${dtl.dealDate}' pattern='yyyy-MM-dd'/>）Chr(10)
+				${dtl.info}（${dtl.user.realname}/<fmt:formatDate value='${dtl.dealDate}' pattern='yyyy-MM-dd'/>）。
 				</c:forEach>
 				</td>
 			</tr>

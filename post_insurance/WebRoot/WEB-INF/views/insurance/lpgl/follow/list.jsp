@@ -9,6 +9,7 @@
 	<input type="hidden" name="search_LTE_caseDate" value="${param.search_LTE_caseDate }"/>
 	<input type="hidden" name="search_GTE_caseDate" value="${param.search_GTE_caseDate }"/>
 	<input type="hidden" name="caseStatus" value="${caseStatus }"/>
+	<input type="hidden" name="claimsType" value="${"claimsType" }"/>
 </dwz:paginationForm>
 
 <form method="post" action="${contextPath }/lpgl/list" onsubmit="return navTabSearch(this)">
@@ -44,7 +45,12 @@
 						<input type="text" name="search_LTE_caseDate" id="caseDate2" class="date" style="width: 80px;" dateFmt="yyyy-MM-dd" readonly="true" value="${param.search_LTE_caseDate }"/><a class="inputDateButton" href="javascript:;">选</a>
 					</td>
 					<td>
-						&nbsp;
+						<label>出险类型：</label>
+						<form:select path="settle.claimsType" id="list_claimsType" class="combox">
+							<form:option value=""> -- </form:option>
+							<form:option value="0">邮银险</form:option>
+							<form:option value="1">简易险</form:option>
+						</form:select>
 					</td>
 				</tr>
 			</table>
@@ -69,7 +75,7 @@
 			</shiro:hasPermission>
 			<shiro:hasPermission name="Settlement:view">
 				<li class="line">line</li>
-				<li><a class="icon" target="_blank" href="${contextPath }/lpgl/toXls?search_LIKE_caseMan=${search_LIKE_caseMan }&search_LTE_caseDate=${param.search_LTE_caseDate}&search_GTE_caseDate=${param.search_GTE_caseDate}&caseStatus=${caseStatus}&organization.orgCode=${org_code}&organization.name=${org_name}"><span>导出Excel</span></a></li>
+				<li><a class="icon" target="_blank" href="${contextPath }/lpgl/toXls?claimsType=${claimsType }&search_LIKE_caseMan=${search_LIKE_caseMan }&search_LTE_caseDate=${param.search_LTE_caseDate}&search_GTE_caseDate=${param.search_GTE_caseDate}&caseStatus=${caseStatus}&organization.orgCode=${org_code}&organization.name=${org_name}"><span>导出Excel</span></a></li>
 			</shiro:hasPermission>
 		</ul>
 	</div>
@@ -79,6 +85,7 @@
 			<tr>
 				<th width="22"><input type="checkbox" group="ids" class="checkboxCtrl"></th>
 				<th orderField=organization.name class="${page.orderField eq 'organization.name' ? page.orderDirection : ''}">机构名称</th>
+				<th orderField=claimsType class="${page.orderField eq 'claimsType' ? page.orderDirection : ''}">渠道</th>
 				<th orderField=claimsNo class="${page.orderField eq 'claimsNo' ? page.orderDirection : ''}">赔案号</th>
 				<th>出险人</th>
 				<th>报案人</th>
@@ -88,6 +95,7 @@
 				<th orderField=reporteDate class="${page.orderField eq 'reporteDate' ? page.orderDirection : ''}">报案日期</th>
 				<th orderField=caseStatus class="${page.orderField eq 'caseStatus' ? page.orderDirection : ''}">状态</th>
 				<th>出险天数</th>
+				<th>报案天数</th>
 				<th>追踪要求</th>
 				<th>登记详情</th>
 				<th>剩余追踪天数</th>
@@ -99,6 +107,7 @@
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
 				<td>${item.organization.shortName}</td>
+				<td>${item.claimsType eq "0"?"邮银险":"简易险"}</td>
 				<td><div style="color: <c:choose><c:when test="${item.lessFeedBack<0}">red</c:when><c:when test="${item.lessFeedBack<2}">orange</c:when><c:otherwise>"black"</c:otherwise></c:choose>;vertical-align:middle;font-weight:normal;">${item.claimsNo}</div></td>
 				<td>${item.caseMan}</td>
 				<td>${item.reporter}</td>
@@ -108,6 +117,7 @@
 				<td><fmt:formatDate value="${item.reporteDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.caseStatus}</td>
 				<td>${item.caseLong }</td>
+				<td>${item.reportLong }</td>
 				<td>
 				<c:choose>
 					<c:when test="${not empty item.needFeedBack and item.needFeedBack eq '待反馈'}">

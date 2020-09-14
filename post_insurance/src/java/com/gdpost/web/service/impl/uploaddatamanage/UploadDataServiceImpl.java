@@ -187,10 +187,10 @@ public class UploadDataServiceImpl implements UploadDataService{
 			//tableName = "t_policy_dtl";
 			standardColumns = PolicyDtlsColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_policy_dtl character set utf8 (";
-			sql2 = "update t_policy tp, t_policy_dtl tpd, t_staff ts set tp.staff_flag=true,tp.duration=tpd.duration where tp.policy_no=tpd.policy_no and tpd.holder_card_num=ts.id_card and tp.staff_flag=0 and year(tp.policy_date)=ts.year and year(tp.policy_date)=year(now());";
+			sql2 = "update t_policy tp, t_policy_dtl tpd, t_staff ts set tp.staff_flag=true,tp.duration=tpd.duration where tp.policy_no=tpd.policy_no and tp.staff_flag=0 and tpd.holder_card_num=ts.id_card and year(tp.policy_date)=ts.year and year(tp.policy_date)=year(now());";
 			sql3 = "update t_policy tp, t_policy_dtl tpd set tp.duration=tpd.duration where tp.policy_no=tpd.policy_no and tp.duration=1 and tp.attached_flag=0 and tp.duration<>tpd.duration and tpd.duration<>1;";
 			sql5 = "delete from t_policy_dtl where prod_name like \"中邮附加%\";";
-			sql4 = "update t_policy_dtl set attached_flag=3 where prod_code=\"112004\"";
+			sql4 = "update t_policy_dtl set attached_flag=3 where attached_flag=0 and prod_code=\"112004\"";
 			break;
 			/*
 		case Issue:
@@ -471,6 +471,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 			standardColumns = SettlementColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_settlement character set utf8 (";
 			sql1 = "update t_settlement set reporte_date=date_add(operate_time,INTERVAL -1 DAY) where reporte_date is null;";
+			sql2 = "update t_settlement set claims_type=\"1\" where claims_type is null and organ_code in(\"8644\",\"864400\");";
+			sql3 = "update t_settlement set claims_type=\"0\" where claims_type is null and organ_code not in(\"8644\",\"864400\");";
 			break;
 		}
 		

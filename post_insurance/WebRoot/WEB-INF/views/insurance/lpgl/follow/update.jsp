@@ -32,6 +32,7 @@
 			<dt>理赔类型：</dt>
 			<dd>
 			<form:select path="settle.caseType" id="caseType" class="combox validate[required] required">
+				<form:option value=""> -- </form:option>
 				<form:option value="意外身故">意外身故</form:option>
 				<form:option value="疾病身故">疾病身故</form:option>
 				<form:option value="重大疾病">重大疾病</form:option>

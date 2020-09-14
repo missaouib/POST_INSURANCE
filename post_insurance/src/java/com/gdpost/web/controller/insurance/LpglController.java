@@ -476,12 +476,19 @@ public class LpglController {
 			request.setAttribute("org_name", orgName);
 		}
 		
+		String claimsType = request.getParameter("claimsType");
+		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
 		csf.add(new SearchFilter("organization.orgCode", Operator.LIKE_R, orgCode));
 		if(caseStatus != null && caseStatus.trim().length() >0) {
 			csf.add(new SearchFilter("caseStatus", Operator.EQ, caseStatus));
 		} else {
 			csf.add(new SearchFilter("caseStatus", Operator.NEQ, "已结案"));
+		}
+		if(claimsType != null && claimsType.trim().length()>0) {
+			csf.add(new SearchFilter("claimsType", Operator.EQ, claimsType));
+			request.setAttribute("claimsType", claimsType);
+			settle.setClaimsType(claimsType);
 		}
 		
 		Specification<Settlement> specification = DynamicSpecifications.bySearchFilter(request, Settlement.class, csf);
@@ -498,6 +505,7 @@ public class LpglController {
 	public String toXls(ServletRequest request, Page page, Map<String, Object> map) {
 		User user = SecurityUtils.getShiroUser().getUser();
 		String caseStatus = request.getParameter("caseStatus");
+		String claimsType = request.getParameter("claimsType");
 		page.setNumPerPage(65564);
 		page.setOrderField("organization.orgCode");
 		page.setOrderDirection("ASC");
@@ -508,6 +516,9 @@ public class LpglController {
 			csf.add(new SearchFilter("caseStatus", Operator.EQ, caseStatus));
 		} else {
 			csf.add(new SearchFilter("caseStatus", Operator.NEQ, "已结案"));
+		}
+		if(claimsType != null && claimsType.trim().length()>0) {
+			csf.add(new SearchFilter("claimsType", Operator.EQ, claimsType));
 		}
 		
 		Specification<Settlement> specification = DynamicSpecifications.bySearchFilter(request, Settlement.class, csf);

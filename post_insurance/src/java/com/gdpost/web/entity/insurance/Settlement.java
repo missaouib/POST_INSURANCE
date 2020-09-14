@@ -46,6 +46,7 @@ public class Settlement implements Idable<Long>, Serializable {
 	private Organization organization;
 	private String organName;
 	private String claimsNo;
+	private String claimsType;
 	private Policy policy;
 	private String caseType;
 	private String caseMan;
@@ -74,6 +75,8 @@ public class Settlement implements Idable<Long>, Serializable {
 	
 	@Transient
 	private Integer caseLong;
+	@Transient
+	private Integer reportLong;
 	
 	// Constructors
 
@@ -121,6 +124,15 @@ public class Settlement implements Idable<Long>, Serializable {
 
 	public void setClaimsNo(String claimsNo) {
 		this.claimsNo = claimsNo;
+	}
+
+	@Column(name = "claims_type")
+	public String getClaimsType() {
+		return claimsType;
+	}
+
+	public void setClaimsType(String claimsType) {
+		this.claimsType = claimsType;
 	}
 
 	@ManyToOne(optional=true)
@@ -320,7 +332,7 @@ public class Settlement implements Idable<Long>, Serializable {
 				return "已反馈";
 			}
 		}
-		return null;
+		return "待反馈";
 	}
 
 	@Transient
@@ -356,6 +368,23 @@ public class Settlement implements Idable<Long>, Serializable {
 	@Transient
 	public void setCaseLong(Integer caseLong) {
 		this.caseLong = caseLong;
+	}
+
+	@Transient
+	public Integer getReportLong() {
+		if(this.reporteDate != null && this.caseEndDate != null) {
+			return StringUtil.getBetweenDay(this.reporteDate, this.caseEndDate);
+		}
+		
+		if(this.reporteDate != null && this.caseEndDate == null) {
+			return StringUtil.getBetweenDay(this.reporteDate, new Date());
+		}
+		return reportLong;
+	}
+
+	@Transient
+	public void setReportLong(Integer reportLong) {
+		this.reportLong = reportLong;
 	}
 	
 	
