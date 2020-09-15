@@ -115,9 +115,14 @@ public class UploadController {
 			case "issue":
 				//ft = FileTemplate.Issue;
 				break;
+				/*
 			case "renewed":
 				ft = FileTemplate.Renewed;
 				break;
+			case "city":
+				ft = FileTemplate.RenewedCityList;
+				break;
+				*/
 			case "check":
 				ft = FileTemplate.CheckWrite;
 				break;
@@ -131,9 +136,6 @@ public class UploadController {
 				ft = FileTemplate.CallFail;
 			case "conversatoinreq":
 				ft = FileTemplate.ConversationReq;
-				break;
-			case "city":
-				ft = FileTemplate.RenewedCityList;
 				break;
 			}
 		}

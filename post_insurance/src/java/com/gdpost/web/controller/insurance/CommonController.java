@@ -115,10 +115,13 @@ public class CommonController {
 	@RequestMapping(value="/lookupPolicysuggest", method={RequestMethod.POST})
 	public @ResponseBody String lookupPolicySuggest(ServletRequest request, Map<String, Object> map) {
 		String policyNo = request.getParameter("policyNo");
+		if(policyNo == null || policyNo.trim().length() <= 0) {
+			policyNo = request.getParameter("search_LIKE_policyNo");
+		}
 		Specification<Policy> specification = null;
-		if(policyNo != null && policyNo.trim().length() <= 14) {
+		if(policyNo == null || policyNo.trim().length() <= 10) {
 			return "[{}]";
-		} if(policyNo != null && policyNo.trim().length() > 14) {
+		} if(policyNo != null && policyNo.trim().length() > 10) {
 			ShiroUser shiroUser = SecurityUtils.getShiroUser();
 			User user = shiroUser.getUser();
 			Organization userOrg = user.getOrganization();
