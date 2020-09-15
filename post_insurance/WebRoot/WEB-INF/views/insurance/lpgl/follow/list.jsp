@@ -9,7 +9,7 @@
 	<input type="hidden" name="search_LTE_caseDate" value="${param.search_LTE_caseDate }"/>
 	<input type="hidden" name="search_GTE_caseDate" value="${param.search_GTE_caseDate }"/>
 	<input type="hidden" name="caseStatus" value="${caseStatus }"/>
-	<input type="hidden" name="claimsType" value="${"claimsType" }"/>
+	<input type="hidden" name="claimsType" value="${claimsType }"/>
 </dwz:paginationForm>
 
 <form method="post" action="${contextPath }/lpgl/list" onsubmit="return navTabSearch(this)">
