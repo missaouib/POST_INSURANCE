@@ -369,7 +369,7 @@ public class CheckWrite implements Idable<Long> {
 
 	@Transient
 	public Integer getTimeConsuming() {
-		return StringUtil.getBetweenDay(this.operateTime, this.closeDate==null?new Date():this.closeDate);
+		return StringUtil.getBetweenDay(this.operateTime, this.dealTime==null?new Date():this.dealTime);
 	}
 
 	@Transient

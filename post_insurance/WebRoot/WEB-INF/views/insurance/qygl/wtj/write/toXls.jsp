@@ -27,6 +27,7 @@ response.setHeader("Content-Disposition", "inline; filename=QY_Write_LIST.xls");
 				<th>关系</th>
 				<th>承保日期</th>
 				<th>问题件状态</th>
+				<th>处理时效</th>
 				<th>资料缺失</th>
 				<th>关键信息</th>
 				<th>重要信息</th>
@@ -85,6 +86,7 @@ response.setHeader("Content-Disposition", "inline; filename=QY_Write_LIST.xls");
 					</c:otherwise>
 				</c:choose>
 				</td>
+				<td>${item.timeConsuming}</td>
 				<td>${item.docMiss == "null"?"":item.docMiss}</td>
 				<td>${item.keyInfo=="null"?"":item.keyInfo}</td>
 				<td>${item.importanceInfo=="null"?"":item.importanceInfo}</td>

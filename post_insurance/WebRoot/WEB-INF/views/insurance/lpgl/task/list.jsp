@@ -118,7 +118,7 @@
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
 				<td>${idx.index+1 }</td>
 				<td>
-					 ${item.policyType eq 0?"个险":"团险"}&nbsp;&nbsp;（<a target="dialog" rel="lookup2taskpolicyType" mask="true" width="350" height="200" href="${contextPath }/lpgl/task/type/${item.id}">设</a>） &nbsp;&nbsp;
+					 ${item.policyType eq 1?"团险":"个险"}&nbsp;&nbsp;（<a target="dialog" rel="lookup2taskpolicyType" mask="true" width="350" height="200" href="${contextPath }/lpgl/task/type/${item.id}">设</a>） &nbsp;&nbsp;
 				</td>
 				<td>${item.organization.shortName}</td>
 				<td>${item.policy.policyNo}</td>

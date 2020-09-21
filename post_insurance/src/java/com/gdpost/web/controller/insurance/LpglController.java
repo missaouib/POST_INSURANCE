@@ -1074,7 +1074,7 @@ public class LpglController {
 			loginfo.append("改出险人：" + src.getInsured() + "->" + task.getInsured() + "；");
 			src.setInsured(insured);
 		}
-		if(realname!=null && !src.getChecker().equals(realname)) {
+		if(realname!=null && (src.getChecker()==null || !src.getChecker().equals(realname))) {
 			loginfo.append("改调查人：" + src.getChecker() + "->" + task.getChecker() + "；");
 			src.setChecker(realname);
 		}

@@ -2,6 +2,9 @@
 mysqladmin -uroot -p drop postinsurance;
 mysqladmin -uroot -p123456 CREATE postinsurance
 
+update t_settle_task set policy_type="1" where policy_type is null and policy_no is not null and policy_no like "318644%";
+update t_settle_task set policy_type="0" where policy_type is null and policy_no is not null and policy_no not like "318644%";
+
 alter table t_settlement add column claims_type varchar(1) comment '0个险1简易险' after claims_no;
 update t_settlement set claims_type="1" where claims_type is null and organ_code in("8644","864400");
 update t_settlement set claims_type="0" where claims_type is null and organ_code not in("8644","864400");
