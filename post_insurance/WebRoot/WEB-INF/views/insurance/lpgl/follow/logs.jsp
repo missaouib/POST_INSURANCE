@@ -24,7 +24,7 @@
 			<c:forEach var="item" items="${settleLog}" varStatus="idx">
 			<tr target="slt_uid" rel="${item.id}">
 				<td>${idx.index+1 }</td>
-				<td>${item.user.username}</td>
+				<td>${item.user.realname}</td>
 				<td><fmt:formatDate value="${item.dealDate}" pattern="yyyy-MM-dd"/></td>
 				<td>${item.isFollow?"是":""}</td>
 				<td>${item.followDate}</td>
