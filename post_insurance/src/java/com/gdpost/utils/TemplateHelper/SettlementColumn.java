@@ -7,7 +7,7 @@ public class SettlementColumn {
 
 private static List<ColumnItem> standardColumns;
 	
-	public static String KEY_ROW = "赔案号";
+	public static String KEY_ROW = "出险人";
 	
 	public static List<ColumnItem> getStandardColumns() {
 		if(standardColumns != null) {
