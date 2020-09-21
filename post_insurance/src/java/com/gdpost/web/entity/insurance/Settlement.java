@@ -326,7 +326,7 @@ public class Settlement implements Idable<Long>, Serializable {
 	public String getNeedFeedBack() {
 		if(this.settlementLogs != null && this.settlementLogs.size()>0) {
 			SettlementLog slog = this.settlementLogs.get(this.settlementLogs.size()-1);
-			if (slog != null && slog.getIsFollow() != null && slog.getIsFollow() && slog.getFollowDate() == null) {
+			if (slog != null && slog.getIsFollow() != null && slog.getIsFollow() && slog.getFollowDate() == null || (lessFeedBack != null && lessFeedBack<=0)) {
 				return "待反馈";
 			} else if (slog != null && slog.getIsFollow() != null && slog.getIsFollow() && slog.getFollowDate() != null) {
 				return "已反馈";

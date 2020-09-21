@@ -87,7 +87,7 @@ public class SettleTask implements Idable<Long>, Serializable {
 	public String getNeedFeedBack() {
 		if(this.settleTaskLogs != null && this.settleTaskLogs.size()>0) {
 			SettleTaskLog slog = this.settleTaskLogs.get(this.settleTaskLogs.size()-1);
-			if (slog != null && slog.getIsFollow() != null && slog.getIsFollow() && slog.getFollowDate() == null) {
+			if (slog != null && slog.getIsFollow() != null && slog.getIsFollow() && slog.getFollowDate() == null || (lessFeedBack != null && lessFeedBack<=0)) {
 				return "待反馈";
 			} else if (slog != null && slog.getIsFollow() != null && slog.getIsFollow() && slog.getFollowDate() != null) {
 				return "已反馈";
