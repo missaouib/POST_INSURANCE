@@ -118,6 +118,26 @@ public class TaskService {
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
 			
+			sql = "{CALL split_claims_policynos()}";
+			log.info("------------ sql :" + sql);
+			rstInt = statement.executeUpdate(sql);
+			log.info("------------ finish exec sql：" + rstInt);
+			
+			sql = "update t_policy set status=\"理赔终止\" where prod_code<>\"112004\" and status=\"有效\" and policy_no in (select policy_no from t_temp_policyno);";
+			log.info("------------ sql :" + sql);
+			rstInt = statement.executeUpdate(sql);
+			log.info("------------ finish exec sql：" + rstInt);
+			
+			sql = "update t_policy_dtl tpd, t_policy tp set tpd.policy_status=tp.status where tpd.policy_no=tp.policy_no and tpd.policy_status<>tp.status and tpd.policy_status=\"有效\";";
+			log.info("------------ sql :" + sql);
+			rstInt = statement.executeUpdate(sql);
+			log.info("------------ finish exec sql：" + rstInt);
+			
+			sql = "update t_cs_expire set status=\"LPStatus\" where policy_no in (select policy_no from t_temp_policyno);";
+			log.info("------------ sql :" + sql);
+			rstInt = statement.executeUpdate(sql);
+			log.info("------------ finish exec sql：" + rstInt);
+			
 			sql = "update t_policy tp set tp.status=\"满期终止\" where attached_flag=3 and STATUS=\"有效\" and TIMESTAMPDIFF(DAY,tp.policy_date,now())>366;";
 			log.info("------------ sql :" + sql);
 			rstInt = statement.executeUpdate(sql);

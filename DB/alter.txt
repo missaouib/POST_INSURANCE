@@ -2,6 +2,70 @@
 mysqladmin -uroot -p drop postinsurance;
 mysqladmin -uroot -p123456 CREATE postinsurance
 
+my.cnf:log_bin_trust_function_creators=1;
+
+create table t_temp_policyno (
+policy_no    varchar(18),
+primary key (policy_no)
+) engine=innodb default charset=utf8mb4;
+
+# 函数：func_split_TotalLength 
+DROP function IF EXISTS func_split_TotalLength;
+CREATE DEFINER=CURRENT_USER FUNCTION func_split_TotalLength(f_string varchar(1000),f_delimiter varchar(5)) RETURNS int(11) 
+NO SQL
+BEGIN 
+    # 计算传入字符串的总length 
+    return 1+(length(f_string) - length(replace(f_string,f_delimiter,''))); 
+END;
+
+# 函数：func_split 
+DROP function IF EXISTS func_split;
+CREATE DEFINER=CURRENT_USER FUNCTION func_split(f_string varchar(1000),f_delimiter varchar(5),f_order int) RETURNS varchar(255) CHARSET utf8 
+NO SQL
+BEGIN 
+    # 拆分传入的字符串，返回拆分后的新字符串 
+        declare result varchar(255) default ''; 
+        set result = reverse(substring_index(reverse(substring_index(f_string,f_delimiter,f_order)),f_delimiter,1)); 
+        return result; 
+END;
+
+# 存储过程：splitString 
+DROP PROCEDURE IF EXISTS split_claims_policynos;
+CREATE DEFINER=CURRENT_USER PROCEDURE split_claims_policynos() 
+BEGIN 
+	# 拆分结果 
+	declare policynos_str varchar(100);
+    declare cnt int default 0; 
+	declare i int default 0;
+    declare pno varchar(21);
+    -- 遍历数据结束标志
+    DECLARE done INT DEFAULT FALSE;
+    -- 1、所有赔案中，“理赔类型”含“身故”时保单终止；2、所有理赔结论为非“全部拒付”时，“理赔类型”含“全残”或“重大疾病”时保单终止。
+	DECLARE cur_pno CURSOR FOR select policy_nos from t_claims_close_report where prod_code<>"112004" and claims_type like "%身故%" or (claims_rst<>"全部拒付" and claims_type in ("全残","重大疾病"));
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+    # 打开游标
+    OPEN cur_pno;
+    read_loop: LOOP
+    	FETCH NEXT from cur_pno INTO policynos_str;
+        IF done THEN
+        	LEAVE read_loop;
+        END IF;
+		set cnt = func_split_TotalLength(policynos_str,","); 
+		set i = 0;
+		while i < cnt 
+		do 
+    		set i = i + 1;
+            set pno = func_split(policynos_str,",",i);
+            #select pno;
+            if(left(pno,4)<>"5244") then
+    			insert IGNORE into t_temp_policyno(policy_no) values (pno);
+            end if;
+		end while;
+    END LOOP;
+    # 关闭游标
+    CLOSE cur_pno;
+END;
+
 update t_settle_task set policy_type="1" where policy_type is null and policy_no is not null and policy_no like "318644%";
 update t_settle_task set policy_type="0" where policy_type is null and policy_no is not null and policy_no not like "318644%";
 
