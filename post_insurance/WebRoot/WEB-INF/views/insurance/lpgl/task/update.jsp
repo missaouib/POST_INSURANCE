@@ -73,7 +73,7 @@ function customAjaxDone(json){
 		</p>
 		<p >
 			<label>出险天数：</label>
-			<dd>${task.taskLong }</dd>
+			<dd>${task.limitation }</dd>
 		</p>
 	</fieldset>
 	<fieldset>

@@ -9,7 +9,7 @@
 	<input type="hidden" name="checkDate2" value="${checkDate2 }"/>
 	<input type="hidden" name="checkDate1" value="${checkDate1 }"/>
 	<input type="hidden" name="checkStatus" value="${checkStatus }"/>
-	<input type="hidden" name="taskLong" value="${taskLong }"/>
+	<input type="hidden" name="limitation" value="${limitation }"/>
 </dwz:paginationForm>
 
 <form method="post" action="${contextPath }/lpgl/task/list" onsubmit="return navTabSearch(this)">
@@ -30,7 +30,7 @@
 					</td>
 					<td>
 						<label>调查时效：</label>
-						<form:select path="task.taskLong" id="list_taskLong" class="combox">
+						<form:select path="task.limitation" id="list_limitation" class="combox">
 							<form:option value=""> -- </form:option>
 							<form:option value="3">3天内</form:option>
 							<form:option value="5">5天内</form:option>
@@ -86,7 +86,7 @@
 			</shiro:hasPermission>
 			<shiro:hasPermission name="SettleTask:view">
 				<li class="line">line</li>
-				<li><a class="icon" target="_blank" href="${contextPath }/lpgl/task/toXls?taskLong=${taskLong }&search_LIKE_insured=${search_LIKE_insured }&checkDate2=${checkDate2}&checkDate1=${checkDate1}&checkStatus=${checkStatus}&organization.orgCode=${org_code}&organization.name=${org_name}&checkDateFlag=${checkDateFlag}"><span>导出Excel</span></a></li>
+				<li><a class="icon" target="_blank" href="${contextPath }/lpgl/task/toXls?limitation=${limitation }&search_LIKE_insured=${search_LIKE_insured }&checkDate2=${checkDate2}&checkDate1=${checkDate1}&checkStatus=${checkStatus}&organization.orgCode=${org_code}&organization.name=${org_name}&checkDateFlag=${checkDateFlag}"><span>导出Excel</span></a></li>
 			</shiro:hasPermission>
 		</ul>
 	</div>

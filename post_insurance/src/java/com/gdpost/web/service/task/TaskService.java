@@ -630,6 +630,16 @@ public class TaskService {
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
 			
+			sql = "update t_settle_task set limitation=datediff(check_end_date, check_start_date) where check_end_date is not null;";
+			log.info("------------ finish exec sql：" + sql);
+			rstInt = statement.executeUpdate(sql);
+			log.info("------------ finish exec sql：" + rstInt);
+			
+			sql = "update t_settle_task set limitation=datediff(now(), check_start_date) where check_end_date is null;";
+			log.info("------------ finish exec sql：" + sql);
+			rstInt = statement.executeUpdate(sql);
+			log.info("------------ finish exec sql：" + rstInt);
+			
 			sql = "insert into t_log_info (username, message,ip_address,log_level,module) values "
 					+ "('admin','customer info check, error:" + idx + "','127.0.0.1','WARN','其他操作');";
 			log.info("------------ sql :" + sql);

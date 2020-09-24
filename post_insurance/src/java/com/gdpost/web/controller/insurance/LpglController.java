@@ -1237,7 +1237,7 @@ public class LpglController {
 			checkDateFlag = "1";
 		}
 		request.setAttribute("checkDateFlag", checkDateFlag);
-		String taskLong = request.getParameter("taskLong");
+		String limitation = request.getParameter("limitation");
 		String checkDate1 = request.getParameter("checkDate1");
 		String checkDate2 = request.getParameter("checkDate2");
 		String orgCode = request.getParameter("organization.orgCode");
@@ -1274,14 +1274,21 @@ public class LpglController {
 			csf.add(new SearchFilter("checkStatus", Operator.EQ, checkStatus));
 		}
 		//taskLong = "5";
-		if(taskLong != null && taskLong.trim().length()>0) {
-			task.setTaskLong(taskLong);
-			request.setAttribute("taskLong", taskLong);
+		if(limitation != null && limitation.trim().length()>0) {
+			task.setLimitation(Integer.valueOf(limitation));
+			request.setAttribute("limitation", limitation);
+			/*
 			Object[] obj1 = {"checkEndDate", new Date(),Integer.parseInt(taskLong), SettleTask.class};
 			if(Integer.parseInt(taskLong)<=7) {
 				csf.add(new SearchFilter("checkStartDate", Operator.DATEDIFF_LTE, obj1));
 			} else {
 				csf.add(new SearchFilter("checkStartDate", Operator.DATEDIFF_GTE, obj1));
+			}
+			*/
+			if(Integer.parseInt(limitation)<=7) {
+				csf.add(new SearchFilter("limitation", Operator.LTE, limitation));
+			} else {
+				csf.add(new SearchFilter("limitation", Operator.GTE, limitation));
 			}
 		}
 		Specification<SettleTask> specification = DynamicSpecifications.bySearchFilter(request, SettleTask.class, csf);
@@ -1307,7 +1314,7 @@ public class LpglController {
 		if(checkDateFlag == null||checkDateFlag.trim().length()<=0) {
 			checkDateFlag = "1";
 		}
-		String taskLong = request.getParameter("taskLong");
+		String limitation = request.getParameter("limitation");
 		String checkDate1 = request.getParameter("checkDate1");
 		String checkDate2 = request.getParameter("checkDate2");
 		String orgCode = request.getParameter("organization.orgCode");
@@ -1343,14 +1350,19 @@ public class LpglController {
 			csf.add(new SearchFilter("checkStatus", Operator.EQ, checkStatus));
 		}
 		//taskLong = "5";
-		if(taskLong != null && taskLong.trim().length()>0) {
-			task.setTaskLong(taskLong);
-			request.setAttribute("taskLong", taskLong);
-			Object[] obj = {"checkEndDate", "checkStartDate",Integer.parseInt(taskLong), SettleTask.class};
+		if(limitation != null && limitation.trim().length()>0) {
+			/*
+			Object[] obj1 = {"checkEndDate", new Date(),Integer.parseInt(taskLong), SettleTask.class};
 			if(Integer.parseInt(taskLong)<=7) {
-				csf.add(new SearchFilter("checkStartDate", Operator.DATEDIFF_LTE, obj));
+				csf.add(new SearchFilter("checkStartDate", Operator.DATEDIFF_LTE, obj1));
 			} else {
-				csf.add(new SearchFilter("checkStartDate", Operator.DATEDIFF_GTE, obj));
+				csf.add(new SearchFilter("checkStartDate", Operator.DATEDIFF_GTE, obj1));
+			}
+			*/
+			if(Integer.parseInt(limitation)<=7) {
+				csf.add(new SearchFilter("limitation", Operator.LTE, limitation));
+			} else {
+				csf.add(new SearchFilter("limitation", Operator.GTE, limitation));
 			}
 		}
 		Specification<SettleTask> specification = DynamicSpecifications.bySearchFilter(request, SettleTask.class, csf);

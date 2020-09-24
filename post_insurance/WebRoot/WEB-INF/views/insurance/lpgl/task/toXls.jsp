@@ -38,7 +38,7 @@ response.setHeader("Content-Disposition", "inline; filename=settles_task.xls");
 				<td>${item.reporteDate}</td>
 				<td>${item.caseDate}</td>
 				<td>${item.caseType}</td>
-				<td>${item.taskLong}</td>
+				<td>${item.limitation}</td>
 				<td>${item.organization.shortName}</td>
 				<td>${item.insured}</td>
 				<td style="vnd.ms-excel.numberformat:@">${item.policy.policyNo}</td>

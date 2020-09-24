@@ -75,9 +75,6 @@ public class SettleTask implements Idable<Long>, Serializable {
 	private List<SettleTaskLog> settleTaskLogs = new ArrayList<SettleTaskLog>(0);
 	
 	@Transient
-	private String taskLong;
-	
-	@Transient
 	private String needFeedBack;
 	
 	@Transient
@@ -119,22 +116,6 @@ public class SettleTask implements Idable<Long>, Serializable {
 	}
 	
 	// Constructors
-
-	@Transient
-	public String getTaskLong() {
-		if(this.caseDate!= null) {
-			if(this.checkEndDate != null) {
-				return StringUtil.getBetweenDay(this.checkStartDate, this.checkEndDate) + "";
-			} else {
-				return StringUtil.getBetweenDay(this.checkStartDate, new Date()) + "";
-			}
-		}
-		return taskLong;
-	}
-	@Transient
-	public void setTaskLong(String taskLong) {
-		this.taskLong = taskLong;
-	}
 
 	/** default constructor */
 	public SettleTask() {
