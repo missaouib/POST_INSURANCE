@@ -124,9 +124,9 @@ public class SettleTask implements Idable<Long>, Serializable {
 	public String getTaskLong() {
 		if(this.caseDate!= null) {
 			if(this.checkEndDate != null) {
-				return StringUtil.getBetweenDay(caseDate, this.checkEndDate) + "";
+				return StringUtil.getBetweenDay(this.checkStartDate, this.checkEndDate) + "";
 			} else {
-				return StringUtil.getBetweenDay(caseDate, new Date()) + "";
+				return StringUtil.getBetweenDay(this.checkStartDate, new Date()) + "";
 			}
 		}
 		return taskLong;

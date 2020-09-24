@@ -1277,11 +1277,11 @@ public class LpglController {
 		if(taskLong != null && taskLong.trim().length()>0) {
 			task.setTaskLong(taskLong);
 			request.setAttribute("taskLong", taskLong);
-			Object[] obj = {"checkEndDate", "checkStartDate",Integer.parseInt(taskLong), SettleTask.class};
+			Object[] obj1 = {"checkEndDate", new Date(),Integer.parseInt(taskLong), SettleTask.class};
 			if(Integer.parseInt(taskLong)<=7) {
-				csf.add(new SearchFilter("checkStartDate", Operator.DATEDIFF_LTE, obj));
+				csf.add(new SearchFilter("checkStartDate", Operator.DATEDIFF_LTE, obj1));
 			} else {
-				csf.add(new SearchFilter("checkStartDate", Operator.DATEDIFF_GTE, obj));
+				csf.add(new SearchFilter("checkStartDate", Operator.DATEDIFF_GTE, obj1));
 			}
 		}
 		Specification<SettleTask> specification = DynamicSpecifications.bySearchFilter(request, SettleTask.class, csf);

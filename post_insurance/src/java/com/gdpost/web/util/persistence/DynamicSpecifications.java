@@ -464,19 +464,34 @@ public class DynamicSpecifications {
 							predicates.add(builder.isNotNull(expression));
 							break;
 						case DATEDIFF_LTE:
-							Expression<Object> day = new MyFunctionExpression(null, String.class, "DAY");
-							//Expression<String> day = builder.literal("day");
+							//Expression<Object> day = new MyFunctionExpression(null, String.class, "DAY");
 							Object[] ds = (Object[]) filter.getValue();
 							Integer i = (Integer) ds[2];
 						    Expression<Integer> diff = builder.function("DATEDIFF", Integer.class, root.get(ds[0].toString()), root.get(ds[1].toString()));
 						    predicates.add(builder.lessThanOrEqualTo(diff, i));
 							break;
 						case DATEDIFF_GTE:
-							day = new MyFunctionExpression(null, String.class, "DAY");
+							//day = new MyFunctionExpression(null, String.class, "DAY");
 							ds = (Object[]) filter.getValue();
 							i = (Integer) ds[2];
 							diff = builder.function("DATEDIFF", Integer.class, builder.literal(ds[0]), builder.literal(ds[1]));
 						    predicates.add(builder.greaterThanOrEqualTo(diff, i));
+							break;
+						case OR_DATEDIFF_LTE:
+							hasOr = true;
+							//day = new MyFunctionExpression(null, String.class, "DAY");
+							ds = (Object[]) filter.getValue();
+							i = (Integer) ds[2];
+						    diff = builder.function("DATEDIFF", Integer.class, root.get(ds[0].toString()), root.get(ds[1].toString()));
+						    opredicates.add(builder.or(builder.lessThanOrEqualTo(diff, i)));
+							break;
+						case OR_DATEDIFF_GTE:
+							hasOr = true;
+							//day = new MyFunctionExpression(null, String.class, "DAY");
+							ds = (Object[]) filter.getValue();
+							i = (Integer) ds[2];
+							diff = builder.function("DATEDIFF", Integer.class, builder.literal(ds[0]), builder.literal(ds[1]));
+							opredicates.add(builder.or(builder.greaterThanOrEqualTo(diff, i)));
 							break;
 						case OR_EQ:
 							hasOr = true;
