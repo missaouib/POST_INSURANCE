@@ -14,6 +14,15 @@ function customAjaxDone(json){
         DWZ.ajaxDone(json);
     }
 }
+
+var d = new Date();
+var yy = d.getFullYear();
+var mm = d.getMonth()+1;
+var dd = d.getDate();
+var mindate =  yy+"-"+mm+"-"+dd;
+var d2 = new Date();
+d2.setDate(d.getDate() + 15);
+var maxdate = date.getFullYear() +"-"+ (date.getMonth()+1) +"-"+ date.getDate();
 //-->
 </script>
 <div class="pageContent">

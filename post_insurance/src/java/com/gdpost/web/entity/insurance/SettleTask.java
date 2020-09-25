@@ -257,7 +257,7 @@ public class SettleTask implements Idable<Long>, Serializable {
 
 	@Column(name = "limitation")
 	public Integer getLimitation() {
-		this.limitation = StringUtil.getBetweenDay(checkStartDate, this.checkEndDate==null?new Date():this.checkEndDate);
+		//this.limitation = StringUtil.getBetweenDay(checkStartDate, this.checkEndDate==null?new Date():this.checkEndDate);
 		return this.limitation;
 	}
 

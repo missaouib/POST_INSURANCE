@@ -13,6 +13,16 @@ function customAjaxDone(json){
         DWZ.ajaxDone(json);
     }
 }
+
+var d = new Date();
+var yy = d.getFullYear();
+var mm = d.getMonth()+1;
+var dd = d.getDate();
+var mindate =  yy+"-"+mm+"-"+dd;
+var d2 = new Date();
+d2.setDate(d.getDate() + 15);
+var maxdate = date.getFullYear() +"-"+ (date.getMonth()+1) +"-"+ date.getDate();
+
 //-->
 </script>
 <div class="pageContent">
@@ -21,7 +31,7 @@ function customAjaxDone(json){
 	<div class="pageFormContent" layouth="58">
 		<p>
 			<label>任务核心发起日期：</label>
-			<input type="text" name="sendDate" class="date" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value="${task.hxDate }" pattern="yyyy-MM-dd"/>"/>
+			<input type="text" name="sendDate" class="date" dateFmt="yyyy-MM-dd" value="<fmt:formatDate value="${task.hxDate }" pattern="yyyy-MM-dd"/>"/>
 				<a class="inputDateButton" href="javascript:;">选择</a>
 		</p>
 	</div>
