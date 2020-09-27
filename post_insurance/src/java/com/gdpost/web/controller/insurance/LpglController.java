@@ -837,6 +837,10 @@ public class LpglController {
 	public String preHxDateTask(@PathVariable Long id, HttpServletRequest request) {
 		SettleTask task = lpglService.getSettleTask(id);
 		request.setAttribute("task", task);
+		String minDate = StringUtil.date2Str(new Date(), "yyyy-MM-dd");
+		String maxDate = StringUtil.date2Str(StringUtil.dateAdd(new Date(), 15), "yyyy-MM-dd");
+		request.setAttribute("minDate", minDate);
+		request.setAttribute("maxDate", maxDate);
 		return HX_DATE;
 	}
 	
@@ -1089,6 +1093,10 @@ public class LpglController {
 		if(task.getCheckFee()!=null && (src.getCheckFee()==null?0:src.getCheckFee().doubleValue()) != task.getCheckFee().doubleValue()) {
 			loginfo.append("改查勘费：" + src.getCheckFee() + "->" + task.getCheckFee() + "；");
 			src.setCheckFee(task.getCheckFee());
+		}
+		if(task.getRemark()!=null && !(src.getRemark()==null?"":src.getRemark()).equals(task.getRemark())) {
+			loginfo.append("改备注：" + src.getRemark() + "->" + task.getRemark() + "；");
+			src.setRemark(task.getRemark());
 		}
 		if(task.getCheckEndDate()!=null && !(src.getCheckEndDate()==null?"":src.getCheckEndDate()).equals(task.getCheckEndDate())) {
 			loginfo.append("设置结案日期：" + src.getCheckEndDate() + "->" + task.getCheckEndDate() + "；");
