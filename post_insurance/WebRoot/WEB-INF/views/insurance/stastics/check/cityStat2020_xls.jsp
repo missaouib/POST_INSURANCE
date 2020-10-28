@@ -15,7 +15,7 @@ response.setHeader("Content-Disposition", "inline; filename=city_stat_report.xls
       <td colspan="15">客户服务（19分）</td>
       <td colspan="9">作业质量（9分）</td>
       <td colspan="9">风险管控（8分）</td>
-      <td colspan="13">重点工作推动（10分）</td>
+      <td colspan="11">重点工作推动（10分）</td>
       <td colspan="2">总体情况</td>
     </tr>
     <tr>
@@ -43,12 +43,11 @@ response.setHeader("Content-Disposition", "inline; filename=city_stat_report.xls
       <td colspan="2">客户信息真实性综合合格率</td>
       <td colspan="2">风险事件</td>
       <td>风险管控维度得分</td>
-      <td colspan="2">满期给付风险排查</td>
-      <td colspan="2">满期给付专项工作发文</td>
-      <td colspan="2">协议退保时效</td>
+      <td colspan="2">保全线上化率</td>
       <td colspan="2">满期领取序时进度</td>
       <td colspan="2">电子渠道纸质保单申请率</td>
       <td colspan="2">微信回访占比</td>
+      <td colspan="2">理赔出险十日报案率</td>
       <td>重点工作推动维度得分</td>
       <td>总分</td>
       <td rowspan="3">总分排名</td>
@@ -78,12 +77,11 @@ response.setHeader("Content-Disposition", "inline; filename=city_stat_report.xls
       <td colspan="2">[0,4]</td>
       <td colspan="2">&nbsp;</td>
       <td>[0,9]</td>
-      <td colspan="2">[0,1]</td>
-      <td colspan="2">[0,0.5]</td>
       <td colspan="2">[0,0.5]</td>
       <td colspan="2">[0,1]</td>
       <td colspan="2">[0,3]</td>
       <td colspan="2">[0,4]</td>
+      <td colspan="2">[0,2]</td>
       <td>[0,10]</td>
       <td>[0,139]</td>
     </tr>
@@ -132,8 +130,6 @@ response.setHeader("Content-Disposition", "inline; filename=city_stat_report.xls
       <td>基准值</td>
       <td>基准分</td>
       <td>合计</td>
-      <td>基准值</td>
-      <td>基准分</td>
       <td>基准值</td>
       <td>基准分</td>
       <td>基准值</td>
@@ -193,18 +189,16 @@ response.setHeader("Content-Disposition", "inline; filename=city_stat_report.xls
       <td>${item.riskValue }</td>
       <td style="vnd.ms-excel.numberformat:#,##0.00">${item.riskScore }</td>
       <td style="vnd.ms-excel.numberformat:#,##0.00">${item.riskTotalScore }</td>
-      <td style="vnd.ms-excel.numberformat: #0">${item.bqmqriskValue }</td>
-      <td style="vnd.ms-excel.numberformat:#,##0.00">${item.bqmqriskScore }</td>
-      <td style="vnd.ms-excel.numberformat: #0">${item.bqmqjobValue }</td>
-      <td style="vnd.ms-excel.numberformat:#,##0.00">${item.bqmqjobScore }</td>
-      <td style="vnd.ms-excel.numberformat: #0">${item.bqxtValue }</td>
-      <td style="vnd.ms-excel.numberformat:#,##0.00">${item.bqxtScore }</td>
+      <td style="vnd.ms-excel.numberformat: #0">${item.bqxshlValue }</td>
+      <td style="vnd.ms-excel.numberformat:#,##0.00">${item.bqxshlScore }</td>
       <td style="vnd.ms-excel.numberformat: #0.00%">${item.bqmqsxValue}</td>
       <td style="vnd.ms-excel.numberformat:#,##0.00">${item.bqmqsxScore }</td>
       <td style="vnd.ms-excel.numberformat: #0.00%">${item.qyprintValue }</td>
       <td style="vnd.ms-excel.numberformat:#,##0.00">${item.qyprintScore }</td>
       <td style="vnd.ms-excel.numberformat: #0.00%">${item.wxcallValue }</td>
       <td style="vnd.ms-excel.numberformat:#,##0.00">${item.wxcallScore }</td>
+      <td style="vnd.ms-excel.numberformat: #0.00%">${item.lpcx10Value }</td>
+      <td style="vnd.ms-excel.numberformat:#,##0.00">${item.lpcx10Score }</td>
       <td style="vnd.ms-excel.numberformat:#,##0.00">${item.importantjobTotalScore }</td>
       <td style="vnd.ms-excel.numberformat:#,##0.00">${item.totalScore }</td>
       <td>${item.citySort }</td>

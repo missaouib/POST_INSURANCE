@@ -375,6 +375,7 @@ public class StasticsCityColumn {
 		column.setNullable(false);
 		standardColumns.add(column);
 
+		/*
 		column = new ColumnItem();
 		column.setDisplayName("满期给付风险排查");
 		column.setColumnName("bqmqrisk_value");
@@ -395,7 +396,7 @@ public class StasticsCityColumn {
 		column.setColumnType(ColumnType.string);
 		column.setNullable(false);
 		standardColumns.add(column);
-
+		
 		column = new ColumnItem();
 		column.setDisplayName("满期给付专项工作发文得分");
 		column.setColumnName("bqmqjob_score");
@@ -413,6 +414,21 @@ public class StasticsCityColumn {
 		column = new ColumnItem();
 		column.setDisplayName("协议退保时效得分");
 		column.setColumnName("bqxt_score");
+		column.setColumnType(ColumnType.numeric);
+		column.setNullable(false);
+		standardColumns.add(column);
+		*/
+		
+		column = new ColumnItem();
+		column.setDisplayName("保全线上化率");
+		column.setColumnName("bqxshl_value");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(false);
+		standardColumns.add(column);
+
+		column = new ColumnItem();
+		column.setDisplayName("保全线上化率得分");
+		column.setColumnName("bqxshl_score");
 		column.setColumnType(ColumnType.numeric);
 		column.setNullable(false);
 		standardColumns.add(column);
@@ -489,6 +505,20 @@ public class StasticsCityColumn {
 		column.setNullable(false);
 		standardColumns.add(column);
 		*/
+		
+		column = new ColumnItem();
+		column.setDisplayName("理赔出险十日报案率");
+		column.setColumnName("lpcx10_value");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(false);
+		standardColumns.add(column);
+
+		column = new ColumnItem();
+		column.setDisplayName("理赔出险十日报案率得分");
+		column.setColumnName("lpcx10_score");
+		column.setColumnType(ColumnType.numeric);
+		column.setNullable(false);
+		standardColumns.add(column);
 		
 		column = new ColumnItem();
 		column.setDisplayName("重点工作推动维度得分");

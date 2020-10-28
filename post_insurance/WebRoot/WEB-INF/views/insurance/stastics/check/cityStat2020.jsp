@@ -83,7 +83,7 @@ table.dataintable tr:nth-child(even) {
       <td colspan="15">客户服务（19分）</td>
       <td colspan="9">作业质量（9分）</td>
       <td colspan="9">风险管控（8分）</td>
-      <td colspan="13">重点工作推动（10分）</td>
+      <td colspan="11">重点工作推动（10分）</td>
       <td colspan="2">总体情况</td>
     </tr>
     <tr>
@@ -111,12 +111,11 @@ table.dataintable tr:nth-child(even) {
       <td colspan="2">客户信息真实性综合合格率</td>
       <td colspan="2">风险事件</td>
       <td>风险管控维度得分</td>
-      <td colspan="2">满期给付风险排查</td>
-      <td colspan="2">满期给付专项工作发文</td>
-      <td colspan="2">协议退保时效</td>
+      <td colspan="2">保全线上化率</td>
       <td colspan="2">满期领取序时进度</td>
       <td colspan="2">电子渠道纸质保单申请率</td>
       <td colspan="2">微信回访占比</td>
+      <td colspan="2">理赔出险十日报案率</td>
       <td>重点工作推动维度得分</td>
       <td>总分</td>
       <td rowspan="3">总分排名</td>
@@ -146,12 +145,11 @@ table.dataintable tr:nth-child(even) {
       <td colspan="2">[0,4]</td>
       <td colspan="2">&nbsp;</td>
       <td>[0,9]</td>
-      <td colspan="2">[0,1]</td>
-      <td colspan="2">[0,0.5]</td>
       <td colspan="2">[0,0.5]</td>
       <td colspan="2">[0,1]</td>
       <td colspan="2">[0,3]</td>
       <td colspan="2">[0,4]</td>
+      <td colspan="2">[0,2]</td>
       <td>[0,10]</td>
       <td>[0,139]</td>
     </tr>
@@ -200,8 +198,6 @@ table.dataintable tr:nth-child(even) {
       <td>基准值</td>
       <td>基准分</td>
       <td>合计</td>
-      <td>基准值</td>
-      <td>基准分</td>
       <td>基准值</td>
       <td>基准分</td>
       <td>基准值</td>
@@ -261,18 +257,22 @@ table.dataintable tr:nth-child(even) {
       <td>${item.riskValue }</td>
       <td><fmt:formatNumber value="${item.riskScore}" pattern="#,###.##" /></td>
       <td><fmt:formatNumber value="${item.riskTotalScore}" pattern="#,###.##" /></td>
-      <td><c:choose><c:when test="${fn:contains(item.bqmqriskValue,'-')}">-</c:when><c:when test="${fn:contains(item.bqmqriskValue,'/')}">-</c:when><c:otherwise><fmt:formatNumber pattern="#,###" value="${item.bqmqriskValue }" /></c:otherwise></c:choose></td>
-      <td><fmt:formatNumber value="${item.bqmqriskScore}" pattern="#,###.##" /></td>
-      <td><c:choose><c:when test="${fn:contains(item.bqmqjobValue,'-')}">-</c:when><c:when test="${fn:contains(item.bqmqjobValue,'/')}">-</c:when><c:otherwise><fmt:formatNumber pattern="#,###" value="${item.bqmqjobValue }" /></c:otherwise></c:choose></td>
-      <td><fmt:formatNumber value="${item.bqmqjobScore}" pattern="#,###.##" /></td>
-      <td><c:choose><c:when test="${fn:contains(item.bqxtValue,'-')}">-</c:when><c:when test="${fn:contains(item.bqxtValue,'/')}">-</c:when><c:otherwise><fmt:formatNumber pattern="#,###" value="${item.bqxtValue }" /></c:otherwise></c:choose></td>
-      <td><fmt:formatNumber value="${item.bqxtScore}" pattern="#,###.##" /></td>
+      <td><c:choose><c:when test="${fn:contains(item.bqxshlValue,'-')}">-</c:when><c:when test="${fn:contains(item.bqxtValue,'/')}">-</c:when><c:otherwise><fmt:formatNumber pattern="#,###" value="${item.bqxshlValue }" /></c:otherwise></c:choose></td>
+      <td><fmt:formatNumber value="${item.bqxshlScore}" pattern="#,###.##" /></td>
       <td><c:choose><c:when test="${fn:contains(item.bqmqsxValue,'-')}">-</c:when><c:when test="${fn:contains(item.bqmqsxValue,'/')}">-</c:when><c:otherwise><fmt:formatNumber type="percent" minFractionDigits="2" value="${item.bqmqsxValue }" /></c:otherwise></c:choose></td>
       <td><fmt:formatNumber value="${item.bqmqsxScore}" pattern="#,###.##" /></td>
       <td><c:choose><c:when test="${fn:contains(item.qyprintValue,'-')}">-</c:when><c:when test="${fn:contains(item.qyprintValue,'/')}">-</c:when><c:otherwise><fmt:formatNumber type="percent" minFractionDigits="2" value="${item.qyprintValue }" /></c:otherwise></c:choose></td>
       <td><fmt:formatNumber value="${item.qyprintScore}" pattern="#,###.##" /></td>
-      <td><c:choose><c:when test="${fn:contains(item.wxcallValue,'-')}">-</c:when><c:when test="${fn:contains(item.wxcallValue,'/')}">-</c:when><c:otherwise><fmt:formatNumber type="percent" minFractionDigits="2" value="${item.wxcallValue }" /></c:otherwise></c:choose></td>
-      <td><fmt:formatNumber value="${item.wxcallScore}" pattern="#,###.##" /></td>
+      <td><c:choose>
+        <c:when test="${fn:contains(item.wxcallValue,'-')}">-</c:when>
+        <c:when test="${fn:contains(item.wxcallValue,'/')}">-</c:when>
+        <c:otherwise>
+          <fmt:formatNumber type="percent" minFractionDigits="2" value="${item.wxcallValue }" />
+        </c:otherwise>
+      </c:choose></td>
+      <td>&nbsp;</td>
+      <td><c:choose><c:when test="${fn:contains(item.lpcx10Value,'-')}">-</c:when><c:when test="${fn:contains(item.lpcx10Value,'/')}">-</c:when><c:otherwise><fmt:formatNumber type="percent" minFractionDigits="2" value="${item.wxcallValue }" /></c:otherwise></c:choose></td>
+      <td><fmt:formatNumber value="${item.lpcx10Score}" pattern="#,###.##" /></td>
       <td><fmt:formatNumber value="${item.importantjobTotalScore}" pattern="#,###.##" /></td>
       <td><fmt:formatNumber value="${item.totalScore}" pattern="#,###.##" /></td>
       <td>${item.citySort }</td>

@@ -78,6 +78,8 @@ public class StasticsCity implements Idable<Long>,Serializable {
      private Double bqmqjobScore;
      private String bqxtValue;
      private Double bqxtScore;
+     private String bqxshlValue;
+     private Double bqxshlScore;
      private String bqmqValue;
      private Double bqmqScore;
      private String qyprintValue;
@@ -107,6 +109,8 @@ public class StasticsCity implements Idable<Long>,Serializable {
      private Double bqmqsxScore;
      private String wxcallValue;
      private Double wxcallScore;
+     private String lpcx10Value;
+     private Double lpcx10Score;
      
      @Transient
      private String mthYear;
@@ -918,6 +922,38 @@ public class StasticsCity implements Idable<Long>,Serializable {
 	}
 	public void setWxcallScore(Double wxcallScore) {
 		this.wxcallScore = wxcallScore;
+	}
+	
+	@Column(name="bqxshl_value")
+	public String getBqxshlValue() {
+		return bqxshlValue;
+	}
+	public void setBqxshlValue(String bqxshlValue) {
+		this.bqxshlValue = bqxshlValue;
+	}
+	
+	@Column(name="bqxshl_score")
+	public Double getBqxshlScore() {
+		return bqxshlScore;
+	}
+	public void setBqxshlScore(Double bqxshlScore) {
+		this.bqxshlScore = bqxshlScore;
+	}
+	
+	@Column(name="lpcx10_value")
+	public String getLpcx10Value() {
+		return lpcx10Value;
+	}
+	public void setLpcx10Value(String lpcx10Value) {
+		this.lpcx10Value = lpcx10Value;
+	}
+	
+	@Column(name="lpcx10_score")
+	public Double getLpcx10Score() {
+		return lpcx10Score;
+	}
+	public void setLpcx10Score(Double lpcx10Score) {
+		this.lpcx10Score = lpcx10Score;
 	}
     
 }

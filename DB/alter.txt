@@ -1,4 +1,11 @@
-﻿drop database postinsurance;
+﻿alter table t_stastics_city add column bqxshl_value varchar(9) after bqxt_score;
+alter table t_stastics_city add column bqxshl_score double after bqxshl_value;
+
+理赔出险十日报案率
+alter table t_stastics_city add column lpcx10_value varchar(9) after wxcall_score;
+alter table t_stastics_city add column lpcx10_score double after lpcx10_value;
+
+drop database postinsurance;
 mysqladmin -uroot -p drop postinsurance;
 mysqladmin -uroot -p123456 CREATE postinsurance
 
