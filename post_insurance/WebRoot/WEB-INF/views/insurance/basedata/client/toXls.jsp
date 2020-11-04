@@ -30,10 +30,11 @@ response.setHeader("Content-Disposition", "inline; filename=policy_list.xls");
 				<th>承保时间</th>
 				<th>客户签收日期</th>
 				<th>回销日期</th>
+				<th>联系电话</th>
 				<th>手机号码</th>
                 <th>Email地址</th>
+                <th>联系地址</th>
 				<shiro:hasPermission name="Client:provEdit">
-                <th>联系电话</th>
                 <th>证件类型</th>
                 <th>证件号码</th>
                 </shiro:hasPermission>
@@ -76,9 +77,10 @@ response.setHeader("Content-Disposition", "inline; filename=policy_list.xls");
 				<td>${item.policyDtl==null?"":item.policyDtl.holderPhone}</td>
                 <td>${item.policyDtl==null?"":item.policyDtl.holderMobile}</td>
                 <td>${item.policyDtl==null?"":item.policyDtl.holderEmail}</td>
+                <td>${item.policyDtl==null?"":item.policyDtl.holderAddr}</td>
 				<shiro:hasPermission name="Client:provEdit">
                 <td>${item.policyDtl==null?"":item.policyDtl.holderCardType}</td>
-                <td>${fn:substring(item.policyDtl.holderCardNum,0,6)}******${fn:substring(item.policyDtl.holderCardNum,16,18)}</td>
+                <td>${fn:substring(item.policyDtl.holderCardNum,0,14)}****</td>
                 </shiro:hasPermission>
 				<td>${item.status}</td>
 				<td>${item.csDate != null?item.csDate:""}</td>
