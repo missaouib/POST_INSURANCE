@@ -154,7 +154,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql1 = "delete from t_policy where policy_date>=\"2013-01-01\" and form_no is null or policy_fee<=0;";
 			sql2 = "update t_policy set attached_flag = 1 where attached_flag=0 and prod_name like \"中邮附加%\";";
 			sql3 = "update t_policy set attached_flag = 2 where attached_flag=0 and prod_name like \"中邮禄禄通%\";";
-			sql4 = "update t_policy set attached_flag = 3 where attached_flag=0 and prod_code=\"112004\";";
+			sql4 = "update t_policy set attached_flag = 3 where attached_flag=0 and prod_code in (\"112004\",\"112006\");";
 			sql12 = "update t_policy set attached_flag = 7 where attached_flag=0 and policy_fee=1 and prod_code in (\"125022\", \"112007\");";
 			sql8 = "update t_policy set attached_flag = 8 where attached_flag=0 and prod_code in(\"125019\",\"121001\",\"121002\");";
 			sql5 = "update t_policy tp inner join (select sum(policy_fee) as total_fee, policy_no from t_policy where total_fee=0 and TO_DAYS(NOW())=TO_DAYS(operate_time) group by policy_no) as tp2 set tp.total_fee=tp2.total_fee where tp.policy_no=tp2.policy_no and tp.total_fee=0 and tp.attached_flag=0 and TO_DAYS(NOW())=TO_DAYS(tp.operate_time);";
@@ -181,7 +181,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql2 = "update t_policy tp, t_policy_dtl tpd, t_staff ts set tp.staff_flag=true,tp.duration=tpd.duration where tp.policy_no=tpd.policy_no and tp.staff_flag=0 and tpd.holder_card_num=ts.id_card and year(tp.policy_date)=ts.year and year(tp.policy_date)=year(now());";
 			sql3 = "update t_policy tp, t_policy_dtl tpd set tp.duration=tpd.duration where tp.policy_no=tpd.policy_no and tp.duration=1 and tp.attached_flag=0 and tp.duration<>tpd.duration and tpd.duration<>1;";
 			sql5 = "delete from t_policy_dtl where prod_name like \"中邮附加%\";";
-			sql4 = "update t_policy_dtl set attached_flag=3 where attached_flag=0 and prod_code=\"112004\"";
+			sql4 = "update t_policy_dtl set attached_flag=3 where attached_flag=0 and prod_code in (\"112004\",\"112006\");";
 			break;
 			/*
 		case Issue:
