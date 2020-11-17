@@ -315,7 +315,7 @@ public class CustomerInfoUtil {
 							|| (addr.contains("广东") && addr.contains(area))) {
 						bah = true; //带有广东或者地市开头
 					}
-					if((addr.contains(city) && addr.contains(area))) {
+					if(addr.contains(city) || (addr.contains(city) && addr.contains(area))) {
 						bah = true; //带有广东或者地市开头
 					} else {
 						if((addr.contains("省") && addr.contains("市"))
@@ -339,9 +339,17 @@ public class CustomerInfoUtil {
 							}
 						}
 						if((addr.contains("省") && addr.contains("市") && addr.contains("镇"))
-								|| (addr.contains("省") && addr.contains("县") && addr.contains("镇"))) {
+								|| (addr.contains("省") && addr.contains("县") && addr.contains("镇")) || (addr.contains("市") && addr.contains("镇"))) {
 							bah = true;
 							if(addr.length() - addr.indexOf("镇") <= 5) {
+								blen = false;
+								//return "地址不够详细1-length；";
+							}
+						}
+						if((addr.contains("省") && addr.contains("市") && addr.contains("镇"))
+								|| (addr.contains("省") && addr.contains("县") && addr.contains("镇")) || (addr.contains("市") && addr.contains("区"))) {
+							bah = true;
+							if(addr.length() - addr.indexOf("区") <= 5) {
 								blen = false;
 								//return "地址不够详细1-length；";
 							}
@@ -400,7 +408,9 @@ public class CustomerInfoUtil {
 				}
 			}
 			if(!bah) {
-				return "地址缺失市县信息";
+				if((addr.length() - addr.indexOf(area) <= 5) || (addr.length() - addr.indexOf(city) <= 5)) {
+					return "地址缺失市县信息";
+				}
 			}
 			/*
 			 * 如果以上条件都满足的话，估计这个柜面出单的省市县信息是对的了。
@@ -422,8 +432,8 @@ public class CustomerInfoUtil {
 	}
 	
 	public static String testAddr (String policyNo, String addr) {
-		String area = "武江";
-		String city = "韶关";
+		String area = "四会";
+		String city = "肇庆";
 		LOG.debug(" --------- addr: " + addr);
 		//1、长度校验
 		if(addr == null || addr.trim().length()<=6) {
@@ -514,9 +524,17 @@ public class CustomerInfoUtil {
 					}
 				}
 				if((addr.contains("省") && addr.contains("市") && addr.contains("镇"))
-						|| (addr.contains("省") && addr.contains("县") && addr.contains("镇"))) {
+						|| (addr.contains("省") && addr.contains("县") && addr.contains("镇")) || (addr.contains("市") && addr.contains("镇"))) {
 					bah = true;
 					if(addr.length() - addr.indexOf("镇") <= 5) {
+						blen = false;
+						//return "地址不够详细1-length；";
+					}
+				}
+				if((addr.contains("省") && addr.contains("市") && addr.contains("镇"))
+						|| (addr.contains("省") && addr.contains("县") && addr.contains("镇")) || (addr.contains("市") && addr.contains("区"))) {
+					bah = true;
+					if(addr.length() - addr.indexOf("区") <= 5) {
 						blen = false;
 						//return "地址不够详细1-length；";
 					}
@@ -574,7 +592,9 @@ public class CustomerInfoUtil {
 			}
 		}
 		if(!bah) {
-			return "地址缺失市县信息";
+			if((addr.length() - addr.indexOf(area) <= 5) || (addr.length() - addr.indexOf(city) <= 5)) {
+				return "地址缺失市县信息";
+			}
 		}
 		return "addr is good!";
 	}
@@ -623,7 +643,7 @@ public class CustomerInfoUtil {
 			while(rst != null && rst.next()) {
 				num = rst.getInt("countNum");
 				if(num>=1) {
-					return "手机号码被" + num + "个不同投保人使用，须核实关系;";
+					return "手机号码被" + (num+1) + "个不同投保人使用，须核实关系;";
 				}
 			}
 		} catch (SQLException e) {
@@ -693,7 +713,7 @@ public class CustomerInfoUtil {
 		}
 		return checkRst;
 	}
-	
+
 	public static String reuseEmailNum(Statement stat, String holder, String email) {
 		if(email == null || email.trim().length()<=0) {
 			return null;
@@ -1067,9 +1087,9 @@ public class CustomerInfoUtil {
     }
 
 	public static void main(String[] args) {
-		String addr = "省鹤山市沙坪镇中山路36号";
+		String addr = "四会市高观东路90号";
 		String src = "永嘉枫林包岙";
-		System.out.println(CustomerInfoUtil.testAddr("", src));
+		System.out.println(CustomerInfoUtil.testAddr("", addr));
 		System.out.println(CustomerInfoUtil.sorensenDice(addr, src));
 		System.out.println(CustomerInfoUtil.levenshtein(addr, src));
 		System.out.println(CustomerInfoUtil.cos(addr, src));
