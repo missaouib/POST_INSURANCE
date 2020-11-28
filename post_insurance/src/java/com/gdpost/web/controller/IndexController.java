@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gdpost.utils.SecurityUtils;
 import com.gdpost.web.SecurityConstants;
+import com.gdpost.web.entity.insurance.ConservationDtl;
 import com.gdpost.web.entity.insurance.RenewedList;
 import com.gdpost.web.entity.main.Module;
 import com.gdpost.web.entity.main.Notice;
@@ -50,13 +51,11 @@ import com.gdpost.web.log.impl.LogUitls;
 import com.gdpost.web.service.ModuleService;
 import com.gdpost.web.service.UserRoleService;
 import com.gdpost.web.service.UserService;
-import com.gdpost.web.service.insurance.BqglService;
 import com.gdpost.web.service.insurance.HfglService;
 import com.gdpost.web.service.insurance.KfglService;
 import com.gdpost.web.service.insurance.NoticeService;
 import com.gdpost.web.service.insurance.PayListService;
 import com.gdpost.web.service.insurance.QyglService;
-import com.gdpost.web.service.insurance.XqglService;
 import com.gdpost.web.shiro.ShiroUser;
 import com.gdpost.web.util.dwz.AjaxObject;
 import com.gdpost.web.util.dwz.Page;
@@ -81,14 +80,14 @@ public class IndexController {
 	@Autowired
 	private KfglService kfglService;
 	
-	@Autowired
-	private BqglService bqglService;
+//	@Autowired
+//	private BqglService bqglService;
 	
 	@Autowired
 	private QyglService qyglService;
 	
-	@Autowired
-	private XqglService xqglService;
+//	@Autowired
+//	private XqglService xqglService;
 	
 	@Autowired
 	private HfglService hfglService;
@@ -128,7 +127,7 @@ public class IndexController {
 		LOG.debug(" ----------- INDEX to get the task");
 		map.put("issueList", kfglService.getTODOIssueList(shiroUser.getUser()));
 		
-		map.put("bqIssueList", bqglService.getTODOIssueList(shiroUser.getUser()));
+		map.put("bqIssueList", new ArrayList<ConservationDtl>());//bqglService.getTODOIssueList(shiroUser.getUser()));
 		
 		map.put("checkWriteIssueList", qyglService.getTODOWriteIssueList(shiroUser.getUser()));
 		
@@ -226,13 +225,13 @@ public class IndexController {
 		LOG.debug(" ----------- INDEX to get the task");
 		map.put("issueList", kfglService.getTODOIssueList(shiroUser.getUser()));
 		
-		map.put("bqIssueList", bqglService.getTODOIssueList(shiroUser.getUser()));
+		map.put("bqIssueList", new ArrayList<ConservationDtl>());//bqglService.getTODOIssueList(shiroUser.getUser()));
 		
 		map.put("checkWriteIssueList", qyglService.getTODOWriteIssueList(shiroUser.getUser()));
 		
 		map.put("checkRecordIssueList", qyglService.getTODORecordIssueList(shiroUser.getUser()));
 		
-		map.put("xqIssueList", xqglService.getTODOIssueList(shiroUser.getUser()));
+		map.put("xqIssueList", new ArrayList<RenewedList>());//xqglService.getTODOIssueList(shiroUser.getUser()));
 		
 		map.put("hfIssueList", hfglService.getTODOIssueList(shiroUser.getUser()));
 		

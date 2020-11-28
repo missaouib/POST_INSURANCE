@@ -847,10 +847,17 @@ public class XqglController {
 		Organization userOrg = user.getOrganization();
 		
 		String url = request.getParameter("url");
+		String name = request.getParameter("urlName");
 		if(url != null && url.trim().length()>0) {
 			url = url.replace("?1", userOrg.getOrgCode());
 		}
-
+		if(url != null && url.trim().length()>0) {
+			url = url.replace("HashSymbol", "#");
+		}
+		if(url != null && url.trim().length()>0) {
+			url = url.replace("BangSymbol", "!");
+		}
+		
 		if("http".equals(request.getScheme())) {
 			request.setAttribute("http", "http");
 		}
@@ -858,6 +865,7 @@ public class XqglController {
 			request.setAttribute("http", "https");
 		}
 		request.setAttribute("url", url);
+		request.setAttribute("name", name);
 		request.setAttribute("userOrgan", userOrg);
 		request.setAttribute("loginUser", user);
 		

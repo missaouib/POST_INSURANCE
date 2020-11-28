@@ -219,44 +219,6 @@ $(document).ready(function(){
 						</div>
 					</div>
 					</shiro:hasPermission>
-					<shiro:hasPermission name="Cservice:view">
-					<div class="panel <c:if test='${fn:length(bqIssueList)<=0}'>close</c:if> collapse" defH="100">
-						<h1><c:if test='${fn:length(bqIssueList)>0}'><img alt="有新任务" src="/images/redpoint.png" height="12" width="12"></c:if>待处理保全复核问题</h1>
-						<div>
-							<table class="list" width="98%">
-								<thead>
-									<tr>
-										<th>序号</th>
-										<th>保单号</th>
-										<th>保单所属机构</th>
-										<th>保全复核问题</th>
-										<th>问题产生日期</th>
-										<th>操作</th>
-									</tr>
-								</thead>
-								<tbody>
-									<c:forEach var="item" items="${bqIssueList}" varStatus="var">
-									<tr>
-										<td>${var.index+1 }</td>
-										<td>${item.policy.policyNo}</td>
-										<td>${fn:replace(item.policy.organization.name,'中邮保险局','')}</td>
-										<td>${item.info}</td>
-										<td>${item.csDate}</td>
-										<td>
-										<c:if test="${fn:length(login_user.organization.orgCode) > 4}">
-										<a target="ajaxTodo" href="${contextPath }/bqgl/issue/DealStatus/${item.id}" title="确认更新状态?"><span>已处理</span></a>
-										</c:if>
-										 <c:if test="${fn:length(login_user.organization.orgCode) <= 4}"> 
-									     <a target="ajaxTodo" href="${contextPath }/bqgl/issue/CloseStatus/${item.id}" title="确认关闭?"><span>关闭</span></a>
-									    </c:if> 
-										</td>
-									</tr>
-									</c:forEach>
-								</tbody>
-							</table>
-						</div>
-					</div>
-					</shiro:hasPermission>
 					<shiro:hasPermission name="Callfail:view">
 					<div class="panel <c:if test='${fn:length(hfIssueList)<=0}'>close</c:if> collapse" defH="100">
 						<h1><c:if test='${fn:length(hfIssueList)>0}'><img alt="有新任务" src="/images/redpoint.png" height="12" width="12"></c:if>待二次回访工单</h1>
@@ -294,46 +256,6 @@ $(document).ready(function(){
 										<td>${fn:replace(item.policy.organization.name,'中邮保险局','')}</td>
 										<td>${item.issueType}</td>
 										<td title="${item.issueContent}">${fn:substring(item.issueContent, 0, 17)}</td>
-									</tr>
-									</c:forEach>
-								</tbody>
-							</table>
-						</div>
-					</div>
-					</shiro:hasPermission>
-					<shiro:hasPermission name="Renewed:view">
-					<div class="panel <c:if test='${fn:length(xqIssueList)<=0}'>close</c:if> collapse" defH="100">
-						<h1><c:if test='${fn:length(xqIssueList)>0}'><img alt="有新任务" src="/images/redpoint.png" height="12" width="12"></c:if>续期催缴工单</h1>
-						<div>
-							<table class="list" width="98%">
-								<thead>
-									<tr>
-										<th>序号</th>
-										<th>保单号</th>
-										<th>保单所属机构</th>
-										<th>交费对应日</th>
-										<th>离宽限期（天）</th>
-										<th>交费状态</th>
-										<th>交费失败原因</th>
-									</tr>
-								</thead>
-								<tbody>
-									<c:forEach var="item" items="${xqIssueList}" varStatus="var">
-									<tr>
-										<td>${var.index+1 }</td>
-										<td>
-										<c:if test="${fn:length(login_user.organization.orgCode) > 4}">
-										<a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/xqgl/issue/update/${item.id}"><span>${item.policy.policyNo}</span></a>
-										</c:if>
-										 <c:if test="${fn:length(login_user.organization.orgCode) <= 4}"> 
-									     <a target="dialog" rel="lookup2organization_edit" mask="true" width="850" height="520" href="${contextPath }/xqgl/issue/view/${item.id}"><span>${item.policy.policyNo}</span></a>
-									    </c:if> 
-										</td>
-										<td>${fn:replace(item.policy.organization.name,'中邮保险局','')}</td>
-										<td><fmt:formatDate value="${item.feeDate }" pattern="yyyy-MM-dd"/></td>
-										<td><span style="color:red; height:50%; margin-bottom:-contentheight;">${item.lastDateNum }</span></td>
-										<td>${item.feeStatus}</td>
-										<td>${item.feeFailReason}</td>
 									</tr>
 									</c:forEach>
 								</tbody>
@@ -671,6 +593,44 @@ $(document).ready(function(){
 										<td>${item.relNo}</td>
 										<td>
 											<a target="ajaxTodo" href="${contextPath }/pay/close/${item.id}" title="确认关闭此理赔付费失败记录?"><span>关闭</span></a>
+										</td>
+									</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="Cservice:view">
+					<div class="panel <c:if test='${fn:length(bqIssueList)<=0}'>close</c:if> collapse" defH="100">
+						<h1><c:if test='${fn:length(bqIssueList)>0}'><img alt="有新任务" src="/images/redpoint.png" height="12" width="12"></c:if>待处理保全复核问题</h1>
+						<div>
+							<table class="list" width="98%">
+								<thead>
+									<tr>
+										<th>序号</th>
+										<th>保单号</th>
+										<th>保单所属机构</th>
+										<th>保全复核问题</th>
+										<th>问题产生日期</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="item" items="${bqIssueList}" varStatus="var">
+									<tr>
+										<td>${var.index+1 }</td>
+										<td>${item.policy.policyNo}</td>
+										<td>${fn:replace(item.policy.organization.name,'中邮保险局','')}</td>
+										<td>${item.info}</td>
+										<td>${item.csDate}</td>
+										<td>
+										<c:if test="${fn:length(login_user.organization.orgCode) > 4}">
+										<a target="ajaxTodo" href="${contextPath }/bqgl/issue/DealStatus/${item.id}" title="确认更新状态?"><span>已处理</span></a>
+										</c:if>
+										 <c:if test="${fn:length(login_user.organization.orgCode) <= 4}"> 
+									     <a target="ajaxTodo" href="${contextPath }/bqgl/issue/CloseStatus/${item.id}" title="确认关闭?"><span>关闭</span></a>
+									    </c:if> 
 										</td>
 									</tr>
 									</c:forEach>

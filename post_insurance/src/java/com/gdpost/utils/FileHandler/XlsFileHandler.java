@@ -141,6 +141,7 @@ public class XlsFileHandler extends AbstractFileHandler {
 						}
 					}
 				}
+				log.debug("--------------skiprow：" + skipRow);
 				for (int i = skipRow+1; i < lastRow; i++) {
 					count = -1;
 					headerRow = (HSSFRow) sheet.getRow(i);

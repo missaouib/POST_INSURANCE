@@ -2,11 +2,11 @@
 <%@page import="java.util.Date"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 
-<h2 class="contentTitle">3年保费丢失率</h2>
+<h2 class="contentTitle"><c:choose><c:when test="${not empty name }">${name }</c:when><c:otherwise>续期新体验</c:otherwise></c:choose></h2>
 <div style="padding:0 10px;">
 	<p>&nbsp;</p>
 	<div style="font-size:20px;color:#00F;">
-		<a href="${http }://${url}" target="navTab" rel="external" id="externalFrag" external="true"><div style="font-size:25px;color:#00F;">3年保费丢失率</div></a>
+		<a href="${http }://${url}" target="navTab" rel="external" id="externalFrag" external="true"><div style="font-size:25px;color:#00F;"><c:choose><c:when test="${not empty name }">${name }</c:when><c:otherwise>续期新体验</c:otherwise></c:choose></div></a>
 	</div>
 	<p>&nbsp;</p>
 	<p>&nbsp;</p>
