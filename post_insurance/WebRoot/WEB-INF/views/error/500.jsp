@@ -16,7 +16,7 @@
 	}
 
 	//记录日志
-	if (ex != null) {
+	if (ex != null && !ex.getMessage().contains("Connection reset by peer") && !ex.getMessage().contains("Broken pipe")) {
 		msg = ex.getMessage();
 		Logger logger = LoggerFactory.getLogger("500.jsp");
 		

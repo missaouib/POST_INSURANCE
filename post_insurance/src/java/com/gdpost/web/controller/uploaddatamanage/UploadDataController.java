@@ -406,5 +406,52 @@ public class UploadDataController {
 		
 		return(strReturn);
 	}
+
+	@Log(message="{0}", level=LogLevel.WARN, module=LogModule.WJSC)
+	@RequestMapping(value = "/callImport", method = RequestMethod.POST)
+	public @ResponseBody String callImport(HttpServletRequest request, @RequestParam String fileName, @RequestParam String template) {
+		log.debug("-----------no admin--------------import data by use template: " + template);
+	    String strMessage = ""; // 返回客户端的详细信息
+	    long member_id = 1;
+	    //int currentNY = UploadDataUtils.getNianYue();;
+	    //int lastNY = UploadDataUtils.getLastNianYue();
+	    DoRst dr = null;
+	    StringBuilder builder = new StringBuilder();
+	    
+		int uc = 0;
+		String strFilePath = UploadDataUtils.getFileStoreTempPath(request);
+		File file = new File(strFilePath + File.separator + fileName);
+		if(file != null && file.exists() && file.canRead()) {
+			log.info(" ---------- 开始导入以下文件：" + file.getAbsolutePath() + file.getName());
+			FileTemplate ft = FileTemplate.valueOf(template);
+			log.debug("--------------- do import template:" + ft);
+			List<String> fileStrs = new ArrayList<String>();
+			fileStrs.add(fileName);
+			dr = uploadDataService.handleData(ft, request, member_id, fileStrs, 0, 0, member_id, "System", 0, builder, null);
+			uc += dr.getUpdateRow();
+		} else {
+			return("{\"jsonrpc\":\"2.0\",\"result\":\"error\",\"id\":\"id\",\"message\":\"文件不存在或者文件不可读。\"}");
+		}
+		
+	    strMessage = dr.getMsg();
+	    
+	    if(dr.isFlag()) {
+		    
+	    	LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{"导入了" + template + "的数据。共1个文件共导入/更新了" + uc + "记录。" + dr.getMsg()}));
+	    	
+	    	if(strMessage != null && !strMessage.equals("")) {
+				// 如有数据检查提示，则提示，如确认不导入，则提交request执行清除
+	    		return("{\"jsonrpc\":\"2.0\",\"result\":\"success\",\"id\":\"id\",\"message\":\"共：" + dr.getNum() + "条记录；共导入/更新了：" + uc + "条记录。" + strMessage + "\"}");
+	    	} else {
+	    		return("{\"jsonrpc\":\"2.0\",\"result\":\"success\",\"id\":\"id\",\"message\":\"共：" + dr.getNum() + "条记录；共导入/更新了：" + uc + "条记录，\"}");
+	    	}
+	    } else {
+	    	LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{"导入" + template + "的数据出错，" + strMessage + "。"}));
+	    	
+	    	uploadDataService.setImportDone(request, member_id, 0, 1, "System", 0, null);
+	
+	    	return("{\"jsonrpc\":\"2.0\",\"result\":\"error\",\"id\":\"id\",\"message\":\"" + strMessage + "\"}");
+	    }
+	}
 	
 }
