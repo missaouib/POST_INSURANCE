@@ -411,6 +411,7 @@ public class UploadDataController {
 	@RequestMapping(value = "/callImport", method = RequestMethod.POST)
 	public @ResponseBody String callImport(HttpServletRequest request, @RequestParam String fileName, @RequestParam String template) {
 		log.debug("-----------no admin--------------import data by use template: " + template);
+		log.debug("-----------no admin--------------import data by filename: " + fileName);
 	    String strMessage = ""; // 返回客户端的详细信息
 	    long member_id = 1;
 	    //int currentNY = UploadDataUtils.getNianYue();;
@@ -421,6 +422,7 @@ public class UploadDataController {
 		int uc = 0;
 		String strFilePath = UploadDataUtils.getFileStoreTempPath(request);
 		File file = new File(strFilePath + File.separator + fileName);
+		log.debug("-----------no admin--------------: " + file);
 		if(file != null && file.exists() && file.canRead()) {
 			log.info(" ---------- 开始导入以下文件：" + file.getAbsolutePath() + file.getName());
 			FileTemplate ft = FileTemplate.valueOf(template);

@@ -16,15 +16,17 @@
 	}
 
 	//记录日志
-	if (ex != null && !ex.getMessage().contains("Connection reset by peer") && !ex.getMessage().contains("Broken pipe")) {
+	if (ex != null) {
 		msg = ex.getMessage();
 		Logger logger = LoggerFactory.getLogger("500.jsp");
 		
-		StringWriter stringWriter = new StringWriter();
-		ex.printStackTrace(new PrintWriter(stringWriter));
-		errorMsg = stringWriter.toString();
-		
-		logger.error(errorMsg);
+		if(!msg.contains("Connection reset by peer") && !msg.contains("Broken pipe")) {
+			StringWriter stringWriter = new StringWriter();
+			ex.printStackTrace(new PrintWriter(stringWriter));
+			errorMsg = stringWriter.toString();
+			
+			logger.error(errorMsg);
+		}
 	}
 %>
 

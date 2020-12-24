@@ -219,7 +219,10 @@ public class UploadDataUtils {
 		}
 		
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
-		long lID = shiroUser.getUser().getId();
+		long lID = 1;
+		if(shiroUser != null) {
+			lID = shiroUser.getUser().getId();
+		}
 
 		strPath = strPath + File.separator + lID;
 		

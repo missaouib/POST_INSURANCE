@@ -53,6 +53,7 @@
 				/web/index = anon
 				/web/tologin = anon
 				/login/manager = anon
+				/uploaddatamanage/uploaddata/callImport = anon
 				/login = authc
 				/logout = logout
 		    	/** = user

@@ -432,7 +432,7 @@ public class CustomerInfoUtil {
 	}
 	
 	public static String testAddr (String policyNo, String addr) {
-		String area = "四会";
+		String area = "德庆";
 		String city = "肇庆";
 		LOG.debug(" --------- addr: " + addr);
 		//1、长度校验
@@ -1087,8 +1087,11 @@ public class CustomerInfoUtil {
     }
 
 	public static void main(String[] args) {
-		String addr = "四会市高观东路90号";
-		String src = "永嘉枫林包岙";
+		String addr = "肇庆市德庆县龙湖湾";
+		String src = "肇庆市德庆县龙湖湾";
+		//韶关武江山水华府
+		//肇庆市德庆县龙湖湾
+		//永嘉枫林包岙
 		System.out.println(CustomerInfoUtil.testAddr("", addr));
 		System.out.println(CustomerInfoUtil.sorensenDice(addr, src));
 		System.out.println(CustomerInfoUtil.levenshtein(addr, src));

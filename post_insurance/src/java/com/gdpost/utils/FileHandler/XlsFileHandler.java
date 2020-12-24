@@ -109,7 +109,7 @@ public class XlsFileHandler extends AbstractFileHandler {
 				if(sheetmergerCount > 0) {
 					skipRow = sheet.getMergedRegion(sheetmergerCount-1).getLastRow();
 				}
-				if(skipRow > 10) {
+				if(skipRow >= 3) {
 					for (int i=0; i<10; i++) {
 						if(!isMergedRegion(sheet, i, 0)) {
 							skipRow = i-1;

@@ -1635,7 +1635,34 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case ClaimsCloseReport:
 			return dr;
 		case Settlement:
-			return dr;
+			standardColumns = SettlementColumn.getStandardColumns();
+			sql = new StringBuffer("INSERT INTO t_settlement(organ_code,organ_name,claims_no,case_man,reporter,reporter_phone,settle_date,case_date,case_status) VALUES ");
+			line = null;
+			val = null;
+			for (DataRow row : dt.Rows) {
+				val = null;
+				line = new StringBuffer("(");
+	        	for(ColumnItem item : standardColumns) {
+	        		val = row.getValue(item.getDisplayName());
+	        		if(item.getDisplayName().contains("日期")) {
+	        			if(val == null || val.toString().trim().length() <= 0) {
+	        				line.append("null,");
+	        			} else {
+	        				line.append("\"" + StringUtil.trimStr(val, true) + "\",");
+	        			}
+	        		} else {
+	        			line.append("\"" + StringUtil.trimStr(val, true) + "\",");
+	        		}
+	        	}
+	        	line.deleteCharAt(line.length() - 1);
+	        	line.append("),");
+	        	sql.append(line);
+	        }
+			sql.deleteCharAt(sql.length() - 1);
+			sql.append(" ON DUPLICATE KEY UPDATE ");
+			sql.append("organ_code=VALUES(organ_code), organ_name=VALUES(organ_name);");
+			log.debug("----------------settlement data batch sql : " + sql);
+			break;
 		}
 
         try {
@@ -2012,6 +2039,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 						|| t.name().equals(FileTemplate.UnderWriteInsured.name())
 						|| t.name().equals(FileTemplate.IssuePFRDeal.name())
 						|| t.name().equals(FileTemplate.CheckCityBack.name())
+						|| t.name().equals(FileTemplate.Settlement.name())
 						|| t.name().equals(FileTemplate.UWDtlData.name())) {
 					
 					dr = updateStatusData(t, request, dt);
@@ -2019,6 +2047,11 @@ public class UploadDataServiceImpl implements UploadDataService{
 					//如果是保单打印数据，需要单独导入到打印明细中
 					if(t.name().equals(FileTemplate.UnderWriteSentData.name()) || t.name().equals(FileTemplate.UWDtlData.name())) {
 						log.info("----------------ready to import underwrite sentdata or dtl data");
+						importData(t, request, dt, member_id, currentNY);
+					}
+					
+					if(t.name().equals(FileTemplate.Settlement.name())) {
+						log.info("----------------ready to import  sentdata or dtl data");
 						importData(t, request, dt, member_id, currentNY);
 					}
 					
