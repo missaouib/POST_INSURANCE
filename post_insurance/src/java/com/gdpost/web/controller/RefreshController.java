@@ -1,5 +1,6 @@
 package com.gdpost.web.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -50,7 +51,12 @@ public class RefreshController {
 		boolean isIssue = false;
 		boolean isInquire = false;
 		if(sub.isPermitted("UnderWrite:view")) {
-			List<UnderWrite> list = qyglService.getTODOUnderWriteList(shiroUser.getUser());
+			List<UnderWrite> list = new ArrayList<UnderWrite>();
+			try{
+				list = qyglService.getTODOUnderWriteList(shiroUser.getUser());
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
 			for(UnderWrite uw:list) {
 				if(uw == null || uw.getSysDate() ==null) {
 					break;

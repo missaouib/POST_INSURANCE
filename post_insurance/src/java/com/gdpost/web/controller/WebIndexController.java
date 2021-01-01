@@ -249,7 +249,11 @@ public class WebIndexController {
 		
 		map.put("hfIssueList", hfglService.getTODOIssueList(shiroUser.getUser()));
 		
-		map.put("underwriteList", qyglService.getTODOUnderWriteList(shiroUser.getUser()));
+		try {
+			map.put("underwriteList", qyglService.getTODOUnderWriteList(shiroUser.getUser()));
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
 		return TODO_LIST;
 	}
 	

@@ -1254,7 +1254,13 @@ public class QyglController {
 	@RequestMapping(value="/underwritelist", method={RequestMethod.GET, RequestMethod.POST})
 	public String underWriteList(ServletRequest request, Page page, Map<String, Object> map) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
-		map.put("underwriteList", qyglService.getTODOUnderWriteList(shiroUser.getUser()));
+		List<UnderWrite> uwList = null;
+		try {
+			uwList = qyglService.getTODOUnderWriteList(shiroUser.getUser());
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		map.put("underwriteList", uwList);
 		map.put("page", page);
 		return UNDERWRITE_LIST;
 	}

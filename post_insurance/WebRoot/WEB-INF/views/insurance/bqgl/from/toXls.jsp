@@ -63,7 +63,7 @@ response.setHeader("Content-Disposition", "inline; filename=FROM_FEE_FAL_LIST.xl
 				<td>${item.failDesc}</td>
 				<td><fmt:formatDate value="${item.backDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.failDesc}</td>
-				<td>${item.relNo}</td>
+				<td style="vnd.ms-excel.numberformat:@">${item.relNo}</td>
 			</tr>
 			</c:forEach>
 	</table>

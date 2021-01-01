@@ -137,7 +137,11 @@ public class IndexController {
 		
 		map.put("hfIssueList", hfglService.getTODOIssueList(shiroUser.getUser()));
 		
-		map.put("underwriteList", qyglService.getTODOUnderWriteList(shiroUser.getUser()));
+		try {
+			map.put("underwriteList", qyglService.getTODOUnderWriteList(shiroUser.getUser()));
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
 		
 		map.put("bqtofaillist", paylistService.getBQToFailListTODOIssueList(shiroUser.getUser()));
 		
@@ -235,7 +239,11 @@ public class IndexController {
 		
 		map.put("hfIssueList", hfglService.getTODOIssueList(shiroUser.getUser()));
 		
-		map.put("underwriteList", qyglService.getTODOUnderWriteList(shiroUser.getUser()));
+		try {
+			map.put("underwriteList", qyglService.getTODOUnderWriteList(shiroUser.getUser()));
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
 		
 		map.put("bqtofaillist", paylistService.getBQToFailListTODOIssueList(shiroUser.getUser()));
 		

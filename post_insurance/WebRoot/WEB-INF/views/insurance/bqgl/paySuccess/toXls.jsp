@@ -63,7 +63,7 @@ response.setHeader("Content-Disposition", "inline; filename=TO_FEE_SUCCESS_LIST.
 				<td>${item.failDesc}</td>
 				<td><fmt:formatDate value="${item.backDate }" pattern="yyyy-MM-dd"/></td>
 				<td>${item.failDesc}</td>
-				<td>${item.relNo}</td>
+				<td style="vnd.ms-excel.numberformat:@">${item.relNo}</td>
 			</tr>
 			</c:forEach>
 	</table>
