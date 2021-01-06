@@ -204,7 +204,7 @@ public class TaskService {
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
 			
-			sql = "update t_pay_list t1,(select rel_no,back_date from t_pay_list where fail_desc=\"成功\") t2 set t1.status='CloseStatus' where t1.rel_no=t2.rel_no and datediff(t2.back_date,t1.back_date)>0 and t1.status<>'CloseStatus' and t1.status<>\"成功\";";
+			sql = "update t_pay_list t1,(select rel_no,back_date from t_pay_list where fail_desc=\"成功\") t2 set t1.status='CloseStatus' where t1.rel_no=t2.rel_no and pay_type=2 and datediff(t2.back_date,t1.back_date)>0 and t1.status<>'CloseStatus' and t1.status<>\"成功\";";
 			log.info("------------ sql :" + sql);
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);

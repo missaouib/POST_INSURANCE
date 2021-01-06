@@ -357,6 +357,30 @@ public class KfglController {
 		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[] { Arrays.toString(policys) }));
 		return AjaxObject.newOk("成功结案关闭！").setCallbackType("").toString();
 	}
+	
+	@Log(message = "对{0}问题工单进行了删除处理。", level = LogLevel.WARN, module = LogModule.KFGL)
+	@RequiresPermissions("Wtgd:provEdit")
+	@RequestMapping(value = "/issue/DelIssue", method = RequestMethod.POST)
+	public @ResponseBody String deleteMany(Long[] ids) {
+		String[] policys = new String[ids.length];
+		try {
+			Issue issue = null;
+			for (int i = 0; i < ids.length; i++) {
+				issue = kfglService.get(ids[i]);
+				if(!issue.getStatus().equals(STATUS.NewStatus.getDesc())) {
+					return AjaxObject.newError("该保单非新建状态，不能删除").setCallbackType("").toString();
+				}
+				kfglService.delete(ids[i]);
+
+				policys[i] = issue.getIssueNo();
+			}
+		} catch (ServiceException e) {
+			return AjaxObject.newError("删除工单失败：" + e.getMessage()).setCallbackType("").toString();
+		}
+
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[] { Arrays.toString(policys) }));
+		return AjaxObject.newOk("成功删除工单！").setCallbackType("").toString();
+	}
 
 	@Log(message = "对{0}问题工单进行了批量审核通过。", level = LogLevel.WARN, module = LogModule.KFGL)
 	@RequiresPermissions("Wtgd:provEdit")
@@ -1423,7 +1447,7 @@ public class KfglController {
 		}
 
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		if(!isAdmin) {
+		if(isCity) {
 			csf.add(new SearchFilter("organ.orgCode", Operator.LIKE_R, orgCode));
 		}
 		if(!isAdmin && !isCity) {

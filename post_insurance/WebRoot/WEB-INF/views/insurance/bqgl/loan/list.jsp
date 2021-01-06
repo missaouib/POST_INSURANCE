@@ -91,7 +91,7 @@
 				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>
 				<th>标记</th>
 				<th>管理机构</th>
-				<th orderField=csNo class="${page.orderField eq 'csNo' ? page.orderDirection : ''}">保单号码</th>
+				<th orderField=policy.policyNo class="${page.orderField eq 'policy.policyNo' ? page.orderDirection : ''}">保单号码</th>
 				<th>投保人</th>
 				<th>联系方式</th>
 				<th>性别</th>

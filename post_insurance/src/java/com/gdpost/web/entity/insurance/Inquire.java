@@ -368,7 +368,7 @@ public class Inquire implements java.io.Serializable {
 	}
 
 	
-	@ManyToOne(optional=true )
+	@ManyToOne(optional=true)
 	@JoinColumn(name="organ_name", referencedColumnName="name", nullable=true, insertable=false, updatable=false)
 	public Organization getOrgan() {
 		return this.organ;

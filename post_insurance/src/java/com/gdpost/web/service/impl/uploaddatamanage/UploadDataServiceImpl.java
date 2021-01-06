@@ -199,6 +199,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			sql3 = "update t_inquire set organ_name=deal_depart where (policy_no is null or policy_no=\"\") and (organ_name is null or organ_name=\"\");";
 			sql4 = "update t_inquire set organ_name=left(organ_name,locate(\",\",organ_name)-1) where locate(\",\",organ_name)>0;";
 			sql5 = "update t_inquire tiq,t_organization org set tiq.organ_name=org.name where tiq.organ_name=org.old_name;";
+			sql6 = "update t_inquire set organ_name =replace(organ_name,\"中国邮政集团公司\",\"中国邮政集团有限公司\");";
 			break;
 		case IssuePFR:
 			//tableName = "t_issue";
@@ -293,7 +294,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			return dr;
 		case PayToFailList:
 			//tableName = "t_pay_list";
-			firstsql = "update t_pay_list set status=\"CloseStatus\" where pay_type=" + PayList.PAY_TO + " and operate_time<CURRENT_DATE and fee_type not in ('保全受理号','保单号');";
+			//firstsql = "update t_pay_list set status=\"CloseStatus\" where pay_type=" + PayList.PAY_TO + " and operate_time<CURRENT_DATE and fee_type not in ('保全受理号','保单号');";
 			standardColumns = PayFailListColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_pay_list character set utf8 (pay_type, status, ";
 			//sql2 = "update t_renewed_list t1, t_pay_list t2, t_policy t3 set t1.fee_status=\"交费失败\",t1.fee_fail_reason=t2.fail_desc where t1.policy_no=t2.rel_no and t2.rel_no=t3.policy_no and t2.fail_desc<>'成功' and datediff(t2.back_date,t1.fee_date)>=0;";
@@ -301,7 +302,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 			break;
 		case PayFromFailList:
 			//tableName = "t_pay_list";
-			firstsql = "update t_pay_list set status=\"CloseStatus\" where pay_type=" + PayList.PAY_FROM + " and operate_time<CURRENT_DATE and fee_type not in ('保全受理号','保单号');";
+			firstsql = "update t_pay_list set status=\"CloseStatus\" where pay_type=" + PayList.PAY_FROM + " and operate_time<CURRENT_DATE and fee_type='投保单印刷号';";
 			standardColumns = PayFailListColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_pay_list character set utf8 (pay_type, status, ";
 			//sql2 = "update t_renewed_list t1, t_pay_list t2, t_policy t3 set t1.fee_status=\"交费失败\",t1.fee_fail_reason=t2.fail_desc where t1.policy_no=t2.rel_no and t2.rel_no=t3.policy_no and t2.fail_desc<>'成功' and datediff(t2.back_date,t1.fee_date)>=0;";

@@ -94,6 +94,8 @@
 				<li><a class="icon" target="myDialog" rel="ids" href="${contextPath }/kfgl/issue/toWord"><span>批量word</span></a></li>
 				<li class="line">line</li>
 				<li><a class="icon" target="selectedTodo" rel="ids" href="${contextPath }/kfgl/issue/batchDeal" title="确认要批量审核通过?"><span>批量审核</span></a></li>
+				<li class="line">line</li>
+				<li><a class="delete" target="selectedTodo" rel="ids" href="${contextPath }/kfgl/issue/DelIssue" title="确认要删除?"><span>批量删除</span></a></li>
 			</shiro:hasPermission>
 			<li class="line">line</li>
 			<li><a class="edit" target="navTab" rel="printIssue" mask="true" width="820" height="520" href="${contextPath }/kfgl/issue/print/{slt_uid}"><span>打印工单</span></a></li>
