@@ -459,8 +459,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 			standardColumns = SettlementColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_settlement character set utf8 (";
 			sql1 = "update t_settlement set reporte_date=date_add(operate_time,INTERVAL -1 DAY) where reporte_date is null;";
-			sql2 = "update t_settlement set claims_type=\"1\" where claims_type is null and organ_code in(\"8644\",\"864400\");";
-			sql3 = "update t_settlement set claims_type=\"0\" where claims_type is null and organ_code not in(\"8644\",\"864400\");";
+			sql2 = "update t_settlement set claims_type=\"1\" where organ_code in(\"8644\",\"864400\");";
+			sql3 = "update t_settlement set claims_type=\"0\" where organ_code not in(\"8644\",\"864400\");";
 			sql4 = "update t_settlement set settle_date=case_date where settle_date is null or settle_date<\"2013-03-21\";";
 			break;
 		}

@@ -148,10 +148,10 @@
 				<th>回销</th>
 				<th>回执扫描</th>
 				<shiro:hasPermission name="UnderWrite:cityEdit">
-				<th>地市接收</th>
+				<th orderField=cityReceiveDate class="${page.orderField eq 'cityReceiveDate' ? page.orderDirection : ''}">地市接收</th>
 				</shiro:hasPermission>
 				<shiro:hasPermission name="UnderWrite:areaEdit">
-				<th>县区接收</th>
+				<th orderField=areaReceiveDate class="${page.orderField eq 'areaReceiveDate' ? page.orderDirection : ''}">县区接收</th>
 				</shiro:hasPermission>
 				<th>投保人</th>
 				<th orderField=prd.prdName class="${page.orderField eq 'prd.prdName' ? page.orderDirection : ''}">产品</th>
