@@ -1,4 +1,23 @@
-﻿alter table t_stastics_city add column bqxshl_value varchar(9) after bqxt_score;
+﻿create table t_renewed_follow (
+    id    bigint not null auto_increment,
+    policy_no    varchar(18)    COMMENT '保单号',
+    job    varchar(24)    COMMENT '职业',
+    company    varchar(24)    COMMENT '工作单位',
+    income    double    COMMENT '个人收入万元',
+    home_income    double    COMMENT '家庭年收入',
+    objectives    date    COMMENT '购买目的',
+    bank_info    date    COMMENT '客户网点资产情况',
+    reporte_date    date    COMMENT '上次反馈日期',
+    follow_date    date    COMMENT '最新反馈日期',
+    status    varchar(9)    COMMENT '状态',
+    remark    varchar(119)    COMMENT '备注',
+    operate_time          timestamp default current_timestamp,
+	primary key (id)
+) engine=innodb auto_increment=1 default charset=utf8mb4;
+
+insert ignore into t_renewed_follow (policy_no) (select tp.policy_no from t_policy tp where tp.perm >1 and (tp.perm between 3 and 5 and tp.policy_fee>=100000) or (tp.perm>5 and tp.policy_fee>=50000) or (prod_name like "%财富嘉%" or prod_name like "%富富余%" and policy_fee>=200000));
+	
+alter table t_stastics_city add column bqxshl_value varchar(9) after bqxt_score;
 alter table t_stastics_city add column bqxshl_score double after bqxshl_value;
 
 理赔出险十日报案率

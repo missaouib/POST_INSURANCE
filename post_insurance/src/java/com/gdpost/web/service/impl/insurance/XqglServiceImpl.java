@@ -12,10 +12,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gdpost.web.dao.RenewalTypeDAO;
+import com.gdpost.web.dao.RenewedFollowDAO;
 import com.gdpost.web.dao.RenewedListDAO;
 import com.gdpost.web.dao.RenewedStayDAO;
 import com.gdpost.web.entity.basedata.RenewalType;
 import com.gdpost.web.entity.insurance.Policy;
+import com.gdpost.web.entity.insurance.RenewedFollow;
 import com.gdpost.web.entity.insurance.RenewedList;
 import com.gdpost.web.entity.insurance.RenewedStay;
 import com.gdpost.web.entity.main.Organization;
@@ -35,6 +37,9 @@ public class XqglServiceImpl implements XqglService {
 	
 	@Autowired
 	private RenewedListDAO renewedListDAO;
+	
+	@Autowired
+	private RenewedFollowDAO renewedFollowDAO;
 	
 	@Autowired
 	private RenewalTypeDAO rnwDAO;
@@ -98,8 +103,6 @@ public class XqglServiceImpl implements XqglService {
 		//默认返回未处理工单
 		Specification<RenewedList> specification = DynamicSpecifications.bySearchFilterWithoutRequest(RenewedList.class,
 				new SearchFilter("feeStatus", Operator.OR_EQ, XQ_STATUS.NewStatus.getDesc()),
-				new SearchFilter("feeStatus", Operator.OR_EQ, XQ_STATUS.FeeFailStatus.getDesc()),
-				new SearchFilter("feeStatus", Operator.OR_EQ, XQ_STATUS.BqSuspendedStatus.getDesc()),
 				new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, userOrg.getOrgCode()));
 		Page page = new Page();
 		page.setNumPerPage(5);
@@ -229,4 +232,32 @@ public class XqglServiceImpl implements XqglService {
 			return list.get(0);
 		}
 	}
+
+	/**
+	 * follow
+	 */
+	@Override
+	public RenewedFollow getRenewedFollow(Long id) {
+		return renewedFollowDAO.findById(id).get();
+	}
+
+	@Override
+	public void saveOrUpdateRenewedFollow(RenewedFollow rf) {
+		renewedFollowDAO.save(rf);
+	}
+
+	@Override
+	public List<RenewedFollow> findAllRenewedFollow(Page page) {
+		org.springframework.data.domain.Page<RenewedFollow> springDataPage = renewedFollowDAO.findAll(PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
+	}
+
+	@Override
+	public List<RenewedFollow> findRenewedFollowByExample(Specification<RenewedFollow> specification, Page page) {
+		org.springframework.data.domain.Page<RenewedFollow> springDataPage = renewedFollowDAO.findAll(specification, PageUtils.createPageable(page));
+		page.setTotalCount(springDataPage.getTotalElements());
+		return springDataPage.getContent();
+	}
+	
 }

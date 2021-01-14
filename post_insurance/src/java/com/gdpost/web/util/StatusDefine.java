@@ -69,7 +69,7 @@ public class StatusDefine {
 	};
 	
 	public enum XQ_STATUS {
-		NewStatus("未收"), FeeFailStatus("交费失败"), /*SuspendedStatus("挂起"), */BqSuspendedStatus("保全挂起"), CloseStatus("交费成功"), DeadStatus("已终止");
+		NewStatus("新追踪"), FeedStatus("已反馈"), CloseStatus("已终止"), FailStatus("异常件");
 		private String desc;
 
 		XQ_STATUS(String desc) {

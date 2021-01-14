@@ -13,6 +13,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 import com.gdpost.web.entity.basedata.RenewalType;
 import com.gdpost.web.entity.insurance.Policy;
+import com.gdpost.web.entity.insurance.RenewedFollow;
 import com.gdpost.web.entity.insurance.RenewedList;
 import com.gdpost.web.entity.insurance.RenewedStay;
 import com.gdpost.web.entity.main.User;
@@ -54,4 +55,17 @@ public interface XqglService {
 	List<RenewedStay> findByRenewedStayExample(Specification<RenewedStay> specification, Page page);
 	
 	RenewedStay getRenewedStayByPolicyNo(String policyNo);
+	
+	/*
+	 * follow
+	 */
+	
+	RenewedFollow getRenewedFollow(Long id);
+
+	void saveOrUpdateRenewedFollow(RenewedFollow user);
+	
+	List<RenewedFollow> findAllRenewedFollow(Page page);
+	
+	List<RenewedFollow> findRenewedFollowByExample(Specification<RenewedFollow> specification, Page page);
+
 }
