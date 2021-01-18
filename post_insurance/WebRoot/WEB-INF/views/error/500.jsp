@@ -20,7 +20,7 @@
 		msg = ex.getMessage();
 		Logger logger = LoggerFactory.getLogger("500.jsp");
 		
-		if(!msg.contains("Connection reset by peer") && !msg.contains("Broken pipe")) {
+		if(msg!= null && !msg.contains("Connection reset by peer") && !msg.contains("Broken pipe")) {
 			StringWriter stringWriter = new StringWriter();
 			ex.printStackTrace(new PrintWriter(stringWriter));
 			errorMsg = stringWriter.toString();

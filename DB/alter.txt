@@ -9,7 +9,7 @@
     bank_info    date    COMMENT '客户网点资产情况',
     reporte_date    date    COMMENT '上次反馈日期',
     follow_date    date    COMMENT '最新反馈日期',
-    status    varchar(9)    COMMENT '状态',
+    status    varchar(9)    COMMENT '状态' default 'NewStatus',
     remark    varchar(119)    COMMENT '备注',
     operate_time          timestamp default current_timestamp,
 	primary key (id)

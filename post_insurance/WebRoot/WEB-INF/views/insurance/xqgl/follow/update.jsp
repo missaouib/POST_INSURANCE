@@ -1,60 +1,191 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
 <div class="pageContent">
-<form method="post" action="${contextPath}/xqgl/stay/update" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
-	<input type="hidden" name="id" value="${stay.id}"/>
+<form method="post" action="${contextPath}/xqgl/follow/update" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
+	<input type="hidden" name="id" value="${issue.id}"/>
 	<div class="pageFormContent" layoutH="58">
+		<fieldset>
+		<legend>需反馈信息</legend>
 		<p>
-			<label>地市：</label>
-			<input name="organization.id" id="uw_orgId" type="hidden" value="${stay.organization.id }"/>
-			<input name="organization.orgCode" id="uw_orgCode" type="hidden" value="${stay.organization.orgCode }"/>
-					<input class="validate[required] required" name="organization.name" id="uw_orgName" type="text" readonly="readonly" style="width: 140px;" value="${stay.organization.name }"/>
-					<a class="btnLook" href="${contextPath }/management/security/user/lookup2org" lookupGroup="organization" title="选择机构" width="400">查找带回</a>
+			<label>职业：</label>
+			<input name="job" type="text" postField="job" suggestFields="job" class="input-medium validate[required,maxSize[32]] required"
+					suggestUrl="/xqgl/lookupJobSuggest" lookupGroup="" value="${prd_name }"/>
 		</p>		
 		<p>
-			<label>经办人：</label>
-			<input type="text" name="transactor" class="input-medium validate[required] required" maxlength="32" value="${stay.transactor }"/>
+			<label>工作单位：</label>
+			<input type="text" name="company" class="input-medium validate[required] required" maxlength="32" value="${issue.company }"/>
 		</p>
 		<p>
-			<label>转办日期：</label>
-			<input type="text" name="dealDate" class="date validate[required,maxSize[12]] required" dateFmt="yyyy-MM-dd" readonly="true" value="<fmt:formatDate value='${stay.dealDate }' pattern='yyyy-MM-dd'/>"/>
-				<a class="inputDateButton" href="javascript:;">选择</a>
+			<label>个人收入（元）：</label>
+			<input type="text" name="income" class="input-medium validate[required] required" maxlength="32" value="${issue.income }"/>
 		</p>
 		<p>
-			<label>快递单号：</label>
-			<input type="text" name="expressBillNo" class="input-medium" maxlength="32" value="${stay.expressBillNo }"/>
+			<label>家庭年收入（元）：</label>
+			<input type="text" name="homeIncome" class="input-medium" maxlength="32" value="${issue.homeIncome }"/>
+		</p>
+		<p>
+			<label>购买目的</label>
+			<input type="text" class="input-medium validate[required] required" name="objectives" id="objectives" value="${issue.objectives }" />
+		</p>
+		<p>
+			<label>客户网点资产清空</label>
+			<textarea type="text" name="bankInfo" class="input-medium">${issue.bankInfo}</textarea>
+		</p>
+		<p>
+			&nbsp;
+		</p>
+		</fieldset>
+		<fieldset>
+		<legend>保单基本信息</legend>
+		<p>
+			<label>投保单号：</label>
+			<span class="unit">${issue.policy.formNo }</span>
 		</p>
 		<p>
 			<label>保单号：</label>
-			<input name="policyNo" type="text" postField="policyNo" suggestFields="policyNo" class="input-medium validate[required] required"
-					suggestUrl="/common/lookupPolicyProvsuggest" lookupGroup="" value="${stay.policyNo }"/>
+			<span class="unit">${issue.policy.policyNo }</span>
 		</p>
 		<p>
-			<label>出单省</label>
-			<input type="text" class="input-medium validate[required] required" name="orginProv" id="orginProv" value="${stay.orginProv }" />
+			<label>机构：</label>
+			<span class="unit">${issue.policy.organName }</span>
 		</p>
 		<p>
-			<label>收件省</label>
-			<input type="text" name="dealProv" id="dealProv" class="input-medium validate[required] required" value="${stay.dealProv }"/>
+			&nbsp;
 		</p>
 		<p>
 			<label>客户姓名：</label>
-			<input type="text" name="client" value="${stay.client}" class="input-medium validate[required] required"/>
+			<span class="unit">${issue.policy.holder }</span>
 		</p>
 		<p>
-			<label>保全业务：</label>
-			<input name="conservationType" id="conservationType" class="input-medium validate[required] required" type="text" postField="search_LIKE_csName" suggestFields="conservationType" 
-					suggestUrl="/common/lookup2BQTypeSuggest" lookupGroup="" value="${stay.conservationType }"/>
+			<label>性别：</label>
+			<span class="unit">${issue.policy.policyDtl.holderSexy }</span>
 		</p>
-		<p class="nowrap">
-			<label>寄送地址：</label>
-			<textarea type="text" name="mailAddr" class="input-medium">${stay.mailAddr}</textarea>
+		<p>
+        <label>电话：</label>
+        <span class="unit">${issue.policy.policyDtl.holderPhone }</span>
+    </p>
+    <p>
+        <label>电话：</label>
+        <span class="unit">${issue.policy.policyDtl.holderMobile }</span>
+    </p>
+    <p>
+        <label>地址：</label>
+        <span class="unit">${issue.policy.policyDtl.holderAddr }</span>
+    </p>
+    <p>
+        <label>证件类型：</label>
+        <span class="unit">${issue.policy.policyDtl.holderCardType }</span>
+    </p>
+    <p>
+        <label>证件号码：</label>
+        <span class="unit">${issue.policy.policyDtl.holderCardNum }</span>
+    </p>
+    <p>
+        <label>证件有效期：</label>
+        <span class="unit">${issue.policy.policyDtl.holderCardValid }</span>
+    </p>
+    <p>
+        <label>Email：</label>
+        <span class="unit">${issue.policy.policyDtl.holderEmail }</span>
+    </p>
+    <p>
+        <label>投保年龄：</label>
+        <span class="unit">${issue.policy.policyDtl.holderAge }</span>
+    </p>
+    <p>
+			<label>被保人是投保人的：</label>
+			<span class="unit">${issue.policy.policyDtl.relation }</span>
 		</p>
+		<p>
+			<label>被保险人：</label>
+			<span class="unit">${issue.policy.insured }</span>
+		</p>
+		<p>
+			<label>被保险人年龄：</label>
+			<span class="unit">${issue.policy.policyDtl.insuredAge }</span>
+		</p>
+		<p>
+			<label>被保险人证件：</label>
+			<span class="unit">${issue.policy.policyDtl.insuredCardType }</span>
+		</p>
+		<p>
+			<label>被保险人号码：</label>
+			<span class="unit">${issue.policy.policyDtl.insuredCardNum }</span>
+		</p>
+		<p>
+			<label>证件有效期：</label>
+			<span class="unit">${issue.policy.policyDtl.insuredCardValid }</span>
+		</p>
+		<p>
+			<label>险种名称：</label>
+			<span class="unit">${issue.policy.prodName }</span>
+		</p>
+		<p>
+			<label>交费方式：</label>
+			<span class="unit">${issue.policy.feeFrequency }</span>
+		</p>
+		<p>
+			<label>交费期间：</label>
+			<span class="unit">${issue.policy.perm }</span>
+		</p>
+		<p>
+			<label>期间类型：</label>
+			<span class="unit">${issue.policy.policyDtl.durationType }</span>
+		</p>
+		<p>
+			<label>保险期间：</label>
+			<span class="unit">${issue.policy.policyDtl.duration }</span>
+		</p>
+		<p>
+			<label>保险费：</label>
+			<span class="unit">${issue.policy.policyFee }</span>
+		</p>
+		<p>
+			<label>承保日期：</label>
+			<span class="unit">${issue.policy.policyDate }</span>
+		</p>
+		<p>
+			<label>承保时间：</label>
+			<span class="unit">${issue.policy.policyDtl.policyTime }</span>
+		</p>
+		<p>
+			<label>终止期间：</label>
+			<span class="unit">${issue.policy.policyDtl.policyInvalidDate }</span>
+		</p>
+		<p>
+			<label>保单寄送标志：</label>
+			<span class="unit">${issue.policy.policyDtl.policySendType }</span>
+		</p>
+		<p>
+			<label>客户签收日期：</label>
+			<span class="unit">${issue.policy.clientReceiveDate }</span>
+		</p>
+		<p>
+			<label>回单日期：</label>
+			<span class="unit">${issue.policy.billBackDate }</span>
+		</p>
+		<p>
+			<label>状态：</label>
+			<span class="unit">${issue.policy.status }</span>
+		</p>
+		<p>
+			<label>是否员工单：</label>
+			<span class="unit">${issue.policy.isStaff }</span>
+		</p>
+		<p>
+			<label>是否银行单：</label>
+			<span class="unit">${issue.policy.bankCode!=null && issue.policy.bankCode.netFlag==2?"是":"否" }</span>
+		</p>
+		<p>
+			<label>网点名称：</label>
+			<span class="unit">${issue.policy.policyDtl.bankName }</span>
+		</p>
+	</fieldset>
 	</div>
-			
+	
 	<div class="formBar">
 		<ul>
-			<li><div <c:if test='${stay.status eq "已关闭" }'>class="buttonDisabled"</c:if> <c:if test='${stay.status ne "已关闭" }'>class="button"</c:if>><div class="buttonContent"><button type="submit" <c:if test='${stay.status eq "已关闭" }'>disabled=true</c:if>>确定</button></div></div></li>
+			<li><div <c:if test='${issue.status eq "已关闭" }'>class="buttonDisabled"</c:if> <c:if test='${issue.status ne "已关闭" }'>class="button"</c:if>><div class="buttonContent"><button type="submit" <c:if test='${issue.status eq "已关闭" }'>disabled=true</c:if>>确定</button></div></div></li>
 			<li><div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div></li>
 		</ul>
 	</div>

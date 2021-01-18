@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.JoinColumnOrFormula;
 import org.hibernate.annotations.JoinColumnsOrFormulas;
@@ -50,9 +51,20 @@ public class RenewedFollow  implements Idable<Long>,java.io.Serializable {
      private Date operateTime;
 
 
+     @Transient
+     private String followStatus;
+     
     // Constructors
+     @Transient
+    public String getFollowStatus() {
+		return followStatus;
+	}
+     @Transient
+	public void setFollowStatus(String followStatus) {
+		this.followStatus = followStatus;
+	}
 
-    /** default constructor */
+	/** default constructor */
     public RenewedFollow() {
     }
 

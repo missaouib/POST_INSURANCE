@@ -881,14 +881,21 @@ public class XqglController {
 	 * follow
 	 * 
 	 */
+	
+	@RequestMapping(value="/lookupJobSuggest", method={RequestMethod.POST})
+	public @ResponseBody String lookupCvType(ServletRequest request, Map<String, Object> map) {
+		String str = "[{\"job\":\"内勤人员\"}, {\"job\":\"外勤人员\"}, {\"job\":\"农夫\"}, {\"job\":\"私营个体\"}, {\"job\":\"退休\"}, {\"job\":\"其他（需注明）\"}]";
+		LOG.debug("---------------- bq job suggest: " + str);
+		return str;
+	}
+	
 	@RequiresPermissions("RenewedFollow:view")
 	@RequestMapping(value="/follow/view/{id}", method=RequestMethod.GET)
 	public String viewFollow(@PathVariable Long id, Map<String, Object> map) {
-		RenewedList issue = xqglService.get(id);
+		RenewedFollow issue = xqglService.getRenewedFollow(id);
 		
 		map.put("issue", issue);
-		//map.put("feeStatus", XQ_STATUS.ReopenStatus);
-		return VIEW;
+		return UPDATE_FOLLOW;
 	}
 	
 	@RequiresPermissions("RenewedFollow:edit")
@@ -926,14 +933,14 @@ public class XqglController {
 		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
 		Organization userOrg = user.getOrganization();
 		//默认返回未处理工单
-		String policyStatus = request.getParameter("policyStatus");
+		String policyStatus = request.getParameter("status");
 		String followStatus = request.getParameter("followStatus");
 		if(policyStatus != null && policyStatus.trim().length() > 0) {
 			request.setAttribute("encodeStatus", Base64Utils.encodeToString(policyStatus.getBytes()));
 		}
 		LOG.debug("-------------- status: " + policyStatus + ", user org code:" + userOrg.getOrgCode());
 		RenewedFollow follow = new RenewedFollow();
-		follow.setStatus(followStatus);
+		follow.setFollowStatus(followStatus);
 		
 		Policy policy = new Policy();
 		policy.setStatus(policyStatus);
@@ -960,10 +967,11 @@ public class XqglController {
 		policy.setDuration(Integer.valueOf(duration==null||duration.trim().length()<=0?"0":duration));
 		policy.setNetFlag(netFlag);
 		
-		map.put("policy", follow);
+		map.put("policy", policy);
+		map.put("follow", follow);
 		map.put("page", page);
 		if(request.getParameterMap().size()<=1) {
-			return LIST;
+			return LIST_FOLLOW;
 		}
 		
 		if(page.getOrderField() == null || page.getOrderField().trim().length() <= 0) {
@@ -1008,9 +1016,15 @@ public class XqglController {
 				e.printStackTrace();
 			}
 		}
+		
+		if(followStatus != null && followStatus.trim().length() > 0) {
+			csf.add(new SearchFilter("status", Operator.EQ, followStatus));
+			request.setAttribute("followStatus", followStatus);
+		}
+		
 		String prdName = request.getParameter("prd.prdFullName");
 		if(prdName != null && prdName.trim().length()>0) {
-			csf.add(new SearchFilter("prodName", Operator.EQ, prdName));
+			csf.add(new SearchFilter("policy.prodName", Operator.EQ, prdName));
 			request.setAttribute("prd_name", prdName);
 			try {
 				request.setAttribute("prodName", URLEncoder.encode(prdName, "UTF8"));
@@ -1019,37 +1033,37 @@ public class XqglController {
 			}
 		}
 		if(attachedFlag != null && attachedFlag.trim().length()>0) {
-			csf.add(new SearchFilter("attachedFlag", Operator.EQ, attachedFlag));
+			csf.add(new SearchFilter("policy.attachedFlag", Operator.EQ, attachedFlag));
 			request.setAttribute("attachedFlag", attachedFlag);
 		}
 		if(feeFrequency != null && feeFrequency.trim().length()>0) {
-			csf.add(new SearchFilter("feeFrequency", Operator.EQ, feeFrequency));
+			csf.add(new SearchFilter("policy.feeFrequency", Operator.EQ, feeFrequency));
 			request.setAttribute("feeFrequency", feeFrequency);
 		}
 		if(staff != null) {
-			csf.add(new SearchFilter("staffFlag", Operator.EQ, staff));
+			csf.add(new SearchFilter("policy.staffFlag", Operator.EQ, staff));
 			request.setAttribute("staffFlag", staffFlag);
 		}
 		if(duration != null && duration.trim().length()>0 && !duration.equals("0")) {
-			csf.add(new SearchFilter("duration", Operator.GTE, duration));
+			csf.add(new SearchFilter("policy.duration", Operator.GTE, duration));
 			request.setAttribute("duration", duration);
 		}
 		
 		if(saleChannel != null && saleChannel.trim().length()>0) {
-			csf.add(new SearchFilter("policyNo", Operator.LIKE_R, saleChannel));
+			csf.add(new SearchFilter("policy.policyNo", Operator.LIKE_R, saleChannel));
 			request.setAttribute("saleChannel", saleChannel);
 		}
 		
 		if(holderPhone == null || holderPhone.trim().length()<=0) {
-			csf.add(new SearchFilter("organization.orgCode", Operator.LIKE_R, orgCode));
+			csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, orgCode));
 		} else {
-			csf.add(new SearchFilter("policyDtl.holderMobile", Operator.OR_EQ, holderPhone));
-			csf.add(new SearchFilter("policyDtl.holderPhone", Operator.OR_EQ, holderPhone));
+			csf.add(new SearchFilter("policy.policyDtl.holderMobile", Operator.OR_EQ, holderPhone));
+			csf.add(new SearchFilter("policy.policyDtl.holderPhone", Operator.OR_EQ, holderPhone));
 			request.setAttribute("holderPhone", holderPhone);
 		}
 		
-		Specification<Policy> specification = DynamicSpecifications.bySearchFilter(request, Policy.class, csf);
-		List<Policy> policies = policyService.findByExample(specification, page);
+		Specification<RenewedFollow> specification = DynamicSpecifications.bySearchFilter(request, RenewedFollow.class, csf);
+		List<RenewedFollow> policies = xqglService.findRenewedFollowByExample(specification, page);
 		
 		map.put("policies", policies);
 		map.put("xqStatusList", XQ_STATUS.values());

@@ -160,8 +160,8 @@ public class PayList implements Idable<Long>, Serializable {
 		this.relNo = relNo;
 	}
 	
-	@ManyToOne
-	@JoinColumn(name="org_name", referencedColumnName="name")
+	@ManyToOne(optional=true)
+	@JoinColumn(name="org_name", referencedColumnName="name", nullable=true, insertable=false, updatable=false )
 	public Organization getOrganization() {
 		return organization;
 	}
