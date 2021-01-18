@@ -909,21 +909,21 @@ public class XqglController {
 		return UPDATE_FOLLOW;
 	}
 	
-	@Log(message="批量关闭了{0}续期催收清单。", level=LogLevel.WARN, module=LogModule.XQGL)
+	@Log(message="反馈了大额保单{0}的跟进情况。", level=LogLevel.WARN, module=LogModule.XQGL)
 	@RequiresPermissions(value={"RenewedFollow:edit"}, logical=Logical.OR)
-	@RequestMapping(value="/follow/batchClose", method=RequestMethod.POST)
-	public @ResponseBody String batchCloseFollows(Long[] ids) {
-		RenewedFollow renewed = null;
-		String[] policys = new String[ids.length];
-		for(int i = 0; i<ids.length; i++) {
-			renewed = xqglService.getRenewedFollow(ids[i]);
-			renewed.setStatus(XQ_STATUS.CloseStatus.getDesc());
-			xqglService.saveOrUpdateRenewedFollow(renewed);
-			policys[i] = renewed.getPolicy().getPolicyNo();
-		}
+	@RequestMapping(value="/follow/update", method=RequestMethod.POST)
+	public @ResponseBody String batchCloseFollows(RenewedFollow target) {
+		RenewedFollow src = xqglService.getRenewedFollow(target.getId());
+		//Policy policy = policyService.getByPolicyNo(src.getPolicy().getPolicyNo())
+		BeanUtils.copyProperties(target, src, "id", "policy");
+		src.setStatus(XQ_STATUS.FeedStatus.name());
+		src.setReporteDate(src.getFollowDate()==null?new Date():src.getFollowDate());
+		src.setFollowDate(new Date());
 		
-		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{Arrays.toString(policys)}));
-		return	AjaxObject.newOk("批量关闭续期催收成功！").setCallbackType("").toString();
+		xqglService.saveOrUpdateRenewedFollow(src);
+		
+		LogUitls.putArgs(LogMessageObject.newWrite().setObjects(new Object[]{src.getPolicy().getPolicyNo()}));
+		return	AjaxObject.newOk("成功反馈大额保单跟进成功！").toString(); 
 	}
 	
 	@RequiresPermissions("RenewedFollow:view")
@@ -1079,79 +1079,98 @@ public class XqglController {
 	public String followToXls(ServletRequest request, Page page, Map<String, Object> map) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
+		Organization userOrg = user.getOrganization();
 		//默认返回未处理工单
-		String feeStatus = request.getParameter("encodeStatus");
-		String hqIssueType = request.getParameter("encodeHqIssueType");
-		String dealType = request.getParameter("encodeDealType");
-		String feeFailReason = request.getParameter("encodeFeeFailReason");
-		String provActivity = request.getParameter("provActivity");
-		String feeMatch = request.getParameter("feeMatch");
-		String staffFlag = request.getParameter("staffFlag");
-		if(feeStatus != null && feeStatus.trim().length() > 0 ){
-			feeStatus = new String(Base64Utils.decodeFromString(feeStatus));
-			try {
-				feeStatus = URLDecoder.decode(feeStatus, "UTF-8");
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			}
-		}
-		if(hqIssueType != null && hqIssueType.trim().length()>0) {
-			hqIssueType = new String(Base64Utils.decodeFromString(hqIssueType));
-		}
-		if(dealType != null && dealType.trim().length()>0) {
-			dealType = new String(Base64Utils.decodeFromString(dealType));
-		}
-		if(feeFailReason != null && feeFailReason.trim().length()>0) {
-			try {
-				feeFailReason = URLDecoder.decode(new String(Base64Utils.decodeFromString(feeFailReason)), "UTF-8");
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			}
+		String policyStatus = request.getParameter("status");
+		String followStatus = request.getParameter("followStatus");
+		if(policyStatus != null && policyStatus.trim().length() > 0) {
+			request.setAttribute("encodeStatus", Base64Utils.encodeToString(policyStatus.getBytes()));
 		}
 		
-		String orgCode = request.getParameter("policy.orgCode");
-		if(orgCode == null || orgCode.trim().length()<=0) {
-			orgCode = user.getOrganization().getOrgCode();
-		} else if(!orgCode.contains(user.getOrganization().getOrgCode())){
-			orgCode = user.getOrganization().getOrgCode();
+		String attachedFlag = request.getParameter("attachedFlag");
+		String feeFrequency = request.getParameter("feeFrequency");
+		String staffFlag = request.getParameter("staffFlag");
+		String duration = request.getParameter("duration");
+		String saleChannel = request.getParameter("saleChannel");
+		String holderPhone = request.getParameter("holderPhone");
+		String ctNum = request.getParameter("ctNum");
+		String netFlag = request.getParameter("netFlag");
+		
+		Boolean staff = null;
+		if(staffFlag != null && staffFlag.trim().equals("0")) {
+			staff = false;
+		} else if(staffFlag != null && staffFlag.trim().equals("1")) {
+			staff = true;
 		}
-		if(page.getOrderField() == null || page.getOrderField().trim().length()<=0) {
-			List<Order> orders=new ArrayList<Order>();
-			orders.add(new Order(Direction.DESC, "feeDate"));
-			orders.add(new Order(Direction.ASC, "policy.policyDate"));
-			page.setOrders(orders);
+		
+		if(page.getOrderField() == null || page.getOrderField().trim().length() <= 0) {
+			page.setOrderField("policy.policyDate");
+			page.setOrderDirection("DESC");
 		}
 		page.setNumPerPage(65564);
 		
+		String orgCode = request.getParameter("orgCode");
+		if(orgCode == null || orgCode.trim().length() <= 0) {
+			orgCode = user.getOrganization().getOrgCode();
+			if(orgCode.contains("11185")) {
+				orgCode = "8644";
+			}
+		} else {
+			if(!orgCode.contains(user.getOrganization().getOrgCode())){
+				orgCode = user.getOrganization().getOrgCode();
+			}
+		}
+		
 		Collection<SearchFilter> csf = new HashSet<SearchFilter>();
-		csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, orgCode));
-		if (feeStatus != null && feeStatus.length() > 0) {
-			csf.add(new SearchFilter("feeStatus", Operator.EQ, feeStatus));
-		}
-		if (hqIssueType != null && hqIssueType.length() > 0) {
-			csf.add(new SearchFilter("hqIssueType", Operator.EQ, hqIssueType));
-		}
-		if (dealType != null && dealType.length() > 0) {
-			csf.add(new SearchFilter("dealType", Operator.EQ, dealType));
-		}
-		if (feeFailReason != null && feeFailReason.length() > 0) {
-			csf.add(new SearchFilter("feeFailReason", Operator.EQ, feeFailReason));
-		}
-		if (provActivity != null && provActivity.length() > 0) {
-			csf.add(new SearchFilter("provActivity", Operator.EQ, provActivity));
-		}
-		if (feeMatch != null && feeMatch.length() > 0) {
-			csf.add(new SearchFilter("feeMatch", Operator.EQ, feeMatch));
-		}
-		if (staffFlag != null && staffFlag.length() > 0) {
-			Boolean isSf = staffFlag.equals("1")?Boolean.TRUE:Boolean.FALSE;
-			csf.add(new SearchFilter("policy.staffFlag", Operator.EQ, isSf));
-		}
-		Specification<RenewedList> specification = DynamicSpecifications.bySearchFilter(request, RenewedList.class, csf);
 		
-		List<RenewedList> issues = xqglService.findByExample(specification, page);
+		if(netFlag != null && netFlag.trim().length()>0) {
+			csf.add(new SearchFilter("policy.bankCode.netFlag", Operator.EQ, netFlag));
+		}
 		
-		map.put("reqs", issues);
+		if(ctNum != null && ctNum.trim().length()>0) {
+			csf.add(new SearchFilter("policy.policyDtl.ctNum", Operator.GTE, ctNum));
+		}
+		
+		if(policyStatus != null && policyStatus.trim().length() > 0) {
+			csf.add(new SearchFilter("policy.status", Operator.EQ, policyStatus));
+		}
+		
+		if(followStatus != null && followStatus.trim().length() > 0) {
+			csf.add(new SearchFilter("status", Operator.EQ, followStatus));
+		}
+		
+		String prdName = request.getParameter("prd.prdFullName");
+		if(prdName != null && prdName.trim().length()>0) {
+			csf.add(new SearchFilter("policy.prodName", Operator.EQ, prdName));
+		}
+		if(attachedFlag != null && attachedFlag.trim().length()>0) {
+			csf.add(new SearchFilter("policy.attachedFlag", Operator.EQ, attachedFlag));
+		}
+		if(feeFrequency != null && feeFrequency.trim().length()>0) {
+			csf.add(new SearchFilter("policy.feeFrequency", Operator.EQ, feeFrequency));
+		}
+		if(staff != null) {
+			csf.add(new SearchFilter("policy.staffFlag", Operator.EQ, staff));
+		}
+		if(duration != null && duration.trim().length()>0 && !duration.equals("0")) {
+			csf.add(new SearchFilter("policy.duration", Operator.GTE, duration));
+		}
+		
+		if(saleChannel != null && saleChannel.trim().length()>0) {
+			csf.add(new SearchFilter("policy.policyNo", Operator.LIKE_R, saleChannel));
+		}
+		
+		if(holderPhone == null || holderPhone.trim().length()<=0) {
+			csf.add(new SearchFilter("policy.organization.orgCode", Operator.LIKE_R, orgCode));
+		} else {
+			csf.add(new SearchFilter("policy.policyDtl.holderMobile", Operator.OR_EQ, holderPhone));
+			csf.add(new SearchFilter("policy.policyDtl.holderPhone", Operator.OR_EQ, holderPhone));
+		}
+		
+		Specification<RenewedFollow> specification = DynamicSpecifications.bySearchFilter(request, RenewedFollow.class, csf);
+		List<RenewedFollow> policies = xqglService.findRenewedFollowByExample(specification, page);
+		
+		map.put("policies", policies);
 		return FOLLOW_TO_XLS;
 	}
 	

@@ -3,13 +3,14 @@
 <div class="pageContent">
 <form method="post" action="${contextPath}/xqgl/follow/update" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogReloadNavTab);">
 	<input type="hidden" name="id" value="${issue.id}"/>
+	<input type="hidden" name="policyNo" value="${issue.policy.policyNo}"/>
 	<div class="pageFormContent" layoutH="58">
 		<fieldset>
 		<legend>需反馈信息</legend>
 		<p>
 			<label>职业：</label>
 			<input name="job" type="text" postField="job" suggestFields="job" class="input-medium validate[required,maxSize[32]] required"
-					suggestUrl="/xqgl/lookupJobSuggest" lookupGroup="" value="${prd_name }"/>
+					suggestUrl="/xqgl/lookupJobSuggest" lookupGroup="" value="${issue.job }"/>
 		</p>		
 		<p>
 			<label>工作单位：</label>
@@ -28,7 +29,7 @@
 			<input type="text" class="input-medium validate[required] required" name="objectives" id="objectives" value="${issue.objectives }" />
 		</p>
 		<p>
-			<label>客户网点资产清空</label>
+			<label>客户网点资产情况</label>
 			<textarea type="text" name="bankInfo" class="input-medium">${issue.bankInfo}</textarea>
 		</p>
 		<p>

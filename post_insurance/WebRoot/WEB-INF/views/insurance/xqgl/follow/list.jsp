@@ -166,19 +166,18 @@
 		<thead>
 			<tr>
 				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>
-				<th>投保单号</th>
+				<th>反馈状态</th>
+				<th>反馈日期</th>
 				<th orderField=policy.policyNo class="${page.orderField eq 'policy.policyNo' ? page.orderDirection : ''}">保单号</th>
 				<th orderFieldpolicy.organization.shortName class="${page.orderField eq 'policy.organization.shortName' ? page.orderDirection : ''}">机构</th>
 				<th>投保人</th>
 				<th>被保人</th>
-				<th>险种计划</th>
 				<th>险种名称</th>
 				<th>保费</th>
-				<th>交费方式</th>
 				<th>交费期间</th>
 				<th>保险期间</th>
 				<th>承保日期</th>
-				<th>状态</th>
+				<th>保单状态</th>
 				<th>退保日期</th>
 				<th>网点</th>
 				<th>员工单</th>
@@ -190,15 +189,26 @@
 			<c:forEach var="item" items="${policies}">
 			<tr target="slt_uid" rel="${item.id}">
 				<td><input name="ids" value="${item.id}" type="checkbox"></td>
-				<td>${item.policy.formNo}</td>
+				<td>
+				<c:choose>
+					<c:when test="${item.status eq 'NewStatus'}">
+						未反馈
+					</c:when>
+					<c:when test="${item.status eq 'FeedStatus'}">
+						已反馈
+					</c:when>
+					<c:otherwise>
+						已终止
+					</c:otherwise>
+				</c:choose>
+				</td>
+				<td><fmt:formatDate value="${item.followDate }" pattern="yyyy-MM-dd"/></td>
 				<td><a target="dialog" rel="view" mask="true" width="820" height="520" href="${contextPath }/client/view/byPolicyNo/${item.policy.policyNo}"><div style="color: blue;vertical-align:middle;font-weight:normal;">${item.policy.policyNo}</div></a></td>
 				<td>${item.policy.organization.shortName}</td>
 				<td>${item.policy.holder}</td>
 				<td>${item.policy.insured}</td>
-				<td>${item.policy.planName}</td>
 				<td>${item.policy.prodName}</td>
 				<td>${item.policy.policyFee}</td>
-				<td>${item.policy.feeFrequency}</td>
 				<td>${item.policy.perm}</td>
 				<td>${item.policy.policyDtl.duration}</td>
 				<td><fmt:formatDate value="${item.policy.policyDate }" pattern="yyyy-MM-dd"/></td>

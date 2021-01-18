@@ -1,15 +1,15 @@
-﻿create table t_renewed_follow (
+create table t_renewed_follow (
     id    bigint not null auto_increment,
     policy_no    varchar(18)    COMMENT '保单号',
     job    varchar(24)    COMMENT '职业',
     company    varchar(24)    COMMENT '工作单位',
     income    double    COMMENT '个人收入万元',
     home_income    double    COMMENT '家庭年收入',
-    objectives    date    COMMENT '购买目的',
-    bank_info    date    COMMENT '客户网点资产情况',
+    objectives    varchar(64)    COMMENT '购买目的',
+    bank_info    varchar(119)    COMMENT '客户网点资产情况',
     reporte_date    date    COMMENT '上次反馈日期',
     follow_date    date    COMMENT '最新反馈日期',
-    status    varchar(9)    COMMENT '状态' default 'NewStatus',
+    status    varchar(11)   default 'NewStatus' COMMENT '状态',
     remark    varchar(119)    COMMENT '备注',
     operate_time          timestamp default current_timestamp,
 	primary key (id)
