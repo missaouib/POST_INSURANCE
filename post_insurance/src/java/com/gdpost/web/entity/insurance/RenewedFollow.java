@@ -44,6 +44,7 @@ public class RenewedFollow  implements Idable<Long>,java.io.Serializable {
      private Double homeIncome;
      private String objectives;
      private String bankInfo;
+     private String riskLevel;
      private Date reporteDate;
      private Date followDate;
      private String status;
@@ -149,7 +150,16 @@ public class RenewedFollow  implements Idable<Long>,java.io.Serializable {
     public void setBankInfo(String bankInfo) {
         this.bankInfo = bankInfo;
     }
-    @Temporal(TemporalType.DATE)
+    
+    @Column(name="risk_level")
+    public String getRiskLevel() {
+		return riskLevel;
+	}
+	public void setRiskLevel(String riskLevel) {
+		this.riskLevel = riskLevel;
+	}
+	
+	@Temporal(TemporalType.DATE)
     @Column(name="reporte_date", length=10)
 
     public Date getReporteDate() {

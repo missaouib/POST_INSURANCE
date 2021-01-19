@@ -22,18 +22,28 @@
 		</p>
 		<p>
 			<label>家庭年收入（元）：</label>
-			<input type="text" name="homeIncome" class="input-medium" maxlength="32" value="${issue.homeIncome }"/>
+			<input type="text" name="homeIncome" class="input-medium validate[required] required" maxlength="32" value="${issue.homeIncome }"/>
 		</p>
 		<p>
 			<label>购买目的</label>
-			<input type="text" class="input-medium validate[required] required" name="objectives" id="objectives" value="${issue.objectives }" />
+			<input name="objectives" type="text" postField="objectives" suggestFields="objectives" class="input-medium validate[required,maxSize[32]] required"
+					suggestUrl="/xqgl/lookupWhyBuySuggest" lookupGroup="" value="${issue.objectives }"/>
 		</p>
 		<p>
 			<label>客户网点资产情况</label>
-			<textarea type="text" name="bankInfo" class="input-medium">${issue.bankInfo}</textarea>
+			<textarea type="text" name="bankInfo" class="input-medium validate[required] required">${issue.bankInfo}</textarea>
+		</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>
+			<label>风险自评：</label>
+			<input name="riskLevel" type="text" postField="riskLevel" suggestFields="riskLevel" class="input-medium validate[required,maxSize[32]] required"
+					suggestUrl="/xqgl/lookupRiskSuggest" lookupGroup="" value="${issue.riskLevel }"/>
 		</p>
 		<p>
-			&nbsp;
+低风险：客户收入与资产足以覆盖后续交费；
+中风险：客户收入与资产勉强覆盖后续交费；
+高风险：客户收入与资产难以覆盖后续交费
 		</p>
 		</fieldset>
 		<fieldset>

@@ -45,7 +45,6 @@ import com.gdpost.utils.TemplateHelper.CsLoanColumn;
 import com.gdpost.utils.TemplateHelper.CsReportColumn;
 import com.gdpost.utils.TemplateHelper.DocNotScanDtlColumn;
 import com.gdpost.utils.TemplateHelper.InquireColumn;
-import com.gdpost.utils.TemplateHelper.IssueColumn;
 import com.gdpost.utils.TemplateHelper.IssuePFRColumn;
 import com.gdpost.utils.TemplateHelper.IssuePFRDealColumn;
 import com.gdpost.utils.TemplateHelper.PayFailListColumn;
@@ -55,6 +54,7 @@ import com.gdpost.utils.TemplateHelper.PolicyDtlExtColumn;
 import com.gdpost.utils.TemplateHelper.PolicyDtlsColumn;
 import com.gdpost.utils.TemplateHelper.PolicySentDataColumn;
 import com.gdpost.utils.TemplateHelper.PolicyUnderWriteColumn;
+import com.gdpost.utils.TemplateHelper.RenewedFollowColumn;
 import com.gdpost.utils.TemplateHelper.SettlementColumn;
 import com.gdpost.utils.TemplateHelper.StasticsAreaColumn;
 import com.gdpost.utils.TemplateHelper.StasticsCityColumn;
@@ -212,12 +212,14 @@ public class UploadDataServiceImpl implements UploadDataService{
 			break;
 		case IssuePFRDeal:
 			return dr;
+			/*
 		case CallFail:
-			//tableName = "t_call_fail_list";
+			tableName = "t_call_fail_list";
 			standardColumns = IssueColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' IGNORE INTO TABLE t_call_fail_list character set utf8 (";
 			sql1 = "update t_call_fail_list set finish_date=\"2015-01-01 00:00:00\" where finish_date<\"2000-11-01 09:00:00\";";
 			break;
+			*/
 		case CallFailPFR:
 			//tableName = "t_call_fail_list";
 			standardColumns = IssuePFRColumn.getStandardColumns();
@@ -241,6 +243,8 @@ public class UploadDataServiceImpl implements UploadDataService{
 			standardColumns = CallRatioColumn.getStandardColumns();
 			strStatementText = "LOAD DATA LOCAL INFILE 'file.txt' REPLACE INTO TABLE t_call_ratio character set utf8 (";
 			break;
+		case RenewedFollow:
+			return dr;
 			/*
 			 * 续期相关功能关闭
 			 * 
@@ -537,13 +541,15 @@ public class UploadDataServiceImpl implements UploadDataService{
 	    	            continue;
         			}
         		}
-        		if(ft.name().equals(FileTemplate.CallFail.name())/* || ft.name().equals(FileTemplate.Issue.name())*/) {
+        		/*
+        		if(ft.name().equals(FileTemplate.CallFail.name()) || ft.name().equals(FileTemplate.Issue.name())) {
         			if(item.getDisplayName().equals("结案时间") && cell != null && StringUtil.trimStr(cell).length()<=0) {
         				log.debug("----------- 结案时间: " + cell);
         	            builder.append("2015-01-01 00:00:00\t");
         	            continue;
         			}
         		}
+        		*/
         		if(ft.name().equals(FileTemplate.CallFailPFR.name()) || ft.name().equals(FileTemplate.IssuePFR.name())) {
         			if(item.getDisplayName().equals("附加险保费") && (cell == null || StringUtil.trimStr(cell).length()<=0)) {
         				log.debug("----------- 附加险保费: " + cell);
@@ -777,9 +783,10 @@ public class UploadDataServiceImpl implements UploadDataService{
 			log.debug("----------------batch update : " + sql);
 			sql2 = "delete from t_issue where issue_no is null or policy_no is null or issue_desc is null;";
 			break;
+			/*
 		case CallFail:
 			return dr;
-			/*
+			
 		case CallFailStatus:
 			standardColumns = CallFailHQListColumn.getStandardColumns();
 			sql = new StringBuffer("INSERT INTO t_call_fail_list(policy_no, issue_desc, status, issue_type, issue_content, "
@@ -1143,6 +1150,30 @@ public class UploadDataServiceImpl implements UploadDataService{
 			break;
 		case CallRatio:
 			return dr;
+		case RenewedFollow://总部的催收
+			//tableName = "t_renewed_list";
+			standardColumns = RenewedFollowColumn.getStandardColumns();
+			sql = new StringBuffer("INSERT INTO t_renewed_follow(policy_no, job, company, income, home_come, objectives, bank_info, risk_level) VALUES ");
+			line = null;
+			val = null;
+			for (DataRow row : dt.Rows) {
+				val = null;
+				line = new StringBuffer("(");
+	        	for(ColumnItem item : standardColumns) {
+	        		val = row.getValue(item.getDisplayName());
+                	
+	        		line.append("\"" + StringUtil.trimStr(val, true) + "\",");
+	        	}
+	        	line.deleteCharAt(line.length() - 1);
+	        	line.append("),");
+	        	sql.append(line);
+	        }
+			sql.deleteCharAt(sql.length() - 1);
+			sql.append(" ON DUPLICATE KEY UPDATE ");
+			sql.append("job=VALUES(job), company=VALUES(company), income=VALUES(income), home_come=VALUES(home_come), objectives=VALUES(objectives), bank_info=VALUES(bank_info), risk_level=VALUES(risk_level);");
+			log.debug("----------------city update status batch sql : " + sql);
+			sql2 = "update t_renewed_follow set status=\"FeedStatus\" where job is not null and status=\"NewStatus\";";
+			break;
 		/*
 		 * 关闭续期相关功能
 		 * 
@@ -1775,11 +1806,12 @@ public class UploadDataServiceImpl implements UploadDataService{
 			standardColumns = InquireColumn.getStandardColumns();
 			keyRow = InquireColumn.KEY_ROW;
 			break;
+			/*
 		case CallFail:
 			standardColumns = IssueColumn.getStandardColumns();
 			keyRow = IssueColumn.KEY_ROW;
 			break;
-			/*
+			
 		case CallFailStatus:
 			standardColumns = CallFailHQListColumn.getStandardColumns();
 			keyRow = CallFailHQListColumn.KEY_ROW;
@@ -1800,6 +1832,10 @@ public class UploadDataServiceImpl implements UploadDataService{
 		case CallFailCloseStatus:
 			standardColumns = CallFailCloseListColumn.getStandardColumns();
 			keyRow = CallFailCloseListColumn.KEY_ROW;
+			break;
+		case RenewedFollow:
+			standardColumns = RenewedFollowColumn.getStandardColumns();
+			keyRow = RenewedFollowColumn.KEY_ROW;
 			break;
 			/*
 		case Renewed:
@@ -2026,6 +2062,7 @@ public class UploadDataServiceImpl implements UploadDataService{
 						|| t.name().equals(FileTemplate.CallFailMailSuccessStatus.name())
 						|| t.name().equals(FileTemplate.CallFailCloseStatus.name())
 						|| t.name().equals(FileTemplate.CallFailPhoneStatus.name())
+						|| t.name().equals(FileTemplate.RenewedFollow.name())
 						/*|| t.name().equals(FileTemplate.RenewedProvList.name())
 						|| t.name().equals(FileTemplate.RenewedCityList.name())
 						|| t.name().equals(FileTemplate.RenewedStatus.name())

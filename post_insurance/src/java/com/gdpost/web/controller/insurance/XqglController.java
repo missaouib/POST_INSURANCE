@@ -21,6 +21,7 @@ import java.util.Map;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.shiro.authz.annotation.Logical;
@@ -883,8 +884,22 @@ public class XqglController {
 	 */
 	
 	@RequestMapping(value="/lookupJobSuggest", method={RequestMethod.POST})
-	public @ResponseBody String lookupCvType(ServletRequest request, Map<String, Object> map) {
+	public @ResponseBody String lookupJob(ServletRequest request, Map<String, Object> map) {
 		String str = "[{\"job\":\"内勤人员\"}, {\"job\":\"外勤人员\"}, {\"job\":\"农夫\"}, {\"job\":\"私营个体\"}, {\"job\":\"退休\"}, {\"job\":\"其他（需注明）\"}]";
+		LOG.debug("---------------- bq job suggest: " + str);
+		return str;
+	}
+	
+	@RequestMapping(value="/lookupWhyBuySuggest", method={RequestMethod.POST})
+	public @ResponseBody String lookupObj(ServletRequest request, Map<String, Object> map) {
+		String str = "[{\"objectives\":\"理财\"}, {\"objectives\":\"养老\"}, {\"objectives\":\"资产传承\"}, {\"objectives\":\"其他（需注明）\"}]";
+		LOG.debug("---------------- bq job suggest: " + str);
+		return str;
+	}
+	
+	@RequestMapping(value="/lookupRiskSuggest", method={RequestMethod.POST})
+	public @ResponseBody String lookuprisk(ServletRequest request, Map<String, Object> map) {
+		String str = "[{\"riskLevel\":\"低风险\"}, {\"riskLevel\":\"中风险\"}, {\"riskLevel\":\"高风险\"}]";
 		LOG.debug("---------------- bq job suggest: " + str);
 		return str;
 	}
@@ -1076,10 +1091,9 @@ public class XqglController {
 	@Log(message="下载了续期催收件列表。", level=LogLevel.INFO, module=LogModule.XQGL)
 	@RequiresPermissions("RenewedFollow:view")
 	@RequestMapping(value="/follow/toXls", method=RequestMethod.GET)
-	public String followToXls(ServletRequest request, Page page, Map<String, Object> map) {
+	public String followToXls(ServletRequest request, HttpServletResponse response, Page page, Map<String, Object> map) {
 		ShiroUser shiroUser = SecurityUtils.getShiroUser();
 		User user = shiroUser.getUser();//userService.get(shiroUser.getId());
-		Organization userOrg = user.getOrganization();
 		//默认返回未处理工单
 		String policyStatus = request.getParameter("status");
 		String followStatus = request.getParameter("followStatus");
@@ -1171,6 +1185,40 @@ public class XqglController {
 		List<RenewedFollow> policies = xqglService.findRenewedFollowByExample(specification, page);
 		
 		map.put("policies", policies);
+		
+		/*
+		String dirPath = request.getServletContext() + File.separator+"doc" +File.separator;
+        String fileName="renewedFollow.xls";
+		//读取excel模板 
+		try {
+			FileInputStream inStream = new FileInputStream(new File(dirPath+fileName));
+			HSSFWorkbook wb = new HSSFWorkbook(inStream);
+			//读取excel模板  
+			//读取了模板内所有sheet内容 
+			HSSFSheet sheet = wb.getSheetAt(0); 
+			HSSFCell cell = null;
+			HSSFRow hrow = null;
+			//在相应的单元格进行赋值
+			int countIdx = 2;
+			for(RenewedFollow irf:policies){
+				hrow = sheet.getRow(countIdx);
+				cell = hrow.getCell(1);
+			    cell.setCellValue("");
+			}
+			
+			 response.setContentType("application/octet-stream;charset=UTF-8");
+			 response.setHeader("Content-Type","application/vnd.ms-excel");
+			 response.setHeader( "Content-Disposition", "attachment;filename=" + new String( fileName.getBytes("GB2312"), "8859_1" ));
+			 response.addHeader("Pargam", "no-cache"); 
+			 response.addHeader("Cache-Control", "no-cache");
+			 OutputStream out = response.getOutputStream();   
+			 wb.write(out);
+			 out.flush();   
+			 out.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		*/
 		return FOLLOW_TO_XLS;
 	}
 	

@@ -1,3 +1,5 @@
+<%@page import="java.net.URLEncoder"%>
+<%@page import="java.net.URLDecoder"%>
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@page import="java.util.Date"%>
 <%@ include file="/WEB-INF/views/include.inc.jsp"%>
@@ -5,19 +7,20 @@
 <meta charset="UTF-8">
 <%
 response.setContentType("application/vnd.ms-excel");  
-response.setHeader("Content-Disposition", "inline; filename=RENEWED_FOLLOW.xls");
+response.setHeader("Content-Disposition", "inline; filename=RENEWED_FOLLOW("+ URLEncoder.encode("请另存为Excel格式文件","UTF8") + ").xls");
 %>
 	<table class="table" layoutH="160" width="100%">
 		<thead>
 			<tr>
 				<th>反馈状态</th>
 				<th>反馈日期</th>
-				<th>职业</th>
+				<th>职业（内勤人员、外勤人员、农夫、私营个体、退休、其他（需注明））</th>
 				<th>工作单位</th>
 				<th>个人收入</th>
 				<th>家庭收入</th>
-				<th>购买目的</th>
+				<th>购买目的（理财、养老、资产传承、其他）</th>
 				<th>网点资产情况</th>
+				<th>风险自评（低风险、中风险、高风险）</th>
 				<th>保单号</th>
 				<th>机构</th>
 				<th>投保人</th>
@@ -58,7 +61,8 @@ response.setHeader("Content-Disposition", "inline; filename=RENEWED_FOLLOW.xls")
 				<td>${item.homeIncome}</td>
 				<td>${item.objectives}</td>
 				<td>${item.bankInfo}</td>
-				<td>${item.policy.policyNo}</td>
+				<td>${item.riskLevel}</td>
+				<td style="vnd.ms-excel.numberformat:@">${item.policy.policyNo}</td>
 				<td>${item.policy.organization.shortName}</td>
 				<td>${item.policy.holder}</td>
 				<td>${item.policy.insured}</td>

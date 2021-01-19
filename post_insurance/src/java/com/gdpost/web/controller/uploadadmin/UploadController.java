@@ -122,6 +122,8 @@ public class UploadController {
 			case "city":
 				ft = FileTemplate.RenewedCityList;
 				break;
+			case "callfail":
+				ft = FileTemplate.CallFail;
 				*/
 			case "check":
 				ft = FileTemplate.CheckWrite;
@@ -132,8 +134,6 @@ public class UploadController {
 			case "payfrom":
 				ft = FileTemplate.PayFromFailList;
 				break;
-			case "callfail":
-				ft = FileTemplate.CallFail;
 			case "conversatoinreq":
 				ft = FileTemplate.ConversationReq;
 				break;
