@@ -14,6 +14,7 @@
 	<input type="hidden" name="feeFrequency" value="${param.feeFrequency }"/>
 	<%-- <input type="hidden" name="search_LTE_perm" value="${param.search_LTE_perm }"/> --%>
 	<input type="hidden" name="status" value="${param.status }"/>
+	<input type="hidden" name="followStatus" value="${param.followStatus }"/>
 	<input type="hidden" name="prd.prdFullName" value="${prd_name }"/>
 	<input type="hidden" name="attachedFlag" value="${attachedFlag }"/>
 	<input type="hidden" name="staffFlag" value="${staffFlag }"/>
@@ -158,11 +159,11 @@
 				<li><a class="edit" target="dialog" rel="follow_edit" mask="true" width="820" height="520" href="${contextPath }/xqgl/follow/update/{slt_uid}"><span>登记反馈</span></a></li>
 			</shiro:hasPermission>
 				<li class="line">line</li>
-				<li><a class="icon" onclick="javascript:urlCheckOverDate(${page.getTotalCount() },92, $('#cpDate1').val(),$('#cpDate2').val(),'${contextPath }/xqgl/follow/toXls?search_GTE_policyFee=${param.search_GTE_policyFee }&search_LTE_policyFee=${param.search_LTE_policyFee }&orgCode=${policy_orgCode }&search_LTE_policyDate=${param.search_LTE_policyDate }&search_GTE_policyDate=${param.search_GTE_policyDate }&feeFrequency=${param.feeFrequency }&prd.prdFullName=${prd_name }&search_LIKE_policyNo=${param.search_LIKE_policyNo }&search_LIKE_formNo=${param.search_LIKE_formNo }&duration=${duration }&encodeStatus=${encodeStatus == null?'null':encodeStatus }&staffFlag=${staffFlag}&attachedFlag=${attachedFlag}&saleChannel=${saleChannel}&ctNum=${ctNum}&netFlag=${netFlag }');"><span>导出Excel</span></a></li>
+				<li><a class="icon" onclick="javascript:urlCheckOverDate(${page.getTotalCount() },92, $('#cpDate1').val(),$('#cpDate2').val(),'${contextPath }/xqgl/follow/toXls?followStatus=${followStatus}&search_GTE_policyFee=${param.search_GTE_policyFee }&search_LTE_policyFee=${param.search_LTE_policyFee }&orgCode=${policy_orgCode }&search_LTE_policyDate=${param.search_LTE_policyDate }&search_GTE_policyDate=${param.search_GTE_policyDate }&feeFrequency=${param.feeFrequency }&prd.prdFullName=${prd_name }&search_LIKE_policyNo=${param.search_LIKE_policyNo }&search_LIKE_formNo=${param.search_LIKE_formNo }&duration=${duration }&encodeStatus=${encodeStatus == null?'null':encodeStatus }&staffFlag=${staffFlag}&attachedFlag=${attachedFlag}&saleChannel=${saleChannel}&ctNum=${ctNum}&netFlag=${netFlag }');"><span>导出Excel</span></a></li>
 		</ul>
 	</div>
 	
-	<table class="table" layoutH="210" width="120%">
+	<table class="table" layoutH="210" width="100%">
 		<thead>
 			<tr>
 				<th><input type="checkbox" group="ids" class="checkboxCtrl"></th>
@@ -173,7 +174,7 @@
 				<th>投保人</th>
 				<th>被保人</th>
 				<th>险种名称</th>
-				<th>保费</th>
+				<th orderField=policy.policyFee class="${page.orderField eq 'policy.policyFee' ? page.orderDirection : ''}">保费</th>
 				<th>交费期间</th>
 				<th>保险期间</th>
 				<th>承保日期</th>
@@ -192,10 +193,10 @@
 				<td>
 				<c:choose>
 					<c:when test="${item.status eq 'NewStatus'}">
-						未反馈
+						<div style="color: red;vertical-align:middle;font-weight:bold;">未反馈</div>
 					</c:when>
 					<c:when test="${item.status eq 'FeedStatus'}">
-						已反馈
+						<div style="color: blue;vertical-align:middle;font-weight:bold;">已反馈</div>
 					</c:when>
 					<c:otherwise>
 						已终止

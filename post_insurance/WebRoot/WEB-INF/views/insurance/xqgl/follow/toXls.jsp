@@ -18,6 +18,7 @@ response.setHeader("Content-Disposition", "inline; filename=RENEWED_FOLLOW.xls")
 				<th>家庭收入</th>
 				<th>购买目的</th>
 				<th>网点资产情况</th>
+				<th>保单号</th>
 				<th>机构</th>
 				<th>投保人</th>
 				<th>被保人</th>
