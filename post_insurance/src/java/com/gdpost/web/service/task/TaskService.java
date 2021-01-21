@@ -103,6 +103,11 @@ public class TaskService {
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
 			
+			sql = "update t_policy set attached_flag = 8 where attached_flag=0 and policy_fee=1 and prod_code in(\"125025\");";
+			log.info("------------ sql :" + sql);
+			rstInt = statement.executeUpdate(sql);
+			log.info("------------ finish exec sql：" + rstInt);
+			
 			sql = "update t_policy set plan_name=\"新百倍保自驾航空责任组合\" where plan_code=\"125012_B\" and plan_name is null;";
 			log.info("------------ sql :" + sql);
 			rstInt = statement.executeUpdate(sql);
@@ -524,7 +529,12 @@ public class TaskService {
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);
 			
-			sql = "insert ignore into t_renewed_follow (policy_no) (select tp.policy_no from t_policy tp where tp.attached_flag=0 and tp.policy_date>='2021-01-01' and tp.perm>1 and (tp.perm between 3 and 5 and tp.policy_fee>=100000) or (tp.perm>5 and tp.policy_fee>=50000) or (prod_name like \"%财富嘉%\" or prod_name like \"%富富余%\" and policy_fee>=200000));";
+			sql = "insert ignore into t_renewed_follow (policy_no) (select tp.policy_no from t_policy tp where tp.policy_date>=\"2021-01-01\" and tp.attached_flag=0 and tp.status=\"有效\" and tp.perm>1 and ((tp.perm between 3 and 5 and tp.policy_fee>=100000) or (tp.perm>5 and tp.policy_fee>=50000) or ((prod_name like \"%财富嘉%\" or prod_name like \"%富富余%\") and policy_fee>=200000)));";
+			log.info("------------ sql :" + sql);
+			rstInt = statement.executeUpdate(sql);
+			log.info("------------ finish exec sql：" + rstInt);
+			
+			sql = "update t_renewed_follow trf, t_policy tp set trf.status=\"CTStatus\" where trf.policy_no=tp.policy_no and tp.attached_flag=0 and tp.status<>\"有效\";";
 			log.info("------------ sql :" + sql);
 			rstInt = statement.executeUpdate(sql);
 			log.info("------------ finish exec sql：" + rstInt);

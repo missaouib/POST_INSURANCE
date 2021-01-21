@@ -13,6 +13,10 @@
 			<a class="btnLook" href="${contextPath}/management/security/organization/lookupParent/${organization.id}" lookupGroup="parent" mask="true" title="更改父组织" width="400">查找带回</a>
 		</p>
 		<p>
+			<label>代码：</label>
+			<input type="text" name="orgCode" class="input-medium validate[required,maxSize[64]] required" maxlength="64" value="${organization.orgCode }"/>
+		</p>
+		<p>
 			<label>名称：</label>
 			<input type="text" name="name" class="input-medium validate[required,maxSize[64]] required" maxlength="64" value="${organization.name }"/>
 		</p>
@@ -24,7 +28,11 @@
 			<label>优先级：</label>
 			<input type="text" name="priority" class="validate[required,custom[integer],min[1],max[999]] required" value="${organization.priority }" maxlength="3" style="width: 80px;"/>
 			<span class="info">（越小越靠前）</span>
-		</p>				
+		</p>
+		<p>
+			<label>旧名称：</label>
+			<input type="text" name="oldName" class="input-medium validate[required,maxSize[64]] required" maxlength="64" value="${organization.oldName }"/>
+		</p>			
 		<p class="nowrap">
 			<label>描述：</label>
 			<textarea name="description" cols="29" rows="3" maxlength="256" class="input-medium textarea-scroll">${organization.description }</textarea>
