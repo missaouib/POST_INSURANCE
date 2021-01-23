@@ -74,6 +74,7 @@ public class RenewedList implements Idable<Long> {
 	private String giveFee;
 	private String giveFlag;
 	private String giveRst;
+	private String serviceLevel;
 	
 	
 	@Transient
@@ -575,6 +576,15 @@ public class RenewedList implements Idable<Long> {
 
 	public void setGiveRst(String giveRst) {
 		this.giveRst = giveRst;
+	}
+
+	@Column(name="service_level")
+	public String getServiceLevel() {
+		return serviceLevel;
+	}
+
+	public void setServiceLevel(String serviceLevel) {
+		this.serviceLevel = serviceLevel;
 	}
 
 	@Override
