@@ -48,7 +48,7 @@
 				</tr>
 				<tr>
 					<td>
-						<label>总部催收：</label>
+						<label>机构催收：</label>
 						<form:select path="issue.hqIssueType" id="xqDealStatus" class="combox">
 							<form:option value=""> -- -- </form:option>
 							<form:options items="${xqDealStatusList }" itemLabel="desc" itemValue="desc"/>
@@ -151,9 +151,9 @@
 				<th>账号</th>
 				<th>余额匹配</th>
 				<th>网点</th>
-				<th>总部催收情况</th>
+				<th>机构催收情况</th>
 				<th>省分催收情况</th>
-				<th>市县催收情况</th>
+				<th>催收情况</th>
 			</tr>
 		</thead>
 		<tbody>

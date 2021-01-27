@@ -7,7 +7,7 @@ public class RenewedProvListColumn {
 
 	private static List<ColumnItem> standardColumns;
 	
-	public static String KEY_ROW = "服务内容";
+	public static String KEY_ROW = "保单年度";
 	
 	public static List<ColumnItem> getStandardColumns() {
 		if(standardColumns != null) {

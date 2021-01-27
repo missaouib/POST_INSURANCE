@@ -7,7 +7,7 @@ public class RenewedFeeRstColumn {
 
 	private static List<ColumnItem> standardColumns;
 	
-	public static String KEY_ROW = "保费实收日";
+	public static String KEY_ROW = "保单服务内容";
 	
 	public static List<ColumnItem> getStandardColumns() {
 		if(standardColumns != null) {
@@ -17,73 +17,59 @@ public class RenewedFeeRstColumn {
 		standardColumns = new ArrayList<ColumnItem>();
 		
 		ColumnItem column = new ColumnItem();
-		column.setDisplayName("保险单号码");
+		column.setDisplayName("保单号");
 		column.setColumnName("policy_no");
 		column.setColumnType(ColumnType.string);
-		column.setNullable(false);
+		column.setNullable(true);
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("险种号码");
-		column.setColumnName("prod_code");
+		column.setDisplayName("险种");
+		column.setColumnName("prd_name");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(false);
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("投保人");
-		column.setColumnName("holder");
+		column.setDisplayName("保单年度");
+		column.setColumnName("policy_year");
 		column.setColumnType(ColumnType.numeric);
 		column.setNullable(false);
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("交费对应日");
-		column.setColumnName("req_date");
+		column.setDisplayName("处理人");
+		column.setColumnName("deal_man");
 		column.setColumnType(ColumnType.string);
-		column.setNullable(false);
+		column.setNullable(true);
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("应收保费");
-		column.setColumnName("req_fee");
+		column.setDisplayName("处理日期 ");
+		column.setColumnName("deal_time");
 		column.setColumnType(ColumnType.string);
-		column.setNullable(false);
+		column.setNullable(true);
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("实收保费");
-		column.setColumnName("rst_fee");
+		column.setDisplayName("处理类型");
+		column.setColumnName("deal_type");
 		column.setColumnType(ColumnType.string);
-		column.setNullable(false);
+		column.setNullable(true);
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("保费实收日");
-		column.setColumnName("rst_date");
+		column.setDisplayName("服务内容");
+		column.setColumnName("fix_desc");
 		column.setColumnType(ColumnType.string);
-		column.setNullable(false);
+		column.setNullable(true);
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("交费形式");
-		column.setColumnName("fee_channel");
+		column.setDisplayName("备注");
+		column.setColumnName("fix_status");
 		column.setColumnType(ColumnType.string);
-		column.setNullable(false);
-		standardColumns.add(column);
-		
-		column = new ColumnItem();
-		column.setDisplayName("交费方式");
-		column.setColumnName("fee_type");
-		column.setColumnType(ColumnType.string);
-		column.setNullable(false);
-		standardColumns.add(column);
-		
-		column = new ColumnItem();
-		column.setDisplayName("豁免标志");
-		column.setColumnName("policy_flag");
-		column.setColumnType(ColumnType.string);
-		column.setNullable(false);
+		column.setNullable(true);
 		standardColumns.add(column);
 		
 		return(standardColumns);

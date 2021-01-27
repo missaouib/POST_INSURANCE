@@ -160,6 +160,9 @@ public class XlsFileHandler extends AbstractFileHandler {
 						case FORMULA:
 							check = checkCell.getCellFormula();
 							break;
+						case BOOLEAN:
+							check = Boolean.toString(checkCell.getBooleanCellValue());
+							break;
 						case NUMERIC:
 							if (HSSFDateUtil.isCellDateFormatted(checkCell)) {
 						        check = StringUtil.trimStr(DateFormatUtils.format(checkCell.getDateCellValue(), "yyyy-MM-dd"));
@@ -173,7 +176,7 @@ public class XlsFileHandler extends AbstractFileHandler {
 						    check = StringUtil.trimStr(checkCell.getStringCellValue());
 							break;
 						default:
-							check = checkCell.getStringCellValue();
+							check = StringUtil.trimStr(checkCell.getStringCellValue());
 							break;
 						}
 						if(check != null && check.trim().equals(realKeyRow)) {
@@ -320,7 +323,7 @@ public class XlsFileHandler extends AbstractFileHandler {
 							    	} else {
 							    	*/
 							    		cell.setCellType(CellType.STRING);
-							    		dataRow.setValue(j, cell.getStringCellValue());
+							    		dataRow.setValue(j, StringUtil.trimStr(cell.getStringCellValue()));
 							    	//}
 							    }
 								break;

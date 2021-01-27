@@ -7,7 +7,7 @@ public class RenewedCityListColumn {
 
 	private static List<ColumnItem> standardColumns;
 	
-public static String KEY_ROW = "服务内容";
+public static String KEY_ROW = "保单年度";
 	
 	public static List<ColumnItem> getStandardColumns() {
 		if(standardColumns != null) {
@@ -39,35 +39,35 @@ public static String KEY_ROW = "服务内容";
 		
 		column = new ColumnItem();
 		column.setDisplayName("处理人");
-		column.setColumnName("deal_man");
+		column.setColumnName("hq_deal_man");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
 		column.setDisplayName("处理日期 ");
-		column.setColumnName("deal_time");
+		column.setColumnName("hq_deal_date");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
 		column.setDisplayName("处理类型");
-		column.setColumnName("deal_type");
+		column.setColumnName("hq_issue_type");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
 		column.setDisplayName("服务内容");
-		column.setColumnName("fix_desc");
+		column.setColumnName("hq_deal_rst");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
 		column.setDisplayName("备注");
-		column.setColumnName("fix_status");
+		column.setColumnName("hq_deal_remark");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);

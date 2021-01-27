@@ -92,7 +92,7 @@
 	</fieldset>
 	<div class="divider"></div>
 	<fieldset>
-		<legend>总部催收情况</legend>
+		<legend>地市催收情况</legend>
 		<p>
 			<label>催收工单类别：</label>
 			<span class="unit">${issue.hqIssueType }</span>

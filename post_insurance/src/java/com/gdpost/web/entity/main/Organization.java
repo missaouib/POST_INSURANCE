@@ -102,6 +102,9 @@ public class Organization implements Comparable<Organization>, Idable<Long>, Ser
 	@Column(name = "level", nullable = false)
 	private Integer level;
 	
+	@Column(name = "old_name")
+	private String oldName;
+	
 	@OneToMany(mappedBy="organization", cascade={CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval=true)
 	@OrderBy("policyNo ASC")
 	private List<Policy> policies = new ArrayList<Policy>(0);
@@ -166,6 +169,14 @@ public class Organization implements Comparable<Organization>, Idable<Long>, Ser
 	 */
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getOldName() {
+		return oldName;
+	}
+
+	public void setOldName(String oldName) {
+		this.oldName = oldName;
 	}
 
 	/**  

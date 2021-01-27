@@ -15,9 +15,8 @@ public class Template {
 		CallFailPFR("回访不成功清单（新）", "HF"), /*CallFailStatus("11185回访数据", "HF"),*/ MiniCallFailStatus("简单二访数据", "HF"), CallRatio("回访工单数据报表", "HF"), 
 		CallFailMailStatus("已发信函数据", "HF"), CallFailMailBackStatus("退信信函数据", "HF"), CallFailMailSuccessStatus("信函成功回邮数据", "HF"), 
 		CallFailNeedDoorStatus("需上门回访数据", "HF"), CallFailCityStatus("市县上门回访数据", "HF"), CallFailMiniCityStatus("市县回访详细数据", "HF"), 
-		CallFailCloseStatus("回访结案数据", "HF"), CallFailPhoneStatus("二访通话清单", "HF"), RenewedFollow("市县大额保单反馈", "XQ"), RenewedProvList("省分续期催收底稿", "XQ"), RenewedCityList("市县续期催收底稿", "XQ"),
-		/*Renewed("续期应交清单", "XQ"), RenewedStatus("续期继续率清单", "XQ"), RenewedHQList("总部催收清单", "XQ"), 
-		RenewedProvList("省分续期催收详情", "XQ"), RenewedFeeMatchList("余额匹配结果及省分催收数据", "XQ"), RenewedFeeRst("需求实收日期清单", "XQ"), RenewedCityList("市县续期催收详情", "XQ"),*/
+		CallFailCloseStatus("回访结案数据", "HF"), CallFailPhoneStatus("二访通话清单", "HF"), RenewedFollow("市县大额保单反馈", "XQ"), RenewedProvList("省分续期催收底稿", "XQ"), RenewedCityList("机构续期催收底稿", "XQ"), RenewedFeeRst("市县催收反馈", "XQ"),
+		/*Renewed("续期应交清单", "XQ"), RenewedStatus("续期继续率清单", "XQ"), RenewedFeeMatchList("余额匹配结果及省分催收数据", "XQ"),*/
 		CheckWrite("抽检填写明细", "QY"), CheckRecord("抽检录入明细", "QY"),CheckCityBack("市县新契约填写整改明细", "QY"), ConversationReq("保全免填单申请", "BQ"), 
 		ConversationReport("保全月报", "BQ"),CsLoan("保全质押借款未还报表", "BQ"), CsExpire("保全满期数据", "BQ"), Settlement("理赔未结案清单","LP"), ClaimsCloseReport("理赔结案清单","LP"), PayToFailList("付费失败清单", "ALL"), 
 		PayFromFailList("收费失败清单", "ALL"), PaySuccessList("付费成功清单", "ALL"), PayFromSuccessList("收费成功清单", "ALL"), PolicyUnderWrite("人核件回单数据", "QT"), StatCity("考核结果（市）", "ALL"), StatArea("考核结果（县区）", "ALL");

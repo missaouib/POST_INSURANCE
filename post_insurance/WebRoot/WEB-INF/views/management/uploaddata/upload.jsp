@@ -71,9 +71,12 @@ function displayTips(val) {
 		$("#tipsDesc").html("模板格式直接使用系统下载的原始表，请勿修改列名称。");
 		return;
 	}
+	if(val=="RenewedFollow") {
+		$("#tipsDesc").html("大额保单反馈数据表中，须含列：保单号\t职业\t工作单位\t个人收入\t家庭收入\t购买目的\t网点资产情况\t风险自评\t（注意，运营管理系统下载的表头需要更新为以上列名才能上传）");
+		return;
+	}
 	if(val=="ConversationReport") {
-		$("#tipsDesc").html("<font color='red'>数据请注意不要同步昨天及今天的数据。</font>模板格式直接使用系统下载的原始表，请勿修改列名称。");
-		alert("提醒：保全月报数据请不要同步昨天及今天的数据");
+		$("#tipsDesc").html("模板格式直接使用系统下载的原始表，请勿修改列名称。");
 		return;
 	}
 	if(val=="UWDtlData") {
@@ -129,7 +132,7 @@ function displayTips(val) {
 		return;
 	}
 	if(val=="RenewedProvList") {
-		$("#tipsDesc").html("省分（二访中心）催收清单须含列：保险单号码\t险种名称\t保单年度\t一访时间\t一访结果\t催收类型\t催收详情\t标记，关键列：一访结果");
+		$("#tipsDesc").html("省分续期清单底稿，系统下载原始表");
 		return;
 	}
 	if(val=="RenewedFeeMatchList") {
@@ -137,7 +140,7 @@ function displayTips(val) {
 		return;
 	}
 	if(val=="RenewedCityList") {
-		$("#tipsDesc").html("市县催收清单。须含列：保险单号码\t险种名称\t保单年度\t催交时间\t催交结果，关键列：催交结果");
+		$("#tipsDesc").html("地市已反馈的续期清单底稿，系统下载原始表");
 		return;
 	}
 	if(val=="UnderWriteRemark") {
