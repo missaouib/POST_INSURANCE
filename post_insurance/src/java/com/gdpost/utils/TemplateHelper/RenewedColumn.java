@@ -32,9 +32,6 @@ public class RenewedColumn {
 		column.setColumnType(ColumnType.string);
 		column.setNullable(false);
 		column.setNeedEncrypt(true);
-		column.setNeedOutput(true);
-		column.setiOutputOrder(2);
-		column.setOutputName("TBR");
 		standardColumns.add(column);
 		
 		column = new ColumnItem();

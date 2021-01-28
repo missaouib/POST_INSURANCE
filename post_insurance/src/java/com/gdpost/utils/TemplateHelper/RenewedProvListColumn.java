@@ -24,6 +24,14 @@ public class RenewedProvListColumn {
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
+		column.setDisplayName("姓名");
+		column.setColumnName("holder");
+		column.setColumnType(ColumnType.string);
+		column.setNullable(false);
+		column.setNeedEncrypt(true);
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
 		column.setDisplayName("员工单");
 		column.setColumnName("staff_flag");
 		column.setColumnType(ColumnType.string);
@@ -63,6 +71,14 @@ public class RenewedProvListColumn {
 		column.setColumnName("service_level");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
+		standardColumns.add(column);
+		
+		column = new ColumnItem();
+		column.setDisplayName("总金额");
+		column.setColumnName("policy_fee");
+		column.setColumnType(ColumnType.numeric);
+		column.setNullable(true);
+		column.setNeedEncrypt(true);
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
