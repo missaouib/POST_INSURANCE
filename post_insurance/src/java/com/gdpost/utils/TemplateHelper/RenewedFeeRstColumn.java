@@ -7,7 +7,7 @@ public class RenewedFeeRstColumn {
 
 	private static List<ColumnItem> standardColumns;
 	
-	public static String KEY_ROW = "保单服务内容";
+	public static String KEY_ROW = "服务内容";
 	
 	public static List<ColumnItem> getStandardColumns() {
 		if(standardColumns != null) {

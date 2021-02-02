@@ -22,7 +22,7 @@ public static String KEY_ROW = "保单年度";
 		column.setColumnType(ColumnType.string);
 		column.setNullable(true);
 		standardColumns.add(column);
-		
+
 		column = new ColumnItem();
 		column.setDisplayName("险种");
 		column.setColumnName("prd_name");

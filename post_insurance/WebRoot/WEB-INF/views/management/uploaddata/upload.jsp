@@ -128,7 +128,11 @@ function displayTips(val) {
 		return;
 	}
 	if(val=="RenewedHQList") {
-		$("#tipsDesc").html("总部催收清单。须含列：保单号\t险种名称\t保单年度\t备注\t工单子类\t回访日期\t工单内容，关键列：保单号");
+		$("#tipsDesc").html("可用需求系统原始表登记，关键列：保单号");
+		return;
+	}
+	if(val=="RenewedFeeRst") {
+		$("#tipsDesc").html("市县催收反馈。可用需求系统原始表登记，关键列：保单号");
 		return;
 	}
 	if(val=="RenewedProvList") {

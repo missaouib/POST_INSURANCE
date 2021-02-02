@@ -24,16 +24,8 @@ public class RenewedProvListColumn {
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
-		column.setDisplayName("姓名");
-		column.setColumnName("holder");
-		column.setColumnType(ColumnType.string);
-		column.setNullable(false);
-		column.setNeedEncrypt(true);
-		standardColumns.add(column);
-		
-		column = new ColumnItem();
-		column.setDisplayName("员工单");
-		column.setColumnName("staff_flag");
+		column.setDisplayName("险种");
+		column.setColumnName("prd_name");
 		column.setColumnType(ColumnType.string);
 		column.setNullable(false);
 		standardColumns.add(column);
@@ -43,63 +35,6 @@ public class RenewedProvListColumn {
 		column.setColumnName("policy_year");
 		column.setColumnType(ColumnType.numeric);
 		column.setNullable(false);
-		standardColumns.add(column);
-		
-		column = new ColumnItem();
-		column.setDisplayName("险种");
-		column.setColumnName("prd_name");
-		column.setColumnType(ColumnType.string);
-		column.setNullable(false);
-		standardColumns.add(column);
-		
-		column = new ColumnItem();
-		column.setDisplayName("电话");
-		column.setColumnName("phone");
-		column.setColumnType(ColumnType.string);
-		column.setNullable(true);
-		standardColumns.add(column);
-		
-		column = new ColumnItem();
-		column.setDisplayName("地址");
-		column.setColumnName("addr");
-		column.setColumnType(ColumnType.string);
-		column.setNullable(true);
-		standardColumns.add(column);
-		
-		column = new ColumnItem();
-		column.setDisplayName("服务优先级");
-		column.setColumnName("service_level");
-		column.setColumnType(ColumnType.string);
-		column.setNullable(true);
-		standardColumns.add(column);
-		
-		column = new ColumnItem();
-		column.setDisplayName("总金额");
-		column.setColumnName("policy_fee");
-		column.setColumnType(ColumnType.numeric);
-		column.setNullable(true);
-		column.setNeedEncrypt(true);
-		standardColumns.add(column);
-		
-		column = new ColumnItem();
-		column.setDisplayName("账号");
-		column.setColumnName("account");
-		column.setColumnType(ColumnType.string);
-		column.setNullable(true);
-		standardColumns.add(column);
-		
-		column = new ColumnItem();
-		column.setDisplayName("失败原因");
-		column.setColumnName("fee_fail_reason");
-		column.setColumnType(ColumnType.string);
-		column.setNullable(true);
-		standardColumns.add(column);
-		
-		column = new ColumnItem();
-		column.setDisplayName("交费对应日");
-		column.setColumnName("fee_date");
-		column.setColumnType(ColumnType.string);
-		column.setNullable(true);
 		standardColumns.add(column);
 		
 		column = new ColumnItem();
