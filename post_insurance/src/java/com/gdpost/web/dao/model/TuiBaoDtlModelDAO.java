@@ -22,7 +22,7 @@ import com.gdpost.web.entity.component.TuiBaoDtlModel;
 public interface TuiBaoDtlModelDAO extends JpaRepository<TuiBaoDtlModel, String>, JpaSpecificationExecutor<TuiBaoDtlModel> {
 	
 	@Query(name="getAllTuiBaoWarningDetailWithBankCode",
-			value="select itp.id, itp.organ_name, itp.policy_no, itp.policy_date, itp.total_fee as policy_fee, itp.prod_name, itcr.cs_no, itcr.cs_code, itcr.cs_date, itp.perm, itp.duration, "
+			value="select itp.id, itp.organ_name, itp.policy_no, itp.policy_date, itp.total_fee as policy_fee, itp.prod_name, itcr.cs_no, itcr.full_cs_code as cs_code, itcr.cs_date, itp.perm, itp.duration, "
 			+ "(case itp.attached_flag when \"1\" then 0 else itcr.money end) as cs_fee, itp.holder, itbc.net_flag, itbc.full_name as bank_name, itbc.sel_bank_code as sel_bank_code, itp.staff_flag "
 			+ "from t_policy itp, t_cs_report itcr, t_bank_code itbc "
 			+ "where itp.policy_no=itcr.policy_no and itp.attached_flag=0 and itp.bank_code=itbc.cpi_code and itcr.cs_code=\"CT\" and itp.cs_flag<>1 "
@@ -40,7 +40,7 @@ public interface TuiBaoDtlModelDAO extends JpaRepository<TuiBaoDtlModel, String>
 	List<TuiBaoDtlModel> getAllTuiBaoWarningDetailWithBankCode(@Param("orgCode")String orgCode, @Param("p1")String pd1, @Param("p2")String pd2, @Param("c1")String csd1, @Param("c2")String csd2, @Param("netFlag")String netFlag, @Param("prdCode")String prdCode, @Param("toPerm")String toPerm, @Param("staffFlag")String staffFlag, @Param("bankName")String bankName, @Param("duration")Integer duration);
 	
 	@Query(name="getAllTuiBaoCsDetailWithBankCode",
-			value="select itp.id, itp.organ_name, itp.policy_no, itp.policy_date, itp.total_fee as policy_fee, itp.prod_name, itcr.cs_no, itcr.cs_code, itcr.cs_date, itp.perm, itp.duration, "
+			value="select itp.id, itp.organ_name, itp.policy_no, itp.policy_date, itp.total_fee as policy_fee, itp.prod_name, itcr.cs_no, itcr.full_cs_code as cs_code, itcr.cs_date, itp.perm, itp.duration, "
 			+ "(case itp.attached_flag when \"1\" then 0 else itcr.money end) as cs_fee, itp.holder, itbc.net_flag, itbc.full_name as bank_name, itbc.sel_bank_code as sel_bank_code, itp.staff_flag "
 			+ "from t_policy itp, t_cs_report itcr, t_bank_code itbc "
 			+ "where itp.policy_no=itcr.policy_no and itp.attached_flag=0 and itp.bank_code=itbc.cpi_code and itcr.cs_code=\"CT\" and itp.cs_flag=1 "

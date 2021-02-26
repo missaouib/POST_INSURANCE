@@ -59,11 +59,11 @@ public class RenewedList implements Idable<Long> {
 	private String hqIssueType;
 	private String hqDealRst;
 	private String hqDealRemark;
-	private Date hqDealDate;
+	private String hqDealDate;
 	private String provIssueType;
 	private String provDealRst;
 	private String provDealRemark;
-	private Date provDealDate;
+	private String provDealDate;
 	
 	private String hqDealMan;
 	private String provDealMan;
@@ -462,11 +462,11 @@ public class RenewedList implements Idable<Long> {
 	}
 
 	@Column(name="hq_deal_date")
-	public Date getHqDealDate() {
+	public String getHqDealDate() {
 		return hqDealDate;
 	}
 
-	public void setHqDealDate(Date hqDealDate) {
+	public void setHqDealDate(String hqDealDate) {
 		this.hqDealDate = hqDealDate;
 	}
 
@@ -498,11 +498,11 @@ public class RenewedList implements Idable<Long> {
 	}
 
 	@Column(name="prov_deal_date")
-	public Date getProvDealDate() {
+	public String getProvDealDate() {
 		return provDealDate;
 	}
 
-	public void setProvDealDate(Date provDealDate) {
+	public void setProvDealDate(String provDealDate) {
 		this.provDealDate = provDealDate;
 	}
 

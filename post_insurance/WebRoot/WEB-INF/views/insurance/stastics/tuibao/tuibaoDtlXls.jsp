@@ -40,7 +40,7 @@ response.setHeader("Content-Disposition", "inline; filename=tuibao_dtl.xls");
 		<td>${item.duration}</td>
 		<td>${item.csNo}</td>
 		<td><fmt:formatDate value="${item.csDate}" pattern="yyyy-MM-dd"/></td>
-		<td>${item.csCode}</td>
+		<td>${item.fullCsCode}</td>
 		<td>${item.csFee}</td>
 		<td>${item.netFlag eq "1"?"邮政":"银行"}</td>
 		<td style="vnd.ms-excel.numberformat:@">${item.selBankCode}</td>
